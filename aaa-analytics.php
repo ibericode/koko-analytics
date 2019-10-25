@@ -10,7 +10,6 @@ Text Domain: anonymous-analytics
 Domain Path: /languages/
 License: GPL v3
 
-Boxzilla Plugin
 Copyright (C) 2019, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
@@ -27,14 +26,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define('AA_VERSION', '1.0');
-define('AA_PLUGIN_FILE', __FILE__);
+namespace AAA;
+
+define('AAA_VERSION', '1.0');
+define('AAA_PLUGIN_FILE', __FILE__);
+define('AAA_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
 
-add_action('wp_head', function() {
-   wp_enqueue_script('anonymous-analytics-tracker', plugins_url('assets/js/tracker.js', AA_PLUGIN_FILE), array(), AA_VERSION, true);
-    wp_localize_script('anonymous-analytics-tracker', 'aa', array(
-       'tracker_url' => plugins_url('src/track.php', AA_PLUGIN_FILE),
-    ));
-});
+if (defined('DOING_AJAX') && DOING_AJAX) {
+    maybe_collect_request();
+
+} else if((defined('DOING_CRON') && DOING_CRON) || isset($_GET['aaa_aggregate'])) {
+
+} else if (is_admin()) {
+    $admin = new Admin();
+    $admin->init();
+} else {
+    add_action('wp_head', function() {
+        wp_enqueue_script('anonymous-analytics-tracker', plugins_url('assets/dist/js/tracker.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
+        wp_localize_script('anonymous-analytics-tracker', 'aaa', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'post_id' => get_post()->ID,
+            'ip' => $_SERVER['REMOTE_ADDR'],
+        ));
+    });
+}
+
+$aggregator = new Aggregator();
+$aggregator->init();
+
