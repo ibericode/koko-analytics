@@ -15,7 +15,7 @@ class Aggregator
     {
         $intervals['aaa_aggregate_interval'] = [
             'interval' => 5 * 60, // 5 minutes
-            'display'  => __( 'Every 5 minutes', 'aaa-analytics' ),
+            'display'  => __( 'Every 5 minutes', 'aaa-stats' ),
         ];
         return $intervals;
     }

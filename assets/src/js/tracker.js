@@ -39,7 +39,7 @@ function trackPageview(vars) {
     let img = document.createElement('img');
     img.setAttribute('alt', '');
     img.setAttribute('aria-hidden', 'true');
-    img.src = aaa.ajaxurl + '?action=aaa_collect&' + stringifyObject(d);
+    img.src = aaa.tracker_url + '?action=aaa_collect&' + stringifyObject(d);
 
     img.addEventListener('load', function() {
         document.body.removeChild(img)

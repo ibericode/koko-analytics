@@ -13,7 +13,7 @@ class Admin {
 
     public function register_menu()
     {
-        add_submenu_page('index.php', __('Analytics', 'aaa-analytics'), __('Analytics', 'aaa-analytics'), 'manage_options', 'aaa-analytics', array($this, 'show_page'));
+        add_submenu_page('index.php', __('Analytics', 'aaa-stats'), __('Analytics', 'aaa-stats'), 'manage_options', 'aaa-stats', array($this, 'show_page'));
     }
 
     public function show_page()
