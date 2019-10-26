@@ -1,11 +1,41 @@
 'use strict';
 
-const md5 = require('blueimp-md5');
-
 function stringifyObject(obj) {
     return Object.keys(obj).map(function(k) {
             return encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]);
         }).join('&');
+}
+
+function getCookie(name) {
+	var cookies = document.cookie ? document.cookie.split('; ') : [];
+
+	for (var i = 0; i < cookies.length; i++) {
+		var parts = cookies[i].split('=');
+		if (decodeURIComponent(parts[0]) !== name) {
+			continue;
+		}
+
+		var cookie = parts.slice(1).join('=');
+		return decodeURIComponent(cookie);
+	}
+
+	return '';
+}
+
+function setCookie(name, data, args) {
+	name = encodeURIComponent(name);
+	data = encodeURIComponent(String(data));
+
+	var str = name + '=' + data;
+
+	if(args.path) {
+		str += ';path=' + args.path;
+	}
+	if (args.expires) {
+		str += ';expires='+args.expires.toUTCString();
+	}
+
+	document.cookie = str;
 }
 
 function trackPageview(vars) {
@@ -27,13 +57,14 @@ function trackPageview(vars) {
         return;
     }
 
-    const visitorHash = md5(aaa.ip + navigator.userAgent + window.screen.width + window.screen.height + navigator.language + navigator.doNotTrack + [].map.call(navigator.plugins, (p) => p.description).join(','));
-    const pageviewHash = md5(visitorHash + aaa.post_id);
-
+	const postId = aaa.post_id;
+	const pagesViewed = getCookie('_aaa_pages_viewed').split(',');
+   	const isNewVisitor = pagesViewed.length === 0;
+   	const isUniquePageview = pagesViewed.indexOf(postId) === -1;
     const d = {
-        p: aaa.post_id,
-        vh: visitorHash,
-        ph: pageviewHash,
+        p:  postId,
+        nv: isNewVisitor ? 1 : 0,
+		up: isUniquePageview ? 1 : 0,
     };
 
     let img = document.createElement('img');
@@ -53,6 +84,14 @@ function trackPageview(vars) {
 
         img.src = '';
         document.body.removeChild(img)
+
+		if (isUniquePageview) {
+			pagesViewed.push(postId)
+		}
+
+        let expires = new Date();
+		expires.setHours(expires.getHours() + 6);
+		setCookie('_aaa_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
     }, 1000);
 
     // add to DOM to fire request
