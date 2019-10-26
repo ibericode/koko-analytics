@@ -93,15 +93,11 @@ class Aggregator
 			$placeholders[] = '(%s, %d, %s, %d, %d)';
 			array_push($values, 'post', $post_id, $date, $s['visitors'], $s['pageviews']);
 		}
-		
+
 		$placeholders = join(', ', $placeholders);
 
+		// insert or update in a single query
 		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}aaa_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values ));
-
-
-		// TODO: Aggregate pageviews into stats table every 5 minutes
-        // TODO: Clear todays_visitors and todays_pageviews tables at midnight (in site's timezone)
-
     }
 
 }

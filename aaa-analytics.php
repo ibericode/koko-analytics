@@ -44,9 +44,6 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
     $admin = new Admin();
     $admin->init();
 } else {
-	add_action('wp', function() {
-		var_dump(get_queried_object_id());
-	});
     add_action('wp_head', function() {
 		$use_custom_endpoint = file_exists(ABSPATH . '/aaa-collect.php');
         wp_enqueue_script('aaa-tracker', plugins_url('assets/dist/js/tracker.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
@@ -61,3 +58,5 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 $aggregator = new Aggregator();
 $aggregator->init();
 
+$rest = new Rest();
+$rest->init();
