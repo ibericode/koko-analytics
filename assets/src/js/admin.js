@@ -4,7 +4,7 @@ import m from 'mithril';
 import Chartist from 'chartist';
 import 'chartist-plugin-tooltips-updated';
 import './admin.css';
-import moment from 'moment';
+import { format } from 'date-fns'
 
 const now = new Date();
 let startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
@@ -43,9 +43,8 @@ let pageviews = {};
 let visitors = {};
 let labels = [];
 for(let i = startDate; i < endDate; i.setDate(i.getDate() + 1)) {
-    let m = moment(i);
-    let key = m.format('YYYY-MM-DD');
-    labels.push(m.format('MMM D'));
+    let key = format(i, 'yyy-MM-dd');
+    labels.push(format(i, 'MMM d'));
     pageviews[key] = 0;
     visitors[key] = 0;
 }
