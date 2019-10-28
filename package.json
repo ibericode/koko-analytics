@@ -28,7 +28,12 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.6.3",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "moment-locales-webpack-plugin": "^1.1.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
