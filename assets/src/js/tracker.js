@@ -67,32 +67,32 @@ function trackPageview(vars) {
 		up: isUniquePageview ? 1 : 0,
     };
 
-    let img = document.createElement('img');
+    const img = document.createElement('img');
     img.setAttribute('alt', '');
     img.setAttribute('aria-hidden', 'true');
-    img.src = aaa.tracker_url + '?action=aaa_collect&' + stringifyObject(d);
+    img.setAttribute('src', aaa.tracker_url + '?action=aaa_collect&' + stringifyObject(d));
 
-    img.addEventListener('load', function() {
-        document.body.removeChild(img)
-    });
+    const finalize = () => {
+        // clear src to cancel request
+        img.setAttribute('src', '');
 
-    // in case img.onload never fires, remove img after 1s & reset src attribute to cancel request
-    window.setTimeout(() => {
-        if (!img.parentNode) {
-            return;
+        // remove from dom
+        if (img.parentNode) {
+            document.body.removeChild(img);
         }
 
-        img.src = '';
-        document.body.removeChild(img)
-
-		if (isUniquePageview) {
-			pagesViewed.push(postId)
-		}
-
+        // update tracking cookie
+        if (isUniquePageview) {
+            pagesViewed.push(postId)
+        }
         let expires = new Date();
-		expires.setHours(expires.getHours() + 6);
-		setCookie('_aaa_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
-    }, 1000);
+        expires.setHours(expires.getHours() + 6);
+        setCookie('_aaa_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
+    };
+
+    // clean-up tracking pixel after 5s or onload
+    img.addEventListener('load', finalize);
+    window.setTimeout(finalize, 5000);
 
     // add to DOM to fire request
     document.body.appendChild(img);

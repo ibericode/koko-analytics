@@ -17,7 +17,7 @@ class Aggregator
 
     public function add_interval($intervals)
     {
-        $intervals['aaa_aggregate_interval'] = [
+        $intervals['aaa_stats_aggregate_interval'] = [
             'interval' => 1 * 60, // 1 minute
             'display'  => __( 'Every minute', 'aaa-stats' ),
         ];
@@ -31,7 +31,7 @@ class Aggregator
         }
 
         if (!wp_next_scheduled('aaa_aggregate_stats')) {
-            wp_schedule_event(time() + 1, 'aaa_aggregate_interval', 'aaa_aggregate_stats');
+            wp_schedule_event(time() + 1, 'aaa_stats_aggregate_interval', 'aaa_aggregate_stats');
         }
     }
 

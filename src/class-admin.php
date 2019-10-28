@@ -9,19 +9,24 @@ class Admin {
         $this->maybe_run_migrations();
 
         add_action('admin_menu', array($this, 'register_menu'));
+        add_action('init', array($this, 'maybe_seed'));
     }
 
     public function register_menu()
     {
-        add_submenu_page('index.php', __('Analytics', 'aaa-stats'), __('Analytics', 'aaa-stats'), 'manage_options', 'aaa-stats', array($this, 'show_page'));
+        add_submenu_page('index.php', __('Statistics', 'aaa-stats'), __('Statistics', 'aaa-stats'), 'manage_options', 'aaa-stats', array($this, 'show_page'));
     }
 
     public function show_page()
     {
         wp_enqueue_script('aaa-admin', plugins_url('assets/dist/js/admin.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
+        #wp_enqueue_style('aaa-admin', plugins_url('assets/dist/css/admin.css', AAA_PLUGIN_FILE));
+        wp_localize_script( 'aaa-admin', 'aaa', array(
+            'root' => esc_url_raw( rest_url() ),
+            'nonce' => wp_create_nonce( 'wp_rest' )
+        ) );
 
-        // TODO: UI for viewing statistics in admin area.
-
+        require AAA_PLUGIN_DIR . '/views/admin-page.php';
     }
 
     public function maybe_run_migrations()
@@ -35,5 +40,29 @@ class Admin {
         $migrations = new Migrations($from, AAA_VERSION, AAA_PLUGIN_DIR . '/migrations/');
         $migrations->run();
         update_option('aaa_version', AAA_VERSION);
+    }
+
+    public function maybe_seed()
+    {
+        global $wpdb;
+
+        if ( !isset($_GET['aaa_seed'])) {
+            return;
+        }
+
+        $wpdb->suppress_errors(true);
+
+        for ($i = 0; $i < 365; $i++) {
+            $date = date("Y-m-d", strtotime(sprintf('-%d days', $i)));
+            $pageviews = rand(1, 100);
+            $visitors = rand(1, 8) / 10 * $pageviews;
+
+            $wpdb->insert($wpdb->prefix . 'aaa_stats', [
+               'id' => 0,
+               'date' => $date,
+               'pageviews' => $pageviews,
+               'visitors' => $visitors,
+            ]);
+        }
     }
 }

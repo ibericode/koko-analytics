@@ -33,8 +33,11 @@ class Rest
 
 	public function get_stats(\WP_REST_Request $request)
 	{
-		// TODO: Return stats here for use in dashboard & mobile app
-		var_dump($request); die();
+	    global $wpdb;
+
+	    $result = $wpdb->get_results("SELECT date, visitors, pageviews FROM {$wpdb->prefix}aaa_stats s WHERE s.id = 0");
+
+		return $result;
 	}
 
 }

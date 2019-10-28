@@ -49,7 +49,6 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
         wp_enqueue_script('aaa-tracker', plugins_url('assets/dist/js/tracker.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
         wp_localize_script('aaa-tracker', 'aaa', array(
             'post_id' =>get_queried_object_id(),
-            'ip' => $_SERVER['REMOTE_ADDR'],
 			'tracker_url' => $use_custom_endpoint ? site_url('/aaa-collect.php') : admin_url('admin-ajax.php'),
         ));
     });

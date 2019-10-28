@@ -22,9 +22,14 @@
   },
   "homepage": "https://github.com/dannyvankooten/anonymous-analytics#readme",
   "dependencies": {
-    "mithril": "^2.0.4"
+    "chartist": "^0.11.4",
+    "chartist-plugin-tooltips-updated": "^0.1.1",
+    "mithril": "^2.0.4",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   }
