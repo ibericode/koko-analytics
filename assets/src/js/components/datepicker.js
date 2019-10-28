@@ -3,50 +3,53 @@
 import m from 'mithril';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
+import './datepicker.css';
 const now = new Date();
 
-function Component() {
-    let startDate, endDate;
+function Component(vnode) {
+    let startDate, endDate, picking = false;
 
     return {
         oncreate: (vnode) => {
-            const updateStartDate = function() {
-                startPicker.setStartRange(startDate);
-                endPicker.setStartRange(startDate);
-                endPicker.setMinDate(startDate);
-            };
-            const updateEndDate = function() {
-                startPicker.setEndRange(endDate);
-                startPicker.setMaxDate(endDate);
-                endPicker.setEndRange(endDate);
-            };
+            new Pikaday({
+				field: document.getElementById('start-date-input'),
+				bound: false,
+                maxDate: new Date(now),
+                onSelect: function(date) {
+					if (!picking || startDate === null || date < startDate) {
+						startDate = this.getDate();
+						endDate = null;
+						this.setStartRange(startDate);
+						this.setEndRange(null);
+					} else {
+						endDate = this.getDate();
+						this.setEndRange(endDate);
+					}
 
-            const startPicker = new Pikaday({
-                field: document.getElementById('start-date-input'),
-                maxDate: new Date(now.getFullYear(), 11, 31),
-                onSelect: function() {
-                    startDate = this.getDate();
-                    updateStartDate();
-                }
-            });
+					picking = !picking;
+					this.draw();
 
-            const endPicker = new Pikaday({
-                field: document.getElementById('end-date-input'),
-                maxDate: new Date(now.getFullYear(), 11, 31),
-                onSelect: function() {
-                    endDate = this.getDate();
-                    updateEndDate();
-                }
+					if (startDate && endDate) {
+						vnode.attrs.onUpdate(startDate, endDate);
+					}
+                },
+				container: document.getElementById('date-picker'),
             });
 
         },
         view: () => (
-            <div>
-                <input type="text" id="start-date-input" />
-                <div id="start-date-container"></div>
-
-                <input type="text" id="end-date-input" />
-                <div id="end-date-container"></div>
+            <div className="date-nav">
+                <input type="hidden" id="start-date-input" />
+				<div className="row">
+					<div className="date-presets">
+						<a href="">This month</a>
+						<a href="">Last month</a>
+						<a href="">This year</a>
+						<a href="">Last year</a>
+						<a href="">All time</a>
+					</div>
+					<div id="date-picker" style="display: flex;"> </div>
+				</div>
             </div>
         )
     }

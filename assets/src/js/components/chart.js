@@ -41,7 +41,9 @@ const chartOptions = {
 };
 
 
-function Component() {
+function Component(vnode) {
+	// TODO: Get startDate & endDate from vnode.attrs
+
     return {
         oncreate: (vnode) => {
             const chart = new Chartist.Bar('.ct-chart', chartData, chartOptions);
