@@ -46,16 +46,17 @@ class Admin {
     {
         global $wpdb;
 
-        if ( !isset($_GET['aaa_seed'])) {
+        if (!isset($_GET['aaa_seed']) || !current_user_can('manage_options')) {
             return;
         }
 
         $wpdb->suppress_errors(true);
 
-        for ($i = 0; $i < 365; $i++) {
+        $n = 3*365;
+        for ($i = 0; $i < $n; $i++) {
             $date = date("Y-m-d", strtotime(sprintf('-%d days', $i)));
-            $pageviews = rand(1, 100);
-            $visitors = rand(1, 8) / 10 * $pageviews;
+            $pageviews = rand(200, 1000) / $n * ($n-$i) ;
+            $visitors = rand(2, 6) / 10 * $pageviews;
 
             $wpdb->insert($wpdb->prefix . 'aaa_stats', [
                'id' => 0,
