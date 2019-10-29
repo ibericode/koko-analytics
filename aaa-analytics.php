@@ -38,17 +38,22 @@ maybe_collect_request();
 
 if (defined('DOING_AJAX') && DOING_AJAX) {
 
-} else if((defined('DOING_CRON') && DOING_CRON) || isset($_GET['aaa_aggregate'])) {
+} else if((defined('DOING_CRON') && DOING_CRON)) {
 
 } else if (is_admin()) {
     $admin = new Admin();
     $admin->init();
 } else {
     add_action('wp_head', function() {
+        $post_id = (int) get_queried_object_id();
+        if ($post_id === 0) {
+            return;
+        }
+
 		$use_custom_endpoint = file_exists(ABSPATH . '/aaa-collect.php');
         wp_enqueue_script('aaa-tracker', plugins_url('assets/dist/js/tracker.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
         wp_localize_script('aaa-tracker', 'aaa', array(
-            'post_id' =>get_queried_object_id(),
+            'post_id' => $post_id,
 			'tracker_url' => $use_custom_endpoint ? site_url('/aaa-collect.php') : admin_url('admin-ajax.php'),
         ));
     });
