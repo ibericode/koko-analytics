@@ -54,6 +54,7 @@ class Aggregator
 			)
 		);
 
+		// TODO: Use timestamp from pageview row
 		foreach($pageviews as $p) {
 			$p = explode(',', $p);
 			$timestamp = $p[0];
@@ -68,15 +69,19 @@ class Aggregator
 				);
 			}
 
+			// update site stats
 			$stats[0]['pageviews'] += 1;
-			$stats[$post_id]['pageviews'] += 1;
-
 			if ($new_visitor) {
 				$stats[0]['visitors'] += 1;
 			}
 
-			if ($unique_pageview) {
-				$stats[$post_id]['visitors'] += 1;
+			// update page stats (if received)
+			if ($post_id > 0) {
+				$stats[$post_id]['pageviews'] += 1;
+
+				if ($unique_pageview) {
+					$stats[$post_id]['visitors'] += 1;
+				}
 			}
 		}
 

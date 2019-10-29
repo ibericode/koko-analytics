@@ -46,10 +46,6 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 } else {
     add_action('wp_head', function() {
         $post_id = (int) get_queried_object_id();
-        if ($post_id === 0) {
-            return;
-        }
-
 		$use_custom_endpoint = file_exists(ABSPATH . '/zp-collect.php');
         wp_enqueue_script('zp-tracker', plugins_url('assets/dist/js/tracker.js', ZP_PLUGIN_FILE), array(), ZP_VERSION, true);
         wp_localize_script('zp-tracker', 'zp', array(
