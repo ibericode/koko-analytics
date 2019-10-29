@@ -72,7 +72,8 @@ class Rest
 
         // create hashmap
         $ids = wp_list_pluck($results, 'id');
-        $_posts = get_posts(array('suppress_filters' => false, 'post__in' => $ids, 'post_type' => 'any'));
+        $q = new \WP_Query;
+        $_posts = $q->query(array('posts_per_page' => -1, 'post__in' => $ids, 'post_type' => 'any'));
         $posts = array();
         foreach ($_posts as $p) {
             $posts[$p->ID] = $p;

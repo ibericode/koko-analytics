@@ -4,8 +4,7 @@ import m from 'mithril';
 import {format} from "date-fns";
 import './top-posts.css';
 
-function Component(vnode) {
-
+function Component() {
     let startDate = null;
     let endDate = null;
     let posts = [];
@@ -17,7 +16,7 @@ function Component(vnode) {
 
         startDate = s;
         endDate = e;
-        m.request(`${aaa.root}aaa-stats/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}&count=1`)
+        m.request(`${aaa.root}aaa-stats/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
             .then(p => {
                 posts = p;
             });
@@ -37,7 +36,7 @@ function Component(vnode) {
                         <tbody>
                         {posts.map(p => (
                             <tr key={p.id} className={""}>
-                                <td><a href={p.post_permalink}>{p.post_title}</a></td>
+                                <td><a href={p.post_permalink}>{p.post_title || '(no title)'}</a></td>
                                 <td className={"amount-col"}>{p.visitors}</td>
                                 <td className={"amount-col"}>{p.pageviews}</td>
                             </tr>
