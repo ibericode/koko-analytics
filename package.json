@@ -16,7 +16,7 @@
     "wordpress"
   ],
   "author": "Danny van Kooten",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/dannyvankooten/anonymous-analytics/issues"
   },

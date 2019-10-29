@@ -20,7 +20,6 @@ function Component(vnode) {
         m.request(`${aaa.root}aaa-stats/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}&count=1`)
             .then(p => {
                 posts = p;
-
             });
     };
 
