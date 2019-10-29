@@ -29,10 +29,16 @@
 	border-right: 1px solid #BBB;
 }
 
+.date-presets strong {
+	display: block;
+	padding: 6px 0;
+}
+
 .date-presets a {
 	display: block;
 	padding: 6px 0;
 }
+
 
 .date-picker {
 	padding: 12px;

@@ -32,6 +32,37 @@ function Component(vnode) {
     	toggle();
     }
 
+    function setPeriod(p) {
+    	return function(evt){
+    		evt.preventDefault();
+
+    		switch(p) {
+				case 'this_month':
+					startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+					endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+
+					break;
+				case 'last_month':
+					startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0);
+					endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+					break;
+
+				case 'this_year':
+					startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+					endDate = new Date(now.getFullYear(), 12, 0, 23, 59, 59);
+					break;
+
+				case 'last_year':
+					startDate = new Date(now.getFullYear()-1, 0, 1, 0, 0, 0);
+					endDate = new Date(now.getFullYear()-1, 12, 0, 23, 59, 59);
+					break;
+			}
+
+			vnode.attrs.onUpdate(startDate, endDate);
+			m.redraw();
+		}
+	}
+
     return {
         oncreate: (vnode) => {
         	document.body.addEventListener('click', maybeClose);
@@ -66,11 +97,11 @@ function Component(vnode) {
 				<div onclick={toggle} className="date-label">Showing <span>{format(startDate, 'MMM d, yyyy')}</span> &mdash; <span>{format(endDate, "MMM d, yyyy")}</span></div>
 				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
 					<div className="date-presets">
-						<a href="">This month</a>
-						<a href="">Last month</a>
-						<a href="">This year</a>
-						<a href="">Last year</a>
-						<a href="">All time</a>
+						<strong>Date range</strong>
+						<a href="" onclick={setPeriod('this_month')}>This month</a>
+						<a href="" onclick={setPeriod('last_month')}>Last month</a>
+						<a href="" onclick={setPeriod('this_year')}>This year</a>
+						<a href="" onclick={setPeriod('last_year')}>Last year</a>
 					</div>
 					<div id="date-picker" className="date-picker"> </div>
 				</div>

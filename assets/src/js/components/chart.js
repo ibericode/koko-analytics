@@ -48,10 +48,14 @@ function Component(vnode) {
         for(let i = new Date(startDate); i < endDate; i.setDate(i.getDate() + 1)) {
             let key = format(i, 'yyyy-MM-dd');
 
-            if (ticks <= 31 || i.getDate() === 1) {
-                labels.push(format(i, 'MMM d'));
+            if (ticks > 31) {
+                if (i.getDate() === 1) {
+                    labels.push(format(i, 'MMM'));
+                } else {
+                    labels.push('');
+                }
             } else {
-                labels.push('');
+                labels.push(format(i, 'MMM d'));
             }
 
             pageviews[key] = 0;
@@ -61,7 +65,7 @@ function Component(vnode) {
         strokeWidth = 100 / labels.length;
 
         // fetch stats
-        m.request(aaa.root + 'aaa-stats/v1/stats', {
+        m.request(`${aaa.root}aaa-stats/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}`, {
             headers: {
                 "X-WP-Nonce": aaa.nonce
             },
