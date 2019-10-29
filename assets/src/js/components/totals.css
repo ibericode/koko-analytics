@@ -1,0 +1,39 @@
+.totals-container {
+    background: #2e363f;
+    color: white;
+    padding: 24px;
+    margin-bottom: 12px;
+    display: flex;
+    border-radius: 6px;
+}
+.totals-box {
+    display: block;
+    margin-right: 48px;
+}
+.totals-label {
+    margin-bottom: 6px;
+}
+.totals-amount {
+    display: inline-block;
+    height: 32px;
+    line-height: 48px;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -1px;
+}
+.totals-change {
+    display: inline-block;
+    line-height: 48px;
+    vertical-align: top;
+    font-size: 20px;
+    margin-left: 6px;
+}
+.totals-change.neutral {
+    color: #AAA;
+}
+.totals-change.up {
+    color: limegreen;
+}
+.totals-change.down {
+    color: palevioletred;
+}

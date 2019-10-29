@@ -2,8 +2,15 @@
 
 import Chart from './components/chart.js';
 import Datepicker from './components/datepicker.js';
+import Totals from './components/totals.js';
 import m from 'mithril';
-
+m._request = m.request;
+m.request = function(url, opts = {}) {
+	opts.headers = {
+		"X-WP-Nonce": aaa.nonce
+	};
+	return m._request(url, opts);
+};
 const now = new Date();
 
 function App() {
@@ -27,6 +34,7 @@ function App() {
         	return (
 				<main>
 					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
+					<Totals startDate={startDate} endDate={endDate} />
 					<Chart startDate={startDate} endDate={endDate} />
 				</main>
 			)

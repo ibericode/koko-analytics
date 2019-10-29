@@ -45,7 +45,7 @@ function Component(vnode) {
         let ticks = Math.floor((endDate.getTime() - startDate.getTime()) / 86400 / 1000);
 
         // fill data with 0's and set labels
-        for(let i = new Date(startDate); i < endDate; i.setDate(i.getDate() + 1)) {
+        for(let i = new Date(startDate); i <= endDate; i.setDate(i.getDate() + 1)) {
             let key = format(i, 'yyyy-MM-dd');
 
             if (ticks > 31) {
@@ -65,36 +65,34 @@ function Component(vnode) {
         strokeWidth = 100 / labels.length;
 
         // fetch stats
-        m.request(`${aaa.root}aaa-stats/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}`, {
-            headers: {
-                "X-WP-Nonce": aaa.nonce
-            },
-        }).then(data => {
-            data.forEach(d => {
-                if (typeof(pageviews[d.date]) === "undefined") {
-                    return;
-                }
-
-                pageviews[d.date] = parseInt(d.pageviews);
-                visitors[d.date] = parseInt(d.visitors);
-            });
-
-            chartData = {
-                labels,
-                series: [
-                    {
-                        name: 'Pageviews',
-                        data: Object.values(pageviews)
-                    },
-                    {
-                        name: "Visitors",
-                        data: Object.values(visitors)
+        m.request(`${aaa.root}aaa-stats/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
+            .then(data => {
+                data.forEach(d => {
+                    if (typeof(pageviews[d.date]) === "undefined") {
+                        console.error("Unexpected date in response data", d.date);
+                        return;
                     }
-                ]
-            };
 
-            chart.update(chartData);
-        });
+                    pageviews[d.date] = parseInt(d.pageviews);
+                    visitors[d.date] = parseInt(d.visitors);
+                });
+
+                chartData = {
+                    labels,
+                    series: [
+                        {
+                            name: 'Pageviews',
+                            data: Object.values(pageviews)
+                        },
+                        {
+                            name: "Visitors",
+                            data: Object.values(visitors)
+                        }
+                    ]
+                };
+
+                chart.update(chartData);
+            });
     }
 
     return {
