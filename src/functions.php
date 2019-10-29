@@ -1,12 +1,12 @@
 <?php
 
-namespace AAA;
+namespace ZP;
 
 function maybe_collect_request() {
 
     // Short-circuit a bunch of AJAX stuff
-    if (stripos($_SERVER['REQUEST_URI'], '/aaa-collect.php') === false
-		&& (stripos($_SERVER['REQUEST_URI'], '/admin-ajax.php') === false || ! isset($_GET['action']) || $_GET['action'] !== 'aaa_collect')) {
+    if (stripos($_SERVER['REQUEST_URI'], '/zp-collect.php') === false
+		&& (stripos($_SERVER['REQUEST_URI'], '/admin-ajax.php') === false || ! isset($_GET['action']) || $_GET['action'] !== 'zp_collect')) {
         return;
     }
 

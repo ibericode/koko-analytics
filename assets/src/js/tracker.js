@@ -57,8 +57,8 @@ function trackPageview(vars) {
         return;
     }
 
-	const postId = aaa.post_id;
-	const pagesViewed = getCookie('_aaa_pages_viewed').split(',');
+	const postId = zp.post_id;
+	const pagesViewed = getCookie('_zp_pages_viewed').split(',');
    	const isNewVisitor = pagesViewed.length === 0;
    	const isUniquePageview = pagesViewed.indexOf(postId) === -1;
     const d = {
@@ -70,7 +70,7 @@ function trackPageview(vars) {
     const img = document.createElement('img');
     img.setAttribute('alt', '');
     img.setAttribute('aria-hidden', 'true');
-    img.setAttribute('src', aaa.tracker_url + '?action=aaa_collect&' + stringifyObject(d));
+    img.setAttribute('src', zp.tracker_url + '?action=zp_collect&' + stringifyObject(d));
 
     const finalize = () => {
         // clear src to cancel request
@@ -87,7 +87,7 @@ function trackPageview(vars) {
         }
         let expires = new Date();
         expires.setHours(expires.getHours() + 6);
-        setCookie('_aaa_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
+        setCookie('_zp_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
     };
 
     // clean-up tracking pixel after 5s or onload

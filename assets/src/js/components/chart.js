@@ -65,7 +65,7 @@ function Component(vnode) {
         strokeWidth = 100 / labels.length;
 
         // fetch stats
-        m.request(`${aaa.root}aaa-stats/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
+        m.request(`${zp.root}zero-pageviews/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
             .then(data => {
                 data.forEach(d => {
                     if (typeof(pageviews[d.date]) === "undefined") {

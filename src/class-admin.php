@@ -1,6 +1,6 @@
 <?php
 
-namespace AAA;
+namespace ZP;
 
 class Admin {
 
@@ -14,39 +14,39 @@ class Admin {
 
     public function register_menu()
     {
-        add_submenu_page('index.php', __('Statistics', 'aaa-stats'), __('Statistics', 'aaa-stats'), 'manage_options', 'aaa-stats', array($this, 'show_page'));
+        add_submenu_page('index.php', __('Zero Pageviews', 'zero-pageviews'), __('Zero Pageviews', 'zero-pageviews'), 'manage_options', 'zero-pageviews', array($this, 'show_page'));
     }
 
     public function show_page()
     {
-        wp_enqueue_script('aaa-admin', plugins_url('assets/dist/js/admin.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
-        #wp_enqueue_style('aaa-admin', plugins_url('assets/dist/css/admin.css', AAA_PLUGIN_FILE));
-        wp_localize_script( 'aaa-admin', 'aaa', array(
+        wp_enqueue_script('zp-admin', plugins_url('assets/dist/js/admin.js', ZP_PLUGIN_FILE), array(), ZP_VERSION, true);
+        #wp_enqueue_style('zp-admin', plugins_url('assets/dist/css/admin.css', ZP_PLUGIN_FILE));
+        wp_localize_script( 'zp-admin', 'zp', array(
             'root' => esc_url_raw( rest_url() ),
             'nonce' => wp_create_nonce( 'wp_rest' )
         ) );
 
-        require AAA_PLUGIN_DIR . '/views/admin-page.php';
+        require ZP_PLUGIN_DIR . '/views/admin-page.php';
     }
 
     public function maybe_run_migrations()
     {
-        //delete_option('aaa_version');
-        $from = get_option('aaa_version', '0.0.1');
-        if (version_compare($from, AAA_VERSION, '>=')) {
+        //delete_option('zp_version');
+        $from = get_option('zp_version', '0.0.1');
+        if (version_compare($from, ZP_VERSION, '>=')) {
             return;
         }
 
-        $migrations = new Migrations($from, AAA_VERSION, AAA_PLUGIN_DIR . '/migrations/');
+        $migrations = new Migrations($from, ZP_VERSION, ZP_PLUGIN_DIR . '/migrations/');
         $migrations->run();
-        update_option('aaa_version', AAA_VERSION);
+        update_option('zp_version', ZP_VERSION);
     }
 
     public function maybe_seed()
     {
         global $wpdb;
 
-        if (!isset($_GET['aaa_seed']) || !current_user_can('manage_options')) {
+        if (!isset($_GET['zp_seed']) || !current_user_can('manage_options')) {
             return;
         }
 
@@ -58,7 +58,7 @@ class Admin {
             $pageviews = rand(200, 1000) / $n * ($n-$i) ;
             $visitors = rand(2, 6) / 10 * $pageviews;
 
-            $wpdb->insert($wpdb->prefix . 'aaa_stats', [
+            $wpdb->insert($wpdb->prefix . 'zp_stats', [
                'id' => 0,
                'date' => $date,
                'pageviews' => $pageviews,

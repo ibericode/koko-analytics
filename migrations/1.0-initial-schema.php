@@ -4,8 +4,8 @@ defined('ABSPATH') or exit;
 
 global $wpdb;
 
-$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}aaa_stats");
-$wpdb->query("CREATE TABLE {$wpdb->prefix}aaa_stats (
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}zp_stats");
+$wpdb->query("CREATE TABLE {$wpdb->prefix}zp_stats (
    type VARCHAR(20) NOT NULL DEFAULT 'post',
    id BIGINT(20) UNSIGNED NULL,
    date DATE NOT NULL,

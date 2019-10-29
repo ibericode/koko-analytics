@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Anonymous Analytics
+Plugin Name: Zero Pageviews
 Version: 1.0
-Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=anonymous-analytics&utm_campaign=plugins-page
+Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=zero-pageviews&utm_campaign=plugins-page
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
-Text Domain: anonymous-analytics
+Text Domain: zero-pageviews
 Domain Path: /languages/
 License: GPL v3
 
@@ -26,11 +26,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace AAA;
+namespace ZP;
 
-define('AAA_VERSION', '1.0');
-define('AAA_PLUGIN_FILE', __FILE__);
-define('AAA_PLUGIN_DIR', __DIR__);
+define('ZP_VERSION', '1.0');
+define('ZP_PLUGIN_FILE', __FILE__);
+define('ZP_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -50,14 +50,17 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
             return;
         }
 
-		$use_custom_endpoint = file_exists(ABSPATH . '/aaa-collect.php');
-        wp_enqueue_script('aaa-tracker', plugins_url('assets/dist/js/tracker.js', AAA_PLUGIN_FILE), array(), AAA_VERSION, true);
-        wp_localize_script('aaa-tracker', 'aaa', array(
+		$use_custom_endpoint = file_exists(ABSPATH . '/zp-collect.php');
+        wp_enqueue_script('zp-tracker', plugins_url('assets/dist/js/tracker.js', ZP_PLUGIN_FILE), array(), ZP_VERSION, true);
+        wp_localize_script('zp-tracker', 'zp', array(
             'post_id' => $post_id,
-			'tracker_url' => $use_custom_endpoint ? site_url('/aaa-collect.php') : admin_url('admin-ajax.php'),
+			'tracker_url' => $use_custom_endpoint ? site_url('/zp-collect.php') : admin_url('admin-ajax.php'),
         ));
     });
 }
+
+$plugin = new Plugin();
+$plugin->init();
 
 $aggregator = new Aggregator();
 $aggregator->init();

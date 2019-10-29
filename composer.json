@@ -1,8 +1,8 @@
 {
-  "name": "ibericode/anonymous-analytics",
+  "name": "ibericode/zero-pageviews",
   "description": "Privacy-friendly analytics for your WordPress site",
   "keywords": ["wordpress", "analytics", "statistics"],
-  "homepage": "https://wordpress.org/plugins/anonymous-analytics/",
+  "homepage": "https://wordpress.org/plugins/zero-pageviews/",
   "license": "GPL-3.0+",
   "authors": [
     {
