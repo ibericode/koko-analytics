@@ -25,6 +25,7 @@ function Component(vnode) {
         let previousStartDate = new Date(startDate.getTime() - diff);
         let previousEndDate = new Date(endDate.getTime() - diff);
 
+
         // fetch stats for this period
         m.request(`${aaa.root}aaa-stats/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
             .then(data => {
@@ -41,15 +42,25 @@ function Component(vnode) {
                     .then(data => {
                        let previousVisitors = 0;
                        let previousPageviews = 0;
+                        visitorsChange = 0;
+                        pageviewsChange = 0;
 
                         data.forEach(r => {
                             previousVisitors += parseInt(r.visitors);
                             previousPageviews += parseInt(r.pageviews);
                         });
 
-                        visitorsChange = Math.round((visitors / previousVisitors - 1) * 100);
-                        pageviewsChange = Math.round((pageviews / previousPageviews - 1) * 100);
+                        if (previousVisitors > 0) {
+                            visitorsChange = Math.round((visitors / previousVisitors - 1) * 100);
+                        }
+
+                        if (previousPageviews > 0) {
+                            pageviewsChange = Math.round((pageviews / previousPageviews - 1) * 100);
+                        }
                     });
+
+
+
             });
 
 

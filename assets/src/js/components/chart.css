@@ -1,13 +1,9 @@
-
-#aaa-admin h1 {
-    margin-bottom: 20px;
-}
-
 .chart-container {
     background: white;
     border-radius: 6px;
     padding: 18px 6px 6px 6px;
     border: 1px solid #BBB;
+    margin-bottom: 12px;
 }
 
 /* Chart */

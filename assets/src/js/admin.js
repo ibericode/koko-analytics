@@ -1,9 +1,12 @@
 'use strict';
 
+import m from 'mithril';
 import Chart from './components/chart.js';
 import Datepicker from './components/datepicker.js';
 import Totals from './components/totals.js';
-import m from 'mithril';
+import TopPosts from './components/top-posts.js';
+import './admin.css';
+
 m._request = m.request;
 m.request = function(url, opts = {}) {
 	opts.headers = {
@@ -36,6 +39,7 @@ function App() {
 					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
 					<Totals startDate={startDate} endDate={endDate} />
 					<Chart startDate={startDate} endDate={endDate} />
+					<TopPosts startDate={startDate} endDate={endDate}  />
 				</main>
 			)
 		}

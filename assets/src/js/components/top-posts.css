@@ -1,0 +1,29 @@
+.top-posts {
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #BBB;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.top-posts h3 {
+    margin-top: 0;
+}
+.top-posts th {
+    text-align: left;
+    padding: 4px 0;
+    margin-right: 12px;
+}
+.top-posts td {
+    padding: 4px 0;
+}
+
+.top-posts .amount-col {
+    padding-left: 12px;
+    text-align: right;
+}
+
+.top-posts .main-col {
+    min-width: 240px;
+}
