@@ -3,6 +3,13 @@
     margin-bottom: 20px;
 }
 
+.chart-container {
+    background: white;
+    border-radius: 6px;
+    padding: 18px 6px 6px 6px;
+    border: 1px solid #BBB;
+}
+
 /* Chart */
 .ct-label {
     fill: rgba(0, 0, 0, 0.4);
@@ -165,7 +172,7 @@
 
 .ct-bar {
     fill: none;
-    stroke-width: 40px; }
+    stroke-width: 12px; }
 
 .ct-slice-donut {
     fill: none;

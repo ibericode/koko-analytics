@@ -2,26 +2,32 @@
 
 import Chart from './components/chart.js';
 import Datepicker from './components/datepicker.js';
-
 import m from 'mithril';
 
+const now = new Date();
+
 function App() {
-	let	startDate = null;
-	let	endDate = null;
+	let startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+	let endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
 	function setDates(s, e) {
-		startDate = s;
-		endDate = e;
+		if (s !== startDate) {
+			startDate = s;
+		}
+
+		if (e !== endDate) {
+			endDate = e;
+		}
+
 		m.redraw();
 	}
 
     return {
         view() {
-        	console.log(startDate, endDate);
         	return (
 				<main>
-					<Datepicker onUpdate={setDates} />
-					<Chart startDate={startDate} endDate={startDate} />
+					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
+					<Chart startDate={startDate} endDate={endDate} />
 				</main>
 			)
 		}

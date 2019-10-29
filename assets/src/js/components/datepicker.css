@@ -1,15 +1,32 @@
 .date-nav {
-	background: white;
-	padding: 6px;
-	margin-bottom: 24px;
+	position: relative;
+	margin-bottom: 12px;
 }
 
-.row {
+.date-label {
+	cursor: pointer;
+	margin-bottom: 6px;
+	padding: 6px;
+	border: 1px solid #BBB;
+	border-radius: 6px;
+	display: inline-block;
+	background: white;
+
+}
+
+.date-picker-ui {
+	background: white;
 	display: flex;
+	width: auto;
+	position: absolute;
+	z-index: 20;
+	border-radius: 6px;
+	border: 1px solid #BBB;
 }
 
 .date-presets {
-	padding-right: 24px;
+	padding: 12px 24px 12px 12px;
+	border-right: 1px solid #BBB;
 }
 
 .date-presets a {
@@ -18,5 +35,12 @@
 }
 
 .date-picker {
+	padding: 12px;
+}
 
+.date-picker .pika-single {
+	border: 0;
+}
+.date-picker .pika-lendar {
+	margin: 0;
 }
