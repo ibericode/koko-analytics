@@ -2,40 +2,40 @@
 
 function stringifyObject(obj) {
     return Object.keys(obj).map(function(k) {
-            return encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]);
-        }).join('&');
+        return encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]);
+    }).join('&');
 }
 
 function getCookie(name) {
-	const cookies = document.cookie ? document.cookie.split('; ') : [];
+    const cookies = document.cookie ? document.cookie.split('; ') : [];
 
-	for (let i = 0; i < cookies.length; i++) {
+    for (let i = 0; i < cookies.length; i++) {
         const parts = cookies[i].split('=');
-		if (decodeURIComponent(parts[0]) !== name) {
-			continue;
-		}
+        if (decodeURIComponent(parts[0]) !== name) {
+            continue;
+        }
 
         const cookie = parts.slice(1).join('=');
-		return decodeURIComponent(cookie);
-	}
+        return decodeURIComponent(cookie);
+    }
 
-	return '';
+    return '';
 }
 
 function setCookie(name, data, args) {
-	name = encodeURIComponent(name);
-	data = encodeURIComponent(String(data));
+    name = encodeURIComponent(name);
+    data = encodeURIComponent(String(data));
 
-	let str = name + '=' + data;
+    let str = name + '=' + data;
 
-	if(args.path) {
-		str += ';path=' + args.path;
-	}
-	if (args.expires) {
-		str += ';expires='+args.expires.toUTCString();
-	}
+    if(args.path) {
+        str += ';path=' + args.path;
+    }
+    if (args.expires) {
+        str += ';expires='+args.expires.toUTCString();
+    }
 
-	document.cookie = str;
+    document.cookie = str;
 }
 
 function trackPageview() {
@@ -55,24 +55,25 @@ function trackPageview() {
         return;
     }
 
-	const postId = window.ap.post_id;
-	const pagesViewed = getCookie('_ap_pages_viewed').split(',');
-   	const isNewVisitor = pagesViewed.length === 0;
-   	const isUniquePageview = pagesViewed.indexOf(postId) === -1;
+    const cookie = getCookie('_ap_pages_viewed');
+    const postId = window.ap.post_id;
+    const isNewVisitor = cookie.length === 0;
+    const pagesViewed = cookie.split(',').filter(id => id !== '');
+    const isUniquePageview = pagesViewed.indexOf(postId) === -1;
     const d = {
         p:  postId,
         nv: isNewVisitor ? 1 : 0,
-		up: isUniquePageview ? 1 : 0,
+        up: isUniquePageview ? 1 : 0,
     };
 
     const img = document.createElement('img');
-    img.setAttribute('alt', '');
+    img.alt = '';
+    img.style.display = 'none';
     img.setAttribute('aria-hidden', 'true');
-    img.setAttribute('src', window.ap.tracker_url + '?action=ap_collect&' + stringifyObject(d));
 
     const finalize = () => {
-        // clear src to cancel request
-        img.setAttribute('src', '');
+        // clear src to cancel request (if called via timeout)
+        img.src = '';
 
         // remove from dom
         if (img.parentNode) {
@@ -89,10 +90,11 @@ function trackPageview() {
     };
 
     // clean-up tracking pixel after 5s or onload
-    img.addEventListener('load', finalize);
+    img.onload = finalize;
     window.setTimeout(finalize, 5000);
 
     // add to DOM to fire request
+    img.src = window.ap.tracker_url + '?action=ap_collect&' + stringifyObject(d);
     document.body.appendChild(img);
 }
 

@@ -19,6 +19,8 @@ function maybe_collect_request() {
     nocache_headers();
 
 	collect_in_file($post_id, $now, $unique_visitor, $unique_pageview);
+	status_header(200);
+	echo base64_decode("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
 	exit;
 }
 
