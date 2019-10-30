@@ -32,7 +32,10 @@ define('AP_VERSION', '1.0');
 define('AP_PLUGIN_FILE', __FILE__);
 define('AP_PLUGIN_DIR', __DIR__);
 
-require __DIR__ . '/vendor/autoload.php';
+// for compat with site-wide autoloader
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require __DIR__ . '/vendor/autoload.php';
+}
 
 maybe_collect_request();
 
