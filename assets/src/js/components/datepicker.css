@@ -5,23 +5,22 @@
 
 .date-label {
 	cursor: pointer;
-	margin-bottom: 6px;
 	padding: 6px;
 	border: 1px solid #BBB;
 	border-radius: 6px;
 	display: inline-block;
 	background: white;
-
 }
 
 .date-picker-ui {
 	background: white;
 	display: flex;
 	width: auto;
-	position: absolute;
 	z-index: 20;
 	border-radius: 6px;
 	border: 1px solid #BBB;
+	position: absolute;
+	margin-top: 6px;
 }
 
 .date-presets {

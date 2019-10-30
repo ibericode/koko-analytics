@@ -7,15 +7,15 @@ function stringifyObject(obj) {
 }
 
 function getCookie(name) {
-	var cookies = document.cookie ? document.cookie.split('; ') : [];
+	const cookies = document.cookie ? document.cookie.split('; ') : [];
 
-	for (var i = 0; i < cookies.length; i++) {
-		var parts = cookies[i].split('=');
+	for (let i = 0; i < cookies.length; i++) {
+        const parts = cookies[i].split('=');
 		if (decodeURIComponent(parts[0]) !== name) {
 			continue;
 		}
 
-		var cookie = parts.slice(1).join('=');
+        const cookie = parts.slice(1).join('=');
 		return decodeURIComponent(cookie);
 	}
 
@@ -26,7 +26,7 @@ function setCookie(name, data, args) {
 	name = encodeURIComponent(name);
 	data = encodeURIComponent(String(data));
 
-	var str = name + '=' + data;
+	let str = name + '=' + data;
 
 	if(args.path) {
 		str += ';path=' + args.path;
@@ -38,26 +38,24 @@ function setCookie(name, data, args) {
 	document.cookie = str;
 }
 
-function trackPageview(vars) {
-    vars = vars || {};
-
-    // Respect "Do Not Track" requests
+function trackPageview() {
+    // respect "Do Not Track" requests
     if ('doNotTrack' in navigator && navigator.doNotTrack === "1") {
         return;
     }
 
-    // ignore prerendered pages
+    // ignore pre-rendering requests
     if ('visibilityState' in document && document.visibilityState === 'prerender') {
         return;
     }
 
     // if <body> did not load yet, try again at dom ready event
     if (document.body === null) {
-        document.addEventListener("DOMContentLoaded", () => trackPageview(vars));
+        document.addEventListener("DOMContentLoaded", () => trackPageview());
         return;
     }
 
-	const postId = ap.post_id;
+	const postId = window.ap.post_id;
 	const pagesViewed = getCookie('_ap_pages_viewed').split(',');
    	const isNewVisitor = pagesViewed.length === 0;
    	const isUniquePageview = pagesViewed.indexOf(postId) === -1;
@@ -70,7 +68,7 @@ function trackPageview(vars) {
     const img = document.createElement('img');
     img.setAttribute('alt', '');
     img.setAttribute('aria-hidden', 'true');
-    img.setAttribute('src', ap.tracker_url + '?action=ap_collect&' + stringifyObject(d));
+    img.setAttribute('src', window.ap.tracker_url + '?action=ap_collect&' + stringifyObject(d));
 
     const finalize = () => {
         // clear src to cancel request

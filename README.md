@@ -1,6 +1,7 @@
 Analytics Plugin
 ===========
-
+ [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+ 
 Analytics Plugin is a privacy-friendly analytics plugin for WordPress. 
 
 ![Screenshot of the Analytics Plugin dashboard](https://github.com/dannyvankooten/analytics-plugin/raw/master/assets/src/screenshots/dashboard.png?v=1)
