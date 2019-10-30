@@ -16,7 +16,7 @@ function Component() {
 
         startDate = s;
         endDate = e;
-        m.request(`${zp.root}zero-pageviews/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
+        m.request(`${ap.root}analytics-plugin/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
             .then(p => {
                 posts = p;
             });

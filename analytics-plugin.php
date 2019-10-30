@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Zero Pageviews
+Plugin Name: Analytics Plugin
 Version: 1.0
-Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=zero-pageviews&utm_campaign=plugins-page
+Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=analytics-plugin&utm_campaign=plugins-page
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
-Text Domain: zero-pageviews
+Text Domain: analytics-plugin
 Domain Path: /languages/
 License: GPL v3
 
@@ -26,11 +26,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ZP;
+namespace AP;
 
-define('ZP_VERSION', '1.0');
-define('ZP_PLUGIN_FILE', __FILE__);
-define('ZP_PLUGIN_DIR', __DIR__);
+define('AP_VERSION', '1.0');
+define('AP_PLUGIN_FILE', __FILE__);
+define('AP_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -46,11 +46,11 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 } else {
     add_action('wp_head', function() {
         $post_id = (int) get_queried_object_id();
-		$use_custom_endpoint = file_exists(ABSPATH . '/zp-collect.php');
-        wp_enqueue_script('zp-tracker', plugins_url('assets/dist/js/tracker.js', ZP_PLUGIN_FILE), array(), ZP_VERSION, true);
-        wp_localize_script('zp-tracker', 'zp', array(
+		$use_custom_endpoint = file_exists(ABSPATH . '/ap-collect.php');
+        wp_enqueue_script('ap-tracker', plugins_url('assets/dist/js/tracker.js', AP_PLUGIN_FILE), array(), AP_VERSION, true);
+        wp_localize_script('ap-tracker', 'ap', array(
             'post_id' => $post_id,
-			'tracker_url' => $use_custom_endpoint ? site_url('/zp-collect.php') : admin_url('admin-ajax.php'),
+			'tracker_url' => $use_custom_endpoint ? site_url('/ap-collect.php') : admin_url('admin-ajax.php'),
         ));
     });
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZP;
+namespace AP;
 
 class Plugin
 {
@@ -17,7 +17,7 @@ class Plugin
             return $plugins;
         }
 
-        $f = preg_quote( basename( plugin_basename(ZP_PLUGIN_FILE) ) );
+        $f = preg_quote( basename( plugin_basename(AP_PLUGIN_FILE) ) );
 
         return array_merge(
             preg_grep( '/' . $f . '$/', $plugins ),

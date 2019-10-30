@@ -1,5 +1,5 @@
 {
-  "name": "zp-analytics",
+  "name": "ap-analytics",
   "version": "1.0.0",
   "description": "Privacy-friendly analytics for your WordPress site",
   "scripts": {
@@ -10,7 +10,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dannyvankooten/zero-pageviews.git"
+    "url": "git+https://github.com/dannyvankooten/analytics-plugin.git"
   },
   "keywords": [
     "wordpress"
@@ -18,9 +18,9 @@
   "author": "Danny van Kooten",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/dannyvankooten/zero-pageviews/issues"
+    "url": "https://github.com/dannyvankooten/analytics-plugin/issues"
   },
-  "homepage": "https://github.com/dannyvankooten/zero-pageviews#readme",
+  "homepage": "https://github.com/dannyvankooten/analytics-plugin#readme",
   "dependencies": {
     "chartist": "^0.11.4",
     "chartist-plugin-tooltips-updated": "^0.1.1",

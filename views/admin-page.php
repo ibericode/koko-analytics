@@ -1,6 +1,10 @@
 <?php defined('ABSPATH') or exit; ?>
-<div class="wrap" id="zp-admin">
-    <h1>Triple-A Stats</h1>
+<div class="wrap" id="ap-admin">
+    <h1>Analytics</h1>
 
-    <div id="zp-mount"></div>
+    <noscript>
+        <?php echo __( 'Please enable JavaScript for this page to work.', 'analytics-plugin'); ?>
+    </noscript>
+
+    <div id="ap-mount"></div>
 </div>

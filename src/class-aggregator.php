@@ -1,13 +1,13 @@
 <?php
 
-namespace ZP;
+namespace AP;
 
 class Aggregator
 {
     public function init()
     {
         add_filter('cron_schedules', array($this, 'add_interval'));
-        add_action('zp_aggregate_stats', array($this, 'aggregate'));
+        add_action('ap_aggregate_stats', array($this, 'aggregate'));
         add_action('init', array($this, 'schedule'));
 
         if (isset($_GET['aggregate_stats'])) {
@@ -17,9 +17,9 @@ class Aggregator
 
     public function add_interval($intervals)
     {
-        $intervals['zp_stats_aggregate_interval'] = [
+        $intervals['ap_stats_aggregate_interval'] = [
             'interval' => 1 * 60, // 1 minute
-            'display'  => __( 'Every minute', 'zero-pageviews' ),
+            'display'  => __( 'Every minute', 'analytics-plugin' ),
         ];
         return $intervals;
     }
@@ -30,8 +30,8 @@ class Aggregator
             return;
         }
 
-        if (!wp_next_scheduled('zp_aggregate_stats')) {
-            wp_schedule_event(time() + 1, 'zp_stats_aggregate_interval', 'zp_aggregate_stats');
+        if (!wp_next_scheduled('ap_aggregate_stats')) {
+            wp_schedule_event(time() + 1, 'ap_stats_aggregate_interval', 'ap_aggregate_stats');
         }
     }
 
@@ -102,7 +102,7 @@ class Aggregator
 		$placeholders = join(', ', $placeholders);
 
 		// insert or update in a single query
-		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}zp_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values ));
+		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values ));
     }
 
 }

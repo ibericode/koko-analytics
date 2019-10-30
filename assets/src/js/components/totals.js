@@ -27,7 +27,7 @@ function Component(vnode) {
 
 
         // fetch stats for this period
-        m.request(`${zp.root}zero-pageviews/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
+        m.request(`${ap.root}analytics-plugin/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
             .then(data => {
                visitors = 0;
                pageviews = 0;
@@ -38,7 +38,7 @@ function Component(vnode) {
                });
 
                 // fetch stats from period period to compare against
-                m.request(`${zp.root}zero-pageviews/v1/stats?start_date=${format(previousStartDate, 'yyyy-MM-dd')}&end_date=${format(previousEndDate, 'yyyy-MM-dd')}&count=1`)
+                m.request(`${ap.root}analytics-plugin/v1/stats?start_date=${format(previousStartDate, 'yyyy-MM-dd')}&end_date=${format(previousEndDate, 'yyyy-MM-dd')}&count=1`)
                     .then(data => {
                        let previousVisitors = 0;
                        let previousPageviews = 0;

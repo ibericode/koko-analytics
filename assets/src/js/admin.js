@@ -10,7 +10,7 @@ import './admin.css';
 m._request = m.request;
 m.request = function(url, opts = {}) {
 	opts.headers = {
-		"X-WP-Nonce": zp.nonce
+		"X-WP-Nonce": ap.nonce
 	};
 	return m._request(url, opts);
 };
@@ -46,4 +46,4 @@ function App() {
     }
 }
 
-m.mount(document.getElementById('zp-mount'), App);
+m.mount(document.getElementById('ap-mount'), App);
