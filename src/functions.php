@@ -3,18 +3,17 @@
 namespace AP;
 
 function maybe_collect_request() {
-    // Short-circuit a bunch of AJAX stuff
-    if (stripos($_SERVER['REQUEST_URI'], '/ap-collect.php') === false
-        && (stripos($_SERVER['REQUEST_URI'], '/admin-ajax.php') === false || ! isset($_GET['action']) || $_GET['action'] !== 'ap_collect')) {
+    // since we call this function (early) on every AJAX request, detect our specific request here
+    // this allows us to short-circuit a bunch of unrelated AJAX stuff and gain a lot of performance
+    if (! isset($_GET['action']) || $_GET['action'] !== 'ap_collect' || ! defined('DOING_AJAX') || !DOING_AJAX) {
         return;
     }
 
-    $now = date('Y-m-d H:i:s');
     $unique_visitor = (int) $_GET['nv'];
     $unique_pageview = (int) $_GET['up'];
     $post_id = (int) $_GET['p'];
 
-    collect_in_file($post_id, $now, $unique_visitor, $unique_pageview);
+    collect_in_file($post_id, $unique_visitor, $unique_pageview);
 
     // set OK headers & prevent caching
     status_header(200);
@@ -33,9 +32,9 @@ function maybe_collect_request() {
     exit;
 }
 
-function collect_in_file($post_id, $now, $is_new_visitor, $is_unique_pageview)
+function collect_in_file($post_id, $is_new_visitor, $is_unique_pageview)
 {
-    $line = join(',', array($now, $post_id, $is_new_visitor, $is_unique_pageview));
+    $line = join(',', array($post_id, $is_new_visitor, $is_unique_pageview));
     $uploads = wp_get_upload_dir();
     $filename = $uploads['basedir'] . '/pageviews.php';
     $content = '';

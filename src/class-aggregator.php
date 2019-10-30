@@ -60,13 +60,11 @@ class Aggregator
 			)
 		);
 
-		// TODO: Use timestamp from pageview row
 		foreach($pageviews as $p) {
 			$p = explode(',', $p);
-			$timestamp = $p[0];
-			$post_id = (int) $p[1];
-			$new_visitor = (int) $p[2];
-			$unique_pageview = (int) $p[3];
+			$post_id = (int) $p[0];
+			$new_visitor = (int) $p[1];
+			$unique_pageview = (int) $p[2];
 
 			if (!isset($stats[$post_id])) {
 				$stats[$post_id] = array(
@@ -96,7 +94,8 @@ class Aggregator
 			return;
 		}
 
-		$date = date("Y-m-d"); // TODO: Handle UTC offset
+		// store as local date using the timezone specified in WP settings
+		$date = gmdate("Y-m-d",time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
 		$values = array();
 		$placeholders = array();
 
