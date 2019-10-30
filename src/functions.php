@@ -28,7 +28,7 @@ function maybe_collect_request() {
     header('Tk: N');
 
     // 1px transparent GIF, needs to be an actual image to make sure browser fires the onload event
-    echo base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+    echo base64_decode('R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
     exit;
 }
 

@@ -14,7 +14,13 @@ First, clone the repository using Git in your `/wp-content/plugins/` directory
 ```
 git clone git@github.com:dannyvankooten/analytics-plugin.git
 ```
-Then, install dependencies using NPM
+
+Create the autoloader using Composer.
+```
+composer install
+```
+
+Install client-side dependencies using NPM
 ```
 npm install
 ```

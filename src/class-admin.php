@@ -19,7 +19,6 @@ class Admin {
     public function show_page()
     {
         wp_enqueue_script('ap-admin', plugins_url('assets/dist/js/admin.js', AP_PLUGIN_FILE), array(), AP_VERSION, true);
-        #wp_enqueue_style('ap-admin', plugins_url('assets/dist/css/admin.css', AP_PLUGIN_FILE));
         wp_localize_script( 'ap-admin', 'ap', array(
             'root' => esc_url_raw( rest_url() ),
             'nonce' => wp_create_nonce( 'wp_rest' )
@@ -57,12 +56,12 @@ class Admin {
             $pageviews = rand(200, 1000) / $n * ($n-$i) ;
             $visitors = rand(2, 6) / 10 * $pageviews;
 
-            $wpdb->insert($wpdb->prefix . 'ap_stats', [
+            $wpdb->insert($wpdb->prefix . 'ap_stats', array(
                'id' => 0,
                'date' => $date,
                'pageviews' => $pageviews,
                'visitors' => $visitors,
-            ]);
+			));
         }
     }
 }
