@@ -49,12 +49,16 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 } else {
     add_action('wp_head', function() {
         $post_id = (int) get_queried_object_id();
+
+        // TODO: Handle "term" requests so we track both terms and posts
 		$use_custom_endpoint = file_exists(ABSPATH . '/ap-collect.php');
         wp_enqueue_script('ap-tracker', plugins_url('assets/dist/js/tracker.js', AP_PLUGIN_FILE), array(), AP_VERSION, true);
         wp_localize_script('ap-tracker', 'ap', array(
             'post_id' => $post_id,
 			'tracker_url' => $use_custom_endpoint ? site_url('/ap-collect.php') : admin_url('admin-ajax.php'),
         ));
+
+
     });
 }
 
