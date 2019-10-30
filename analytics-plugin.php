@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace AP;
 
-define('AP_VERSION', '1.0');
+define('AP_VERSION' ,'1.0');
 define('AP_PLUGIN_FILE', __FILE__);
 define('AP_PLUGIN_DIR', __DIR__);
 
