@@ -6,7 +6,7 @@ class Plugin
 {
     public function init()
     {
-        add_filter( 'pre_update_option_active_plugins',               array( $this, 'filter_active_plugins' ) );
+        add_filter('pre_update_option_active_plugins', array($this, 'filter_active_plugins'));
 
         // TODO: Symlink collect file
     }

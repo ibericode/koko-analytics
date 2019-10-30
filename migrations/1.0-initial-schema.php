@@ -4,7 +4,11 @@ defined('ABSPATH') or exit;
 
 global $wpdb;
 
-$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_stats");
+if (WP_DEBUG) {
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_stats");
+}
+
+// TODO: Check optimal index order here
 $wpdb->query("CREATE TABLE {$wpdb->prefix}ap_stats (
    type VARCHAR(20) NOT NULL DEFAULT 'post',
    id BIGINT(20) UNSIGNED NULL,
@@ -12,4 +16,4 @@ $wpdb->query("CREATE TABLE {$wpdb->prefix}ap_stats (
    visitors INTEGER UNSIGNED NOT NULL,
    pageviews INTEGER UNSIGNED NOT NULL,
    UNIQUE INDEX (date, id, type)
-) ENGINE=INNODB CHARACTER SET={$wpdb->charset}");
+) ENGINE=INNODB CHARACTER SET={$wpdb->charset} COLLATE={$wpdb->collate}");

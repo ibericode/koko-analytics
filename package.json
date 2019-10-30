@@ -1,5 +1,5 @@
 {
-  "name": "ap-analytics",
+  "name": "analytics-plugin",
   "version": "1.0.0",
   "description": "Privacy-friendly analytics for your WordPress site",
   "scripts": {

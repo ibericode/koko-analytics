@@ -17,10 +17,10 @@ class Aggregator
 
     public function add_interval($intervals)
     {
-        $intervals['ap_stats_aggregate_interval'] = [
+        $intervals['ap_stats_aggregate_interval'] = array(
             'interval' => 1 * 60, // 1 minute
-            'display'  => __( 'Every minute', 'analytics-plugin' ),
-        ];
+            'display'  => __('Every minute', 'analytics-plugin'),
+        );
         return $intervals;
     }
 
@@ -42,8 +42,14 @@ class Aggregator
         // read file
 		$wp_upload_dir = wp_get_upload_dir();
 		$filename = $wp_upload_dir['basedir'] . '/pageviews.php';
+
+		// read file into array
 		$pageviews = file($filename);
+
+		// empty file right away
 		file_put_contents($filename, '<?php exit; ?>' . PHP_EOL, LOCK_EX);
+
+		// remove first line (PHP header that prevents direct file access)
 		array_shift($pageviews); // remove first line
 
 		// add to stats
@@ -102,7 +108,8 @@ class Aggregator
 		$placeholders = join(', ', $placeholders);
 
 		// insert or update in a single query
-		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values ));
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
+		$wpdb->query($sql);
     }
 
 }

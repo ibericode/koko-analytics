@@ -5,7 +5,7 @@ Version: 1.0
 Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=analytics-plugin&utm_campaign=plugins-page
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
-Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
+Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=analytics-plugin&utm_campaign=plugins-page
 Text Domain: analytics-plugin
 Domain Path: /languages/
 License: GPL v3
@@ -38,7 +38,7 @@ maybe_collect_request();
 
 if (defined('DOING_AJAX') && DOING_AJAX) {
 
-} else if((defined('DOING_CRON') && DOING_CRON)) {
+} else if(defined('DOING_CRON') && DOING_CRON) {
 
 } else if (is_admin()) {
     $admin = new Admin();
