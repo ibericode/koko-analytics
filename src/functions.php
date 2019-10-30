@@ -16,15 +16,19 @@ function maybe_collect_request() {
 
     collect_in_file($post_id, $now, $unique_visitor, $unique_pageview);
 
-    // return 1px transparent GIF and prevent browsers from caching
-    // this needs to be an actual image to make sure browser fires the onload event
+    // set OK headers & prevent caching
     status_header(200);
-    header("Content-Type: image/gif");
-    header( 'X-Content-Type-Options: nosniff' );
-    header("Expires: Wed, 11 Jan 1984 05:00:00 GMT");
-    header("Cache-Control: no-cache, must-revalidate, max-age=0");
-    header_remove("Last-Modified");
+    header('Content-Type: image/gif');
+    header('X-Content-Type-Options: nosniff');
+    header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    header_remove('Last-Modified');
     send_origin_headers();
+
+    // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
+    header('Tk: N');
+
+    // 1px transparent GIF, needs to be an actual image to make sure browser fires the onload event
     echo base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
     exit;
 }
