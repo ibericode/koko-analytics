@@ -3,7 +3,7 @@
   "description": "Privacy-friendly analytics for your WordPress site",
   "keywords": ["wordpress", "analytics", "statistics"],
   "homepage": "https://wordpress.org/plugins/analytics-plugin/",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Danny van Kooten",
