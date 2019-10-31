@@ -29,8 +29,11 @@ class Admin {
 
     public function maybe_run_migrations()
     {
-       // delete_option('ap_version');
-        $from = get_option('ap_version', '0.0.1');
+        if (! current_user_can('install_plugins')) {
+            return;
+        }
+
+        $from = isset($_GET['ap_migrate_from_version']) ? $_GET['ap_migrate_from_version'] : get_option('ap_version', '0.0.1');
         if (version_compare($from, AP_VERSION, '>=')) {
             return;
         }
