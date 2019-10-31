@@ -8,11 +8,8 @@ class Aggregator
     {
         add_filter('cron_schedules', array($this, 'add_interval'));
         add_action('ap_aggregate_stats', array($this, 'aggregate'));
-        add_action('init', array($this, 'schedule'));
-
-        if (isset($_GET['aggregate_stats'])) {
-        	$this->aggregate();
-		}
+        add_action('init', array($this, 'maybe_schedule'));
+        add_action('init', array($this, 'maybe_aggregate'));
     }
 
     public function add_interval($intervals)
@@ -24,7 +21,7 @@ class Aggregator
         return $intervals;
     }
 
-    public function schedule()
+    public function maybe_schedule()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' && (!defined('DOING_CRON') || !DOING_CRON)) {
             return;
@@ -34,6 +31,15 @@ class Aggregator
             wp_schedule_event(time() + 1, 'ap_stats_aggregate_interval', 'ap_aggregate_stats');
         }
     }
+
+    public function maybe_aggregate()
+	{
+		if (!isset($_GET['ap_aggregate']) || !current_user_can('manage_options')) {
+			return;
+		}
+
+		$this->aggregate();
+	}
 
     public function aggregate()
     {
@@ -112,7 +118,7 @@ class Aggregator
 		}
 
 		// store as local date using the timezone specified in WP settings
-		$date = gmdate("Y-m-d",time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
+		$date = gmdate('Y-m-d',time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
 		$values = array();
 		$placeholders = array();
 

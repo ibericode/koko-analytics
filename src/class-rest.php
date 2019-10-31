@@ -69,8 +69,11 @@ class Rest
         $end_date = isset($params['end_date']) ? $params['end_date'] : date("Y-m-d");
         $sql = $wpdb->prepare("SELECT id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}ap_stats s WHERE s.type = 'post' AND s.id > 0 AND s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC", [ $start_date, $end_date ]);
         $results = $wpdb->get_results($sql);
+        if (empty($results)) {
+        	return array();
+		}
 
-        // create hashmap
+        // create hashmap of found posts
         $ids = wp_list_pluck($results, 'id');
         $q = new \WP_Query;
         $_posts = $q->query(array('posts_per_page' => -1, 'post__in' => $ids, 'post_type' => 'any'));
@@ -81,6 +84,11 @@ class Rest
 
         // add post title & post link to each result row
         foreach($results as $i => $row) {
+        	// skip if post does not exist
+        	if (!isset($posts[$row->id])) {
+        		continue;
+			}
+
             $post = $posts[$row->id];
             $results[$i]->post_title = $post->post_title;
             $results[$i]->post_permalink = get_permalink($post);
