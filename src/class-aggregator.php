@@ -23,7 +23,7 @@ class Aggregator
 
     public function maybe_schedule()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' && (!defined('DOING_CRON') || !DOING_CRON)) {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
 
