@@ -4,10 +4,8 @@ defined('ABSPATH') or exit;
 
 global $wpdb;
 
-if (WP_DEBUG) {
-    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_stats");
-    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_referrers");
-}
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_stats");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ap_referrers");
 
 // TODO: Check optimal index order here
 $wpdb->query("CREATE TABLE {$wpdb->prefix}ap_stats (
