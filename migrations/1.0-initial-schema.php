@@ -17,3 +17,4 @@ $wpdb->query("CREATE TABLE {$wpdb->prefix}ap_stats (
    pageviews INTEGER UNSIGNED NOT NULL,
    UNIQUE INDEX (date, id, type)
 ) ENGINE=INNODB CHARACTER SET={$wpdb->charset} COLLATE={$wpdb->collate}");
+

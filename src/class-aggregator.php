@@ -59,12 +59,14 @@ class Aggregator
 				'pageviews' => 0,
 			)
 		);
+		$referrers = array();
 
 		foreach($pageviews as $p) {
 			$p = explode(',', $p);
 			$post_id = (int) $p[0];
 			$new_visitor = (int) $p[1];
 			$unique_pageview = (int) $p[2];
+			$referrer = $p[3];
 
 			if (!isset($stats[$post_id])) {
 				$stats[$post_id] = array(
@@ -87,6 +89,21 @@ class Aggregator
 					$stats[$post_id]['visitors'] += 1;
 				}
 			}
+
+			// increment referrals
+			if ($referrer !== '') {
+                if (!isset($referrers[$referrer])) {
+                    $referrers[$referrer] = array(
+                        'pageviews' => 0,
+                        'visitors' => 0,
+                    );
+                }
+
+                $referrers[$referrer]['pageviews'] += 1;
+                if ($new_visitor) {
+                    $referrers[$referrer]['visitors'] += 1;
+                }
+            }
 		}
 
 		// bail if nothing happened
@@ -104,10 +121,17 @@ class Aggregator
 			array_push($values, 'post', $post_id, $date, $s['visitors'], $s['pageviews']);
 		}
 
+        // TODO: Add table for storing normalized referrers (to cut down on table size for repeating referrer url string every day)
+        // TODO: Replace $url with $referrer_id here, and use that for inserting
+		foreach($referrers as $url => $r) {
+            $placeholders[] = '(%s, %d, %s, %d, %d)';
+            array_push($values, 'referrer', 0, $date, $r['visitors'], $r['pageviews']);
+        }
+
 		$placeholders = join(', ', $placeholders);
 
 		// insert or update in a single query
-        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews, value) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
 		$wpdb->query($sql);
     }
 

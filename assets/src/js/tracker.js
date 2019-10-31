@@ -2,7 +2,7 @@
 
 function stringifyObject(obj) {
     return Object.keys(obj).map(function(k) {
-        return encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]);
+        return window.encodeURIComponent(k) + '=' + window.encodeURIComponent(obj[k]);
     }).join('&');
 }
 
@@ -11,20 +11,20 @@ function getCookie(name) {
 
     for (let i = 0; i < cookies.length; i++) {
         const parts = cookies[i].split('=');
-        if (decodeURIComponent(parts[0]) !== name) {
+        if (window.decodeURIComponent(parts[0]) !== name) {
             continue;
         }
 
         const cookie = parts.slice(1).join('=');
-        return decodeURIComponent(cookie);
+        return window.decodeURIComponent(cookie);
     }
 
     return '';
 }
 
 function setCookie(name, data, args) {
-    name = encodeURIComponent(name);
-    data = encodeURIComponent(String(data));
+    name = window.encodeURIComponent(name);
+    data = window.encodeURIComponent(String(data));
 
     let str = name + '=' + data;
 
@@ -65,6 +65,11 @@ function trackPageview() {
         nv: isNewVisitor ? 1 : 0,
         up: isUniquePageview ? 1 : 0,
     };
+
+    // add referrer if not from same-site
+    if (typeof(document.referrer) === "string" && document.referrer !== '' && document.referrer.indexOf(window.location.origin) === -1) {
+        d.r = document.referrer;
+    }
 
     const img = document.createElement('img');
     img.alt = '';
