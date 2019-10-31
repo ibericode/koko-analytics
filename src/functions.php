@@ -12,8 +12,9 @@ function maybe_collect_request() {
     $unique_visitor = (int) $_GET['nv'];
     $unique_pageview = (int) $_GET['up'];
     $post_id = (int) $_GET['p'];
+    $referrer = isset($_GET['r']) ? trim($_GET['r']) : '';
 
-    collect_in_file($post_id, $unique_visitor, $unique_pageview);
+    collect_in_file($post_id, $unique_visitor, $unique_pageview, $referrer);
 
     // set OK headers & prevent caching
     status_header(200);
@@ -32,9 +33,9 @@ function maybe_collect_request() {
     exit;
 }
 
-function collect_in_file($post_id, $is_new_visitor, $is_unique_pageview)
+function collect_in_file($post_id, $is_new_visitor, $is_unique_pageview, $referrer = '')
 {
-    $line = join(',', array($post_id, $is_new_visitor, $is_unique_pageview));
+    $line = join(',', array($post_id, $is_new_visitor, $is_unique_pageview, $referrer));
     $uploads = wp_get_upload_dir();
     $filename = $uploads['basedir'] . '/pageviews.php';
     $content = '';

@@ -37,6 +37,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
 }
 
+require __DIR__ . '/src/functions.php';
+
 maybe_collect_request();
 
 if (defined('DOING_AJAX') && DOING_AJAX) {
