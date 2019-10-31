@@ -14,7 +14,7 @@ function maybe_collect_request() {
     $post_id = (int) $_GET['p'];
     $referrer = isset($_GET['r']) ? trim($_GET['r']) : '';
 
-    collect_in_file($post_id, $unique_visitor, $unique_pageview);
+    collect_in_file($post_id, $unique_visitor, $unique_pageview, $referrer);
 
     // set OK headers & prevent caching
     status_header(200);

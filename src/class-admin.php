@@ -29,7 +29,7 @@ class Admin {
 
     public function maybe_run_migrations()
     {
-        //delete_option('ap_version');
+       // delete_option('ap_version');
         $from = get_option('ap_version', '0.0.1');
         if (version_compare($from, AP_VERSION, '>=')) {
             return;

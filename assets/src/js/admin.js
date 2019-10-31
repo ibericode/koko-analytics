@@ -5,6 +5,7 @@ import Chart from './components/chart.js';
 import Datepicker from './components/datepicker.js';
 import Totals from './components/totals.js';
 import TopPosts from './components/top-posts.js';
+import TopReferrers from './components/top-referrers.js';
 import './admin.css';
 
 m._request = m.request;
@@ -39,7 +40,10 @@ function App() {
 					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
 					<Totals startDate={startDate} endDate={endDate} />
 					<Chart startDate={startDate} endDate={endDate} />
-					<TopPosts startDate={startDate} endDate={endDate}  />
+					<div className={"row"}>
+						<TopPosts startDate={startDate} endDate={endDate} />
+						<TopReferrers startDate={startDate} endDate={endDate} />
+					</div>
 				</main>
 			)
 		}

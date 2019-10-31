@@ -72,7 +72,7 @@ class Aggregator
 			$post_id = (int) $p[0];
 			$new_visitor = (int) $p[1];
 			$unique_pageview = (int) $p[2];
-			$referrer = $p[3];
+            $referrer_url = trim($p[3]);
 
 			if (!isset($stats[$post_id])) {
 				$stats[$post_id] = array(
@@ -97,17 +97,17 @@ class Aggregator
 			}
 
 			// increment referrals
-			if ($referrer !== '') {
-                if (!isset($referrers[$referrer])) {
-                    $referrers[$referrer] = array(
+			if ($referrer_url !== '') {
+                if (!isset($referrers[$referrer_url])) {
+                    $referrers[$referrer_url] = array(
                         'pageviews' => 0,
                         'visitors' => 0,
                     );
                 }
 
-                $referrers[$referrer]['pageviews'] += 1;
+                $referrers[$referrer_url]['pageviews'] += 1;
                 if ($new_visitor) {
-                    $referrers[$referrer]['visitors'] += 1;
+                    $referrers[$referrer_url]['visitors'] += 1;
                 }
             }
 		}
@@ -117,7 +117,41 @@ class Aggregator
 			return;
 		}
 
-		// store as local date using the timezone specified in WP settings
+		if (count($referrers) > 0) {
+
+		    // retrieve ID's for known referrers
+            $referrer_urls = array_keys($referrers);
+            $placeholders = array_fill(0, count($referrer_urls), '%s');
+            $placeholders = join(',', $placeholders);
+            $sql = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}ap_referrers r WHERE r.url IN({$placeholders})", $referrer_urls);
+            $results = $wpdb->get_results($sql);
+            foreach ($results as $r) {
+                $referrers[$r->url]['id'] = $r->id;
+            }
+
+            // build query for new referrers
+            $placeholders = array();
+            $values = array();
+            foreach ($referrers as $url => $r) {
+                if (! isset($r['id'])) {
+                    $placeholders[] = '(%s)';
+                    $values[] = $url;
+                }
+            }
+
+            // insert new referrers and set ID in map
+            if (count($values) > 0) {
+                // insert new referrer URL's and add ID's to map
+                $placeholders = join(',', $placeholders);
+                $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_referrers(url) VALUES {$placeholders}", $values));
+                $last_insert_id = $wpdb->insert_id;
+                foreach (array_reverse($values) as $url) {
+                    $referrers[$url]['id'] = $last_insert_id--;
+                }
+            }
+        }
+
+        // store as local date using the timezone specified in WP settings
 		$date = gmdate('Y-m-d',time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
 		$values = array();
 		$placeholders = array();
@@ -127,17 +161,15 @@ class Aggregator
 			array_push($values, 'post', $post_id, $date, $s['visitors'], $s['pageviews']);
 		}
 
-        // TODO: Add table for storing normalized referrers (to cut down on table size for repeating referrer url string every day)
-        // TODO: Replace $url with $referrer_id here, and use that for inserting
-		foreach($referrers as $url => $r) {
+		foreach($referrers as $referrer_url => $r) {
             $placeholders[] = '(%s, %d, %s, %d, %d)';
-            array_push($values, 'referrer', 0, $date, $r['visitors'], $r['pageviews']);
+            array_push($values, 'referrer', $r['id'], $date, $r['visitors'], $r['pageviews']);
         }
 
-		$placeholders = join(', ', $placeholders);
+		$placeholders = join(',', $placeholders);
 
 		// insert or update in a single query
-        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews, value) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
 		$wpdb->query($sql);
     }
 
