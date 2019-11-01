@@ -41,7 +41,7 @@ function Component() {
                                     <div className={"amount-col"}>{p.pageviews}</div>
                                 </div>
                             ))}
-                            {items.length === 0 && (<div>There's nothing here.</div>)}
+                            {items.length === 0 && (<div>There's nothing here, yet!</div>)}
                             </div>
                     </div>
             )

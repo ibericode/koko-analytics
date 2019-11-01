@@ -23,16 +23,16 @@ function Component(vnode) {
         data: {
             labels: dates,
             datasets: [
+				{
+					label: 'Visitors',
+					backgroundColor: '#d70206',
+					data: [],
+				},
                 {
                     label: 'Pageviews',
-                    backgroundColor: '#d70206',
+					backgroundColor: '#f05b4f',
                     data: [],
                 },
-                {
-                    label: 'Visitors',
-                    backgroundColor: '#f05b4f',
-                    data: [],
-                }
             ],
         },
         options: {
@@ -51,7 +51,11 @@ function Component(vnode) {
                     stacked: true,
                     gridLines: {
                         color: "#EEE",
-                    }
+                    },
+					ticks: {
+						beginAtZero: true,
+						precision: 0
+					}
                 }],
                 xAxes: [{
                     stacked: true,
@@ -109,8 +113,8 @@ function Component(vnode) {
                     visitors[d.date].y = parseInt(d.visitors);
                 });
 
-                chartOptions.data.datasets[0].data = Object.values(pageviews);
-                chartOptions.data.datasets[1].data = Object.values(visitors);
+				chartOptions.data.datasets[0].data = Object.values(visitors);
+				chartOptions.data.datasets[1].data = Object.values(pageviews);
                 chart.update();
             });
     }

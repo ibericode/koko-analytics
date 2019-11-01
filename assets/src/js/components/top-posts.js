@@ -41,7 +41,7 @@ function Component() {
                                 <div className={"amount-col"}>{p.pageviews}</div>
                             </div>
                         ))}
-                        {posts.length === 0 && (<tr><td colSpan={3}>There's nothing here.</td></tr>)}
+                        {posts.length === 0 && (<div>There's nothing here, yet!</div>)}
                     </div>
                 </div>
 
