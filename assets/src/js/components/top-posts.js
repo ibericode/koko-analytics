@@ -27,25 +27,24 @@ function Component() {
         view(vnode) {
             fetch(vnode.attrs.startDate, vnode.attrs.endDate);
             return (
-                <div className={"top-posts"}>
-                    <table>
-                        <thead className="">
-                            <th className={"main-col"}>Page</th>
-                            <th className={"amount-col"}>Visitors</th>
-                            <th className={"amount-col"}>Pageviews</th>
-                        </thead>
-                        <tbody>
+                <div className={"box top-posts"}>
+                    <div className="head box-grid">
+                        <div className={""}>Page</div>
+                        <div className={"amount-col"}>Visitors</div>
+                        <div className={"amount-col"}>Pageviews</div>
+                    </div>
+                    <div className={"body"}>
                         {posts.map(p => (
-                            <tr key={p.id} className={""}>
-                                <td><a href={p.post_permalink}>{p.post_title || '(no title)'}</a></td>
-                                <td className={"amount-col"}>{Math.max(1, p.visitors)}</td>
-                                <td className={"amount-col"}>{p.pageviews}</td>
-                            </tr>
+                            <div key={p.id} className={"box-grid"}>
+                                <div><a href={p.post_permalink}>{p.post_title || '(no title)'}</a></div>
+                                <div className={"amount-col"}>{Math.max(1, p.visitors)}</div>
+                                <div className={"amount-col"}>{p.pageviews}</div>
+                            </div>
                         ))}
                         {posts.length === 0 && (<tr><td colSpan={3}>There's nothing here.</td></tr>)}
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
+
             )
         }
     }

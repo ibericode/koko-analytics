@@ -33,7 +33,7 @@ function App() {
 					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
 					<Totals startDate={startDate} endDate={endDate} />
 					<Chart startDate={startDate} endDate={endDate} />
-					<div className={"row"}>
+					<div className={"grid"}>
 						<TopPosts startDate={startDate} endDate={endDate} />
 						<TopReferrers startDate={startDate} endDate={endDate} />
 					</div>

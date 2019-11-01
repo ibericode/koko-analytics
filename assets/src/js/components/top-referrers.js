@@ -27,25 +27,23 @@ function Component() {
         view(vnode) {
             fetch(vnode.attrs.startDate, vnode.attrs.endDate);
             return (
-                <div className={"top-referrers"}>
-                    <table>
-                        <thead className="">
-                            <th className={"main-col"}>Referrers</th>
-                            <th className={"amount-col"}>Visitors</th>
-                            <th className={"amount-col"}>Pageviews</th>
-                        </thead>
-                        <tbody>
-                        {items.map(p => (
-                            <tr key={p.id} className={""}>
-                                <td><a href={p.url}>{p.url}</a></td>
-                                <td className={"amount-col"}>{Math.max(p.visitors, 1)}</td>
-                                <td className={"amount-col"}>{p.pageviews}</td>
-                            </tr>
-                        ))}
-                        {items.length === 0 && (<tr><td colSpan={3}>There's nothing here.</td></tr>)}
-                        </tbody>
-                    </table>
-                </div>
+                    <div className={"box top-referrers"}>
+                            <div className="box-grid head">
+                                <div className={""}>Referrers</div>
+                                <div className={"amount-col"}>Visitors</div>
+                                <div className={"amount-col"}>Pageviews</div>
+                            </div>
+                            <div className={"body"}>
+                            {items.map(p => (
+                                <div key={p.id} className={"box-grid"}>
+                                    <div><a href={p.url}>{p.url}</a></div>
+                                    <div className={"amount-col"}>{Math.max(p.visitors, 1)}</div>
+                                    <div className={"amount-col"}>{p.pageviews}</div>
+                                </div>
+                            ))}
+                            {items.length === 0 && (<div>There's nothing here.</div>)}
+                            </div>
+                    </div>
             )
         }
     }

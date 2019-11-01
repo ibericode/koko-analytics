@@ -14,14 +14,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js$/i,
                 exclude: /\/node_modules\//,
                 use: {
                     loader: 'babel-loader'
                 }
            },
            {
-             test: /\.css$/,
+             test: /\.css$/i,
              use: [
                'style-loader',
                'css-loader',

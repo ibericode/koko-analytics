@@ -3,6 +3,36 @@
     margin: 0 0 12px;
 }
 
-#koko-analytics-admin .row{
-    display: flex;
+#koko-analytics-admin .grid {
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+#koko-analytics-admin .box {
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #BBB;
+    padding: 12px;
+    grid-column: span 3;
+}
+
+#koko-analytics-admin .box-grid {
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: 6fr 3fr 3fr;
+}
+
+#koko-analytics-admin .box .head {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+#koko-analytics-admin .box .body > div {
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+#koko-analytics-admin .box .amount-col {
+    text-align: right;
 }
