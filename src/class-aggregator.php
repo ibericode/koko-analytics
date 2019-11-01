@@ -45,17 +45,15 @@ class Aggregator
 	{
 		global $wpdb;
 
-		// read file
+		// read pageviews buffer file into array
 		$wp_upload_dir = wp_get_upload_dir();
 		$filename = $wp_upload_dir['basedir'] . '/pageviews.php';
-
-		// read file into array
 		$pageviews = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-		// empty file right away
+		// truncate file right away
 		file_put_contents($filename, '<?php exit; ?>' . PHP_EOL, LOCK_EX);
 
-		// remove first line (PHP header that prevents direct file access)
+		// remove first line (the PHP header that prevents direct file access)
 		array_shift($pageviews); // remove first line
 
 		// combine stats for each table
@@ -119,39 +117,6 @@ class Aggregator
 			return;
 		}
 
-		if (count($referrer_stats) > 0) {
-			// retrieve ID's for known referrers
-			$referrer_urls = array_keys($referrer_stats);
-			$placeholders = array_fill(0, count($referrer_urls), '%s');
-			$placeholders = join(',', $placeholders);
-			$sql = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls r WHERE r.url IN({$placeholders})", $referrer_urls);
-			$results = $wpdb->get_results($sql);
-			foreach ($results as $r) {
-				$referrer_stats[$r->url]['id'] = $r->id;
-			}
-
-			// build query for new referrers
-			$new_referrer_urls = array();
-			foreach ($referrer_stats as $url => $r) {
-				if (! isset($r['id'])) {
-					$new_referrer_urls[] = $url;
-				}
-			}
-
-			// insert new referrers and set ID in map
-			if (count($new_referrer_urls) > 0) {
-				$values = $new_referrer_urls;
-				$placeholders = array_fill(0, count($values), '(%s)');
-				$placeholders = join(',', $placeholders);
-				$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_urls(url) VALUES {$placeholders}", $values);
-				$wpdb->query($sql);
-				$last_insert_id = $wpdb->insert_id;
-				foreach (array_reverse($values) as $url) {
-					$referrer_stats[$url]['id'] = $last_insert_id--;
-				}
-			}
-		}
-
 		// store as local date using the timezone specified in WP settings
 		$date = gmdate('Y-m-d',time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
 
@@ -165,20 +130,47 @@ class Aggregator
 			foreach ($post_stats as $post_id => $s) {
 				array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
 			}
-			$placeholders = array_fill(0, count($post_stats), '(%s, %d, %d, %d)');
-			$placeholders = join(',', $placeholders);
+			$placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($post_stats)), ',');
 			$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
 			$wpdb->query($sql);
 		}
 
-		// insert referrer stats
 		if (count($referrer_stats) > 0) {
+			// retrieve ID's for known referrer urls
+			$referrer_urls = array_keys($referrer_stats);
+			$placeholders = rtrim(str_repeat('%s,', count($referrer_urls)), ',');
+			$sql = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls r WHERE r.url IN({$placeholders})", $referrer_urls);
+			$results = $wpdb->get_results($sql);
+			foreach ($results as $r) {
+				$referrer_stats[$r->url]['id'] = $r->id;
+			}
+
+			// build query for new referrer urls
+			$new_referrer_urls = array();
+			foreach ($referrer_stats as $url => $r) {
+				if (! isset($r['id'])) {
+					$new_referrer_urls[] = $url;
+				}
+			}
+
+			// insert new referrer urls and set ID in map
+			if (count($new_referrer_urls) > 0) {
+				$values = $new_referrer_urls;
+				$placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
+				$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_urls(url) VALUES {$placeholders}", $values);
+				$wpdb->query($sql);
+				$last_insert_id = $wpdb->insert_id;
+				foreach (array_reverse($values) as $url) {
+					$referrer_stats[$url]['id'] = $last_insert_id--;
+				}
+			}
+
+			// insert referrer stats
 			$values = array();
 			foreach ($referrer_stats as $referrer_url => $r) {
 				array_push($values, $date, $r['id'], $r['visitors'], $r['pageviews']);
 			}
-			$placeholders = array_fill(0, count($referrer_stats), '(%s, %d, %d, %d)');
-			$placeholders = join(',', $placeholders);
+			$placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($referrer_stats)), ',');
 			$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
 			$wpdb->query($sql);
 		}
