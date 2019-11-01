@@ -120,7 +120,6 @@ class Aggregator
 		}
 
 		if (count($referrer_stats) > 0) {
-
 			// retrieve ID's for known referrers
 			$referrer_urls = array_keys($referrer_stats);
 			$placeholders = array_fill(0, count($referrer_urls), '%s');
@@ -132,18 +131,17 @@ class Aggregator
 			}
 
 			// build query for new referrers
-			$placeholders = array();
-			$values = array();
+			$new_referrer_urls = array();
 			foreach ($referrer_stats as $url => $r) {
 				if (! isset($r['id'])) {
-					$placeholders[] = '(%s)';
-					$values[] = $url;
+					$new_referrer_urls[] = $url;
 				}
 			}
 
 			// insert new referrers and set ID in map
-			if (count($values) > 0) {
-				// insert new referrer URL's and add ID's to map
+			if (count($new_referrer_urls) > 0) {
+				$values = $new_referrer_urls;
+				$placeholders = array_fill(0, count($values), '(%s)');
 				$placeholders = join(',', $placeholders);
 				$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_urls(url) VALUES {$placeholders}", $values);
 				$wpdb->query($sql);
@@ -164,11 +162,10 @@ class Aggregator
 		// insert post stats
 		if (count($post_stats) > 0) {
 			$values = array();
-			$placeholders = array();
 			foreach ($post_stats as $post_id => $s) {
-				$placeholders[] = '(%s, %d, %d, %d)';
 				array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
 			}
+			$placeholders = array_fill(0, count($post_stats), '(%s, %d, %d, %d)');
 			$placeholders = join(',', $placeholders);
 			$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
 			$wpdb->query($sql);
@@ -177,18 +174,17 @@ class Aggregator
 		// insert referrer stats
 		if (count($referrer_stats) > 0) {
 			$values = array();
-			$placeholders = array();
 			foreach ($referrer_stats as $referrer_url => $r) {
-				$placeholders[] = '(%s, %d, %d, %d)';
 				array_push($values, $date, $r['id'], $r['visitors'], $r['pageviews']);
 			}
+			$placeholders = array_fill(0, count($referrer_stats), '(%s, %d, %d, %d)');
 			$placeholders = join(',', $placeholders);
 			$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
 			$wpdb->query($sql);
 		}
 	}
 
-	private function in_blacklist($url, $blacklist)
+	private function in_blacklist($url, array $blacklist)
 	{
 		foreach ($blacklist as $blacklisted_domain) {
 			if (false !== stripos($url, $blacklisted_domain)) {
