@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/dannyvankooten/koko-analytics#readme",
   "dependencies": {
-    "chartist": "^0.11.4",
-    "chartist-plugin-tooltips-updated": "^0.1.1",
+    "chart.js": "^2.9.1",
+    "chartjs-adapter-date-fns": "^1.0.0-alpha1",
     "date-fns": "^2.6.0",
     "mithril": "^2.0.4",
     "pikaday": "^1.8.0"

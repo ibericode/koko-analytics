@@ -13,7 +13,7 @@ class Admin {
 
     public function register_menu()
     {
-        add_submenu_page('index.php', __('Analytics', 'koko-analytics'), __('Analytics', 'koko-analytics'), 'manage_options', 'koko-analytics', array($this, 'show_page'));
+        add_submenu_page('index.php', __('Koko Analytics', 'koko-analytics'), __('Analytics', 'koko-analytics'), 'manage_options', 'koko-analytics', array($this, 'show_page'));
     }
 
     public function show_page()
@@ -59,8 +59,7 @@ class Admin {
             $pageviews = rand(200, 1000) / $n * ($n-$i) ;
             $visitors = rand(2, 6) / 10 * $pageviews;
 
-            $wpdb->insert($wpdb->prefix . 'koko_analytics_stats', array(
-               'id' => 0,
+            $wpdb->insert($wpdb->prefix . 'koko_analytics_site_stats', array(
                'date' => $date,
                'pageviews' => $pageviews,
                'visitors' => $visitors,

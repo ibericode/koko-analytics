@@ -1,4 +1,4 @@
-=== Analytics Plugin ===
+=== Koko Analytics ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://analyticsplugin.com/#utm_source=wp-plugin-repo&utm_medium=analytics-plugin&utm_campaign=donate-link
 Tags: analytics, statistics
@@ -13,12 +13,12 @@ Privacy-friendly analytics for your WordPress site
 
 == Description ==
 
-Analytics Plugin is a privacy-friendly analytics plugin for your WordPress site. It does not rely on any external services, so the data about your visitors never leaves your server.
+Koko Analytics is a privacy-friendly analytics plugin for your WordPress site. It does not rely on any external services, so the data about your visitors never leaves your server.
 
 
 == Installation ==
 
-1. In your WordPress admin panel, go to *Plugins > New Plugin*, search for **Analytics Plugin** and click "*Install now*"
+1. In your WordPress admin panel, go to *Plugins > New Plugin*, search for **Koko Analytics** and click "*Install now*"
 1. Alternatively, download the plugin and upload the contents of `analytics-plugin.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
 1. Activate the plugin
 

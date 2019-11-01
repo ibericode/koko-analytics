@@ -1,68 +1,100 @@
 'use strict';
 
 import m from 'mithril';
-import Chartist from 'chartist';
-import 'chartist-plugin-tooltips-updated';
+import Chart from 'chart.js';
+import 'chartjs-adapter-date-fns';
 import './chart.css';
 import { format } from 'date-fns'
 import api from '../util/api.js';
+import en from 'date-fns/locale/en-US';
 
 function Component(vnode) {
     let startDate = new Date(vnode.attrs.startDate);
     let endDate = new Date(vnode.attrs.endDate);
     let pageviews = {};
     let visitors = {};
-    let labels = [];
+    let dates = [];
     let chart;
-    let chartData = {
-        labels: [],
-        series: [],
-    };
-    let strokeWidth = 100 / labels.length;
+    const timeFormat = 'YYYY-MM-DD';
+    Chart.defaults.global.defaultFontColor = '#666';
+    Chart.defaults.global.defaultFontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif';
     const chartOptions = {
-        fullWidth: true,
-        axisY: {
-            onlyInteger: true,
-            low: 0,
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: 'Pageviews',
+                    backgroundColor: '#d70206',
+                    data: [],
+                },
+                {
+                    label: 'Visitors',
+                    backgroundColor: '#f05b4f',
+                    data: [],
+                }
+            ],
         },
-        stackBars: true,
-        stackMode: 'overlap',
-        seriesBarDistance: 5,
-        axisX: {
-        },
-        plugins: [
-            Chartist.plugins.tooltip()
-        ]
+        options: {
+            legend: { display: false },
+            tooltips: {
+                backgroundColor: "#FFF",
+                bodyFontColor: "#444",
+                titleFontColor: "#23282d",
+                borderColor: "#BBB",
+                borderWidth: 1,
+            },
+            responsive: true,
+            aspectRatio: 3,
+            scales: {
+                yAxes: [{
+                    stacked: true,
+                    gridLines: {
+                        color: "#EEE",
+                    }
+                }],
+                xAxes: [{
+                    stacked: true,
+                    type: 'time',
+                    time: {
+                        parser: timeFormat,
+                        tooltipFormat: 'MMM d, yyyy',
+                        minUnit: 'day',
+                    },
+                    distribution: 'series',
+                    adapters: {
+                        date: {
+                            locale: en
+                        }
+                    },
+                    gridLines: {
+                        display: false,
+                    },
+                }],
+            }
+        }
     };
 
     function updateChart() {
         // empty previous data
-        labels = [];
+        dates = [];
         pageviews = {};
         visitors = {};
 
-        // calculate number of ticks (estimate)
-        let ticks = Math.floor((endDate.getTime() - startDate.getTime()) / 86400 / 1000);
-
-        // fill data with 0's and set labels
-        for(let i = new Date(startDate); i <= endDate; i.setDate(i.getDate() + 1)) {
-            let key = format(i, 'yyyy-MM-dd');
-
-            if (ticks > 31) {
-                if (i.getDate() === 1) {
-                    labels.push(format(i, 'MMM'));
-                } else {
-                    labels.push('');
-                }
-            } else {
-                labels.push(format(i, 'MMM d'));
-            }
-
-            pageviews[key] = 0;
-            visitors[key] = 0;
+        // fill chart with 0's
+        let i = 0;
+        for(let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            let key = format(d, 'yyyy-MM-dd');
+            dates[i] = new Date(d);
+            pageviews[key] = { x: dates[i], y: 0 };
+            visitors[key] = { x: dates[i], y: 0 };
+            i++;
         }
 
-        strokeWidth = 100 / labels.length;
+        chartOptions.data.labels = dates;
+        chartOptions.data.datasets[0].data = [];
+        chartOptions.data.datasets[1].data =  [];
+        chart.update();
 
         // fetch stats
         api.request(`/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
@@ -73,43 +105,24 @@ function Component(vnode) {
                         return;
                     }
 
-                    pageviews[d.date] = parseInt(d.pageviews);
-                    visitors[d.date] = parseInt(d.visitors);
+                    pageviews[d.date].y = parseInt(d.pageviews);
+                    visitors[d.date].y = parseInt(d.visitors);
                 });
 
-                chartData = {
-                    labels,
-                    series: [
-                        {
-                            name: 'Pageviews',
-                            data: Object.values(pageviews)
-                        },
-                        {
-                            name: "Visitors",
-                            data: Object.values(visitors)
-                        }
-                    ]
-                };
-
-                chart.update(chartData);
+                chartOptions.data.datasets[0].data = Object.values(pageviews);
+                chartOptions.data.datasets[1].data = Object.values(visitors);
+                chart.update();
             });
     }
 
     return {
         oncreate: (vnode) => {
-            chart = new Chartist.Bar('.ct-chart', chartData, chartOptions);
-            chart.on('draw', function(data) {
-                if(data.type === 'bar') {
-                    data.element.attr({
-                        style: `stroke-width: ${strokeWidth}%`,
-                    });
-                }
-            });
-
-            updateChart();
+            const ctx = document.getElementById('koko-analytics-chart').getContext('2d');
+            chart = new Chart(ctx, chartOptions);
+           updateChart();
         },
         onupdate: (vnode) => {
-            if (vnode.attrs.startDate.getTime()  === startDate.getTime() && vnode.attrs.endDate.getTime() === endDate.getTime()) {
+            if (vnode.attrs.startDate.getTime() === startDate.getTime() && vnode.attrs.endDate.getTime() === endDate.getTime()) {
                 return;
             }
 
@@ -120,7 +133,7 @@ function Component(vnode) {
         view: (vnode) => {
             return (
                 <div className="chart-container">
-                    <div className="ct-chart ct-double-octave"> </div>
+                    <canvas id="koko-analytics-chart"></canvas>
                 </div>
             )
         }
