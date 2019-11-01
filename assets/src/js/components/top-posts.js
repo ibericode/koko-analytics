@@ -3,6 +3,7 @@
 import m from 'mithril';
 import {format} from "date-fns";
 import './top-posts.css';
+import api from '../util/api.js';
 
 function Component() {
     let startDate = null;
@@ -16,7 +17,7 @@ function Component() {
 
         startDate = s;
         endDate = e;
-        m.request(`${ap.root}analytics-plugin/v1/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
+        api.request(`/posts?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
             .then(p => {
                 posts = p;
             });

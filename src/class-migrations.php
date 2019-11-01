@@ -1,6 +1,6 @@
 <?php
 
-namespace AP;
+namespace KokoAnalytics;
 
 use Exception;
 

@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Analytics Plugin
+Plugin Name: Koko Analytics
 Version: 1.0
-Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=analytics-plugin&utm_campaign=plugins-page
+Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
-Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=analytics-plugin&utm_campaign=plugins-page
-Text Domain: analytics-plugin
+Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Text Domain: koko-analytics
 Domain Path: /languages/
 License: GPL v3
 
@@ -26,11 +26,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace AP;
+namespace KokoAnalytics;
 
-define('AP_VERSION', '1.0');
-define('AP_PLUGIN_FILE', __FILE__);
-define('AP_PLUGIN_DIR', __DIR__);
+define('KOKO_ANALYTICS_VERSION', '1.0');
+define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
+define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 // for compat with site-wide autoloader
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
@@ -52,11 +52,11 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
     add_action('wp_head', function() {
 		// TODO: Handle "term" requests so we track both terms and post types.
 		$post_id = is_singular() ? (int) get_queried_object_id() : 0;
-		$use_custom_endpoint = file_exists(ABSPATH . '/ap-collect.php');
-        wp_enqueue_script('ap-tracker', plugins_url('assets/dist/js/tracker.js', AP_PLUGIN_FILE), array(), AP_VERSION, true);
-        wp_localize_script('ap-tracker', 'ap', array(
+		$use_custom_endpoint = file_exists(ABSPATH . '/koko-analytics-collect.php');
+        wp_enqueue_script('koko-analytics-tracker', plugins_url('assets/dist/js/tracker.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+        wp_localize_script('koko-analytics-tracker', 'koko_analytics', array(
             'post_id' => $post_id,
-			'tracker_url' => $use_custom_endpoint ? site_url('/ap-collect.php') : admin_url('admin-ajax.php'),
+			'tracker_url' => $use_custom_endpoint ? site_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php'),
         ));
 
 

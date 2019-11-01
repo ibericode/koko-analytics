@@ -1,6 +1,6 @@
 <?php
 
-namespace AP;
+namespace KokoAnalytics;
 
 class Rest
 {
@@ -11,7 +11,7 @@ class Rest
 
 	function register_routes()
 	{
-		register_rest_route( 'analytics-plugin/v1', '/stats', array(
+		register_rest_route( 'koko-analytics/v1', '/stats', array(
 			'methods' => 'GET',
 			'callback' => array($this, 'get_stats'),
 			'args' => array(
@@ -27,7 +27,7 @@ class Rest
 			}
 		));
 
-        register_rest_route( 'analytics-plugin/v1', '/posts', array(
+        register_rest_route( 'koko-analytics/v1', '/posts', array(
             'methods' => 'GET',
             'callback' => array($this, 'get_posts'),
             'args' => array(
@@ -43,7 +43,7 @@ class Rest
             }
         ));
 
-        register_rest_route( 'analytics-plugin/v1', '/referrers', array(
+        register_rest_route( 'koko-analytics/v1', '/referrers', array(
             'methods' => 'GET',
             'callback' => array($this, 'get_referrers'),
             'args' => array(
@@ -72,7 +72,7 @@ class Rest
 	    $post_id = 0;
 	    $start_date = isset($params['start_date']) ? $params['start_date'] : date("Y-m-d", strtotime('1st of this month'));
         $end_date = isset($params['end_date']) ? $params['end_date'] : date("Y-m-d");
-        $sql = $wpdb->prepare("SELECT date, visitors, pageviews FROM {$wpdb->prefix}ap_stats s WHERE s.type = 'post' AND s.id = %d AND s.date >= %s AND s.date <= %s", [ $post_id, $start_date, $end_date ]);
+        $sql = $wpdb->prepare("SELECT date, visitors, pageviews FROM {$wpdb->prefix}koko_analytics_stats s WHERE s.type = 'post' AND s.id = %d AND s.date >= %s AND s.date <= %s", [ $post_id, $start_date, $end_date ]);
 	    $result = $wpdb->get_results($sql);
 		return $result;
 	}
@@ -83,7 +83,7 @@ class Rest
         $params = $request->get_query_params();
         $start_date = isset($params['start_date']) ? $params['start_date'] : date("Y-m-d", strtotime('1st of this month'));
         $end_date = isset($params['end_date']) ? $params['end_date'] : date("Y-m-d");
-        $sql = $wpdb->prepare("SELECT id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}ap_stats s WHERE s.type = 'post' AND s.id > 0 AND s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, 10", [ $start_date, $end_date ]);
+        $sql = $wpdb->prepare("SELECT id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_stats s WHERE s.type = 'post' AND s.id > 0 AND s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, 10", [ $start_date, $end_date ]);
         $results = $wpdb->get_results($sql);
         if (empty($results)) {
         	return array();
@@ -119,7 +119,7 @@ class Rest
         $params = $request->get_query_params();
         $start_date = isset($params['start_date']) ? $params['start_date'] : date("Y-m-d", strtotime('1st of this month'));
         $end_date = isset($params['end_date']) ? $params['end_date'] : date("Y-m-d");
-        $sql = $wpdb->prepare("SELECT url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}ap_stats s LEFT JOIN {$wpdb->prefix}ap_referrers r ON r.id = s.id WHERE s.type = 'referrer' AND s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, 10", [ $start_date, $end_date ]);
+        $sql = $wpdb->prepare("SELECT url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_referrers r ON r.id = s.id WHERE s.type = 'referrer' AND s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, 10", [ $start_date, $end_date ]);
         $results = $wpdb->get_results($sql);
 
         return $results;

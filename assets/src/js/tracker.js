@@ -1,5 +1,7 @@
 'use strict';
 
+const vars = window.koko_analytics;
+
 function stringifyObject(obj) {
     return Object.keys(obj).map(function(k) {
         return window.encodeURIComponent(k) + '=' + window.encodeURIComponent(obj[k]);
@@ -55,8 +57,8 @@ function trackPageview() {
         return;
     }
 
-    const cookie = getCookie('_ap_pages_viewed');
-    const postId = window.ap.post_id;
+    const cookie = getCookie('_koko_analytics_pages_viewed');
+    const postId = vars.post_id;
     const isNewVisitor = cookie.length === 0;
     const pagesViewed = cookie.split(',').filter(id => id !== '');
     const isUniquePageview = pagesViewed.indexOf(postId) === -1;
@@ -91,7 +93,7 @@ function trackPageview() {
         }
         let expires = new Date();
         expires.setHours(expires.getHours() + 6);
-        setCookie('_ap_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
+        setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
     };
 
     // clean-up tracking pixel after 5s or onload
@@ -99,7 +101,7 @@ function trackPageview() {
     window.setTimeout(finalize, 5000);
 
     // add to DOM to fire request
-    img.src = window.ap.tracker_url + '?action=ap_collect&' + stringifyObject(d);
+    img.src = vars.tracker_url + '?action=koko_analytics_collect&' + stringifyObject(d);
     document.body.appendChild(img);
 }
 

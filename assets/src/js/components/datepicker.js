@@ -7,6 +7,7 @@ import './datepicker.css';
 import { format } from 'date-fns'
 const now = new Date();
 
+
 // TODO: Add arrow keys for quickly browsing to next period
 function Component(vnode) {
     let startDate = new Date(vnode.attrs.startDate);

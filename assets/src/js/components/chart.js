@@ -5,7 +5,7 @@ import Chartist from 'chartist';
 import 'chartist-plugin-tooltips-updated';
 import './chart.css';
 import { format } from 'date-fns'
-
+import api from '../util/api.js';
 
 function Component(vnode) {
     let startDate = new Date(vnode.attrs.startDate);
@@ -65,7 +65,7 @@ function Component(vnode) {
         strokeWidth = 100 / labels.length;
 
         // fetch stats
-        m.request(`${ap.root}analytics-plugin/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
+        api.request(`/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
             .then(data => {
                 data.forEach(d => {
                     if (typeof(pageviews[d.date]) === "undefined") {

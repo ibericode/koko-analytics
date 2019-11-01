@@ -1,11 +1,11 @@
 <?php
 
-namespace AP;
+namespace KokoAnalytics;
 
 function maybe_collect_request() {
     // since we call this function (early) on every AJAX request, detect our specific request here
     // this allows us to short-circuit a bunch of unrelated AJAX stuff and gain a lot of performance
-    if (! isset($_GET['action']) || $_GET['action'] !== 'ap_collect' || ! defined('DOING_AJAX') || !DOING_AJAX) {
+    if (! isset($_GET['action']) || $_GET['action'] !== 'koko_analytics_collect' || ! defined('DOING_AJAX') || !DOING_AJAX) {
         return;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AP;
+namespace KokoAnalytics;
 
 class Admin {
 
@@ -13,18 +13,18 @@ class Admin {
 
     public function register_menu()
     {
-        add_submenu_page('index.php', __('Analytics', 'analytics-plugin'), __('Analytics', 'analytics-plugin'), 'manage_options', 'analytics-plugin', array($this, 'show_page'));
+        add_submenu_page('index.php', __('Analytics', 'koko-analytics'), __('Analytics', 'koko-analytics'), 'manage_options', 'koko-analytics', array($this, 'show_page'));
     }
 
     public function show_page()
     {
-        wp_enqueue_script('ap-admin', plugins_url('assets/dist/js/admin.js', AP_PLUGIN_FILE), array(), AP_VERSION, true);
-        wp_localize_script( 'ap-admin', 'ap', array(
+        wp_enqueue_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+        wp_localize_script( 'koko-analytics-admin', 'koko_analytics', array(
             'root' => esc_url_raw( rest_url() ),
             'nonce' => wp_create_nonce( 'wp_rest' )
         ) );
 
-        require AP_PLUGIN_DIR . '/views/admin-page.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
     }
 
     public function maybe_run_migrations()
@@ -33,21 +33,21 @@ class Admin {
             return;
         }
 
-        $from = isset($_GET['ap_migrate_from_version']) ? $_GET['ap_migrate_from_version'] : get_option('ap_version', '0.0.1');
-        if (version_compare($from, AP_VERSION, '>=')) {
+        $from = isset($_GET['koko_analytics_migrate_from_version']) ? $_GET['koko_analytics_migrate_from_version'] : get_option('koko_analytics_version', '0.0.1');
+        if (version_compare($from, KOKO_ANALYTICS_VERSION, '>=')) {
             return;
         }
 
-        $migrations = new Migrations($from, AP_VERSION, AP_PLUGIN_DIR . '/migrations/');
+        $migrations = new Migrations($from, KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
         $migrations->run();
-        update_option('ap_version', AP_VERSION);
+        update_option('koko_analytics_version', KOKO_ANALYTICS_VERSION);
     }
 
     public function maybe_seed()
     {
         global $wpdb;
 
-        if (!isset($_GET['ap_seed']) || !current_user_can('manage_options')) {
+        if (!isset($_GET['koko_analytics_seed']) || !current_user_can('manage_options')) {
             return;
         }
 
@@ -59,7 +59,7 @@ class Admin {
             $pageviews = rand(200, 1000) / $n * ($n-$i) ;
             $visitors = rand(2, 6) / 10 * $pageviews;
 
-            $wpdb->insert($wpdb->prefix . 'ap_stats', array(
+            $wpdb->insert($wpdb->prefix . 'koko_analytics_stats', array(
                'id' => 0,
                'date' => $date,
                'pageviews' => $pageviews,

@@ -1,22 +1,22 @@
 <?php
 
-namespace AP;
+namespace KokoAnalytics;
 
 class Aggregator
 {
     public function init()
     {
         add_filter('cron_schedules', array($this, 'add_interval'));
-        add_action('ap_aggregate_stats', array($this, 'aggregate'));
+        add_action('koko_analytics_aggregate_stats', array($this, 'aggregate'));
         add_action('init', array($this, 'maybe_schedule'));
         add_action('init', array($this, 'maybe_aggregate'));
     }
 
     public function add_interval($intervals)
     {
-        $intervals['ap_stats_aggregate_interval'] = array(
+        $intervals['koko_analytics_stats_aggregate_interval'] = array(
             'interval' => 1 * 60, // 1 minute
-            'display'  => __('Every minute', 'analytics-plugin'),
+            'display'  => __('Every minute', 'koko-analytics'),
         );
         return $intervals;
     }
@@ -27,14 +27,14 @@ class Aggregator
             return;
         }
 
-        if (!wp_next_scheduled('ap_aggregate_stats')) {
-            wp_schedule_event(time() + 1, 'ap_stats_aggregate_interval', 'ap_aggregate_stats');
+        if (!wp_next_scheduled('koko_analytics_aggregate_stats')) {
+            wp_schedule_event(time() + 1, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
         }
     }
 
     public function maybe_aggregate()
 	{
-		if (!isset($_GET['ap_aggregate']) || !current_user_can('manage_options')) {
+		if (!isset($_GET['koko_analytics_aggregate']) || !current_user_can('manage_options')) {
 			return;
 		}
 
@@ -123,7 +123,7 @@ class Aggregator
             $referrer_urls = array_keys($referrers);
             $placeholders = array_fill(0, count($referrer_urls), '%s');
             $placeholders = join(',', $placeholders);
-            $sql = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}ap_referrers r WHERE r.url IN({$placeholders})", $referrer_urls);
+            $sql = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrers r WHERE r.url IN({$placeholders})", $referrer_urls);
             $results = $wpdb->get_results($sql);
             foreach ($results as $r) {
                 $referrers[$r->url]['id'] = $r->id;
@@ -143,7 +143,7 @@ class Aggregator
             if (count($values) > 0) {
                 // insert new referrer URL's and add ID's to map
                 $placeholders = join(',', $placeholders);
-                $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_referrers(url) VALUES {$placeholders}", $values));
+                $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrers(url) VALUES {$placeholders}", $values));
                 $last_insert_id = $wpdb->insert_id;
                 foreach (array_reverse($values) as $url) {
                     $referrers[$url]['id'] = $last_insert_id--;
@@ -169,7 +169,7 @@ class Aggregator
 		$placeholders = join(',', $placeholders);
 
 		// insert or update in a single query
-        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}ap_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_stats(type, id, date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
 		$wpdb->query($sql);
     }
 

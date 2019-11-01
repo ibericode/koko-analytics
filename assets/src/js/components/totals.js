@@ -4,6 +4,7 @@ import m from 'mithril';
 import {format} from "date-fns";
 import './totals.css';
 import numbers from '../util/numbers.js';
+import api from '../util/api.js';
 
 function Component(vnode) {
     let startDate;
@@ -27,7 +28,7 @@ function Component(vnode) {
 
 
         // fetch stats for this period
-        m.request(`${ap.root}analytics-plugin/v1/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
+        api.request(`/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
             .then(data => {
                visitors = 0;
                pageviews = 0;
@@ -38,7 +39,7 @@ function Component(vnode) {
                });
 
                 // fetch stats from period period to compare against
-                m.request(`${ap.root}analytics-plugin/v1/stats?start_date=${format(previousStartDate, 'yyyy-MM-dd')}&end_date=${format(previousEndDate, 'yyyy-MM-dd')}&count=1`)
+                api.request(`/stats?start_date=${format(previousStartDate, 'yyyy-MM-dd')}&end_date=${format(previousEndDate, 'yyyy-MM-dd')}&count=1`)
                     .then(data => {
                        let previousVisitors = 0;
                        let previousPageviews = 0;

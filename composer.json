@@ -1,8 +1,8 @@
 {
-  "name": "dannyvankooten/analytics-plugin",
+  "name": "ibericode/koko-analytics",
   "description": "Privacy-friendly analytics for your WordPress site",
   "keywords": ["wordpress", "analytics", "statistics"],
-  "homepage": "https://wordpress.org/plugins/analytics-plugin/",
+  "homepage": "https://wordpress.org/plugins/koko-analytics/",
   "license": "GPL-3.0-or-later",
   "authors": [
     {

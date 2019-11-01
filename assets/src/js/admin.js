@@ -1,20 +1,13 @@
 'use strict';
 
+import './admin.css';
+
 import m from 'mithril';
 import Chart from './components/chart.js';
 import Datepicker from './components/datepicker.js';
 import Totals from './components/totals.js';
 import TopPosts from './components/top-posts.js';
 import TopReferrers from './components/top-referrers.js';
-import './admin.css';
-
-m._request = m.request;
-m.request = function(url, opts = {}) {
-	opts.headers = {
-		"X-WP-Nonce": ap.nonce
-	};
-	return m._request(url, opts);
-};
 const now = new Date();
 
 function App() {
@@ -50,4 +43,4 @@ function App() {
     }
 }
 
-m.mount(document.getElementById('ap-mount'), App);
+m.mount(document.getElementById('koko-analytics-mount'), App);

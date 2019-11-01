@@ -1,8 +1,8 @@
-#ap-admin h1 {
+#koko-analytics-admin h1 {
     padding: 0;
     margin: 0 0 12px;
 }
 
-#ap-admin .row{
+#koko-analytics-admin .row{
     display: flex;
 }
