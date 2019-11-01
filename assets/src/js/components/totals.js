@@ -22,7 +22,7 @@ function Component(vnode) {
         startDate = new Date(vnode.attrs.startDate);
         endDate = new Date(vnode.attrs.endDate);
 
-        let diff = (endDate.getTime() - startDate.getTime());
+        let diff = (endDate.getTime() - startDate.getTime()) - 1;
         let previousStartDate = new Date(startDate.getTime() - diff);
         let previousEndDate = new Date(endDate.getTime() - diff);
 

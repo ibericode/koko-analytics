@@ -50,7 +50,7 @@ class Aggregator
 		$filename = $wp_upload_dir['basedir'] . '/pageviews.php';
 
 		// read file into array
-		$pageviews = file($filename);
+		$pageviews = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 		// empty file right away
 		file_put_contents($filename, '<?php exit; ?>' . PHP_EOL, LOCK_EX);
@@ -65,6 +65,9 @@ class Aggregator
         );
         $post_stats = array();
 		$referrer_stats = array();
+
+		// read blacklist into array
+		$blacklist = $list = file(KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blacklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 		foreach($pageviews as $p) {
 			$p = explode(',', $p);
@@ -96,7 +99,7 @@ class Aggregator
 			}
 
 			// increment referrals
-			if ($referrer_url !== '') {
+			if ($referrer_url !== '' && ! $this->in_blacklist($referrer_url, $blacklist)) {
                 if (!isset($referrer_stats[$referrer_url])) {
                     $referrer_stats[$referrer_url] = array(
                         'pageviews' => 0,
@@ -150,7 +153,7 @@ class Aggregator
                 }
             }
         }
-		
+
         // store as local date using the timezone specified in WP settings
 		$date = gmdate('Y-m-d',time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
 
@@ -183,8 +186,17 @@ class Aggregator
             $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
-
-
     }
+
+    private function in_blacklist($url, $blacklist)
+	{
+		foreach ($blacklist as $blacklisted_domain) {
+			if (false !== stripos($url, $blacklisted_domain)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }
