@@ -4,6 +4,7 @@ import m from 'mithril';
 import {format} from "date-fns";
 import './top-posts.css';
 import api from '../util/api.js';
+const i18n = window.koko_analytics.i18n;
 
 function Component() {
     let startDate = null;
@@ -29,9 +30,9 @@ function Component() {
             return (
                 <div className={"box top-posts"}>
                     <div className="head box-grid">
-                        <div className={""}>Page</div>
-                        <div className={"amount-col"}>Visitors</div>
-                        <div className={"amount-col"}>Pageviews</div>
+                        <div className={""}>{i18n['Pages']}</div>
+                        <div className={"amount-col"}>{i18n['Visitors']}</div>
+                        <div className={"amount-col"}>{i18n['Pageviews']}</div>
                     </div>
                     <div className={"body"}>
                         {posts.map(p => (
@@ -41,7 +42,7 @@ function Component() {
                                 <div className={"amount-col"}>{p.pageviews}</div>
                             </div>
                         ))}
-                        {posts.length === 0 && (<div>There's nothing here, yet!</div>)}
+                        {posts.length === 0 && (<div>{i18n['There\'s nothing here, yet!']}</div>)}
                     </div>
                 </div>
 

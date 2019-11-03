@@ -5,6 +5,7 @@ import {format} from "date-fns";
 import './totals.css';
 import numbers from '../util/numbers.js';
 import api from '../util/api.js';
+const i18n = window.koko_analytics.i18n;
 
 function Component(vnode) {
     let startDate;
@@ -78,12 +79,12 @@ function Component(vnode) {
             return (
                 <div className="totals-container">
                     <div className="totals-box">
-                        <div className="totals-label">Total visitors</div>
+                        <div className="totals-label">{i18n['Total visitors']}</div>
                         <div className="totals-amount">{numbers.formatPretty(visitors)}</div>
                         <div className={"totals-change " + (visitorsChange > 0 ? "up" : visitorsChange === 0 ? "neutral" : "down")}> {numbers.formatPercentage(visitorsChange)}</div>
                     </div>
                     <div className="totals-box">
-                        <div className="totals-label">Total pageviews</div>
+                        <div className="totals-label">{i18n['Total pageviews']}</div>
                         <div className="totals-amount">{numbers.formatPretty(pageviews)}</div>
                         <div className={"totals-change " + (pageviewsChange > 0 ? "up" : pageviewsChange === 0 ? "neutral" : "down")}> {numbers.formatPercentage(pageviewsChange)}</div>
                     </div>

@@ -20,8 +20,27 @@ class Admin {
     {
         wp_enqueue_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
         wp_localize_script( 'koko-analytics-admin', 'koko_analytics', array(
-            'root' => esc_url_raw( rest_url() ),
-            'nonce' => wp_create_nonce( 'wp_rest' )
+            'root' => rest_url(),
+            'nonce' => wp_create_nonce('wp_rest'),
+			'i18n' => array(
+				'Date range' => __('Date range', 'koko-analytics'),
+				'Last week' => __('Last week', 'koko-analytics'),
+				'Last month' => __('Last month', 'koko-analytics'),
+				'Last year' => __('Last year', 'koko-analytics'),
+				'Pages' => __('Pages', 'koko-analytics'),
+				'Pageviews' => __('Pageviews', 'koko-analytics'),
+				'Referrers' => __('Referrers', 'koko-analytics'),
+				'There\'s nothing here, yet!' => __('There\'s nothing here, yet!', 'koko-analytics'),
+				'This week' => __('This week', 'koko-analytics'),
+				'This month' => __('This month', 'koko-analytics'),
+				'This year' => __('This year', 'koko-analytics'),
+				'Total visitors' => __('Total visitors', 'koko-analytics'),
+				'Total pageviews' => __('Total pageviews', 'koko-analytics'),
+				'Visitors' => __('Visitors', 'koko-analytics'),
+			),
+			'options' => array(
+				'startOfWeek' => (int) get_option('start_of_week'),
+			)
         ) );
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';

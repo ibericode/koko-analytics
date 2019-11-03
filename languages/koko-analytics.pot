@@ -1,0 +1,104 @@
+# Copyright (C) 2019 ibericode
+# This file is distributed under the same license as the Koko Analytics plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Koko Analytics 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-11-03T13:34:48+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.2.0\n"
+"X-Domain: koko-analytics\n"
+
+#. Plugin Name of the plugin
+#: src/class-admin.php:16
+msgid "Koko Analytics"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://dvk.co/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page"
+msgstr ""
+
+#. Description of the plugin
+msgid "Privacy-friendly analytics for your WordPress site."
+msgstr ""
+
+#. Author of the plugin
+msgid "ibericode"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page"
+msgstr ""
+
+#: views/admin-page.php:6
+msgid "Please enable JavaScript for this page to work."
+msgstr ""
+
+#: src/class-admin.php:16
+msgid "Analytics"
+msgstr ""
+
+#: src/class-admin.php:26
+msgid "Date range"
+msgstr ""
+
+#: src/class-admin.php:27
+msgid "Last week"
+msgstr ""
+
+#: src/class-admin.php:28
+msgid "Last month"
+msgstr ""
+
+#: src/class-admin.php:29
+msgid "Last year"
+msgstr ""
+
+#: src/class-admin.php:30
+msgid "Pages"
+msgstr ""
+
+#: src/class-admin.php:31
+msgid "Pageviews"
+msgstr ""
+
+#: src/class-admin.php:32
+msgid "Referrers"
+msgstr ""
+
+#: src/class-admin.php:33
+msgid "There's nothing here, yet!"
+msgstr ""
+
+#: src/class-admin.php:34
+msgid "This week"
+msgstr ""
+
+#: src/class-admin.php:35
+msgid "This month"
+msgstr ""
+
+#: src/class-admin.php:36
+msgid "This year"
+msgstr ""
+
+#: src/class-admin.php:37
+msgid "Total visitors"
+msgstr ""
+
+#: src/class-admin.php:38
+msgid "Total pageviews"
+msgstr ""
+
+#: src/class-admin.php:39
+msgid "Visitors"
+msgstr ""
+
+#: src/class-aggregator.php:19
+msgid "Every minute"
+msgstr ""

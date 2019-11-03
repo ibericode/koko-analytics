@@ -41,6 +41,9 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 } else if(defined('DOING_CRON') && DOING_CRON) {
 
 } else if (is_admin()) {
+	// load translation files
+	load_plugin_textdomain('koko-analytics', false, __DIR__ . '/languages');
+
 	require __DIR__ . '/src/class-migrations.php';
 	require __DIR__ . '/src/class-admin.php';
     $admin = new Admin();
