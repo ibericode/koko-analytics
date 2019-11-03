@@ -16,6 +16,7 @@ function Component(vnode) {
     let endDate = new Date(vnode.attrs.endDate);
     let picking = false;
     let open = false;
+    let datepicker;
 
     function toggle() {
     	open = !open;
@@ -69,7 +70,7 @@ function Component(vnode) {
 
 				case 'last_month':
 					startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0);
-					endDate = new Date(startDate.getFullYear(), startDate.getMonth(), 0, 23, 59, 59);
+					endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59);
 					break;
 
 				case 'this_year':
@@ -79,10 +80,16 @@ function Component(vnode) {
 
 				case 'last_year':
 					startDate = new Date(now.getFullYear()-1, 0, 1, 0, 0, 0);
-					endDate = new Date(startDate.getFullYear()-1, 12, 0, 23, 59, 59);
+					endDate = new Date(startDate.getFullYear(), 12, 0, 23, 59, 59);
 					break;
 			}
 
+			// update datepicker to match preset
+			datepicker.setStartRange(startDate);
+			datepicker.setEndRange(endDate);
+			datepicker.gotoDate(endDate);
+
+			// update app state
 			vnode.attrs.onUpdate(startDate, endDate);
 			m.redraw();
 		}
@@ -92,19 +99,19 @@ function Component(vnode) {
         oncreate: (vnode) => {
         	document.body.addEventListener('click', maybeClose);
 
-            new Pikaday({
+            datepicker = new Pikaday({
 				field: document.getElementById('start-date-input'),
 				bound: false,
 				firstDay: options.startOfWeek,
-                maxDate: new Date(now),
                 onSelect: function(date) {
+					console.log("On select");
 					if (!picking || startDate === null || date < startDate) {
-						startDate = this.getDate();
+						startDate = date;
 						endDate = null;
 						this.setStartRange(startDate);
 						this.setEndRange(null);
 					} else {
-						endDate = this.getDate();
+						endDate = date;
 						this.setEndRange(endDate);
 					}
 
