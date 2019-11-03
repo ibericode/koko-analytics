@@ -53,17 +53,65 @@ class Admin {
 
         $wpdb->suppress_errors(true);
 
+        $query = new \WP_Query();
+        $posts = $query->query(array(
+        	'posts_per_page' => 12,
+			'post_type' => 'any',
+			'post_status' => 'publish',
+		));
+        $post_count = count($posts);
+        $referrer_urls = array();
+        foreach (array(
+					 'https://www.wordpress.org/',
+					 'https://www.wordpress.org/plugins/koko-analytics',
+					 'https://www.ibericode.com/',
+					 'https://duckduckgo.com/',
+					 'https://www.mozilla.org/',
+					 'https://www.eff.org/',
+					 'https://letsencrypt.org/',
+					 'https://dannyvankooten.com/',
+					 'https://github.com/ibericode/koko-analytics',
+					 'https://lobste.rs/',
+					 'https://joinmastodon.org/',
+					 'https://www.php.net/',
+					 'https://mariadb.org/',
+				 ) as $url) {
+			$wpdb->insert($wpdb->prefix . 'koko_analytics_referrer_urls', array(
+				'url' => $url,
+			));
+			$referrer_urls[$wpdb->insert_id] = $url;
+		}
+        $referrer_count = count($referrer_urls);
+
         $n = 3*365;
         for ($i = 0; $i < $n; $i++) {
             $date = date("Y-m-d", strtotime(sprintf('-%d days', $i)));
-            $pageviews = rand(200, 1000) / $n * ($n-$i) ;
-            $visitors = rand(2, 6) / 10 * $pageviews;
+            $pageviews = rand(500, 1000) / $n * ($n-$i) ;
+            $visitors = $pageviews * rand(2, 6) / 10;
 
             $wpdb->insert($wpdb->prefix . 'koko_analytics_site_stats', array(
                'date' => $date,
                'pageviews' => $pageviews,
                'visitors' => $visitors,
 			));
+
+            foreach ($posts as $post) {
+				$wpdb->insert($wpdb->prefix . 'koko_analytics_post_stats', array(
+					'date' => $date,
+					'id' => $post->ID,
+					'pageviews' => round($pageviews / $post_count * rand(5, 15) / 10 ),
+					'visitors' => round($visitors / $post_count * rand(5, 15) / 10),
+				));
+			}
+
+            foreach ($referrer_urls as $id => $referrer_url) {
+				$wpdb->insert($wpdb->prefix . 'koko_analytics_referrer_stats', array(
+					'date' => $date,
+					'id' => $id,
+					'pageviews' => round($pageviews / $referrer_count * rand(5, 15) / 10),
+					'visitors' => round($visitors / $referrer_count * rand(5, 15) / 10)
+				));
+			}
         }
     }
 }
