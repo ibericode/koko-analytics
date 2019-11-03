@@ -5,6 +5,7 @@ import {format} from "date-fns";
 import './top-referrers.css';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
+const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/;
 
 function Component() {
     let startDate = null;
@@ -24,6 +25,10 @@ function Component() {
             });
     };
 
+    function formatUrl(url) {
+		return url.replace(URL_REGEX, '$2')
+	}
+
     return {
         view(vnode) {
             fetch(vnode.attrs.startDate, vnode.attrs.endDate);
@@ -37,7 +42,7 @@ function Component() {
                             <div className={"body"}>
                             {items.map(p => (
                                 <div key={p.id} className={"box-grid"}>
-                                    <div><a href={p.url}>{p.url}</a></div>
+                                    <div><a href={p.url}>{formatUrl(p.url)}</a></div>
                                     <div className={"amount-col"}>{Math.max(p.visitors, 1)}</div>
                                     <div className={"amount-col"}>{p.pageviews}</div>
                                 </div>
