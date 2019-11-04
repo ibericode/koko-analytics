@@ -20,7 +20,7 @@
 #koko-analytics-admin .box-grid {
     display: grid;
     grid-gap: 12px;
-    grid-template-columns: 6fr 3fr 3fr;
+    grid-template-columns: 8fr 2fr 2fr;
 }
 
 #koko-analytics-admin .box .head {

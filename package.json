@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "watch": "NODE_ENV=development webpack --watch"
+    "watch": "NODE_ENV=development webpack --watch",
+	"download-referrer-blacklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blacklist",
+	"create-pot": "wp i18n make-pot ."
   },
   "private": true,
   "repository": {

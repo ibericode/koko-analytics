@@ -32,11 +32,6 @@ define('KOKO_ANALYTICS_VERSION', '1.0');
 define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
-// for compat with site-wide autoloader
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require __DIR__ . '/vendor/autoload.php';
-}
-
 require __DIR__ . '/src/functions.php';
 
 maybe_collect_request();
@@ -46,6 +41,11 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
 } else if(defined('DOING_CRON') && DOING_CRON) {
 
 } else if (is_admin()) {
+	// load translation files
+	load_plugin_textdomain('koko-analytics', false, __DIR__ . '/languages');
+
+	require __DIR__ . '/src/class-migrations.php';
+	require __DIR__ . '/src/class-admin.php';
     $admin = new Admin();
     $admin->init();
 } else {
@@ -58,16 +58,17 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
             'post_id' => $post_id,
 			'tracker_url' => $use_custom_endpoint ? site_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php'),
         ));
-
-
     });
 }
 
+require __DIR__ . '/src/class-plugin.php';
 $plugin = new Plugin();
 $plugin->init();
 
+require __DIR__ . '/src/class-aggregator.php';
 $aggregator = new Aggregator();
 $aggregator->init();
 
+require __DIR__ . '/src/class-rest.php';
 $rest = new Rest();
 $rest->init();
