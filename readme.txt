@@ -43,6 +43,6 @@ No, the data never leaves your website.
 
 == Changelog ==
 
-#### 1.0 - Oct 30, 2019
+#### 1.0.0 - Nov 4, 2019
 
 Initial release.
