@@ -190,7 +190,7 @@ class Aggregator
 		return false;
 	}
 
-	private function sanitize_url($url)
+	public function sanitize_url($url)
     {
         $whitelisted_params = array('page_id', 'p', 'cat', 'product');
 
