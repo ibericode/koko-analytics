@@ -98,6 +98,9 @@ class Aggregator
 
 			// increment referrals
 			if ($referrer_url !== '' && ! $this->in_blacklist($referrer_url, $blacklist)) {
+
+			    $referrer_url = $this->sanitize_url($referrer_url);
+
 				if (!isset($referrer_stats[$referrer_url])) {
 					$referrer_stats[$referrer_url] = array(
 						'pageviews' => 0,
@@ -186,5 +189,29 @@ class Aggregator
 
 		return false;
 	}
+
+	private function sanitize_url($url)
+    {
+        $whitelisted_params = array('page_id', 'p', 'cat', 'product');
+
+        // remove # from URL
+        $url = preg_replace('/#.*$/', '', $url);
+
+        // if URL contains query string, strip it
+        $pos = strpos($url, '?');
+        if ($pos !== false) {
+            $query_str = substr($url, $pos + 1);
+
+            $params = array();
+            parse_str($query_str, $params);
+
+            $new_params = array_intersect_key($params, array_flip($whitelisted_params));
+            $new_query_str = http_build_query($new_params);
+            $new_url = substr($url, 0, $pos+1) . $new_query_str;
+            $url = $new_url;
+        }
+
+        return $url;
+    }
 
 }
