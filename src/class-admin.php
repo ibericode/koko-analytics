@@ -48,7 +48,7 @@ class Admin {
 
     public function maybe_run_migrations()
     {
-        if (! current_user_can('install_plugins')) {
+        if (! current_user_can('manage_options')) {
             return;
         }
 

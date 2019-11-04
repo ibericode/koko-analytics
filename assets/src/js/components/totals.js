@@ -29,8 +29,12 @@ function Component(vnode) {
 
 
         // fetch stats for this period
-        api.request(`/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}&count=1`)
-            .then(data => {
+        api.request(`/stats`, {
+            params: {
+                start_date: format(startDate, 'yyyy-MM-dd'),
+                end_date: format(endDate, 'yyyy-MM-dd')
+            }
+        }).then(data => {
                visitors = 0;
                pageviews = 0;
 
@@ -40,8 +44,12 @@ function Component(vnode) {
                });
 
                 // fetch stats from period period to compare against
-                api.request(`/stats?start_date=${format(previousStartDate, 'yyyy-MM-dd')}&end_date=${format(previousEndDate, 'yyyy-MM-dd')}&count=1`)
-                    .then(data => {
+                api.request(`/stats`, {
+                    params: {
+                        start_date: format(previousStartDate, 'yyyy-MM-dd'),
+                        end_date: format(previousEndDate, 'yyyy-MM-dd')
+                    }
+                }).then(data => {
                        let previousVisitors = 0;
                        let previousPageviews = 0;
                         visitorsChange = 0;

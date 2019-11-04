@@ -19,10 +19,14 @@ function Component() {
 
         startDate = s;
         endDate = e;
-        api.request(`/referrers?start_date=${format(s, 'yyyy-MM-dd')}&end_date=${format(e, 'yyyy-MM-dd')}`)
-            .then(p => {
-                items = p;
-            });
+        api.request(`/referrers`, {
+            params: {
+                start_date: format(startDate, 'yyyy-MM-dd'),
+                end_date: format(endDate, 'yyyy-MM-dd')
+            }
+        }).then(p => {
+            items = p;
+        });
     };
 
     function formatUrl(url) {

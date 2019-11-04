@@ -101,7 +101,12 @@ function Component(vnode) {
         chart.update();
 
         // fetch stats
-        api.request(`/stats?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(endDate, 'yyyy-MM-dd')}`)
+        api.request(`/stats`, {
+            params: {
+                start_date: format(startDate, 'yyyy-MM-dd'),
+                end_date: format(endDate, 'yyyy-MM-dd')
+            }
+        })
             .then(data => {
                 data.forEach(d => {
                     if (typeof(pageviews[d.date]) === "undefined") {

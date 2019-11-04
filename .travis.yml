@@ -1,0 +1,9 @@
+language: php
+php:
+  - 7.2
+  - 7.3
+install:
+  - composer self-update --no-interaction
+  - composer update --no-interaction --prefer-dist
+script:
+  - composer run test
