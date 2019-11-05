@@ -35,14 +35,16 @@ class Admin {
             return;
         }
 
-        $from = isset($_GET['koko_analytics_migrate_from_version']) ? $_GET['koko_analytics_migrate_from_version'] : get_option('koko_analytics_version', '0.0.1');
-        if (version_compare($from, KOKO_ANALYTICS_VERSION, '>=')) {
+        $from_version = isset($_GET['koko_analytics_migrate_from_version']) ? $_GET['koko_analytics_migrate_from_version'] : get_option('koko_analytics_version', '0.0.1');
+        $to_version = KOKO_ANALYTICS_VERSION;
+        if (version_compare($from_version, $to_version, '>=')) {
             return;
         }
 
-        $migrations = new Migrations($from, KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
+        $migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
+        $migrations = new Migrations($from_version, $to_version, $migrations_dir);
         $migrations->run();
-        update_option('koko_analytics_version', KOKO_ANALYTICS_VERSION);
+        update_option('koko_analytics_version', $to_version);
     }
 
     public function maybe_seed()
