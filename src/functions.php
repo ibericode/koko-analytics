@@ -60,3 +60,12 @@ function collect_in_file($post_id, $is_new_visitor, $is_unique_pageview, $referr
 	$content .= $line . PHP_EOL;
     return file_put_contents($filename, $content, FILE_APPEND);
 }
+
+function get_settings()
+{
+    $default_settings = array(
+        'exclude_user_roles' => array(),
+    );
+    $settings = array_merge($default_settings, get_option('koko_analytics_settings', array()));
+    return $settings;
+}

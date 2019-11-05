@@ -34,12 +34,8 @@ define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/src/functions.php';
 
-maybe_collect_request();
-
 if (defined('DOING_AJAX') && DOING_AJAX) {
-
-} else if(defined('DOING_CRON') && DOING_CRON) {
-
+    maybe_collect_request();
 } else if (is_admin()) {
 	// load translation files
 	load_plugin_textdomain('koko-analytics', false, __DIR__ . '/languages');
@@ -49,17 +45,12 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
     $admin = new Admin();
     $admin->init();
 } else {
-    add_action('wp_head', function() {
-        // TODO: Handle "term" requests so we track both terms and post types.
-        $post_id = is_singular() ? (int) get_queried_object_id() : 0;
-        $use_custom_endpoint = (defined('KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT) || file_exists(ABSPATH . '/koko-analytics-collect.php');
-        wp_enqueue_script('koko-analytics-script', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
-        wp_localize_script('koko-analytics-script', 'koko_analytics', array(
-            'post_id' => $post_id,
-            'tracker_url' => $use_custom_endpoint ? home_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php'),
-        ));
-    });
+    require __DIR__ . '/src/class-script-loader.php';
+    $loader = new ScriptLoader();
+    $loader->init();
 }
+
+
 
 require __DIR__ . '/src/class-plugin.php';
 $plugin = new Plugin();

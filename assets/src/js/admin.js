@@ -8,6 +8,7 @@ import Datepicker from './components/datepicker.js';
 import Totals from './components/totals.js';
 import TopPosts from './components/top-posts.js';
 import TopReferrers from './components/top-referrers.js';
+import Settings from './components/settings.js';
 const now = new Date();
 
 function App() {
@@ -30,12 +31,18 @@ function App() {
         view() {
         	return (
 				<main>
-					<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
-					<Totals startDate={startDate} endDate={endDate} />
-					<Chart startDate={startDate} endDate={endDate} />
-					<div className={"grid"}>
-						<TopPosts startDate={startDate} endDate={endDate} />
-						<TopReferrers startDate={startDate} endDate={endDate} />
+					<div className="nav-tab-wrapper">
+						<a className="nav-tab nav-tab-active" href={"#!/"}><span className="dashicons dashicons-chart-bar" /> Stats</a>
+						<a className="nav-tab" href={"#!/settings"}><span className="dashicons dashicons-admin-generic" /> Settings</a>
+					</div>
+					<div>
+						<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
+						<Totals startDate={startDate} endDate={endDate} />
+						<Chart startDate={startDate} endDate={endDate} />
+						<div className={"grid"}>
+							<TopPosts startDate={startDate} endDate={endDate} />
+							<TopReferrers startDate={startDate} endDate={endDate} />
+						</div>
 					</div>
 				</main>
 			)
@@ -43,4 +50,8 @@ function App() {
     }
 }
 
-m.mount(document.getElementById('koko-analytics-mount'), App);
+m.route(document.getElementById('koko-analytics-mount'), "/", {
+	"/": App,
+	"/settings": Settings
+});
+//m.mount(document.getElementById('koko-analytics-mount'), App);
