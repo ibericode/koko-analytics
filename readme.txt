@@ -4,7 +4,7 @@ Donate link: https://analyticsplugin.com/#utm_source=wp-plugin-repo&utm_medium=a
 Tags: analytics, statistics, stats
 Requires at least: 4.5
 Tested up to: 5.3
-Stable tag: 1.0
+Stable tag: 1.0.0-rc1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -43,6 +43,6 @@ No, the data never leaves your website.
 
 == Changelog ==
 
-#### 1.0 - Oct 30, 2019
+#### 1.0.0 - Nov 4, 2019
 
 Initial release.
