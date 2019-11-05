@@ -58,6 +58,14 @@ class Rest
                 return current_user_can( 'manage_options' );
             }
         ));
+
+        register_rest_route( 'koko-analytics/v1', '/settings', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'update_settings'),
+            'permission_callback' => function () {
+                return current_user_can( 'manage_options' );
+            }
+        ));
 	}
 
 	public function validate_date_param($param, $one, $two)
@@ -120,8 +128,17 @@ class Rest
         $end_date = isset($params['end_date']) ? $params['end_date'] : date("Y-m-d");
         $sql = $wpdb->prepare("SELECT url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, 10", [ $start_date, $end_date ]);
         $results = $wpdb->get_results($sql);
-
         return $results;
+    }
+
+    public function update_settings(\WP_REST_Request $request)
+    {
+        $settings = get_settings();
+        $new_settings = $request->get_json_params();
+        // merge with old settings to allow posting partial settings
+        $new_settings = array_merge($settings, $new_settings);
+        update_option('koko_analytics_settings', $new_settings, true);
+        return true;
     }
 
 }

@@ -3,6 +3,10 @@
     margin: 0 0 12px;
 }
 
+#koko-analytics-admin .nav-tab-wrapper {
+    margin-bottom: 24px;
+}
+
 #koko-analytics-admin .grid {
     display: grid;
     grid-gap: 12px;
@@ -35,4 +39,23 @@
 
 #koko-analytics-admin .box .amount-col {
     text-align: right;
+}
+
+#koko-analytics-admin .input-group {
+    margin-bottom: 20px;
+}
+
+#koko-analytics-admin label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+#koko-analytics-admin select {
+    margin: 0;
+    min-width: 320px;
+}
+
+#koko-analytics-admin select[multiple] {
+    min-height: 160px;
 }

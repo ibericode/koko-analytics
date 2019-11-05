@@ -7,7 +7,7 @@ import './datepicker.css';
 import { format } from 'date-fns'
 const now = new Date();
 
-const options = window.koko_analytics.options;
+const startOfWeek = window.koko_analytics.start_of_week;
 const i18n = window.koko_analytics.i18n;
 
 // TODO: Add arrow keys for quickly browsing to next period
@@ -102,9 +102,8 @@ function Component(vnode) {
             datepicker = new Pikaday({
 				field: document.getElementById('start-date-input'),
 				bound: false,
-				firstDay: options.startOfWeek,
+				firstDay: startOfWeek,
                 onSelect: function(date) {
-					console.log("On select");
 					if (!picking || startDate === null || date < startDate) {
 						startDate = date;
 						endDate = null;
