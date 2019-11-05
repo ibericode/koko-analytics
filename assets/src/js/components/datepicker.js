@@ -6,7 +6,6 @@ import 'pikaday/css/pikaday.css';
 import './datepicker.css';
 import { format } from 'date-fns'
 const now = new Date();
-
 const startOfWeek = window.koko_analytics.start_of_week;
 const i18n = window.koko_analytics.i18n;
 
@@ -44,8 +43,8 @@ function Component(vnode) {
 
     		switch(p) {
 				case 'this_week':
-					d = now.getDate() - now.getDay() + options.startOfWeek;
-					if (now.getDay() < options.startOfWeek) {
+					d = now.getDate() - now.getDay() + startOfWeek;
+					if (now.getDay() < startOfWeek) {
 						d = d - 7;
 					}
 
@@ -54,8 +53,8 @@ function Component(vnode) {
 					break;
 
 				case 'last_week':
-					d = now.getDate() - now.getDay() + options.startOfWeek - 7;
-					if (now.getDay() < options.startOfWeek) {
+					d = now.getDate() - now.getDay() + startOfWeek - 7;
+					if (now.getDay() < startOfWeek) {
 						d = d - 7;
 					}
 
