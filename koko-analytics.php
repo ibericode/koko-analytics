@@ -53,8 +53,8 @@ if (defined('DOING_AJAX') && DOING_AJAX) {
         // TODO: Handle "term" requests so we track both terms and post types.
         $post_id = is_singular() ? (int) get_queried_object_id() : 0;
         $use_custom_endpoint = (defined('KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT) || file_exists(ABSPATH . '/koko-analytics-collect.php');
-        wp_enqueue_script('koko-analytics-tracker', plugins_url('assets/dist/js/tracker.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
-        wp_localize_script('koko-analytics-tracker', 'koko_analytics', array(
+        wp_enqueue_script('koko-analytics-script', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+        wp_localize_script('koko-analytics-script', 'koko_analytics', array(
             'post_id' => $post_id,
             'tracker_url' => $use_custom_endpoint ? home_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php'),
         ));
