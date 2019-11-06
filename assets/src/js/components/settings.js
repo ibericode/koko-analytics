@@ -42,7 +42,7 @@ function Component() {
                         <a className="nav-tab " href={"#!/"}><span className="dashicons dashicons-chart-bar" /> Stats</a>
                         <a className="nav-tab nav-tab-active" href={"#!/settings"}><span className="dashicons dashicons-admin-generic" /> Settings</a>
                     </div>
-                    <div>
+                    <div style="margin-bottom: 24px;">
                         <form method={"POST"} onsubmit={onSubmit}>
                             <div className={"input-group"}>
                                 <label>{i18n['Exclude pageviews from these user roles']}</label>
@@ -60,6 +60,9 @@ function Component() {
                             </p>
                         </form>
                     </div>
+					<div>
+						<p className="help">Thank you for using Koko Analytics! Please <a href="https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post">leave us a plugin review on WordPress.org</a> if our work helped you.</p>
+					</div>
                 </main>
             )
         }
