@@ -8,10 +8,10 @@ class ScriptLoader
 {
     public function init()
     {
-        add_action('wp_footer', array($this, 'maybe_print_script_tag'), 90);
+        add_action('wp', array($this, 'maybe_enqueue_script'));
     }
 
-    public function maybe_print_script_tag() {
+    public function maybe_enqueue_script() {
         $settings = get_settings();
         $user = wp_get_current_user();
 
@@ -28,9 +28,21 @@ class ScriptLoader
 			'tracker_url' => $use_custom_endpoint ? home_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php'),
 		);
 
-		echo sprintf('<script type="text/javascript">/* <![CDATA[ */var koko_analytics = %s;/* ]]> */</script>', json_encode($script_data));
-		echo sprintf('<script type="text/javascript" src="%s?ver=%s" async="async"></script>', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), KOKO_ANALYTICS_VERSION);
+		add_filter('script_loader_tag', array($this, 'add_async_attribute'), 20, 2);
+		wp_enqueue_script('koko-analytics', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+        wp_localize_script('koko-analytics', 'koko_analytics', $script_data);
+
+		//echo sprintf('<script type="text/javascript">/* <![CDATA[ */var koko_analytics = %s;/* ]]> */</script>', json_encode($script_data));
+		//echo sprintf('<script type="text/javascript" src="%s?ver=%s" async="async"></script>', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), KOKO_ANALYTICS_VERSION);
     }
+
+    public function add_async_attribute($tag, $handle) {
+    	if ($handle !== 'koko-analytics') {
+    		return $tag;
+		}
+
+    	return str_replace(' src', ' async="async" src', $tag);
+	}
 
     public function user_has_roles(WP_User $user, array $roles) {
         foreach ($user->roles as $user_role) {
