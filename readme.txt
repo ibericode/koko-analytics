@@ -58,7 +58,8 @@ The plugin uses a buffer file where pageviews are stored for a very short time b
 
 == Screenshots ==
 
-1. The dashboard to view your website statistics.
+1. Koko Analytics' dashboard to view your website statistics.
+2. The settings page where you can exclude certain user roles from being counted.
 
 
 == Changelog ==

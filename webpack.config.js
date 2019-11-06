@@ -1,6 +1,6 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const DEBUG =  process.env.NODE_ENV === 'development';
-
 module.exports = {
     mode: DEBUG? 'development' : 'production',
     entry: {
@@ -32,5 +32,10 @@ module.exports = {
    },
     externals: {
         moment: 'moment'
-    }
+    },
+	plugins: [
+		new CopyPlugin([
+			{ from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
+		]),
+	],
 };
