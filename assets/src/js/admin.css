@@ -7,6 +7,9 @@
     margin-bottom: 24px;
 }
 
+#koko-analytics-admin  .nav-tab {
+	line-height: 20px; /* so that icon is inline with text */
+}
 
 #koko-analytics-admin .grid {
     display: grid;
@@ -59,4 +62,8 @@
 
 #koko-analytics-admin select[multiple] {
     min-height: 160px;
+}
+
+@media screen and (max-width: 600px) {
+	#koko-analytics-admin .nav-tab-wrapper { border-bottom: 1px solid #ccc; }
 }

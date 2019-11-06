@@ -125,7 +125,7 @@ function Component(vnode) {
         },
         view: () => (
             <div className="date-nav">
-				<div onclick={toggle} className="date-label"><span>{format(startDate, 'MMM d, yyyy')}</span> &mdash; <span>{format(endDate, "MMM d, yyyy")}</span></div>
+				<div onclick={toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span> <span>{format(startDate, 'MMM d, yyyy')}</span> &mdash; <span>{format(endDate, "MMM d, yyyy")}</span></div>
 				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
 					<div className="date-presets">
 						<strong>{i18n['Date range']}</strong>
