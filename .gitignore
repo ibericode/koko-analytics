@@ -1,3 +1,6 @@
 node_modules
 assets/dist
 vendor
+
+# Custom Santiago
+*.bat
