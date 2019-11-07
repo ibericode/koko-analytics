@@ -31,12 +31,19 @@ function App() {
         view() {
         	return (
 				<main>
-					<div className="nav-tab-wrapper">
-						<a className="nav-tab nav-tab-active" href={"#!/"}><span className="dashicons dashicons-chart-bar" /> Stats</a>
-						<a className="nav-tab" href={"#!/settings"}><span className="dashicons dashicons-admin-generic" /> Settings</a>
-					</div>
+
 					<div>
-						<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
+						<div className={"grid"}>
+							<div style={"grid-column: span 4;"}>
+								<Datepicker startDate={startDate} endDate={endDate} onUpdate={setDates} />
+							</div>
+							<div style="grid-column: span 2;">
+								<ul className="nav subsubsub">
+									<li><a href={"#!/"} className="current">Stats</a> | </li>
+									<li><a href={"#!/settings"}>Settings</a></li>
+								</ul>
+							</div>
+						</div>
 						<Totals startDate={startDate} endDate={endDate} />
 						<Chart startDate={startDate} endDate={endDate} />
 						<div className={"grid"}>

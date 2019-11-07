@@ -3,12 +3,12 @@
     margin: 0 0 12px;
 }
 
-#koko-analytics-admin .nav-tab-wrapper {
-    margin-bottom: 24px;
-}
-
-#koko-analytics-admin  .nav-tab {
-	line-height: 20px; /* so that icon is inline with text */
+#koko-analytics-admin .subsubsub {
+    display: block;
+    float: right;
+    line-height: 20px;
+    margin: 0;
+    padding: 6px 0;
 }
 
 #koko-analytics-admin .grid {
@@ -25,6 +25,11 @@
     grid-column: span 3;
 }
 
+@media(max-width: 800px) {
+    #koko-analytics-admin .box {
+        grid-column: span 6;
+    }
+}
 #koko-analytics-admin .box-grid {
     display: grid;
     grid-gap: 12px;
@@ -62,8 +67,4 @@
 
 #koko-analytics-admin select[multiple] {
     min-height: 160px;
-}
-
-@media screen and (max-width: 600px) {
-	#koko-analytics-admin .nav-tab-wrapper { border-bottom: 1px solid #ccc; }
 }

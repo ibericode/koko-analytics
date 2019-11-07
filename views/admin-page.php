@@ -22,6 +22,8 @@
 				'Save Changes' => __('Save Changes', 'koko-analytics'),
 				'Saving - please wait' => __('Saving - please wait', 'koko-analytics'),
                 'Saved!' => __('Saved!', 'koko-analytics'),
+				'Settings' => __('Settings', 'koko-analytics'),
+                'Stats' => __('Stats', 'koko-analytics'),
 				'There\'s nothing here, yet!' => __('There\'s nothing here, yet!', 'koko-analytics'),
 				'This week' => __('This week', 'koko-analytics'),
 				'This month' => __('This month', 'koko-analytics'),
