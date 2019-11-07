@@ -15,6 +15,8 @@ function Component(vnode) {
     let visitors = {};
     let dates = [];
     let chart;
+
+
     const timeFormat = 'YYYY-MM-DD';
     Chart.defaults.global.defaultFontColor = '#666';
     Chart.defaults.global.defaultFontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif';
@@ -45,7 +47,7 @@ function Component(vnode) {
                 borderWidth: 1,
             },
             responsive: true,
-            aspectRatio: 3,
+            aspectRatio: Math.max(2, Math.floor(window.innerWidth / 250)),
             scales: {
                 yAxes: [{
                     stacked: true,
