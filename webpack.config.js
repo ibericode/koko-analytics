@@ -1,8 +1,8 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const DEBUG =  process.env.NODE_ENV === 'development';
+const DEBUG = process.env.NODE_ENV === 'development';
 module.exports = {
-    mode: DEBUG? 'development' : 'production',
+    mode: DEBUG ? 'development' : 'production',
     entry: {
         script: './assets/src/js/script.js',
         admin: './assets/src/js/admin.js'
@@ -20,22 +20,23 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
-           },
-           {
-             test: /\.css$/i,
-             use: [
-               'style-loader',
-               'css-loader',
-             ],
-           },
+            },
+            {
+                test: /\.s?[ca]ss$/i,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                ],
+            },
         ],
-   },
+    },
     externals: {
         moment: 'moment'
     },
-	plugins: [
-		new CopyPlugin([
-			{ from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
-		]),
-	],
+    plugins: [
+        new CopyPlugin([
+            { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
+        ]),
+    ],
 };
