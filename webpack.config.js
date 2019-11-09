@@ -2,6 +2,12 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const DEBUG = process.env.NODE_ENV === 'development';
 module.exports = {
+    watch: DEBUG,
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+        ignored: ['node_modules'],
+    },
     mode: DEBUG ? 'development' : 'production',
     entry: {
         script: './assets/src/js/script.js',
