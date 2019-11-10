@@ -1,3 +1,6 @@
+@import './variables.scss';
+@import './mixins.scss';
+
 .date-nav {
 	position: relative;
 	margin-bottom: 12px;
@@ -6,7 +9,7 @@
 .date-label {
 	cursor: pointer;
 	padding: 6px;
-	border: 1px solid #BBB;
+	border: 1px solid $border-base;
 	border-radius: 6px;
 	display: inline-block;
 	background: white;
@@ -23,14 +26,14 @@
 	width: auto;
 	z-index: 20;
 	border-radius: 6px;
-	border: 1px solid #BBB;
+	border: 1px solid $border-base;
 	position: absolute;
 	margin-top: 6px;
 }
 
 .date-presets {
 	padding: 12px 24px 12px 12px;
-	border-right: 1px solid #BBB;
+	border-right: 1px solid $border-base;
 }
 
 .date-presets strong {

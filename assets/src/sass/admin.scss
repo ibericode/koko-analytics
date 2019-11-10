@@ -1,3 +1,6 @@
+@import './variables.scss';
+@import './mixins.scss';
+
 #koko-analytics-admin {
 
     h1 {
@@ -26,10 +29,7 @@
     }
 
     .box {
-        background: white;
-        border-radius: 6px;
-        border: 1px solid #BBB;
-        padding: 12px;
+        @include box;
         grid-column: span 3;
 
         @media(max-width: 800px) {
