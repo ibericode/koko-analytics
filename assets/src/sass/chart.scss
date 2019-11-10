@@ -2,7 +2,7 @@
 @import './_mixins.scss';
 
 .chart-container {
-    @include box;
+    @include koko-panel;
     padding: 18px 6px 6px 6px;
     margin-bottom: 12px;
 }

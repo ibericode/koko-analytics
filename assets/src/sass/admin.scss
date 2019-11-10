@@ -29,7 +29,7 @@
     }
 
     .box {
-        @include box;
+        @include koko-panel;
         grid-column: span 3;
 
         @media(max-width: 800px) {
