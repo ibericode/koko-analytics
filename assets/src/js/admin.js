@@ -1,6 +1,6 @@
 'use strict';
 
-import '././sass/admin.scss';
+import '../sass/admin.scss';
 
 import m from 'mithril';
 import Chart from './components/chart.js';
