@@ -98,7 +98,7 @@ class Admin {
 
 		$n = 3 * 365;
 		for ( $i = 0; $i < $n; $i++ ) {
-			$date      = date( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
+			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
 			$pageviews = rand( 500, 1000 ) / $n * ( $n - $i );
 			$visitors  = $pageviews * rand( 2, 6 ) / 10;
 
