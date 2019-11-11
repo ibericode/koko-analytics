@@ -7,3 +7,4 @@ install:
   - composer update --no-interaction --prefer-dist
 script:
   - composer run test
+  - composer run codestyle
