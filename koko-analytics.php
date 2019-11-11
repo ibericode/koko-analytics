@@ -1,14 +1,16 @@
 <?php
 /*
 Plugin Name: Koko Analytics
-Version: 1.0
 Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Version: 1.0
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Author Email: support@kokoanalytics.com
 Text Domain: koko-analytics
 Domain Path: /languages/
-License: GPL v3
+License: GPL-3.0
+License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Copyright (C) 2019, Danny van Kooten, hi@dannyvankooten.com
 

@@ -2,7 +2,7 @@
 
 import m from 'mithril';
 import {format} from "date-fns";
-import './top-referrers.css';
+import '../../sass/top-referrers.scss';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/;

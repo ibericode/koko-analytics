@@ -2,7 +2,7 @@
 
 import m from 'mithril';
 import {format} from "date-fns";
-import './totals.css';
+import '../../sass/totals.scss';
 import numbers from '../util/numbers.js';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;

@@ -3,7 +3,7 @@
 import m from 'mithril';
 import Chart from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import './chart.css';
+import '../../sass/chart.scss';
 import { format } from 'date-fns'
 import api from '../util/api.js';
 import en from 'date-fns/locale/en-US';

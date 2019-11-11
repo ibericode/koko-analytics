@@ -2,7 +2,7 @@
 
 import m from 'mithril';
 import {format} from "date-fns";
-import './top-posts.css';
+import '../../sass/top-posts.scss';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 

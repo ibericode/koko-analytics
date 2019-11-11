@@ -11,7 +11,7 @@ function Component() {
     let buttonText = i18n['Save Changes'];
     let saving = false;
 
-    function onSubmit(evt) {
+    function onsubmit(evt) {
         evt.preventDefault();
 
         saving = true;
@@ -32,7 +32,7 @@ function Component() {
                 buttonText = i18n['Save Changes'];
                 m.redraw();
             }, 4000);
-        })
+        });
     }
 
     return {
@@ -42,10 +42,10 @@ function Component() {
                     <div className={"grid"} style={"margin-bottom: 24px;"}>
                         <div style={"grid-column: span 4;"}>
                             <h1>{i18n['Settings']}</h1>
-                            <form method={"POST"} onSubmit={onSubmit}>
+                            <form method={"POST"} onsubmit={onsubmit}>
                                 <div className={"input-group"}>
                                     <label>{i18n['Exclude pageviews from these user roles']}</label>
-                                    <select name="exclude_user_roles[]" multiple={"true"} onChange={(evt) => {
+                                    <select name="exclude_user_roles[]" multiple={"true"} onchange={(evt) => {
                                         settings.exclude_user_roles = [].filter.call(evt.target.options, el => el.selected).map(el => el.value);
                                     }}>
                                         {Object.keys(roles).map(key => {
