@@ -1,3 +1,6 @@
+@import './_variables.scss';
+@import './_mixins.scss';
+
 .totals-container {
     background: #2e363f;
     color: white;
@@ -6,13 +9,16 @@
     display: flex;
     border-radius: 6px;
 }
+
 .totals-box {
     display: block;
     margin-right: 48px;
 }
+
 .totals-label {
     margin-bottom: 6px;
 }
+
 .totals-amount {
     display: inline-block;
     height: 32px;
@@ -21,6 +27,7 @@
     font-weight: 500;
     letter-spacing: -1px;
 }
+
 .totals-change {
     display: inline-block;
     line-height: 48px;
@@ -28,12 +35,15 @@
     font-size: 20px;
     margin-left: 6px;
 }
+
 .totals-change.neutral {
-    color: #AAAAAA;
+    color: $stats-neutral;
 }
+
 .totals-change.up {
-    color: limegreen;
+    color: $stats-up;
 }
+
 .totals-change.down {
-    color: palevioletred;
+    color: $stats-down;
 }

@@ -1,0 +1,8 @@
+@import '_variables.scss';
+
+@mixin koko-panel {
+    background: white;
+    border-radius: 6px;
+    border: 1px solid $border-base;
+    padding: 12px;
+}

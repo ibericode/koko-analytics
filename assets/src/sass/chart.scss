@@ -1,0 +1,8 @@
+@import './_variables.scss';
+@import './_mixins.scss';
+
+.chart-container {
+    @include koko-panel;
+    padding: 18px 6px 6px 6px;
+    margin-bottom: 12px;
+}

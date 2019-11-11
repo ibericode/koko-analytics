@@ -3,7 +3,7 @@
 import m from 'mithril';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
-import './datepicker.css';
+import '../../sass/datepicker.scss';
 import { format } from 'date-fns'
 const now = new Date();
 const startOfWeek = window.koko_analytics.start_of_week;
