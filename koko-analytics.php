@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Koko Analytics
-Plugin URI: https://dvk.co/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
 Version: 1.0
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
