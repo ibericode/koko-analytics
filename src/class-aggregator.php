@@ -43,13 +43,19 @@ class Aggregator {
 		// read pageviews buffer file into array
 		$wp_upload_dir = wp_get_upload_dir();
 		$filename      = $wp_upload_dir['basedir'] . '/pageviews.php';
-		$pageviews     = file( $filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		if ( ! file_exists( $filename ) ) {
+			return;
+		}
 
-		// truncate file right away
-		file_put_contents( $filename, '<?php exit; ?>' . PHP_EOL, LOCK_EX );
+		// rename file to temporary location so nothing new is written to it while we process it
+		$tmp_filename = $wp_upload_dir['basedir'] . '/pageviews-busy.php';
+		rename( $filename, $tmp_filename );
+
+		// open file for reading
+		$file_handle = fopen( $tmp_filename, 'r' );
 
 		// remove first line (the PHP header that prevents direct file access)
-		array_shift( $pageviews ); // remove first line
+		fgets( $file_handle, 1024 );
 
 		// combine stats for each table
 		$site_stats     = array(
@@ -62,8 +68,9 @@ class Aggregator {
 		// read blacklist into array
 		$blacklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blacklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
-		foreach ( $pageviews as $p ) {
-			$p               = explode( ',', $p );
+		while ( ( $line = fgets( $file_handle, 1024 ) ) !== false ) {
+			$line            = rtrim( $line );
+			$p               = explode( ',', $line );
 			$post_id         = (int) $p[0];
 			$new_visitor     = (int) $p[1];
 			$unique_pageview = (int) $p[2];
@@ -109,6 +116,10 @@ class Aggregator {
 				}
 			}
 		}
+
+		// close file & remove it from filesystem
+		fclose( $file_handle );
+		unlink( $tmp_filename );
 
 		// bail if nothing happened
 		if ( $site_stats['pageviews'] === 0 ) {
