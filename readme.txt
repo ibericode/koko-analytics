@@ -2,7 +2,7 @@
 Contributors: Ibericode, DvanKooten
 Donate link: https://kokoanalytics.com/#utm_source=wp-plugin-repo&utm_medium=koko-analytics&utm_campaign=donate-link
 Tags: analytics, statistics, stats
-Requires at least: 4.5
+Requires at least: 4.6
 Tested up to: 5.3
 Stable tag: 1.0
 License: GPLv3 or later
