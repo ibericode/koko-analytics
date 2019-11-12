@@ -45,6 +45,10 @@ npm run build
 
 Stats will be collected right away after you install and activate the plugin. You can view your stats on the **Dashboard > Analytics** page.
 
+### Translations
+
+You can [help translate Koko Analytics into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
+
 ### License
 
 GNU General Public License v3.0
