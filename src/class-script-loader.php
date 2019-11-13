@@ -4,7 +4,7 @@ namespace KokoAnalytics;
 
 use WP_User;
 
-class ScriptLoader {
+class Script_Loader {
 
 	public function init() {
 		add_action( 'wp', array( $this, 'maybe_enqueue_script' ) );
