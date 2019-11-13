@@ -70,4 +70,24 @@
         }
     }
 
+    .pagination {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 15px;
+
+        .prev,
+        .next {
+            display: inline-block;
+            padding: 0 5px;
+        }
+
+        .prev {
+
+        }
+
+        .next {
+
+        }
+    }
+
 }
