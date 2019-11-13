@@ -25,6 +25,6 @@
   },
   "scripts": {
     "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
-    "codestyle": "./vendor/bin/phpcs -s"
+    "codestyle": "./vendor/bin/phpcs -n -s"
   }
 }
