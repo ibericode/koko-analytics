@@ -43,7 +43,7 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 	if ( defined( 'KOKO_ANALYTICS_BUFFER_FILE' ) ) {
 		$filename = KOKO_ANALYTICS_BUFFER_FILE;
 	} else {
-		$uploads  = wp_get_upload_dir();
+		$uploads = wp_get_upload_dir();
 		$filename = $uploads['basedir'] . '/pageviews.php';
 	}
 
@@ -55,7 +55,7 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 	}
 
 	// append data to file
-	$line     = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
+	$line = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
 	$content .= $line . PHP_EOL;
 	return file_put_contents( $filename, $content, FILE_APPEND );
 }
@@ -64,6 +64,7 @@ function get_settings() {
 	$default_settings = array(
 		'exclude_user_roles' => array(),
 	);
-	$settings         = array_merge( $default_settings, get_option( 'koko_analytics_settings', array() ) );
+	$settings = get_option( 'koko_analytics_settings', array() );
+	$settings = array_merge( $default_settings, $settings );
 	return $settings;
 }

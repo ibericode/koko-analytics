@@ -10,6 +10,7 @@
         <exclude name="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare" />
         <exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
         <exclude name="WordPress.WP.DeprecatedFunctions.get_settingsFound" />
+        <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
     </rule>
 
     <rule ref="WordPress.WP.I18n">

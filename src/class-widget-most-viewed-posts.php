@@ -23,13 +23,13 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 
 	private function get_default_settings() {
 		return array(
-			'title' => __( 'Most viewed posts', 'koko-analytics' ),
-			'number' => 5,
+			'title'     => __( 'Most viewed posts', 'koko-analytics' ),
+			'number'    => 5,
 			'post_type' => 'post',
 			'show_date' => false,
-			'period' => 30,
+			'period'    => 30,
 		);
-    }
+	}
 
 	/**
 	 * Outputs the content for the current Recent Posts widget instance.
@@ -45,11 +45,9 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 			$args['widget_id'] = $this->id;
 		}
 
-
 		$settings = array_merge( $this->get_default_settings(), $settings );
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
-
 
 		// query most viewed posts
 		global $wpdb;
@@ -69,7 +67,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 				'orderby'             => 'post__in',
 				'no_found_rows'       => true,
 				'ignore_sticky_posts' => true,
-                'post_type' => $settings['post_type'],
+				'post_type'           => $settings['post_type'],
 			)
 		);
 
@@ -123,20 +121,21 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 	 * @param array $settings Current settings.
 	 */
 	public function form( $settings ) {
-	    $settings = array_merge( $this->get_default_settings(), $settings );
-	    $post_types = get_post_types( array( 'public' => true ), false );
+		$settings = array_merge( $this->get_default_settings(), $settings );
+		$post_types = get_post_types( array( 'public' => true ), false );
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'koko-analytics' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $settings['title'] ); ?>" /></p>
 
-        <p><label for="<?php echo $this->get_field_id( 'post_type' ); ?>"><?php _e( 'Post type:', 'koko-analytics' ); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id( 'post_type' ); ?>" name="<?php echo $this->get_field_name( 'post_type' ); ?>">
-                <?php
-                foreach( $post_types as $post_type ) {
-                   echo sprintf('<option value="%s" %s>%s</option>', $post_type->name, selected( $settings['post_type'], $post_type->name, false ), $post_type->label );
-                } ?>
-            </select>
-        </p>
+		<p><label for="<?php echo $this->get_field_id( 'post_type' ); ?>"><?php _e( 'Post type:', 'koko-analytics' ); ?></label>
+			<select class="widefat" id="<?php echo $this->get_field_id( 'post_type' ); ?>" name="<?php echo $this->get_field_name( 'post_type' ); ?>">
+				<?php
+				foreach ( $post_types as $post_type ) {
+					echo sprintf( '<option value="%s" %s>%s</option>', $post_type->name, selected( $settings['post_type'], $post_type->name, false ), $post_type->label );
+				}
+				?>
+			</select>
+		</p>
 
 		<p><label for="<?php echo $this->get_field_id( 'period' ); ?>"><?php _e( 'Period:', 'koko-analytics' ); ?></label>
 			<select class="widefat" id="<?php echo $this->get_field_id( 'period' ); ?>" name="<?php echo $this->get_field_name( 'period' ); ?>">
