@@ -66,3 +66,7 @@ add_action( 'widgets_init', function() {
 	require __DIR__ . '/src/class-widget-most-viewed-posts.php';
 	register_widget('KokoAnalytics\\Widget_Most_Viewed_Posts');
 } );
+
+require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
+$shortcode = new Shortcode_Most_Viewed_Posts();
+$shortcode->init();

@@ -10,6 +10,8 @@
         <exclude name="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare" />
         <exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
         <exclude name="WordPress.WP.DeprecatedFunctions.get_settingsFound" />
+        <exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
+        <exclude name="WordPress.Arrays.ArrayIndentation.ItemNotAligned" />
         <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
     </rule>
 

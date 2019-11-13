@@ -2,6 +2,8 @@
 
 namespace KokoAnalytics;
 
+use WP_Query;
+
 function maybe_collect_request() {
 	// since we call this function (early) on every AJAX request, detect our specific request here
 	// this allows us to short-circuit a bunch of unrelated AJAX stuff and gain a lot of performance
@@ -64,7 +66,38 @@ function get_settings() {
 	$default_settings = array(
 		'exclude_user_roles' => array(),
 	);
-	$settings = get_option( 'koko_analytics_settings', array() );
+	$settings = (array) get_option( 'koko_analytics_settings', array() );
 	$settings = array_merge( $default_settings, $settings );
 	return $settings;
+}
+
+function get_most_viewed_posts( array $args ) {
+	global $wpdb;
+	$default_args = array(
+		'number'    => 5,
+		'post_type' => 'post',
+		'show_date' => false,
+		'days'    => 30,
+	);
+	$args = array_merge( $default_args, $args );
+	$start_date = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
+	$end_date   = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
+	$sql        = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE s.date >= %s AND s.date <= %s AND p.post_type = %s AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['post_type'], $args['number'] ) );
+	$results    = $wpdb->get_results( $sql );
+	if ( empty( $results ) ) {
+		return array();
+	}
+
+	$ids = wp_list_pluck( $results, 'id' );
+	$r = new WP_Query(
+		array(
+			'posts_per_page'      => -1,
+			'post__in'            => $ids,
+			'orderby'             => 'post__in',
+			'post_type'           => $args['post_type'],
+			'no_found_rows'       => true,
+			'ignore_sticky_posts' => true,
+		)
+	);
+	return $r->posts;
 }
