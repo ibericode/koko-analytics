@@ -10,6 +10,7 @@ class Admin {
 		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
 		add_action( 'init', array( $this, 'maybe_seed' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
+		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
 
 		//add_filter('admin_footer_text', array( $this, 'footer_text' ));
 		// Hooks for Plugins overview page
@@ -52,6 +53,55 @@ class Admin {
 		update_option( 'koko_analytics_version', $to_version );
 	}
 
+	public function register_dashboard_widget() {
+		add_meta_box( 'koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high' );
+	}
+
+	public function dashboard_widget() {
+		wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
+		wp_localize_script(
+			'koko-analytics-dashboard-widget',
+			'koko_analytics',
+			array(
+			'root'          => rest_url(),
+			'nonce'         => wp_create_nonce( 'wp_rest' ),
+			)
+		);
+		echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
+		echo sprintf( '<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', __( 'Showing site visits over last 14 days', 'koko-analytics' ), esc_attr( admin_url( 'index.php?page=koko-analytics' ) ), __( 'View all statistics', 'koko-analytics' ) );
+	}
+
+	/**
+	 * Add the settings link to the Plugins overview
+	 *
+	 * @param array $links
+	 * @param       $file
+	 *
+	 * @return array
+	 */
+	public function add_plugin_settings_link( $links, $file ) {
+		$settings_link = '<a href="' . admin_url( 'index.php?page=koko-analytics#!/settings' ) . '">' . __( 'Settings', 'koko-analytics' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
+	}
+
+	/**
+	 * Adds meta links to the plugin in the WP Admin > Plugins screen
+	 *
+	 * @param array $links
+	 * @param string $file
+	 *
+	 * @return array
+	 */
+	public function add_plugin_meta_links( $links, $file ) {
+		if ( $file !== plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ) ) {
+			return $links;
+		}
+
+		$links[] = '<a href="https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page">' . __( 'Visit plugin site', 'koko-analytics' ) . '</a>';
+		return $links;
+	}
+
 	public function maybe_seed() {
 		global $wpdb;
 
@@ -72,19 +122,19 @@ class Admin {
 		$post_count    = count( $posts );
 		$referrer_urls = array();
 		foreach ( array(
-			'https://www.wordpress.org/',
-			'https://www.wordpress.org/plugins/koko-analytics',
-			'https://www.ibericode.com/',
-			'https://duckduckgo.com/',
-			'https://www.mozilla.org/',
-			'https://www.eff.org/',
-			'https://letsencrypt.org/',
-			'https://dannyvankooten.com/',
-			'https://github.com/ibericode/koko-analytics',
-			'https://lobste.rs/',
-			'https://joinmastodon.org/',
-			'https://www.php.net/',
-			'https://mariadb.org/',
+					  'https://www.wordpress.org/',
+					  'https://www.wordpress.org/plugins/koko-analytics',
+					  'https://www.ibericode.com/',
+					  'https://duckduckgo.com/',
+					  'https://www.mozilla.org/',
+					  'https://www.eff.org/',
+					  'https://letsencrypt.org/',
+					  'https://dannyvankooten.com/',
+					  'https://github.com/ibericode/koko-analytics',
+					  'https://lobste.rs/',
+					  'https://joinmastodon.org/',
+					  'https://www.php.net/',
+					  'https://mariadb.org/',
 		) as $url ) {
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_referrer_urls',
@@ -135,36 +185,5 @@ class Admin {
 				);
 			}
 		}
-	}
-
-	/**
-	 * Add the settings link to the Plugins overview
-	 *
-	 * @param array $links
-	 * @param       $file
-	 *
-	 * @return array
-	 */
-	public function add_plugin_settings_link( $links, $file ) {
-		$settings_link = '<a href="' . admin_url( 'index.php?page=koko-analytics#!/settings' ) . '">' . __( 'Settings', 'koko-analytics' ) . '</a>';
-		array_unshift( $links, $settings_link );
-		return $links;
-	}
-
-	/**
-	 * Adds meta links to the plugin in the WP Admin > Plugins screen
-	 *
-	 * @param array $links
-	 * @param string $file
-	 *
-	 * @return array
-	 */
-	public function add_plugin_meta_links( $links, $file ) {
-		if ( $file !== plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ) ) {
-			return $links;
-		}
-
-		$links[] = '<a href="https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page">' . __( 'Visit plugin site', 'koko-analytics' ) . '</a>';
-		return $links;
 	}
 }

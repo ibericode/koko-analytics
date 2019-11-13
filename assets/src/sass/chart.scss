@@ -3,6 +3,17 @@
 
 .chart-container {
     @include koko-panel;
+
     padding: 18px 6px 6px 6px;
     margin-bottom: 12px;
+}
+
+#koko-analytics-dashboard-widget-mount {
+    text-align: center;
+
+    .chart-container  {
+        border: 0;
+        padding: 0;
+        margin-bottom: 12px;
+    }
 }

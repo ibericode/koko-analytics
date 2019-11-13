@@ -46,8 +46,7 @@ function Component(vnode) {
                 borderColor: "#BBB",
                 borderWidth: 1,
             },
-            responsive: true,
-            aspectRatio: Math.max(2, Math.floor(window.innerWidth / 250)),
+            maintainAspectRatio: false,
             scales: {
                 yAxes: [{
                     stacked: true,
@@ -128,8 +127,8 @@ function Component(vnode) {
 
     return {
         oncreate: (vnode) => {
-            const ctx = document.getElementById('koko-analytics-chart').getContext('2d');
-            chart = new Chart(ctx, chartOptions);
+           const ctx = document.getElementById('koko-analytics-chart').getContext('2d');
+           chart = new Chart(ctx, chartOptions);
            updateChart();
         },
         onupdate: (vnode) => {
@@ -144,7 +143,7 @@ function Component(vnode) {
         view: (vnode) => {
             return (
                 <div className="chart-container">
-                    <canvas id="koko-analytics-chart"></canvas>
+                    <canvas id="koko-analytics-chart" height={vnode.attrs.height || window.innerHeight / 3}></canvas>
                 </div>
             )
         }

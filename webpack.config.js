@@ -10,8 +10,9 @@ module.exports = {
     },
     mode: DEBUG ? 'development' : 'production',
     entry: {
-        script: './assets/src/js/script.js',
-        admin: './assets/src/js/admin.js'
+        'script': './assets/src/js/script.js',
+        'admin': './assets/src/js/admin.js',
+        'dashboard-widget': './assets/src/js/dashboard-widget.js',
     },
     output: {
         filename: '[name].js',
