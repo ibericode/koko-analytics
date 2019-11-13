@@ -2,6 +2,8 @@
 <ruleset name="rules">
     <description>rules</description>
     <file>src/</file>
+    <file>migrations/</file>
+    <file>views/</file>
     <rule ref="WordPress-Core">
         <exclude name="WordPress.PHP.YodaConditions" />
         <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
