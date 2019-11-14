@@ -52,6 +52,7 @@ function Component(vnode) {
                     stacked: true,
                     gridLines: {
                         color: "#EEE",
+                        borderDash: [2, 4],
                     },
 					ticks: {
 						beginAtZero: true,
@@ -142,8 +143,10 @@ function Component(vnode) {
         },
         view: (vnode) => {
             return (
-                <div className="chart-container">
-                    <canvas id="koko-analytics-chart" height={vnode.attrs.height || window.innerHeight / 3}></canvas>
+                <div className="box">
+                    <div className={"chart-container"}>
+                        <canvas id="koko-analytics-chart" height={vnode.attrs.height || window.innerHeight / 3}></canvas>
+                    </div>
                 </div>
             )
         }

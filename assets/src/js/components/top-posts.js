@@ -2,12 +2,11 @@
 
 import m from 'mithril';
 import {format} from "date-fns";
-import '../../sass/top-posts.scss';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 
 function Component() {
-    let posts = [];
+    let items = [];
     let offset = 0;
     let limit = 10;
     let currentParams = {};
@@ -26,7 +25,7 @@ function Component() {
         currentParams = params;
         api.request(`/posts`, {params })
             .then(p => {
-                posts = p;
+                items = p;
             });
     };
 
@@ -36,33 +35,36 @@ function Component() {
             return (
                 <div className={"box top-posts"}>
                     <div className="head box-grid">
-                        <div className={""}>{i18n['Pages']}
-
+                        <div className={""}>
+                            <span className={"muted"}>#</span>
+                            {i18n['Pages']}
                             <div className={"pagination"}>
-                                {offset > 0 && <span className="prev" onclick={() => {
+                                <span className={"prev " + (offset === 0 ? 'hidden' : '')} title={i18n['Previous']} onclick={() => {
                                     offset = Math.max(0, offset - limit);
                                     fetch(vnode.attrs.startDate, vnode.attrs.endDate);
-                                }
-                                }>&larr;</span>}
-                                {posts.length >= limit && <span className="next" onclick={() => {
+                                }}>&larr;</span>
+                                <span className={"next " + (items.length < limit ? "hidden" : '')} title={i18n['Next']} onclick={() => {
                                     offset += limit;
                                     fetch(vnode.attrs.startDate, vnode.attrs.endDate);
                                 }
-                                }>&rarr;</span>}
+                                }>&rarr;</span>
                             </div>
                         </div>
                         <div className={"amount-col"}>{i18n['Visitors']}</div>
                         <div className={"amount-col"}>{i18n['Pageviews']}</div>
                     </div>
                     <div className={"body"}>
-                        {posts.map(p => (
+                        {items.map((p, i) => (
                             <div key={p.id} className={"box-grid"}>
-                                <div><a href={p.post_permalink}>{p.post_title || '(no title)'}</a></div>
+                                <div>
+                                    <span className={"muted"}>{offset + i + 1}</span>
+                                    <a href={p.post_permalink}>{p.post_title || '(no title)'}</a>
+                                </div>
                                 <div className={"amount-col"}>{Math.max(1, p.visitors)}</div>
                                 <div className={"amount-col"}>{p.pageviews}</div>
                             </div>
                         ))}
-                        {posts.length === 0 && (<div>{i18n['There\'s nothing here, yet!']}</div>)}
+                        {items.length === 0 && (<div className={"box-grid"}>{i18n['There\'s nothing here, yet!']}</div>)}
                     </div>
                 </div>
 

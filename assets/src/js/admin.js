@@ -61,4 +61,3 @@ m.route(document.getElementById('koko-analytics-mount'), "/", {
 	"/": App,
 	"/settings": Settings
 });
-//m.mount(document.getElementById('koko-analytics-mount'), App);

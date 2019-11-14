@@ -1,5 +1,4 @@
 @import './_variables.scss';
-@import './_mixins.scss';
 
 #koko-analytics-admin {
 
@@ -26,11 +25,25 @@
         display: grid;
         grid-gap: 12px;
         grid-template-columns: 8fr 2fr 2fr;
+        border-top: 1px dashed $border-divider;
+        padding: 6px 12px;
+        text-align: left;
+    }
+
+    .muted {
+        display: inline-block;
+        width: 24px;
+        color: $color-muted;
+        font-size: 0.9em;
     }
 
     .box {
-        @include koko-panel;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid $border-base;
         grid-column: span 3;
+        animation: fadein .5s;
+        margin-bottom: 12px;
 
         @media(max-width: 800px) {
             grid-column: span 6;
@@ -38,12 +51,13 @@
 
         .head {
             font-weight: bold;
-            margin-bottom: 6px;
+            font-size: 1.1em;
+            padding: 6px 12px;
+            border: 0;
         }
 
-        .body > div {
-            margin-bottom: 4px;
-            text-align: left;
+        .body {
+            padding-bottom: 6px;
         }
 
         .amount-col {
@@ -71,6 +85,7 @@
     }
 
     .pagination {
+        color: $color-muted;
         cursor: pointer;
         display: inline-block;
         margin-left: 15px;
@@ -79,15 +94,28 @@
         .next {
             display: inline-block;
             padding: 0 5px;
+
+            &:hover {
+                transform: scale(1.4);
+                transition: transform .2s;
+            }
+
+            &.hidden {
+                display: initial;
+                visibility: hidden;
+            }
         }
 
-        .prev {
 
-        }
-
-        .next {
-
-        }
     }
 
+}
+
+@keyframes fadein {
+    from {
+        opacity:0
+    }
+    to {
+        opacity:1
+    }
 }
