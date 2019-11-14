@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/#utm_source=wp-plugin-repo&utm_medium=kok
 Tags: analytics, statistics, stats
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -63,10 +63,26 @@ The plugin uses a buffer file where pageviews are stored for a very short time b
 
 1. Koko Analytics' dashboard to view your website statistics.
 2. The settings page where you can exclude certain user roles from being counted.
+3. A widget to show your most viewed posts (or any other post type) for a given period.
+4. The dashboard widget to quickly show your site visits over the last 2 weeks.
 
 
 == Changelog ==
 
-#### 1.0 - Nov 4, 2019
+#### 1.0.1 - Nov 14, 2019
+
+- Add dashboard widget showing site visits over last 14 days.
+- Add widget for showing most viewed posts, pages or any other post type over a given period.
+- Add `[koko_analytics_most_viewed_posts]` shortcode.
+- Add pagination to tables showing top posts and top referrers.
+- Add settings link to plugin row on plugins overview page in WP admin.
+- Use ASCII for storing textual data. Fixes an issue with error message "specified key is too long" on some MySQL installations when the charset is `utf8mb4`.
+- Remove all data when uninstalling the plugin. Thanks to [Santiago Degetau](https://profiles.wordpress.org/tausworks/).
+- Improved memory usage when handling huge bursts of traffic.
+- Load tracking script asynchronously.
+- Styling improvements for the dashboard page.
+
+
+#### 1.0.0 - Nov 4, 2019
 
 Initial release.
