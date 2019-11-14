@@ -2,7 +2,7 @@
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-Version: 1.0
+Version: 1.0.1
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
@@ -30,23 +30,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KokoAnalytics;
 
-define('KOKO_ANALYTICS_VERSION', '1.0');
-define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
-define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
+define( 'KOKO_ANALYTICS_VERSION', '1.0.1' );
+define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
+define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
 
 require __DIR__ . '/src/functions.php';
 
-if (defined('DOING_AJAX') && DOING_AJAX) {
-    maybe_collect_request();
-} else if (is_admin()) {
+if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	maybe_collect_request();
+} elseif ( is_admin() ) {
 	require __DIR__ . '/src/class-migrations.php';
 	require __DIR__ . '/src/class-admin.php';
-    $admin = new Admin();
-    $admin->init();
+	$admin = new Admin();
+	$admin->init();
 } else {
-    require __DIR__ . '/src/class-script-loader.php';
-    $loader = new Script_Loader();
-    $loader->init();
+	require __DIR__ . '/src/class-script-loader.php';
+	$loader = new Script_Loader();
+	$loader->init();
 }
 
 require __DIR__ . '/src/class-plugin.php';
@@ -62,10 +62,13 @@ $rest = new Rest();
 $rest->init();
 
 
-add_action( 'widgets_init', function() {
-	require __DIR__ . '/src/class-widget-most-viewed-posts.php';
-	register_widget('KokoAnalytics\\Widget_Most_Viewed_Posts');
-} );
+add_action(
+	'widgets_init',
+	function() {
+		require __DIR__ . '/src/class-widget-most-viewed-posts.php';
+		register_widget( 'KokoAnalytics\\Widget_Most_Viewed_Posts' );
+	}
+);
 
 require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
