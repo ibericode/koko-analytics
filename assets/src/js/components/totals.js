@@ -7,34 +7,33 @@ import numbers from '../util/numbers.js';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 
+
 function Component(vnode) {
-    let startDate;
-    let endDate;
+    let startDate = vnode.attrs.startDate;
+    let endDate = vnode.attrs.endDate;
     let visitors = 0;
     let pageviews = 0;
     let visitorsChange = 0.00;
     let pageviewsChange = 0.00;
+    let previousParams = null;
 
-    function fetch(vnode) {
-        if (typeof(startDate) === "object" && vnode.attrs.startDate.getTime() === startDate.getTime() && vnode.attrs.endDate.getTime() === endDate.getTime()) {
+    function fetch() {
+        const params =  {
+            start_date: format(startDate, 'yyyy-MM-dd'),
+            end_date: format(endDate, 'yyyy-MM-dd')
+        };
+
+        if (JSON.stringify(params) === JSON.stringify(previousParams)) {
             return;
         }
 
-        startDate = new Date(vnode.attrs.startDate);
-        endDate = new Date(vnode.attrs.endDate);
-
+        previousParams = params;
         let diff = (endDate.getTime() - startDate.getTime()) - 1;
         let previousStartDate = new Date(startDate.getTime() - diff);
         let previousEndDate = new Date(endDate.getTime() - diff);
 
-
         // fetch stats for this period
-        api.request(`/stats`, {
-            params: {
-                start_date: format(startDate, 'yyyy-MM-dd'),
-                end_date: format(endDate, 'yyyy-MM-dd')
-            }
-        }).then(data => {
+        api.request(`/stats`, {params}).then(data => {
                visitors = 0;
                pageviews = 0;
 
@@ -68,19 +67,18 @@ function Component(vnode) {
                             pageviewsChange = Math.round((pageviews / previousPageviews - 1) * 100);
                         }
                     });
-
-
-
             });
 
 
     }
 
-    fetch(vnode);
+    fetch();
 
     return {
         onupdate(vnode) {
-            fetch(vnode);
+            startDate = vnode.attrs.startDate;
+            endDate = vnode.attrs.endDate;
+            fetch();
         },
 
         view() {

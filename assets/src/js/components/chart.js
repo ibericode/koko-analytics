@@ -145,7 +145,7 @@ function Component(vnode) {
             return (
                 <div className="box">
                     <div className={"chart-container"}>
-                        <canvas id="koko-analytics-chart" height={vnode.attrs.height || window.innerHeight / 3}></canvas>
+                        <canvas id="koko-analytics-chart" height={vnode.attrs.height || Math.min(window.innerHeight / 3, window.innerWidth / 2)}></canvas>
                     </div>
                 </div>
             )
