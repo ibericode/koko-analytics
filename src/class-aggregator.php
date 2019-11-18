@@ -8,7 +8,6 @@ class Aggregator {
 		add_filter( 'cron_schedules', array( $this, 'add_interval' ) );
 		add_action( 'koko_analytics_aggregate_stats', array( $this, 'aggregate' ) );
 		add_action( 'init', array( $this, 'maybe_schedule' ) );
-		add_action( 'init', array( $this, 'maybe_aggregate' ) );
 	}
 
 	public function add_interval( $intervals ) {
@@ -20,21 +19,13 @@ class Aggregator {
 	}
 
 	public function maybe_schedule() {
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'POST' || ! is_admin() ) {
 			return;
 		}
 
 		if ( ! wp_next_scheduled( 'koko_analytics_aggregate_stats' ) ) {
-			wp_schedule_event( time() + 1, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats' );
+			wp_schedule_event( time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats' );
 		}
-	}
-
-	public function maybe_aggregate() {
-		if ( ! isset( $_GET['koko_analytics_aggregate'] ) || ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$this->aggregate();
 	}
 
 	public function aggregate() {

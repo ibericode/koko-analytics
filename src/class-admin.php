@@ -25,6 +25,9 @@ class Admin {
 	}
 
 	public function show_page() {
+		// aggregate stats whenever this page is requested
+		do_action('koko_analytics_aggregate_stats');
+
 		$user_roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
 			$user_roles[ $key ] = $role['name'];
