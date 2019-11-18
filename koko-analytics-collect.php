@@ -8,3 +8,5 @@ define('KOKO_ANALYTICS_BUFFER_FILE', __DIR__ . '/wp-content/uploads/pageviews.ph
 require __DIR__ . '/wp-content/plugins/koko-analytics/src/functions.php';
 
 KokoAnalytics\collect_request();
+
+

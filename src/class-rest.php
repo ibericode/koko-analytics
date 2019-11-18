@@ -116,9 +116,13 @@ class Rest {
 			array(
 				'posts_per_page' => -1,
 				'post__in'       => $ids,
-				'post_type'      => 'any',
+				'post_type'      => get_post_types(),
+				'orderby'             => 'post__in',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
 			)
 		);
+
 		$posts  = array();
 		foreach ( $_posts as $p ) {
 			$posts[ $p->ID ] = $p;
@@ -146,7 +150,7 @@ class Rest {
 		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$offset = isset( $params['offset'] ) ? absint( $params['offset'] ) : 0;
 		$limit = isset( $params['limit'] ) ? absint( $params['limit'] ) : 10;
-		$sql        = $wpdb->prepare( "SELECT url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
+		$sql        = $wpdb->prepare( "SELECT url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews, r.id DESC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
 		return $results;
 	}
