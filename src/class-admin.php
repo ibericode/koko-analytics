@@ -26,7 +26,7 @@ class Admin {
 
 	public function show_page() {
 		// aggregate stats whenever this page is requested
-		do_action('koko_analytics_aggregate_stats');
+		do_action( 'koko_analytics_aggregate_stats' );
 
 		$user_roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
@@ -151,9 +151,10 @@ class Admin {
 
 		$n = 3 * 365;
 		for ( $i = 0; $i < $n; $i++ ) {
+			$progress = ( $n - $i ) / $n;
 			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
-			$pageviews = rand( 500, 1000 ) / $n * ( $n - $i );
-			$visitors  = $pageviews * rand( 2, 6 ) / 10;
+			$pageviews = rand( 500, 1000 ) * $progress ^ 2;
+			$visitors  = $pageviews * rand( 3, 6 ) / 10;
 
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_site_stats',
@@ -164,29 +165,19 @@ class Admin {
 				)
 			);
 
+			$values = array();
 			foreach ( $posts as $post ) {
-				$wpdb->insert(
-					$wpdb->prefix . 'koko_analytics_post_stats',
-					array(
-						'date'      => $date,
-						'id'        => $post->ID,
-						'pageviews' => round( $pageviews / $post_count * rand( 5, 15 ) / 10 ),
-						'visitors'  => round( $visitors / $post_count * rand( 5, 15 ) / 10 ),
-					)
-				);
+				array_push( $values, $date, $post->ID, round( $pageviews / $post_count * rand( 5, 15 ) / 10 ), round( $visitors / $post_count * rand( 5, 15 ) / 10 ) );
 			}
+			$placeholders = rtrim( str_repeat( '(%s,%d,%d,%d),', count( $posts ) ), ',' );
+			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values ) );
 
+			$values = array();
 			foreach ( $referrer_urls as $id => $referrer_url ) {
-				$wpdb->insert(
-					$wpdb->prefix . 'koko_analytics_referrer_stats',
-					array(
-						'date'      => $date,
-						'id'        => $id,
-						'pageviews' => round( $pageviews / $referrer_count * rand( 5, 15 ) / 10 ),
-						'visitors'  => round( $visitors / $referrer_count * rand( 5, 15 ) / 10 ),
-					)
-				);
+				array_push( $values, $date, $id, round( $pageviews / $referrer_count * rand( 5, 15 ) / 10 ), round( $visitors / $referrer_count * rand( 5, 15 ) / 10 ) );
 			}
+			$placeholders = rtrim( str_repeat( '(%s,%d,%d,%d),', count( $referrer_urls ) ), ',' );
+			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values ) );
 		}
 	}
 }

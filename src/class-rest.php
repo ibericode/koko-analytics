@@ -123,7 +123,7 @@ class Rest {
 			)
 		);
 
-		$posts  = array();
+		$posts = array();
 		foreach ( $_posts as $p ) {
 			$posts[ $p->ID ] = $p;
 		}
