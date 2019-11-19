@@ -146,10 +146,11 @@ function Component(vnode) {
 			updateChart();
 		},
 		view: (vnode) => {
+			const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
 			return (
 				<div className="box">
 				<div className={"chart-container"}>
-				<canvas id="koko-analytics-chart" height={vnode.attrs.height || Math.min(window.innerHeight / 3, window.innerWidth / 2)}></canvas>
+				<canvas id="koko-analytics-chart" height={vnode.attrs.height || computedHeight}></canvas>
 				</div>
 				</div>
 		)

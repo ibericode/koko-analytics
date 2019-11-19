@@ -5,7 +5,6 @@ import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 import '../../sass/datepicker.scss';
 import { format } from 'date-fns'
-const now = new Date();
 const startOfWeek = window.koko_analytics.start_of_week;
 const i18n = window.koko_analytics.i18n;
 
@@ -37,9 +36,12 @@ function Component(vnode) {
     }
 
     function setPeriod(p) {
-    	return function(evt){
+		return function(evt){
+			evt.preventDefault();
+
+			const now = new Date();
     		let d;
-    		evt.preventDefault();
+
 
     		switch(p) {
 				case 'this_week':
@@ -123,24 +125,34 @@ function Component(vnode) {
 				container: document.getElementById('date-picker'),
             });
         },
-        view: () => (
-            <div className="date-nav">
-				<div onclick={toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span> <span>{format(startDate, 'MMM d, yyyy')}</span> &mdash; <span>{format(endDate, "MMM d, yyyy")}</span></div>
-				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
-					<div className="date-presets">
-						<strong>{i18n['Date range']}</strong>
-						<a href="" onclick={setPeriod('this_week')}>{i18n['This week']}</a>
-						<a href="" onclick={setPeriod('last_week')}>{i18n['Last week']}</a>
-						<a href="" onclick={setPeriod('this_month')}>{i18n['This month']}</a>
-						<a href="" onclick={setPeriod('last_month')}>{i18n['Last month']}</a>
-						<a href="" onclick={setPeriod('this_year')}>{i18n['This year']}</a>
-						<a href="" onclick={setPeriod('last_year')}>{i18n['Last year']}</a>
+        view(vnode) {
+			// check if startDate or endDate attribute changed
+			if (vnode.attrs.startDate.getTime() !== startDate.getTime() || vnode.attrs.endDate.getTime() !== endDate.getTime()) {
+				startDate = new Date(vnode.attrs.startDate);
+				endDate = new Date(vnode.attrs.endDate);
+			}
+
+        	return (
+				<div className="date-nav">
+					<div onclick={toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span>
+						<span>{format(startDate, 'MMM d, yyyy')}</span> &mdash;
+						<span>{format(endDate, "MMM d, yyyy")}</span></div>
+					<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
+						<div className="date-presets">
+							<strong>{i18n['Date range']}</strong>
+							<a href="" onclick={setPeriod('this_week')}>{i18n['This week']}</a>
+							<a href="" onclick={setPeriod('last_week')}>{i18n['Last week']}</a>
+							<a href="" onclick={setPeriod('this_month')}>{i18n['This month']}</a>
+							<a href="" onclick={setPeriod('last_month')}>{i18n['Last month']}</a>
+							<a href="" onclick={setPeriod('this_year')}>{i18n['This year']}</a>
+							<a href="" onclick={setPeriod('last_year')}>{i18n['Last year']}</a>
+						</div>
+						<div id="date-picker" className="date-picker"></div>
 					</div>
-					<div id="date-picker" className="date-picker"> </div>
+					<input type="hidden" id="start-date-input"/>
 				</div>
-				<input type="hidden" id="start-date-input" />
-			</div>
-        )
+			)
+		}
     }
 }
 

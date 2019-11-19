@@ -9,29 +9,34 @@ import Totals from './components/totals.js';
 import TopPosts from './components/top-posts.js';
 import TopReferrers from './components/top-referrers.js';
 import Settings from './components/settings.js';
-const now = new Date();
 
-function App() {
-	let startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
-	let endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+function App(vnode) {
+	let now = new Date();
+	let startDate = vnode.attrs.startDate || new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+	let endDate = vnode.attrs.endDate || new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
 	function setDates(s, e) {
-		if (s !== startDate) {
-			startDate = s;
+		let dirty = false;
+
+		if (s.getTime() !== startDate.getTime()) {
+			startDate = new Date(s);
+			dirty = true;
 		}
 
-		if (e !== endDate) {
-			endDate = e;
+		if (e.getTime() !== endDate.getTime()) {
+			endDate = new Date(e);
+			dirty = true;
 		}
 
-		m.redraw();
+		if (dirty) {
+			m.redraw();
+		}
 	}
 
     return {
-        view() {
+        view(vnode) {
         	return (
 				<main>
-
 					<div>
 						<div className={"grid"}>
 							<div style={"grid-column: span 4;"}>

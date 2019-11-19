@@ -40,7 +40,7 @@ function Component(vnode) {
     return {
         view(vnode) {
             // check if startDate or endDate attribute changed
-            if (vnode.attrs.startDate !== state.startDate || vnode.attrs.endDate !== state.endDate) {
+            if (vnode.attrs.startDate.getTime() !== state.startDate.getTime() || vnode.attrs.endDate.getTime() !== state.endDate.getTime()) {
                 fetch(vnode.attrs.startDate, vnode.attrs.endDate, 0);
             }
 

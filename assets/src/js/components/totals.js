@@ -91,11 +91,12 @@ function Component(vnode) {
 
 	return {
 		onupdate(vnode) {
-			startDate = vnode.attrs.startDate;
-			endDate = vnode.attrs.endDate;
-			fetch();
+			if (vnode.attrs.startDate.getTime() !== startDate.getTime() || vnode.attrs.endDate.getTime() !== endDate.getTime()) {
+				startDate = vnode.attrs.startDate;
+				endDate = vnode.attrs.endDate;
+				fetch();
+			}
 		},
-
 		view() {
 			return (
 				<div className="totals-container">
