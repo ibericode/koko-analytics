@@ -6,7 +6,7 @@ import api from './../util/api.js';
 const i18n = window.koko_analytics.i18n;
 const roles = window.koko_analytics.user_roles;
 const settings = window.koko_analytics.settings;
-import {NavLink} from "react-router-dom";
+import Nav from './nav.js';
 
 export default class Settings extends React.Component {
 
@@ -80,14 +80,8 @@ export default class Settings extends React.Component {
 							</p>
 						</form>
 					</div>
-					<div style={{gridColumn: 'span 2'}}>
-						<ul className="nav subsubsub">
-							<li><NavLink to={"/"} exact activeClassName={"current"}>{i18n['Stats']}</NavLink></li>
-							<li><NavLink to={"/settings"} activeClassName={"current"}>{i18n['Settings']}</NavLink></li>
-						</ul>
-					</div>
+					<Nav />
 				</div>
-
 				<div>
 					<p className="help">Thank you for using Koko Analytics! Please <a
 						href="https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post">leave us a plugin

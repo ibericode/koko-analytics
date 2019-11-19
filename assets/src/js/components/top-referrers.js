@@ -46,7 +46,6 @@ export default class TopReferrers extends React.Component {
 	}
 
 	render() {
-		console.log("Rendering");
 		let {offset, limit, items} = this.state;
 		let {startDate, endDate} = this.props;
 		return (
