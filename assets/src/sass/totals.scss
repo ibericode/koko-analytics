@@ -15,34 +15,39 @@
 }
 
 .totals-label {
+	color: #EEE;
     margin-bottom: 6px;
+	font-size: 14px;
 }
 
 .totals-amount {
-    display: inline-block;
-    height: 32px;
+    display: block;
     line-height: 48px;
     font-size: 48px;
     font-weight: 500;
     letter-spacing: -1px;
+	margin-bottom: 6px;
+
+	span {
+		font-size: 0.4em;
+		font-weight: normal;
+		vertical-align: top;
+		letter-spacing: normal;
+	}
 }
 
-.totals-change {
-    display: inline-block;
-    line-height: 48px;
-    vertical-align: top;
-    font-size: 20px;
-    margin-left: 6px;
+.totals-compare {
+	color: #EEE;
 }
 
-.totals-change.neutral {
-    color: $stats-neutral;
+.neutral {
+	color: $stats-neutral;
 }
 
-.totals-change.up {
-    color: $stats-up;
+.up {
+	color: $stats-up;
 }
 
-.totals-change.down {
-    color: $stats-down;
+.down {
+	color: $stats-down;
 }
