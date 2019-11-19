@@ -1,6 +1,8 @@
 'use strict';
 
 const vars = window.koko_analytics;
+import 'whatwg-fetch';
+import 'promise-polyfill/src/polyfill';
 
 function request(path, opts = {}) {
     opts.headers = {

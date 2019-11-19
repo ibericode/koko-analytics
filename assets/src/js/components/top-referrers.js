@@ -37,7 +37,7 @@ export default class TopReferrers extends React.Component {
                 limit: this.state.limit,
             }
         }).then(items => {
-          this.setState({items, offset});
+          	this.setState({items, offset});
         });
     }
 
@@ -46,6 +46,7 @@ export default class TopReferrers extends React.Component {
 	}
 
 	render() {
+		console.log("Rendering");
 		let {offset, limit, items} = this.state;
 		let {startDate, endDate} = this.props;
 		return (
