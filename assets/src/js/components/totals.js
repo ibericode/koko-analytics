@@ -44,44 +44,44 @@ export default class Totals extends React.Component {
 		let previousStartDate = new Date(s.getTime() - diff);
 		let previousEndDate = new Date(e.getTime() - diff);
 
+		let visitors = 0;
+		let pageviews = 0;
+		let visitorsChange = 0;
+		let pageviewsChange = 0;
+		let visitorsDiff = 0;
+		let pageviewsDiff = 0;
+		let visitorsPrevious = 0;
+		let pageviewsPrevious = 0;
 
-		// fetch stats for this period
-		api.request(`/stats`, {
-			body: {
-				start_date: format(this.props.startDate, 'yyyy-MM-dd'),
-				end_date: format(this.props.endDate, 'yyyy-MM-dd')
-			}
-		}).then(data => {
-				let visitors = 0;
-				let pageviews = 0;
-
+		Promise.all([
+			// 1
+			api.request(`/stats`, {
+				body: {
+					start_date: format(this.props.startDate, 'yyyy-MM-dd'),
+					end_date: format(this.props.endDate, 'yyyy-MM-dd')
+				}
+			}).then(data => {
 				data.forEach(r => {
 					visitors += parseInt(r.visitors);
 					pageviews += parseInt(r.pageviews);
 				});
 
 				this.setState({visitors, pageviews});
-		});
+			}),
 
-		// fetch stats from period period to compare against
-		api.request(`/stats`, {
-			body: {
-				start_date: format(previousStartDate, 'yyyy-MM-dd'),
-				end_date: format(previousEndDate, 'yyyy-MM-dd')
-			}
-		}).then(data => {
-			let visitorsPrevious = 0;
-			let pageviewsPrevious = 0;
-			let visitorsChange = 0;
-			let pageviewsChange = 0;
-			let visitorsDiff = 0;
-			let pageviewsDiff = 0;
-
-			data.forEach(r => {
-				visitorsPrevious += parseInt(r.visitors);
-				pageviewsPrevious += parseInt(r.pageviews);
-			});
-
+			// 2
+			api.request(`/stats`, {
+				body: {
+					start_date: format(previousStartDate, 'yyyy-MM-dd'),
+					end_date: format(previousEndDate, 'yyyy-MM-dd')
+				}
+			}).then(data => {
+				data.forEach(r => {
+					visitorsPrevious += parseInt(r.visitors);
+					pageviewsPrevious += parseInt(r.pageviews);
+				});
+			})
+		]).then(() => {
 			if (visitorsPrevious > 0) {
 				visitorsDiff = visitors - visitorsPrevious;
 				visitorsChange = Math.round((visitors / visitorsPrevious - 1) * 100);
@@ -95,6 +95,7 @@ export default class Totals extends React.Component {
 			this.setState({visitorsPrevious, visitorsDiff, visitorsChange, pageviewsPrevious, pageviewsDiff, pageviewsChange});
 		});
 	}
+
 	render() {
 		let {visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange} = this.state;
 
