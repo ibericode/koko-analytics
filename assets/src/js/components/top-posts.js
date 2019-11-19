@@ -15,7 +15,19 @@ export default class TopPosts extends React.Component {
 		};
 	}
 
-    fetch(offset = this.state.offset) {
+	componentDidMount() {
+		this.fetch();
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
+			return;
+		}
+
+		this.fetch();
+	}
+
+	fetch(offset = this.state.offset) {
         api.request(`/posts`, {
           body: {
               start_date: format(this.props.startDate, 'yyyy-MM-dd'),
@@ -28,9 +40,7 @@ export default class TopPosts extends React.Component {
         });
     }
 
-    componentDidMount() {
-		this.fetch();
-	}
+
 
 	render() {
 		let {offset, limit, items} = this.state;

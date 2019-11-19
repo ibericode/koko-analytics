@@ -20,6 +20,14 @@ export default class TopReferrers extends React.Component {
 		};
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
+			return;
+		}
+
+		this.fetch();
+	}
+
     fetch(offset = this.state.offset) {
         api.request(`/referrers`, {
             body: {

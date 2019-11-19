@@ -4,7 +4,8 @@ const vars = window.koko_analytics;
 
 function request(path, opts = {}) {
     opts.headers = {
-        "X-WP-Nonce": vars.nonce
+        "X-WP-Nonce": vars.nonce,
+		"Accepts": "application/json",
     };
 
     // allow passing "body" option for GET requests, convert it to query params
@@ -17,6 +18,13 @@ function request(path, opts = {}) {
     	delete opts.body;
 	}
 
+    if (opts.body && typeof(opts.body) !== "string") {
+    	opts.body = JSON.stringify(opts.body);
+	}
+
+    if (opts.body && opts.method === "POST") {
+    	opts.headers['Content-Type'] = 'application/json';
+	}
 
     return window.fetch(vars.root + "koko-analytics/v1" + path, opts).then(r => r.json());
 }

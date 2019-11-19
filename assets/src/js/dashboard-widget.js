@@ -1,7 +1,6 @@
 'use strict';
 
 import Chart from './components/chart';
-import React from 'react';
 import ReactDOM from 'react-dom';
 const el = document.getElementById('koko-analytics-dashboard-widget-mount');
 const now = new Date();

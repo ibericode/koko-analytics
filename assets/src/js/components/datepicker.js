@@ -24,7 +24,39 @@ export default class Datepicker extends React.Component {
 		this.toggle = this.toggle.bind(this);
 		this.maybeClose = this.maybeClose.bind(this);
 		this.setPeriod = this.setPeriod.bind(this);
-		this.initPikaday = this.initPikaday.bind(this);
+		this.datepickerContainer = React.createRef();
+	}
+
+	componentDidMount() {
+		document.body.addEventListener('click', this.maybeClose);
+
+		const datepicker = this.datepicker = new Pikaday({
+			field: document.getElementById('start-date-input'),
+			bound: false,
+			firstDay: startOfWeek,
+			onSelect: (date) => {
+				let newState = {
+					picking: !this.state.picking,
+				};
+
+				if (!this.state.picking || this.state.startDate === null || date < this.state.startDate) {
+					newState = {...newState, startDate: date, endDate: null};
+					datepicker.setStartRange(date);
+					datepicker.setEndRange(null);
+				} else {
+					newState = {...newState, endDate: date};
+					datepicker.setEndRange(date);
+				}
+
+				this.setState(newState);
+				datepicker.draw();
+
+				if (this.state.startDate && this.state.endDate) {
+					this.props.onUpdate(this.state.startDate, this.state.endDate);
+				}
+			},
+			container: this.datepickerContainer.current,
+		});
 	}
 
     toggle() {
@@ -100,38 +132,9 @@ export default class Datepicker extends React.Component {
 			this.datepicker.gotoDate(endDate);
 
 			// update app state
-			//this.setState({startDate, endDate});
+			this.setState({startDate, endDate});
 			this.props.onUpdate(startDate, endDate);
 		}
-	}
-
-	initPikaday(element) {
-		document.body.addEventListener('click', this.maybeClose);
-		let c = this;
-
-		this.datepicker = new Pikaday({
-			field: document.getElementById('start-date-input'),
-			bound: false,
-			firstDay: startOfWeek,
-			onSelect: function(date) {
-				if (!c.state.picking || c.state.startDate === null || date < c.state.startDate) {
-					c.setState({startDate: date, endDate: null});
-					this.setStartRange(date);
-					this.setEndRange(null);
-				} else {
-					c.setState({endDate: date});
-					this.setEndRange(date);
-				}
-
-				c.setState({picking: !c.state.picking});
-				this.draw();
-
-				if (c.state.startDate && c.state.endDate) {
-					c.props.onUpdate(c.state.startDate, c.state.endDate);
-				}
-			},
-			container: element,
-		});
 	}
 
 	render() {
@@ -139,9 +142,12 @@ export default class Datepicker extends React.Component {
 		let {startDate, endDate} = this.props;
 		return (
 			<div className="date-nav">
-				<div onClick={this.toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span>
-					<span>{format(startDate, 'MMM d, yyyy')}</span> &mdash;
-					<span>{format(endDate, "MMM d, yyyy")}</span></div>
+				<div onClick={this.toggle} className="date-label">
+					<span className="dashicons dashicons-calendar-alt" />
+					<span>{format(startDate, 'MMM d, yyyy')}</span>
+					<span> &mdash; </span>
+					<span>{format(endDate, "MMM d, yyyy")}</span>
+				</div>
 				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
 					<div className="date-presets">
 						<strong>{i18n['Date range']}</strong>
@@ -152,7 +158,7 @@ export default class Datepicker extends React.Component {
 						<a href="" onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
 						<a href="" onClick={this.setPeriod('last_year')}>{i18n['Last year']}</a>
 					</div>
-					<div id="date-picker" className="date-picker" ref={this.initPikaday}></div>
+					<div id="date-picker" className="date-picker" ref={this.datepickerContainer}></div>
 				</div>
 				<input type="hidden" id="start-date-input"/>
 			</div>

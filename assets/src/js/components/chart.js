@@ -77,22 +77,24 @@ const chartOptions = {
 	}
 };
 
-export default function Component(props) {
-	let startDate = new Date(props.startDate);
-	let endDate = new Date(props.endDate);
-	let pageviews = {};
-	let visitors = {};
-	let chart;
+export default class Component extends React.Component {
 
-	function updateChart() {
+	constructor(props) {
+		super(props);
+
+		this.chart = null;
+		this.canvas = React.createRef();
+	}
+
+	updateChart() {
 		// empty previous data
-		pageviews = {};
-		visitors = {};
+		let pageviews = {};
+		let visitors = {};
 
 		// fill chart with 0's
 		let labels = [];
 		let i = 0;
-		for(let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+		for(let d = new Date(this.props.startDate); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
 			let key = format(d, 'yyyy-MM-dd');
 			labels[i] = new Date(d);
 
@@ -104,13 +106,13 @@ export default function Component(props) {
 		chartOptions.data.labels = labels;
 		chartOptions.data.datasets[0].data = [];
 		chartOptions.data.datasets[1].data =  [];
-		chart.update();
+		this.chart.update();
 
 		// fetch stats
 		api.request(`/stats`, {
 			body: {
-				start_date: format(startDate, 'yyyy-MM-dd'),
-				end_date: format(endDate, 'yyyy-MM-dd')
+				start_date: format(this.props.startDate, 'yyyy-MM-dd'),
+				end_date: format(this.props.endDate, 'yyyy-MM-dd')
 			}
 		}).then(data => {
 			data.forEach(d => {
@@ -125,22 +127,32 @@ export default function Component(props) {
 
 			chartOptions.data.datasets[0].data = Object.values(visitors);
 			chartOptions.data.datasets[1].data = Object.values(pageviews);
-			chart.update();
+			this.chart.update();
 		});
 	}
 
-	function initChart(el) {
-		const ctx = el.getContext('2d');
-		chart = new Chart(ctx, chartOptions);
-		updateChart();
+	 componentDidMount() {
+		const ctx = this.canvas.current.getContext('2d');
+		this.chart = new Chart(ctx, chartOptions);
+		this.updateChart();
 	}
 
-	const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-	return (
-		<div className="box">
-			<div className={"chart-container"}>
-				<canvas id="koko-analytics-chart" height={props.height || computedHeight} ref={initChart}></canvas>
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
+			return;
+		}
+
+		this.updateChart();
+	}
+
+	render() {
+		const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
+		return (
+			<div className="box">
+				<div className={"chart-container"}>
+					<canvas id="koko-analytics-chart" height={this.props.height || computedHeight} ref={this.canvas}/>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 }
