@@ -1,9 +1,8 @@
 {
-  "presets": ["@babel/preset-env"],
+  "presets": ["@babel/preset-env", "@wordpress/default"],
   "plugins": [
-    ["@babel/plugin-transform-react-jsx", {
-      "pragma": "m",
-      "pragmaFrag": "'['"
-    }]
+	  [
+		  "@babel/plugin-transform-react-jsx"
+	  ]
   ]
 }

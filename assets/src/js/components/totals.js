@@ -1,6 +1,6 @@
 'use strict';
 
-import m from 'mithril';
+import React from 'react';
 import {format} from "date-fns";
 import '../../sass/totals.scss';
 import numbers from '../util/numbers.js';
@@ -8,9 +8,9 @@ import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 const now = new Date();
 
-function Component(vnode) {
-	let startDate = vnode.attrs.startDate;
-	let endDate = vnode.attrs.endDate;
+export default function Totals(props) {
+	let startDate = props.startDate;
+	let endDate = props.endDate;
 	let visitors = 0;
 	let pageviews = 0;
 	let visitorsChange = 0;
@@ -83,41 +83,27 @@ function Component(vnode) {
 					}
 				});
 		});
-
-
 	}
 
 	fetch();
 
-	return {
-		onupdate(vnode) {
-			if (vnode.attrs.startDate.getTime() !== startDate.getTime() || vnode.attrs.endDate.getTime() !== endDate.getTime()) {
-				startDate = vnode.attrs.startDate;
-				endDate = vnode.attrs.endDate;
-				fetch();
-			}
-		},
-		view() {
-			return (
-				<div className="totals-container">
-					<div className="totals-box">
-						<div className="totals-label">{i18n['Total visitors']}</div>
-						<div className="totals-amount">{numbers.formatPretty(visitors)} <span className={visitorsChange > 0 ? "up" : visitorsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(visitorsChange)}</span></div>
-						<div className="totals-compare">
-							<span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? "more" : "less"} than previous period</span>
-						</div>
-					</div>
-					<div className="totals-box">
-						<div className="totals-label">{i18n['Total pageviews']}</div>
-						<div className="totals-amount">{numbers.formatPretty(pageviews)} <span className={pageviewsChange > 0 ? "up" : pageviewsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(pageviewsChange)}</span></div>
-						<div className="totals-compare">
-							<span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? "more" : "less"} than previous period</span>
-						</div>
-					</div>
+	return (
+		<div className="totals-container">
+			<div className="totals-box">
+				<div className="totals-label">{i18n['Total visitors']}</div>
+				<div className="totals-amount">{numbers.formatPretty(visitors)} <span className={visitorsChange > 0 ? "up" : visitorsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(visitorsChange)}</span></div>
+				<div className="totals-compare">
+					<span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? "more" : "less"} than previous period</span>
 				</div>
-			)
-		}
-	}
+			</div>
+			<div className="totals-box">
+				<div className="totals-label">{i18n['Total pageviews']}</div>
+				<div className="totals-amount">{numbers.formatPretty(pageviews)} <span className={pageviewsChange > 0 ? "up" : pageviewsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(pageviewsChange)}</span></div>
+				<div className="totals-compare">
+					<span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? "more" : "less"} than previous period</span>
+				</div>
+			</div>
+		</div>
+	)
 }
 
-export default Component;

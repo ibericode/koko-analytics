@@ -39,7 +39,7 @@ module.exports = {
         ],
     },
     externals: {
-        moment: 'moment'
+        "moment": 'moment',
     },
     plugins: [
         new CopyPlugin([

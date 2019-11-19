@@ -1,6 +1,6 @@
 'use strict';
 
-import m from 'mithril';
+import React from 'react';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 import '../../sass/datepicker.scss';
@@ -9,20 +9,30 @@ const startOfWeek = window.koko_analytics.start_of_week;
 const i18n = window.koko_analytics.i18n;
 
 // TODO: Add arrow keys for quickly browsing to next period
-function Component(vnode) {
-    let startDate = new Date(vnode.attrs.startDate);
-    let endDate = new Date(vnode.attrs.endDate);
-    let picking = false;
-    let open = false;
-    let datepicker;
+export default class Datepicker extends React.Component {
+	constructor(props) {
+		super(props);
 
-    function toggle() {
-    	open = !open;
-		m.redraw();
+		this.state = {
+			open: false,
+			picking: false,
+			startDate: new Date(props.startDate),
+			endDate: new Date(props.endDate),
+		};
+		this.datepicker = null;
+
+		this.toggle = this.toggle.bind(this);
+		this.maybeClose = this.maybeClose.bind(this);
+		this.setPeriod = this.setPeriod.bind(this);
+		this.initPikaday = this.initPikaday.bind(this);
 	}
 
-	function maybeClose(evt) {
-    	if (!open) {
+    toggle() {
+		this.setState({open: !this.state.open});
+	}
+
+	maybeClose(evt) {
+    	if (!this.state.open) {
     		return;
 		}
 
@@ -32,16 +42,15 @@ function Component(vnode) {
 			}
 		}
 
-    	toggle();
+    	this.toggle();
     }
 
-    function setPeriod(p) {
-		return function(evt){
+    setPeriod(p) {
+		return evt => {
 			evt.preventDefault();
 
 			const now = new Date();
-    		let d;
-
+    		let d, startDate, endDate;
 
     		switch(p) {
 				case 'this_week':
@@ -86,74 +95,67 @@ function Component(vnode) {
 			}
 
 			// update datepicker to match preset
-			datepicker.setStartRange(startDate);
-			datepicker.setEndRange(endDate);
-			datepicker.gotoDate(endDate);
+			this.datepicker.setStartRange(startDate);
+			this.datepicker.setEndRange(endDate);
+			this.datepicker.gotoDate(endDate);
 
 			// update app state
-			vnode.attrs.onUpdate(startDate, endDate);
-			m.redraw();
+			//this.setState({startDate, endDate});
+			this.props.onUpdate(startDate, endDate);
 		}
 	}
 
-    return {
-        oncreate: (vnode) => {
-        	document.body.addEventListener('click', maybeClose);
+	initPikaday(element) {
+		document.body.addEventListener('click', this.maybeClose);
+		let c = this;
 
-            datepicker = new Pikaday({
-				field: document.getElementById('start-date-input'),
-				bound: false,
-				firstDay: startOfWeek,
-                onSelect: function(date) {
-					if (!picking || startDate === null || date < startDate) {
-						startDate = date;
-						endDate = null;
-						this.setStartRange(startDate);
-						this.setEndRange(null);
-					} else {
-						endDate = date;
-						this.setEndRange(endDate);
-					}
+		this.datepicker = new Pikaday({
+			field: document.getElementById('start-date-input'),
+			bound: false,
+			firstDay: startOfWeek,
+			onSelect: function(date) {
+				if (!c.state.picking || c.state.startDate === null || date < c.state.startDate) {
+					c.setState({startDate: date, endDate: null});
+					this.setStartRange(date);
+					this.setEndRange(null);
+				} else {
+					c.setState({endDate: date});
+					this.setEndRange(date);
+				}
 
-					picking = !picking;
-					this.draw();
+				c.setState({picking: !c.state.picking});
+				this.draw();
 
-					if (startDate && endDate) {
-						vnode.attrs.onUpdate(startDate, endDate);
-					}
-                },
-				container: document.getElementById('date-picker'),
-            });
-        },
-        view(vnode) {
-			// check if startDate or endDate attribute changed
-			if (vnode.attrs.startDate.getTime() !== startDate.getTime() || vnode.attrs.endDate.getTime() !== endDate.getTime()) {
-				startDate = new Date(vnode.attrs.startDate);
-				endDate = new Date(vnode.attrs.endDate);
-			}
+				if (c.state.startDate && c.state.endDate) {
+					c.props.onUpdate(c.state.startDate, c.state.endDate);
+				}
+			},
+			container: element,
+		});
+	}
 
-        	return (
-				<div className="date-nav">
-					<div onclick={toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span>
-						<span>{format(startDate, 'MMM d, yyyy')}</span> &mdash;
-						<span>{format(endDate, "MMM d, yyyy")}</span></div>
-					<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
-						<div className="date-presets">
-							<strong>{i18n['Date range']}</strong>
-							<a href="" onclick={setPeriod('this_week')}>{i18n['This week']}</a>
-							<a href="" onclick={setPeriod('last_week')}>{i18n['Last week']}</a>
-							<a href="" onclick={setPeriod('this_month')}>{i18n['This month']}</a>
-							<a href="" onclick={setPeriod('last_month')}>{i18n['Last month']}</a>
-							<a href="" onclick={setPeriod('this_year')}>{i18n['This year']}</a>
-							<a href="" onclick={setPeriod('last_year')}>{i18n['Last year']}</a>
-						</div>
-						<div id="date-picker" className="date-picker"></div>
+	render() {
+		let {open, picking} = this.state;
+		let {startDate, endDate} = this.props;
+		return (
+			<div className="date-nav">
+				<div onClick={this.toggle} className="date-label"><span className="dashicons dashicons-calendar-alt"></span>
+					<span>{format(startDate, 'MMM d, yyyy')}</span> &mdash;
+					<span>{format(endDate, "MMM d, yyyy")}</span></div>
+				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
+					<div className="date-presets">
+						<strong>{i18n['Date range']}</strong>
+						<a href="" onClick={this.setPeriod('this_week')}>{i18n['This week']}</a>
+						<a href="" onClick={this.setPeriod('last_week')}>{i18n['Last week']}</a>
+						<a href="" onClick={this.setPeriod('this_month')}>{i18n['This month']}</a>
+						<a href="" onClick={this.setPeriod('last_month')}>{i18n['Last month']}</a>
+						<a href="" onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
+						<a href="" onClick={this.setPeriod('last_year')}>{i18n['Last year']}</a>
 					</div>
-					<input type="hidden" id="start-date-input"/>
+					<div id="date-picker" className="date-picker" ref={this.initPikaday}></div>
 				</div>
-			)
-		}
-    }
+				<input type="hidden" id="start-date-input"/>
+			</div>
+		);
+	}
 }
-
-export default Component;

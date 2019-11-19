@@ -1,6 +1,6 @@
 'use strict';
 
-import m from 'mithril';
+import React from 'react';
 import Chart from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import '../../sass/chart.scss';
@@ -10,80 +10,79 @@ import en from 'date-fns/locale/en-US';
 
 Chart.defaults.global.defaultFontColor = '#666';
 Chart.defaults.global.defaultFontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif';
+const chartOptions = {
+	type: 'bar',
+	data: {
+		labels: [],
+		datasets: [
+			{
+				label: 'Visitors',
+				backgroundColor: '#d70206',
+				data: [],
+			},
+			{
+				label: 'Pageviews',
+				backgroundColor: '#f05b4f',
+				data: [],
+			},
+		],
+	},
+	options: {
+		legend: { display: false },
+		tooltips: {
+			backgroundColor: "#FFF",
+			bodyFontColor: "#444",
+			titleFontColor: "#23282d",
+			borderColor: "#BBB",
+			borderWidth: 1,
+		},
+		maintainAspectRatio: false,
+		scales: {
+			yAxes: [{
+				stacked: true,
+				gridLines: {
+					color: "#EEE",
+					borderDash: [2, 4],
+				},
+				ticks: {
+					beginAtZero: true,
+					precision: 0,
+					min: 0,
+				}
+			}],
+			xAxes: [{
+				stacked: true,
+				type: 'time',
+				time: {
+					tooltipFormat: 'MMM d, yyyy',
+					minUnit: 'day',
+				},
+				ticks: {
+					source: 'labels',
+					autoSkip: true,
+					maxTicksLimit: 12,
+					maxRotation: 0,
+					minRotation: 0,
+				},
+				adapters: {
+					date: {
+						locale: en
+					}
+				},
+				gridLines: {
+					display: false,
+				},
+			}],
+		}
+	}
+};
 
-function Component(vnode) {
-	let startDate = new Date(vnode.attrs.startDate);
-	let endDate = new Date(vnode.attrs.endDate);
+export default function Component(props) {
+	let startDate = new Date(props.startDate);
+	let endDate = new Date(props.endDate);
 	let pageviews = {};
 	let visitors = {};
 	let chart;
-
-	const chartOptions = {
-		type: 'bar',
-		data: {
-			labels: [],
-			datasets: [
-				{
-					label: 'Visitors',
-					backgroundColor: '#d70206',
-					data: [],
-				},
-				{
-					label: 'Pageviews',
-					backgroundColor: '#f05b4f',
-					data: [],
-				},
-			],
-		},
-		options: {
-			legend: { display: false },
-			tooltips: {
-				backgroundColor: "#FFF",
-				bodyFontColor: "#444",
-				titleFontColor: "#23282d",
-				borderColor: "#BBB",
-				borderWidth: 1,
-			},
-			maintainAspectRatio: false,
-			scales: {
-				yAxes: [{
-					stacked: true,
-					gridLines: {
-						color: "#EEE",
-						borderDash: [2, 4],
-					},
-					ticks: {
-						beginAtZero: true,
-						precision: 0,
-						min: 0,
-					}
-				}],
-				xAxes: [{
-					stacked: true,
-					type: 'time',
-					time: {
-						tooltipFormat: 'MMM d, yyyy',
-						minUnit: 'day',
-					},
-					ticks: {
-						source: 'labels',
-						autoSkip: true,
-						maxTicksLimit: 12,
-						maxRotation: 0,
-						minRotation: 0,
-					},
-					adapters: {
-						date: {
-							locale: en
-						}
-					},
-					gridLines: {
-						display: false,
-					},
-				}],
-			}
-		}
-	};
 
 	function updateChart() {
 		// empty previous data
@@ -109,7 +108,7 @@ function Component(vnode) {
 
 		// fetch stats
 		api.request(`/stats`, {
-			params: {
+			body: {
 				start_date: format(startDate, 'yyyy-MM-dd'),
 				end_date: format(endDate, 'yyyy-MM-dd')
 			}
@@ -130,32 +129,18 @@ function Component(vnode) {
 		});
 	}
 
-	return {
-		oncreate: (vnode) => {
-			const ctx = document.getElementById('koko-analytics-chart').getContext('2d');
-			chart = new Chart(ctx, chartOptions);
-			updateChart();
-		},
-		onupdate: (vnode) => {
-			if (vnode.attrs.startDate.getTime() === startDate.getTime() && vnode.attrs.endDate.getTime() === endDate.getTime()) {
-				return;
-			}
-
-			startDate = new Date(vnode.attrs.startDate);
-			endDate = new Date(vnode.attrs.endDate);
-			updateChart();
-		},
-		view: (vnode) => {
-			const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-			return (
-				<div className="box">
-				<div className={"chart-container"}>
-				<canvas id="koko-analytics-chart" height={vnode.attrs.height || computedHeight}></canvas>
-				</div>
-				</div>
-		)
-		}
+	function initChart(el) {
+		const ctx = el.getContext('2d');
+		chart = new Chart(ctx, chartOptions);
+		updateChart();
 	}
-}
 
-export default Component;
+	const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
+	return (
+		<div className="box">
+			<div className={"chart-container"}>
+				<canvas id="koko-analytics-chart" height={props.height || computedHeight} ref={initChart}></canvas>
+			</div>
+		</div>
+	);
+}
