@@ -8,7 +8,6 @@ import { format } from 'date-fns'
 import api from '../util/api.js';
 import en from 'date-fns/locale/en-US';
 
-const timeFormat = 'YYYY-MM-DD';
 Chart.defaults.global.defaultFontColor = '#666';
 Chart.defaults.global.defaultFontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif';
 
@@ -17,14 +16,12 @@ function Component(vnode) {
 	let endDate = new Date(vnode.attrs.endDate);
 	let pageviews = {};
 	let visitors = {};
-	let dates = [];
 	let chart;
-
 
 	const chartOptions = {
 		type: 'bar',
 		data: {
-			labels: dates,
+			labels: [],
 			datasets: [
 				{
 					label: 'Visitors',
@@ -58,20 +55,22 @@ function Component(vnode) {
 					ticks: {
 						beginAtZero: true,
 						precision: 0,
-						min: 0
+						min: 0,
 					}
 				}],
 				xAxes: [{
 					stacked: true,
 					type: 'time',
 					time: {
-						parser: timeFormat,
 						tooltipFormat: 'MMM d, yyyy',
 						minUnit: 'day',
 					},
-					distribution: 'series',
 					ticks: {
-						source: 'auto',
+						source: 'labels',
+						autoSkip: true,
+						maxTicksLimit: 12,
+						maxRotation: 0,
+						minRotation: 0,
 					},
 					adapters: {
 						date: {
@@ -88,21 +87,22 @@ function Component(vnode) {
 
 	function updateChart() {
 		// empty previous data
-		dates = [];
 		pageviews = {};
 		visitors = {};
 
 		// fill chart with 0's
+		let labels = [];
 		let i = 0;
 		for(let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
 			let key = format(d, 'yyyy-MM-dd');
-			dates[i] = new Date(d);
-			pageviews[key] = { x: dates[i], y: 0 };
-			visitors[key] = { x: dates[i], y: 0 };
+			labels[i] = new Date(d);
+
+			pageviews[key] = { x: labels[i], y: 0 };
+			visitors[key] = { x: labels[i], y: 0 };
 			i++;
 		}
 
-		chartOptions.data.labels = dates;
+		chartOptions.data.labels = labels;
 		chartOptions.data.datasets[0].data = [];
 		chartOptions.data.datasets[1].data =  [];
 		chart.update();
@@ -113,22 +113,21 @@ function Component(vnode) {
 				start_date: format(startDate, 'yyyy-MM-dd'),
 				end_date: format(endDate, 'yyyy-MM-dd')
 			}
-		})
-			.then(data => {
-				data.forEach(d => {
-					if (typeof(pageviews[d.date]) === "undefined") {
-						console.error("Unexpected date in response data", d.date);
-						return;
-					}
+		}).then(data => {
+			data.forEach(d => {
+				if (typeof(pageviews[d.date]) === "undefined") {
+					console.error("Unexpected date in response data", d.date);
+					return;
+				}
 
-					pageviews[d.date].y = parseInt(d.pageviews);
-					visitors[d.date].y = parseInt(d.visitors);
-				});
-
-				chartOptions.data.datasets[0].data = Object.values(visitors);
-				chartOptions.data.datasets[1].data = Object.values(pageviews);
-				chart.update();
+				pageviews[d.date].y = parseInt(d.pageviews);
+				visitors[d.date].y = parseInt(d.visitors);
 			});
+
+			chartOptions.data.datasets[0].data = Object.values(visitors);
+			chartOptions.data.datasets[1].data = Object.values(pageviews);
+			chart.update();
+		});
 	}
 
 	return {
