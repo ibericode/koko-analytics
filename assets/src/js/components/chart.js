@@ -36,6 +36,7 @@ const chartOptions = {
 			borderColor: "#BBB",
 			borderWidth: 1,
 		},
+		responsive: true,
 		maintainAspectRatio: false,
 		scales: {
 			yAxes: [{
@@ -149,8 +150,8 @@ export default class Component extends React.Component {
 		const computedHeight = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
 		return (
 			<div className="box">
-				<div className={"chart-container"}>
-					<canvas id="koko-analytics-chart" height={this.props.height || computedHeight} ref={this.canvas}/>
+				<div className={"chart-container"} style={{ height: this.props.height || computedHeight}}>
+					<canvas id="koko-analytics-chart" ref={this.canvas}/>
 				</div>
 			</div>
 		);
