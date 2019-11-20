@@ -61,7 +61,6 @@ require __DIR__ . '/src/class-rest.php';
 $rest = new Rest();
 $rest->init();
 
-
 add_action(
 	'widgets_init',
 	function() {
@@ -73,3 +72,7 @@ add_action(
 require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
 $shortcode->init();
+
+require __DIR__ . '/src/class-pruner.php';
+$pruner = new Pruner();
+$pruner->init();

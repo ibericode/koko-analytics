@@ -158,6 +158,11 @@ class Rest {
 	public function update_settings( \WP_REST_Request $request ) {
 		$settings     = get_settings();
 		$new_settings = $request->get_json_params();
+
+		if ( isset( $new_settings['prune_data_after_months'] ) ) {
+			$new_settings['prune_data_after_months'] = abs( intval( $new_settings['prune_data_after_months'] ) );
+		}
+
 		// merge with old settings to allow posting partial settings
 		$new_settings = array_merge( $settings, $new_settings );
 		update_option( 'koko_analytics_settings', $new_settings, true );

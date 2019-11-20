@@ -66,7 +66,19 @@
     }
 
     .input-group {
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+
+		label {
+			margin-bottom: 6px;
+		}
+
+		input, select {
+			margin-bottom: 6px;
+		}
+
+		.help {
+			margin-top: 0;
+		}
     }
 
     label {

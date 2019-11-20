@@ -12,6 +12,7 @@ export default class Settings extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			settings,
 			saving: false,
@@ -61,6 +62,8 @@ export default class Settings extends React.Component {
 					<div style={{gridColumn: 'span 4'}}>
 						<h1>{i18n['Settings']}</h1>
 						<form method={"POST"} onSubmit={this.onSubmit}>
+
+
 							<div className={"input-group"}>
 								<label>{i18n['Exclude pageviews from these user roles']}</label>
 								<select name="exclude_user_roles[]" multiple={true} value={settings.exclude_user_roles} onChange={(evt) => {
@@ -71,6 +74,16 @@ export default class Settings extends React.Component {
 										return (<option key={key} value={key}>{roles[key]}</option>)
 									})}
 								</select>
+								<p className={"help"}>{i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}</p>
+							</div>
+
+							<div className={"input-group"}>
+								<label>{i18n['Automatically delete data older than how many months?']}</label>
+								<input type={"number"} value={settings.prune_data_after_months} onChange={(evt) => {
+									settings.prune_data_after_months = parseInt(evt.target.value);
+									this.setState({settings});
+								}} step={1} min={0} max={600} /> {i18n['months']}
+								<p className={"help"}>{i18n['Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.']}</p>
 							</div>
 
 							<p>

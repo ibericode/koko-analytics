@@ -38,7 +38,7 @@ class Admin {
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
 
-		add_action('admin_footer_text', array( $this, 'footer_text') );
+		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 	}
 
 	public function footer_text() {
