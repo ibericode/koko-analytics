@@ -2,18 +2,20 @@
 
 import '../sass/admin.scss';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {HashRouter as Router, Switch, withRouter, Route} from 'react-router-dom';
 import Dashboard from "./components/dashboard";
 import Settings from './components/settings';
 
 const Page = () => (
 	<Router>
-		<Route path="/settings" exact>
-			<Settings />
-		</Route>
-		<Route path="/" exact>
-			<Dashboard />
-		</Route>
+		<Switch>
+			<Route path="/settings" exact>
+				<Settings />
+			</Route>
+			<Route path="/" exact>
+				{withRouter(Dashboard)}
+			</Route>
+		</Switch>
 	</Router>
 );
 

@@ -9,7 +9,19 @@ import TopReferrers from './top-referrers.js';
 import Nav from './nav.js';
 
 const now = new Date();
+const formatDate = (d) => `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+function parseUrlParams(str) {
+	let params = {},
+		match,
+		matches =  str.split("&");
 
+	for(let i=0; i<matches.length; i++) {
+		match = matches[i].split('=');
+		params[match[0]] = decodeURIComponent(match[1]);
+	}
+
+	return params;
+}
 
 export default class Dashboard extends React.Component {
 
@@ -24,13 +36,45 @@ export default class Dashboard extends React.Component {
 		this.setDates = this.setDates.bind(this);
 	}
 
+	componentDidMount() {
+		this.unlisten = this.props.history.listen((location, action) => {
+			if (action === 'POP') {
+				this.setDatesFromLocation(location.search.substring(1))
+			}
+		});
+
+		let searchPos = window.location.hash.indexOf('?');
+		let queryStr = window.location.hash.substring(searchPos + 1);
+		this.setDatesFromLocation(queryStr);
+	}
+
+	componentWillUnmount() {
+		this.unlisten();
+	}
+
+	setDatesFromLocation(queryStr) {
+		if (!queryStr) {
+			return;
+		}
+
+		const params = parseUrlParams(queryStr);
+		if (!params.start_date || !params.end_date) {
+			return;
+		}
+
+		this.setState({
+			startDate: new Date(params.start_date),
+			endDate: new Date(params.end_date + " 23:59:59"),
+		});
+	}
+
 	setDates(startDate, endDate) {
 		if (startDate.getTime() ===  this.state.startDate.getTime() && endDate.getTime() === this.state.endDate.getTime()) {
 			return;
 		}
 
 		this.setState({startDate, endDate});
-		// window.location.hash = `!/?start_date=${s.getFullYear()}-${s.getMonth()+1}-${s.getDate()}&end_date=${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()}`;
+		this.props.history.push(`/?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`);
 	}
 
 	render() {
