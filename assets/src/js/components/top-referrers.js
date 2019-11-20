@@ -10,7 +10,7 @@ function formatUrl(url) {
     return url.replace(URL_REGEX, '$2')
 }
 
-export default class TopReferrers extends React.Component {
+export default class TopReferrers extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {

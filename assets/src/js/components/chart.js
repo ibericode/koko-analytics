@@ -78,7 +78,7 @@ const chartOptions = {
 	}
 };
 
-export default class Component extends React.Component {
+export default class Component extends React.PureComponent {
 
 	constructor(props) {
 		super(props);

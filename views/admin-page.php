@@ -43,7 +43,4 @@
 	);
 	?>
 </script>
-<?php
-wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-element' ), KOKO_ANALYTICS_VERSION, true);
-
-
+<script src="<?php echo plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ); ?>?ver=<?php echo KOKO_ANALYTICS_VERSION; ?>"></script>

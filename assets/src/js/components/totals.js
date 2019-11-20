@@ -8,7 +8,7 @@ import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 const now = new Date();
 
-export default class Totals extends React.Component {
+export default class Totals extends React.PureComponent {
 
 	constructor(props) {
 		super(props);

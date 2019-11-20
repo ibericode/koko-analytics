@@ -1,5 +1,6 @@
 'use strict';
 const i18n = window.koko_analytics.i18n;
+import React from 'react';
 import {NavLink} from "react-router-dom";
 
 export default function Nav() {

@@ -1,6 +1,7 @@
 'use strict';
 
 import '../sass/admin.scss';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter as Router, Switch, withRouter, Route} from 'react-router-dom';
 import Dashboard from "./components/dashboard";

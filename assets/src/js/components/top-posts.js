@@ -5,7 +5,7 @@ import {format} from "date-fns";
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 
-export default class TopPosts extends React.Component {
+export default class TopPosts extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state =  {
