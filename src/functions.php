@@ -102,3 +102,29 @@ function get_most_viewed_posts( array $args ) {
 	);
 	return $r->posts;
 }
+
+function admin_bar_menu( $wp_admin_bar ) {
+	// only show on frontend
+	if ( is_admin() ) {
+		return;
+	}
+
+	// only show for users who can access statistics page
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$wp_admin_bar->add_node(
+		array(
+			'parent' => 'site-name',
+			'id' => 'koko-analytics',
+			'title' => __( 'Analytics', 'koko-analytics' ),
+			'href' => admin_url( '/index.php?page=koko-analytics' ),
+		)
+	);
+}
+
+function widgets_init() {
+	require __DIR__ . '/class-widget-most-viewed-posts.php';
+	register_widget( 'KokoAnalytics\Widget_Most_Viewed_Posts' );
+}

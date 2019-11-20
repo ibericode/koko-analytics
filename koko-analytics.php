@@ -47,6 +47,8 @@ if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	require __DIR__ . '/src/class-script-loader.php';
 	$loader = new Script_Loader();
 	$loader->init();
+
+	add_action( 'admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40 );
 }
 
 require __DIR__ . '/src/class-plugin.php';
@@ -61,13 +63,7 @@ require __DIR__ . '/src/class-rest.php';
 $rest = new Rest();
 $rest->init();
 
-add_action(
-	'widgets_init',
-	function() {
-		require __DIR__ . '/src/class-widget-most-viewed-posts.php';
-		register_widget( 'KokoAnalytics\\Widget_Most_Viewed_Posts' );
-	}
-);
+add_action( 'widgets_init', 'KokoAnalytics\widgets_init' );
 
 require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
