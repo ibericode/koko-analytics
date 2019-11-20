@@ -35,7 +35,7 @@ class Pruner {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date < %s", $date ) );
 
 		// delete unused referrer URL's
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN ( SELECT id FROM {$wpdb->prefix}koko_analytics_referrer_stats )" );
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN ( SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )" );
 	}
 
 }
