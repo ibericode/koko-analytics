@@ -27,45 +27,31 @@ export default class Dashboard extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			startDate: new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0),
-			endDate: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
-		};
-
+		this.state = {...this.parseStateFromLocation(window.location.hash)}
 		this.setDates = this.setDates.bind(this);
 	}
 
 	componentDidMount() {
 		this.unlisten = this.props.history.listen((location, action) => {
 			if (action === 'POP') {
-				this.setDatesFromLocation(location.search.substring(1))
+				this.setState(this.parseStateFromLocation(location.search));
 			}
 		});
-
-		let searchPos = window.location.hash.indexOf('?');
-		let queryStr = window.location.hash.substring(searchPos + 1);
-		this.setDatesFromLocation(queryStr);
 	}
 
 	componentWillUnmount() {
 		this.unlisten();
 	}
 
-	setDatesFromLocation(queryStr) {
-		if (!queryStr) {
-			return;
-		}
-
+	parseStateFromLocation(str) {
+		let searchPos = str.indexOf('?');
+		let queryStr = str.substring(searchPos + 1);
 		const params = parseUrlParams(queryStr);
-		if (!params.start_date || !params.end_date) {
-			return;
-		}
 
-		this.setState({
-			startDate: new Date(params.start_date),
-			endDate: new Date(params.end_date + " 23:59:59"),
-		});
+		return {
+			startDate: params.start_date ? new Date(params.start_date): new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0),
+			endDate: params.end_date ? new Date(params.end_date + " 23:59:59") : new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+		};
 	}
 
 	setDates(startDate, endDate) {
