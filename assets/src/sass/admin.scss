@@ -19,6 +19,13 @@
         display: grid;
         grid-gap: 12px;
         grid-template-columns: repeat(6, 1fr);
+
+		.one { grid-column: span 1; }
+		.two { grid-column: span 2; }
+		.three { grid-column: span 3; }
+		.four { grid-column: span 4; }
+		.five { grid-column: span 5; }
+		.six { grid-column: span 6; }
     }
 
     .box-grid {
@@ -42,7 +49,6 @@
         border-radius: 6px;
         border: 1px solid $border-base;
         grid-column: span 3;
-        animation: fadein .5s;
         margin-bottom: 12px;
 
         @media(max-width: 800px) {
@@ -107,7 +113,8 @@
             display: inline-block;
             padding: 0 5px;
 
-            &:hover {
+            &:hover,
+			&:focus {
                 transform: scale(1.4);
                 transition: transform .2s;
             }
@@ -118,16 +125,19 @@
             }
         }
 
-
     }
+
+	.fade {
+		animation: fadein 1s;
+	}
 
 }
 
 @keyframes fadein {
     from {
-        opacity:0
+        opacity: 0
     }
     to {
-        opacity:1
+        opacity: 1
     }
 }

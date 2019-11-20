@@ -69,7 +69,7 @@ export default class Dashboard extends React.Component {
 			<main>
 				<div>
 					<div className={"grid"}>
-						<div style={{ gridColumn: 'span 4'}}>
+						<div className={"four"}>
 							<Datepicker startDate={startDate} endDate={endDate} onUpdate={this.setDates} />
 						</div>
 						<Nav />

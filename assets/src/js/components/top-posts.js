@@ -46,7 +46,7 @@ export default class TopPosts extends React.PureComponent {
 		let {offset, limit, items} = this.state;
 		let {startDate, endDate} = this.props;
 		return (
-			<div className={"box top-posts"}>
+			<div className={"box fade top-posts"}>
 				<div className="head box-grid">
 					<div className={""}>
 						<span className={"muted"}>#</span>
@@ -70,7 +70,7 @@ export default class TopPosts extends React.PureComponent {
 				</div>
 				<div className={"body"}>
 					{items.map((p, i) => (
-						<div key={p.id} className={"box-grid"}>
+						<div key={p.id} className={"box-grid fade"}>
 							<div>
 								<span className={"muted"}>{offset + i + 1}</span>
 								<a href={p.post_permalink}>{p.post_title || '(no title)'}</a>

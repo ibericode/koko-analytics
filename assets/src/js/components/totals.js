@@ -99,7 +99,7 @@ export default class Totals extends React.PureComponent {
 
 		return (
 			<div className="totals-container">
-				<div className="totals-box">
+				<div className="totals-box fade">
 					<div className="totals-label">{i18n['Total visitors']}</div>
 					<div className="totals-amount">{numbers.formatPretty(visitors)} <span
 						className={visitorsChange > 0 ? "up" : visitorsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(visitorsChange)}</span>
@@ -108,7 +108,7 @@ export default class Totals extends React.PureComponent {
 						<span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? "more" : "less"} than previous period</span>
 					</div>
 				</div>
-				<div className="totals-box">
+				<div className="totals-box fade">
 					<div className="totals-label">{i18n['Total pageviews']}</div>
 					<div className="totals-amount">{numbers.formatPretty(pageviews)} <span
 						className={pageviewsChange > 0 ? "up" : pageviewsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(pageviewsChange)}</span>

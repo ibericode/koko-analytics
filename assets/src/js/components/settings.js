@@ -58,12 +58,10 @@ export default class Settings extends React.Component {
 		let {saving, buttonText, settings} = this.state;
 		return (
 			<main>
-				<div className={"grid"} style={{marginBottom: '24px'}}>
-					<div style={{gridColumn: 'span 4'}}>
+				<div className={"grid"}>
+					<div className={"four"}>
 						<h1>{i18n['Settings']}</h1>
 						<form method={"POST"} onSubmit={this.onSubmit}>
-
-
 							<div className={"input-group"}>
 								<label>{i18n['Exclude pageviews from these user roles']}</label>
 								<select name="exclude_user_roles[]" multiple={true} value={settings.exclude_user_roles} onChange={(evt) => {
