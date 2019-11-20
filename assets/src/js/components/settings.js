@@ -30,7 +30,6 @@ export default class Settings extends React.Component {
 		});
 		let startTime = new Date();
 
-		console.log(settings);
 		api.request("/settings", {
 			method: "POST",
 			body: settings
