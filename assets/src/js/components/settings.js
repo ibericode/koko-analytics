@@ -82,11 +82,6 @@ export default class Settings extends React.Component {
 					</div>
 					<Nav />
 				</div>
-				<div>
-					<p className="help">Thank you for using Koko Analytics! Please <a
-						href="https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post">leave us a plugin
-						review on WordPress.org</a> if our work helped you.</p>
-				</div>
 			</main>
 		)
 	}

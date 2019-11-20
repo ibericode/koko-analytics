@@ -37,6 +37,12 @@ class Admin {
 		$settings      = get_settings();
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
+
+		add_action('admin_footer_text', array( $this, 'footer_text') );
+	}
+
+	public function footer_text() {
+		return sprintf( __( 'If you enjoy using Koko Analytics, please <a href="%s">review the plugin on WordPress.org</a> to help out.', 'koko-analytics' ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform' );
 	}
 
 	public function maybe_run_migrations() {

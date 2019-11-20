@@ -39,7 +39,7 @@ export default class Totals extends React.PureComponent {
 	fetch() {
 		let s = this.props.startDate;
 		// if end date is in future, use today instead so we get a fair comparison
-		let e = this.props.endDate <= now ? this.props.endDate : now;
+		let e = this.props.endDate.getTime() <= now.getTime() ? this.props.endDate : now;
 		let diff = (e.getTime() - s.getTime()) - 1;
 		let previousStartDate = new Date(s.getTime() - diff);
 		let previousEndDate = new Date(e.getTime() - diff);
@@ -65,8 +65,6 @@ export default class Totals extends React.PureComponent {
 					visitors += parseInt(r.visitors);
 					pageviews += parseInt(r.pageviews);
 				});
-
-				this.setState({visitors, pageviews});
 			}),
 
 			// 2
@@ -92,7 +90,7 @@ export default class Totals extends React.PureComponent {
 				pageviewsChange = Math.round((pageviews / pageviewsPrevious - 1) * 100);
 			}
 
-			this.setState({visitorsPrevious, visitorsDiff, visitorsChange, pageviewsPrevious, pageviewsDiff, pageviewsChange});
+			this.setState({visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange});
 		});
 	}
 
