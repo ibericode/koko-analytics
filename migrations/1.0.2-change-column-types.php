@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) or exit;
+
 global $wpdb;
 
 $wpdb->query( "ALTER TABLE {$wpdb->prefix}koko_analytics_site_stats MODIFY visitors MEDIUMINT UNSIGNED NOT NULL" );

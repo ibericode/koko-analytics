@@ -22,7 +22,13 @@ class Plugin {
 	}
 
 	public function on_activation() {
+		// make sure koko analytics loads first to prevent unnecessary work on stat collection requests
 		update_option( 'activate_plugins', get_option( 'active_plugins' ) );
+
+		// add capabilities to administrator role
+		$role = get_role( 'administrator' );
+		$role->add_cap( 'view_koko_analytics' );
+		$role->add_cap( 'manage_koko_analytics' );
 	}
 
 	//

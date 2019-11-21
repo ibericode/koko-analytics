@@ -43,6 +43,7 @@
 			'start_of_week' => $start_of_week,
 			'user_roles'    => $user_roles,
 			'settings'      => $settings,
+			'showSettings'  => current_user_can( 'manage_koko_analytics' ),
 		)
 	);
 	?>

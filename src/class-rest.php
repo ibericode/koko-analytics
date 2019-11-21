@@ -24,7 +24,7 @@ class Rest {
 					),
 				),
 				'permission_callback' => function () {
-					return current_user_can( 'manage_options' );
+					return current_user_can( 'view_koko_analytics' );
 				},
 			)
 		);
@@ -44,7 +44,7 @@ class Rest {
 					),
 				),
 				'permission_callback' => function () {
-					return current_user_can( 'manage_options' );
+					return current_user_can( 'view_koko_analytics' );
 				},
 			)
 		);
@@ -64,7 +64,7 @@ class Rest {
 					),
 				),
 				'permission_callback' => function () {
-					return current_user_can( 'manage_options' );
+					return current_user_can( 'view_koko_analytics' );
 				},
 			)
 		);
@@ -76,7 +76,7 @@ class Rest {
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'update_settings' ),
 				'permission_callback' => function () {
-					return current_user_can( 'manage_options' );
+					return current_user_can( 'manage_koko_analytics' );
 				},
 			)
 		);

@@ -21,7 +21,7 @@ class Admin {
 	}
 
 	public function register_menu() {
-		add_submenu_page( 'index.php', __( 'Koko Analytics', 'koko-analytics' ), __( 'Analytics', 'koko-analytics' ), 'manage_options', 'koko-analytics', array( $this, 'show_page' ) );
+		add_submenu_page( 'index.php', __( 'Koko Analytics', 'koko-analytics' ), __( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
 	public function show_page() {
@@ -63,6 +63,11 @@ class Admin {
 	}
 
 	public function register_dashboard_widget() {
+		// only show if user can view stats
+		if (! current_user_can( 'view_koko_analytics') ) {
+			return;
+		}
+
 		add_meta_box( 'koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high' );
 	}
 

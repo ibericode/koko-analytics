@@ -110,7 +110,7 @@ function admin_bar_menu( $wp_admin_bar ) {
 	}
 
 	// only show for users who can access statistics page
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'view_koko_analytics' ) ) {
 		return;
 	}
 
