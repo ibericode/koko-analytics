@@ -203,7 +203,10 @@ class Aggregator {
 			$new_params    = array_intersect_key( $params, array_flip( $whitelisted_params ) );
 			$new_query_str = http_build_query( $new_params );
 			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
-			$url           = $new_url;
+
+			$url           = rtrim( $new_url, '?' );
+
+
 		}
 
 		return $url;
