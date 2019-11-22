@@ -3,6 +3,7 @@
 import React from 'react';
 import api from './../util/api.js';
 
+const data = window.koko_analytics;
 const i18n = window.koko_analytics.i18n;
 const roles = window.koko_analytics.user_roles;
 const settings = window.koko_analytics.settings;
@@ -84,10 +85,18 @@ export default class Settings extends React.Component {
 								<p className={"help"}>{i18n['Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.']}</p>
 							</div>
 
+							<div className={"input-group"}>
 							<p>
 								<button type={"submit"} className={"button button-primary"}
 										disabled={saving}>{buttonText}</button>
 							</p>
+							</div>
+
+
+							<div className={"margin-m"}>
+								<p className={"help"}>Database size: {data.dbSize} MB</p>
+							</div>
+
 						</form>
 					</div>
 					<Nav />

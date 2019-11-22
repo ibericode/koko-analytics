@@ -116,6 +116,16 @@ class Admin {
 		return $links;
 	}
 
+	public function get_database_size() {
+		global $wpdb;
+		$sql = $wpdb->prepare( "
+			SELECT ROUND(SUM((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024), 2)
+			FROM information_schema.TABLES
+			WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s", DB_NAME, $wpdb->prefix . 'koko_analytics_%' );
+
+		return $wpdb->get_var( $sql );
+	}
+
 	public function maybe_seed() {
 		global $wpdb;
 
@@ -123,12 +133,10 @@ class Admin {
 			return;
 		}
 
-		$wpdb->suppress_errors( true );
-
 		$query         = new \WP_Query();
 		$posts         = $query->query(
 			array(
-				'posts_per_page' => 12,
+				'posts_per_page' => 32,
 				'post_type'      => 'any',
 				'post_status'    => 'publish',
 			)
@@ -136,19 +144,39 @@ class Admin {
 		$post_count    = count( $posts );
 		$referrer_urls = array();
 		foreach ( array(
-					  'https://www.wordpress.org/',
-					  'https://www.wordpress.org/plugins/koko-analytics',
-					  'https://www.ibericode.com/',
-					  'https://duckduckgo.com/',
-					  'https://www.mozilla.org/',
-					  'https://www.eff.org/',
-					  'https://letsencrypt.org/',
-					  'https://dannyvankooten.com/',
-					  'https://github.com/ibericode/koko-analytics',
-					  'https://lobste.rs/',
-					  'https://joinmastodon.org/',
-					  'https://www.php.net/',
-					  'https://mariadb.org/',
+			  'https://www.wordpress.org/',
+			  'https://www.wordpress.org/plugins/koko-analytics',
+			  'https://www.ibericode.com/',
+			  'https://duckduckgo.com/',
+			  'https://www.mozilla.org/',
+			  'https://www.eff.org/',
+			  'https://letsencrypt.org/',
+			  'https://dannyvankooten.com/',
+			  'https://github.com/ibericode/koko-analytics',
+			  'https://lobste.rs/',
+			  'https://joinmastodon.org/',
+			  'https://www.php.net/',
+			  'https://mariadb.org/',
+			  'https://referrer-1.com/',
+			  'https://referrer-2.com/',
+			  'https://referrer-3.com/',
+			  'https://referrer-4.com/',
+			  'https://referrer-5.com/',
+			  'https://referrer-6.com/',
+			  'https://referrer-7.com/',
+			  'https://referrer-8.com/',
+			  'https://referrer-9.com/',
+			  'https://referrer-10.com/',
+			  'https://referrer-11.com/',
+			  'https://referrer-12.com/',
+			  'https://referrer-13.com/',
+			  'https://referrer-14.com/',
+			  'https://referrer-15.com/',
+			  'https://referrer-16.com/',
+			  'https://referrer-17.com/',
+			  'https://referrer-18.com/',
+			  'https://referrer-19.com/',
+			  'https://referrer-20.com/',
 		) as $url ) {
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_referrer_urls',
@@ -164,8 +192,8 @@ class Admin {
 		for ( $i = 0; $i < $n; $i++ ) {
 			$progress = ( $n - $i ) / $n;
 			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
-			$pageviews = rand( 500, 1000 ) * $progress ^ 2;
-			$visitors  = $pageviews * rand( 3, 6 ) / 10;
+			$pageviews = max(1, rand( 500, 1000 ) * $progress ^ 2 );
+			$visitors  = max( 1, $pageviews * rand( 3, 6 ) / 10 );
 
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_site_stats',
