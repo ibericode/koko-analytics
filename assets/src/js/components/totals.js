@@ -21,6 +21,7 @@ export default class Totals extends React.PureComponent {
 			pageviewsChange: 0,
 			pageviewsDiff: 0,
 			pageviewsPrevious: 0,
+			hash: 'initial' // recompute this when data changes so we can redraw elements for animations
 		}
 	}
 
@@ -90,16 +91,17 @@ export default class Totals extends React.PureComponent {
 				pageviewsChange = Math.round((pageviews / pageviewsPrevious - 1) * 100);
 			}
 
-			this.setState({visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange});
+			let hash = Math.random().toString(36).substring(4);
+			this.setState({visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash});
 		});
 	}
 
 	render() {
-		let {visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange} = this.state;
+		let {visitors, visitorsDiff, visitorsChange, pageviews, pageviewsDiff, pageviewsChange, hash} = this.state;
 
 		return (
 			<div className="totals-container">
-				<div className="totals-box fade">
+				<div className="totals-box fade" key={hash + "-visitors"}>
 					<div className="totals-label">{i18n['Total visitors']}</div>
 					<div className="totals-amount">{numbers.formatPretty(visitors)} <span
 						className={visitorsChange > 0 ? "up" : visitorsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(visitorsChange)}</span>
@@ -108,7 +110,7 @@ export default class Totals extends React.PureComponent {
 						<span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? "more" : "less"} than previous period</span>
 					</div>
 				</div>
-				<div className="totals-box fade">
+				<div className="totals-box fade" key={hash + "-pageviews"}>
 					<div className="totals-label">{i18n['Total pageviews']}</div>
 					<div className="totals-amount">{numbers.formatPretty(pageviews)} <span
 						className={pageviewsChange > 0 ? "up" : pageviewsChange === 0 ? "neutral" : "down"}>{numbers.formatPercentage(pageviewsChange)}</span>

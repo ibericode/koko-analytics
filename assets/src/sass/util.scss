@@ -1,0 +1,24 @@
+.margin-s {
+	margin: 24px 0;
+}
+
+.margin-m {
+	margin: 48px 0;
+}
+
+.margin-l {
+	margin: 72px 0;
+}
+
+.fade {
+	animation: fadein 0.4s;
+}
+
+@keyframes fadein {
+	from {
+		opacity: 0
+	}
+	to {
+		opacity: 1
+	}
+}

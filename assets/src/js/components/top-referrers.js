@@ -73,7 +73,7 @@ export default class TopReferrers extends React.PureComponent {
 				</div>
 				<div className={"body"}>
 					{items.map((p, i) => (
-						<div key={i} className={"box-grid fade"}>
+						<div key={p.id} className={"box-grid fade"}>
 							<div>
 								<span className={"muted"}>{offset + i + 1}</span>
 								<a href={p.url}>{formatUrl(p.url)}</a>
