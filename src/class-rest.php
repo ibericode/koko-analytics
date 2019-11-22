@@ -103,41 +103,15 @@ class Rest {
 		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$offset = isset( $params['offset'] ) ? absint( $params['offset'] ) : 0;
 		$limit = isset( $params['limit'] ) ? absint( $params['limit'] ) : 10;
-		$sql        = $wpdb->prepare( "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, s.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
+		$sql        = $wpdb->prepare( "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, p.post_title FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->posts} p ON p.ID = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, s.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
 		if ( empty( $results ) ) {
 			return array();
 		}
 
-		// create hashmap of found posts
-		$ids    = wp_list_pluck( $results, 'id' );
-		$q      = new \WP_Query;
-		$_posts = $q->query(
-			array(
-				'posts_per_page' => -1,
-				'post__in'       => $ids,
-				'post_type'      => get_post_types(),
-				'orderby'             => 'post__in',
-				'no_found_rows'       => true,
-				'ignore_sticky_posts' => true,
-			)
-		);
-
-		$posts = array();
-		foreach ( $_posts as $p ) {
-			$posts[ $p->ID ] = $p;
-		}
-
-		// add post title & post link to each result row
+		// add permalink to each result
 		foreach ( $results as $i => $row ) {
-			// skip if post does not exist
-			if ( ! isset( $posts[ $row->id ] ) ) {
-				continue;
-			}
-
-			$post                          = $posts[ $row->id ];
-			$results[ $i ]->post_title     = $post->post_title;
-			$results[ $i ]->post_permalink = get_permalink( $post );
+			$results[ $i ]->post_permalink = get_permalink( $row->id );
 		}
 
 		return $results;
