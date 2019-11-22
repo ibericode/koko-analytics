@@ -7,8 +7,15 @@ import '../../sass/datepicker.scss';
 import { format } from 'date-fns'
 const startOfWeek = window.koko_analytics.start_of_week;
 const i18n = window.koko_analytics.i18n;
+import addDays from 'date-fns/addDays';
 
-// TODO: Add arrow keys for quickly browsing to next period
+function getLastDayOfMonth(_date) {
+	let d = new Date(_date.getFullYear(), _date.getMonth(), 1);
+	d.setMonth(d.getMonth() + 1);
+	d.setDate(0);
+	return d.getDate();
+}
+
 export default class Datepicker extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,6 +41,9 @@ export default class Datepicker extends React.Component {
 			field: document.getElementById('start-date-input'),
 			bound: false,
 			firstDay: startOfWeek,
+			numberOfMonths: 2,
+			enableSelectionDaysInNextAndPreviousMonths: true,
+			showDaysInNextAndPreviousMonths: true,
 			onSelect: (date) => {
 				let newState = {
 					picking: !this.state.picking,
@@ -57,6 +67,10 @@ export default class Datepicker extends React.Component {
 			},
 			container: this.datepickerContainer.current,
 		});
+
+		this.datepicker.setStartRange(this.state.startDate);
+		this.datepicker.setEndRange(this.state.endDate);
+		this.datepicker.gotoDate(this.state.endDate);
 	}
 
     toggle() {
@@ -126,14 +140,38 @@ export default class Datepicker extends React.Component {
 					break;
 			}
 
-			// update datepicker to match preset
-			this.datepicker.setStartRange(startDate);
-			this.datepicker.setEndRange(endDate);
-			this.datepicker.gotoDate(endDate);
+			this.setDates(startDate, endDate);
+		}
+	}
 
-			// update app state
-			this.setState({startDate, endDate});
-			this.props.onUpdate(startDate, endDate);
+	setDates(startDate, endDate) {
+		this.datepicker.setStartRange(startDate);
+		this.datepicker.setEndRange(endDate);
+		this.datepicker.gotoDate(endDate);
+		this.setState({startDate, endDate});
+		this.props.onUpdate(startDate, endDate);
+	}
+
+	handleQuickNav(dir) {
+		return (evt) => {
+			evt.preventDefault();
+
+			let {startDate, endDate} = this.state;
+			let diff = (endDate.getTime() - startDate.getTime()) / 1000;
+			let diffInDays = Math.round(diff / 86400);
+			let modifier = dir === 'prev' ? -1 : 1;
+			let cycleMonths = startDate.getDate() === 1 && endDate.getDate() === getLastDayOfMonth(endDate);
+
+			if (cycleMonths) {
+				let monthsDiff = endDate.getMonth() - startDate.getMonth() + 1;
+				startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0);
+				endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59 );
+			} else {
+				startDate = addDays(startDate, diffInDays * modifier);
+				endDate = addDays(endDate, diffInDays * modifier);
+			}
+
+			this.setDates(startDate, endDate);
 		}
 	}
 
@@ -149,16 +187,27 @@ export default class Datepicker extends React.Component {
 					<span>{format(endDate, "MMM d, yyyy")}</span>
 				</div>
 				<div className="date-picker-ui" style={{display: open ? '' : 'none'}}>
-					<div className="date-presets">
-						<strong>{i18n['Date range']}</strong>
-						<a href="" onClick={this.setPeriod('this_week')}>{i18n['This week']}</a>
-						<a href="" onClick={this.setPeriod('last_week')}>{i18n['Last week']}</a>
-						<a href="" onClick={this.setPeriod('this_month')}>{i18n['This month']}</a>
-						<a href="" onClick={this.setPeriod('last_month')}>{i18n['Last month']}</a>
-						<a href="" onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
-						<a href="" onClick={this.setPeriod('last_year')}>{i18n['Last year']}</a>
+					<div className="date-quicknav cf">
+						<span onClick={this.handleQuickNav('prev')} className={"prev dashicons dashicons-arrow-left"} title={i18n['Previous']} />
+						<span className={"date"}>
+								<span>{format(startDate, 'MMM d, yyyy')}</span>
+								<span> &mdash; </span>
+								<span>{format(endDate, "MMM d, yyyy")}</span>
+							</span>
+						<span onClick={this.handleQuickNav('next')} className={"next dashicons dashicons-arrow-right"} title={i18n['Next']} />
 					</div>
-					<div id="date-picker" className="date-picker" ref={this.datepickerContainer}></div>
+					<div className={"flex"}>
+						<div className="date-presets">
+							<strong>{i18n['Date range']}</strong>
+							<a href="" onClick={this.setPeriod('this_week')}>{i18n['This week']}</a>
+							<a href="" onClick={this.setPeriod('last_week')}>{i18n['Last week']}</a>
+							<a href="" onClick={this.setPeriod('this_month')}>{i18n['This month']}</a>
+							<a href="" onClick={this.setPeriod('last_month')}>{i18n['Last month']}</a>
+							<a href="" onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
+							<a href="" onClick={this.setPeriod('last_year')}>{i18n['Last year']}</a>
+						</div>
+						<div className="date-picker" ref={this.datepickerContainer} />
+					</div>
 				</div>
 				<input type="hidden" id="start-date-input"/>
 			</div>

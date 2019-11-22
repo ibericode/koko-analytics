@@ -14,6 +14,23 @@
 	animation: fadein 0.4s;
 }
 
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+.flex {
+	display: flex;
+}
+
+.cf:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
 @keyframes fadein {
 	from {
 		opacity: 0

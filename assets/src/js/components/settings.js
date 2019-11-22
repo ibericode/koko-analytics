@@ -94,7 +94,7 @@ export default class Settings extends React.Component {
 
 
 							<div className={"margin-m"}>
-								<p className={"help"}>Database size: {data.dbSize} MB</p>
+								<p className={"help"}>{i18n['Database size:']} {data.dbSize} MB</p>
 							</div>
 
 						</form>

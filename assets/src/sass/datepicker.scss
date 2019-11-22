@@ -23,13 +23,36 @@
 
 	.date-picker-ui {
 		background: white;
-		display: flex;
 		width: auto;
 		z-index: 20;
 		border-radius: 6px;
 		border: 1px solid $border-base;
 		position: absolute;
 		margin-top: 6px;
+	}
+
+	.date-quicknav {
+		background: #2e363f;
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		color: white;
+		text-align: center;
+		padding: 12px;
+		font-weight: bold;
+		font-size: 1.1em;
+
+		.prev,
+		.next {
+			margin: 0 6px;
+			color: white;
+
+			&:hover,
+			&:focus {
+				cursor: pointer;
+				transform: scale(1.4);
+				transition: transform .2s;
+			}
+		}
 	}
 
 	.date-presets {
@@ -51,12 +74,22 @@
 		padding: 12px;
 	}
 
-	.date-picker .pika-single {
+	.date-picker .pika-lendar {
+		margin: 0;
+	}
+
+	.pika-single {
+		color: inherit;
 		border: 0;
 	}
 
-	.date-picker .pika-lendar {
-		margin: 0;
+	.pika-label {
+		font-size: inherit;
+		font-weight: normal;
+	}
+
+	.pika-prev, .pika-next {
+		opacity: 0.3;
 	}
 
 } /* end koko analytics wrap */

@@ -59,13 +59,13 @@ export default class TopReferrers extends React.PureComponent {
 								  title={i18n['Previous']} onClick={() => {
 								let newOffset = Math.max(0, offset - limit);
 								this.fetch(newOffset);
-							}}>&larr;</span>
+							}}><span className="dashicons dashicons-arrow-left" /></span>
 							<span className={"next " + (items.length < limit ? "hidden" : '')}
 								  title={i18n['Next']} onClick={() => {
 								let newOffset = offset + limit;
 								this.fetch(newOffset);
 							}
-							}>&rarr;</span>
+							}><span className="dashicons dashicons-arrow-right" /></span>
 						</div>
 					</div>
 					<div className={"amount-col"}>{i18n['Visitors']}</div>
