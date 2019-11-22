@@ -123,6 +123,16 @@
                 display: initial;
                 visibility: hidden;
             }
+
+			&.disabled {
+				opacity: 0.4;
+
+				&:hover,
+				&:focus {
+					transform: none;
+					cursor: initial;
+				}
+			}
         }
 
     }

@@ -58,6 +58,7 @@
 	.date-presets {
 		padding: 12px 24px 12px 12px;
 		border-right: 1px solid $border-base;
+		min-width: 100px;
 	}
 
 	.date-presets strong {
@@ -72,6 +73,10 @@
 
 	.date-picker {
 		padding: 12px;
+
+		@media(min-width: 680px) {
+			min-width: 480px;
+		}
 	}
 
 	.date-picker .pika-lendar {

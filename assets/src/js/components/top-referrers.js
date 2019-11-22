@@ -55,12 +55,12 @@ export default class TopReferrers extends React.PureComponent {
 						<span className={"muted"}>#</span>
 						{i18n['Referrers']}
 						<div className={"pagination"}>
-							<span className={"prev " + (offset === 0 ? 'hidden' : '')}
+							<span className={"prev " + (offset === 0 ? 'disabled' : '')}
 								  title={i18n['Previous']} onClick={() => {
 								let newOffset = Math.max(0, offset - limit);
 								this.fetch(newOffset);
 							}}><span className="dashicons dashicons-arrow-left" /></span>
-							<span className={"next " + (items.length < limit ? "hidden" : '')}
+							<span className={"next " + (items.length < limit ? "disabled" : '')}
 								  title={i18n['Next']} onClick={() => {
 								let newOffset = offset + limit;
 								this.fetch(newOffset);

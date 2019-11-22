@@ -1,5 +1,22 @@
 # Changelog
 
+#### 1.0.2 - Nov 22, 2019
+
+- Add icons to datepickers to quickly cycle through selected date periods.
+- Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether a user role can view or manage statistics.
+- Add setting to automatically delete data older than X months.
+- Add menu item to WP Admin Bar.
+- Update URL when date range changes so page can be refreshed or shared.
+- Update browser history with chosen date ranges.
+- Show total size of Koko Analytics' database tables on settings page.
+- Improved animations when dashboard data updates.
+- Improved column type constraints for storing data.
+- Improved labels for chart x-axes.
+- Consistent ordering of posts and referrers tables.
+- Remove trailing `?` character from referrer URL's after query parameters are stripped.
+- Fix retrieving post title when post type is excluded from search.
+
+
 #### 1.0.1 - Nov 14, 2019
 
 - Add dashboard widget showing site visits over last 14 days.

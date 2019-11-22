@@ -41,7 +41,7 @@ export default class Datepicker extends React.Component {
 			field: document.getElementById('start-date-input'),
 			bound: false,
 			firstDay: startOfWeek,
-			numberOfMonths: 2,
+			numberOfMonths: window.innerWidth > 680 ? 2 : 1,
 			enableSelectionDaysInNextAndPreviousMonths: true,
 			showDaysInNextAndPreviousMonths: true,
 			onSelect: (date) => {
