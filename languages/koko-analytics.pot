@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-11-14T08:38:36+00:00\n"
+"POT-Creation-Date: 2019-11-22T13:59:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.3.0\n"
+"X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
 
 #. Plugin Name of the plugin
@@ -36,27 +36,32 @@ msgid "https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm
 msgstr ""
 
 #: src/class-admin.php:24
+#: src/functions.php:121
 msgid "Analytics"
 msgstr ""
 
-#: src/class-admin.php:71
+#: src/class-admin.php:45
+msgid "If you enjoy using Koko Analytics, please <a href=\"%s\">review the plugin on WordPress.org</a> to help out."
+msgstr ""
+
+#: src/class-admin.php:85
 msgid "Showing site visits over last 14 days"
 msgstr ""
 
-#: src/class-admin.php:71
+#: src/class-admin.php:85
 msgid "View all statistics"
 msgstr ""
 
-#: src/class-admin.php:83
-#: views/admin-page.php:29
+#: src/class-admin.php:97
+#: views/admin-page.php:32
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:101
+#: src/class-admin.php:115
 msgid "Visit plugin site"
 msgstr ""
 
-#: src/class-aggregator.php:17
+#: src/class-aggregator.php:16
 msgid "Every minute"
 msgstr ""
 
@@ -98,85 +103,105 @@ msgid "Please enable JavaScript for this page to work."
 msgstr ""
 
 #: views/admin-page.php:16
-msgid "Date range"
+msgid "Automatically delete data older than how many months?"
 msgstr ""
 
 #: views/admin-page.php:17
-msgid "Exclude pageviews from these user roles"
+msgid "Database size:"
 msgstr ""
 
 #: views/admin-page.php:18
-msgid "Last week"
+msgid "Date range"
 msgstr ""
 
 #: views/admin-page.php:19
-msgid "Last month"
+msgid "Exclude pageviews from these user roles"
 msgstr ""
 
 #: views/admin-page.php:20
-msgid "Last year"
+msgid "Last week"
 msgstr ""
 
 #: views/admin-page.php:21
-msgid "Next"
+msgid "Last month"
 msgstr ""
 
 #: views/admin-page.php:22
-msgid "Pages"
+msgid "Last year"
 msgstr ""
 
 #: views/admin-page.php:23
-msgid "Pageviews"
+msgid "months"
 msgstr ""
 
 #: views/admin-page.php:24
-msgid "Previous"
+msgid "Next"
 msgstr ""
 
 #: views/admin-page.php:25
-msgid "Referrers"
+msgid "Pages"
 msgstr ""
 
 #: views/admin-page.php:26
-msgid "Save Changes"
+msgid "Pageviews"
 msgstr ""
 
 #: views/admin-page.php:27
-msgid "Saving - please wait"
+msgid "Previous"
 msgstr ""
 
 #: views/admin-page.php:28
-msgid "Saved!"
+msgid "Referrers"
+msgstr ""
+
+#: views/admin-page.php:29
+msgid "Save Changes"
 msgstr ""
 
 #: views/admin-page.php:30
-msgid "Stats"
+msgid "Saving - please wait"
 msgstr ""
 
 #: views/admin-page.php:31
-msgid "There's nothing here, yet!"
-msgstr ""
-
-#: views/admin-page.php:32
-msgid "This week"
+msgid "Saved!"
 msgstr ""
 
 #: views/admin-page.php:33
-msgid "This month"
+msgid "Stats"
 msgstr ""
 
 #: views/admin-page.php:34
-msgid "This year"
+msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
 msgstr ""
 
 #: views/admin-page.php:35
-msgid "Total visitors"
+msgid "There's nothing here, yet!"
 msgstr ""
 
 #: views/admin-page.php:36
-msgid "Total pageviews"
+msgid "This week"
 msgstr ""
 
 #: views/admin-page.php:37
+msgid "This month"
+msgstr ""
+
+#: views/admin-page.php:38
+msgid "This year"
+msgstr ""
+
+#: views/admin-page.php:39
+msgid "Total visitors"
+msgstr ""
+
+#: views/admin-page.php:40
+msgid "Total pageviews"
+msgstr ""
+
+#: views/admin-page.php:41
 msgid "Visitors"
+msgstr ""
+
+#: views/admin-page.php:42
+msgid "Visits and pageviews from users with any of the selected roles will be ignored."
 msgstr ""
