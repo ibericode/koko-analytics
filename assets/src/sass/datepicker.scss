@@ -26,9 +26,9 @@
 		width: auto;
 		z-index: 20;
 		border-radius: 6px;
-		border: 1px solid $border-base;
 		position: absolute;
 		margin-top: 6px;
+		box-shadow: 2px 2px 12px 0px rgba(0,0,0,0.5);
 	}
 
 	.date-quicknav {
