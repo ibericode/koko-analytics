@@ -204,8 +204,7 @@ class Aggregator {
 			$new_query_str = http_build_query( $new_params );
 			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
 
-			$url           = rtrim( $new_url, '?' );
-
+			$url = rtrim( $new_url, '?' );
 
 		}
 

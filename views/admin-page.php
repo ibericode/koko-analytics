@@ -14,7 +14,7 @@
 			'nonce'         => wp_create_nonce( 'wp_rest' ),
 			'i18n'          => array(
 				'Automatically delete data older than how many months?' => __( 'Automatically delete data older than how many months?', 'koko-analytics' ),
-				'Database size:' 						  => __( 'Database size:', 'koko-analytics' ),
+				'Database size:'                          => __( 'Database size:', 'koko-analytics' ),
 				'Date range'                              => __( 'Date range', 'koko-analytics' ),
 				'Exclude pageviews from these user roles' => __( 'Exclude pageviews from these user roles', 'koko-analytics' ),
 				'Last week'                               => __( 'Last week', 'koko-analytics' ),

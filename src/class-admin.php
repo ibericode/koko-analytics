@@ -64,7 +64,7 @@ class Admin {
 
 	public function register_dashboard_widget() {
 		// only show if user can view stats
-		if (! current_user_can( 'view_koko_analytics') ) {
+		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;
 		}
 
@@ -118,10 +118,14 @@ class Admin {
 
 	public function get_database_size() {
 		global $wpdb;
-		$sql = $wpdb->prepare( "
+		$sql = $wpdb->prepare(
+			'
 			SELECT ROUND(SUM((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024), 2)
 			FROM information_schema.TABLES
-			WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s", DB_NAME, $wpdb->prefix . 'koko_analytics_%' );
+			WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s',
+			DB_NAME,
+			$wpdb->prefix . 'koko_analytics_%'
+		);
 
 		return $wpdb->get_var( $sql );
 	}
@@ -192,7 +196,7 @@ class Admin {
 		for ( $i = 0; $i < $n; $i++ ) {
 			$progress = ( $n - $i ) / $n;
 			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
-			$pageviews = max(1, rand( 500, 1000 ) * $progress ^ 2 );
+			$pageviews = max( 1, rand( 500, 1000 ) * $progress ^ 2 );
 			$visitors  = max( 1, $pageviews * rand( 3, 6 ) / 10 );
 
 			$wpdb->insert(
