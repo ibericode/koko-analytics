@@ -20,10 +20,14 @@ function collect_request() {
 	$post_id         = (int) $_GET['p'];
 	$referrer        = isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '';
 
-	collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
+	$success = collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
 
 	// set OK headers & prevent caching
-	header( $_SERVER['SERVER_PROTOCOL'] . ' 200 OK' );
+	if ( ! $success ) {
+		header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+	} else {
+		header( $_SERVER['SERVER_PROTOCOL'] . ' 200 OK' );
+	}
 	header( 'Content-Type: image/gif' );
 	header( 'X-Content-Type-Options: nosniff' );
 	header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
@@ -59,7 +63,8 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 	// append data to file
 	$line = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
 	$content .= $line . PHP_EOL;
-	return file_put_contents( $filename, $content, FILE_APPEND );
+	$bytes_written = file_put_contents( $filename, $content, FILE_APPEND );
+	return $bytes_written;
 }
 
 function get_settings() {
