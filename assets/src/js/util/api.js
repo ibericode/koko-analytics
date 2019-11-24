@@ -12,7 +12,11 @@ function request(path, opts = {}) {
 
     // allow passing "body" option for GET requests, convert it to query params
     if (opts.body && (!opts.method || opts.method === 'GET')) {
-    	path += '?';
+    	if (path.indexOf('?') === false ) {
+    		path += '?';
+		} else {
+    		path += '&';
+		}
     	for(let key in opts.body) {
     		path += `${window.encodeURIComponent(key)}=${window.encodeURIComponent(opts.body[key])}&`;
 		}
