@@ -36,7 +36,14 @@ function request(path, opts = {}) {
 		}
 	}
 
-    return window.fetch(url, opts).then(r => r.json());
+    return window.fetch(url, opts).then(r => {
+    	// reject response when status is not ok-ish
+    	if (r.status >= 400) {
+    		throw new Error(r.statusText);
+		}
+
+    	return r;
+	}).then(r => r.json());
 }
 
 export default {request};
