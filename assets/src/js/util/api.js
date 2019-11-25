@@ -10,29 +10,33 @@ function request(path, opts = {}) {
 		"Accepts": "application/json",
     };
 
-    // allow passing "body" option for GET requests, convert it to query params
-    if (opts.body && (!opts.method || opts.method === 'GET')) {
-    	if (path.indexOf('?') === false ) {
-    		path += '?';
-		} else {
-    		path += '&';
+    let url = vars.root + "koko-analytics/v1" + path;
+
+    if (opts.body) {
+		// allow passing "body" option for GET requests, convert it to query params
+		if (!opts.method || opts.method === 'GET') {
+			if (url.indexOf('?') < 0) {
+				url += '?';
+			} else {
+				url += '&';
+			}
+			for(let key in opts.body) {
+				url += `${window.encodeURIComponent(key)}=${window.encodeURIComponent(opts.body[key])}&`;
+			}
+			url = url.substring(0, url.length - 1);
+			delete opts.body;
 		}
-    	for(let key in opts.body) {
-    		path += `${window.encodeURIComponent(key)}=${window.encodeURIComponent(opts.body[key])}&`;
+
+		if (opts.method === "POST") {
+			opts.headers['Content-Type'] = 'application/json';
+
+			if (typeof(opts.body) !== "string") {
+				opts.body = JSON.stringify(opts.body);
+			}
 		}
-    	path = path.substring(0, path.length - 1);
-    	delete opts.body;
 	}
 
-    if (opts.body && typeof(opts.body) !== "string") {
-    	opts.body = JSON.stringify(opts.body);
-	}
-
-    if (opts.body && opts.method === "POST") {
-    	opts.headers['Content-Type'] = 'application/json';
-	}
-
-    return window.fetch(vars.root + "koko-analytics/v1" + path, opts).then(r => r.json());
+    return window.fetch(url, opts).then(r => r.json());
 }
 
 export default {request};
