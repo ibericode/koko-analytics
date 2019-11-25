@@ -24,9 +24,9 @@
   },
   "homepage": "https://github.com/dannyvankooten/koko-analytics#readme",
   "dependencies": {
-    "chart.js": "^2.9.1",
-    "chartjs-adapter-date-fns": "^1.0.0-alpha1",
-    "date-fns": "^2.6.0",
+    "chart.js": "^2.9.3",
+    "chartjs-adapter-date-fns": "^1.0.0-alpha3",
+    "date-fns": "^2.8.1",
     "pikaday": "^1.8.0",
     "promise-polyfill": "8.1.3",
     "react": "^16.12.0",
@@ -35,18 +35,18 @@
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-react": "^7.7.0",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-transform-react-jsx": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
     "@wordpress/babel-preset-default": "^4.7.0",
     "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^5.0.4",
+    "copy-webpack-plugin": "^5.0.5",
     "css-loader": "^3.2.0",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.10"
   }
 }
