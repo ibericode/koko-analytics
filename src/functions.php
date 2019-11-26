@@ -40,6 +40,16 @@ function collect_request() {
 	// indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
 	header( 'Tk: N' );
 
+	// set cookie server-side if requested (eg for AMP requests)
+	if ( isset( $_GET['sc'] ) && (int) $_GET['sc'] === 1 ) {
+		$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
+		if ( $unique_pageview ) {
+			$posts_viewed[] = $post_id;
+		}
+		$cookie = join( ',', $posts_viewed );
+		setcookie( '_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/' );
+	}
+
 	// 1px transparent GIF, needs to be an actual image to make sure browser fires the onload event
 	echo base64_decode( 'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' );
 	exit;
