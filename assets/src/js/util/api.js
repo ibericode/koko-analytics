@@ -9,6 +9,7 @@ function request(path, opts = {}) {
         "X-WP-Nonce": vars.nonce,
 		"Accepts": "application/json",
     };
+    opts.credentials = 'same-origin';
 
     let url = vars.root + "koko-analytics/v1" + path;
 
