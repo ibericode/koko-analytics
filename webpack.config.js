@@ -1,6 +1,9 @@
+'use strict';
+
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const DEBUG = process.env.NODE_ENV === 'development';
+
 module.exports = {
     watch: DEBUG,
     watchOptions: {

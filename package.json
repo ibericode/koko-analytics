@@ -39,7 +39,6 @@
     "@babel/plugin-transform-react-jsx": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
-    "@wordpress/babel-preset-default": "^4.7.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.5",
     "css-loader": "^3.2.0",

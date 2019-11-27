@@ -1,5 +1,7 @@
 {
-  "presets": ["@babel/preset-env", "@wordpress/default"],
+  "presets": [
+	  ["@babel/preset-env", { "targets": "> 0.25%, not dead" }]
+  ],
   "plugins": [
 	  [
 		  "@babel/plugin-transform-react-jsx"
