@@ -53,7 +53,6 @@ class Aggregator {
 			return;
 		}
 
-
 		// remove first line (the PHP header that prevents direct file access)
 		fgets( $file_handle, 1024 );
 
