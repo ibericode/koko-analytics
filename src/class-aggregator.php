@@ -40,10 +40,19 @@ class Aggregator {
 
 		// rename file to temporary location so nothing new is written to it while we process it
 		$tmp_filename = $wp_upload_dir['basedir'] . '/pageviews-busy.php';
-		rename( $filename, $tmp_filename );
+		$renamed = rename( $filename, $tmp_filename );
+		if ( ! $renamed ) {
+			// TODO: Write to some kind of log
+			return;
+		}
 
 		// open file for reading
 		$file_handle = fopen( $tmp_filename, 'r' );
+		if ( $file_handle === false ) {
+			// TODO: Write to some kind of log
+			return;
+		}
+
 
 		// remove first line (the PHP header that prevents direct file access)
 		fgets( $file_handle, 1024 );
