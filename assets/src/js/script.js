@@ -100,8 +100,15 @@ function trackPageview() {
     img.onload = finalize;
     window.setTimeout(finalize, 5000);
 
-    // add to DOM to fire request
-    img.src = vars.tracker_url + '?action=koko_analytics_collect&' + stringifyObject(d);
+	let trackerUrl = vars.tracker_url;
+	if (trackerUrl.indexOf('?') > -1) {
+		trackerUrl += '&';
+	} else {
+		trackerUrl += '?';
+	}
+
+	// add to DOM to fire request
+	img.src = trackerUrl + stringifyObject(d);
     document.body.appendChild(img);
 }
 
