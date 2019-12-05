@@ -25,9 +25,9 @@ class Script_Loader {
 		$use_custom_endpoint = ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) || file_exists( ABSPATH . '/koko-analytics-collect.php' );
 		$tracker_url         = $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
 		$script_data         = array(
-			'use_cookie' 	=> $settings['use_cookie'],
-			'post_id'     	=> $post_id,
-			'tracker_url' 	=> $tracker_url,
+			'use_cookie'    => $settings['use_cookie'],
+			'post_id'       => $post_id,
+			'tracker_url'   => $tracker_url,
 		);
 
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 20, 2 );

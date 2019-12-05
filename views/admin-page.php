@@ -22,7 +22,7 @@
 				'Last year'                               => __( 'Last year', 'koko-analytics' ),
 				'months'                                  => __( 'months', 'koko-analytics' ),
 				'Next'                                    => __( 'Next', 'koko-analytics' ),
-				'No'									  => __( 'No', 'koko-analytics' ),
+				'No'                                      => __( 'No', 'koko-analytics' ),
 				'Pages'                                   => __( 'Pages', 'koko-analytics' ),
 				'Pageviews'                               => __( 'Pageviews', 'koko-analytics' ),
 				'Previous'                                => __( 'Previous', 'koko-analytics' ),
