@@ -4,8 +4,8 @@
 	"description": "Privacy-friendly analytics for your WordPress site",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "webpack",
-		"watch": "NODE_ENV=development webpack --watch",
+		"build": "webpack --mode=production",
+		"watch": "webpack --mode=development --watch",
 		"download-referrer-blacklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blacklist",
 		"create-pot": "wp i18n make-pot ."
 	},
@@ -26,7 +26,6 @@
 	"dependencies": {
 		"chart.js": "^2.9.3",
 		"chartjs-adapter-date-fns": "^1.0.0-alpha3",
-		"core-js": "^3.4.4",
 		"date-fns": "^2.8.1",
 		"pikaday": "^1.8.0",
 		"promise-polyfill": "8.1.3",
@@ -48,10 +47,5 @@
 		"style-loader": "^1.0.0",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.10"
-	},
-	"browserslist": [
-		"last 2 versions",
-		"> 0.2%",
-		"not dead"
-	]
+	}
 }

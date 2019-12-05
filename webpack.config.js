@@ -2,18 +2,15 @@
 
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const DEBUG = process.env.NODE_ENV === 'development';
+const Terser = require("terser");
 
 module.exports = {
-    watch: DEBUG,
     watchOptions: {
         aggregateTimeout: 300,
         poll: 1000,
         ignored: ['node_modules'],
     },
-    mode: DEBUG ? 'development' : 'production',
     entry: {
-        'script': './assets/src/js/script.js',
         'admin': './assets/src/js/admin.js',
         'dashboard-widget': './assets/src/js/dashboard-widget.js',
     },
@@ -21,14 +18,25 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'assets/dist/js'),
     },
-    devtool: DEBUG ? 'inline-source-map' : false,
     module: {
         rules: [
             {
                 test: /\.js$/i,
-                exclude: /\/node_modules\//,
+                exclude: [ /\/node_modules\// ],
                 use: {
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+					options: {
+						presets: [
+							["@babel/preset-env", {
+								targets: "> 0.2%, last 2 versions, not dead",
+							}]
+						],
+						plugins: [
+							[
+								"@babel/plugin-transform-react-jsx"
+							]
+						]
+					}
                 }
             },
             {
@@ -38,7 +46,7 @@ module.exports = {
                     'css-loader',
                     'sass-loader',
                 ],
-            },
+            }
         ],
     },
     externals: {
@@ -46,6 +54,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
+			{ from: './assets/src/js/script.js', to: path.resolve(__dirname, './assets/dist/js/script.js'), transform: content => Terser.minify(content.toString()).code },
             { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
         ]),
     ],
