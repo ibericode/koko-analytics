@@ -137,6 +137,10 @@ class Rest {
 			$new_settings['prune_data_after_months'] = abs( intval( $new_settings['prune_data_after_months'] ) );
 		}
 
+		if ( isset( $new_settings['use_cookie'] ) ) {
+			$new_settings['use_cookie'] = intval( $new_settings['use_cookie'] );
+		}
+
 		// merge with old settings to allow posting partial settings
 		$new_settings = array_merge( $settings, $new_settings );
 		update_option( 'koko_analytics_settings', $new_settings, true );

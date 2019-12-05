@@ -78,8 +78,14 @@
 			margin-bottom: 6px;
 		}
 
-		input, select {
+		input,
+		select {
 			margin-bottom: 6px;
+		}
+
+	  	input[type="radio"],
+		input[type="checkbox"] {
+		  margin-bottom: 0;
 		}
 
 		.help {
@@ -89,9 +95,14 @@
 
     label {
         display: block;
-        font-size: 18px;
+        font-size: 1.2em;
         font-weight: bold;
         margin-bottom: 6px;
+
+	  &.cb {
+		font-size: 1em;
+		font-weight: normal;
+	  }
     }
 
     select {

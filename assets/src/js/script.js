@@ -4,7 +4,9 @@
  * Do not use ES2015 features as this file is only intended to be minified (to save bandwidth).
  */
 
-const vars = window.koko_analytics;
+const trackerUrl = window.koko_analytics.tracker_url;
+const postId = parseInt(window.koko_analytics.post_id);
+const useCookie = parseInt(window.koko_analytics.use_cookie);
 
 function stringifyObject(obj) {
 	return Object.keys(obj).map(function(k) {
@@ -63,7 +65,6 @@ function trackPageview() {
 	}
 
 	const cookie = getCookie('_koko_analytics_pages_viewed');
-	const postId = vars.post_id;
 	const isNewVisitor = cookie.length === 0;
 	const pagesViewed = cookie.split(',').filter(function(id) { return id !== ''; });
 	const isUniquePageview = pagesViewed.indexOf(postId) === -1;
@@ -93,27 +94,23 @@ function trackPageview() {
 		}
 
 		// update tracking cookie
-		if (isUniquePageview) {
-			pagesViewed.push(postId)
+		if (useCookie) {
+			if (isUniquePageview) {
+				pagesViewed.push(postId)
+			}
+			let expires = new Date();
+			expires.setHours(expires.getHours() + 6);
+
+			setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), {expires, path: '/'})
 		}
-		let expires = new Date();
-		expires.setHours(expires.getHours() + 6);
-		setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
 	}
 
 	// clean-up tracking pixel after 5s or onload
 	img.onload = finalize;
 	window.setTimeout(finalize, 5000);
 
-	let trackerUrl = vars.tracker_url;
-	if (trackerUrl.indexOf('?') > -1) {
-		trackerUrl += '&';
-	} else {
-		trackerUrl += '?';
-	}
-
 	// add to DOM to fire request
-	img.src = trackerUrl + stringifyObject(d);
+	img.src = trackerUrl + (trackerUrl.indexOf('?') > -1 ? '&' : '?') + stringifyObject(d);
 	document.body.appendChild(img);
 }
 

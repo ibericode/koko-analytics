@@ -55,6 +55,13 @@ export default class Settings extends React.Component {
 		});
 	}
 
+	handleRadioClick(key) {
+		return (evt) => {
+			settings[key] = parseInt(evt.target.value);
+			this.setState({settings});
+		}
+	}
+
 	render() {
 		let {saving, buttonText, settings} = this.state;
 		return (
@@ -74,6 +81,13 @@ export default class Settings extends React.Component {
 									})}
 								</select>
 								<p className={"help"}>{i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}</p>
+							</div>
+
+							<div className={"input-group"}>
+								<label>{i18n['Use cookie to determine unique visitors and pageviews?']}</label>
+								<label className={"cb"}><input type={"radio"} name="use_cookie" value={1} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 1} /> {i18n['Yes']}</label>
+								<label className={"cb"}><input type={"radio"} name="use_cookie" value={0} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 0} /> {i18n['No']}</label>
+								<p className={"help"}>{i18n['Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.']}</p>
 							</div>
 
 							<div className={"input-group"}>

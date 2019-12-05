@@ -79,6 +79,7 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 
 function get_settings() {
 	$default_settings = array(
+		'use_cookie' => 1,
 		'exclude_user_roles' => array(),
 		'prune_data_after_months' => 5 * 12, // 5 years
 	);
