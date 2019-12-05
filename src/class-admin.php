@@ -94,7 +94,7 @@ class Admin {
 	 * @return array
 	 */
 	public function add_plugin_settings_link( $links, $file ) {
-		$settings_link = '<a href="' . admin_url( 'index.php?page=koko-analytics#!/settings' ) . '">' . __( 'Settings', 'koko-analytics' ) . '</a>';
+		$settings_link = '<a href="' . admin_url( 'index.php?page=koko-analytics#/settings' ) . '">' . __( 'Settings', 'koko-analytics' ) . '</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
 	}
