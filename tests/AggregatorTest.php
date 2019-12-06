@@ -11,8 +11,8 @@ final class AggregatorTest extends TestCase
         $a = new Aggregator();
 
         $tests = [
-          'https://wordpress.org/' => 'https://wordpress.org/',
-		  'https://wordpress.org/?utm_source=duckduckgo' => 'https://wordpress.org/',
+          'https://wordpress.org/' => 'https://wordpress.org',
+		  'https://wordpress.org/?utm_source=duckduckgo' => 'https://wordpress.org',
           'https://wordpress.org/?page_id=500&utm_source=duckduckgo' => 'https://wordpress.org/?page_id=500',
           'https://wordpress.org/?foo=bar&p=500&utm_source=duckduckgo#utm_medium=link' => 'https://wordpress.org/?p=500',
         ];
