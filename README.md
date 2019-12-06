@@ -7,7 +7,7 @@ Koko Analytics
  
 [Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress. 
 
-![Screenshot of the Koko Analytics dashboard](https://github.com/dannyvankooten/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
+![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
 
 ## Features
 
@@ -23,7 +23,7 @@ To run the latest development version of the plugin, take the following steps.
 
 First, clone the repository using Git in your `/wp-content/plugins/` directory
 ```
-git clone git@github.com:dannyvankooten/koko-analytics.git
+git clone git@github.com:ibericode/koko-analytics.git
 ```
 
 Create the autoloader using Composer.
