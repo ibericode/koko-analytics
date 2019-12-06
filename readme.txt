@@ -26,16 +26,17 @@ Koko Analytics allows you to focus on what is important and gives you all the es
 - No external services. Data about visits to your website is yours and yours alone.
 - No personal information or anything visitor specific is tracked.
 - Blazingly fast. Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- Counts all the essential statistics that you need: unique site visitors, total site pageviews, visitors and pageviews for individual posts and referrer traffic.
-- Option to not use any cookies.
+- Counts all the essential metrics you need: visitors, pageviews and referrers for your site and each individiual page.
+- Option to not use any cookies while still being able to detect returning visitors and unique pageviews, albeit less reliable.
 - Option to exclude traffic from logged-in users (by user role).
 - Option to automatically delete old data.
-- Built-in blacklist to combat referrer spam.
+- Built-in blacklist to filter referrer spam.
 - Compatible with pages served from cache.
+- Compatible with AMP powered pages.
 - GDPR compliant by design.
-- Completely open-source (GPLv3 licensed).
+- Open-source (GPL-3.0+ licensed).
 
-You can [contribute to Koko Analytics on GitHub](https://github.com/ibericode/koko-analytics).
+You can [contribute to Koko Analytics on GitHub](https://github.com/ibericode/koko-analytics) or by [translating the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics).
 
 
 == Installation ==
@@ -50,15 +51,16 @@ You can [contribute to Koko Analytics on GitHub](https://github.com/ibericode/ko
 #### Does this respect my visitor's privacy?
 Absolutely, nothing that could lead back to the visitor is recorded. Furthermore, if the visitor has "Do Not Track" enabled in their browser, this is respected.
 
-### Will this slow down my website?
-No, the plugin is built in such a way that it never slows down your website for your visitors. If there is heavy lifting to be done, it is done in a background process.
-
 #### Does this use any external services?
 No, the data never leaves your website. That's (part of) what makes Koko Analytics such a great choice if you value true privacy.
 
-#### Why are my pageviews not showing up right away?
-The plugin uses a buffer file where pageviews are stored for a very short time before they are permanently stored, as this greatly speeds up the tracking process for sites with many visitors. This means that pageviews will only show up in your dashboard after a 1 minute delay.
+### Does this set any cookies?
+By default, yes. But you can easily disable this in the plugin's settings. Without cookies, the plugin can still detect returning visitors and unique pageviews, albeit less reliable.
 
+### Will this slow down my website?
+No, the plugin is built in such a way that it never slows down your website for your visitors. If there is heavy lifting to be done, it is done in a background process.
+
+In fact, because the plugin does not depend on any external services it is usually much faster than third-party analytics tools.
 
 
 == Screenshots ==
