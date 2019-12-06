@@ -1,10 +1,10 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
-Donate link: https://kokoanalytics.com/#utm_source=wp-plugin-repo&utm_medium=koko-analytics&utm_campaign=donate-link
+Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -27,7 +27,9 @@ Koko Analytics allows you to focus on what is important and gives you all the es
 - No personal information or anything visitor specific is tracked.
 - Blazingly fast. Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
 - Counts all the essential statistics that you need: unique site visitors, total site pageviews, visitors and pageviews for individual posts and referrer traffic.
+- Option to not use any cookies.
 - Option to exclude traffic from logged-in users (by user role).
+- Option to automatically delete old data.
 - Built-in blacklist to combat referrer spam.
 - Compatible with pages served from cache.
 - GDPR compliant by design.
@@ -68,6 +70,19 @@ The plugin uses a buffer file where pageviews are stored for a very short time b
 
 
 == Changelog ==
+
+#### 1.0.3 - Dec 6, 2019
+
+- Fix link to settings page from plugins overview page.
+- Fix REST API URL's when not using pretty permalinks.
+- Add support for tracking AMP-powered pages.
+- Add setting to disable cookie usage.
+- Handle network request errors on admin pages.
+- Return HTTP 500 error when unable to write to buffer file.
+- Simplify adding post title to post type statistics.
+- Extend browser support to include older browsers.
+- Handle filesystem errors in aggregation process.
+
 
 #### 1.0.2 - Nov 22, 2019
 

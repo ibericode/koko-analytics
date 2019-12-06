@@ -1,5 +1,18 @@
 # Changelog
 
+#### 1.0.3 - Dec 6, 2019
+
+- Fix link to settings page from plugins overview page.
+- Fix REST API URL's when not using pretty permalinks.
+- Add support for tracking AMP-powered pages.
+- Add setting to disable cookie usage.
+- Handle network request errors on admin pages.
+- Return HTTP 500 error when unable to write to buffer file.
+- Simplify adding post title to post type statistics.
+- Extend browser support to include older browsers.
+- Handle filesystem errors in aggregation process.
+
+
 #### 1.0.2 - Nov 22, 2019
 
 - Add icons to datepickers to quickly cycle through selected date periods.
