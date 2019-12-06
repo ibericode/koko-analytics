@@ -212,9 +212,12 @@ class Aggregator {
 			$new_query_str = http_build_query( $new_params );
 			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
 
+			// trim trailing question mark & replace url with new sanitized url
 			$url = rtrim( $new_url, '?' );
-
 		}
+
+		// trim trailing slash
+		$url = rtrim( $url, '/' );
 
 		return $url;
 	}
