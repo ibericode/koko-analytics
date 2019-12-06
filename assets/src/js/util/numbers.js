@@ -10,14 +10,14 @@ function formatPretty(num) {
 
     if (num >= M) {
         num /= M;
-        decimals = 3 - ((Math.round(num) + "").length) || 0;
-        return (num.toFixed(decimals > -1 ? decimals : 0).replace(rx, '') + 'M').replace('.00', '');
+        decimals = Math.max(3 - String(Math.round(num)).length, 0);
+        return num.toFixed(decimals).replace('.00', '').replace(rx, '') + 'M';
     }
 
     if (num >= (K)) {
         num /= K;
-        decimals = 3 - ((Math.round(num) + "").length) || 0;
-        return num.toFixed(decimals).replace(rx, '').trimRight(0) + 'K';
+        decimals = Math.max(3 - (String(Math.round(num)).length), 0);
+        return num.toFixed(decimals).replace('.00', '').replace(rx, '') + 'K';
     }
 
     return formatWithComma(num);
