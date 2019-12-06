@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Koko Analytics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Koko Analytics 1.0.1\n"
+"Project-Id-Version: Koko Analytics 1.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-11-22T13:59:34+00:00\n"
+"POT-Creation-Date: 2019-12-06T10:51:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
@@ -36,7 +36,7 @@ msgid "https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm
 msgstr ""
 
 #: src/class-admin.php:24
-#: src/functions.php:121
+#: src/functions.php:137
 msgid "Analytics"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgid "View all statistics"
 msgstr ""
 
 #: src/class-admin.php:97
-#: views/admin-page.php:32
+#: views/admin-page.php:33
 msgid "Settings"
 msgstr ""
 
@@ -139,69 +139,85 @@ msgid "Next"
 msgstr ""
 
 #: views/admin-page.php:25
-msgid "Pages"
+msgid "No"
 msgstr ""
 
 #: views/admin-page.php:26
-msgid "Pageviews"
+msgid "Pages"
 msgstr ""
 
 #: views/admin-page.php:27
-msgid "Previous"
+msgid "Pageviews"
 msgstr ""
 
 #: views/admin-page.php:28
-msgid "Referrers"
+msgid "Previous"
 msgstr ""
 
 #: views/admin-page.php:29
-msgid "Save Changes"
+msgid "Referrers"
 msgstr ""
 
 #: views/admin-page.php:30
-msgid "Saving - please wait"
+msgid "Save Changes"
 msgstr ""
 
 #: views/admin-page.php:31
+msgid "Saving - please wait"
+msgstr ""
+
+#: views/admin-page.php:32
 msgid "Saved!"
 msgstr ""
 
-#: views/admin-page.php:33
+#: views/admin-page.php:34
 msgid "Stats"
 msgstr ""
 
-#: views/admin-page.php:34
+#: views/admin-page.php:35
 msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
 msgstr ""
 
-#: views/admin-page.php:35
+#: views/admin-page.php:36
 msgid "There's nothing here, yet!"
 msgstr ""
 
-#: views/admin-page.php:36
+#: views/admin-page.php:37
 msgid "This week"
 msgstr ""
 
-#: views/admin-page.php:37
+#: views/admin-page.php:38
 msgid "This month"
 msgstr ""
 
-#: views/admin-page.php:38
+#: views/admin-page.php:39
 msgid "This year"
 msgstr ""
 
-#: views/admin-page.php:39
+#: views/admin-page.php:40
 msgid "Total visitors"
 msgstr ""
 
-#: views/admin-page.php:40
+#: views/admin-page.php:41
 msgid "Total pageviews"
 msgstr ""
 
-#: views/admin-page.php:41
+#: views/admin-page.php:42
+msgid "Use cookie to determine unique visitors and pageviews?"
+msgstr ""
+
+#: views/admin-page.php:43
 msgid "Visitors"
 msgstr ""
 
-#: views/admin-page.php:42
+#: views/admin-page.php:44
 msgid "Visits and pageviews from users with any of the selected roles will be ignored."
+msgstr ""
+
+#: views/admin-page.php:45
+msgid "Yes"
+msgstr ""
+
+#: views/admin-page.php:46
+msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
 msgstr ""
