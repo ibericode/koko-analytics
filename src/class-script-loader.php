@@ -38,10 +38,10 @@ class Script_Loader {
 		 * The following adds support for the official AMP plugin
 		 * @see https://amp-wp.org/
 		 */
-		add_filter( 'amp_analytics_entries', function( $entries ) use ( $tracker_url, $post_id ) {
+		add_filter( 'amp_analytics_entries', function( $entries ) use ( $settings, $tracker_url, $post_id ) {
 			$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
 			$data = array(
-				'sc' => 1, // inform tracker endpoint to set cookie server-side
+				'sc' => $settings['use_cookie'], // inform tracker endpoint to set cookie server-side
 				'nv' => $posts_viewed === array() ? 1 : 0,
 				'up' => ! in_array( $post_id, $posts_viewed ) ? 1 : 0,
 				'p' => $post_id,
