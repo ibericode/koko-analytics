@@ -74,9 +74,17 @@ function trackPageview() {
 		up: isUniquePageview ? 1 : 0,
 	};
 
-	// add referrer if not from same-site
-	if (typeof(document.referrer) === "string" && document.referrer !== '' && document.referrer.indexOf(window.location.origin) === -1) {
-		d.r = document.referrer;
+	// add referrer if not from same-site & try to detect returning visitors from referrer URL
+	if (typeof(document.referrer) === "string" && document.referrer !== '') {
+		if (document.referrer.indexOf(window.location.origin) === 0) {
+			d.nv = 0; // referred by same-site, so not a new visitor
+
+			if (document.referrer === window.location.href) {
+				d.up = 0; // referred by same-url, so not a unique pageview
+			}
+		} else {
+			d.r = document.referrer; // referred by external site, so send referrer URL to be stored
+		}
 	}
 
 	const img = document.createElement('img');
