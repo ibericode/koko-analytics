@@ -13,6 +13,15 @@
 	.totals-box {
 		display: block;
 		margin-right: 48px;
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+
+		/* iphone SE fix to make it fit on 1 line */
+		@media(max-width: 320px) {
+			margin-right: 36px;
+		}
 	}
 
 	.totals-label {

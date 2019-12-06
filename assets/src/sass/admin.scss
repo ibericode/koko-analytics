@@ -7,26 +7,18 @@
         margin: 0 0 12px;
     }
 
-    .subsubsub {
-        display: block;
-        float: right;
-        line-height: 20px;
-        margin: 0;
-        padding: 6px 0;
-    }
-
     .grid {
         display: grid;
         grid-gap: 12px;
         grid-template-columns: repeat(6, 1fr);
-
-		.one { grid-column: span 1; }
-		.two { grid-column: span 2; }
-		.three { grid-column: span 3; }
-		.four { grid-column: span 4; }
-		.five { grid-column: span 5; }
-		.six { grid-column: span 6; }
     }
+
+	.one { grid-column: span 1; }
+	.two { grid-column: span 2; }
+	.three { grid-column: span 3; }
+	.four { grid-column: span 4; }
+	.five { grid-column: span 5; }
+	.six { grid-column: span 6; }
 
     .box-grid {
         display: grid;
@@ -37,12 +29,22 @@
         text-align: left;
     }
 
-    .muted {
-        display: inline-block;
-        width: 24px;
-        color: $color-muted;
-        font-size: 0.9em;
-    }
+	@media (max-width: 320px) {
+		.nav {
+			grid-row: 1;
+			grid-column: span 6;
+		}
+	}
+
+	.subsubsub {
+		display: block;
+		float: right;
+		line-height: 20px;
+		margin: 0;
+		padding: 6px 0;
+		font-size: 13px;
+		text-align: left;
+	}
 
     .box {
         background: white;
@@ -65,6 +67,13 @@
         .body {
             padding-bottom: 6px;
         }
+
+		.muted {
+			width: 24px;
+			display: inline-block;
+			color: $color-muted;
+			font-size: 0.9em;
+		}
 
         .amount-col {
             text-align: right;
@@ -117,12 +126,12 @@
         color: $color-muted;
         cursor: pointer;
         display: inline-block;
-        margin-left: 15px;
+        margin-left: 12px;
 
         .prev,
         .next {
             display: inline-block;
-            padding: 0 5px;
+            padding: 0 4px;
 
             &:hover,
 			&:focus {
@@ -145,6 +154,14 @@
 				}
 			}
         }
+
+		@media(max-width: 320px) {
+			margin-left: 6px;
+
+			.prev, .next {
+				padding: 0;
+			}
+		}
 
     }
 

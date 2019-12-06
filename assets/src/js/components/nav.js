@@ -12,8 +12,8 @@ export default function Nav() {
 	}
 
 	return (
-		<div className={"two"}>
-			<ul className="nav subsubsub">
+		<div className={"two nav"}>
+			<ul className="subsubsub">
 				<li><NavLink to={"/"} exact activeClassName={"current"}>{i18n['Stats']}</NavLink> | </li>
 				<li><NavLink to={"/settings"} activeClassName={"current"}>{i18n['Settings']}</NavLink></li>
 			</ul>
