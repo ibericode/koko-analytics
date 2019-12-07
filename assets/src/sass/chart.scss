@@ -1,7 +1,18 @@
 @import './_variables.scss';
 
 .chart-container {
-    padding: 18px 6px 6px 6px;
+    padding: 12px;
+}
+
+.chart {
+	.bars {
+		rect.pageviews {
+			fill: #f05b4f;
+		}
+		rect.visitors {
+			fill: #d70206;
+		}
+	}
 }
 
 #koko-analytics-dashboard-widget-mount {
