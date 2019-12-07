@@ -82,8 +82,9 @@ export default class Component extends React.PureComponent {
 		this.updateChart();
 
 		this.tooltip = document.createElement('div');
+		this.tooltip.className = 'tooltip';
 		this.tooltip.style.display = 'none';
-		document.body.appendChild(this.tooltip);
+		this.base.current.parentNode.appendChild(this.tooltip);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -94,25 +95,33 @@ export default class Component extends React.PureComponent {
 		this.updateChart();
 	}
 
-	showTooltip(evt) {
-		const el = this.tooltip;
-
-		if (this.tooltip.current !== evt.currentTarget) {
-			this.tooltip.current = evt.currentTarget;
-			el.style.display = 'block';
-			el.style.position = 'absolute';
-			el.innerText = 'Tooltip';
+	showTooltip(x, y, data) {
+		return (evt) => {
+			this.tooltip.style.display = 'block';
+			this.tooltip.style.left = (x - 110) + "px";
+			this.tooltip.style.top 	= ( y - 40 ) + "px";
+			this.tooltip.innerHTML = `
+			<div>
+				<div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
+				<div class="content">
+					<div class="visitors">
+						<div class="amount">${data.visitors}</div>
+						<div class="">visitors</div>
+					</div>
+					<div class="pageviews">
+						<div class="amount">${data.pageviews}</div>
+						<div class="">pageviews</div>
+					</div>
+				</div>
+			</div>`;
 		}
-		el.style.left = evt.pageX + "px";
-		el.style.top = evt.pageY + "px";
-
-		console.log("Mouse move", evt);
-
 	}
 
 	hideTooltip(evt) {
-		console.log("On mouse leave");
-		this.tooltip.current = null;
+		if (evt.target.matches('.tooltip, .tooltip *')) {
+			return;
+		}
+
 		this.tooltip.style.display = 'none';
 	}
 
@@ -166,19 +175,19 @@ export default class Component extends React.PureComponent {
 
 								return (<g key={d.date}
 										transform={`translate(${x(i) + 0.05 * barWidth}, 0)`}
-										onMouseEnter={this.showTooltip}
+										onMouseEnter={this.showTooltip(x(i) + 36 + 12, innerHeight - pageviewHeight, d)}
 										onMouseLeave={this.hideTooltip}>
 										<rect
 											className={"pageviews"}
 											height={pageviewHeight - visitorHeight}
 											width={barWidth * 0.9}
-											y={y(d.pageviews).toFixed(3)}
+											y={y(d.pageviews)}
 										/>
 										<rect
 											className={"visitors"}
 											height={visitorHeight}
 											width={barWidth * 0.9}
-											y={y(d.visitors.toFixed(3))}
+											y={y(d.visitors)}
 										/>
 								</g>)
 							})}
