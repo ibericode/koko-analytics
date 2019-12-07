@@ -7,11 +7,16 @@ import '../../sass/chart.scss';
 
 function step(v, ticks) {
 	let step = (v - (v % ticks)) / ticks;
+	if (step === 0) {
+		return 0;
+	}
+
 	let round = 1000000;
-	while(v < round * 3) {
+	while (v < round * ticks) {
 		round /= 10;
 	}
-	return Math.ceil(step / round) * round;
+	step = Math.floor(step / round) * round;
+	return step;
 }
 
 
@@ -26,7 +31,7 @@ export default class Component extends React.PureComponent {
 		};
 
 		this.base = React.createRef();
-		this.tooltip = React.createRef();
+		this.tooltip = document.createElement('div');
 		this.showTooltip = this.showTooltip.bind(this);
 		this.hideTooltip = this.hideTooltip.bind(this);
 	}
@@ -34,6 +39,8 @@ export default class Component extends React.PureComponent {
 	updateChart() {
 		// empty previous data
 		let dataset = {};
+		let yMax = 0;
+		this.tooltip.style.display = 'none';
 
 		// fill chart with 0's
 		for(let d = new Date(this.props.startDate); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
@@ -48,9 +55,7 @@ export default class Component extends React.PureComponent {
 			dataset: Object.values(dataset)
 		});
 
-		let yMax = 0;
-
-		// fetch stats
+		// fetch actual stats
 		api.request(`/stats`, {
 			body: {
 				start_date: format(this.props.startDate, 'yyyy-MM-dd'),
@@ -63,11 +68,13 @@ export default class Component extends React.PureComponent {
 					return;
 				}
 
-				dataset[d.date].pageviews = parseInt(d.pageviews);
-				dataset[d.date].visitors = parseInt(d.visitors);
+				let pageviews = parseInt(d.pageviews);
+				let visitors = parseInt(d.visitors);
+				dataset[d.date].pageviews = pageviews;
+				dataset[d.date].visitors = visitors;
 
-				if (d.pageviews > yMax) {
-					yMax = d.pageviews;
+				if (pageviews > yMax) {
+					yMax = pageviews;
 				}
 			});
 
@@ -81,10 +88,10 @@ export default class Component extends React.PureComponent {
 	componentDidMount() {
 		this.updateChart();
 
-		this.tooltip = document.createElement('div');
 		this.tooltip.className = 'tooltip';
 		this.tooltip.style.display = 'none';
 		this.base.current.parentNode.appendChild(this.tooltip);
+		document.addEventListener('click', this.hideTooltip);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -95,12 +102,11 @@ export default class Component extends React.PureComponent {
 		this.updateChart();
 	}
 
-	showTooltip(x, y, data) {
-		return (evt) => {
-			this.tooltip.style.display = 'block';
-			this.tooltip.style.left = (x - 110) + "px";
-			this.tooltip.style.top 	= ( y - 40 ) + "px";
-			this.tooltip.innerHTML = `
+	showTooltip(x, y, tickWidth, data) {
+		const el = this.tooltip;
+
+		return () => {
+			el.innerHTML = `
 			<div>
 				<div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
 				<div class="content">
@@ -114,11 +120,14 @@ export default class Component extends React.PureComponent {
 					</div>
 				</div>
 			</div>`;
+			el.style.display = 'block';
+			el.style.left = (x + 12 + 36 + 0.5 * tickWidth - 0.5 * el.clientWidth ) + "px";
+			el.style.top = ( y + 12 - el.clientHeight ) + "px";
 		}
 	}
 
 	hideTooltip(evt) {
-		if (evt.target.matches('.tooltip, .tooltip *')) {
+		if (evt.type === 'click' && typeof(evt.target.matches) === "function" && evt.target.matches('.chart *, .tooltip *')) {
 			return;
 		}
 
@@ -129,66 +138,84 @@ export default class Component extends React.PureComponent {
 		const {dataset, yMax} = this.state;
 		const width = this.base.current ? this.base.current.clientWidth : window.innerWidth;
 		const height = this.props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-
-		const innerWidth = width - 24;
-		const innerHeight = height - 24;
-		const barWidth = innerWidth / dataset.length;
-
-		const x = (value) => value / dataset.length * innerWidth;
-		const y = (value) => innerHeight - ( value / yMax * innerHeight) || 0;
+		const padding = {
+			left: 36,
+			bottom: 24
+		};
+		const innerWidth = width - padding.left;
+		const innerHeight = height - padding.bottom;
+		const ticks = dataset.length;
+		const tickWidth = innerWidth / ticks;
+		const barWidth = 0.9 * tickWidth;
+		const barPadding = 0.05 * tickWidth;
+		const getX = index => index * tickWidth;
+		const getY = value => yMax > 0 ? innerHeight - ( value / yMax * innerHeight) : innerHeight;
 		const yStep = step(yMax, 3) || 1;
+
 		return (
 			<div className="box">
 				<div className={"chart-container"}>
-					<svg className="chart" ref={this.base} width={"100%"} height={height}>
-						<g className={"axes"}>
-							<g className={"axes-y"} textAnchor={"end"}>
-								{[0, 1, 2].map(v => {
+					<svg className="chart" ref={this.base} width="100%" height={height}>
+						<g className="axes">
+							<g className="axes-y" textAnchor="end">
+								{[0, 1, 2, 3].map(v => {
+									let value = v * yStep;
+									if (value > yMax) {
+										return;
+									}
+
+									const y = getY(value);
 									return (
-										<g transform={`translate(24, ${y(v * yStep)})`} key={v}>
-											<line stroke={"#DDD"} x1={6} x2={width}  />
-											<text fill="#999" x="0" dy="0.33em">{yStep * v}</text>
+										<g key={value}>
+											<line stroke="#DDD" x1={30} x2={width} y1={y} y2={y}  />
+											<text fill="#999" x={24} y={y} dy="0.33em">{value}</text>
 										</g>
 									)
 								})}
 							</g>
-							<g className={"axes-x"} transform={`translate(36, ${innerHeight})`} textAnchor="middle">
+							<g className={"axes-x"} transform={`translate(${padding.left}, ${innerHeight})`} textAnchor="middle">
 								{dataset.map((d, i) => {
+									const x = getX(i) + 0.5 * tickWidth;
 									return (
-										<g transform={`translate(${x(i) + 0.5*barWidth}, 0)`} key={i}>
-											<line stroke="#DDD"  y2="6" />
-											{i === 0 && <text fill="#999" y={9} dy={"1em"}>{format(d.date, 'MMM d, yyyy')}</text>}
+										<g key={i}>
+											{(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke="#DDD" x1={x} x2={x} y1="0" y2="6" />}
+											{i === 0 && <text fill="#999" x={x} y="10" dy="1em">{format(d.date, 'MMM d, yyyy')}</text>}
 										</g>
 									);
 								})}
 							</g>
 						</g>
-						<g className={"bars"} transform={`translate(36, 0)`}>
-							{dataset.map( (d, i) => {
+						<g className={"bars"} transform={`translate(${padding.left}, 0)`}>
+							{dataset.map((d, i) => {
 								// do not draw unnecessary elements
 								if (d.pageviews === 0) {
 									return;
 								}
 
-								let pageviewHeight = d.pageviews / yMax * innerHeight || 0;
-								let visitorHeight = d.visitors / yMax * innerHeight || 0;
+								const pageviewHeight = d.pageviews / yMax * innerHeight;
+								const visitorHeight = d.visitors / yMax * innerHeight;
+								const x = getX(i);
+								const y = getY(d.pageviews);
+								const showTooltip = this.showTooltip(x, y, tickWidth, d);
 
 								return (<g key={d.date}
-										transform={`translate(${x(i) + 0.05 * barWidth}, 0)`}
-										onMouseEnter={this.showTooltip(x(i) + 36 + 12, innerHeight - pageviewHeight, d)}
-										onMouseLeave={this.hideTooltip}>
-										<rect
-											className={"pageviews"}
-											height={pageviewHeight - visitorHeight}
-											width={barWidth * 0.9}
-											y={y(d.pageviews)}
-										/>
-										<rect
-											className={"visitors"}
-											height={visitorHeight}
-											width={barWidth * 0.9}
-											y={y(d.visitors)}
-										/>
+										   	onClick={showTooltip}
+											onMouseEnter={showTooltip}
+											onMouseLeave={this.hideTooltip}>
+											<rect
+												className={"pageviews"}
+												height={pageviewHeight - visitorHeight}
+												width={barWidth}
+												x={x + barPadding}
+												y={y}
+											/>
+											<rect
+												className={"visitors"}
+												height={visitorHeight}
+												width={barWidth}
+												x={x + barPadding}
+												y={getY(d.visitors)}
+											/>
 								</g>)
 							})}
 						</g>
