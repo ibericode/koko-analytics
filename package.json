@@ -24,8 +24,6 @@
 	},
 	"homepage": "https://github.com/ibericode/koko-analytics#readme",
 	"dependencies": {
-		"chart.js": "^2.9.3",
-		"chartjs-adapter-date-fns": "^1.0.0-alpha3",
 		"date-fns": "^2.8.1",
 		"pikaday": "^1.8.0",
 		"promise-polyfill": "8.1.3",
