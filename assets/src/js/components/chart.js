@@ -94,6 +94,10 @@ export default class Component extends React.PureComponent {
 		document.addEventListener('click', this.hideTooltip);
 	}
 
+	componentWillUnmount() {
+		document.removeEventListener('click', this.hideTooltip);
+	}
+
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
 			return;
@@ -107,7 +111,7 @@ export default class Component extends React.PureComponent {
 
 		return () => {
 			el.innerHTML = `
-			<div>
+			<div class="tooltip-inner">
 				<div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
 				<div class="content">
 					<div class="visitors">
@@ -119,7 +123,8 @@ export default class Component extends React.PureComponent {
 						<div class="">pageviews</div>
 					</div>
 				</div>
-			</div>`;
+			</div>
+			<div class="tooltip-arrow"></div>`;
 			el.style.display = 'block';
 			el.style.left = (x + 12 + 36 + 0.5 * tickWidth - 0.5 * el.clientWidth ) + "px";
 			el.style.top = ( y + 12 - el.clientHeight ) + "px";
