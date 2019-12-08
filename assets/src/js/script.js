@@ -58,6 +58,11 @@ function trackPageview() {
 		return;
 	}
 
+	// simple user agent test to filter out some common bots
+	if ((/bot|crawler|spider|crawling/i).test(navigator.userAgent)) {
+		return;
+	}
+
 	// if <body> did not load yet, try again at dom ready event
 	if (document.body === null) {
 		document.addEventListener("DOMContentLoaded", trackPageview);
