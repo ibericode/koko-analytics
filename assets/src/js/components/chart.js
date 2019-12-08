@@ -4,6 +4,7 @@ import React from 'react';
 import { format } from 'date-fns'
 import api from '../util/api.js';
 import '../../sass/chart.scss';
+const i18n = window.koko_analytics.i18n;
 
 function step(v, ticks) {
 	let step = (v - (v % ticks)) / ticks;
@@ -116,11 +117,11 @@ export default class Component extends React.PureComponent {
 				<div class="content">
 					<div class="visitors">
 						<div class="amount">${data.visitors}</div>
-						<div class="">visitors</div>
+						<div>${i18n['Visitors']}</div>
 					</div>
 					<div class="pageviews">
 						<div class="amount">${data.pageviews}</div>
-						<div class="">pageviews</div>
+						<div>${i18n['Pageviews']}</div>
 					</div>
 				</div>
 			</div>
