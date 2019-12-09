@@ -77,8 +77,12 @@ class Admin {
 			'koko-analytics-dashboard-widget',
 			'koko_analytics',
 			array(
-			'root'          => rest_url(),
-			'nonce'         => wp_create_nonce( 'wp_rest' ),
+				'root'          => rest_url(),
+				'nonce'         => wp_create_nonce( 'wp_rest' ),
+				'i18n' => array(
+					'Visitors'  => __( 'Visitors', 'koko-analytics' ),
+					'Pageviews' => __( 'Pageviews', 'koko-analytics' ),
+				)
 			)
 		);
 		echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
