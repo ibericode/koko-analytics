@@ -37,6 +37,27 @@ export default class Component extends React.PureComponent {
 		this.hideTooltip = this.hideTooltip.bind(this);
 	}
 
+	componentDidMount() {
+		this.updateChart();
+
+		this.tooltip.className = 'tooltip';
+		this.tooltip.style.display = 'none';
+		document.body.appendChild(this.tooltip);
+		document.addEventListener('click', this.hideTooltip);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('click', this.hideTooltip);
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
+			return;
+		}
+
+		this.updateChart();
+	}
+
 	updateChart() {
 		// empty previous data
 		let dataset = {};
@@ -86,32 +107,13 @@ export default class Component extends React.PureComponent {
 		});
 	}
 
-	componentDidMount() {
-		this.updateChart();
-
-		this.tooltip.className = 'tooltip';
-		this.tooltip.style.display = 'none';
-		this.base.current.parentNode.appendChild(this.tooltip);
-		document.addEventListener('click', this.hideTooltip);
-	}
-
-	componentWillUnmount() {
-		document.removeEventListener('click', this.hideTooltip);
-	}
-
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
-			return;
-		}
-
-		this.updateChart();
-	}
-
-	showTooltip(x, y, tickWidth, data) {
+	showTooltip(data, barWidth) {
 		const el = this.tooltip;
-		const containerStyles = window.getComputedStyle(this.tooltip.parentElement);
 
-		return () => {
+		return (evt) => {
+			const bar = evt.currentTarget;
+			const styles = bar.getBoundingClientRect();
+
 			el.innerHTML = `
 			<div class="tooltip-inner">
 				<div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
@@ -128,8 +130,8 @@ export default class Component extends React.PureComponent {
 			</div>
 			<div class="tooltip-arrow"></div>`;
 			el.style.display = 'block';
-			el.style.left = (x + parseInt(containerStyles.paddingLeft) + 36 + 0.5 * tickWidth - 0.5 * el.clientWidth ) + "px";
-			el.style.top = ( y + parseInt(containerStyles.paddingTop) - el.clientHeight ) + "px";
+			el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + 0.5 * barWidth ) + "px";
+			el.style.top = (styles.y + window.scrollY - el.clientHeight ) + "px";
 		}
 	}
 
@@ -202,9 +204,8 @@ export default class Component extends React.PureComponent {
 
 								const pageviewHeight = d.pageviews / yMax * innerHeight;
 								const visitorHeight = d.visitors / yMax * innerHeight;
-								const x = getX(i);
-								const y = getY(d.pageviews);
-								const showTooltip = this.showTooltip(x, y, tickWidth, d);
+								const x = getX(i) + barPadding;
+								const showTooltip = this.showTooltip(d, barWidth);
 
 								return (<g key={d.date}
 										   	onClick={showTooltip}
@@ -214,14 +215,14 @@ export default class Component extends React.PureComponent {
 												className={"pageviews"}
 												height={pageviewHeight - visitorHeight}
 												width={barWidth}
-												x={x + barPadding}
-												y={y}
+												x={x}
+												y={getY(d.pageviews)}
 											/>
 											<rect
 												className={"visitors"}
 												height={visitorHeight}
 												width={barWidth}
-												x={x + barPadding}
+												x={x}
 												y={getY(d.visitors)}
 											/>
 								</g>)
