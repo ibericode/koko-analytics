@@ -109,6 +109,7 @@ export default class Component extends React.PureComponent {
 
 	showTooltip(x, y, tickWidth, data) {
 		const el = this.tooltip;
+		const containerStyles = window.getComputedStyle(this.tooltip.parentElement);
 
 		return () => {
 			el.innerHTML = `
@@ -127,8 +128,8 @@ export default class Component extends React.PureComponent {
 			</div>
 			<div class="tooltip-arrow"></div>`;
 			el.style.display = 'block';
-			el.style.left = (x + 12 + 36 + 0.5 * tickWidth - 0.5 * el.clientWidth ) + "px";
-			el.style.top = ( y + 12 - el.clientHeight ) + "px";
+			el.style.left = (x + parseInt(containerStyles.paddingLeft) + 36 + 0.5 * tickWidth - 0.5 * el.clientWidth ) + "px";
+			el.style.top = ( y + parseInt(containerStyles.paddingTop) - el.clientHeight ) + "px";
 		}
 	}
 
@@ -186,6 +187,7 @@ export default class Component extends React.PureComponent {
 										<g key={i}>
 											{(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke="#DDD" x1={x} x2={x} y1="0" y2="6" />}
 											{i === 0 && <text fill="#999" x={x} y="10" dy="1em">{format(d.date, 'MMM d, yyyy')}</text>}
+											{i === ticks-1 && <text fill="#999" x={x} y="10" dy="1em">{format(d.date, 'MMM d')}</text>}
 										</g>
 									);
 								})}
