@@ -3,6 +3,7 @@
 import React from 'react';
 import {format} from "date-fns";
 import api from '../util/api.js';
+import Pagination from "./table-pagination";
 const i18n = window.koko_analytics.i18n;
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/;
 
@@ -18,6 +19,7 @@ export default class TopReferrers extends React.PureComponent {
 			limit: 10,
 			items: [],
 		};
+		this.fetch = this.fetch.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -47,26 +49,14 @@ export default class TopReferrers extends React.PureComponent {
 
 	render() {
 		let {offset, limit, items} = this.state;
-		let {startDate, endDate} = this.props;
 		return (
 			<div className={"box fade top-referrers"}>
 				<div className="box-grid head">
 					<div className={""}>
 						<span className={"muted"}>#</span>
 						{i18n['Referrers']}
-						<div className={"pagination"}>
-							<span className={"prev " + (offset === 0 ? 'disabled' : '')}
-								  title={i18n['Previous']} onClick={() => {
-								let newOffset = Math.max(0, offset - limit);
-								this.fetch(newOffset);
-							}}><span className="dashicons dashicons-arrow-left" /></span>
-							<span className={"next " + (items.length < limit ? "disabled" : '')}
-								  title={i18n['Next']} onClick={() => {
-								let newOffset = offset + limit;
-								this.fetch(newOffset);
-							}
-							}><span className="dashicons dashicons-arrow-right" /></span>
-						</div>
+
+						<Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.fetch} />
 					</div>
 					<div className={"amount-col"}>{i18n['Visitors']}</div>
 					<div className={"amount-col"}>{i18n['Pageviews']}</div>

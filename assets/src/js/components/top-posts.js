@@ -2,17 +2,19 @@
 
 import React from 'react';
 import {format} from "date-fns";
+import Pagination from './table-pagination.js';
 import api from '../util/api.js';
 const i18n = window.koko_analytics.i18n;
 
 export default class TopPosts extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state =  {
+		this.state = {
 			offset: 0,
 			limit: 10,
 			items: [],
 		};
+		this.fetch = this.fetch.bind(this);
 	}
 
 	componentDidMount() {
@@ -40,30 +42,16 @@ export default class TopPosts extends React.PureComponent {
         });
     }
 
-
-
 	render() {
 		let {offset, limit, items} = this.state;
-		let {startDate, endDate} = this.props;
 		return (
 			<div className={"box fade top-posts"}>
 				<div className="head box-grid">
 					<div className={""}>
 						<span className={"muted"}>#</span>
 						{i18n['Pages']}
-						<div className={"pagination"}>
-							<span className={"prev " + (offset === 0 ? 'disabled' : '')}
-								  title={i18n['Previous']} onClick={() => {
-								let newOffset = Math.max(0, offset - limit);
-								this.fetch(newOffset);
-							}}><span className="dashicons dashicons-arrow-left" /></span>
-							<span className={"next " + (items.length < limit ? "disabled" : '')}
-								  title={i18n['Next']} onClick={() => {
-								let newOffset = offset + limit;
-								this.fetch(newOffset);
-							}
-							}><span className="dashicons dashicons-arrow-right" /></span>
-						</div>
+
+						<Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.fetch} />
 					</div>
 					<div className={"amount-col"}>{i18n['Visitors']}</div>
 					<div className={"amount-col"}>{i18n['Pageviews']}</div>
