@@ -149,10 +149,12 @@ export default class Component extends React.PureComponent {
 		const height = this.props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
 		const padding = {
 			left: 36,
-			bottom: 24
+			bottom: 26,
+			top: 6,
+			right: 6,
 		};
-		const innerWidth = width - padding.left;
-		const innerHeight = height - padding.bottom;
+		const innerWidth = width - padding.left - padding.right;
+		const innerHeight = height - padding.bottom - padding.top;
 		const ticks = dataset.length;
 		const tickWidth = innerWidth / ticks;
 		const barWidth = 0.9 * tickWidth;
@@ -166,7 +168,7 @@ export default class Component extends React.PureComponent {
 				<div className={"chart-container"}>
 					<svg className="chart" ref={this.base} width="100%" height={height}>
 						<g className="axes">
-							<g className="axes-y" textAnchor="end">
+							<g className="axes-y" transform={`translate(0, ${padding.top})`} textAnchor="end">
 								{[0, 1, 2, 3].map(v => {
 									let value = v * yStep;
 									if (value > yMax) {
@@ -182,7 +184,7 @@ export default class Component extends React.PureComponent {
 									)
 								})}
 							</g>
-							<g className={"axes-x"} transform={`translate(${padding.left}, ${innerHeight})`} textAnchor="middle">
+							<g className={"axes-x"} transform={`translate(${padding.left}, ${padding.top + innerHeight})`} textAnchor="middle">
 								{dataset.map((d, i) => {
 									const x = getX(i) + 0.5 * tickWidth;
 									return (
@@ -195,7 +197,7 @@ export default class Component extends React.PureComponent {
 								})}
 							</g>
 						</g>
-						<g className={"bars"} transform={`translate(${padding.left}, 0)`}>
+						<g className={"bars"} transform={`translate(${padding.left}, ${padding.top})`}>
 							{dataset.map((d, i) => {
 								// do not draw unnecessary elements
 								if (d.pageviews === 0) {
