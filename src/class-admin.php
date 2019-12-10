@@ -21,7 +21,7 @@ class Admin {
 	}
 
 	public function register_menu() {
-		add_submenu_page( 'index.php', __( 'Koko Analytics', 'koko-analytics' ), __( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
+		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
 	public function show_page() {
@@ -42,7 +42,8 @@ class Admin {
 	}
 
 	public function footer_text() {
-		return sprintf( __( 'If you enjoy using Koko Analytics, please <a href="%s">review the plugin on WordPress.org</a> to help out.', 'koko-analytics' ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform' );
+		/* translators: %s links to the WordPress.org plugin review page */
+		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%s">review the plugin on WordPress.org</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform' );
 	}
 
 	public function maybe_run_migrations() {
@@ -82,11 +83,12 @@ class Admin {
 				'i18n' => array(
 					'Visitors'  => __( 'Visitors', 'koko-analytics' ),
 					'Pageviews' => __( 'Pageviews', 'koko-analytics' ),
-				)
+				),
 			)
 		);
+
 		echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
-		echo sprintf( '<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', __( 'Showing site visits over last 14 days', 'koko-analytics' ), esc_attr( admin_url( 'index.php?page=koko-analytics' ) ), __( 'View all statistics', 'koko-analytics' ) );
+		echo sprintf( '<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', esc_html__( 'Showing site visits over last 14 days', 'koko-analytics' ), esc_attr( admin_url( 'index.php?page=koko-analytics' ) ), esc_html__( 'View all statistics', 'koko-analytics' ) );
 	}
 
 	/**
@@ -98,7 +100,7 @@ class Admin {
 	 * @return array
 	 */
 	public function add_plugin_settings_link( $links, $file ) {
-		$settings_link = '<a href="' . admin_url( 'index.php?page=koko-analytics#/settings' ) . '">' . __( 'Settings', 'koko-analytics' ) . '</a>';
+		$settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'index.php?page=koko-analytics#/settings' ), esc_html__( 'Settings', 'koko-analytics' ) );
 		array_unshift( $links, $settings_link );
 		return $links;
 	}
@@ -116,7 +118,7 @@ class Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page">' . __( 'Visit plugin site', 'koko-analytics' ) . '</a>';
+		$links[] = '<a href="https://www.kokoanalytics.com/">' . esc_html__( 'Visit plugin site', 'koko-analytics' ) . '</a>';
 		return $links;
 	}
 

@@ -13,7 +13,7 @@ class Aggregator {
 	public function add_interval( $intervals ) {
 		$intervals['koko_analytics_stats_aggregate_interval'] = array(
 			'interval' => 1 * 60, // 1 minute
-			'display'  => __( 'Every minute', 'koko-analytics' ),
+			'display'  => esc_html__( 'Every minute', 'koko-analytics' ),
 		);
 		return $intervals;
 	}

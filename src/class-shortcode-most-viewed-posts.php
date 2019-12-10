@@ -23,7 +23,7 @@ class Shortcode_Most_Viewed_Posts {
 		$html = '<ul>';
 		foreach ( $posts as $p ) {
 			$post_title   = get_the_title( $p );
-			$title        = $post_title !== '' ? $post_title : __( '(no title)', 'koko-analytics' );
+			$title        = $post_title !== '' ? $post_title : esc_html__( '(no title)', 'koko-analytics' );
 			$aria_current = '';
 
 			if ( get_queried_object_id() === $p->ID ) {

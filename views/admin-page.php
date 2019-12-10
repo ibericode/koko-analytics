@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) or exit; ?>
 <div class="wrap" id="koko-analytics-admin">
 	<noscript>
-		<?php echo __( 'Please enable JavaScript for this page to work.', 'koko-analytics' ); ?>
+		<?php echo esc_html__( 'Please enable JavaScript for this page to work.', 'koko-analytics' ); ?>
 	</noscript>
 
 	<div id="koko-analytics-mount"></div>

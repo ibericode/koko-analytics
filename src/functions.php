@@ -134,7 +134,7 @@ function admin_bar_menu( $wp_admin_bar ) {
 		array(
 			'parent' => 'site-name',
 			'id' => 'koko-analytics',
-			'title' => __( 'Analytics', 'koko-analytics' ),
+			'title' => esc_html__( 'Analytics', 'koko-analytics' ),
 			'href' => admin_url( '/index.php?page=koko-analytics' ),
 		)
 	);
