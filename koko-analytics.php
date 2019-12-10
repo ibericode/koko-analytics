@@ -51,10 +51,6 @@ if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	add_action( 'admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40 );
 }
 
-require __DIR__ . '/src/class-plugin.php';
-$plugin = new Plugin();
-$plugin->init();
-
 require __DIR__ . '/src/class-aggregator.php';
 $aggregator = new Aggregator();
 $aggregator->init();
@@ -72,3 +68,7 @@ $shortcode->init();
 require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
+
+require __DIR__ . '/src/class-plugin.php';
+$plugin = new Plugin( $aggregator );
+$plugin->init();

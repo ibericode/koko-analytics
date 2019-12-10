@@ -4,6 +4,18 @@ namespace KokoAnalytics;
 
 class Plugin {
 
+	/**
+	 * @var Aggregator
+	 */
+	private $aggregator;
+
+	/**
+	 * @param Aggregator $aggregator
+	 */
+	public function __construct( Aggregator $aggregator ) {
+		$this->aggregator = $aggregator;
+	}
+
 	public function init() {
 		add_filter( 'pre_update_option_active_plugins', array( $this, 'filter_active_plugins' ) );
 		register_activation_hook( KOKO_ANALYTICS_PLUGIN_FILE, array( $this, 'on_activation' ) );
@@ -29,6 +41,9 @@ class Plugin {
 		$role = get_role( 'administrator' );
 		$role->add_cap( 'view_koko_analytics' );
 		$role->add_cap( 'manage_koko_analytics' );
+
+		// schedule action for aggregating stats
+		$this->aggregator->setup_scheduled_event();
 	}
 
 	//

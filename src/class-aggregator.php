@@ -5,9 +5,9 @@ namespace KokoAnalytics;
 class Aggregator {
 
 	public function init() {
-		add_filter( 'cron_schedules', array( $this, 'add_interval' ) );
 		add_action( 'koko_analytics_aggregate_stats', array( $this, 'aggregate' ) );
-		add_action( 'init', array( $this, 'maybe_schedule' ) );
+		add_filter( 'cron_schedules', array( $this, 'add_interval' ) );
+		add_action( 'init', array( $this, 'maybe_setup_scheduled_event' ) );
 	}
 
 	public function add_interval( $intervals ) {
@@ -18,14 +18,18 @@ class Aggregator {
 		return $intervals;
 	}
 
-	public function maybe_schedule() {
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] !== 'POST' || ! is_admin() ) {
-			return;
-		}
-
+	public function setup_scheduled_event() {
 		if ( ! wp_next_scheduled( 'koko_analytics_aggregate_stats' ) ) {
 			wp_schedule_event( time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats' );
 		}
+	}
+
+	public function maybe_setup_scheduled_event() {
+		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || $_SERVER['REQUEST_METHOD'] !== 'POST' || ! is_admin() ) {
+			return;
+		}
+
+		$this->setup_scheduled_event();
 	}
 
 	public function aggregate() {
