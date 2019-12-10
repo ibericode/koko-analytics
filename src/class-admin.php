@@ -2,9 +2,11 @@
 
 namespace KokoAnalytics;
 
-class Admin {
+class Admin
+{
 
-	public function init() {
+	public function init()
+	{
 		global $pagenow;
 
 		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
@@ -20,11 +22,13 @@ class Admin {
 		}
 	}
 
-	public function register_menu() {
+	public function register_menu()
+	{
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
-	public function show_page() {
+	public function show_page()
+	{
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
@@ -34,36 +38,39 @@ class Admin {
 		}
 
 		$start_of_week = (int) get_option( 'start_of_week' );
-		$settings      = get_settings();
+		$settings = get_settings();
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
 
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 	}
 
-	public function footer_text() {
+	public function footer_text()
+	{
 		/* translators: %s links to the WordPress.org plugin review page */
 		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%s">review the plugin on WordPress.org</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform' );
 	}
 
-	public function maybe_run_migrations() {
+	public function maybe_run_migrations()
+	{
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
 		$from_version = isset( $_GET['koko_analytics_migrate_from_version'] ) ? $_GET['koko_analytics_migrate_from_version'] : get_option( 'koko_analytics_version', '0.0.1' );
-		$to_version   = KOKO_ANALYTICS_VERSION;
+		$to_version = KOKO_ANALYTICS_VERSION;
 		if ( version_compare( $from_version, $to_version, '>=' ) ) {
 			return;
 		}
 
 		$migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
-		$migrations     = new Migrations( $from_version, $to_version, $migrations_dir );
+		$migrations = new Migrations( $from_version, $to_version, $migrations_dir );
 		$migrations->run();
 		update_option( 'koko_analytics_version', $to_version );
 	}
 
-	public function register_dashboard_widget() {
+	public function register_dashboard_widget()
+	{
 		// only show if user can view stats
 		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;
@@ -72,16 +79,17 @@ class Admin {
 		add_meta_box( 'koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high' );
 	}
 
-	public function dashboard_widget() {
+	public function dashboard_widget()
+	{
 		wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
 		wp_localize_script(
 			'koko-analytics-dashboard-widget',
 			'koko_analytics',
 			array(
-				'root'          => rest_url(),
-				'nonce'         => wp_create_nonce( 'wp_rest' ),
+				'root' => rest_url(),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
 				'i18n' => array(
-					'Visitors'  => __( 'Visitors', 'koko-analytics' ),
+					'Visitors' => __( 'Visitors', 'koko-analytics' ),
 					'Pageviews' => __( 'Pageviews', 'koko-analytics' ),
 				),
 			)
@@ -99,7 +107,8 @@ class Admin {
 	 *
 	 * @return array
 	 */
-	public function add_plugin_settings_link( $links, $file ) {
+	public function add_plugin_settings_link( $links, $file )
+	{
 		$settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'index.php?page=koko-analytics#/settings' ), esc_html__( 'Settings', 'koko-analytics' ) );
 		array_unshift( $links, $settings_link );
 		return $links;
@@ -113,7 +122,8 @@ class Admin {
 	 *
 	 * @return array
 	 */
-	public function add_plugin_meta_links( $links, $file ) {
+	public function add_plugin_meta_links( $links, $file )
+	{
 		if ( $file !== plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ) ) {
 			return $links;
 		}
@@ -122,7 +132,8 @@ class Admin {
 		return $links;
 	}
 
-	public function get_database_size() {
+	public function get_database_size()
+	{
 		global $wpdb;
 		$sql = $wpdb->prepare(
 			'
@@ -136,58 +147,63 @@ class Admin {
 		return $wpdb->get_var( $sql );
 	}
 
-	public function maybe_seed() {
+	public function maybe_seed()
+	{
 		global $wpdb;
 
 		if ( ! isset( $_GET['koko_analytics_seed'] ) || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		$query         = new \WP_Query();
-		$posts         = $query->query(
+		$query = new \WP_Query();
+		$posts = $query->query(
 			array(
 				'posts_per_page' => 32,
-				'post_type'      => 'any',
-				'post_status'    => 'publish',
+				'post_type' => 'any',
+				'post_status' => 'publish',
 			)
 		);
-		$post_count    = count( $posts );
+		$post_count = count( $posts );
 		$referrer_urls = array();
-		foreach ( array(
-			  'https://www.wordpress.org',
-			  'https://www.wordpress.org/plugins/koko-analytics',
-			  'https://www.ibericode.com',
-			  'https://duckduckgo.com',
-			  'https://www.mozilla.org',
-			  'https://www.eff.org',
-			  'https://letsencrypt.org',
-			  'https://dannyvankooten.com',
-			  'https://github.com/ibericode/koko-analytics',
-			  'https://lobste.rs',
-			  'https://joinmastodon.org',
-			  'https://www.php.net',
-			  'https://mariadb.org',
-			  'https://referrer-1.com',
-			  'https://referrer-2.com',
-			  'https://referrer-3.com',
-			  'https://referrer-4.com',
-			  'https://referrer-5.com',
-			  'https://referrer-6.com',
-			  'https://referrer-7.com',
-			  'https://referrer-8.com',
-			  'https://referrer-9.com',
-			  'https://referrer-10.com',
-			  'https://referrer-11.com',
-			  'https://referrer-12.com',
-			  'https://referrer-13.com',
-			  'https://referrer-14.com',
-			  'https://referrer-15.com',
-			  'https://referrer-16.com',
-			  'https://referrer-17.com',
-			  'https://referrer-18.com',
-			  'https://referrer-19.com',
-			  'https://referrer-20.com',
-		) as $url ) {
+		$sample_referrers = array(
+			'https://www.wordpress.org',
+			'https://www.wordpress.org/plugins/koko-analytics',
+			'https://www.ibericode.com',
+			'https://duckduckgo.com',
+			'https://www.mozilla.org',
+			'https://www.eff.org',
+			'https://letsencrypt.org',
+			'https://dannyvankooten.com',
+			'https://github.com/ibericode/koko-analytics',
+			'https://lobste.rs',
+			'https://joinmastodon.org',
+			'https://www.php.net',
+			'https://mariadb.org',
+			'https://referrer-1.com',
+			'https://referrer-2.com',
+			'https://referrer-3.com',
+			'https://referrer-4.com',
+			'https://referrer-5.com',
+			'https://referrer-6.com',
+			'https://referrer-7.com',
+			'https://referrer-8.com',
+			'https://referrer-9.com',
+			'https://referrer-10.com',
+			'https://referrer-11.com',
+			'https://referrer-12.com',
+			'https://referrer-13.com',
+			'https://referrer-14.com',
+			'https://referrer-15.com',
+			'https://referrer-16.com',
+			'https://referrer-17.com',
+			'https://referrer-18.com',
+			'https://referrer-19.com',
+			'https://referrer-20.com',
+			'https://t.co/IiADWZC13f',
+			'https://www.reddit.com/r/Wordpress/comments/e6ycsm/privacy_friendly_analytics_plugin_that_does_not/',
+			'android-app://com.stefandekanski.hackernews.free',
+		);
+		foreach ( $sample_referrers as $url ) {
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_referrer_urls',
 				array(
@@ -201,16 +217,16 @@ class Admin {
 		$n = 3 * 365;
 		for ( $i = 0; $i < $n; $i++ ) {
 			$progress = ( $n - $i ) / $n;
-			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
+			$date = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
 			$pageviews = max( 1, rand( 500, 1000 ) * $progress ^ 2 );
-			$visitors  = max( 1, $pageviews * rand( 3, 6 ) / 10 );
+			$visitors = max( 1, $pageviews * rand( 3, 6 ) / 10 );
 
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_site_stats',
 				array(
-					'date'      => $date,
+					'date' => $date,
 					'pageviews' => $pageviews,
-					'visitors'  => $visitors,
+					'visitors' => $visitors,
 				)
 			);
 

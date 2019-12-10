@@ -11,6 +11,19 @@ function formatUrl(url) {
     return url.replace(URL_REGEX, '$2')
 }
 
+function enhance(item) {
+	item.displayUrl = formatUrl(item.url);
+
+	if (item.url.indexOf('https://t.co/') === 0) {
+		item.url = 'https://twitter.com/search?q=' + encodeURI(item.url);
+	} else if(item.url.indexOf('android-app://') === 0) {
+		item.displayUrl = item.url.replace('android-app://', 'Android app: ');
+		item.url = item.url.replace('android-app://', 'https://play.google.com/store/apps/details?id=');
+	}
+
+	return item;
+}
+
 export default class TopReferrers extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -39,6 +52,7 @@ export default class TopReferrers extends React.PureComponent {
                 limit: this.state.limit,
             }
         }).then(items => {
+        	items = items.map(enhance);
           	this.setState({items, offset});
         });
     }
@@ -64,9 +78,9 @@ export default class TopReferrers extends React.PureComponent {
 				<div className={"body"}>
 					{items.map((p, i) => (
 						<div key={p.id} className={"box-grid fade"}>
-							<div>
+							<div className={"url-col"}>
 								<span className={"muted"}>{offset + i + 1}</span>
-								<a href={p.url}>{formatUrl(p.url)}</a>
+								{p.url.length ? <a href={p.url}>{p.displayUrl}</a> : p.displayUrl}
 							</div>
 							<div className={"amount-col"}>{Math.max(p.visitors, 1)}</div>
 							<div className={"amount-col"}>{p.pageviews}</div>
