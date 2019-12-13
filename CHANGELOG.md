@@ -1,5 +1,19 @@
 # Changelog
 
+#### 1.0.4 - Dec 13, 2019
+
+- Fix referrer URL's not being saved correctly.
+- Fix unique pageview detection
+- Fix pretty number with only trailing zeroes.
+- Fix bar chart not stacking properly.
+- Improved display of Twitter or Android app referrers.
+- Improved chart tooltip.
+- Improved styling for small mobile screens.
+- Trim trailing slashes from referrer URL's.
+- Escape all strings coming from translation files.
+- Filter out common bots by checking user agent in tracking script.
+
+
 #### 1.0.3 - Dec 6, 2019
 
 - Fix link to settings page from plugins overview page.

@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -72,6 +72,20 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.4 - Dec 13, 2019
+
+- Fix referrer URL's not being saved correctly.
+- Fix unique pageview detection
+- Fix pretty number with only trailing zeroes.
+- Fix bar chart not stacking properly.
+- Improved display of Twitter or Android app referrers.
+- Improved chart tooltip.
+- Improved styling for small mobile screens.
+- Trim trailing slashes from referrer URL's.
+- Escape all strings coming from translation files.
+- Filter out common bots by checking user agent in tracking script.
+
 
 #### 1.0.3 - Dec 6, 2019
 
