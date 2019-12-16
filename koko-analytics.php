@@ -12,6 +12,8 @@ Domain Path: /languages/
 License: GPL-3.0
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
+Koko Analytics - website analytics plugin for WordPress
+
 Copyright (C) 2019, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
