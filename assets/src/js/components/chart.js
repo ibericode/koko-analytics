@@ -152,7 +152,7 @@ export default class Component extends React.PureComponent {
       left: 36,
       bottom: 26,
       top: 6,
-      right: 6
+      right: 12
     }
     const innerWidth = width - padding.left - padding.right
     const innerHeight = height - padding.bottom - padding.top
