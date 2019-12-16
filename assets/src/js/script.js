@@ -5,8 +5,8 @@
  */
 
 const trackerUrl = window.koko_analytics.tracker_url
-const postId = parseInt(window.koko_analytics.post_id).toString()
-const useCookie = parseInt(window.koko_analytics.use_cookie)
+const postId = String(parseInt(window.koko_analytics.post_id))
+const useCookie = Boolean(parseInt(window.koko_analytics.use_cookie))
 
 function stringifyObject (obj) {
   return Object.keys(obj).map(function (k) {
