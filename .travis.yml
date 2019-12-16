@@ -13,8 +13,6 @@ script:
   - composer run codestyle
   - npm run lint
 cache:
+  npm: true
   directories:
     - $HOME/.composer/cache
-    - $HOME/.npm
-    - $HOME/.nvm/.cache
-    - node_modules
