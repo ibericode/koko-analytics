@@ -221,6 +221,12 @@ class Admin
 			$pageviews = max( 1, rand( 500, 1000 ) * $progress ^ 2 );
 			$visitors = max( 1, $pageviews * rand( 3, 6 ) / 10 );
 
+			// simulate a huge peak in traffic every 180 days
+			if (rand(1, 180) === 1) {
+				$pageviews = $pageviews * 10;
+				$visitors = $visitors * 10;
+			}
+
 			$wpdb->insert(
 				$wpdb->prefix . 'koko_analytics_site_stats',
 				array(
