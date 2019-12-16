@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
+import numbers from '../util/numbers'
 
 const i18n = window.koko_analytics.i18n
 
@@ -179,7 +180,7 @@ export default class Component extends React.PureComponent {
                   return (
                     <g key={value}>
                       <line stroke='#DDD' x1={30} x2={width} y1={y} y2={y} />
-                      <text fill='#999' x={24} y={y} dy='0.33em'>{value}</text>
+                      <text fill='#999' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
                     </g>
                   )
                 })}
