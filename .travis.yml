@@ -2,9 +2,18 @@ language: php
 php:
   - 7.3
   - 7.4
+before_install:
+  - nvm install --latest-npm
 install:
   - composer self-update --no-interaction
   - composer update --no-interaction --prefer-dist
+  - npm install
 script:
   - composer run test
   - composer run codestyle
+  - npm run lint
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.npm
+    - $HOME/.nvm/.cache
