@@ -4,9 +4,9 @@ php:
   - 7.4
 before_install:
   - nvm install --latest-npm
+  - phpenv config-rm xdebug.ini # Disable XDebug to speed up PHP builds
 install:
-  - composer self-update --no-interaction
-  - composer update --no-interaction --prefer-dist
+  - composer install --no-interaction --prefer-dist
   - npm install
 script:
   - composer run test
@@ -17,3 +17,4 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
     - $HOME/.nvm/.cache
+    - node_modules
