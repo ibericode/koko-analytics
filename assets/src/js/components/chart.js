@@ -1,9 +1,11 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
+
 const i18n = window.koko_analytics.i18n
 
 function step (v, ticks) {
@@ -113,20 +115,20 @@ export default class Component extends React.PureComponent {
       const styles = bar.getBoundingClientRect()
 
       el.innerHTML = `
-			<div class="tooltip-inner">
-				<div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
-				<div class="content">
-					<div class="visitors">
-						<div class="amount">${data.visitors}</div>
-						<div>${i18n.Visitors}</div>
-					</div>
-					<div class="pageviews">
-						<div class="amount">${data.pageviews}</div>
-						<div>${i18n.Pageviews}</div>
-					</div>
-				</div>
-			</div>
-			<div class="tooltip-arrow"></div>`
+      <div class="tooltip-inner">
+        <div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
+        <div class="content">
+          <div class="visitors">
+            <div class="amount">${data.visitors}</div>
+            <div>${i18n.Visitors}</div>
+          </div>
+          <div class="pageviews">
+            <div class="amount">${data.pageviews}</div>
+            <div>${i18n.Pageviews}</div>
+          </div>
+        </div>
+      </div>
+      <div class="tooltip-arrow"></div>`
       el.style.display = 'block'
       el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + 0.5 * barWidth) + 'px'
       el.style.top = (styles.y + window.scrollY - el.clientHeight) + 'px'
@@ -235,4 +237,10 @@ export default class Component extends React.PureComponent {
       </div>
     )
   }
+}
+
+Component.propTypes = {
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired,
+  height: PropTypes.number
 }

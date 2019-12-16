@@ -1,9 +1,11 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import api from '../util/api.js'
 import Pagination from './table-pagination'
+
 const i18n = window.koko_analytics.i18n
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 
@@ -52,8 +54,8 @@ export default class TopReferrers extends React.PureComponent {
         limit: this.state.limit
       }
     }).then(items => {
-        	items = items.map(enhance)
-          	this.setState({ items, offset })
+      items = items.map(enhance)
+      this.setState({ items, offset })
     })
   }
 
@@ -92,4 +94,9 @@ export default class TopReferrers extends React.PureComponent {
       </div>
     )
   }
+}
+
+TopReferrers.propTypes = {
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired
 }

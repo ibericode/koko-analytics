@@ -1,10 +1,12 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
+
 const i18n = window.koko_analytics.i18n
 const now = new Date()
 
@@ -104,7 +106,7 @@ export default class Totals extends React.PureComponent {
           <div className='totals-label'>{i18n['Total visitors']}</div>
           <div className='totals-amount'>{numbers.formatPretty(visitors)} <span
             className={visitorsChange > 0 ? 'up' : visitorsChange === 0 ? 'neutral' : 'down'}
-                                                                          >{numbers.formatPercentage(visitorsChange)}
+          >{numbers.formatPercentage(visitorsChange)}
           </span>
           </div>
           <div className='totals-compare'>
@@ -115,7 +117,7 @@ export default class Totals extends React.PureComponent {
           <div className='totals-label'>{i18n['Total pageviews']}</div>
           <div className='totals-amount'>{numbers.formatPretty(pageviews)} <span
             className={pageviewsChange > 0 ? 'up' : pageviewsChange === 0 ? 'neutral' : 'down'}
-                                                                           >{numbers.formatPercentage(pageviewsChange)}
+          >{numbers.formatPercentage(pageviewsChange)}
           </span>
           </div>
           <div className='totals-compare'>
@@ -125,4 +127,9 @@ export default class Totals extends React.PureComponent {
       </div>
     )
   }
+}
+
+Totals.propTypes = {
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired
 }

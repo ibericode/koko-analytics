@@ -7,7 +7,8 @@
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"download-referrer-blacklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blacklist",
-		"create-pot": "wp i18n make-pot ."
+		"create-pot": "wp i18n make-pot .",
+		"lint": "eslint assets/src"
 	},
 	"private": true,
 	"repository": {
@@ -40,9 +41,15 @@
 		"babel-loader": "^8.0.6",
 		"copy-webpack-plugin": "^5.1.0",
 		"css-loader": "^3.3.0",
+		"eslint": "^6.7.2",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.19.1",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-react": "^7.17.0",
+		"eslint-plugin-standard": "^4.0.1",
 		"node-sass": "^4.13.0",
 		"sass-loader": "^8.0.0",
-		"standard": "^14.3.1",
 		"style-loader": "^1.0.1",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.10"

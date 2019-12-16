@@ -1,11 +1,13 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
 import { format } from 'date-fns'
 import addDays from 'date-fns/addDays'
+
 const startOfWeek = window.koko_analytics.start_of_week
 const i18n = window.koko_analytics.i18n
 
@@ -78,17 +80,17 @@ export default class Datepicker extends React.Component {
   }
 
   maybeClose (evt) {
-    	if (!this.state.open) {
-    		return
+    if (!this.state.open) {
+      return
     }
 
-    	for (let i = evt.target; i !== null; i = i.parentNode) {
-    		if (typeof (i.className) === 'string' && (i.className.indexOf('date-picker-ui') > -1 || i.className.indexOf('date-label') > -1)) {
-    			return
+    for (let i = evt.target; i !== null; i = i.parentNode) {
+      if (typeof (i.className) === 'string' && (i.className.indexOf('date-picker-ui') > -1 || i.className.indexOf('date-label') > -1)) {
+        return
       }
     }
 
-    	this.toggle()
+    this.toggle()
   }
 
   setPeriod (p) {
@@ -96,9 +98,9 @@ export default class Datepicker extends React.Component {
       evt.preventDefault()
 
       const now = new Date()
-    		let d, startDate, endDate
+      let d, startDate, endDate
 
-    		switch (p) {
+      switch (p) {
         case 'this_week':
           d = now.getDate() - now.getDay() + startOfWeek
           if (now.getDay() < startOfWeek) {
@@ -176,7 +178,7 @@ export default class Datepicker extends React.Component {
   }
 
   render () {
-    const { open, picking } = this.state
+    const { open } = this.state
     const { startDate, endDate } = this.props
     return (
       <div className='date-nav'>
@@ -213,4 +215,10 @@ export default class Datepicker extends React.Component {
       </div>
     )
   }
+}
+
+Datepicker.propTypes = {
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired,
+  onUpdate: PropTypes.func.isRequired
 }

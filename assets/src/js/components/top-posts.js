@@ -1,9 +1,11 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import Pagination from './table-pagination.js'
 import api from '../util/api.js'
+
 const i18n = window.koko_analytics.i18n
 
 export default class TopPosts extends React.PureComponent {
@@ -38,7 +40,7 @@ export default class TopPosts extends React.PureComponent {
         limit: this.state.limit
       }
     }).then(items => {
-        	this.setState({ items, offset })
+      this.setState({ items, offset })
     })
   }
 
@@ -73,4 +75,9 @@ export default class TopPosts extends React.PureComponent {
       </div>
     )
   }
+}
+
+TopPosts.propTypes = {
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired
 }

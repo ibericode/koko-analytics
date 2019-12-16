@@ -1,6 +1,8 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
 import Totals from './totals.js'
@@ -10,6 +12,7 @@ import Nav from './nav.js'
 
 const now = new Date()
 const formatDate = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+
 function parseUrlParams (str) {
   const params = {}
   let match
@@ -83,4 +86,8 @@ export default class Dashboard extends React.Component {
       </main>
     )
   }
+}
+
+Dashboard.propTypes = {
+  history: PropTypes.object.isRequired
 }

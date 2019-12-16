@@ -29,7 +29,7 @@ function formatWithComma (nStr) {
     return nStr
   }
 
-  const	x = nStr.split('.')
+  const x = nStr.split('.')
   let x1 = x[0]
   const x2 = x.length > 1 ? '.' + x[1] : ''
   while (commaRx.test(x1)) {

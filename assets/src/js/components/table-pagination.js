@@ -1,5 +1,7 @@
-import React from 'react'
 'use strict'
+
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const i18n = window.koko_analytics.i18n
 
@@ -37,4 +39,11 @@ export default class Component extends React.PureComponent {
       </div>
     )
   }
+}
+
+Component.propTypes = {
+  offset: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired
 }
