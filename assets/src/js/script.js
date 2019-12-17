@@ -1,9 +1,11 @@
 /**
- * Public file for creating the pageview tracking request.
+ * @package koko-analytics
+ * @author Danny van Kooten
+ * @license GPL-3.0+
  *
- * Do not use ES2015 features as this file is only intended to be minified (to save bandwidth).
+ * JavaScript file for initiating the pageview tracking request.
+ * Do not use ES2015 features as this file is only intended to be minified, not transpiled.
  */
-
 const trackerUrl = window.koko_analytics.tracker_url
 const postId = String(parseInt(window.koko_analytics.post_id))
 const useCookie = Boolean(parseInt(window.koko_analytics.use_cookie))
