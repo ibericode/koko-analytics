@@ -164,6 +164,11 @@ export default class Component extends React.PureComponent {
     const getY = value => yMax > 0 ? innerHeight - (value / yMax * innerHeight) : innerHeight
     const yStep = step(yMax, 3) || 1
 
+    // hide entire component if showing just a single data point
+    if (ticks <= 1) {
+      return null
+    }
+
     return (
       <div className='box'>
         <div className='chart-container'>
