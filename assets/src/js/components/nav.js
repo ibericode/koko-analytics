@@ -8,7 +8,7 @@ const i18n = window.koko_analytics.i18n
 export default function Nav () {
   // do not show navigation if user can not access settings anyway
   if (window.koko_analytics.showSettings === false) {
-    return ''
+    return null
   }
 
   return (

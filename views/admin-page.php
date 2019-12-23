@@ -37,6 +37,7 @@
 				'This week'                               => __( 'This week', 'koko-analytics' ),
 				'This month'                              => __( 'This month', 'koko-analytics' ),
 				'This year'                               => __( 'This year', 'koko-analytics' ),
+				'Today'                                   => __( 'Today', 'koko-analytics' ),
 				'Total visitors'                          => __( 'Total visitors', 'koko-analytics' ),
 				'Total pageviews'                         => __( 'Total pageviews', 'koko-analytics' ),
 				'Use cookie to determine unique visitors and pageviews?' => __( 'Use cookie to determine unique visitors and pageviews?', 'koko-analytics' ),
