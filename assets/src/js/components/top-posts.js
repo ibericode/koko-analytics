@@ -16,11 +16,17 @@ export default class TopPosts extends React.PureComponent {
       limit: 10,
       items: []
     }
-    this.fetch = this.fetch.bind(this)
+    this.loadData = this.loadData.bind(this)
+    this.autoRefresh = this.autoRefresh.bind(this)
   }
 
   componentDidMount () {
-    this.fetch()
+    this.loadData()
+    this.refreshInterval = window.setInterval(this.autoRefresh, 60000)
+  }
+
+  componentWillUnmount () {
+    window.clearInterval(this.refreshInterval)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -28,10 +34,18 @@ export default class TopPosts extends React.PureComponent {
       return
     }
 
-    this.fetch()
+    this.loadData()
   }
 
-  fetch (offset = this.state.offset) {
+  autoRefresh () {
+    const now = new Date()
+
+    if (this.props.startDate < now && this.props.endDate > now) {
+      this.loadData()
+    }
+  }
+
+  loadData (offset = this.state.offset) {
     api.request('/posts', {
       body: {
         start_date: format(this.props.startDate, 'yyyy-MM-dd'),
@@ -53,7 +67,7 @@ export default class TopPosts extends React.PureComponent {
             <span className='muted'>#</span>
             {i18n.Pages}
 
-            <Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.fetch} />
+            <Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.loadData} />
           </div>
           <div className='amount-col'>{i18n.Visitors}</div>
           <div className='amount-col'>{i18n.Pageviews}</div>

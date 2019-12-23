@@ -24,10 +24,18 @@ export default class Totals extends React.PureComponent {
       pageviewsPrevious: 0,
       hash: 'initial' // recompute this when data changes so we can redraw elements for animations
     }
+
+    this.loadData = this.loadData.bind(this)
+    this.autoRefresh = this.autoRefresh.bind(this)
   }
 
   componentDidMount () {
-    this.fetch()
+    this.loadData()
+    this.refreshInterval = window.setInterval(this.autoRefresh, 60000)
+  }
+
+  componentWillUnmount () {
+    window.clearInterval(this.refreshInterval)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -35,10 +43,18 @@ export default class Totals extends React.PureComponent {
       return
     }
 
-    this.fetch()
+    this.loadData()
   }
 
-  fetch () {
+  autoRefresh () {
+    const now = new Date()
+
+    if (this.props.startDate < now && this.props.endDate > now) {
+      this.loadData()
+    }
+  }
+
+  loadData () {
     const s = this.props.startDate
     // if end date is in future, use today instead so we get a fair comparison
     const e = this.props.endDate.getTime() <= now.getTime() ? this.props.endDate : now
@@ -92,7 +108,7 @@ export default class Totals extends React.PureComponent {
         pageviewsChange = Math.round((pageviews / pageviewsPrevious - 1) * 100)
       }
 
-      const hash = Math.random().toString(36).substring(4)
+      const hash = format(this.props.startDate, 'yyyy-MM-dd') + '-' + format(this.props.endDate, 'yyyy-MM-dd')
       this.setState({ visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash })
     })
   }

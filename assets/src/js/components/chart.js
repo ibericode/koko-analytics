@@ -33,22 +33,24 @@ export default class Component extends React.PureComponent {
     }
 
     this.base = React.createRef()
-    this.tooltip = document.createElement('div')
+    this.tooltip = this.createTooltip()
     this.showTooltip = this.showTooltip.bind(this)
     this.hideTooltip = this.hideTooltip.bind(this)
+    this.updateChart = this.updateChart.bind(this)
+    this.loadData = this.loadData.bind(this)
+    this.autoRefresh = this.autoRefresh.bind(this)
   }
 
   componentDidMount () {
-    this.updateChart()
-
-    this.tooltip.className = 'tooltip'
-    this.tooltip.style.display = 'none'
     document.body.appendChild(this.tooltip)
     document.addEventListener('click', this.hideTooltip)
+    this.refreshInterval = window.setInterval(this.autoRefresh, 60000)
+    this.updateChart()
   }
 
   componentWillUnmount () {
     document.removeEventListener('click', this.hideTooltip)
+    window.clearInterval(this.refreshInterval)
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
@@ -59,24 +61,38 @@ export default class Component extends React.PureComponent {
     this.updateChart()
   }
 
+  autoRefresh () {
+    const now = new Date()
+
+    if (this.props.startDate < now && this.props.endDate > now) {
+      this.loadData()
+    }
+  }
+
   updateChart () {
-    // empty previous data
-    const dataset = {}
-    let yMax = 0
+    // hide tooltip
     this.tooltip.style.display = 'none'
 
     // fill chart with 0's
-    for (let d = new Date(this.props.startDate); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
+    this.dataset = {}
+    for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
       const key = format(d, 'yyyy-MM-dd')
-      dataset[key] = {
-        date: new Date(d),
+      this.dataset[key] = {
+        date: new Date(d.getTime()),
         pageviews: 0,
         visitors: 0
       }
     }
+
     this.setState({
-      dataset: Object.values(dataset)
+      dataset: Object.values(this.dataset)
     })
+    this.loadData()
+  }
+
+  loadData () {
+    const dataset = this.dataset
+    let yMax = 0
 
     // fetch actual stats
     api.request('/stats', {
@@ -106,6 +122,13 @@ export default class Component extends React.PureComponent {
         yMax
       })
     })
+  }
+
+  createTooltip () {
+    const el = document.createElement('div')
+    el.className = 'tooltip'
+    el.style.display = 'none'
+    return el
   }
 
   showTooltip (data, barWidth) {
@@ -194,7 +217,7 @@ export default class Component extends React.PureComponent {
                 {dataset.map((d, i) => {
                   const x = getX(i) + 0.5 * tickWidth
                   return (
-                    <g key={i}>
+                    <g key={d.date}>
                       {(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />}
                       {i === 0 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
                       {i === ticks - 1 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
