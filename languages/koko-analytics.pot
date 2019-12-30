@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the Koko Analytics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Koko Analytics 1.0.3\n"
+"Project-Id-Version: Koko Analytics 1.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-13T07:46:32+00:00\n"
+"POT-Creation-Date: 2019-12-30T11:39:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.3.0\n"
+"X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
 
 #. Plugin Name of the plugin
-#: src/class-admin.php:27
+#: src/class-admin.php:31
 msgid "Koko Analytics"
 msgstr ""
 
@@ -35,77 +35,77 @@ msgstr ""
 msgid "https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page"
 msgstr ""
 
-#: src/class-admin.php:27
-#: src/functions.php:137
+#: src/class-admin.php:31
+#: src/functions.php:141
 msgid "Analytics"
 msgstr ""
 
 #. translators: %s links to the WordPress.org plugin review page
-#: src/class-admin.php:51
+#: src/class-admin.php:55
 msgid "If you enjoy using Koko Analytics, please <a href=\"%s\">review the plugin on WordPress.org</a> to help out."
 msgstr ""
 
-#: src/class-admin.php:92
-#: views/admin-page.php:43
+#: src/class-admin.php:96
+#: views/admin-page.php:44
 msgid "Visitors"
 msgstr ""
 
-#: src/class-admin.php:93
+#: src/class-admin.php:97
 #: views/admin-page.php:27
 msgid "Pageviews"
 msgstr ""
 
-#: src/class-admin.php:99
+#: src/class-admin.php:103
 msgid "Showing site visits over last 14 days"
 msgstr ""
 
-#: src/class-admin.php:99
+#: src/class-admin.php:103
 msgid "View all statistics"
 msgstr ""
 
-#: src/class-admin.php:112
+#: src/class-admin.php:116
 #: views/admin-page.php:33
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:131
+#: src/class-admin.php:135
 msgid "Visit plugin site"
 msgstr ""
 
-#: src/class-aggregator.php:16
+#: src/class-aggregator.php:20
 msgid "Every minute"
 msgstr ""
 
-#: src/class-shortcode-most-viewed-posts.php:26
+#: src/class-shortcode-most-viewed-posts.php:30
 msgid "(no title)"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:11
+#: src/class-widget-most-viewed-posts.php:16
 msgid "Your site&#8217;s most viewed posts, as counted by Koko Analytics."
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:14
-#: src/class-widget-most-viewed-posts.php:20
+#: src/class-widget-most-viewed-posts.php:19
+#: src/class-widget-most-viewed-posts.php:25
 msgid "Most viewed posts"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:81
+#: src/class-widget-most-viewed-posts.php:86
 msgid "Title:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:86
+#: src/class-widget-most-viewed-posts.php:91
 msgid "Post type:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:97
+#: src/class-widget-most-viewed-posts.php:102
 msgid "Period:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:107
+#: src/class-widget-most-viewed-posts.php:112
 msgid "Number of posts to show:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:113
+#: src/class-widget-most-viewed-posts.php:118
 msgid "Display post date?"
 msgstr ""
 
@@ -202,25 +202,29 @@ msgid "This year"
 msgstr ""
 
 #: views/admin-page.php:40
-msgid "Total visitors"
+msgid "Today"
 msgstr ""
 
 #: views/admin-page.php:41
-msgid "Total pageviews"
+msgid "Total visitors"
 msgstr ""
 
 #: views/admin-page.php:42
+msgid "Total pageviews"
+msgstr ""
+
+#: views/admin-page.php:43
 msgid "Use cookie to determine unique visitors and pageviews?"
 msgstr ""
 
-#: views/admin-page.php:44
+#: views/admin-page.php:45
 msgid "Visits and pageviews from users with any of the selected roles will be ignored."
 msgstr ""
 
-#: views/admin-page.php:45
+#: views/admin-page.php:46
 msgid "Yes"
 msgstr ""
 
-#: views/admin-page.php:46
+#: views/admin-page.php:47
 msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
 msgstr ""

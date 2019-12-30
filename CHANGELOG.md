@@ -1,5 +1,14 @@
 # Changelog
 
+#### 1.0.5 - Dec 30, 2019
+
+- Add "today" option to date periods preset menu.
+- Hide chart component when viewing just a single day of data.
+- Automatically refresh data in dashboard every minute.
+- Use human readable number format on chart's y-axes.
+- Show chart elements even if outside of chart container.
+
+
 #### 1.0.4 - Dec 13, 2019
 
 - Fix referrer URL's not being saved correctly.
