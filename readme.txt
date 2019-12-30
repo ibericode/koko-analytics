@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -72,6 +72,15 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.5 - Dec 30, 2019
+
+- Add "today" option to date periods preset menu.
+- Hide chart component when viewing just a single day of data.
+- Automatically refresh data in dashboard every minute.
+- Use human readable number format on chart's y-axes.
+- Show chart elements even if outside of chart container.
+
 
 #### 1.0.4 - Dec 13, 2019
 
