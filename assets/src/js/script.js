@@ -72,9 +72,9 @@ function trackPageview () {
     return
   }
 
-  const cookie = getCookie('_koko_analytics_pages_viewed')
-  let isNewVisitor = cookie.length === 0
+  const cookie = useCookie ? getCookie('_koko_analytics_pages_viewed') : ''
   const pagesViewed = cookie.split(',').filter(function (id) { return id !== '' })
+  let isNewVisitor = cookie.length === 0
   let isUniquePageview = pagesViewed.indexOf(postId) === -1
   let referrer = ''
 
