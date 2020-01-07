@@ -51,18 +51,23 @@ function setCookie (name, data, args) {
 }
 
 function trackPageview () {
-  // respect "Do Not Track" requests
+  // do not track if "Do Not Track" is enabled
   if ('doNotTrack' in navigator && navigator.doNotTrack === '1') {
     return
   }
 
-  // ignore pre-rendering requests
+  // do not track if this is a prerender request
   if ('visibilityState' in document && document.visibilityState === 'prerender') {
     return
   }
 
-  // simple user agent test to filter out some common bots
+  // do not track if user agent looks like a bot
   if ((/bot|crawler|spider|crawling/i).test(navigator.userAgent)) {
+    return
+  }
+
+  // do not track if page is inside an iframe
+  if (window.location !== window.parent.location) {
     return
   }
 
