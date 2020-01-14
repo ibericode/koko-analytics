@@ -36,7 +36,13 @@ Koko Analytics allows you to focus on what is important and gives you all the es
 - GDPR compliant by design.
 - Open-source (GPL-3.0+ licensed).
 
-You can [contribute to Koko Analytics on GitHub](https://github.com/ibericode/koko-analytics) or by [translating the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics).
+### Contributing
+
+You can contribute to Koko Analytics in many different ways. For example:
+
+- Create awareness by writing about the plugin on your blog or by sharing it on social media.
+- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
+- [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics).
 
 
 == Installation ==
