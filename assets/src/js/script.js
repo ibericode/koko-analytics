@@ -62,7 +62,7 @@ function trackPageview () {
   }
 
   // do not track if user agent looks like a bot
-  if ((/bot|crawler|spider|crawling/i).test(navigator.userAgent)) {
+  if ((/bot|crawler|spider|crawling|seo/i).test(navigator.userAgent)) {
     return
   }
 
