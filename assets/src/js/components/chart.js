@@ -135,9 +135,6 @@ export default class Component extends React.PureComponent {
     const el = this.tooltip
 
     return (evt) => {
-      const bar = evt.currentTarget
-      const styles = bar.getBoundingClientRect()
-
       el.innerHTML = `
       <div class="tooltip-inner">
         <div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
@@ -153,8 +150,10 @@ export default class Component extends React.PureComponent {
         </div>
       </div>
       <div class="tooltip-arrow"></div>`
+
+      const styles = evt.currentTarget.getBoundingClientRect()
       el.style.display = 'block'
-      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + 0.5 * barWidth) + 'px'
+      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + barWidth) + 'px'
       el.style.top = (styles.y + window.scrollY - el.clientHeight) + 'px'
     }
   }
@@ -181,7 +180,7 @@ export default class Component extends React.PureComponent {
     const innerHeight = height - padding.bottom - padding.top
     const ticks = dataset.length
     const tickWidth = innerWidth / ticks
-    const barWidth = 0.9 * tickWidth
+    const barWidth = 0.9 * tickWidth * 0.5
     const barPadding = 0.05 * tickWidth
     const getX = index => index * tickWidth
     const getY = value => yMax > 0 ? innerHeight - (value / yMax * innerHeight) : innerHeight
@@ -245,18 +244,18 @@ export default class Component extends React.PureComponent {
                   onMouseLeave={this.hideTooltip}
                 >
                   <rect
-                    className='pageviews'
-                    height={pageviewHeight - visitorHeight}
-                    width={barWidth}
-                    x={x}
-                    y={getY(d.pageviews)}
-                  />
-                  <rect
                     className='visitors'
                     height={visitorHeight}
                     width={barWidth}
                     x={x}
                     y={getY(d.visitors)}
+                  />
+                  <rect
+                    className='pageviews'
+                    height={pageviewHeight}
+                    width={barWidth}
+                    x={x + barWidth}
+                    y={getY(d.pageviews)}
                   />
                 </g>)
               })}
