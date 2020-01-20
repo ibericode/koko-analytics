@@ -30,7 +30,7 @@ class Script_Loader {
 		if ( count( $settings['exclude_user_roles'] ) > 0 ) {
 			$user = wp_get_current_user();
 
-			if ( $user->exists() && $this->user_has_roles( $user, $settings[ 'exclude_user_roles' ] ) ) {
+			if ( $user->exists() && $this->user_has_roles( $user, $settings['exclude_user_roles'] ) ) {
 				return;
 			}
 		}
