@@ -84,7 +84,7 @@ export default class Dashboard extends React.Component {
     if (startDate.getTime() === this.state.startDate.getTime() && endDate.getTime() === this.state.endDate.getTime()) {
       return
     }
-    
+
     // update state
     this.setState({ startDate, endDate })
 
