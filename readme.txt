@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -78,6 +78,16 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.6 - Jan 20, 2020
+
+- Remember view period when navigating away from analytics dashboard.
+- Add filter hook to prevent loading the tracking script: `koko_analytics_load_tracking_script`
+- Ignore all user agents containing the word `seo`
+- Ignore requests if page is loaded inside an iframe.
+- Only read `document.cookie` if cookie use is actually enabled.
+- In chart, use separate bars instead of stacked bars.
+
 
 #### 1.0.5 - Dec 30, 2019
 

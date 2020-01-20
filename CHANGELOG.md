@@ -1,5 +1,15 @@
 # Changelog
 
+#### 1.0.6 - Jan 20, 2020
+
+- Remember view period when navigating away from analytics dashboard.
+- Add filter hook to prevent loading the tracking script: `koko_analytics_load_tracking_script`
+- Ignore all user agents containing the word `seo`
+- Ignore requests if page is loaded inside an iframe.
+- Only read `document.cookie` if cookie use is actually enabled.
+- In chart, use separate bars instead of stacked bars.
+
+
 #### 1.0.5 - Dec 30, 2019
 
 - Add "today" option to date periods preset menu.
