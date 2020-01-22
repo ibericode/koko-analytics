@@ -180,8 +180,10 @@ export default class Component extends React.PureComponent {
     const innerHeight = height - padding.bottom - padding.top
     const ticks = dataset.length
     const tickWidth = innerWidth / ticks
-    const barWidth = 0.9 * tickWidth * 0.5
-    const barPadding = 0.05 * tickWidth
+    const barWidth = 0.9 * tickWidth
+    const barPadding = (tickWidth - barWidth) / 2
+    const innerBarWidth = barWidth * 0.6
+    const innerBarPadding = (barWidth - innerBarWidth) / 2
     const getX = index => index * tickWidth
     const getY = value => yMax > 0 ? innerHeight - (value / yMax * innerHeight) : innerHeight
     const yStep = step(yMax, 3) || 1
@@ -234,7 +236,7 @@ export default class Component extends React.PureComponent {
 
                 const pageviewHeight = d.pageviews / yMax * innerHeight
                 const visitorHeight = d.visitors / yMax * innerHeight
-                const x = getX(i) + barPadding
+                const x = getX(i)
                 const showTooltip = this.showTooltip(d, barWidth)
 
                 return (<g
@@ -244,20 +246,20 @@ export default class Component extends React.PureComponent {
                   onMouseLeave={this.hideTooltip}
                 >
                   <rect
-                    className='visitors'
-                    height={visitorHeight}
-                    width={barWidth}
-                    x={x}
-                    y={getY(d.visitors)}
-                    fill={colors[2]}
-                  />
-                  <rect
                     className='pageviews'
                     height={pageviewHeight}
                     width={barWidth}
-                    x={x + barWidth}
+                    x={x + barPadding}
                     y={getY(d.pageviews)}
                     fill={colors[3]}
+                  />
+                  <rect
+                    className='visitors'
+                    height={visitorHeight}
+                    width={innerBarWidth}
+                    x={x + barPadding + innerBarPadding}
+                    y={getY(d.visitors)}
+                    fill={colors[2]}
                   />
                 </g>)
               })}
