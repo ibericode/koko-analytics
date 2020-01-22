@@ -137,7 +137,7 @@ export default class Component extends React.PureComponent {
     return (evt) => {
       el.innerHTML = `
       <div class="tooltip-inner">
-        <div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
+        <div class="heading">${format(data.date, 'MMM d, yyyy - EEEE')}</div>
         <div class="content">
           <div class="visitors">
             <div class="amount">${data.visitors}</div>
