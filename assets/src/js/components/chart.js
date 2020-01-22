@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
-
+const colors = window.koko_analytics.colors
 const i18n = window.koko_analytics.i18n
 
 function step (v, ticks) {
@@ -207,7 +207,7 @@ export default class Component extends React.PureComponent {
                   return (
                     <g key={value}>
                       <line stroke='#DDD' x1={30} x2={width} y1={y} y2={y} />
-                      <text fill='#999' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
+                      <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
                     </g>
                   )
                 })}
@@ -218,8 +218,8 @@ export default class Component extends React.PureComponent {
                   return (
                     <g key={d.date}>
                       {(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />}
-                      {i === 0 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
-                      {i === ticks - 1 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
+                      {i === 0 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
+                      {i === ticks - 1 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
                     </g>
                   )
                 })}
@@ -249,6 +249,7 @@ export default class Component extends React.PureComponent {
                     width={barWidth}
                     x={x}
                     y={getY(d.visitors)}
+                    fill={colors[2]}
                   />
                   <rect
                     className='pageviews'
@@ -256,6 +257,7 @@ export default class Component extends React.PureComponent {
                     width={barWidth}
                     x={x + barWidth}
                     y={getY(d.pageviews)}
+                    fill={colors[3]}
                   />
                 </g>)
               })}

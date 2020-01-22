@@ -51,6 +51,7 @@
 			'settings'      => $settings,
 			'showSettings'  => current_user_can( 'manage_koko_analytics' ),
 			'dbSize' => $this->get_database_size(),
+			'colors' => $colors,
 		)
 	);
 	?>
