@@ -1,22 +1,6 @@
 <?php
 
-function bench($desc, Closure $fn, Closure $setup, $iterations = 3) {
-	$total_time = 0;
-
-	for ($i = 0; $i < $iterations; $i++) {
-		$setup();
-		$time_start = microtime(true);
-		$fn();
-		$time_end = microtime(true);
-		$total_time += $time_end - $time_start;
-	}
-
-	$average = $total_time / $iterations;
-	printf('%s took %.3f seconds' . PHP_EOL, $desc, $average);
-	return $average;
-}
-
-@set_time_limit(0);
+require __DIR__ . '/functions.php';
 $file = '/tmp/bench-file.txt';
 
 // create file with 100K lines of data

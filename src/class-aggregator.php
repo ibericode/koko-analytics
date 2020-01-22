@@ -206,9 +206,12 @@ class Aggregator {
 		$whitelisted_params = array( 'page_id', 'p', 'cat', 'product' );
 
 		// remove # from URL
-		$url = preg_replace( '/#.*$/', '', $url );
+		$pos = strpos( $url, '#' );
+		if ( $pos !== false ) {
+			$url = substr( $url, 0, $pos );
+		}
 
-		// if URL contains query string, strip it
+		// if URL contains query string, parse it and only keep certain parameters
 		$pos = strpos( $url, '?' );
 		if ( $pos !== false ) {
 			$query_str = substr( $url, $pos + 1 );
