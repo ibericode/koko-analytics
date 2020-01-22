@@ -245,7 +245,7 @@ class Aggregator {
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
 		);
 
-		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url );
+		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url, 1 );
 	}
 
 }
