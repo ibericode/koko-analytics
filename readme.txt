@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -13,23 +13,22 @@ Privacy-friendly analytics for your WordPress site
 
 == Description ==
 
-Koko Analytics is a privacy-friendly analytics plugin for your WordPress site. It does not need any external services, so any data about your visitors is never shared with a third-party service.
+Koko Analytics is a privacy-friendly analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party company.
 
-Furthermore, your visitors' privacy is respected. Nothing that could lead back to a specific visitor is tracked and it is easy for visitors to opt-out of tracking altogether using a standardized browser setting called "Do Not Track".
+Furthermore, no visitor specific data is collected and visitors can easily opt-out of tracking by enabling "Do Not Track" in their browser settings.
 
-Stop scrolling through pages of reports while collecting sensitive data about your visitors, both of which you probably do not need.
-Koko Analytics allows you to focus on what is important and gives you all the essential metrics you need to improve your website, while truly respecting the privacy of your visitors.
+Stop sharing visitor data with third-party companies making money off that same data. Stop unnecessarily slowing down your website. Koko Analytics lets you focus on what is important and gives you all the essential metrics, while respecting the privacy of your visitors.
 
 ### Features
 
 - Plug and play. Just install and activate the plugin and stats will automatically be recorded.
 - No external services. Data about visits to your website is yours and yours alone.
 - No personal information or anything visitor specific is tracked.
-- Blazingly fast. Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- Counts all the essential metrics you need: visitors, pageviews and referrers for your site and each individiual page.
-- Option to not use any cookies while still being able to detect returning visitors and unique pageviews, albeit less reliable.
-- Option to exclude traffic from logged-in users (by user role).
-- Option to automatically delete old data.
+- Fast. Handles sudden bursts of traffic without breaking a sweat.
+- All the essential metrics: visitors, pageviews and referrers.
+- Option to not use any cookies.
+- Option to exclude traffic from logged-in users.
+- Option to automatically purge data after X months.
 - Built-in blacklist to filter referrer spam.
 - Compatible with pages served from cache.
 - Compatible with AMP powered pages.
@@ -40,9 +39,9 @@ Koko Analytics allows you to focus on what is important and gives you all the es
 
 You can contribute to Koko Analytics in many different ways. For example:
 
-- Create awareness by writing about the plugin on your blog or by sharing it on social media.
+- Write about the plugin on your blog or share it on social media.
 - [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
-- [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics).
+- [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
 
 
 == Installation ==
@@ -55,16 +54,16 @@ You can contribute to Koko Analytics in many different ways. For example:
 == Frequently Asked Questions ==
 
 #### Does this respect my visitor's privacy?
-Absolutely, nothing that could lead back to the visitor is recorded. Furthermore, if the visitor has "Do Not Track" enabled in their browser, this is respected.
+Absolutely, nothing that could lead back to the visitor is recorded. If the visitor has "Do Not Track" enabled in their browser settings, the visitor won't be tracked at all.
 
 #### Does this use any external services?
 No, the data never leaves your website. That's (part of) what makes Koko Analytics such a great choice if you value true privacy.
 
 ### Does this set any cookies?
-By default, yes. But you can easily disable this in the plugin's settings. Without cookies, the plugin can still detect returning visitors and unique pageviews, albeit less reliable.
+By default, yes. But you can easily disable this in the plugin's settings. Without cookies the plugin can still detect unique pageviews, but not returning visitors.
 
 ### Will this slow down my website?
-No, the plugin is built in such a way that it never slows down your website for your visitors. If there is heavy lifting to be done, it is done in a background process.
+No, the plugin is built in such a way that it never slows down your website for your visitors. If there is any heavy lifting to be done, it is done in a background process.
 
 In fact, because the plugin does not depend on any external services it is usually much faster than third-party analytics tools.
 
@@ -78,6 +77,16 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.6 - Jan 20, 2020
+
+- Remember view period when navigating away from analytics dashboard.
+- Add filter hook to prevent loading the tracking script: `koko_analytics_load_tracking_script`
+- Ignore all user agents containing the word `seo`
+- Ignore requests if page is loaded inside an iframe.
+- Only read `document.cookie` if cookie use is actually enabled.
+- In chart, use separate bars instead of stacked bars.
+
 
 #### 1.0.5 - Dec 30, 2019
 

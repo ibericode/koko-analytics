@@ -36,6 +36,7 @@ class Admin
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
+		// get user roles
 		$user_roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
 			$user_roles[ $key ] = $role['name'];
@@ -43,9 +44,9 @@ class Admin
 
 		$start_of_week = (int) get_option( 'start_of_week' );
 		$settings = get_settings();
+		$colors = $this->get_colors();
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
-
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 	}
 
@@ -73,6 +74,17 @@ class Admin
 		update_option( 'koko_analytics_version', $to_version );
 	}
 
+	private function get_colors()
+	{
+		$color_scheme_name = get_user_option( 'admin_color' );
+		global $_wp_admin_css_colors;
+		if ( empty( $_wp_admin_css_colors[ $color_scheme_name ] ) ) {
+			$color_scheme_name = 'fresh';
+		}
+
+		return $_wp_admin_css_colors[ $color_scheme_name ]->colors;
+	}
+
 	public function register_dashboard_widget()
 	{
 		// only show if user can view stats
@@ -96,6 +108,7 @@ class Admin
 					'Visitors' => __( 'Visitors', 'koko-analytics' ),
 					'Pageviews' => __( 'Pageviews', 'koko-analytics' ),
 				),
+				'colors' => $this->get_colors(),
 			)
 		);
 

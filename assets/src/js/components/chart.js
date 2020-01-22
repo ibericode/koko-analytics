@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
-
+const colors = window.koko_analytics.colors
 const i18n = window.koko_analytics.i18n
 
 function step (v, ticks) {
@@ -135,12 +135,9 @@ export default class Component extends React.PureComponent {
     const el = this.tooltip
 
     return (evt) => {
-      const bar = evt.currentTarget
-      const styles = bar.getBoundingClientRect()
-
       el.innerHTML = `
       <div class="tooltip-inner">
-        <div class="heading">${format(data.date, 'MMM d, yyyy')}</div>
+        <div class="heading">${format(data.date, 'MMM d, yyyy - EEEE')}</div>
         <div class="content">
           <div class="visitors">
             <div class="amount">${data.visitors}</div>
@@ -153,8 +150,10 @@ export default class Component extends React.PureComponent {
         </div>
       </div>
       <div class="tooltip-arrow"></div>`
+
+      const styles = evt.currentTarget.getBoundingClientRect()
       el.style.display = 'block'
-      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + 0.5 * barWidth) + 'px'
+      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + barWidth) + 'px'
       el.style.top = (styles.y + window.scrollY - el.clientHeight) + 'px'
     }
   }
@@ -181,7 +180,7 @@ export default class Component extends React.PureComponent {
     const innerHeight = height - padding.bottom - padding.top
     const ticks = dataset.length
     const tickWidth = innerWidth / ticks
-    const barWidth = 0.9 * tickWidth
+    const barWidth = 0.9 * tickWidth * 0.5
     const barPadding = 0.05 * tickWidth
     const getX = index => index * tickWidth
     const getY = value => yMax > 0 ? innerHeight - (value / yMax * innerHeight) : innerHeight
@@ -208,7 +207,7 @@ export default class Component extends React.PureComponent {
                   return (
                     <g key={value}>
                       <line stroke='#DDD' x1={30} x2={width} y1={y} y2={y} />
-                      <text fill='#999' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
+                      <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
                     </g>
                   )
                 })}
@@ -219,8 +218,8 @@ export default class Component extends React.PureComponent {
                   return (
                     <g key={d.date}>
                       {(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />}
-                      {i === 0 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
-                      {i === ticks - 1 && <text fill='#999' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
+                      {i === 0 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
+                      {i === ticks - 1 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
                     </g>
                   )
                 })}
@@ -245,18 +244,20 @@ export default class Component extends React.PureComponent {
                   onMouseLeave={this.hideTooltip}
                 >
                   <rect
-                    className='pageviews'
-                    height={pageviewHeight - visitorHeight}
-                    width={barWidth}
-                    x={x}
-                    y={getY(d.pageviews)}
-                  />
-                  <rect
                     className='visitors'
                     height={visitorHeight}
                     width={barWidth}
                     x={x}
                     y={getY(d.visitors)}
+                    fill={colors[2]}
+                  />
+                  <rect
+                    className='pageviews'
+                    height={pageviewHeight}
+                    width={barWidth}
+                    x={x + barWidth}
+                    y={getY(d.pageviews)}
+                    fill={colors[3]}
                   />
                 </g>)
               })}

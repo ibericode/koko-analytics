@@ -108,7 +108,8 @@ class Aggregator {
 			// increment referrals
 			if ( $referrer_url !== '' && ! $this->in_blacklist( $referrer_url, $blacklist ) ) {
 
-				$referrer_url = $this->sanitize_url( $referrer_url );
+				$referrer_url = $this->clean_url( $referrer_url );
+				$referrer_url = $this->normalize_url( $referrer_url );
 
 				if ( ! isset( $referrer_stats[ $referrer_url ] ) ) {
 					$referrer_stats[ $referrer_url ] = array(
@@ -202,8 +203,7 @@ class Aggregator {
 		return false;
 	}
 
-	public function sanitize_url( $url ) {
-		$whitelisted_params = array( 'page_id', 'p', 'cat', 'product' );
+	public function clean_url( $url ) {
 
 		// remove # from URL
 		$pos = strpos( $url, '#' );
@@ -219,6 +219,8 @@ class Aggregator {
 			$params = array();
 			parse_str( $query_str, $params );
 
+			// strip all non-whitelisted params from url
+			$whitelisted_params = array( 'page_id', 'p', 'cat', 'product' );
 			$new_params    = array_intersect_key( $params, array_flip( $whitelisted_params ) );
 			$new_query_str = http_build_query( $new_params );
 			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
@@ -231,6 +233,19 @@ class Aggregator {
 		$url = rtrim( $url, '/' );
 
 		return $url;
+	}
+
+	public function normalize_url( $url ) {
+		$aggregations = array(
+			'/(google|bing)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)\/(?:search|url)/' => '$1.$2',
+			'/(?:i|m)\.facebook\.com/' => 'facebook.com',
+			'/pinterest\.com\/pin\/.*/' => 'pinterest.com',
+			'/linkedin\.com\/feed.*/' => 'linkedin.com',
+			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
+			'/yandex\.ru\/clck.*/' => 'yandex.ru',
+		);
+
+		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url );
 	}
 
 }

@@ -12,16 +12,27 @@ class Script_Loader {
 
 	public function init() {
 		add_action( 'wp', array( $this, 'maybe_enqueue_script' ) );
-
 	}
 
 	public function maybe_enqueue_script() {
-		$settings = get_settings();
-		$user     = wp_get_current_user();
-
-		// bail if user matches one of excluded roles
-		if ( $user->exists() && $this->user_has_roles( $user, $settings['exclude_user_roles'] ) ) {
+		/**
+		 * Allows short-circuiting this function to not load the tracking script using some custom logic.
+		 * @param bool
+		 */
+		$load_script = apply_filters( 'koko_analytics_load_tracking_script', true );
+		if ( false === $load_script ) {
 			return;
+		}
+
+		$settings = get_settings();
+
+		// Do not load script is excluding current user by role
+		if ( count( $settings['exclude_user_roles'] ) > 0 ) {
+			$user = wp_get_current_user();
+
+			if ( $user->exists() && $this->user_has_roles( $user, $settings['exclude_user_roles'] ) ) {
+				return;
+			}
 		}
 
 		// TODO: Handle "term" requests so we track both terms and post types.
@@ -38,8 +49,8 @@ class Script_Loader {
 		wp_enqueue_script( 'koko-analytics', plugins_url( 'assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
 		wp_localize_script( 'koko-analytics', 'koko_analytics', $script_data );
 
-		/*
-		 * The following adds support for the official AMP plugin
+		/**
+		 * The following filter adds support for the official AMP plugin.
 		 * @see https://amp-wp.org/
 		 */
 		add_filter( 'amp_analytics_entries', function( $entries ) use ( $settings, $tracker_url, $post_id ) {

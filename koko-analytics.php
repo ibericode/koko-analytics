@@ -2,7 +2,7 @@
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-Version: 1.0.5
+Version: 1.0.6
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
@@ -14,7 +14,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Koko Analytics - website analytics plugin for WordPress
 
-Copyright (C) 2019, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2019 - 2020, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KokoAnalytics;
 
-define( 'KOKO_ANALYTICS_VERSION', '1.0.5' );
+define( 'KOKO_ANALYTICS_VERSION', '1.0.6' );
 define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
 define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
 
