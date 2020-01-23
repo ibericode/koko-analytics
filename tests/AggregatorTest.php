@@ -32,7 +32,7 @@ final class AggregatorTest extends TestCase
 			'https://www.google.nl/url' => 'https://www.google.nl',
 			'https://m.facebook.com' => 'https://facebook.com',
 			'https://m.facebook.com/profile/whatever' => 'https://facebook.com/profile/whatever',
-			'https://pinterest.com/pin/foobar' => 'https://pinterest.com',
+			'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
 			'https://www.linkedin.com/feed' => 'https://www.linkedin.com',
 			'https://www.linkedin.com/feed/update/urn:li:activity:6620280880285921280' => 'https://www.linkedin.com',
 			'https://www.baidu.com/link' => 'https://www.baidu.com',
