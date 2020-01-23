@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
-
+import Realtime from './realtime.js'
 const i18n = window.koko_analytics.i18n
 const now = new Date()
 
@@ -140,6 +140,7 @@ export default class Totals extends React.PureComponent {
             <span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? 'more' : 'less'} than previous period</span>
           </div>
         </div>
+        <Realtime />
       </div>
     )
   }

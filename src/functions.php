@@ -148,3 +148,15 @@ function widgets_init() {
 	require __DIR__ . '/class-widget-most-viewed-posts.php';
 	register_widget( 'KokoAnalytics\Widget_Most_Viewed_Posts' );
 }
+
+function get_realtime_pageview_count( $since = null ) {
+	$since = $since !== null ? $since : strtotime( '-5 minutes' );
+	$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
+	$sum = 0;
+	foreach ( $counts as $timestamp => $pageviews ) {
+		if ( $timestamp > $since ) {
+			$sum += $pageviews;
+		}
+	}
+	return $sum;
+}

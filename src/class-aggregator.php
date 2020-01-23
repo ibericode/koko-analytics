@@ -191,6 +191,24 @@ class Aggregator {
 			$sql          = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values );
 			$wpdb->query( $sql );
 		}
+
+		$this->update_realtime_pageview_count( $site_stats['pageviews'] );
+	}
+
+	private function update_realtime_pageview_count( $pageviews ) {
+		$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
+		$one_hour_ago = strtotime( '-60 minutes' );
+
+		foreach ( $counts as $timestamp => $count ) {
+			// delete all data older than one hour
+			if ( $timestamp < $one_hour_ago ) {
+				unset( $counts[ $timestamp ] );
+			}
+		}
+
+		// add pageviews for this minute
+		$counts[ (string) time() ] = $pageviews;
+		update_option( 'koko_analytics_realtime_pageview_count', $counts, false );
 	}
 
 	private function in_blocklist( $url, array $blocklist ) {
@@ -204,7 +222,6 @@ class Aggregator {
 	}
 
 	public function clean_url( $url ) {
-
 		// remove # from URL
 		$pos = strpos( $url, '#' );
 		if ( $pos !== false ) {

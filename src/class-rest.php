@@ -84,6 +84,23 @@ class Rest {
 				},
 			)
 		);
+
+		register_rest_route(
+			'koko-analytics/v1',
+			'/realtime',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_realtime_pageview_count' ),
+				'args'                => array(
+					'since' => array(
+						'validate_callback' => array( $this, 'validate_date_param' ),
+					),
+				),
+				'permission_callback' => function () {
+					return current_user_can( 'view_koko_analytics' );
+				},
+			)
+		);
 	}
 
 	public function validate_date_param( $param, $one, $two ) {
@@ -149,6 +166,12 @@ class Rest {
 		$new_settings = array_merge( $settings, $new_settings );
 		update_option( 'koko_analytics_settings', $new_settings, true );
 		return true;
+	}
+
+	public function get_realtime_pageview_count( \WP_REST_Request $request ) {
+		$params = $request->get_query_params();
+		$since = isset( $params['since'] ) ? strtotime( $params['since'] ) : null;
+		return get_realtime_pageview_count( $since );
 	}
 
 }
