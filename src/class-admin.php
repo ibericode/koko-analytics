@@ -52,8 +52,8 @@ class Admin
 
 	public function footer_text()
 	{
-		/* translators: %s links to the WordPress.org plugin review page */
-		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%s">review the plugin on WordPress.org</a> or <a href="%s">write about it on your blog</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url( 'post-new.php' ) );
+		/* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
+		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url( 'post-new.php' ) );
 	}
 
 	public function maybe_run_migrations()
