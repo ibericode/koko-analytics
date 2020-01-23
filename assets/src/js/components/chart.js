@@ -85,7 +85,8 @@ export default class Component extends React.PureComponent {
     }
 
     this.setState({
-      dataset: Object.values(this.dataset)
+      dataset: Object.values(this.dataset),
+      yMax: 0
     })
     this.loadData()
   }
@@ -207,8 +208,8 @@ export default class Component extends React.PureComponent {
 
                   const y = getY(value)
                   return (
-                    <g key={value}>
-                      <line stroke='#DDD' x1={30} x2={width} y1={y} y2={y} />
+                    <g key={v}>
+                      <line stroke='#EEE' x1={30} x2={width} y1={y} y2={y} />
                       <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
                     </g>
                   )
@@ -217,9 +218,15 @@ export default class Component extends React.PureComponent {
               <g className='axes-x' transform={`translate(${padding.left}, ${padding.top + innerHeight})`} textAnchor='middle'>
                 {dataset.map((d, i) => {
                   const x = getX(i) + 0.5 * tickWidth
+
+                  // draw nothing if showing lots of ticks & this not first or last tick
+                  if (ticks > 90 && i > 0 && i < (ticks - 1) && i % 7 !== 0) {
+                    return null
+                  }
+
                   return (
-                    <g key={d.date}>
-                      {(ticks < 90 || i === 0 || i % 7 === 0) && <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />}
+                    <g key={d.date.toDateString()}>
+                      <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
                       {i === 0 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
                       {i === ticks - 1 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
                     </g>
@@ -228,7 +235,7 @@ export default class Component extends React.PureComponent {
               </g>
             </g>
             <g className='bars' transform={`translate(${padding.left}, ${padding.top})`}>
-              {dataset.map((d, i) => {
+              {yMax > 0 && dataset.map((d, i) => {
                 // do not draw unnecessary elements
                 if (d.pageviews === 0) {
                   return
