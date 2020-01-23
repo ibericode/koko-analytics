@@ -6,7 +6,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
-		"download-referrer-blacklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blacklist",
+		"download-referrer-blocklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist",
 		"create-pot": "wp i18n make-pot .",
 		"lint": "eslint assets/src"
 	},

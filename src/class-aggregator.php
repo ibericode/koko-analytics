@@ -72,8 +72,8 @@ class Aggregator {
 		$post_stats     = array();
 		$referrer_stats = array();
 
-		// read blacklist into array
-		$blacklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blacklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		// read blocklist into array
+		$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
 		while ( ( $line = fgets( $file_handle, 1024 ) ) !== false ) {
 			$line            = rtrim( $line );
@@ -106,7 +106,7 @@ class Aggregator {
 			}
 
 			// increment referrals
-			if ( $referrer_url !== '' && ! $this->in_blacklist( $referrer_url, $blacklist ) ) {
+			if ( $referrer_url !== '' && ! $this->in_blocklist( $referrer_url, $blocklist ) ) {
 
 				$referrer_url = $this->clean_url( $referrer_url );
 				$referrer_url = $this->normalize_url( $referrer_url );
@@ -193,9 +193,9 @@ class Aggregator {
 		}
 	}
 
-	private function in_blacklist( $url, array $blacklist ) {
-		foreach ( $blacklist as $blacklisted_domain ) {
-			if ( false !== stripos( $url, $blacklisted_domain ) ) {
+	private function in_blocklist( $url, array $blocklist ) {
+		foreach ( $blocklist as $blocklisted_domain ) {
+			if ( false !== stripos( $url, $blocklisted_domain ) ) {
 				return true;
 			}
 		}
@@ -219,9 +219,9 @@ class Aggregator {
 			$params = array();
 			parse_str( $query_str, $params );
 
-			// strip all non-whitelisted params from url
-			$whitelisted_params = array( 'page_id', 'p', 'cat', 'product' );
-			$new_params    = array_intersect_key( $params, array_flip( $whitelisted_params ) );
+			// strip all non-allowed params from url
+			$allowed_params = array( 'page_id', 'p', 'cat', 'product' );
+			$new_params    = array_intersect_key( $params, array_flip( $allowed_params ) );
 			$new_query_str = http_build_query( $new_params );
 			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
 
