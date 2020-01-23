@@ -256,7 +256,6 @@ class Aggregator {
 		$aggregations = array(
 			'/(google|bing)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)\/(?:search|url)/' => '$1.$2',
 			'/(?:i|m)\.facebook\.com/' => 'facebook.com',
-			'/pinterest\.com\/pin\/.*/' => 'pinterest.com',
 			'/linkedin\.com\/feed.*/' => 'linkedin.com',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
