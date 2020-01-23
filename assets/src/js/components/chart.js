@@ -9,18 +9,40 @@ import numbers from '../util/numbers'
 const colors = window.koko_analytics.colors
 const i18n = window.koko_analytics.i18n
 
-function step (v, ticks) {
-  let step = (v - (v % ticks)) / ticks
-  if (step === 0) {
-    return 0
+function yScale (_min, _max, maxTicks) {
+  function niceNum (range, round) {
+    const exponent = Math.floor(Math.log10(range))
+    const fraction = range / Math.pow(10, exponent)
+    let niceFraction
+
+    if (round) {
+      if (fraction < 1.5) niceFraction = 1
+      else if (fraction < 3) niceFraction = 2
+      else if (fraction < 7) niceFraction = 5
+      else niceFraction = 10
+    } else {
+      if (fraction <= 1) niceFraction = 1
+      else if (fraction <= 2) niceFraction = 2
+      else if (fraction <= 5) niceFraction = 5
+      else niceFraction = 10
+    }
+
+    return niceFraction * Math.pow(10, exponent)
   }
 
-  let round = 1000000
-  while (v < round * ticks) {
-    round /= 10
+  const range = niceNum(_max - _min, false)
+  const step = niceNum(range / (maxTicks - 1), true)
+  const max = Math.ceil(_max / step) * step
+
+  const ticks = []
+  for (let i = _min; i <= max; i = i + step) {
+    ticks.push(i)
   }
-  step = Math.floor(step / round) * round
-  return step
+
+  return {
+    ticks,
+    max
+  }
 }
 
 export default class Component extends React.PureComponent {
@@ -186,8 +208,8 @@ export default class Component extends React.PureComponent {
     const innerBarWidth = barWidth * 0.6
     const innerBarPadding = (barWidth - innerBarWidth) / 2
     const getX = i => i * tickWidth
-    const getY = v => yMax > 0 ? innerHeight - (v / yMax * innerHeight) : innerHeight
-    const yStep = step(yMax, 3) || 1
+    const y = yScale(0, yMax, 4)
+    const getY = v => y.max > 0 ? innerHeight - (v / y.max * innerHeight) : innerHeight
 
     // hide entire component if showing just a single data point
     if (ticks <= 1) {
@@ -200,17 +222,12 @@ export default class Component extends React.PureComponent {
           <svg className='chart' ref={this.base} width='100%' height={height}>
             <g className='axes'>
               <g className='axes-y' transform={`translate(0, ${padding.top})`} textAnchor='end'>
-                {[0, 1, 2, 3].map(v => {
-                  const value = v * yStep
-                  if (value > yMax) {
-                    return
-                  }
-
-                  const y = getY(value)
+                {y.ticks.map((v, i) => {
+                  const y = getY(v)
                   return (
-                    <g key={v}>
+                    <g key={i}>
                       <line stroke='#EEE' x1={30} x2={width} y1={y} y2={y} />
-                      <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(value)}</text>
+                      <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
                     </g>
                   )
                 })}
@@ -249,14 +266,14 @@ export default class Component extends React.PureComponent {
               </g>
             </g>
             <g className='bars' transform={`translate(${padding.left}, ${padding.top})`}>
-              {yMax > 0 && dataset.map((d, i) => {
+              {y.max > 0 && dataset.map((d, i) => {
                 // do not draw unnecessary elements
                 if (d.pageviews === 0) {
                   return
                 }
 
-                const pageviewHeight = d.pageviews / yMax * innerHeight
-                const visitorHeight = d.visitors / yMax * innerHeight
+                const pageviewHeight = d.pageviews / y.max * innerHeight
+                const visitorHeight = d.visitors / y.max * innerHeight
                 const x = getX(i)
                 const showTooltip = this.showTooltip(d, barWidth)
 
