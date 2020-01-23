@@ -6,8 +6,10 @@ import { format } from 'date-fns'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
-const colors = window.koko_analytics.colors
+import { modify } from './../util/colors.js'
 const i18n = window.koko_analytics.i18n
+const color1 = window.koko_analytics.colors[3]
+const color2 = modify(color1, 30)
 
 function yScale (_min, _max, maxTicks) {
   function niceNum (range, round) {
@@ -207,8 +209,8 @@ export default class Component extends React.PureComponent {
     const barPadding = (tickWidth - barWidth) / 2
     const innerBarWidth = barWidth * 0.6
     const innerBarPadding = (barWidth - innerBarWidth) / 2
-    const getX = i => i * tickWidth
     const y = yScale(0, yMax, 4)
+    const getX = i => i * tickWidth
     const getY = v => y.max > 0 ? innerHeight - (v / y.max * innerHeight) : innerHeight
 
     // hide entire component if showing just a single data point
@@ -289,7 +291,7 @@ export default class Component extends React.PureComponent {
                     width={barWidth}
                     x={x + barPadding}
                     y={getY(d.pageviews)}
-                    fill={colors[2]}
+                    fill={color1}
                   />
                   <rect
                     className='visitors'
@@ -297,7 +299,7 @@ export default class Component extends React.PureComponent {
                     width={innerBarWidth}
                     x={x + barPadding + innerBarPadding}
                     y={getY(d.visitors)}
-                    fill={colors[3]}
+                    fill={color2}
                   />
                 </g>)
               })}
