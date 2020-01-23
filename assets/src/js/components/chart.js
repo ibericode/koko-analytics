@@ -185,8 +185,8 @@ export default class Component extends React.PureComponent {
     const barPadding = (tickWidth - barWidth) / 2
     const innerBarWidth = barWidth * 0.6
     const innerBarPadding = (barWidth - innerBarWidth) / 2
-    const getX = index => index * tickWidth
-    const getY = value => yMax > 0 ? innerHeight - (value / yMax * innerHeight) : innerHeight
+    const getX = i => i * tickWidth
+    const getY = v => yMax > 0 ? innerHeight - (v / yMax * innerHeight) : innerHeight
     const yStep = step(yMax, 3) || 1
 
     // hide entire component if showing just a single data point
@@ -217,18 +217,32 @@ export default class Component extends React.PureComponent {
               </g>
               <g className='axes-x' transform={`translate(${padding.left}, ${padding.top + innerHeight})`} textAnchor='middle'>
                 {dataset.map((d, i) => {
-                  const x = getX(i) + 0.5 * tickWidth
-
                   // draw nothing if showing lots of ticks & this not first or last tick
-                  if (ticks > 90 && i > 0 && i < (ticks - 1) && i % 7 !== 0) {
+                  const tick = ticks <= 90
+
+                  let label = null
+                  if (i === 0) {
+                    label = format(d.date, 'MMM d, yyyy')
+                  } else if (i === ticks - 1) {
+                    label = format(d.date, 'MMM d')
+                  } else if (window.innerWidth >= 1280) {
+                    // for large screens only
+                    if (d.date.getDate() === 1 || ticks <= 7) {
+                      label = format(d.date, 'MMM d')
+                    } else if (ticks <= 31 && i >= 3 && i < (ticks - 3) && d.date.getDay() === 0) {
+                      label = format(d.date, 'MMM d')
+                    }
+                  }
+
+                  if (!tick && !label) {
                     return null
                   }
 
+                  const x = getX(i) + 0.5 * tickWidth
                   return (
                     <g key={d.date.toDateString()}>
                       <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
-                      {i === 0 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d, yyyy')}</text>}
-                      {i === ticks - 1 && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, 'MMM d')}</text>}
+                      {label && <text fill='#757575' x={x} y='10' dy='1em'>{label}</text>}
                     </g>
                   )
                 })}
