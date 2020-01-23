@@ -272,7 +272,7 @@ export default class Component extends React.PureComponent {
                     width={barWidth}
                     x={x + barPadding}
                     y={getY(d.pageviews)}
-                    fill={colors[3]}
+                    fill={colors[2]}
                   />
                   <rect
                     className='visitors'
@@ -280,7 +280,7 @@ export default class Component extends React.PureComponent {
                     width={innerBarWidth}
                     x={x + barPadding + innerBarPadding}
                     y={getY(d.visitors)}
-                    fill={colors[2]}
+                    fill={colors[3]}
                   />
                 </g>)
               })}
