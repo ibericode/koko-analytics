@@ -10,7 +10,8 @@ import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
 
 const now = new Date()
-const formatDate = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+const pad = d => d < 10 ? '0' + d : d
+const formatDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 
 function parseUrlParams (str) {
   const params = {}
@@ -49,35 +50,42 @@ export default class Dashboard extends React.Component {
     this.unlisten()
   }
 
+  parseDates (startDate, endDate) {
+    if (!startDate || !endDate) {
+      return {}
+    }
+
+    startDate = new Date(startDate)
+    endDate = new Date(endDate)
+    if (!startDate || !endDate || isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return {}
+    }
+
+    endDate.setHours(23, 59, 59)
+    return { startDate, endDate }
+  }
+
   parseStateFromLocalStorage () {
     try {
       const startDate = localStorage.getItem('start_date')
       const endDate = localStorage.getItem('end_date')
-
-      if (startDate && endDate) {
-        return {
-          startDate: new Date(startDate),
-          endDate: new Date(endDate + ' 23:59:59')
-        }
-      }
-    } catch (e) {}
+      return this.parseDates(startDate, endDate)
+    } catch (e) {
+      // LocalStorage is likely disabled
+    }
 
     return {}
   }
 
   parseStateFromLocation (str) {
     const searchPos = str.indexOf('?')
-    const queryStr = str.substring(searchPos + 1)
-    const params = parseUrlParams(queryStr)
-
-    if (params.start_date && params.end_date) {
-      return {
-        startDate: new Date(params.start_date),
-        endDate: new Date(params.end_date + ' 23:59:59')
-      }
+    if (searchPos === -1) {
+      return {}
     }
 
-    return {}
+    const queryStr = str.substring(searchPos + 1)
+    const params = parseUrlParams(queryStr)
+    return this.parseDates(params.start_date, params.end_date)
   }
 
   setDates (startDate, endDate) {
