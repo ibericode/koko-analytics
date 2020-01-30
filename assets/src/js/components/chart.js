@@ -127,6 +127,7 @@ export default class Component extends React.PureComponent {
       }
     }).then(data => {
       data.forEach(d => {
+        // Note: date in response data should match format from Date.toISOString() from above
         if (typeof (dataset[d.date]) === 'undefined') {
           console.error('Unexpected date in response data', d.date)
           return
@@ -178,7 +179,7 @@ export default class Component extends React.PureComponent {
 
       const styles = evt.currentTarget.getBoundingClientRect()
       el.style.display = 'block'
-      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + barWidth) + 'px'
+      el.style.left = (styles.left + window.scrollX - 0.5 * el.clientWidth + 0.5 * barWidth) + 'px'
       el.style.top = (styles.y + window.scrollY - el.clientHeight) + 'px'
     }
   }
@@ -280,7 +281,7 @@ export default class Component extends React.PureComponent {
                 const showTooltip = this.showTooltip(d, barWidth)
 
                 return (<g
-                  key={d.date}
+                  key={d.date.toDateString()}
                   onClick={showTooltip}
                   onMouseEnter={showTooltip}
                   onMouseLeave={this.hideTooltip}
