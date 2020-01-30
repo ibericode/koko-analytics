@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
@@ -100,7 +100,7 @@ export default class Component extends React.PureComponent {
     // fill chart with 0's
     this.dataset = {}
     for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
-      const key = format(d, 'yyyy-MM-dd')
+      const key = api.formatDate(d)
       this.dataset[key] = {
         date: new Date(d.getTime()),
         pageviews: 0,
@@ -122,8 +122,8 @@ export default class Component extends React.PureComponent {
     // fetch actual stats
     api.request('/stats', {
       body: {
-        start_date: format(this.props.startDate, 'yyyy-MM-dd'),
-        end_date: format(this.props.endDate, 'yyyy-MM-dd')
+        start_date: api.formatDate(this.props.startDate),
+        end_date: api.formatDate(this.props.endDate)
       }
     }).then(data => {
       data.forEach(d => {

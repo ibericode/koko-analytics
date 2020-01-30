@@ -2,7 +2,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
 import api from '../util/api.js'
 import Pagination from './table-pagination'
 
@@ -67,8 +66,8 @@ export default class TopReferrers extends React.PureComponent {
   loadData (offset = this.state.offset) {
     api.request('/referrers', {
       body: {
-        start_date: format(this.props.startDate, 'yyyy-MM-dd'),
-        end_date: format(this.props.endDate, 'yyyy-MM-dd'),
+        start_date: api.formatDate(this.props.startDate),
+        end_date: api.formatDate(this.props.endDate),
         offset: offset,
         limit: this.state.limit
       }

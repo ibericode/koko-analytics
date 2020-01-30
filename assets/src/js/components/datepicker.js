@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
 
 const startOfWeek = window.koko_analytics.start_of_week

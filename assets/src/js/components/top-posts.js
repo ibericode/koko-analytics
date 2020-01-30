@@ -2,7 +2,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
 import Pagination from './table-pagination.js'
 import api from '../util/api.js'
 
@@ -48,8 +47,8 @@ export default class TopPosts extends React.PureComponent {
   loadData (offset = this.state.offset) {
     api.request('/posts', {
       body: {
-        start_date: format(this.props.startDate, 'yyyy-MM-dd'),
-        end_date: format(this.props.endDate, 'yyyy-MM-dd'),
+        start_date: api.formatDate(this.props.startDate),
+        end_date: api.formatDate(this.props.endDate),
         offset: offset,
         limit: this.state.limit
       }

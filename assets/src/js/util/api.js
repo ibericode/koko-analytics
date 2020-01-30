@@ -48,4 +48,8 @@ function request (path, opts = {}) {
   }).then(r => r.json())
 }
 
-export default { request }
+function formatDate (d) {
+  return d.toISOString().split('T').shift()
+}
+
+export default { request, formatDate }

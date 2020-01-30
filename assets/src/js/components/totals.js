@@ -2,7 +2,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { format } from 'date-fns'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
@@ -75,8 +74,8 @@ export default class Totals extends React.PureComponent {
       // 1
       api.request('/stats', {
         body: {
-          start_date: format(this.props.startDate, 'yyyy-MM-dd'),
-          end_date: format(this.props.endDate, 'yyyy-MM-dd')
+          start_date: api.formatDate(this.props.startDate),
+          end_date: api.formatDate(this.props.endDate)
         }
       }).then(data => {
         data.forEach(r => {
@@ -88,8 +87,8 @@ export default class Totals extends React.PureComponent {
       // 2
       api.request('/stats', {
         body: {
-          start_date: format(previousStartDate, 'yyyy-MM-dd'),
-          end_date: format(previousEndDate, 'yyyy-MM-dd')
+          start_date: api.formatDate(previousStartDate),
+          end_date: api.formatDate(previousEndDate)
         }
       }).then(data => {
         data.forEach(r => {
@@ -108,7 +107,7 @@ export default class Totals extends React.PureComponent {
         pageviewsChange = Math.round((pageviews / pageviewsPrevious - 1) * 100)
       }
 
-      const hash = format(this.props.startDate, 'yyyy-MM-dd') + '-' + format(this.props.endDate, 'yyyy-MM-dd')
+      const hash = api.formatDate(this.props.startDate) + '-' + api.formatDate(this.props.endDate)
       this.setState({ visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash })
     })
   }
