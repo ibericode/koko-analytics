@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Koko Analytics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Koko Analytics 1.0.5\n"
+"Project-Id-Version: Koko Analytics 1.0.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-20T10:08:42+00:00\n"
+"POT-Creation-Date: 2020-01-30T09:06:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
@@ -40,35 +40,35 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
-#. translators: %s links to the WordPress.org plugin review page
-#: src/class-admin.php:55
-msgid "If you enjoy using Koko Analytics, please <a href=\"%s\">review the plugin on WordPress.org</a> to help out."
+#. translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post
+#: src/class-admin.php:56
+msgid "If you enjoy using Koko Analytics, please <a href=\"%1$s\">review the plugin on WordPress.org</a> or <a href=\"%2$s\">write about it on your blog</a> to help out."
 msgstr ""
 
-#: src/class-admin.php:96
-#: views/admin-page.php:44
+#: src/class-admin.php:108
+#: views/admin-page.php:46
 msgid "Visitors"
 msgstr ""
 
-#: src/class-admin.php:97
+#: src/class-admin.php:109
 #: views/admin-page.php:27
 msgid "Pageviews"
 msgstr ""
 
-#: src/class-admin.php:103
+#: src/class-admin.php:116
 msgid "Showing site visits over last 14 days"
 msgstr ""
 
-#: src/class-admin.php:103
+#: src/class-admin.php:116
 msgid "View all statistics"
 msgstr ""
 
-#: src/class-admin.php:116
-#: views/admin-page.php:33
+#: src/class-admin.php:129
+#: views/admin-page.php:35
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:135
+#: src/class-admin.php:148
 msgid "Visit plugin site"
 msgstr ""
 
@@ -158,73 +158,81 @@ msgid "Pages"
 msgstr ""
 
 #: views/admin-page.php:28
-msgid "Previous"
+msgid "Pageviews in the last hour"
 msgstr ""
 
 #: views/admin-page.php:29
-msgid "Referrers"
+msgid "Previous"
 msgstr ""
 
 #: views/admin-page.php:30
-msgid "Save Changes"
+msgid "Referrers"
 msgstr ""
 
 #: views/admin-page.php:31
-msgid "Saving - please wait"
+msgid "Realtime pageviews"
 msgstr ""
 
 #: views/admin-page.php:32
-msgid "Saved!"
+msgid "Save Changes"
+msgstr ""
+
+#: views/admin-page.php:33
+msgid "Saving - please wait"
 msgstr ""
 
 #: views/admin-page.php:34
-msgid "Stats"
-msgstr ""
-
-#: views/admin-page.php:35
-msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
+msgid "Saved!"
 msgstr ""
 
 #: views/admin-page.php:36
-msgid "There's nothing here, yet!"
+msgid "Stats"
 msgstr ""
 
 #: views/admin-page.php:37
-msgid "This week"
+msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
 msgstr ""
 
 #: views/admin-page.php:38
-msgid "This month"
+msgid "There's nothing here, yet!"
 msgstr ""
 
 #: views/admin-page.php:39
-msgid "This year"
+msgid "This week"
 msgstr ""
 
 #: views/admin-page.php:40
-msgid "Today"
+msgid "This month"
 msgstr ""
 
 #: views/admin-page.php:41
-msgid "Total visitors"
+msgid "This year"
 msgstr ""
 
 #: views/admin-page.php:42
-msgid "Total pageviews"
+msgid "Today"
 msgstr ""
 
 #: views/admin-page.php:43
-msgid "Use cookie to determine unique visitors and pageviews?"
+msgid "Total visitors"
+msgstr ""
+
+#: views/admin-page.php:44
+msgid "Total pageviews"
 msgstr ""
 
 #: views/admin-page.php:45
-msgid "Visits and pageviews from users with any of the selected roles will be ignored."
-msgstr ""
-
-#: views/admin-page.php:46
-msgid "Yes"
+msgid "Use cookie to determine unique visitors and pageviews?"
 msgstr ""
 
 #: views/admin-page.php:47
+msgid "Visits and pageviews from users with any of the selected roles will be ignored."
+msgstr ""
+
+#: views/admin-page.php:48
+msgid "Yes"
+msgstr ""
+
+#: views/admin-page.php:49
 msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
 msgstr ""
