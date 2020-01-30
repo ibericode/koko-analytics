@@ -1,5 +1,19 @@
 # Changelog
 
+#### 1.0.7 - Jan 30, 2020
+
+- Aggregate certain referrers, e.g. google.com/search becomes google.com.
+- Use WordPress color scheme (from user profile) for colors in chart.
+- Show more labels on the chart's x-axes (wide screens only).
+- Show number of pageviews in the last hour.
+- Show day of week to chart tooltip.
+- Use Paul Heckbert's loose labels (nice numbers) algorithm for labels on y-axes.
+- All colors now have a contrast ratio that is (at least) WCAAG AA compliant.
+- Revert multiple bar chart change (because of user feedback), use inner bar instead.
+- Minor performance optimisations for viewing dashboard page.
+- Fixes "Invalid time" error when re-opening the dashboard in Safari.
+
+
 #### 1.0.6 - Jan 20, 2020
 
 - Remember view period when navigating away from analytics dashboard.
