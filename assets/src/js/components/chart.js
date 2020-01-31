@@ -165,11 +165,11 @@ export default class Component extends React.PureComponent {
       <div class="tooltip-inner">
         <div class="heading">${format(data.date, 'MMM d, yyyy - EEEE')}</div>
         <div class="content">
-          <div class="visitors">
+          <div class="visitors" style="border-top-color: ${color2}">
             <div class="amount">${data.visitors}</div>
             <div>${i18n.Visitors}</div>
           </div>
-          <div class="pageviews">
+          <div class="pageviews" style="border-top-color: ${color1}">
             <div class="amount">${data.pageviews}</div>
             <div>${i18n.Pageviews}</div>
           </div>

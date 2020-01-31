@@ -27,6 +27,8 @@
 		line-height: 1;
 	}
 
+  	.pageviews, .visitors { border-top: 3px solid transparent; }
+
 	.content {
 		display: flex;
 
@@ -36,14 +38,6 @@
 			display: block;
 			flex: 1;
 		}
-	}
-
-	.pageviews {
-		border-top: 3px solid #f05b4f;
-	}
-
-	.visitors {
-		border-top: 3px solid #d70206;
 	}
 
 	.amount {
