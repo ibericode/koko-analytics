@@ -32,9 +32,9 @@ function yScale (_min, _max, maxTicks) {
     return niceFraction * Math.pow(10, exponent)
   }
 
-  const range = niceNum(_max - _min, false)
-  const step = niceNum(range / (maxTicks - 1), true)
-  const max = Math.ceil(_max / step) * step
+  const range = Math.max(4, niceNum(_max - _min, false))
+  const step = Math.max(1, niceNum(range / (maxTicks - 1), true))
+  const max = Math.ceil(range / step) * step
 
   const ticks = []
   for (let i = _min; i <= max; i = i + step) {
