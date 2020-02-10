@@ -68,10 +68,15 @@ class Admin
 			return;
 		}
 
+		// run upgrade migrations (if any)
 		$migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
 		$migrations = new Migrations( $from_version, $to_version, $migrations_dir );
 		$migrations->run();
 		update_option( 'koko_analytics_version', $to_version );
+
+		// make sure scheduled event is set-up correctly
+		$aggregator = new Aggregator();
+		$aggregator->setup_scheduled_event();
 	}
 
 	private function get_colors()
