@@ -15,7 +15,6 @@
 			'i18n'          => array(
 				'Automatically delete data older than how many months?' => __( 'Automatically delete data older than how many months?', 'koko-analytics' ),
 				'Database size:'                          => __( 'Database size:', 'koko-analytics' ),
-				'Date range'                              => __( 'Date range', 'koko-analytics' ),
 				'Exclude pageviews from these user roles' => __( 'Exclude pageviews from these user roles', 'koko-analytics' ),
 				'Last week'                               => __( 'Last week', 'koko-analytics' ),
 				'Last month'                              => __( 'Last month', 'koko-analytics' ),
@@ -46,6 +45,7 @@
 				'Visitors'                                => __( 'Visitors', 'koko-analytics' ),
 				'Visits and pageviews from users with any of the selected roles will be ignored.' => __( 'Visits and pageviews from users with any of the selected roles will be ignored.', 'koko-analytics' ),
 				'Yes'                                     => __( 'Yes', 'koko-analytics' ),
+				'Yesterday'                               => __( 'Yesterday', 'koko-analytics' ),
 				'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.' => __( 'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics' ),
 			),
 			'start_of_week' => $start_of_week,

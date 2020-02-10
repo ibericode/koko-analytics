@@ -106,6 +106,11 @@ export default class Datepicker extends React.Component {
           endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
           break
 
+        case 'yesterday':
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0);
+          endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59);
+          break;
+
         case 'this_week':
           d = now.getDate() - now.getDay() + startOfWeek
           if (now.getDay() < startOfWeek) {
@@ -205,8 +210,8 @@ export default class Datepicker extends React.Component {
           </div>
           <div className='flex'>
             <div className='date-presets'>
-              <strong>{i18n['Date range']}</strong>
               <a href='' onClick={this.setPeriod('today')}>{i18n.Today}</a>
+              <a href='' onClick={this.setPeriod('yesterday')}>{i18n.Yesterday}</a>
               <a href='' onClick={this.setPeriod('this_week')}>{i18n['This week']}</a>
               <a href='' onClick={this.setPeriod('last_week')}>{i18n['Last week']}</a>
               <a href='' onClick={this.setPeriod('this_month')}>{i18n['This month']}</a>
