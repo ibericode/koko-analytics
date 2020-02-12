@@ -11,10 +11,13 @@ final class AggregatorTest extends TestCase
         $a = new Aggregator();
 
         $tests = [
-          'https://wordpress.org/' => 'https://wordpress.org',
-		  'https://wordpress.org/?utm_source=duckduckgo' => 'https://wordpress.org',
-          'https://wordpress.org/?page_id=500&utm_source=duckduckgo' => 'https://wordpress.org/?page_id=500',
-          'https://wordpress.org/?foo=bar&p=500&utm_source=duckduckgo#utm_medium=link' => 'https://wordpress.org/?p=500',
+			'https://wordpress.org' => 'https://wordpress.org',
+			'https://wordpress.org/' => 'https://wordpress.org',
+			'https://wordpress.org/?utm_source=duckduckgo' => 'https://wordpress.org',
+			'https://wordpress.org/?page_id=500&utm_source=duckduckgo' => 'https://wordpress.org/?page_id=500',
+	        'https://wordpress.org/?utm_source=duckduckgo&p=500&cat=cars&product=toyota-yaris' => 'https://wordpress.org/?p=500&cat=cars&product=toyota-yaris',
+			'https://wordpress.org/?foo=bar&p=500&utm_source=duckduckgo#utm_medium=link' => 'https://wordpress.org/?p=500',
+	        'https://wordpress.org/#foo=bar&bar=foo' => 'https://wordpress.org',
         ];
 
         foreach ($tests as $input => $output) {
@@ -27,12 +30,16 @@ final class AggregatorTest extends TestCase
 		$a = new Aggregator();
 		$tests = [
 			'https://wordpress.org/plugins/koko-analytics/' => 'https://wordpress.org/plugins/koko-analytics/',
-			'https://www.google.com/search' => 'https://www.google.com',
-			'https://www.google.co.uk/search' => 'https://www.google.co.uk',
+			'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
+			'https://www.google.com' => 'https://www.google.com',
 			'https://www.google.nl/url' => 'https://www.google.nl',
+			'https://www.google.co.uk/search' => 'https://www.google.co.uk',
+			'https://www.google.com/search' => 'https://www.google.com',
+			'https://www.bing.com' => 'https://www.bing.com',
+			'https://www.bing.com/search' => 'https://www.bing.com',
+			'https://www.bing.com/url' => 'https://www.bing.com',
 			'https://m.facebook.com' => 'https://facebook.com',
 			'https://m.facebook.com/profile/whatever' => 'https://facebook.com/profile/whatever',
-			'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
 			'https://www.linkedin.com/feed' => 'https://www.linkedin.com',
 			'https://www.linkedin.com/feed/update/urn:li:activity:6620280880285921280' => 'https://www.linkedin.com',
 			'https://www.baidu.com/link' => 'https://www.baidu.com',
