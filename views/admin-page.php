@@ -1,5 +1,16 @@
 <?php defined( 'ABSPATH' ) or exit; ?>
 <div class="wrap" id="koko-analytics-admin">
+
+	<?php
+	if ( ! $cron_event_working ) {
+		echo '<div class="notice notice-warning inline"><p>';
+		echo __( 'There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics' );
+		echo ' ';
+		echo __( 'If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics' );
+		echo '</p></div>';
+	}
+	?>
+
 	<noscript>
 		<?php echo esc_html__( 'Please enable JavaScript for this page to work.', 'koko-analytics' ); ?>
 	</noscript>

@@ -36,6 +36,11 @@ class Admin
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
+		// detect issues with WP Cron event not running
+		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
+		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
+		$cron_event_working = $next_scheduled !== false && $next_scheduled > ( time() - HOUR_IN_SECONDS );
+
 		// get user roles
 		$user_roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
