@@ -107,9 +107,9 @@ export default class Datepicker extends React.Component {
           break
 
         case 'yesterday':
-          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0);
-          endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59);
-          break;
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0)
+          endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59)
+          break
 
         case 'this_week':
           d = now.getDate() - now.getDay() + startOfWeek
