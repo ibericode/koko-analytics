@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -21,19 +21,17 @@ Stop sharing visitor data with third-party companies making money off that same 
 
 ### Features
 
-- Plug and play. Just install and activate the plugin and stats will automatically be recorded.
-- No external services. Data about visits to your website is yours and yours alone.
-- No personal information or anything visitor specific is tracked.
-- Fast. Handles sudden bursts of traffic without breaking a sweat.
-- All the essential metrics: visitors, pageviews and referrers.
-- Option to not use any cookies.
-- Option to exclude traffic from logged-in users.
-- Option to automatically purge data after X months.
-- Built-in blacklist to filter referrer spam.
-- Compatible with pages served from cache.
-- Compatible with AMP powered pages.
-- GDPR compliant by design.
-- Open-source (GPL-3.0+ licensed).
+- **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
+- **Privacy**: No personal information or anything visitor specific is tracked.
+- **GDPR**: Compliant by design.
+- **Data ownership**: No external services are used. Data about visits to your website is yours and yours alone.
+- **Performance**. Handles sudden bursts of traffic without breaking a sweat.
+- **Metrics**: All the essentials: visitors, pageviews and referrers.
+- **Cookies**: There is an option to not use any cookies.
+- **Referrer spam:** Built-in blacklist to filter out referrer spam.
+- **Cache**: Fully compatible with pages served from any cache.
+- **AMP**: Tracks AMP powered pages too.
+- **Open-source**: Code is released under the GPL 3.0 license.
 
 ### Contributing
 
@@ -77,6 +75,18 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.8 - Feb 14, 2020
+
+- Add date preset for last 28 days
+ -Add keyboard navigation support for quickly cycling through date periods (Ctrl + Arrow key)
+- Expand referrer aggregation logic. If you have any URL's you would like to see combined into a single domain, please [post them here](https://github.com/ibericode/koko-analytics/issues/43).
+- Fix referrer URL's table missing the AUTO_INCREMENT statement.
+- Change dropdown to number input in most viewed posts widget.
+- Show notice on dashboard page if an issue with WP Cron is detected.
+- Improved y-axes in chart when maximum value is lower than 10.
+- Use colors from admin scheme in chart tooltip.
+
 
 #### 1.0.7 - Jan 30, 2020
 

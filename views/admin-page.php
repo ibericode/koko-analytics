@@ -58,7 +58,7 @@
 				'Yes'                                     => __( 'Yes', 'koko-analytics' ),
 				'Yesterday'                               => __( 'Yesterday', 'koko-analytics' ),
 				'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.' => __( 'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics' ),
-				'quickNavTip' => __( 'Tip: use Ctrl + Arrow key to quickly cycle through date ranges.', 'koko-analytics' )
+				'quickNavTip' => __( 'Tip: use Ctrl + Arrow key to quickly cycle through date ranges.', 'koko-analytics' ),
 			),
 			'start_of_week' => $start_of_week,
 			'user_roles'    => $user_roles,

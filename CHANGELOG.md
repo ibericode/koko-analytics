@@ -1,5 +1,17 @@
 # Changelog
 
+#### 1.0.8 - Feb 14, 2020
+
+- Add date preset for last 28 days
+ -Add keyboard navigation support for quickly cycling through date periods (Ctrl + Arrow key)
+- Expand referrer aggregation logic. If you have any URL's you would like to see combined into a single domain, please [post them here](https://github.com/ibericode/koko-analytics/issues/43).
+- Fix referrer URL's table missing the AUTO_INCREMENT statement.
+- Change dropdown to number input in most viewed posts widget.
+- Show notice on dashboard page if an issue with WP Cron is detected.
+- Improved y-axes in chart when maximum value is lower than 10.
+- Use colors from admin scheme in chart tooltip.
+
+
 #### 1.0.7 - Jan 30, 2020
 
 - Aggregate certain referrers, e.g. google.com/search becomes google.com.
