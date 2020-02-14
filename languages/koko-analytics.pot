@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Koko Analytics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Koko Analytics 1.0.6\n"
+"Project-Id-Version: Koko Analytics 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-30T09:06:27+00:00\n"
+"POT-Creation-Date: 2020-02-14T09:43:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
@@ -41,34 +41,34 @@ msgid "Analytics"
 msgstr ""
 
 #. translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post
-#: src/class-admin.php:56
+#: src/class-admin.php:61
 msgid "If you enjoy using Koko Analytics, please <a href=\"%1$s\">review the plugin on WordPress.org</a> or <a href=\"%2$s\">write about it on your blog</a> to help out."
 msgstr ""
 
-#: src/class-admin.php:108
-#: views/admin-page.php:46
+#: src/class-admin.php:118
+#: views/admin-page.php:56
 msgid "Visitors"
 msgstr ""
 
-#: src/class-admin.php:109
-#: views/admin-page.php:27
+#: src/class-admin.php:119
+#: views/admin-page.php:36
 msgid "Pageviews"
 msgstr ""
 
-#: src/class-admin.php:116
+#: src/class-admin.php:126
 msgid "Showing site visits over last 14 days"
 msgstr ""
 
-#: src/class-admin.php:116
+#: src/class-admin.php:126
 msgid "View all statistics"
 msgstr ""
 
-#: src/class-admin.php:129
-#: views/admin-page.php:35
+#: src/class-admin.php:139
+#: views/admin-page.php:44
 msgid "Settings"
 msgstr ""
 
-#: src/class-admin.php:148
+#: src/class-admin.php:158
 msgid "Visit plugin site"
 msgstr ""
 
@@ -98,141 +98,153 @@ msgid "Post type:"
 msgstr ""
 
 #: src/class-widget-most-viewed-posts.php:102
-msgid "Period:"
+msgid "Number of days to use statistics for:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:112
+#: src/class-widget-most-viewed-posts.php:107
 msgid "Number of posts to show:"
 msgstr ""
 
-#: src/class-widget-most-viewed-posts.php:118
+#: src/class-widget-most-viewed-posts.php:113
 msgid "Display post date?"
 msgstr ""
 
-#: views/admin-page.php:4
+#: views/admin-page.php:7
+msgid "There seems to be an issue with your site's WP Cron configuration that prevents Koko Analytics from automatically processing your statistics."
+msgstr ""
+
+#: views/admin-page.php:9
+msgid "If you're not sure what this is about, please ask your webhost to look into this."
+msgstr ""
+
+#: views/admin-page.php:15
 msgid "Please enable JavaScript for this page to work."
 msgstr ""
 
-#: views/admin-page.php:16
+#: views/admin-page.php:27
 msgid "Automatically delete data older than how many months?"
 msgstr ""
 
-#: views/admin-page.php:17
+#: views/admin-page.php:28
 msgid "Database size:"
 msgstr ""
 
-#: views/admin-page.php:18
-msgid "Date range"
-msgstr ""
-
-#: views/admin-page.php:19
-msgid "Exclude pageviews from these user roles"
-msgstr ""
-
-#: views/admin-page.php:20
-msgid "Last week"
-msgstr ""
-
-#: views/admin-page.php:21
-msgid "Last month"
-msgstr ""
-
-#: views/admin-page.php:22
-msgid "Last year"
-msgstr ""
-
-#: views/admin-page.php:23
-msgid "months"
-msgstr ""
-
-#: views/admin-page.php:24
-msgid "Next"
-msgstr ""
-
-#: views/admin-page.php:25
-msgid "No"
-msgstr ""
-
-#: views/admin-page.php:26
-msgid "Pages"
-msgstr ""
-
-#: views/admin-page.php:28
-msgid "Pageviews in the last hour"
-msgstr ""
-
 #: views/admin-page.php:29
-msgid "Previous"
+msgid "Date presets"
 msgstr ""
 
 #: views/admin-page.php:30
-msgid "Referrers"
+msgid "Exclude pageviews from these user roles"
 msgstr ""
 
 #: views/admin-page.php:31
-msgid "Realtime pageviews"
+msgid "Last 28 days"
 msgstr ""
 
 #: views/admin-page.php:32
-msgid "Save Changes"
+msgid "months"
 msgstr ""
 
 #: views/admin-page.php:33
-msgid "Saving - please wait"
+msgid "Next"
 msgstr ""
 
 #: views/admin-page.php:34
-msgid "Saved!"
+msgid "No"
 msgstr ""
 
-#: views/admin-page.php:36
-msgid "Stats"
+#: views/admin-page.php:35
+msgid "Pages"
 msgstr ""
 
 #: views/admin-page.php:37
-msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
+msgid "Pageviews in the last hour"
 msgstr ""
 
 #: views/admin-page.php:38
-msgid "There's nothing here, yet!"
+msgid "Previous"
 msgstr ""
 
 #: views/admin-page.php:39
-msgid "This week"
+msgid "Referrers"
 msgstr ""
 
 #: views/admin-page.php:40
-msgid "This month"
+msgid "Realtime pageviews"
 msgstr ""
 
 #: views/admin-page.php:41
-msgid "This year"
+msgid "Save Changes"
 msgstr ""
 
 #: views/admin-page.php:42
-msgid "Today"
+msgid "Saving - please wait"
 msgstr ""
 
 #: views/admin-page.php:43
-msgid "Total visitors"
-msgstr ""
-
-#: views/admin-page.php:44
-msgid "Total pageviews"
+msgid "Saved!"
 msgstr ""
 
 #: views/admin-page.php:45
-msgid "Use cookie to determine unique visitors and pageviews?"
+msgid "Stats"
+msgstr ""
+
+#: views/admin-page.php:46
+msgid "Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable."
 msgstr ""
 
 #: views/admin-page.php:47
-msgid "Visits and pageviews from users with any of the selected roles will be ignored."
+msgid "There's nothing here, yet!"
 msgstr ""
 
 #: views/admin-page.php:48
-msgid "Yes"
+msgid "This week"
 msgstr ""
 
 #: views/admin-page.php:49
+msgid "This month"
+msgstr ""
+
+#: views/admin-page.php:50
+msgid "This quarter"
+msgstr ""
+
+#: views/admin-page.php:51
+msgid "This year"
+msgstr ""
+
+#: views/admin-page.php:52
+msgid "Today"
+msgstr ""
+
+#: views/admin-page.php:53
+msgid "Total visitors"
+msgstr ""
+
+#: views/admin-page.php:54
+msgid "Total pageviews"
+msgstr ""
+
+#: views/admin-page.php:55
+msgid "Use cookie to determine unique visitors and pageviews?"
+msgstr ""
+
+#: views/admin-page.php:57
+msgid "Visits and pageviews from users with any of the selected roles will be ignored."
+msgstr ""
+
+#: views/admin-page.php:58
+msgid "Yes"
+msgstr ""
+
+#: views/admin-page.php:59
+msgid "Yesterday"
+msgstr ""
+
+#: views/admin-page.php:60
 msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
+msgstr ""
+
+#: views/admin-page.php:61
+msgid "Tip: use Ctrl + Arrow key to quickly cycle through date ranges."
 msgstr ""
