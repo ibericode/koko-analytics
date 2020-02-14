@@ -254,8 +254,10 @@ class Aggregator {
 
 	public function normalize_url( $url ) {
 		$aggregations = array(
-			'/(google|bing)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)\/(?:search|url)/' => '$1.$2',
-			'/(?:i|m)\.facebook\.com/' => 'facebook.com',
+			'/^com\.google\.android\.googlequicksearchbox(\/.+)?$/' => 'https://www.google.com',
+			'/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)(?:\/search|\/url)?/' => 'www.$1.$2',
+			'/(?:[a-z-]+)?\.?l?facebook\.com(?:\/l\.php)?/' => 'facebook.com',
+			'/(?:[a-z-]+)?\.?l?instagram\.com(?:\/l\.php)?/' => 'www.instagram.com',
 			'/linkedin\.com\/feed.*/' => 'linkedin.com',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
