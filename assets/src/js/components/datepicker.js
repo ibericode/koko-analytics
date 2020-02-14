@@ -29,15 +29,16 @@ export default class Datepicker extends React.Component {
       endDate: new Date(props.endDate.getTime())
     }
     this.datepicker = null
-
+    this.datepickerContainer = React.createRef()
     this.toggle = this.toggle.bind(this)
     this.maybeClose = this.maybeClose.bind(this)
     this.setPeriod = this.setPeriod.bind(this)
-    this.datepickerContainer = React.createRef()
+    this.onKeydown = this.onKeydown.bind(this)
   }
 
   componentDidMount () {
     document.body.addEventListener('click', this.maybeClose)
+    document.body.addEventListener('keydown', this.onKeydown)
 
     const datepicker = this.datepicker = new Pikaday({
       field: document.getElementById('start-date-input'),
@@ -46,6 +47,7 @@ export default class Datepicker extends React.Component {
       numberOfMonths: window.innerWidth > 680 ? 2 : 1,
       enableSelectionDaysInNextAndPreviousMonths: true,
       showDaysInNextAndPreviousMonths: true,
+      keyboardInput: false,
       onSelect: (date) => {
         let newState = {
           picking: !this.state.picking
@@ -73,6 +75,12 @@ export default class Datepicker extends React.Component {
     this.datepicker.setStartRange(this.state.startDate)
     this.datepicker.setEndRange(this.state.endDate)
     this.datepicker.gotoDate(this.state.endDate)
+  }
+
+  componentWillUnmount () {
+    this.datepicker.destroy()
+    document.body.removeEventListener('click', this.maybeClose)
+    document.body.removeEventListener('keydown', this.onKeydown)
   }
 
   toggle () {
@@ -106,11 +114,6 @@ export default class Datepicker extends React.Component {
           endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
           break
 
-        case 'yesterday':
-          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0)
-          endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59)
-          break
-
         case 'this_week':
           d = now.getDate() - now.getDay() + startOfWeek
           if (now.getDay() < startOfWeek) {
@@ -121,14 +124,9 @@ export default class Datepicker extends React.Component {
           endDate = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate() + 6, 23, 59, 59)
           break
 
-        case 'last_week':
-          d = now.getDate() - now.getDay() + startOfWeek - 7
-          if (now.getDay() < startOfWeek) {
-            d = d - 7
-          }
-
-          startDate = new Date(now.getFullYear(), now.getMonth(), d, 0, 0, 0)
-          endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 6, 23, 59, 59)
+        case 'last_28_days':
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 28, 0, 0, 0)
+          endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
           break
 
         case 'this_month':
@@ -136,18 +134,13 @@ export default class Datepicker extends React.Component {
           endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59)
           break
 
-        case 'last_month':
-          startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0)
-          endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59)
+        case 'this_quarter':
+          startDate = new Date(now.getFullYear(), (Math.ceil((now.getMonth() + 1) / 3) - 1) * 3, 1, 0, 0, 0)
+          endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 3, 0, 23, 59, 59)
           break
 
         case 'this_year':
           startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0)
-          endDate = new Date(startDate.getFullYear(), 12, 0, 23, 59, 59)
-          break
-
-        case 'last_year':
-          startDate = new Date(now.getFullYear() - 1, 0, 1, 0, 0, 0)
           endDate = new Date(startDate.getFullYear(), 12, 0, 23, 59, 59)
           break
       }
@@ -164,27 +157,36 @@ export default class Datepicker extends React.Component {
     this.props.onUpdate(startDate, endDate)
   }
 
-  handleQuickNav (dir) {
+  onKeydown (evt) {
+    if (evt.ctrlKey && (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight')) {
+      this.quickNav(evt.key === 'ArrowLeft' ? 'prev' : 'next')
+    }
+  }
+
+  onQuickNavClick (dir) {
     return (evt) => {
       evt.preventDefault()
-
-      let { startDate, endDate } = this.state
-      const diff = (endDate.getTime() - startDate.getTime()) / 1000
-      const diffInDays = Math.round(diff / 86400)
-      const modifier = dir === 'prev' ? -1 : 1
-      const cycleMonths = startDate.getDate() === 1 && endDate.getDate() === getLastDayOfMonth(endDate)
-
-      if (cycleMonths) {
-        const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-        startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
-        endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
-      } else {
-        startDate = addDays(startDate, diffInDays * modifier)
-        endDate = addDays(endDate, diffInDays * modifier)
-      }
-
-      this.setDates(startDate, endDate)
+      this.quickNav(dir)
     }
+  }
+
+  quickNav (dir) {
+    let { startDate, endDate } = this.state
+    const diff = (endDate.getTime() - startDate.getTime()) / 1000
+    const diffInDays = Math.round(diff / 86400)
+    const modifier = dir === 'prev' ? -1 : 1
+    const cycleMonths = startDate.getDate() === 1 && endDate.getDate() === getLastDayOfMonth(endDate)
+
+    if (cycleMonths) {
+      const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
+      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
+      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
+    } else {
+      startDate = addDays(startDate, diffInDays * modifier)
+      endDate = addDays(endDate, diffInDays * modifier)
+    }
+
+    this.setDates(startDate, endDate)
   }
 
   render () {
@@ -192,36 +194,40 @@ export default class Datepicker extends React.Component {
     const { startDate, endDate } = this.props
     return (
       <div className='date-nav'>
-        <div onClick={this.toggle} className='date-label'>
-          <span className='dashicons dashicons-calendar-alt' />
-          <span>{format(startDate, 'MMM d, yyyy')}</span>
-          <span> &mdash; </span>
-          <span>{format(endDate, 'MMM d, yyyy')}</span>
+        <div>
+          <div className={'date-label'} onClick={this.toggle}>
+            <span className='dashicons dashicons-calendar-alt' />
+            <span>{format(startDate, 'MMM d, yyyy')}</span>
+            <span> &mdash; </span>
+            <span>{format(endDate, 'MMM d, yyyy')}</span>
+          </div>
         </div>
         <div className='date-picker-ui' style={{ display: open ? '' : 'none' }}>
           <div className='date-quicknav cf'>
-            <span onClick={this.handleQuickNav('prev')} className='prev dashicons dashicons-arrow-left' title={i18n.Previous} />
+            <span onClick={this.onQuickNavClick('prev')} className='prev dashicons dashicons-arrow-left' title={i18n.Previous} />
             <span className='date'>
               <span>{format(startDate, 'MMM d, yyyy')}</span>
               <span> &mdash; </span>
               <span>{format(endDate, 'MMM d, yyyy')}</span>
             </span>
-            <span onClick={this.handleQuickNav('next')} className='next dashicons dashicons-arrow-right' title={i18n.Next} />
+            <span onClick={this.onQuickNavClick('next')} className='next dashicons dashicons-arrow-right' title={i18n.Next} />
           </div>
           <div className='flex'>
             <div className='date-presets'>
+              <strong>{i18n['Date presets']}</strong>
+              <a href='' onClick={this.setPeriod('last_28_days')}>{i18n['Last 28 days']}</a>
               <a href='' onClick={this.setPeriod('today')}>{i18n.Today}</a>
-              <a href='' onClick={this.setPeriod('yesterday')}>{i18n.Yesterday}</a>
               <a href='' onClick={this.setPeriod('this_week')}>{i18n['This week']}</a>
-              <a href='' onClick={this.setPeriod('last_week')}>{i18n['Last week']}</a>
               <a href='' onClick={this.setPeriod('this_month')}>{i18n['This month']}</a>
-              <a href='' onClick={this.setPeriod('last_month')}>{i18n['Last month']}</a>
+              <a href='' onClick={this.setPeriod('this_quarter')}>{i18n['This quarter']}</a>
               <a href='' onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
-              <a href='' onClick={this.setPeriod('last_year')}>{i18n['Last year']}</a>
             </div>
-            <div className='date-picker' ref={this.datepickerContainer} />
+            <div className='date-picker'>
+              <div ref={this.datepickerContainer} />
+            </div>
           </div>
         </div>
+
         <input type='hidden' id='start-date-input' />
       </div>
     )

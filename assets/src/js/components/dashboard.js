@@ -9,6 +9,7 @@ import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
 
+const i18n = window.koko_analytics.i18n
 const now = new Date()
 const pad = d => d < 10 ? '0' + d : d
 const formatDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
@@ -124,6 +125,7 @@ export default class Dashboard extends React.Component {
             <TopPosts startDate={startDate} endDate={endDate} />
             <TopReferrers startDate={startDate} endDate={endDate} />
           </div>
+          <div><span className={'description right'}>{i18n['quickNavTip']}</span></div>
         </div>
       </main>
     )

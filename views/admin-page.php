@@ -26,10 +26,9 @@
 			'i18n'          => array(
 				'Automatically delete data older than how many months?' => __( 'Automatically delete data older than how many months?', 'koko-analytics' ),
 				'Database size:'                          => __( 'Database size:', 'koko-analytics' ),
+				'Date presets'                            => __( 'Date presets', 'koko-analytics' ),
 				'Exclude pageviews from these user roles' => __( 'Exclude pageviews from these user roles', 'koko-analytics' ),
-				'Last week'                               => __( 'Last week', 'koko-analytics' ),
-				'Last month'                              => __( 'Last month', 'koko-analytics' ),
-				'Last year'                               => __( 'Last year', 'koko-analytics' ),
+				'Last 28 days'                            => __( 'Last 28 days', 'koko-analytics' ),
 				'months'                                  => __( 'months', 'koko-analytics' ),
 				'Next'                                    => __( 'Next', 'koko-analytics' ),
 				'No'                                      => __( 'No', 'koko-analytics' ),
@@ -48,6 +47,7 @@
 				'There\'s nothing here, yet!'             => __( 'There\'s nothing here, yet!', 'koko-analytics' ),
 				'This week'                               => __( 'This week', 'koko-analytics' ),
 				'This month'                              => __( 'This month', 'koko-analytics' ),
+				'This quarter'                            => __( 'This quarter', 'koko-analytics' ),
 				'This year'                               => __( 'This year', 'koko-analytics' ),
 				'Today'                                   => __( 'Today', 'koko-analytics' ),
 				'Total visitors'                          => __( 'Total visitors', 'koko-analytics' ),
@@ -58,6 +58,7 @@
 				'Yes'                                     => __( 'Yes', 'koko-analytics' ),
 				'Yesterday'                               => __( 'Yesterday', 'koko-analytics' ),
 				'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.' => __( 'Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics' ),
+				'quickNavTip' => __( 'Tip: use Ctrl + Arrow key to quickly cycle through date ranges.', 'koko-analytics' )
 			),
 			'start_of_week' => $start_of_week,
 			'user_roles'    => $user_roles,
