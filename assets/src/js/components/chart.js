@@ -94,29 +94,15 @@ export default class Component extends React.PureComponent {
   }
 
   updateChart () {
-    // hide tooltip
     this.tooltip.style.display = 'none'
-
-    // fill chart with 0's
-    this.dataset = {}
-    for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
-      const key = api.formatDate(d)
-      this.dataset[key] = {
-        date: new Date(d.getTime()),
-        pageviews: 0,
-        visitors: 0
-      }
-    }
-
     this.setState({
-      dataset: Object.values(this.dataset),
+      dataset: [],
       yMax: 0
     })
     this.loadData()
   }
 
   loadData () {
-    const dataset = this.dataset
     let yMax = 0
 
     // fetch actual stats
@@ -126,27 +112,35 @@ export default class Component extends React.PureComponent {
         end_date: api.formatDate(this.props.endDate)
       }
     }).then(data => {
-      data.forEach(d => {
-        // Note: date in response data should match format from Date.toISOString() from above
-        if (typeof (dataset[d.date]) === 'undefined') {
-          console.error('Unexpected date in response data', d.date)
-          return
+      let dataset = [];
+      let i = 0;
+
+      for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
+        const key = api.formatDate(d)
+
+        while (i < data.length && key !== data[i].date) {
+          i++;
         }
 
-        const pageviews = parseInt(d.pageviews)
-        const visitors = parseInt(d.visitors)
-        dataset[d.date].pageviews = pageviews
-        dataset[d.date].visitors = visitors
-
-        if (pageviews > yMax) {
-          yMax = pageviews
+        let tickData = {
+          date: new Date(d.getTime()),
+          pageviews: 0,
+          visitors: 0,
         }
-      })
 
-      this.setState({
-        dataset: Object.values(dataset),
-        yMax
-      })
+        if (i !== data.length && key === data[i].date) {
+          tickData.pageviews = parseInt(data[i].pageviews);
+          tickData.visitors = parseInt(data[i].visitors);
+
+          if (tickData.pageviews > yMax) {
+            yMax = tickData.pageviews;
+          }
+        }
+
+        dataset.push(tickData);
+      }
+
+      this.setState({ dataset, yMax })
     })
   }
 
