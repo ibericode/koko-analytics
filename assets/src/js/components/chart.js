@@ -57,7 +57,6 @@ export default class Component extends React.PureComponent {
       yMax: 0
     }
     this.tooltip = this.createTooltip()
-    this.wrapper = document.getElementById('koko-analytics-admin')
     this.showTooltip = this.showTooltip.bind(this)
     this.hideTooltip = this.hideTooltip.bind(this)
     this.updateChart = this.updateChart.bind(this)
@@ -197,7 +196,7 @@ export default class Component extends React.PureComponent {
       return null
     }
 
-    const width = this.wrapper.clientWidth
+    const width = this.props.width
     const height = this.props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
     const padding = {
       left: 48,
@@ -226,8 +225,8 @@ export default class Component extends React.PureComponent {
                   const y = getY(v)
                   return (
                     <g key={i}>
-                      <line stroke='#EEE' x1={48} x2={innerWidth + padding.left} y1={y} y2={y}/>
-                      <text fill='#757575' x={36} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
+                      <line stroke='#EEE' x1={padding.left} x2={innerWidth + padding.left} y1={y} y2={y}/>
+                      <text fill='#757575' x={0.75 * padding.left} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
                     </g>
                   )
                 })}
@@ -312,5 +311,6 @@ export default class Component extends React.PureComponent {
 Component.propTypes = {
   startDate: PropTypes.instanceOf(Date).isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
+  width: PropTypes.number.isRequired,
   height: PropTypes.number
 }

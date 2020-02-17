@@ -102,7 +102,7 @@ export default class Dashboard extends React.Component {
             <Nav />
           </div>
           <Totals startDate={startDate} endDate={endDate} />
-          <Chart startDate={startDate} endDate={endDate} />
+          <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
           <div className='grid'>
             <TopPosts startDate={startDate} endDate={endDate} />
             <TopReferrers startDate={startDate} endDate={endDate} />
