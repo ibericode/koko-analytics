@@ -114,27 +114,31 @@ export default class Component extends React.PureComponent {
     }).then(data => {
       let dataset = [];
       let i = 0;
+      let key;
 
       for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
-        const key = api.formatDate(d)
-
-        while (i < data.length && key !== data[i].date) {
-          i++;
-        }
-
         let tickData = {
           date: new Date(d.getTime()),
           pageviews: 0,
           visitors: 0,
         }
 
-        if (i !== data.length && key === data[i].date) {
-          tickData.pageviews = parseInt(data[i].pageviews);
-          tickData.visitors = parseInt(data[i].visitors);
+        key = api.formatDate(d)
+        while (i < data.length) {
+          // find data with same key in API response
+          if (key === data[i].date) {
+            tickData.pageviews = parseInt(data[i].pageviews);
+            tickData.visitors = parseInt(data[i].visitors);
 
-          if (tickData.pageviews > yMax) {
-            yMax = tickData.pageviews;
+            if (tickData.pageviews > yMax) {
+              yMax = tickData.pageviews;
+            }
+
+            break;
           }
+
+          // keep going over response items
+          i++;
         }
 
         dataset.push(tickData);
