@@ -95,16 +95,10 @@ export default class Component extends React.PureComponent {
 
   updateChart () {
     this.tooltip.style.display = 'none'
-    this.setState({
-      dataset: [],
-      yMax: 0
-    })
     this.loadData()
   }
 
   loadData () {
-    let yMax = 0
-
     // fetch actual stats
     api.request('/stats', {
       body: {
@@ -112,39 +106,46 @@ export default class Component extends React.PureComponent {
         end_date: api.formatDate(this.props.endDate)
       }
     }).then(data => {
-      let dataset = [];
-      let i = 0;
-      let key;
+      const dataset = []
+      let yMax = 0
+      let i = 0
+      let key
 
       for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
-        let tickData = {
+        const tickData = {
           date: new Date(d.getTime()),
           pageviews: 0,
-          visitors: 0,
+          visitors: 0
         }
 
         key = api.formatDate(d)
         while (i < data.length) {
           // find data with same key in API response
           if (key === data[i].date) {
-            tickData.pageviews = parseInt(data[i].pageviews);
-            tickData.visitors = parseInt(data[i].visitors);
+            tickData.pageviews = parseInt(data[i].pageviews)
+            tickData.visitors = parseInt(data[i].visitors)
 
             if (tickData.pageviews > yMax) {
-              yMax = tickData.pageviews;
+              yMax = tickData.pageviews
             }
 
-            break;
+            break
           }
 
           // keep going over response items
-          i++;
+          i++
         }
 
-        dataset.push(tickData);
+        dataset.push(tickData)
       }
 
       this.setState({ dataset, yMax })
+    }).catch(_ => {
+      // empty chart if request somehow failed
+      this.setState({
+        dataset: [],
+        yMax: 0
+      })
     })
   }
 
