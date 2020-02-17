@@ -7,6 +7,7 @@ import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from './../util/colors.js'
+
 const i18n = window.koko_analytics.i18n
 const color1 = window.koko_analytics.colors[3]
 const color2 = modify(color1, 30)
@@ -53,11 +54,10 @@ export default class Component extends React.PureComponent {
 
     this.state = {
       dataset: [],
-      yMax: 0
+      yMax: 0,
     }
-
-    this.base = React.createRef()
     this.tooltip = this.createTooltip()
+    this.wrapper = document.getElementById('koko-analytics-admin')
     this.showTooltip = this.showTooltip.bind(this)
     this.hideTooltip = this.hideTooltip.bind(this)
     this.updateChart = this.updateChart.bind(this)
@@ -193,17 +193,23 @@ export default class Component extends React.PureComponent {
 
   render () {
     const { dataset, yMax } = this.state
-    const width = this.base.current ? this.base.current.clientWidth : window.innerWidth
+    const ticks = dataset.length
+
+    // hide entire component if showing just a single tick
+    if (ticks <= 1) {
+      return null
+    }
+
+    const width = this.wrapper.clientWidth
     const height = this.props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
     const padding = {
-      left: 36,
-      bottom: 26,
-      top: 6,
-      right: 12
+      left: 48,
+      bottom: 36,
+      top: 24,
+      right: 24
     }
     const innerWidth = width - padding.left - padding.right
     const innerHeight = height - padding.bottom - padding.top
-    const ticks = dataset.length
     const tickWidth = innerWidth / ticks
     const barWidth = 0.9 * tickWidth
     const barPadding = (tickWidth - barWidth) / 2
@@ -213,28 +219,23 @@ export default class Component extends React.PureComponent {
     const getX = i => i * tickWidth
     const getY = v => y.max > 0 ? innerHeight - (v / y.max * innerHeight) : innerHeight
 
-    // hide entire component if showing just a single data point
-    if (ticks <= 1) {
-      return null
-    }
-
     return (
       <div className='box'>
         <div className='chart-container'>
-          <svg className='chart' ref={this.base} width='100%' height={height}>
+          <svg className='chart' width='100%' height={height}>
             <g className='axes'>
               <g className='axes-y' transform={`translate(0, ${padding.top})`} textAnchor='end'>
                 {y.ticks.map((v, i) => {
                   const y = getY(v)
                   return (
                     <g key={i}>
-                      <line stroke='#EEE' x1={30} x2={width} y1={y} y2={y} />
-                      <text fill='#757575' x={24} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
+                      <line stroke='#EEE' x1={48} x2={innerWidth + padding.left} y1={y} y2={y}/>
+                      <text fill='#757575' x={36} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
                     </g>
                   )
                 })}
               </g>
-              <g className='axes-x' transform={`translate(${padding.left}, ${padding.top + innerHeight})`} textAnchor='middle'>
+              <g className='axes-x' textAnchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
                 {dataset.map((d, i) => {
                   // draw nothing if showing lots of ticks & this not first or last tick
                   const tick = ticks <= 90
@@ -260,7 +261,7 @@ export default class Component extends React.PureComponent {
                   const x = getX(i) + 0.5 * tickWidth
                   return (
                     <g key={d.date.toDateString()}>
-                      <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
+                      <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6'/>
                       {label && <text fill='#757575' x={x} y='10' dy='1em'>{label}</text>}
                     </g>
                   )
