@@ -54,7 +54,7 @@ export default class Component extends React.PureComponent {
 
     this.state = {
       dataset: [],
-      yMax: 0,
+      yMax: 0
     }
     this.tooltip = this.createTooltip()
     this.wrapper = document.getElementById('koko-analytics-admin')
@@ -106,40 +106,37 @@ export default class Component extends React.PureComponent {
         end_date: api.formatDate(this.props.endDate)
       }
     }).then(data => {
-      const dataset = []
+      const map = {}
       let yMax = 0
-      let i = 0
       let key
 
+      // generate empty data for each tick
       for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
-        const tickData = {
+        key = api.formatDate(d)
+        map[key] = {
           date: new Date(d.getTime()),
           pageviews: 0,
           visitors: 0
         }
-
-        key = api.formatDate(d)
-        while (i < data.length) {
-          // find data with same key in API response
-          if (key === data[i].date) {
-            tickData.pageviews = parseInt(data[i].pageviews)
-            tickData.visitors = parseInt(data[i].visitors)
-
-            if (tickData.pageviews > yMax) {
-              yMax = tickData.pageviews
-            }
-
-            break
-          }
-
-          // keep going over response items
-          i++
-        }
-
-        dataset.push(tickData)
       }
 
-      this.setState({ dataset, yMax })
+      // replace tick data with values from response data
+      for (let i = 0; i < data.length; i++) {
+        key = data[i].date
+        if (typeof map[key] === 'undefined') {
+          console.error('Unexpected date in response data', key)
+          continue
+        }
+
+        map[key].pageviews = parseInt(data[i].pageviews)
+        map[key].visitors = parseInt(data[i].visitors)
+
+        if (map[key].pageviews > yMax) {
+          yMax = map[key].pageviews
+        }
+      }
+
+      this.setState({ dataset: Object.values(map), yMax })
     }).catch(_ => {
       // empty chart if request somehow failed
       this.setState({

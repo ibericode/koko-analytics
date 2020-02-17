@@ -33,7 +33,6 @@ export default class Dashboard extends React.Component {
     this.state = {
       startDate: new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0),
       endDate: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59),
-      ...this.parseStateFromLocalStorage(),
       ...this.parseStateFromLocation(window.location.hash)
     }
     this.setDates = this.setDates.bind(this)
@@ -66,18 +65,6 @@ export default class Dashboard extends React.Component {
     return { startDate, endDate }
   }
 
-  parseStateFromLocalStorage () {
-    try {
-      const startDate = localStorage.getItem('start_date')
-      const endDate = localStorage.getItem('end_date')
-      return this.parseDates(startDate, endDate)
-    } catch (e) {
-      // LocalStorage is likely disabled
-    }
-
-    return {}
-  }
-
   parseStateFromLocation (str) {
     const searchPos = str.indexOf('?')
     if (searchPos === -1) {
@@ -97,14 +84,9 @@ export default class Dashboard extends React.Component {
     // update state
     this.setState({ startDate, endDate })
 
-    // update local storage & URL
+    // update URL
     startDate = formatDate(startDate)
     endDate = formatDate(endDate)
-    try {
-      localStorage.setItem('start_date', startDate)
-      localStorage.setItem('end_date', endDate)
-    } catch (e) {}
-
     this.props.history.push(`/?start_date=${startDate}&end_date=${endDate}`)
   }
 
