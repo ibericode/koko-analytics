@@ -1,6 +1,6 @@
 'use strict'
 
-import 'whatwg-fetch'
+import fetch from 'unfetch'
 import 'promise-polyfill/src/polyfill'
 
 const vars = window.koko_analytics
@@ -38,7 +38,7 @@ function request (path, opts = {}) {
     }
   }
 
-  return window.fetch(url, opts).then(r => {
+  return fetch(url, opts).then(r => {
     // reject response when status is not ok-ish
     if (r.status >= 400) {
       throw new Error(r.statusText)
