@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
@@ -9,7 +9,7 @@ import Realtime from './realtime.js'
 const i18n = window.koko_analytics.i18n
 const now = new Date()
 
-export default class Totals extends React.PureComponent {
+export default class Totals extends Component {
   constructor (props) {
     super(props)
     this.state = {

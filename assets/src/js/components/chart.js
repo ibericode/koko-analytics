@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import api from '../util/api.js'
@@ -48,7 +48,7 @@ function yScale (_min, _max, maxTicks) {
   }
 }
 
-export default class Component extends React.PureComponent {
+export default class Chart extends Component {
   constructor (props) {
     super(props)
 
@@ -187,8 +187,8 @@ export default class Component extends React.PureComponent {
     this.tooltip.style.display = 'none'
   }
 
-  render () {
-    const { dataset, yMax } = this.state
+  render (props, state) {
+    const { dataset, yMax } = state
     const ticks = dataset.length
 
     // hide entire component if showing just a single tick
@@ -196,8 +196,8 @@ export default class Component extends React.PureComponent {
       return null
     }
 
-    const width = this.props.width
-    const height = this.props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
+    const width = props.width
+    const height = props.height || Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
     const padding = {
       left: 48,
       bottom: 36,
@@ -308,7 +308,7 @@ export default class Component extends React.PureComponent {
   }
 }
 
-Component.propTypes = {
+Chart.propTypes = {
   startDate: PropTypes.instanceOf(Date).isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
   width: PropTypes.number.isRequired,

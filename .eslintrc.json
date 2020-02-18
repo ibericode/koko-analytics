@@ -4,9 +4,9 @@
 	"es6": true
   },
   "extends": [
-	"plugin:react/recommended",
-	"plugin:jest/recommended",
-	"standard"
+	"standard",
+	"standard-preact",
+	"plugin:jest/recommended"
   ],
   "globals": {
 	"Atomics": "readonly",

@@ -1,11 +1,11 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
 const i18n = window.koko_analytics.i18n
 
-export default class Realtime extends React.PureComponent {
+export default class Realtime extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -34,8 +34,8 @@ export default class Realtime extends React.PureComponent {
     })
   }
 
-  render () {
-    const { pageviews } = this.state
+  render (props, state) {
+    const { pageviews } = state
 
     return (
       <div className='totals-box fade' key={'realtime-pageviews'}>

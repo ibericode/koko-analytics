@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import api from './../util/api.js'
 import Nav from './nav.js'
 
@@ -9,7 +9,7 @@ const i18n = window.koko_analytics.i18n
 const roles = window.koko_analytics.user_roles
 const settings = window.koko_analytics.settings
 
-export default class Settings extends React.Component {
+export default class Settings extends Component {
   constructor (props) {
     super(props)
 
@@ -60,8 +60,8 @@ export default class Settings extends React.Component {
     }
   }
 
-  render () {
-    const { saving, buttonText, settings } = this.state
+  render (props, state) {
+    const { saving, buttonText, settings } = state
     return (
       <main>
         <div className='grid'>
@@ -71,13 +71,13 @@ export default class Settings extends React.Component {
               <div className='input-group'>
                 <label>{i18n['Exclude pageviews from these user roles']}</label>
                 <select
-                  name='exclude_user_roles[]' multiple value={settings.exclude_user_roles} onChange={(evt) => {
+                  name='exclude_user_roles[]' multiple onChange={(evt) => {
                     settings.exclude_user_roles = [].filter.call(evt.target.options, el => el.selected).map(el => el.value)
                     this.setState({ settings })
                   }}
                 >
                   {Object.keys(roles).map(key => {
-                    return (<option key={key} value={key}>{roles[key]}</option>)
+                    return (<option key={key} value={key} selected={settings.exclude_user_roles.indexOf(key) > -1}>{roles[key]}</option>)
                   })}
                 </select>
                 <p className='help'>{i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}</p>

@@ -1,7 +1,9 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
+import { route } from 'preact-router'
+
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
 import Totals from './totals.js'
@@ -27,7 +29,7 @@ function parseUrlParams (str) {
   return params
 }
 
-export default class Dashboard extends React.Component {
+export default class Dashboard extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -90,8 +92,8 @@ export default class Dashboard extends React.Component {
     this.props.history.push(`/?start_date=${startDate}&end_date=${endDate}`)
   }
 
-  render () {
-    const { startDate, endDate } = this.state
+  render (props, state) {
+    const { startDate, endDate } = state
     return (
       <main>
         <div>

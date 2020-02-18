@@ -1,23 +1,20 @@
 'use strict'
 
 import '../sass/admin.scss'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { HashRouter as Router, Switch, withRouter, Route } from 'react-router-dom'
+import { render, h } from 'preact'
+import Router from 'preact-router'
 import Dashboard from './components/dashboard'
 import Settings from './components/settings'
+import { createHashHistory } from 'history'
+const history = createHashHistory()
 
-const Page = () => (
-  <Router>
-    <Switch>
-      <Route path='/settings' exact>
-        <Settings />
-      </Route>
-      <Route path='/' exact>
-        {withRouter(Dashboard)}
-      </Route>
-    </Switch>
-  </Router>
-)
+function Page () {
+  return (
+    <Router history={history}>
+      <Dashboard path={'/'} history={history} />
+      <Settings path={'/settings'} />
+    </Router>
+  )
+}
 
-ReactDOM.render(<Page />, document.getElementById('koko-analytics-mount'))
+render(<Page />, document.getElementById('koko-analytics-mount'))

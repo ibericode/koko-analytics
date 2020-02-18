@@ -1,7 +1,7 @@
 'use strict'
 
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { h } from 'preact'
+import { Link } from 'preact-router/match';
 
 const i18n = window.koko_analytics.i18n
 
@@ -14,8 +14,8 @@ export default function Nav () {
   return (
     <div className='two nav'>
       <ul className='subsubsub'>
-        <li><NavLink to='/' exact activeClassName='current'>{i18n.Stats}</NavLink> | </li>
-        <li><NavLink to='/settings' activeClassName='current'>{i18n.Settings}</NavLink></li>
+        <li><Link href='/' exact activeClassName='current'>{i18n.Stats}</Link> | </li>
+        <li><Link href='/settings' activeClassName='current'>{i18n.Settings}</Link></li>
       </ul>
     </div>
   )

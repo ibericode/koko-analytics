@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
@@ -18,7 +18,7 @@ function getLastDayOfMonth (_date) {
   return d.getDate()
 }
 
-export default class Datepicker extends React.Component {
+export default class Datepicker extends Component {
   constructor (props) {
     super(props)
 
@@ -29,7 +29,7 @@ export default class Datepicker extends React.Component {
       endDate: new Date(props.endDate.getTime())
     }
     this.datepicker = null
-    this.datepickerContainer = React.createRef()
+    this.datepickerContainer = null
     this.toggle = this.toggle.bind(this)
     this.maybeClose = this.maybeClose.bind(this)
     this.setPeriod = this.setPeriod.bind(this)
@@ -69,7 +69,7 @@ export default class Datepicker extends React.Component {
           this.props.onUpdate(this.state.startDate, this.state.endDate)
         }
       },
-      container: this.datepickerContainer.current
+      container: this.datepickerContainer
     })
 
     this.datepicker.setStartRange(this.state.startDate)
@@ -189,9 +189,9 @@ export default class Datepicker extends React.Component {
     this.setDates(startDate, endDate)
   }
 
-  render () {
-    const { open } = this.state
-    const { startDate, endDate } = this.props
+  render (props, state) {
+    const { open } = state
+    const { startDate, endDate } = props
     return (
       <div className='date-nav'>
         <div>
@@ -223,7 +223,9 @@ export default class Datepicker extends React.Component {
               <a href='' onClick={this.setPeriod('this_year')}>{i18n['This year']}</a>
             </div>
             <div className='date-picker'>
-              <div ref={this.datepickerContainer} />
+              <div ref={el => {
+                this.datepickerContainer = el
+              }} />
             </div>
           </div>
         </div>

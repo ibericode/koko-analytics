@@ -1,11 +1,11 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 
 const i18n = window.koko_analytics.i18n
 
-export default class Component extends React.PureComponent {
+export default class Pagination extends Component {
   handleClick (direction) {
     const { offset, limit, total } = this.props
 
@@ -22,7 +22,7 @@ export default class Component extends React.PureComponent {
   }
 
   render (props) {
-    const { offset, limit, total } = this.props
+    const { offset, limit, total } = props
 
     return (
       <div className='pagination'>
@@ -41,7 +41,7 @@ export default class Component extends React.PureComponent {
   }
 }
 
-Component.propTypes = {
+Pagination.propTypes = {
   offset: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,

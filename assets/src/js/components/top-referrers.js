@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import api from '../util/api.js'
 import Pagination from './table-pagination'
@@ -25,7 +25,7 @@ function enhance (item) {
   return item
 }
 
-export default class TopReferrers extends React.PureComponent {
+export default class TopReferrers extends Component {
   constructor (props) {
     super(props)
     this.state = {
