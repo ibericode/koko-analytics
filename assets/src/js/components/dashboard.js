@@ -2,8 +2,6 @@
 
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
-import { route } from 'preact-router'
-
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
 import Totals from './totals.js'

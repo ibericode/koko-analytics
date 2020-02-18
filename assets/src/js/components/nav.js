@@ -1,7 +1,7 @@
 'use strict'
 
 import { h } from 'preact'
-import { Link } from 'preact-router/match';
+import { Link } from 'preact-router/match'
 
 const i18n = window.koko_analytics.i18n
 

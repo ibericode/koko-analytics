@@ -225,7 +225,7 @@ export default class Chart extends Component {
                   const y = getY(v)
                   return (
                     <g key={i}>
-                      <line stroke='#EEE' x1={padding.left} x2={innerWidth + padding.left} y1={y} y2={y}/>
+                      <line stroke='#EEE' x1={padding.left} x2={innerWidth + padding.left} y1={y} y2={y} />
                       <text fill='#757575' x={0.75 * padding.left} y={y} dy='0.33em'>{numbers.formatPretty(v)}</text>
                     </g>
                   )
@@ -257,7 +257,7 @@ export default class Chart extends Component {
                   const x = getX(i) + 0.5 * tickWidth
                   return (
                     <g key={d.date.toDateString()}>
-                      <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6'/>
+                      <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
                       {label && <text fill='#757575' x={x} y='10' dy='1em'>{label}</text>}
                     </g>
                   )
