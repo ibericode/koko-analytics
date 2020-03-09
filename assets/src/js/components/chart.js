@@ -7,6 +7,7 @@ import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from './../util/colors.js'
+import { isLastDayOfMonth } from '../util/dates.js'
 
 const i18n = window.koko_analytics.i18n
 const color1 = window.koko_analytics.colors[3]
@@ -54,7 +55,8 @@ export default class Chart extends Component {
 
     this.state = {
       dataset: [],
-      yMax: 0
+      yMax: 0,
+      groupByMonth: false
     }
     this.tooltip = this.createTooltip()
     this.showTooltip = this.showTooltip.bind(this)
@@ -98,44 +100,58 @@ export default class Chart extends Component {
   }
 
   loadData () {
+    const { startDate, endDate } = this.props
+
     // fetch actual stats
     api.request('/stats', {
       body: {
-        start_date: api.formatDate(this.props.startDate),
-        end_date: api.formatDate(this.props.endDate)
+        start_date: api.formatDate(startDate),
+        end_date: api.formatDate(endDate)
       }
     }).then(data => {
       const map = {}
       let yMax = 0
       let key
+      const groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
 
       // generate empty data for each tick
-      for (let d = new Date(this.props.startDate.getTime()); d <= this.props.endDate; d.setDate(d.getDate() + 1)) {
+      const d = new Date(+startDate)
+      // eslint-disable-next-line no-unmodified-loop-condition
+      while (d <= endDate) {
         key = api.formatDate(d)
         map[key] = {
           date: new Date(d.getTime()),
           pageviews: 0,
           visitors: 0
         }
+
+        groupByMonth ? d.setMonth(d.getMonth() + 1) : d.setDate(d.getDate() + 1)
       }
 
       // replace tick data with values from response data
       for (let i = 0; i < data.length; i++) {
         key = data[i].date
+
+        if (groupByMonth) {
+          const d = new Date(key)
+          d.setDate(1)
+          key = api.formatDate(d)
+        }
+
         if (typeof map[key] === 'undefined') {
           console.error('Unexpected date in response data', key)
           continue
         }
 
-        map[key].pageviews = parseInt(data[i].pageviews)
-        map[key].visitors = parseInt(data[i].visitors)
+        map[key].pageviews += parseInt(data[i].pageviews)
+        map[key].visitors += parseInt(data[i].visitors)
 
         if (map[key].pageviews > yMax) {
           yMax = map[key].pageviews
         }
       }
 
-      this.setState({ dataset: Object.values(map), yMax })
+      this.setState({ dataset: Object.values(map), yMax, groupByMonth })
     }).catch(_ => {
       // empty chart if request somehow failed
       this.setState({
@@ -154,11 +170,12 @@ export default class Chart extends Component {
 
   showTooltip (data, barWidth) {
     const el = this.tooltip
+    const { groupByMonth } = this.state
 
     return (evt) => {
       el.innerHTML = `
       <div class="tooltip-inner">
-        <div class="heading">${format(data.date, 'MMM d, yyyy - EEEE')}</div>
+        <div class="heading">${format(data.date, groupByMonth ? 'MMM yyyy' : 'MMM d, yyyy - EEEE')}</div>
         <div class="content">
           <div class="visitors" style="border-top-color: ${color2}">
             <div class="amount">${data.visitors}</div>
@@ -188,7 +205,7 @@ export default class Chart extends Component {
   }
 
   render (props, state) {
-    const { dataset, yMax } = state
+    const { dataset, yMax, groupByMonth } = state
     const ticks = dataset.length
 
     // hide entire component if showing just a single tick
@@ -238,15 +255,15 @@ export default class Chart extends Component {
 
                   let label = null
                   if (i === 0) {
-                    label = format(d.date, 'MMM d, yyyy')
+                    label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d, yyyy')
                   } else if (i === (ticks - 1)) {
-                    label = format(d.date, 'MMM d')
+                    label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d')
                   } else if (window.innerWidth >= 1280) {
                     // for large screens only
                     if (ticks <= 7 || d.date.getDate() === 1) {
-                      label = format(d.date, 'MMM d')
+                      label = format(d.date, groupByMonth ? 'MMM' : 'MMM d')
                     } else if (ticks <= 31 && i >= 3 && i < (ticks - 3) && d.date.getDay() === 0) {
-                      label = format(d.date, 'MMM d')
+                      label = format(d.date, groupByMonth ? 'MMM' : 'MMM d')
                     }
                   }
 

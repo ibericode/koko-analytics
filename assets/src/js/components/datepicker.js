@@ -7,16 +7,9 @@ import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
 import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
-
+import { isLastDayOfMonth } from '../util/dates.js'
 const startOfWeek = window.koko_analytics.start_of_week
 const i18n = window.koko_analytics.i18n
-
-function getLastDayOfMonth (_date) {
-  const d = new Date(_date.getFullYear(), _date.getMonth(), 1)
-  d.setMonth(d.getMonth() + 1)
-  d.setDate(0)
-  return d.getDate()
-}
 
 export default class Datepicker extends Component {
   constructor (props) {
@@ -60,14 +53,11 @@ export default class Datepicker extends Component {
         } else {
           newState = { ...newState, endDate: date }
           datepicker.setEndRange(date)
+          this.props.onUpdate(this.state.startDate, date)
         }
 
         this.setState(newState)
         datepicker.draw()
-
-        if (this.state.startDate && this.state.endDate) {
-          this.props.onUpdate(this.state.startDate, this.state.endDate)
-        }
       },
       container: this.datepickerContainer
     })
@@ -175,7 +165,7 @@ export default class Datepicker extends Component {
     const diff = (endDate.getTime() - startDate.getTime()) / 1000
     const diffInDays = Math.round(diff / 86400)
     const modifier = dir === 'prev' ? -1 : 1
-    const cycleMonths = startDate.getDate() === 1 && endDate.getDate() === getLastDayOfMonth(endDate)
+    const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
 
     if (cycleMonths) {
       const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
