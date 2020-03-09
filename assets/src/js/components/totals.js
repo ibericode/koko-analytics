@@ -7,7 +7,6 @@ import numbers from '../util/numbers.js'
 import api from '../util/api.js'
 import Realtime from './realtime.js'
 const i18n = window.koko_analytics.i18n
-const now = new Date()
 
 export default class Totals extends Component {
   constructor (props) {
@@ -47,7 +46,6 @@ export default class Totals extends Component {
 
   autoRefresh () {
     const now = new Date()
-
     if (this.props.startDate < now && this.props.endDate > now) {
       this.loadData()
     }
