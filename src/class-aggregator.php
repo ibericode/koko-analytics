@@ -255,7 +255,7 @@ class Aggregator {
 	public function normalize_url( $url ) {
 		// if URL has no protocol, assume HTTP
 		// we change this to HTTPS for sites that are known to support it (hopefully, all)
-		if (strpos( $url, '://') === false) {
+		if ( strpos( $url, '://' ) === false ) {
 			$url = 'http://' . $url;
 		}
 
