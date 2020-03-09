@@ -47,10 +47,12 @@ export default class Datepicker extends Component {
         }
 
         if (!this.state.picking || this.state.startDate === null || date < this.state.startDate) {
+          date.setHours(0, 0, 0)
           newState = { ...newState, startDate: date, endDate: null }
           datepicker.setStartRange(date)
           datepicker.setEndRange(null)
         } else {
+          date.setHours(23, 59, 59)
           newState = { ...newState, endDate: date }
           datepicker.setEndRange(date)
           this.props.onUpdate(this.state.startDate, date)

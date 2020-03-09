@@ -44,7 +44,7 @@ export default class Realtime extends Component {
         </div>
         <div className='totals-compare'>
           <span>
-            <span>{i18n['Pageviews in the last hour']}</span>
+            <span>{i18n['pageviews in the last hour']}</span>
           </span>
         </div>
       </div>

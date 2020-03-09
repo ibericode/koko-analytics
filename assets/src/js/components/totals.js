@@ -54,13 +54,10 @@ export default class Totals extends Component {
   }
 
   loadData () {
-    const s = this.props.startDate
-    // if end date is in future, use today instead so we get a fair comparison
-    const e = this.props.endDate.getTime() <= now.getTime() ? this.props.endDate : now
-    const diff = (e.getTime() - s.getTime()) - 1
-    const previousStartDate = new Date(s.getTime() - diff)
-    const previousEndDate = new Date(e.getTime() - diff)
-
+    const { startDate, endDate } = this.props
+    const diff = (endDate.getTime() - startDate.getTime()) + 1
+    const previousStartDate = new Date(startDate.getTime() - diff)
+    const previousEndDate = new Date(endDate.getTime() - diff)
     let visitors = 0
     let pageviews = 0
     let visitorsChange = 0
@@ -125,7 +122,7 @@ export default class Totals extends Component {
           </span>
           </div>
           <div className='totals-compare'>
-            <span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? 'more' : 'less'} than previous period</span>
+            <span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? i18n['more than previous period'] : i18n['less than previous period']}</span>
           </div>
         </div>
         <div className='totals-box fade' key={hash + '-pageviews'}>
@@ -136,7 +133,7 @@ export default class Totals extends Component {
           </span>
           </div>
           <div className='totals-compare'>
-            <span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? 'more' : 'less'} than previous period</span>
+            <span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? i18n['more than previous period'] : i18n['less than previous period']}</span>
           </div>
         </div>
         <Realtime />
