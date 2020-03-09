@@ -220,7 +220,7 @@ export default class Chart extends Component {
         <div className='chart-container'>
           <svg className='chart' width='100%' height={height}>
             <g className='axes'>
-              <g className='axes-y' transform={`translate(0, ${padding.top})`} textAnchor='end'>
+              <g className='axes-y' transform={`translate(0, ${padding.top})`} text-anchor='end'>
                 {y.ticks.map((v, i) => {
                   const y = getY(v)
                   return (
@@ -231,7 +231,7 @@ export default class Chart extends Component {
                   )
                 })}
               </g>
-              <g className='axes-x' textAnchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
+              <g className='axes-x' text-anchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
                 {dataset.map((d, i) => {
                   // draw nothing if showing lots of ticks & this not first or last tick
                   const tick = ticks <= 90
@@ -239,11 +239,11 @@ export default class Chart extends Component {
                   let label = null
                   if (i === 0) {
                     label = format(d.date, 'MMM d, yyyy')
-                  } else if (i === ticks - 1) {
+                  } else if (i === (ticks - 1)) {
                     label = format(d.date, 'MMM d')
                   } else if (window.innerWidth >= 1280) {
                     // for large screens only
-                    if (d.date.getDate() === 1 || ticks <= 7) {
+                    if (ticks <= 7 || d.date.getDate() === 1) {
                       label = format(d.date, 'MMM d')
                     } else if (ticks <= 31 && i >= 3 && i < (ticks - 3) && d.date.getDay() === 0) {
                       label = format(d.date, 'MMM d')
