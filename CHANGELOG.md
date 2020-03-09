@@ -1,5 +1,14 @@
 # Changelog
 
+#### 1.0.9 - Mar 9, 2020
+
+- Use arrow keys (without Ctrl-key) for quickly cycling through date ranges.
+- Group chart by month if showing more than 2 (full) months of data.
+- Replace React by Preact to cut JS bundle size in half.
+- Normalize referrer URL's without protocol.
+- Improve total comparision with previous period.
+
+
 #### 1.0.8 - Feb 14, 2020
 
 - Add date preset for last 28 days

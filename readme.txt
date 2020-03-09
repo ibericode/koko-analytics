@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten
 Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 1.0.8
+Tested up to: 5.4
+Stable tag: 1.0.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -65,6 +65,8 @@ No, the plugin is built in such a way that it never slows down your website for 
 
 In fact, because the plugin does not depend on any external services it is usually much faster than third-party analytics tools.
 
+### No pageviews are being recorded.
+This is usually a file permissions issue. The first thing to check is whether the `/wp-content/uploads/pageviews.php` file exists and is writable by your web server.
 
 == Screenshots ==
 
@@ -75,6 +77,15 @@ In fact, because the plugin does not depend on any external services it is usual
 
 
 == Changelog ==
+
+#### 1.0.9 - Mar 9, 2020
+
+- Use arrow keys (without Ctrl-key) for quickly cycling through date ranges.
+- Group chart by month if showing more than 2 (full) months of data.
+- Replace React by Preact to cut JS bundle size in half.
+- Normalize referrer URL's without protocol.
+- Improve total comparision with previous period.
+
 
 #### 1.0.8 - Feb 14, 2020
 
