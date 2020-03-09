@@ -45,6 +45,7 @@ final class AggregatorTest extends TestCase
 			'https://www.bing.com' => 'https://www.bing.com',
 			'https://www.bing.com/search' => 'https://www.bing.com',
 			'https://www.bing.com/url' => 'https://www.bing.com',
+			'android-app://com.facebook.katana' => 'https://facebook.com',
 			'https://m.facebook.com' => 'https://facebook.com',
 			'https://m.facebook.com/profile/whatever' => 'https://facebook.com/profile/whatever',
 			'https://l.facebook.com' => 'https://facebook.com',
