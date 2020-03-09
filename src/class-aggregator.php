@@ -253,12 +253,19 @@ class Aggregator {
 	}
 
 	public function normalize_url( $url ) {
+		// if URL has no protocol, assume HTTP
+		// we change this to HTTPS for sites that are known to support it (hopefully, all)
+		if (strpos( $url, '://') === false) {
+			$url = 'http://' . $url;
+		}
+
 		$aggregations = array(
-			'/^com\.google\.android\.googlequicksearchbox(\/.+)?$/' => 'https://www.google.com',
-			'/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)(?:\/search|\/url)?/' => 'www.$1.$2',
-			'/(?:[a-z-]+)?\.?l?facebook\.com(?:\/l\.php)?/' => 'facebook.com',
-			'/(?:[a-z-]+)?\.?l?instagram\.com(?:\/l\.php)?/' => 'www.instagram.com',
-			'/linkedin\.com\/feed.*/' => 'linkedin.com',
+			'/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox(\/.+)?$/' => 'https://www.google.com',
+			'/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
+			'/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
+			'/^https?:\/\/(?:[a-z-]+)?\.?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
+			'/^https?:\/\/(?:[a-z-]+)?\.?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
+			'/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://www.linkedin.com',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
 		);
