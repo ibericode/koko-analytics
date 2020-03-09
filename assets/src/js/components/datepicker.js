@@ -150,7 +150,7 @@ export default class Datepicker extends Component {
   }
 
   onKeydown (evt) {
-    if (evt.ctrlKey && (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight')) {
+    if (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight') {
       this.quickNav(evt.key === 'ArrowLeft' ? 'prev' : 'next')
     }
   }
