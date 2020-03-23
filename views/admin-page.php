@@ -55,6 +55,7 @@
 				'Total visitors'                          => __( 'Total visitors', 'koko-analytics' ),
 				'Total pageviews'                         => __( 'Total pageviews', 'koko-analytics' ),
 				'Use cookie to determine unique visitors and pageviews?' => __( 'Use cookie to determine unique visitors and pageviews?', 'koko-analytics' ),
+				'Use CTRL to select multiple options.'    => __( 'Use CTRL to select multiple options.', 'koko-analytics' ),
 				'Visitors'                                => __( 'Visitors', 'koko-analytics' ),
 				'Visits and pageviews from users with any of the selected roles will be ignored.' => __( 'Visits and pageviews from users with any of the selected roles will be ignored.', 'koko-analytics' ),
 				'Yes'                                     => __( 'Yes', 'koko-analytics' ),

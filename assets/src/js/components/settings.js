@@ -80,7 +80,11 @@ export default class Settings extends Component {
                     return (<option key={key} value={key} selected={settings.exclude_user_roles.indexOf(key) > -1}>{roles[key]}</option>)
                   })}
                 </select>
-                <p className='help'>{i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}</p>
+                <p className='help'>
+                  {i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}
+                  {' '}
+                  {i18n['Use CTRL to select multiple options.']}
+                </p>
               </div>
 
               <div className='input-group'>
