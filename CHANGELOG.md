@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.0.10 - Mar 23, 2020
+
+- Print configuration object early on in page HTML so it is easier to override it using a cookie consent plugin.
+- Add help text explaining the use of a multi-select element.
+
+
 #### 1.0.9 - Mar 9, 2020
 
 - Use arrow keys (without Ctrl-key) for quickly cycling through date ranges.

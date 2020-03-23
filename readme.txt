@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -87,6 +87,12 @@ window.koko_analytics.use_cookie = true;
 
 
 == Changelog ==
+
+#### 1.0.10 - Mar 23, 2020
+
+- Print configuration object early on in page HTML so it is easier to override it using a cookie consent plugin.
+- Add help text explaining the use of a multi-select element.
+
 
 #### 1.0.9 - Mar 9, 2020
 
