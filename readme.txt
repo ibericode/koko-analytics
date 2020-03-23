@@ -68,9 +68,10 @@ In fact, because the plugin does not depend on any external services it is usual
 ### No pageviews are being recorded.
 This is usually a file permissions issue. The first thing to check is whether the `/wp-content/uploads/pageviews.php` file exists and is writable by your web server.
 
-### How can I only set cookies after a user has given consent?
-1. Configure Koko Analytics to not use any cookies by default.
-2. Configure your cookie consent plugin to add the following code for visitors that have given consent:
+### How to only use cookies after consent?
+First configure Koko Analytics to not use any cookies by default.
+
+Then configure your cookie consent plugin to add the following code for visitors that have given consent:
 
 `
 <script>
