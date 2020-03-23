@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-09T13:08:32+00:00\n"
+"POT-Creation-Date: 2020-03-23T10:24:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
@@ -46,7 +46,7 @@ msgid "If you enjoy using Koko Analytics, please <a href=\"%1$s\">review the plu
 msgstr ""
 
 #: src/class-admin.php:118
-#: views/admin-page.php:58
+#: views/admin-page.php:59
 msgid "Visitors"
 msgstr ""
 
@@ -237,22 +237,26 @@ msgstr ""
 msgid "Use cookie to determine unique visitors and pageviews?"
 msgstr ""
 
-#: views/admin-page.php:59
-msgid "Visits and pageviews from users with any of the selected roles will be ignored."
+#: views/admin-page.php:58
+msgid "Use CTRL to select multiple options."
 msgstr ""
 
 #: views/admin-page.php:60
-msgid "Yes"
+msgid "Visits and pageviews from users with any of the selected roles will be ignored."
 msgstr ""
 
 #: views/admin-page.php:61
-msgid "Yesterday"
+msgid "Yes"
 msgstr ""
 
 #: views/admin-page.php:62
-msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
+msgid "Yesterday"
 msgstr ""
 
 #: views/admin-page.php:63
+msgid "Set to \"no\" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors."
+msgstr ""
+
+#: views/admin-page.php:64
 msgid "Tip: use the arrow keys to quickly cycle through date ranges."
 msgstr ""
