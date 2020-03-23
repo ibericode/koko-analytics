@@ -2,13 +2,10 @@
  * @package koko-analytics
  * @author Danny van Kooten
  * @license GPL-3.0+
- *
- * JavaScript file for initiating the pageview tracking request.
- * Do not use ES2015 features as this file is only intended to be minified, not transpiled.
  */
 const trackerUrl = window.koko_analytics.tracker_url
 const postId = String(parseInt(window.koko_analytics.post_id))
-const useCookie = Boolean(parseInt(window.koko_analytics.use_cookie))
+const useCookie = window.koko_analytics.use_cookie
 
 function stringifyObject (obj) {
   return Object.keys(obj).map(function (k) {
@@ -115,9 +112,9 @@ function trackPageview () {
       if (pagesViewed.indexOf(postId) === -1) {
         pagesViewed.push(postId)
       }
-      const expires = new Date()
-      expires.setHours(expires.getHours() + 6)
-      setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), { expires, path: '/' })
+      const d = new Date()
+      d.setHours(d.getHours() + 6)
+      setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), { expires: d, path: '/' })
     }
   }
 

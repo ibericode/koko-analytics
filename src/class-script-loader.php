@@ -36,52 +36,66 @@ class Script_Loader {
 		}
 
 		// TODO: Handle "term" requests so we track both terms and post types.
-		$post_id             = is_singular() ? (int) get_queried_object_id() : 0;
-		$use_custom_endpoint = ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) || file_exists( ABSPATH . '/koko-analytics-collect.php' );
-		$tracker_url         = $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
-		$script_data         = array(
-			'use_cookie'    => $settings['use_cookie'],
-			'post_id'       => $post_id,
-			'tracker_url'   => $tracker_url,
-		);
-
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 20, 2 );
+		add_action( 'wp_head', array( $this, 'print_js_object' ), 1 );
 		wp_enqueue_script( 'koko-analytics', plugins_url( 'assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
-		wp_localize_script( 'koko-analytics', 'koko_analytics', $script_data );
 
 		/**
 		 * The following filter adds support for the official AMP plugin.
 		 * @see https://amp-wp.org/
 		 */
-		add_filter( 'amp_analytics_entries', function( $entries ) use ( $settings, $tracker_url, $post_id ) {
-			$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
-			$data = array(
-				'sc' => $settings['use_cookie'], // inform tracker endpoint to set cookie server-side
-				'nv' => $posts_viewed === array() ? 1 : 0,
-				'up' => ! in_array( $post_id, $posts_viewed ) ? 1 : 0,
-				'p' => $post_id,
-			);
-			$url = add_query_arg( $data, $tracker_url );
-			$entries[] = array(
-				'type' => 'koko-analytics',
-				'attributes' => array(),
-				'config' => json_encode(
-					array(
-						'requests' => array(
-							'pageview' => $url,
-						),
-						'triggers' => array(
-							'trackPageview' => array(
-								'on' => 'visible',
-								'request' => 'pageview',
-							),
-						),
-					)
-				),
-			);
-			return $entries;
-		});
+		add_filter( 'amp_analytics_entries', array( $this, 'add_amp_config' ) );
+	}
 
+	private function get_post_id() {
+		return is_singular() ? get_queried_object_id() : 0;
+	}
+
+	private function get_tracker_url() {
+		$use_custom_endpoint = ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) || file_exists( ABSPATH . '/koko-analytics-collect.php' );
+		return $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
+	}
+
+	public function print_js_object() {
+		$settings = get_settings();
+		$script_data         = array(
+			'use_cookie'    => (int) $settings['use_cookie'],
+			'post_id'       => (int) $this->get_post_id(),
+			'tracker_url'   => $this->get_tracker_url(),
+		);
+		echo '<script> window.koko_analytics = ', json_encode($script_data), ';</script>';
+	}
+
+	public function add_amp_config( $entries ) {
+		$settings = get_settings();
+		$post_id = $this->get_post_id();
+		$tracker_url = $this->get_tracker_url();
+		$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
+		$data = array(
+			'sc' => $settings['use_cookie'], // inform tracker endpoint to set cookie server-side
+			'nv' => $posts_viewed === array() ? 1 : 0,
+			'up' => ! in_array( $post_id, $posts_viewed ) ? 1 : 0,
+			'p' => $post_id,
+		);
+		$url = add_query_arg( $data, $tracker_url );
+		$entries[] = array(
+			'type' => 'koko-analytics',
+			'attributes' => array(),
+			'config' => json_encode(
+				array(
+					'requests' => array(
+						'pageview' => $url,
+					),
+					'triggers' => array(
+						'trackPageview' => array(
+							'on' => 'visible',
+							'request' => 'pageview',
+						),
+					),
+				)
+			),
+		);
+		return $entries;
 	}
 
 	public function add_async_attribute( $tag, $handle ) {
