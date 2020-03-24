@@ -7,43 +7,28 @@ const trackerUrl = window.koko_analytics.tracker_url
 const postId = String(parseInt(window.koko_analytics.post_id))
 const useCookie = window.koko_analytics.use_cookie
 
-function stringifyObject (obj) {
-  return Object.keys(obj).map(function (k) {
-    const v = obj[k]
-    return window.encodeURIComponent(k) + '=' + window.encodeURIComponent(v)
-  }).join('&')
-}
-
 function getCookie (name) {
-  const cookies = document.cookie ? document.cookie.split('; ') : []
-  let parts, cookie
+  if (!document.cookie) {
+    return ''
+  }
 
+  const cookies = document.cookie.split('; ')
+  let parts
   for (let i = 0; i < cookies.length; i++) {
     parts = cookies[i].split('=')
-    if (window.decodeURIComponent(parts[0]) !== name) {
-      continue
+    if (parts[0] === name) {
+      return decodeURIComponent(parts[1])
     }
-
-    cookie = parts.slice(1).join('=')
-    return window.decodeURIComponent(cookie)
   }
 
   return ''
 }
 
-function setCookie (name, data, args) {
+function setCookie (name, data, expires) {
   name = window.encodeURIComponent(name)
   data = window.encodeURIComponent(String(data))
-
   let str = name + '=' + data
-
-  if (args.path) {
-    str += ';path=' + args.path
-  }
-  if (args.expires) {
-    str += ';expires=' + args.expires.toUTCString()
-  }
-
+  str += ';path=/;SameSite=Lax;expires=' + expires.toUTCString()
   document.cookie = str
 }
 
@@ -94,41 +79,29 @@ function trackPageview () {
   }
 
   const img = document.createElement('img')
-  img.alt = ''
   img.style.display = 'none'
+  img.onload = function () {
+    document.body.removeChild(img)
 
-  function finalize () {
-    // clear src to cancel request (if called via timeout)
-    img.src = ''
-
-    // remove from dom
-    if (img.parentNode) {
-      document.body.removeChild(img)
-    }
-
-    // update tracking cookie
     if (useCookie) {
       if (pagesViewed.indexOf(postId) === -1) {
         pagesViewed.push(postId)
       }
-      const d = new Date()
-      d.setHours(d.getHours() + 6)
-      setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), { expires: d, path: '/' })
+      const expires = new Date()
+      expires.setHours(expires.getHours() + 6)
+      setCookie('_koko_analytics_pages_viewed', pagesViewed.join(','), expires)
     }
   }
 
-  // clean-up tracking pixel after 5s or onload
-  img.onload = finalize
-  window.setTimeout(finalize, 5000)
+  // build tracker URL
+  let queryStr = ''
+  queryStr += 'p=' + postId
+  queryStr += '&nv=' + (isNewVisitor ? '1' : '0')
+  queryStr += '&up=' + (isUniquePageview ? '1' : '0')
+  queryStr += '&r=' + encodeURIComponent(referrer)
+  img.src = trackerUrl + (trackerUrl.indexOf('?') > -1 ? '&' : '?') + queryStr
 
   // add to DOM to fire request
-  const d = {
-    p: postId,
-    nv: isNewVisitor ? 1 : 0,
-    up: isUniquePageview ? 1 : 0,
-    r: referrer
-  }
-  img.src = trackerUrl + (trackerUrl.indexOf('?') > -1 ? '&' : '?') + stringifyObject(d)
   document.body.appendChild(img)
 }
 
