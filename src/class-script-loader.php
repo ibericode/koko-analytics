@@ -63,7 +63,7 @@ class Script_Loader {
 			'post_id'       => (int) $this->get_post_id(),
 			'tracker_url'   => $this->get_tracker_url(),
 		);
-		echo '<script> window.koko_analytics = ', json_encode( $script_data ), ';</script>';
+		echo '<script>window.koko_analytics = ', json_encode( $script_data ), ';</script>';
 	}
 
 	public function add_amp_config( $entries ) {
