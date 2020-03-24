@@ -96,7 +96,6 @@ function trackPageview () {
   const img = document.createElement('img')
   img.alt = ''
   img.style.display = 'none'
-  img.setAttribute('aria-hidden', 'true')
 
   function finalize () {
     // clear src to cancel request (if called via timeout)
