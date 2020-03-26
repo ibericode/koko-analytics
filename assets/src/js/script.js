@@ -53,12 +53,6 @@ function trackPageview () {
     return
   }
 
-  // if <body> did not load yet, try again at dom ready event
-  if (document.body === null) {
-    document.addEventListener('DOMContentLoaded', trackPageview)
-    return
-  }
-
   const cookie = useCookie ? getCookie('_koko_analytics_pages_viewed') : ''
   const pagesViewed = cookie.split(',').filter(function (id) { return id !== '' })
   let isNewVisitor = cookie.length === 0
@@ -105,4 +99,4 @@ function trackPageview () {
   document.body.appendChild(img)
 }
 
-trackPageview()
+window.addEventListener('load', trackPageview)
