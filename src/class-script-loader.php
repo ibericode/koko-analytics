@@ -56,12 +56,22 @@ class Script_Loader {
 		return $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
 	}
 
+	private function get_cookie_path() {
+		$home_url = get_home_url();
+		// 8 characters for protocol
+		// 1 or more characters for domain name
+		// = 9 char offset
+		$pos = strpos( $home_url, '/', 9 );
+		return $pos !== false ? substr( $home_url, $pos ) : '/';
+	}
+
 	public function print_js_object() {
 		$settings = get_settings();
 		$script_data         = array(
-			'use_cookie'    => (int) $settings['use_cookie'],
-			'post_id'       => (int) $this->get_post_id(),
 			'tracker_url'   => $this->get_tracker_url(),
+			'post_id'       => (int) $this->get_post_id(),
+			'use_cookie'    => (int) $settings['use_cookie'],
+			'cookie_path' => $this->get_cookie_path(),
 		);
 		echo '<script>window.koko_analytics = ', json_encode( $script_data ), ';</script>';
 	}

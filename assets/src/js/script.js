@@ -3,9 +3,8 @@
  * @author Danny van Kooten
  * @license GPL-3.0+
  */
-const trackerUrl = window.koko_analytics.tracker_url
-const postId = String(parseInt(window.koko_analytics.post_id))
-const useCookie = window.koko_analytics.use_cookie
+const config = window.koko_analytics
+const postId = String(config.post_id)
 
 function getCookie (name) {
   if (!document.cookie) {
@@ -28,7 +27,7 @@ function setCookie (name, data, expires) {
   name = window.encodeURIComponent(name)
   data = window.encodeURIComponent(String(data))
   let str = name + '=' + data
-  str += ';path=/;SameSite=Lax;expires=' + expires.toUTCString()
+  str += ';path=' + config.cookie_path + ';SameSite=Lax;expires=' + expires.toUTCString()
   document.cookie = str
 }
 
@@ -53,7 +52,7 @@ function trackPageview () {
     return
   }
 
-  const cookie = useCookie ? getCookie('_koko_analytics_pages_viewed') : ''
+  const cookie = config.use_cookie ? getCookie('_koko_analytics_pages_viewed') : ''
   const pagesViewed = cookie.split(',').filter(function (id) { return id !== '' })
   let isNewVisitor = cookie.length === 0
   let isUniquePageview = pagesViewed.indexOf(postId) === -1
@@ -77,7 +76,7 @@ function trackPageview () {
   img.onload = function () {
     document.body.removeChild(img)
 
-    if (useCookie) {
+    if (config.use_cookie) {
       if (pagesViewed.indexOf(postId) === -1) {
         pagesViewed.push(postId)
       }
@@ -93,7 +92,7 @@ function trackPageview () {
   queryStr += '&nv=' + (isNewVisitor ? '1' : '0')
   queryStr += '&up=' + (isUniquePageview ? '1' : '0')
   queryStr += '&r=' + encodeURIComponent(referrer)
-  img.src = trackerUrl + (trackerUrl.indexOf('?') > -1 ? '&' : '?') + queryStr
+  img.src = config.tracker_url + (config.tracker_url.indexOf('?') > -1 ? '&' : '?') + queryStr
 
   // add to DOM to fire request
   document.body.appendChild(img)

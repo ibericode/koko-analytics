@@ -26,6 +26,6 @@
   "scripts": {
     "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
     "codestyle": "./vendor/bin/phpcs -n -s",
-	"fix-codestyle": "./vendor/bin/phpcbf"
+	"codestyle-fix": "./vendor/bin/phpcbf"
   }
 }
