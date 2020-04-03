@@ -59,26 +59,29 @@ function collect_request() {
 	exit;
 }
 
-function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $referrer = '' ) {
+function get_buffer_filename() {
 	if ( defined( 'KOKO_ANALYTICS_BUFFER_FILE' ) ) {
-		$filename = KOKO_ANALYTICS_BUFFER_FILE;
-	} else {
-		$uploads = wp_get_upload_dir();
-		$filename = $uploads['basedir'] . '/pageviews.php';
+		return KOKO_ANALYTICS_BUFFER_FILE;
 	}
 
-	$content = '';
+	$uploads = wp_get_upload_dir();
+	return $uploads['basedir'] . '/pageviews.php';
+}
+
+function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $referrer = '' ) {
+	$filename = get_buffer_filename();
 
 	// if file does not yet exist, add PHP header to prevent direct file access
 	if ( ! file_exists( $filename ) ) {
 		$content = '<?php exit; ?>' . PHP_EOL;
+	} else {
+		$content = '';
 	}
 
 	// append data to file
 	$line = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
 	$content .= $line . PHP_EOL;
-	$bytes_written = file_put_contents( $filename, $content, FILE_APPEND );
-	return $bytes_written;
+	return file_put_contents( $filename, $content, FILE_APPEND );
 }
 
 function get_settings() {

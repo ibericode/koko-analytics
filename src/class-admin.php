@@ -31,22 +31,31 @@ class Admin
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
+	private function get_available_roles() {
+		$roles = array();
+		foreach ( wp_roles()->roles as $key => $role ) {
+			$roles[ $key ] = $role['name'];
+		}
+		return $roles;
+	}
+
+	private function is_cron_event_working() {
+		// detect issues with WP Cron event not running
+		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
+		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
+		return $next_scheduled !== false && $next_scheduled > ( time() - HOUR_IN_SECONDS );
+	}
+
 	public function show_page()
 	{
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
-		// detect issues with WP Cron event not running
-		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
-		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
-		$cron_event_working = $next_scheduled !== false && $next_scheduled > ( time() - HOUR_IN_SECONDS );
-
-		// get user roles
-		$user_roles = array();
-		foreach ( wp_roles()->roles as $key => $role ) {
-			$user_roles[ $key ] = $role['name'];
-		}
-
+		$buffer_filename = get_buffer_filename();
+		$buffer_dirname = dirname( $buffer_filename );
+		$is_buffer_dir_writable = is_writable( $buffer_dirname );
+		$is_cron_event_working = $this->is_cron_event_working();
+		$user_roles = $this->get_available_roles();
 		$start_of_week = (int) get_option( 'start_of_week' );
 		$settings = get_settings();
 		$colors = $this->get_colors();

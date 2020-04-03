@@ -2,11 +2,17 @@
 <div class="wrap" id="koko-analytics-admin">
 
 	<?php
-	if ( ! $cron_event_working ) {
+	if ( false === $is_cron_event_working ) {
 		echo '<div class="notice notice-warning inline"><p>';
-		echo __( 'There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics' );
+		echo esc_html__( 'There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics' );
 		echo ' ';
-		echo __( 'If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics' );
+		echo esc_html__( 'If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics' );
+		echo '</p></div>';
+	}
+
+	if ( false === $is_buffer_dir_writable ) {
+		echo  '<div class="notice notice-warning inline"><p>';
+		echo wp_kses( sprintf( __( 'Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics' ), $buffer_dirname ), array( 'code' => array() ) );
 		echo '</p></div>';
 	}
 	?>
