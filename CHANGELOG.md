@@ -1,5 +1,15 @@
 # Changelog
 
+#### 1.0.11 - Apr 17, 2020
+
+- Add setting for specifying default date period when opening analytics dashboard.
+- Add Chrome-Lighthouse to list of ignored HTTP user agents.
+- Show notice on analytics dashboard page when buffer file is not writable.
+- Derive cookie path from home URL to work properly with WordPress installations not living at the root of a domain.
+- Track pageview on `window.load` instead of `window.DOMContentLoaded`, to make it easier to overwrite the configuration object.
+- Minor optimizations to tracking script.
+
+
 #### 1.0.10 - Mar 23, 2020
 
 - Print configuration object early on in page HTML so it is easier to override it using a cookie consent plugin.
