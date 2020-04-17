@@ -3,6 +3,7 @@
 import { h, Component } from 'preact'
 import api from './../util/api.js'
 import Nav from './nav.js'
+import datePresets from '../util/date-presets'
 
 const data = window.koko_analytics
 const i18n = window.koko_analytics.i18n
@@ -92,6 +93,20 @@ export default class Settings extends Component {
                 <label className='cb'><input type='radio' name='use_cookie' value={1} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 1} /> {i18n.Yes}</label>
                 <label className='cb'><input type='radio' name='use_cookie' value={0} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 0} /> {i18n.No}</label>
                 <p className='help'>{i18n['Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.']}</p>
+              </div>
+
+              <div className='input-group'>
+                <label>{i18n['Default date period']}</label>
+                <select
+                  name='exclude_user_roles[]' onChange={evt => {
+                    settings.default_view = evt.target.value
+                    this.setState({ settings })
+                  }}>
+                  {datePresets.map(i => <option value={i.key} selected={settings.default_view === i.key}>{i.label}</option>)}
+                </select>
+                <p className='help'>
+                  {i18n['The default date period to show when opening the analytics dashboard.']}
+                </p>
               </div>
 
               <div className='input-group'>

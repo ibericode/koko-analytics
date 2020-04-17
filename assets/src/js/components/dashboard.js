@@ -8,9 +8,10 @@ import Totals from './totals.js'
 import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
+import datePresets from '../util/date-presets.js'
 
 const i18n = window.koko_analytics.i18n
-const now = new Date()
+const settings = window.koko_analytics.settings
 const pad = d => d < 10 ? '0' + d : d
 const formatDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 
@@ -31,8 +32,7 @@ export default class Dashboard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      startDate: new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0),
-      endDate: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59),
+      ...this.setDatesFromDefaultView(),
       ...this.parseStateFromLocation(window.location.hash)
     }
     this.setDates = this.setDates.bind(this)
@@ -48,6 +48,11 @@ export default class Dashboard extends Component {
 
   componentWillUnmount () {
     this.unlisten()
+  }
+
+  setDatesFromDefaultView () {
+    const preset = datePresets.filter(p => p.key === settings.default_view).shift() ?? datePresets[0]
+    return preset.dates()
   }
 
   parseDates (startDate, endDate) {

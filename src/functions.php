@@ -89,6 +89,7 @@ function get_settings() {
 		'use_cookie' => 1,
 		'exclude_user_roles' => array(),
 		'prune_data_after_months' => 5 * 12, // 5 years
+		'default_view' => 'last_28_days',
 	);
 	$settings = (array) get_option( 'koko_analytics_settings', array() );
 	$settings = array_merge( $default_settings, $settings );
