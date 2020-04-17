@@ -51,7 +51,7 @@ export default class Dashboard extends Component {
   }
 
   setDatesFromDefaultView () {
-    const preset = datePresets.filter(p => p.key === settings.default_view).shift() ?? datePresets[0]
+    const preset = datePresets.filter(p => p.key === settings.default_view).shift() || datePresets[0]
     return preset.dates()
   }
 

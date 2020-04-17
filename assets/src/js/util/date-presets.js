@@ -1,4 +1,4 @@
-const i18n = window.koko_analytics.i18n;
+const i18n = window.koko_analytics.i18n
 const startOfWeek = window.koko_analytics.start_of_week
 
 export default [

@@ -33,7 +33,7 @@
 				'Automatically delete data older than how many months?' => __( 'Automatically delete data older than how many months?', 'koko-analytics' ),
 				'Database size:'                          => __( 'Database size:', 'koko-analytics' ),
 				'Date presets'                            => __( 'Date presets', 'koko-analytics' ),
-				'Default date period' 					  => __( 'Default date period', 'koko-analytics' ),
+				'Default date period'                     => __( 'Default date period', 'koko-analytics' ),
 				'Exclude pageviews from these user roles' => __( 'Exclude pageviews from these user roles', 'koko-analytics' ),
 				'Last 28 days'                            => __( 'Last 28 days', 'koko-analytics' ),
 				'less than previous period'               => __( 'less than previous period', 'koko-analytics' ),
