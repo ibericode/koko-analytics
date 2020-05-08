@@ -32,11 +32,6 @@ function setCookie (name, data, expires) {
 }
 
 function trackPageview () {
-  // do not track if "Do Not Track" is enabled
-  if ('doNotTrack' in navigator && navigator.doNotTrack === '1') {
-    return
-  }
-
   // do not track if this is a prerender request
   if ('visibilityState' in document && document.visibilityState === 'prerender') {
     return
@@ -52,6 +47,8 @@ function trackPageview () {
     return
   }
 
+  // do not set cookies or get referrer if "Do Not Track" is enabled
+  const dnt = 'doNotTrack' in navigator && navigator.doNotTrack === '1'
   const cookie = config.use_cookie ? getCookie('_koko_analytics_pages_viewed') : ''
   const pagesViewed = cookie.split(',').filter(function (id) { return id !== '' })
   let isNewVisitor = cookie.length === 0
@@ -66,7 +63,7 @@ function trackPageview () {
       if (document.referrer === window.location.href) {
         isUniquePageview = false // referred by same-url, so not a unique pageview
       }
-    } else {
+    } else if (!dnt) {
       referrer = document.referrer // referred by external site, so send referrer URL to be stored
     }
   }
@@ -76,7 +73,7 @@ function trackPageview () {
   img.onload = function () {
     document.body.removeChild(img)
 
-    if (config.use_cookie) {
+    if (config.use_cookie && !dnt) {
       if (pagesViewed.indexOf(postId) === -1) {
         pagesViewed.push(postId)
       }
