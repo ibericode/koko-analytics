@@ -305,8 +305,9 @@ class Admin
 
 		/* Check for required directory structure (standard WordPress installation) */
 		$required_files = array(
-			ABSPATH . '/wp-content/uploads/',
-			ABSPATH . '/wp-content/plugins/koko-analytics/src/functions.php',
+			KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php',
+			KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php',
+			KOKO_ANALYTICS_PLUGIN_DIR . '/../../uploads/',
 		);
 		foreach ( $required_files as $f ) {
 			if ( false === file_exists( $f ) ) {
