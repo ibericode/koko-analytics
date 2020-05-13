@@ -289,7 +289,7 @@ class Admin
 	}
 
 	public function install_optimized_endpoint() {
-		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file() );
+		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true );
 	}
 
 	public function install_optimized_endpoint_file() {
