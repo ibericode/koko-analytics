@@ -315,7 +315,7 @@ class Admin
 		}
 
 		/* Symlink the file into place */
-		return @symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
+		return symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
 	}
 
 }
