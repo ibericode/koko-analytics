@@ -67,13 +67,14 @@ class Script_Loader {
 
 	public function print_js_object() {
 		$settings = get_settings();
-		$script_data         = array(
+		$script_config         = array(
 			'tracker_url'   => $this->get_tracker_url(),
 			'post_id'       => (int) $this->get_post_id(),
 			'use_cookie'    => (int) $settings['use_cookie'],
 			'cookie_path' => $this->get_cookie_path(),
+			'honor_dnt' => apply_filters( 'koko_analytics_honor_dnt', true ),
 		);
-		echo '<script>window.koko_analytics = ', json_encode( $script_data ), ';</script>';
+		echo '<script>window.koko_analytics = ', json_encode( $script_config ), ';</script>';
 	}
 
 	public function add_amp_config( $entries ) {

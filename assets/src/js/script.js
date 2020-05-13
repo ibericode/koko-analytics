@@ -33,7 +33,7 @@ function setCookie (name, data, expires) {
 
 function trackPageview () {
   // do not track if "Do Not Track" is enabled
-  if ('doNotTrack' in navigator && navigator.doNotTrack === '1') {
+  if ('doNotTrack' in navigator && navigator.doNotTrack === '1' && config.honor_dnt) {
     return
   }
 

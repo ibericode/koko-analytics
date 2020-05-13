@@ -163,7 +163,7 @@ export default class Chart extends Component {
 
   createTooltip () {
     const el = document.createElement('div')
-    el.className = 'tooltip'
+    el.className = 'chart-tooltip'
     el.style.display = 'none'
     return el
   }
