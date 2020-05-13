@@ -316,7 +316,25 @@ class Admin
 		}
 
 		/* Symlink the file into place */
-		return symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
+		$success = symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
+		if (false === $success) {
+			return false;
+		}
+
+		/* Send an HTTP request to the custom endpoint to see if it's working properly */
+		$tracker_url = site_url( '/koko-analytics-collect.php' );
+		$response = wp_remote_get( $tracker_url );
+		$status = wp_remote_retrieve_response_code( $response );
+		if ( $status !== 200 ) {
+			return false;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		if ( strstr( $body, 'require' ) !== false ) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
