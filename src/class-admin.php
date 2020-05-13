@@ -8,7 +8,6 @@ namespace KokoAnalytics;
 
 class Admin
 {
-
 	public function init()
 	{
 		global $pagenow;
@@ -62,6 +61,7 @@ class Admin
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
+		add_action( 'shutdown', array( $this, 'install_optimized_endpoint' ) );
 	}
 
 	public function footer_text()
@@ -287,4 +287,35 @@ class Admin
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values ) );
 		}
 	}
+
+	public function install_optimized_endpoint() {
+		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file() );
+	}
+
+	public function install_optimized_endpoint_file() {
+		/* Do nothing if custom endpoint file already in place */
+		if ( file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
+			return true;
+		}
+
+		/** @link https://www.php.net/manual/en/function.symlink.php */
+		if ( ! function_exists( 'symlink' ) ) {
+			return false;
+		}
+
+		/* Check for required directory structure (standard WordPress installation) */
+		$required_files = array(
+			ABSPATH . '/wp-content/uploads/',
+			ABSPATH . '/wp-content/plugins/koko-analytics/src/functions.php',
+		);
+		foreach ( $required_files as $f ) {
+			if ( false === file_exists( $f ) ) {
+				return false;
+			}
+		}
+
+		/* Symlink the file into place */
+		return @symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
+	}
+
 }
