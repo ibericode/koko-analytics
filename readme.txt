@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.4.1
-Stable tag: 1.0.11
+Stable tag: 1.0.12
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -88,6 +88,13 @@ window.koko_analytics.use_cookie = true;
 
 
 == Changelog ==
+
+#### 1.0.12 - May 14, 2020
+
+- Add filter `koko_analytics_honor_dnt` to allow ignoring DoNotTrack.
+- Huge performance improvement for the tracking request if you're on a standard WordPress installation with the root directory writable.
+- Limit scope of tracking script to prevent variable naming collisions.
+
 
 #### 1.0.11 - Apr 17, 2020
 
