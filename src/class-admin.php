@@ -325,15 +325,17 @@ class Admin
 		$tracker_url = site_url( '/koko-analytics-collect.php' );
 		$response = wp_remote_get( $tracker_url );
 		$status = wp_remote_retrieve_response_code( $response );
-		if ( $status !== 200 ) {
-			return false;
-		}
-
 		$body = wp_remote_retrieve_body( $response );
-		if ( strstr( $body, 'require' ) !== false ) {
+		if ( $status !== 200 || strstr( $body, 'require' ) !== false ) {
+			/*
+				If endpoint does not return the proper HTTP response,
+				attempt to remove it again to prevent returning true on the next function run
+			*/
+			unlink( ABSPATH . '/koko-analytics-collect.php' );
 			return false;
 		}
 
+		/* All looks good! Custom endpoint file is in place and returns 200 OK response */
 		return true;
 	}
 
