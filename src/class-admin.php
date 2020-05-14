@@ -310,14 +310,14 @@ class Admin
 			KOKO_ANALYTICS_PLUGIN_DIR . '/../../uploads/',
 		);
 		foreach ( $required_files as $f ) {
-			if ( false === file_exists( $f ) ) {
+			if ( ! file_exists( $f ) ) {
 				return false;
 			}
 		}
 
 		/* Symlink the file into place */
-		$success = symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php'  );
-		if (false === $success) {
+		$success = symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php' );
+		if ( ! $success ) {
 			return false;
 		}
 
