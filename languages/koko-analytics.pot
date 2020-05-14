@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the Koko Analytics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Koko Analytics 1.0.10\n"
+"Project-Id-Version: Koko Analytics 1.0.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/koko-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-04-17T09:23:34+00:00\n"
+"POT-Creation-Date: 2020-05-14T08:34:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: koko-analytics\n"
 
 #. Plugin Name of the plugin
-#: src/class-admin.php:31
+#: src/class-admin.php:30
 msgid "Koko Analytics"
 msgstr ""
 
@@ -35,7 +35,7 @@ msgstr ""
 msgid "https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page"
 msgstr ""
 
-#: src/class-admin.php:31
+#: src/class-admin.php:30
 #: src/functions.php:145
 msgid "Analytics"
 msgstr ""
