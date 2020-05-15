@@ -293,6 +293,11 @@ class Admin
 	}
 
 	public function install_optimized_endpoint_file() {
+		/* Do nothing if a custom endpoint was manually installed */
+		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) {
+			return true;
+		}
+
 		/* Do nothing if custom endpoint file already in place */
 		if ( file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
 			return true;
