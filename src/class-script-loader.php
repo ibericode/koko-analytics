@@ -53,7 +53,7 @@ class Script_Loader {
 
 	private function get_tracker_url() {
 		$use_custom_endpoint = ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) || get_option( 'koko_analytics_use_custom_endpoint', false );
-		return $use_custom_endpoint ? site_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
+		return $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
 	}
 
 	private function get_cookie_path() {
