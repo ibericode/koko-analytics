@@ -11,7 +11,7 @@ use WP_User;
 class Script_Loader {
 
 	public function init() {
-		add_action( 'wp', array( $this, 'maybe_enqueue_script' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_script' ) );
 	}
 
 	public function maybe_enqueue_script() {
@@ -24,9 +24,8 @@ class Script_Loader {
 			return;
 		}
 
+		// Do not load script if excluding current user by role
 		$settings = get_settings();
-
-		// Do not load script is excluding current user by role
 		if ( count( $settings['exclude_user_roles'] ) > 0 ) {
 			$user = wp_get_current_user();
 
