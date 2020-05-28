@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.4.1
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -88,6 +88,14 @@ window.koko_analytics.use_cookie = true;
 
 
 == Changelog ==
+
+#### 1.0.13 - May 28, 2020
+
+- Update referrer blocklist.
+- Improve date parsing from URL parameters to account for negative UTC offsets. Fixes an issue with the date jumping back one day.
+- Don't attempt to install custom endpoint if it was manually installed (using the `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` constant).
+- Revert to using `home_url()` for the tracker endpoint URL.
+
 
 #### 1.0.12 - May 14, 2020
 

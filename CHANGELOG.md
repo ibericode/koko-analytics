@@ -1,5 +1,13 @@
 # Changelog
 
+#### 1.0.13 - May 28, 2020
+
+- Update referrer blocklist.
+- Improve date parsing from URL parameters to account for negative UTC offsets. Fixes an issue with the date jumping back one day.
+- Don't attempt to install custom endpoint if it was manually installed (using the `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` constant).
+- Revert to using `home_url()` for the tracker endpoint URL.
+
+
 #### 1.0.12 - May 14, 2020
 
 - Add filter `koko_analytics_honor_dnt` to allow ignoring DoNotTrack.
