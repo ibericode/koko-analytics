@@ -36,7 +36,15 @@ class Script_Loader {
 
 		// TODO: Handle "term" requests so we track both terms and post types.
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 20, 2 );
-		add_action( 'wp_head', array( $this, 'print_js_object' ), 1 );
+
+		// Print configuration object early on in the HTML so scripts can modify it
+		if ( did_action( 'wp_head' ) ) {
+			$this->print_js_object();
+		} else {
+			add_action( 'wp_head', array( $this, 'print_js_object' ), 1 );
+		}
+
+		// Enqueue the actual tracking script (in footer, if possible)
 		wp_enqueue_script( 'koko-analytics', plugins_url( 'assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
 
 		/**
