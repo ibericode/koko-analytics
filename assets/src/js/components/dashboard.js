@@ -55,22 +55,6 @@ export default class Dashboard extends Component {
     return preset.dates()
   }
 
-  parseDates (startDate, endDate) {
-    if (!startDate || !endDate) {
-      return {}
-    }
-
-    startDate = new Date(startDate)
-    endDate = new Date(endDate)
-    if (!startDate || !endDate || isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      return {}
-    }
-
-    startDate.setHours(0, 0, 0)
-    endDate.setHours(23, 59, 59)
-    return { startDate, endDate }
-  }
-
   parseStateFromLocation (str) {
     const searchPos = str.indexOf('?')
     if (searchPos === -1) {
@@ -79,7 +63,37 @@ export default class Dashboard extends Component {
 
     const queryStr = str.substring(searchPos + 1)
     const params = parseUrlParams(queryStr)
-    return this.parseDates(params.start_date, params.end_date)
+    if (!params.start_date || !params.end_date) {
+      return {}
+    }
+
+    // parse url parameter into valid date (in local timezone)
+    const parseDate = (str) => {
+      const p = str.split('-')
+        .map(i => parseInt(i))
+
+      if (p.length !== 3) {
+        return null
+      }
+
+      const year = p[0]
+      const month = p[1] - 1
+      const day = p[2]
+      if (year < 2000 || year > 2100 || month < 0 || month > 11 || day < 0 || day > 31) {
+        return null
+      }
+
+      return new Date(year, month, day)
+    }
+    const startDate = parseDate(params.start_date)
+    const endDate = parseDate(params.end_date)
+    if (!startDate || !endDate) {
+      return {}
+    }
+
+    startDate.setHours(0, 0, 0)
+    endDate.setHours(23, 59, 59)
+    return { startDate, endDate }
   }
 
   setDates (startDate, endDate) {
