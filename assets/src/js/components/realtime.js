@@ -3,7 +3,7 @@
 import { h, Component } from 'preact'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 
 export default class Realtime extends Component {
   constructor (props) {
@@ -39,12 +39,12 @@ export default class Realtime extends Component {
 
     return (
       <div className='totals-box fade' key={'realtime-pageviews'}>
-        <div className='totals-label'>{i18n['Realtime pageviews']}</div>
+        <div className='totals-label'>{__('Realtime pageviews', 'koko-analytics')}</div>
         <div className='totals-amount'>{numbers.formatPretty(pageviews)}
         </div>
         <div className='totals-compare'>
           <span>
-            <span>{i18n['pageviews in the last hour']}</span>
+            <span>{__('pageviews in the last hour', 'koko-analytics')}</span>
           </span>
         </div>
       </div>

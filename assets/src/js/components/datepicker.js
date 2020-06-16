@@ -9,8 +9,8 @@ import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { isLastDayOfMonth } from '../util/dates.js'
-const i18n = window.koko_analytics.i18n
 const startOfWeek = window.koko_analytics.start_of_week
+const { __, _x, _n, _nx } = wp.i18n;
 
 export default class Datepicker extends Component {
   constructor (props) {
@@ -157,17 +157,17 @@ export default class Datepicker extends Component {
         </div>
         <div className='date-picker-ui' style={{ display: open ? '' : 'none' }}>
           <div className='date-quicknav cf'>
-            <span onClick={this.onQuickNavClick('prev')} className='prev dashicons dashicons-arrow-left' title={i18n.Previous} />
+            <span onClick={this.onQuickNavClick('prev')} className='prev dashicons dashicons-arrow-left' title={__('Previous', 'koko-analytics')} />
             <span className='date'>
               <span>{format(startDate, 'MMM d, yyyy')}</span>
               <span> &mdash; </span>
               <span>{format(endDate, 'MMM d, yyyy')}</span>
             </span>
-            <span onClick={this.onQuickNavClick('next')} className='next dashicons dashicons-arrow-right' title={i18n.Next} />
+            <span onClick={this.onQuickNavClick('next')} className='next dashicons dashicons-arrow-right' title={__('Next', 'koko-analytics')} />
           </div>
           <div className='flex'>
             <div className='date-presets'>
-              <strong>{i18n['Date presets']}</strong>
+              <strong>{__('Date presets', 'koko-analytics')}</strong>
               {datePresets.map(p => <a href='' onClick={this.setPeriod(p)}>{p.label}</a>)}
             </div>
             <div className='date-picker'>

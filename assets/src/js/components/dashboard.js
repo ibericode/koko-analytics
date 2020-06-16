@@ -9,8 +9,8 @@ import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets.js'
+const { __, _x, _n, _nx } = wp.i18n;
 
-const i18n = window.koko_analytics.i18n
 const settings = window.koko_analytics.settings
 const pad = d => d < 10 ? '0' + d : d
 const formatDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
@@ -127,7 +127,9 @@ export default class Dashboard extends Component {
             <TopPosts startDate={startDate} endDate={endDate} />
             <TopReferrers startDate={startDate} endDate={endDate} />
           </div>
-          <div><span className={'description right'}>{i18n['quickNavTip']}</span></div>
+          <div>
+            <span className={'description right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
+          </div>
         </div>
       </main>
     )

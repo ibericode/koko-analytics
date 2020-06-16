@@ -1,10 +1,10 @@
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 const startOfWeek = window.koko_analytics.start_of_week
 
 export default [
   {
     key: 'last_28_days',
-    label: i18n['Last 28 days'],
+    label: __('Last 28 days', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 28, 0, 0, 0)
@@ -14,7 +14,7 @@ export default [
   },
   {
     key: 'today',
-    label: i18n['Today'],
+    label: __('Today', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
@@ -24,7 +24,7 @@ export default [
   },
   {
     key: 'this_week',
-    label: i18n['This week'],
+    label: __('This week', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       let d = now.getDate() - now.getDay() + startOfWeek
@@ -39,7 +39,7 @@ export default [
   },
   {
     key: 'this_month',
-    label: i18n['This month'],
+    label: __('This month', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0)
@@ -49,7 +49,7 @@ export default [
   },
   {
     key: 'this_quarter',
-    label: i18n['This quarter'],
+    label: __('This quarter', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), (Math.ceil((now.getMonth() + 1) / 3) - 1) * 3, 1, 0, 0, 0)
@@ -59,7 +59,7 @@ export default [
   },
   {
     key: 'this_year',
-    label: i18n['This year'],
+    label: __('This year', 'koko-analytics'),
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0)

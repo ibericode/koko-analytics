@@ -58,6 +58,19 @@ class Admin
 		$settings = get_settings();
 		$colors = $this->get_colors();
 
+		wp_enqueue_script('koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
+		wp_set_script_translations( 'koko-analytics-admin', 'koko-analytics' );
+		wp_localize_script('koko-analytics-admin', 'koko_analytics', array(
+			'root'          => rest_url(),
+			'nonce'         => wp_create_nonce( 'wp_rest' ),
+			'start_of_week' => $start_of_week,
+			'user_roles'    => $user_roles,
+			'settings'      => $settings,
+			'showSettings'  => current_user_can( 'manage_koko_analytics' ),
+			'dbSize' => $this->get_database_size(),
+			'colors' => $colors,
+		));
+
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 		add_action( 'shutdown', array( $this, 'install_optimized_endpoint' ) );

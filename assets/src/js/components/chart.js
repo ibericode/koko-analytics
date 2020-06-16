@@ -8,8 +8,8 @@ import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from './../util/colors.js'
 import { isLastDayOfMonth } from '../util/dates.js'
+const { __, _x, _n, _nx } = wp.i18n;
 
-const i18n = window.koko_analytics.i18n
 const color1 = window.koko_analytics.colors[3]
 const color2 = modify(color1, 30)
 
@@ -179,11 +179,11 @@ export default class Chart extends Component {
         <div class="content">
           <div class="visitors" style="border-top-color: ${color2}">
             <div class="amount">${data.visitors}</div>
-            <div>${i18n.Visitors}</div>
+            <div>${__('Visitors', 'koko-analytics')}</div>
           </div>
           <div class="pageviews" style="border-top-color: ${color1}">
             <div class="amount">${data.pageviews}</div>
-            <div>${i18n.Pageviews}</div>
+            <div>${__('Pageviews', 'koko-analytics')}</div>
           </div>
         </div>
       </div>

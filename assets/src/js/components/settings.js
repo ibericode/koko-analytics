@@ -4,9 +4,9 @@ import { h, Component } from 'preact'
 import api from './../util/api.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets'
+const { __, _x, _n, _nx } = wp.i18n;
 
 const data = window.koko_analytics
-const i18n = window.koko_analytics.i18n
 const roles = window.koko_analytics.user_roles
 const settings = window.koko_analytics.settings
 
@@ -17,7 +17,7 @@ export default class Settings extends Component {
     this.state = {
       settings,
       saving: false,
-      buttonText: i18n['Save Changes']
+      buttonText: __('Save Changes', 'koko-analytics')
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -28,7 +28,7 @@ export default class Settings extends Component {
 
     this.setState({
       saving: true,
-      buttonText: i18n['Saving - please wait']
+      buttonText: __('Saving - please wait', 'koko-analytics')
     })
     const startTime = new Date()
 
@@ -38,7 +38,7 @@ export default class Settings extends Component {
     }).then(success => {
       window.setTimeout(() => {
         this.setState({
-          buttonText: i18n['Saved!']
+          buttonText: __('Saved!', 'koko-analytics')
         })
       }, Math.max(20, 400 - (+new Date() - startTime)))
     }).finally(() => {
@@ -48,7 +48,7 @@ export default class Settings extends Component {
 
       window.setTimeout(() => {
         this.setState({
-          buttonText: i18n['Save Changes']
+          buttonText: __('Save Changes', 'koko-analytics')
         })
       }, 4000)
     })
@@ -67,10 +67,10 @@ export default class Settings extends Component {
       <main>
         <div className='grid'>
           <div className='four'>
-            <h1>{i18n.Settings}</h1>
+            <h1>{__('Settings', 'koko-analytics')}</h1>
             <form method='POST' onSubmit={this.onSubmit}>
               <div className='input-group'>
-                <label>{i18n['Exclude pageviews from these user roles']}</label>
+                <label>{__('Exclude pageviews from these user roles', 'koko-analytics')}</label>
                 <select
                   name='exclude_user_roles[]' multiple onChange={(evt) => {
                     settings.exclude_user_roles = [].filter.call(evt.target.options, el => el.selected).map(el => el.value)
@@ -82,21 +82,21 @@ export default class Settings extends Component {
                   })}
                 </select>
                 <p className='help'>
-                  {i18n['Visits and pageviews from users with any of the selected roles will be ignored.']}
+                  {__('Visits and pageviews from users with any of the selected roles will be ignored.', 'koko-analytics')}
                   {' '}
-                  {i18n['Use CTRL to select multiple options.']}
+                  {__('Use CTRL to select multiple options.', 'koko-analytics')}
                 </p>
               </div>
 
               <div className='input-group'>
-                <label>{i18n['Use cookie to determine unique visitors and pageviews?']}</label>
-                <label className='cb'><input type='radio' name='use_cookie' value={1} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 1} /> {i18n.Yes}</label>
-                <label className='cb'><input type='radio' name='use_cookie' value={0} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 0} /> {i18n.No}</label>
-                <p className='help'>{i18n['Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.']}</p>
+                <label>{__('Use cookie to determine unique visitors and pageviews?', 'koko-analytics')}</label>
+                <label className='cb'><input type='radio' name='use_cookie' value={1} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 1} /> {__('Yes', 'koko-analytics')}</label>
+                <label className='cb'><input type='radio' name='use_cookie' value={0} onChange={this.handleRadioClick('use_cookie')} checked={settings.use_cookie === 0} /> {__('No', 'koko-analytics')}</label>
+                <p className='help'>{__('Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics')}</p>
               </div>
 
               <div className='input-group'>
-                <label>{i18n['Default date period']}</label>
+                <label>{__('Default date period', 'koko-analytics')}</label>
                 <select
                   name='exclude_user_roles[]' onChange={evt => {
                     settings.default_view = evt.target.value
@@ -105,19 +105,19 @@ export default class Settings extends Component {
                   {datePresets.map(i => <option value={i.key} selected={settings.default_view === i.key}>{i.label}</option>)}
                 </select>
                 <p className='help'>
-                  {i18n['The default date period to show when opening the analytics dashboard.']}
+                  {__('The default date period to show when opening the analytics dashboard.', 'koko-analytics')}
                 </p>
               </div>
 
               <div className='input-group'>
-                <label>{i18n['Automatically delete data older than how many months?']}</label>
+                <label>{__('Automatically delete data older than how many months?', 'koko-analytics')}</label>
                 <input
                   type='number' value={settings.prune_data_after_months} onChange={(evt) => {
                     settings.prune_data_after_months = parseInt(evt.target.value)
                     this.setState({ settings })
                   }} step={1} min={0} max={600}
-                /> {i18n.months}
-                <p className='help'>{i18n['Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.']}</p>
+                /> {__('months', 'koko-analytics')}
+                <p className='help'>{__('Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.', 'koko-analytics')}</p>
               </div>
 
               <div className='input-group'>
@@ -131,7 +131,7 @@ export default class Settings extends Component {
               </div>
 
               <div className='margin-m'>
-                <p className='help'>{i18n['Database size:']} {data.dbSize} MB</p>
+                <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
               </div>
 
             </form>

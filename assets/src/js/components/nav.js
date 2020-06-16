@@ -2,8 +2,7 @@
 
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
-
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 
 export default function Nav () {
   // do not show navigation if user can not access settings anyway
@@ -14,8 +13,8 @@ export default function Nav () {
   return (
     <div className='two nav'>
       <ul className='subsubsub'>
-        <li><Link href='/' exact activeClassName='current'>{i18n.Stats}</Link> | </li>
-        <li><Link href='/settings' activeClassName='current'>{i18n.Settings}</Link></li>
+        <li><Link href='/' exact activeClassName='current'>{__('Stats', 'koko-analytics')}</Link> | </li>
+        <li><Link href='/settings' activeClassName='current'>{__('Settings', 'koko-analytics')}</Link></li>
       </ul>
     </div>
   )

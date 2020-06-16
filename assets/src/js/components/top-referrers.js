@@ -4,8 +4,7 @@ import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import api from '../util/api.js'
 import Pagination from './table-pagination'
-
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 
 function formatUrl (url) {
@@ -84,12 +83,12 @@ export default class TopReferrers extends Component {
         <div className='box-grid head'>
           <div className=''>
             <span className='muted'>#</span>
-            {i18n.Referrers}
+            {__('Referrers', 'koko-analytics')}
 
             <Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.loadData} />
           </div>
-          <div className='amount-col'>{i18n.Visitors}</div>
-          <div className='amount-col'>{i18n.Pageviews}</div>
+          <div className='amount-col'>{__('Visitors', 'koko-analytics')}</div>
+          <div className='amount-col'>{__('Pageviews', 'koko-analytics')}</div>
         </div>
         <div className='body'>
           {items.map((p, i) => (
@@ -103,7 +102,7 @@ export default class TopReferrers extends Component {
             </div>
           ))}
           {items.length === 0 && (
-            <div className='box-grid'>{i18n['There\'s nothing here, yet!']}</div>)}
+            <div className='box-grid'>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
         </div>
       </div>
     )

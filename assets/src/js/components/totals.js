@@ -6,7 +6,7 @@ import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
 import Realtime from './realtime.js'
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 
 export default class Totals extends Component {
   constructor (props) {
@@ -113,25 +113,25 @@ export default class Totals extends Component {
     return (
       <div className='totals-container'>
         <div className='totals-box fade' key={hash + '-visitors'}>
-          <div className='totals-label'>{i18n['Total visitors']}</div>
+          <div className='totals-label'>{__('Total visitors', 'koko-analytics')}</div>
           <div className='totals-amount'>{numbers.formatPretty(visitors)} <span
             className={visitorsChange > 0 ? 'up' : visitorsChange === 0 ? 'neutral' : 'down'}
           >{numbers.formatPercentage(visitorsChange)}
           </span>
           </div>
           <div className='totals-compare'>
-            <span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? i18n['more than previous period'] : i18n['less than previous period']}</span>
+            <span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</span>
           </div>
         </div>
         <div className='totals-box fade' key={hash + '-pageviews'}>
-          <div className='totals-label'>{i18n['Total pageviews']}</div>
+          <div className='totals-label'>{__('Total pageviews', 'koko-analytics')}</div>
           <div className='totals-amount'>{numbers.formatPretty(pageviews)} <span
             className={pageviewsChange > 0 ? 'up' : pageviewsChange === 0 ? 'neutral' : 'down'}
           >{numbers.formatPercentage(pageviewsChange)}
           </span>
           </div>
           <div className='totals-compare'>
-            <span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? i18n['more than previous period'] : i18n['less than previous period']}</span>
+            <span>{numbers.formatPretty(Math.abs(pageviewsDiff))} {pageviewsDiff > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</span>
           </div>
         </div>
         <Realtime />

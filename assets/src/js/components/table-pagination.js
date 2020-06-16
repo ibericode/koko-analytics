@@ -2,8 +2,7 @@
 
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
-
-const i18n = window.koko_analytics.i18n
+const { __, _x, _n, _nx } = wp.i18n;
 
 export default class Pagination extends Component {
   handleClick (direction) {
@@ -27,12 +26,12 @@ export default class Pagination extends Component {
     return (
       <div className='pagination'>
         <span
-          className={'prev ' + (offset === 0 ? 'disabled' : '')} title={i18n.Previous}
+          className={'prev ' + (offset === 0 ? 'disabled' : '')} title={__('Previous', 'koko-analytics')}
           onClick={this.handleClick('prev')}
         ><span className='dashicons dashicons-arrow-left' />
         </span>
         <span
-          className={'next ' + (total < limit ? 'disabled' : '')} title={i18n.Next}
+          className={'next ' + (total < limit ? 'disabled' : '')} title={__('Next', 'koko-analytics')}
           onClick={this.handleClick('next')}
         ><span className='dashicons dashicons-arrow-right' />
         </span>
