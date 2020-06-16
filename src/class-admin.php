@@ -17,7 +17,6 @@ class Admin
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
 
-		//add_filter('admin_footer_text', array( $this, 'footer_text' ));
 		// Hooks for Plugins overview page
 		if ( $pagenow === 'plugins.php' ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ), array( $this, 'add_plugin_settings_link' ), 10, 2 );

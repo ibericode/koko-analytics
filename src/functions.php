@@ -65,7 +65,7 @@ function get_buffer_filename() {
 	}
 
 	$uploads = wp_get_upload_dir();
-	return $uploads['basedir'] . '/pageviews.php';
+	return rtrim( $uploads['basedir'], '/' ) . '/pageviews.php';
 }
 
 function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $referrer = '' ) {

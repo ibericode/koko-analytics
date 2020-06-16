@@ -6,6 +6,8 @@
  */
 namespace KokoAnalytics;
 
+use Exception;
+
 class Aggregator {
 
 	public function init() {
@@ -36,28 +38,36 @@ class Aggregator {
 		$this->setup_scheduled_event();
 	}
 
+	/**
+	 * Reads the buffer file into memory and moves data into the MySQL database (in bulk)
+	 *
+	 * @throws Exception
+	 */
 	public function aggregate() {
 		global $wpdb;
 
 		// read pageviews buffer file into array
-		$wp_upload_dir = wp_get_upload_dir();
-		$filename      = $wp_upload_dir['basedir'] . '/pageviews.php';
+		$filename      = get_buffer_filename();
 		if ( ! file_exists( $filename ) ) {
 			return;
 		}
 
 		// rename file to temporary location so nothing new is written to it while we process it
-		$tmp_filename = $wp_upload_dir['basedir'] . '/pageviews-busy.php';
+		$tmp_filename = dirname( $filename ) . '/pageviews-busy.php';
 		$renamed = rename( $filename, $tmp_filename );
 		if ( $renamed !== true ) {
-			// TODO: Write to some kind of log
+			if  (WP_DEBUG ) {
+				throw new Exception('Error renaming buffer file.');
+			}
 			return;
 		}
 
 		// open file for reading
 		$file_handle = fopen( $tmp_filename, 'rb' );
 		if ( ! is_resource( $file_handle ) ) {
-			// TODO: Write to some kind of log
+			if ( WP_DEBUG ) {
+				throw new Exception( 'Error opening buffer file for reading.' );
+			}
 			return;
 		}
 
