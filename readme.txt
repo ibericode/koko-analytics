@@ -79,6 +79,13 @@ window.koko_analytics.use_cookie = true;
 </script>
 `
 
+### What is the definition of a "pageview"?
+A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.
+
+### What is the definition of a "visitor"?
+A visitor represents the number of sessions during which your website or a specific page was viewed one or more times.
+
+
 == Screenshots ==
 
 1. Koko Analytics' dashboard to view your website statistics.

@@ -67,8 +67,8 @@ export default class TopPosts extends Component {
 
             <Pagination offset={offset} limit={limit} total={items.length} onUpdate={this.loadData} />
           </div>
-          <div className='amount-col'>{__('Visitors', 'koko-analytics')}</div>
-          <div className='amount-col'>{__('Pageviews', 'koko-analytics')}</div>
+          <div className='amount-col' title={__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics')}>{__('Visitors', 'koko-analytics')}</div>
+          <div className='amount-col' title={__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics')}>{__('Pageviews', 'koko-analytics')}</div>
         </div>
         <div className='body'>
           {items.map((p, i) => (
