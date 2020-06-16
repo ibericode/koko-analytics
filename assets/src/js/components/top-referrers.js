@@ -29,7 +29,7 @@ export default class TopReferrers extends Component {
     super(props)
     this.state = {
       offset: 0,
-      limit: 10,
+      limit: 25,
       items: []
     }
     this.loadData = this.loadData.bind(this)
