@@ -82,9 +82,6 @@ class Aggregator {
 		$post_stats     = array();
 		$referrer_stats = array();
 
-		// read blocklist into array
-		$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
-
 		while ( ( $line = fgets( $file_handle, 1024 ) ) !== false ) {
 			$line            = rtrim( $line );
 			$p               = explode( ',', $line );
@@ -116,8 +113,7 @@ class Aggregator {
 			}
 
 			// increment referrals
-			if ( $referrer_url !== '' && ! $this->in_blocklist( $referrer_url, $blocklist ) ) {
-
+			if ( $referrer_url !== '' && ! $this->ignore_referrer_url( $referrer_url ) ) {
 				$referrer_url = $this->clean_url( $referrer_url );
 				$referrer_url = $this->normalize_url( $referrer_url );
 
@@ -221,14 +217,24 @@ class Aggregator {
 		update_option( 'koko_analytics_realtime_pageview_count', $counts, false );
 	}
 
-	private function in_blocklist( $url, array $blocklist ) {
+	private function ignore_referrer_url( $url ) {
+		// read blocklist into array
+		static $blocklist = null;
+		if ($blocklist === null) {
+			$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+
+			// add result of filter hook to blocklist so user can provide custom domains to block through simple array
+			$blocklist += apply_filters( 'koko_analytics_referrer_blocklist', array() );
+		}
+
 		foreach ( $blocklist as $blocklisted_domain ) {
 			if ( false !== stripos( $url, $blocklisted_domain ) ) {
 				return true;
 			}
 		}
 
-		return false;
+		// run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
+		return apply_filters( 'koko_analytics_ignore_referrer_url', false, $url );
 	}
 
 	public function clean_url( $url ) {
