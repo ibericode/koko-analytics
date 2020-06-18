@@ -6,7 +6,7 @@ import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
 import Realtime from './realtime.js'
-const { __, _x, _n, _nx } = wp.i18n;
+const { __ } = window.wp.i18n
 
 export default class Totals extends Component {
   constructor (props) {

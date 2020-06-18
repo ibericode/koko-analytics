@@ -58,7 +58,7 @@ class Admin
 		$settings = get_settings();
 		$colors = $this->get_colors();
 
-		wp_enqueue_script('koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
+		wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
 		wp_set_script_translations( 'koko-analytics-admin', 'koko-analytics' );
 		wp_localize_script('koko-analytics-admin', 'koko_analytics', array(
 			'root'          => rest_url(),

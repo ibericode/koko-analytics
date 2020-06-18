@@ -47,7 +47,7 @@ class Aggregator {
 		global $wpdb;
 
 		// read pageviews buffer file into array
-		$filename      = get_buffer_filename();
+		$filename = get_buffer_filename();
 		if ( ! file_exists( $filename ) ) {
 			return;
 		}
@@ -56,8 +56,8 @@ class Aggregator {
 		$tmp_filename = dirname( $filename ) . '/pageviews-busy.php';
 		$renamed = rename( $filename, $tmp_filename );
 		if ( $renamed !== true ) {
-			if  (WP_DEBUG ) {
-				throw new Exception('Error renaming buffer file.');
+			if ( WP_DEBUG ) {
+				throw new Exception( 'Error renaming buffer file.' );
 			}
 			return;
 		}
@@ -220,7 +220,7 @@ class Aggregator {
 	private function ignore_referrer_url( $url ) {
 		// read blocklist into array
 		static $blocklist = null;
-		if ($blocklist === null) {
+		if ( $blocklist === null ) {
 			$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
 			// add result of filter hook to blocklist so user can provide custom domains to block through simple array

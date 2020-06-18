@@ -8,7 +8,7 @@ import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from './../util/colors.js'
 import { isLastDayOfMonth } from '../util/dates.js'
-const { __, _x, _n, _nx } = wp.i18n;
+const { __ } = window.wp.i18n
 
 const color1 = window.koko_analytics.colors[3]
 const color2 = modify(color1, 30)

@@ -3,7 +3,7 @@
 import { h, Component } from 'preact'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
-const { __, _x, _n, _nx } = wp.i18n;
+const { __ } = window.wp.i18n
 
 export default class Realtime extends Component {
   constructor (props) {

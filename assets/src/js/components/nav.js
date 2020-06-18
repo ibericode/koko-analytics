@@ -2,7 +2,7 @@
 
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
-const { __, _x, _n, _nx } = wp.i18n;
+const { __ } = window.wp.i18n
 
 export default function Nav () {
   // do not show navigation if user can not access settings anyway
