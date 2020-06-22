@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="rules">
     <description>rules</description>
+	<file>code-snippets/</file>
     <file>src/</file>
     <file>migrations/</file>
     <file>views/</file>
