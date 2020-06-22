@@ -1,5 +1,16 @@
 # Changelog
 
+#### 1.0.14 - Jun 22, 2020
+
+- Do not use custom tracking endpoint on Multisite installations because it ignores the site-specifix database prefix.
+- Show errors in aggegration process if `WP_DEBUG` is enabled.
+- Update referrer blocklist.
+- Use `wp.i18n` for managing translations in JavaScript files.
+- Bump table row count up to 25 per page.
+- Add filter hook: `koko_analytics_referrer_blocklist` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php))
+- Add filter hook: `koko_analytics_ignore_referrer_url` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-urls.php))
+
+
 #### 1.0.13 - May 28, 2020
 
 - Update referrer blocklist.
