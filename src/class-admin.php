@@ -128,17 +128,13 @@ class Admin
 
 	public function dashboard_widget()
 	{
-		wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
+		wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
 		wp_localize_script(
 			'koko-analytics-dashboard-widget',
 			'koko_analytics',
 			array(
 				'root' => rest_url(),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
-				'i18n' => array(
-					'Visitors' => __( 'Visitors', 'koko-analytics' ),
-					'Pageviews' => __( 'Pageviews', 'koko-analytics' ),
-				),
 				'colors' => $this->get_colors(),
 			)
 		);
