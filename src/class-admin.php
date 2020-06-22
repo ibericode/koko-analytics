@@ -57,7 +57,7 @@ class Admin
 				wp_localize_script('koko-analytics-admin', 'koko_analytics', array(
 					'root'          => rest_url(),
 					'nonce'         => wp_create_nonce( 'wp_rest' ),
-					'start_of_week' => $start_of_week,
+					'start_of_week' => (int) $start_of_week,
 					'user_roles'    => $user_roles,
 					'settings'      => $settings,
 					'showSettings'  => current_user_can( 'manage_koko_analytics' ),
