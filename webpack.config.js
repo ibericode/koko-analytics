@@ -53,7 +53,8 @@ module.exports = {
     ]
   },
   externals: {
-    moment: 'moment'
+    'moment': 'moment',
+    '@wordpress/i18n': 'wp.i18n'
   },
   plugins: [
     new CopyPlugin([

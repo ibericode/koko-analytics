@@ -4,7 +4,7 @@ import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import api from '../util/api.js'
 import Pagination from './table-pagination'
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 
 function formatUrl (url) {

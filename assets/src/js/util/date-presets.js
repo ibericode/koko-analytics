@@ -1,4 +1,4 @@
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 const startOfWeek = window.koko_analytics.start_of_week
 
 export default [

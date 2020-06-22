@@ -2,7 +2,7 @@
 
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 
 export default class Pagination extends Component {
   handleClick (direction) {

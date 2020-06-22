@@ -4,7 +4,7 @@ import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import Pagination from './table-pagination.js'
 import api from '../util/api.js'
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 
 export default class TopPosts extends Component {
   constructor (props) {

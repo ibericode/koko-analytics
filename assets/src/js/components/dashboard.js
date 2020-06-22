@@ -9,7 +9,7 @@ import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets.js'
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 const settings = window.koko_analytics.settings
 const pad = d => d < 10 ? '0' + d : d
 const formatDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`

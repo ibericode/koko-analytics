@@ -4,7 +4,7 @@ import { h, Component } from 'preact'
 import api from './../util/api.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets'
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 
 const data = window.koko_analytics
 const roles = window.koko_analytics.user_roles

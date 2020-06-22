@@ -10,7 +10,7 @@ import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { isLastDayOfMonth } from '../util/dates.js'
 const startOfWeek = parseInt(window.koko_analytics.start_of_week)
-const { __ } = window.wp.i18n
+import { __ } from '@wordpress/i18n'
 
 export default class Datepicker extends Component {
   constructor (props) {
