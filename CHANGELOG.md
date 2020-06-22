@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.0.15 - Jun 22, 2020
+
+- Fix weeknames in datepicker.
+- Fix translation files not being loaded.
+
+
 #### 1.0.14 - Jun 22, 2020
 
 - Do not use custom tracking endpoint on Multisite installations because it ignores the site-specifix database prefix.

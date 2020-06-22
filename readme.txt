@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 4.6
 Tested up to: 5.4.1
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -95,6 +95,12 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.15 - Jun 22, 2020
+
+- Fix weeknames in datepicker.
+- Fix translation files not being loaded.
+
 
 #### 1.0.14 - Jun 22, 2020
 
