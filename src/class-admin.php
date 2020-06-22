@@ -34,6 +34,7 @@ class Admin
 		switch ( $suffix ) {
 			case 'index.php':
 				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
+				wp_set_script_translations( 'koko-analytics-dashboard-widget', 'koko-analytics' );
 				wp_localize_script(
 					'koko-analytics-dashboard-widget',
 					'koko_analytics',
