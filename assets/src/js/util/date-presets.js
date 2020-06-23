@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-const startOfWeek = window.koko_analytics.start_of_week
+const startOfWeek = parseInt(window.koko_analytics.start_of_week)
 
 export default [
   {
