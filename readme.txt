@@ -98,8 +98,9 @@ A visitor represents the number of sessions during which your website or a speci
 
 #### 1.0.15 - Jun 22, 2020
 
+- Fix weird date for "this week" preset.
 - Fix weeknames in datepicker.
-- Fix translation files not being loaded.
+- Fix translation files not being loaded. Hopefully...
 
 
 #### 1.0.14 - Jun 22, 2020
