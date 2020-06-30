@@ -327,6 +327,16 @@ class Admin
 			return false;
 		}
 
+		/* Do nothing if site url differs from WP url */
+		if ( get_option( 'home' ) !== get_option( 'siteurl' ) ) {
+			return false;
+		}
+
+		/* Do nothing if running Multisite */
+		if ( defined('MULTISITE' ) && MULTISITE ) {
+			return false;
+		}
+
 		/* Check for required directory structure (standard WordPress installation) */
 		$required_files = array(
 			KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php',
