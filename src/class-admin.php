@@ -346,20 +346,33 @@ class Admin
 		}
 
 		/* Send an HTTP request to the custom endpoint to see if it's working properly */
-		$tracker_url = site_url( '/koko-analytics-collect.php' );
-		$response = wp_remote_get( $tracker_url );
-		$status = wp_remote_retrieve_response_code( $response );
-		$body = wp_remote_retrieve_body( $response );
-		if ( $status !== 200 || strstr( $body, 'require' ) !== false ) {
+		$works = $this->test_optimized_endpoint();
+		if ( ! $works) {
 			/*
 				If endpoint does not return the proper HTTP response,
-				attempt to remove it again to prevent returning true on the next function run
+				attempt to remove it to prevent returning true on the next function run
 			*/
 			unlink( ABSPATH . '/koko-analytics-collect.php' );
 			return false;
 		}
 
 		/* All looks good! Custom endpoint file is in place and returns 200 OK response */
+		return true;
+	}
+
+	private function test_optimized_endpoint() {
+		$tracker_url = site_url( '/koko-analytics-collect.php' );
+		$response = wp_remote_get( $tracker_url );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$status = wp_remote_retrieve_response_code( $response );
+		$body = wp_remote_retrieve_body( $response );
+		if ( $status !== 200 || strstr( $body, 'require' ) !== false ) {
+			return false;
+		}
+
 		return true;
 	}
 
