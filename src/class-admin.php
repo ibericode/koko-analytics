@@ -333,7 +333,7 @@ class Admin
 		}
 
 		/* Do nothing if running Multisite */
-		if ( defined('MULTISITE' ) && MULTISITE ) {
+		if ( defined( 'MULTISITE' ) && MULTISITE ) {
 			return false;
 		}
 
@@ -357,7 +357,7 @@ class Admin
 
 		/* Send an HTTP request to the custom endpoint to see if it's working properly */
 		$works = $this->test_optimized_endpoint();
-		if ( ! $works) {
+		if ( ! $works ) {
 			/*
 				If endpoint does not return the proper HTTP response,
 				attempt to remove it to prevent returning true on the next function run
