@@ -224,7 +224,8 @@ class Aggregator {
 			$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
 			// add result of filter hook to blocklist so user can provide custom domains to block through simple array
-			$blocklist += apply_filters( 'koko_analytics_referrer_blocklist', array() );
+			$custom_blocklist = apply_filters( 'koko_analytics_referrer_blocklist', array() );
+			$blocklist = array_merge( $blocklist, $custom_blocklist );
 		}
 
 		foreach ( $blocklist as $blocklisted_domain ) {
