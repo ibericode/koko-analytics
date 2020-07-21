@@ -1,5 +1,14 @@
 # Changelog
 
+#### 1.0.16 - Jul 21, 2020
+
+- Fix blank screen on WordPress versions lower than 5.0.
+- Fix settings link showing despite user lacking required capability.
+- Fix code for custom referrer blocklist using filter `koko_analytics_referrer_blocklist`.
+- Do not use custom endpoint file when site URL differs from WordPress URL.
+- Improve test for custom endpoint file.
+
+
 #### 1.0.15 - Jun 22, 2020
 
 - Fix weird date for "this week" preset.
