@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 5.4.1
-Stable tag: 1.0.15
+Stable tag: 1.0.16
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -95,6 +95,15 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.16 - Jul 21, 2020
+
+- Fix blank screen on WordPress versions lower than 5.0.
+- Fix settings link showing despite user lacking required capability.
+- Fix code for custom referrer blocklist using filter `koko_analytics_referrer_blocklist`.
+- Do not use custom endpoint file when site URL differs from WordPress URL.
+- Improve test for custom endpoint file.
+
 
 #### 1.0.15 - Jun 22, 2020
 
