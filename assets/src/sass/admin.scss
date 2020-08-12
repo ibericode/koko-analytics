@@ -1,5 +1,9 @@
 @import './_variables.scss';
 
+body.dashboard_page_koko-analytics {
+overflow-x: hidden;
+}
+
 #koko-analytics-admin {
 
   h1 {
