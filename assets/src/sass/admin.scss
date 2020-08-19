@@ -1,7 +1,8 @@
 @import './_variables.scss';
 
+/* prevent horizontal-scrollbar from showing up when viewing chart tooltip near edge of the screen */
 body.dashboard_page_koko-analytics {
-overflow-x: hidden;
+	overflow-x: hidden;
 }
 
 #koko-analytics-admin {
