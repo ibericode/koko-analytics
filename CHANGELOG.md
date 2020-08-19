@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.0.17 - Aug 19, 2020
+
+- Fix issue when using Modern color scheme introduced in WordPress 5.5.
+- Improve test for custom endpoint file by checking for exact response body.
+- Prevent horizontal scrollbar from showing when hovering chart near edge of screen.
+
+
 #### 1.0.16 - Jul 21, 2020
 
 - Fix blank screen on WordPress versions lower than 5.0.

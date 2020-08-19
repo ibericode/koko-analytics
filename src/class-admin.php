@@ -11,7 +11,7 @@ class Admin
 	public function init()
 	{
 		global $pagenow;
-		
+
 		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
 		add_action( 'init', array( $this, 'maybe_seed' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
