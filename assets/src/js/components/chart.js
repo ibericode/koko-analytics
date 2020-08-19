@@ -10,7 +10,7 @@ import { modify } from './../util/colors.js'
 import { isLastDayOfMonth } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 
-const color1 = window.koko_analytics.colors[3]
+const color1 = window.koko_analytics.colors[window.koko_analytics.colors.length - 1]
 const color2 = modify(color1, 30)
 
 function yScale (_min, _max, maxTicks) {
