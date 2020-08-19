@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten
 Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
-Tested up to: 5.4.1
-Stable tag: 1.0.16
+Tested up to: 5.5
+Stable tag: 1.0.17
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -95,6 +95,13 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.17 - Aug 19, 2020
+
+- Fix issue when using Modern color scheme introduced in WordPress 5.5.
+- Improve test for custom endpoint file by checking for exact response body.
+- Prevent horizontal scrollbar from showing when hovering chart near edge of screen.
+
 
 #### 1.0.16 - Jul 21, 2020
 
