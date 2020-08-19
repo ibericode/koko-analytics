@@ -11,7 +11,7 @@ class Admin
 	public function init()
 	{
 		global $pagenow;
-
+		
 		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
 		add_action( 'init', array( $this, 'maybe_seed' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
@@ -354,7 +354,7 @@ class Admin
 		}
 
 		/* Symlink the file into place */
-		$success = symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php' );
+		$success = @symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php' );
 		if ( ! $success ) {
 			return false;
 		}
@@ -374,16 +374,23 @@ class Admin
 		return true;
 	}
 
+	/**
+	 * Check for correct HTTP response from custom endpoint file.
+	 *
+	 * @see collect_request()
+	 * @return bool
+	 */
 	private function test_optimized_endpoint() {
-		$tracker_url = site_url( '/koko-analytics-collect.php' );
+		$tracker_url = site_url( '/koko-analytics-collect.php?nv=1&p=0&up=1' );
 		$response = wp_remote_get( $tracker_url );
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
 
 		$status = wp_remote_retrieve_response_code( $response );
+		$headers = wp_remote_retrieve_headers( $response );
 		$body = wp_remote_retrieve_body( $response );
-		if ( $status !== 200 || strstr( $body, 'require' ) !== false ) {
+		if ( $status !== 200 || $headers['Content-Type'] !== 'image/gif' || $body !== base64_decode( 'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' ) ) {
 			return false;
 		}
 
