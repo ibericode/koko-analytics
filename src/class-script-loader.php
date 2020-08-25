@@ -12,6 +12,7 @@ class Script_Loader {
 
 	public function init() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_script' ) );
+		add_filter( 'amp_analytics_entries', array( $this, 'add_amp_config' ) );
 	}
 
 	public function maybe_enqueue_script() {
@@ -46,12 +47,6 @@ class Script_Loader {
 
 		// Enqueue the actual tracking script (in footer, if possible)
 		wp_enqueue_script( 'koko-analytics', plugins_url( 'assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
-
-		/**
-		 * The following filter adds support for the official AMP plugin.
-		 * @see https://amp-wp.org/
-		 */
-		add_filter( 'amp_analytics_entries', array( $this, 'add_amp_config' ) );
 	}
 
 	private function get_post_id() {
