@@ -12,7 +12,7 @@ class Script_Loader {
 
 	public function init() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_script' ) );
-		add_filter( 'amp_analytics_entries', array( $this, 'add_amp_config' ) );
+		add_action( 'amp_print_analytics', array( $this, 'print_amp_analytics_tag' ) );
 	}
 
 	public function maybe_enqueue_script() {
@@ -87,7 +87,7 @@ class Script_Loader {
 		echo '<script>window.koko_analytics = ', json_encode( $script_config ), ';</script>';
 	}
 
-	public function add_amp_config( $entries ) {
+	public function print_amp_analytics_tag() {
 		$settings = get_settings();
 		$post_id = $this->get_post_id();
 		$tracker_url = $this->get_tracker_url();
@@ -99,24 +99,18 @@ class Script_Loader {
 			'p' => $post_id,
 		);
 		$url = add_query_arg( $data, $tracker_url );
-		$entries[] = array(
-			'type' => 'koko-analytics',
-			'attributes' => array(),
-			'config' => json_encode(
-				array(
-					'requests' => array(
-						'pageview' => $url,
-					),
-					'triggers' => array(
-						'trackPageview' => array(
-							'on' => 'visible',
-							'request' => 'pageview',
-						),
-					),
-				)
+		$config = array(
+			'requests' => array(
+				'pageview' => $url,
+			),
+			'triggers' => array(
+				'trackPageview' => array(
+					'on' => 'visible',
+					'request' => 'pageview',
+				),
 			),
 		);
-		return $entries;
+		echo sprintf( '<amp-analytics><script type="application/json">%s</script></amp-analytics>', json_encode( $config ) );
 	}
 
 	public function add_async_attribute( $tag, $handle ) {
