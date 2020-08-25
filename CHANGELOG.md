@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.18 - Aug 25, 2020
+
+- Fix issue with tracking not working on AMP powered pages or issuing a request to a non-existing file on cdn.ampproject.org.
+
+
 #### 1.0.17 - Aug 19, 2020
 
 - Fix issue when using Modern color scheme introduced in WordPress 5.5.
