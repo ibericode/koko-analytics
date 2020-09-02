@@ -64,7 +64,7 @@ function get_buffer_filename() {
 		return KOKO_ANALYTICS_BUFFER_FILE;
 	}
 
-	$uploads = wp_get_upload_dir();
+	$uploads = wp_upload_dir( null, false );
 	return rtrim( $uploads['basedir'], '/' ) . '/pageviews.php';
 }
 
