@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.0.19 - Sep 2, 2020
+
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
+- Update preact and date-fns to their latest versions.
+- Update built-in referrer blocklist.
+
+
 #### 1.0.18 - Aug 25, 2020
 
 - Fix issue with tracking not working on AMP powered pages or issuing a request to a non-existing file on cdn.ampproject.org.
