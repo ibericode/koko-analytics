@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n'
 
 export default function Nav () {
   // do not show navigation if user can not access settings anyway
-  if (! window.koko_analytics.showSettings) {
+  if (!window.koko_analytics.showSettings) {
     return null
   }
 
