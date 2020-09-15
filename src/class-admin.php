@@ -344,6 +344,11 @@ class Admin
 			return false;
 		}
 
+		/* Do nothing if using custom uploads directory */
+		if ( defined( 'UPLOADS' ) ) {
+			return false;
+		}
+
 		/* Check for required directory structure (standard WordPress installation) */
 		$required_files = array(
 			KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php',
