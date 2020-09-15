@@ -344,8 +344,9 @@ class Admin
 			return false;
 		}
 
-		/* Do nothing if using custom uploads directory */
-		if ( defined( 'UPLOADS' ) ) {
+		/* Do nothing if uploads directory is not one-up from plugins directory */
+		$uploads = wp_upload_dir( null, false );
+		if ( realpath( KOKO_ANALYTICS_PLUGIN_DIR . '/../../uploads/' ) !== realpath( $uploads['basedir'] ) ) {
 			return false;
 		}
 
@@ -353,7 +354,6 @@ class Admin
 		$required_files = array(
 			KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php',
 			KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php',
-			KOKO_ANALYTICS_PLUGIN_DIR . '/../../uploads/',
 		);
 		foreach ( $required_files as $f ) {
 			if ( ! file_exists( $f ) ) {
