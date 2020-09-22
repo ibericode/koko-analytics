@@ -320,8 +320,8 @@ class Admin
 
 	public function install_optimized_endpoint_file() {
 		/* Do nothing if a custom endpoint was manually installed */
-		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT ) {
-			return true;
+		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) ) {
+			return KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT;
 		}
 
 		/* Do nothing if custom endpoint file already in place */
