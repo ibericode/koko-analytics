@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 5.5
-Stable tag: 1.0.19
+Stable tag: 1.0.20
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -95,6 +95,15 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.20 - Nov 3, 20202
+
+- Do not use custom endpoint file if using custom uploads directory.
+- Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
+- Only call add_cap on administrator role if such a role exists 
+- Update JS dependencies.
+- Update built-in referrer blocklist.
+
 
 #### 1.0.19 - Sep 2, 2020
 
