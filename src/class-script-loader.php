@@ -63,7 +63,9 @@ class Script_Loader {
 			$use_custom_endpoint = get_option( 'koko_analytics_use_custom_endpoint', false );
 		}
 
-		return $use_custom_endpoint ? home_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
+		// We should use site_url() here because we place the file in ABSPATH and other plugins may be filtering home_url (eg multilingual plugin)
+		// In any case: what we use here should match what we test when creating the optimized endpoint file.
+		return $use_custom_endpoint ? site_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
 	}
 
 	private function get_cookie_path() {
