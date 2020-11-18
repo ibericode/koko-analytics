@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.0.22 - Nov 18, 2020
+
+- Fix PHP warnings in migration script, for trying to unlink unexisting file  (eg on new plugin installs).
+- Generate URL to custom endpoint file correctly. Fixes issue with some multilingual plugins not recording pageviews correctly.
+
+
 #### 1.0.21 - Nov 5, 2020
 
 - Update option that stores whether to use custom endpoint after unlinking it, to prevent sending requests to an unexisting file.
