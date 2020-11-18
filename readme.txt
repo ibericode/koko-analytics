@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten
 Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
-Tested up to: 5.5
-Stable tag: 1.0.21
+Tested up to: 5.5.3
+Stable tag: 1.0.22
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -95,6 +95,12 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.22 - Nov 18, 2020
+
+- Fix PHP warnings in migration script, for trying to unlink unexisting file  (eg on new plugin installs).
+- Generate URL to custom endpoint file correctly. Fixes issue with some multilingual plugins not recording pageviews correctly.
+
 
 #### 1.0.21 - Nov 5, 2020
 
