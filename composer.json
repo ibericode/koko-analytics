@@ -13,7 +13,7 @@
   ],
   "type": "wordpress-plugin",
   "require": {
-    "php": ">=7.0"
+    "php": ">=5.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.4",
