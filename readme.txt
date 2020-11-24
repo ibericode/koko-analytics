@@ -79,6 +79,9 @@ window.koko_analytics.use_cookie = true;
 </script>
 `
 
+### How do I give users access to the dashboard page?
+You can use a plugin like [User Role Editor](https://wordpress.org/plugins/user-role-editor/) to grant the `view_koko_analytics` and `manage_koko_analytics` capabilities to any user role. Note that you can delete the plugin again after adding the capability.
+
 ### What is the definition of a "pageview"?
 A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.
 
@@ -111,14 +114,14 @@ A visitor represents the number of sessions during which your website or a speci
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists 
+- Only call add_cap on administrator role if such a role exists
 - Update JS dependencies.
 - Update built-in referrer blocklist.
 
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 
