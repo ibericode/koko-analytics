@@ -80,7 +80,7 @@ window.koko_analytics.use_cookie = true;
 `
 
 ### How do I give users access to the dashboard page?
-You can use a plugin like [User Role Editor](https://wordpress.org/plugins/user-role-editor/) to grant the `view_koko_analytics` and `manage_koko_analytics` capabilities to any user role. Note that you can delete the plugin again after adding the capability.
+You can use a plugin like [User Role Editor](https://wordpress.org/plugins/user-role-editor/) to grant the `view_koko_analytics` and `manage_koko_analytics` capabilities to any user rolou can delete the plugin again after adding the capability.
 
 ### What is the definition of a "pageview"?
 A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.

@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest, windows-latest ]
-        php-versions: [ '5.3', '7.4' ]
+        php-versions: [ '5.3', '7.4', '8.0' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -40,6 +40,6 @@ jobs:
 
       - name: Run test suite
         run: composer run-script test
-      
+
       - name: Run codestyle sniffer
         run: composer run-script codestyle
