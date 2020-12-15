@@ -389,7 +389,7 @@ class Admin
 	 * @return bool
 	 */
 	private function test_optimized_endpoint() {
-		$tracker_url = site_url( '/koko-analytics-collect.php?nv=1&p=0&up=1' );
+		$tracker_url = site_url( '/koko-analytics-collect.php?nv=1&p=0&up=1&test=1' );
 		$response = wp_remote_get( $tracker_url );
 		if ( is_wp_error( $response ) ) {
 			return false;
