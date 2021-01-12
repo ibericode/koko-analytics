@@ -30,7 +30,7 @@ Stop sharing visitor data with third-party companies making money off that same 
 - **Cookies**: There is an option to not use any cookies.
 - **Referrer spam:** Built-in blacklist to filter out referrer spam.
 - **Cache**: Fully compatible with pages served from any cache.
-- **AMP**: Tracks AMP powered pages too.
+- **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only, for now).
 - **Open-source**: Code is released under the GPL 3.0 license.
 
 ### Contributing
