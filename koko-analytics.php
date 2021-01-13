@@ -13,7 +13,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Koko Analytics - website analytics plugin for WordPress
 
-Copyright (C) 2019 - 2020, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2019 - 2021, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
