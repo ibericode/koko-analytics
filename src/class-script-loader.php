@@ -58,8 +58,7 @@ class Script_Loader {
 
 		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) ) {
 			$use_custom_endpoint = KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT;
-			// Do not attempt to use custom endpoint on Multisite installations
-		} elseif ( ! defined( 'MULTISITE' ) || ! MULTISITE ) {
+		} else {
 			$use_custom_endpoint = get_option( 'koko_analytics_use_custom_endpoint', false );
 		}
 

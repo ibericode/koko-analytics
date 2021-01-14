@@ -2,11 +2,9 @@
 
 namespace KokoAnalytics;
 
-// TODO: Periodically chech endpoint health
 // TODO: Run from click of a button and show results to user
 class Endpoint_Installer {
 	public function run() {
-		//var_dump($this->file_contents()); exit;
 		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true );
 	}
 
@@ -16,34 +14,28 @@ class Endpoint_Installer {
 			return KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT;
 		}
 
-		/* Do nothing if custom endpoint file already in place */
-		if ( file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
-			return true;
-		}
-
 		/* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
 		if ( defined( 'MULTISITE' ) && MULTISITE ) {
 			return false;
 		}
 
-		/* Put the file into place */
-		$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->file_contents() );
-		if ( ! $success ) {
-			return false;
+		/* Attempt to put the file into place if it does not exist already */
+		if ( ! file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
+			$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->file_contents() );
+			if ( ! $success ) {
+				return false;
+			}
 		}
 
 		/* Send an HTTP request to the custom endpoint to see if it's working properly */
 		$works = $this->test();
 		if ( ! $works ) {
-			/*
-				If endpoint does not return the proper HTTP response,
-				attempt to remove it to prevent returning true on the next function run
-			*/
+			/* Remove the file */
 			unlink( ABSPATH . '/koko-analytics-collect.php' );
 			return false;
 		}
 
-		/* All looks good! Custom endpoint file is in place and returns 200 OK response */
+		/* All looks good! Custom endpoint file exists and returns the correct response */
 		return true;
 	}
 
@@ -63,10 +55,15 @@ class Endpoint_Installer {
  *
  * This file acts as an optimized endpoint file for the Koko Analytics plugin.
  */
+
+// path to pageviews.php file in uploads directory
 define('KOKO_ANALYTICS_BUFFER_FILE', __DIR__ . '$buffer_filename');
+
+// path to functions.php file in Koko Analytics plugin directory
 require __DIR__ . '$functions_filename';
+
+// function call to collect the request data
 KokoAnalytics\collect_request();
-exit;
 EOT;
 	}
 

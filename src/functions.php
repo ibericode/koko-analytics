@@ -24,7 +24,7 @@ function collect_request() {
 	$post_id         = (int) $_GET['p'];
 	$referrer        = isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '';
 
-	$success = collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
+	$success = isset( $_GET['test'] ) ? true : collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
 
 	// set OK headers & prevent caching
 	if ( ! $success ) {
@@ -37,9 +37,6 @@ function collect_request() {
 	header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
 	header_remove( 'Last-Modified' );
-
-	// TODO: Determine whether we need to set origin headers and if we can do this without loading WordPress
-	// send_origin_headers();
 
 	// indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
 	header( 'Tk: N' );
