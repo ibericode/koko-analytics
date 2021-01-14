@@ -2,18 +2,12 @@
 
 namespace KokoAnalytics;
 
-// TODO: Run from click of a button and show results to user
 class Endpoint_Installer {
 	public function run() {
 		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true );
 	}
 
 	private function install_optimized_endpoint_file() {
-		/* Do nothing if a custom endpoint was manually installed */
-		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) ) {
-			return KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT;
-		}
-
 		/* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
 		if ( defined( 'MULTISITE' ) && MULTISITE ) {
 			return false;
