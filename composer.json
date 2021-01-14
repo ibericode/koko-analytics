@@ -24,8 +24,8 @@
     "classmap": [ "src/" ]
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
-    "codestyle": "./vendor/bin/phpcs -n -s",
-	"codestyle-fix": "./vendor/bin/phpcbf"
+    "test": "php vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
+    "codestyle": "php vendor/bin/phpcs -n -s",
+	"codestyle-fix": "php vendor/bin/phpcbf"
   }
 }
