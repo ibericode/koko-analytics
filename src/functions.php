@@ -24,7 +24,7 @@ function collect_request() {
 	$post_id         = (int) $_GET['p'];
 	$referrer        = isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '';
 
-	$success = isset( $_GET['test'] ) ? true : collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
+	$success = isset( $_GET['test'] ) ? test_collect_in_file() : collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
 
 	// set OK headers & prevent caching
 	if ( ! $success ) {
@@ -79,6 +79,16 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 	$line = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
 	$content .= $line . PHP_EOL;
 	return file_put_contents( $filename, $content, FILE_APPEND );
+}
+
+function test_collect_in_file() {
+	$filename = get_buffer_filename();
+	if ( file_exists( $filename ) ) {
+		return is_writable( $filename );
+	}
+
+	$dir = dirname( $filename );
+	return is_writable( $dir );
 }
 
 function get_settings() {
