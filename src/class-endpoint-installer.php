@@ -2,8 +2,11 @@
 
 namespace KokoAnalytics;
 
+// TODO: Periodically chech endpoint health
+// TODO: Run from click of a button and show results to user
 class Endpoint_Installer {
 	public function run() {
+		//var_dump($this->file_contents()); exit;
 		update_option( 'koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true );
 	}
 
@@ -18,40 +21,13 @@ class Endpoint_Installer {
 			return true;
 		}
 
-		/** @link https://www.php.net/manual/en/function.symlink.php */
-		if ( ! function_exists( 'symlink' ) ) {
-			return false;
-		}
-
-		/* Do nothing if site url differs from WP url */
-		if ( get_option( 'home' ) !== get_option( 'siteurl' ) ) {
-			return false;
-		}
-
-		/* Do nothing if running Multisite */
+		/* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
 		if ( defined( 'MULTISITE' ) && MULTISITE ) {
 			return false;
 		}
 
-		/* Do nothing if uploads directory is not one-up from plugins directory */
-		$uploads = wp_upload_dir( null, false );
-		if ( realpath( KOKO_ANALYTICS_PLUGIN_DIR . '/../../uploads/' ) !== realpath( $uploads['basedir'] ) ) {
-			return false;
-		}
-
-		/* Check for required directory structure (standard WordPress installation) */
-		$required_files = array(
-			KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php',
-			KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php',
-		);
-		foreach ( $required_files as $f ) {
-			if ( ! file_exists( $f ) ) {
-				return false;
-			}
-		}
-
-		/* Symlink the file into place */
-		$success = @symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/koko-analytics-collect.php', ABSPATH . '/koko-analytics-collect.php' );
+		/* Put the file into place */
+		$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->file_contents() );
 		if ( ! $success ) {
 			return false;
 		}
@@ -69,6 +45,29 @@ class Endpoint_Installer {
 
 		/* All looks good! Custom endpoint file is in place and returns 200 OK response */
 		return true;
+	}
+
+	private function make_path_relative($path) {
+		return '/' . substr($path, strlen(ABSPATH));
+	}
+
+	private function file_contents() {
+		$buffer_filename = $this->make_path_relative(get_buffer_filename());
+		$functions_filename = $this->make_path_relative(KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php');
+		return <<<EOT
+<?php
+/**
+ * @package koko-analytics
+ * @license GPL-3.0+
+ * @author Danny van Kooten
+ *
+ * This file acts as an optimized endpoint file for the Koko Analytics plugin.
+ */
+define('KOKO_ANALYTICS_BUFFER_FILE', __DIR__ . '$buffer_filename');
+require __DIR__ . '$functions_filename';
+KokoAnalytics\collect_request();
+exit;
+EOT;
 	}
 
 	/**
