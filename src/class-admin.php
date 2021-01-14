@@ -70,7 +70,7 @@ class Admin
 					'colors' => $colors,
 					'custom_endpoint' => array(
 						'enabled' => using_custom_endpoint(),
-						'file_contents' => $endpoint_installer->get_file_contents()
+						'file_contents' => $endpoint_installer->get_file_contents(),
 					),
 				));
 				break;

@@ -39,13 +39,13 @@ class Endpoint_Installer {
 		return true;
 	}
 
-	private function make_path_relative($path) {
-		return '/' . substr($path, strlen(ABSPATH));
+	private function make_path_relative( $path ) {
+		return '/' . substr( $path, strlen( ABSPATH ) );
 	}
 
 	public function get_file_contents() {
-		$buffer_filename = $this->make_path_relative(get_buffer_filename());
-		$functions_filename = $this->make_path_relative(KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php');
+		$buffer_filename = $this->make_path_relative( get_buffer_filename() );
+		$functions_filename = $this->make_path_relative( KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php' );
 		return <<<EOT
 <?php
 /**

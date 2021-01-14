@@ -134,11 +134,13 @@ export default class Settings extends Component {
             <div className='margin-m'>
               <h2>Performance</h2>
               {data.custom_endpoint.enabled
-                ? <p>{__('The plugin is currently using the optimized tracking endpoint. Great!', 'koko-analytics')}</p>
+                ? <p>✓ {__('The plugin is currently using the optimized tracking endpoint. Great!', 'koko-analytics')}</p>
                 : (<div>
-                  <p>{__(`The plugin is currently not using an optimized tracking endpoint. To address, create a file
-                    named <strong>koko-analytics-collect.php</strong> in your WordPress root directory with the following
-                    file contents:`, 'koko-analytics')}</p>
+                  <p dangerouslySetInnerHTML={{
+                    __html: '❌ ' + __(`The plugin is currently not using an optimized tracking endpoint. To address, create a file
+                    named %s in your WordPress root directory with the following
+                    file contents:`, 'koko-analytics').replace('%s', '<strong>koko-analytics-collect.php</strong>')
+                  }}> </p>
                   <pre className='code' onClick={(evt) => {
                     const range = new Range()
                     range.setStart(evt.target, 0)
