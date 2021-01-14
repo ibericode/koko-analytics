@@ -21,7 +21,7 @@ class Endpoint_Installer {
 
 		/* Attempt to put the file into place if it does not exist already */
 		if ( ! file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
-			$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->file_contents() );
+			$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->get_file_contents() );
 			if ( ! $success ) {
 				return false;
 			}
@@ -43,7 +43,7 @@ class Endpoint_Installer {
 		return '/' . substr($path, strlen(ABSPATH));
 	}
 
-	private function file_contents() {
+	public function get_file_contents() {
 		$buffer_filename = $this->make_path_relative(get_buffer_filename());
 		$functions_filename = $this->make_path_relative(KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php');
 		return <<<EOT

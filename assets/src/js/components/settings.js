@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import api from './../util/api.js'
 import Nav from './nav.js'
@@ -129,12 +127,29 @@ export default class Settings extends Component {
                   </button>
                 </p>
               </div>
-
-              <div className='margin-m'>
-                <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
-              </div>
-
             </form>
+            <div className='margin-m'>
+              <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
+            </div>
+            <div className='margin-m'>
+              <h2>Performance</h2>
+              {data.custom_endpoint.enabled
+                ? <p>{__('The plugin is currently using the optimized tracking endpoint. Great!', 'koko-analytics')}</p>
+                : (<div>
+                  <p>{__(`The plugin is currently not using an optimized tracking endpoint. To address, create a file
+                    named <strong>koko-analytics-collect.php</strong> in your WordPress root directory with the following
+                    file contents:`, 'koko-analytics')}</p>
+                  <pre className='code' onClick={(evt) => {
+                    const range = new Range()
+                    range.setStart(evt.target, 0)
+                    range.setEnd(evt.target, 1)
+                    document.getSelection().removeAllRanges()
+                    document.getSelection().addRange(range)
+                  }}>{data.custom_endpoint.file_contents}</pre>
+                  <p>{__('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics')}</p>
+                </div>)
+              }
+            </div>
           </div>
           <Nav />
         </div>

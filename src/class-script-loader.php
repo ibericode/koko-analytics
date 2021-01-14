@@ -54,17 +54,9 @@ class Script_Loader {
 	}
 
 	private function get_tracker_url() {
-		$use_custom_endpoint = false;
-
-		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) ) {
-			$use_custom_endpoint = KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT;
-		} else {
-			$use_custom_endpoint = get_option( 'koko_analytics_use_custom_endpoint', false );
-		}
-
 		// We should use site_url() here because we place the file in ABSPATH and other plugins may be filtering home_url (eg multilingual plugin)
 		// In any case: what we use here should match what we test when creating the optimized endpoint file.
-		return $use_custom_endpoint ? site_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
+		return using_custom_endpoint() ? site_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
 	}
 
 	private function get_cookie_path() {

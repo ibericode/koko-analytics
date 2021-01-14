@@ -53,6 +53,7 @@ class Admin
 				$start_of_week = (int) get_option( 'start_of_week' );
 				$settings = get_settings();
 				$colors = $this->get_colors();
+				$endpoint_installer = new Endpoint_Installer();
 
 				wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
 				if ( function_exists( 'wp_set_script_translations' ) ) {
@@ -67,6 +68,10 @@ class Admin
 					'showSettings'  => current_user_can( 'manage_koko_analytics' ),
 					'dbSize' => $this->get_database_size(),
 					'colors' => $colors,
+					'custom_endpoint' => array(
+						'enabled' => using_custom_endpoint(),
+						'file_contents' => $endpoint_installer->get_file_contents()
+					),
 				));
 				break;
 		}
