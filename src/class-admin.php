@@ -68,6 +68,7 @@ class Admin
 					'showSettings'  => current_user_can( 'manage_koko_analytics' ),
 					'dbSize' => $this->get_database_size(),
 					'colors' => $colors,
+					'multisite' => is_multisite(),
 					'custom_endpoint' => array(
 						'enabled' => using_custom_endpoint(),
 						'file_contents' => $endpoint_installer->get_file_contents(),

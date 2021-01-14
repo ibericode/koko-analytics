@@ -128,13 +128,10 @@ export default class Settings extends Component {
                 </p>
               </div>
             </form>
-            <div className='margin-m'>
-              <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
-            </div>
-            <div className='margin-m'>
-              <h2>Performance</h2>
+            <div className='margin-m' style={`display: ${data.multisite ? 'none' : ''}`}>
+              <h2>{__('Performance', 'koko-analytics')}</h2>
               {data.custom_endpoint.enabled
-                ? <p>✓ {__('The plugin is currently using the optimized tracking endpoint. Great!', 'koko-analytics')}</p>
+                ? <p>✓ {__('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics')}</p>
                 : (<div>
                   <p dangerouslySetInnerHTML={{
                     __html: '❌ ' + __(`The plugin is currently not using an optimized tracking endpoint. To address, create a file
@@ -151,6 +148,9 @@ export default class Settings extends Component {
                   <p>{__('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics')}</p>
                 </div>)
               }
+            </div>
+            <div className='margin-m'>
+              <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
             </div>
           </div>
           <Nav />
