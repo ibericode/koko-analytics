@@ -9,7 +9,7 @@ class Endpoint_Installer {
 
 	private function install_optimized_endpoint_file() {
 		/* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
-		if ( defined( 'MULTISITE' ) && MULTISITE ) {
+		if ( is_multisite() ) {
 			return false;
 		}
 
