@@ -33,13 +33,9 @@ class Endpoint_Installer {
 		return true;
 	}
 
-	private function make_path_relative( $path ) {
-		return '/' . substr( $path, strlen( ABSPATH ) );
-	}
-
 	public function get_file_contents() {
-		$buffer_filename = $this->make_path_relative( get_buffer_filename() );
-		$functions_filename = $this->make_path_relative( KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php' );
+		$buffer_filename = get_buffer_filename();
+		$functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php';
 		return <<<EOT
 <?php
 /**
@@ -51,10 +47,10 @@ class Endpoint_Installer {
  */
 
 // path to pageviews.php file in uploads directory
-define('KOKO_ANALYTICS_BUFFER_FILE', __DIR__ . '$buffer_filename');
+define('KOKO_ANALYTICS_BUFFER_FILE', '$buffer_filename');
 
 // path to functions.php file in Koko Analytics plugin directory
-require __DIR__ . '$functions_filename';
+require '$functions_filename';
 
 // function call to collect the request data
 KokoAnalytics\collect_request();
