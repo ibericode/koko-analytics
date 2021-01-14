@@ -40,6 +40,7 @@ require __DIR__ . '/src/functions.php';
 if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	maybe_collect_request();
 } elseif ( is_admin() ) {
+	require __DIR__ . '/src/class-endpoint-installer.php';
 	require __DIR__ . '/src/class-migrations.php';
 	require __DIR__ . '/src/class-admin.php';
 	$admin = new Admin();
