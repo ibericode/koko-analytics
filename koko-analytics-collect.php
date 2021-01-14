@@ -10,8 +10,10 @@
 // path to pageviews.php file in uploads directory
 define('KOKO_ANALYTICS_BUFFER_FILE', __DIR__ . '/../../uploads/pageviews.php');
 
+// path to src/functions.php in Koko Analytics plugin directory
 require __DIR__ . '/src/functions.php';
 
+// function call to collect request data
 KokoAnalytics\collect_request();
 
 
