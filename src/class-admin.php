@@ -73,7 +73,7 @@ class Admin
 						'enabled' => using_custom_endpoint(),
 						'file_contents' => $endpoint_installer->get_file_contents(),
 						'wp_root_dir' => rtrim( ABSPATH, '/' ),
-					)
+					),
 				));
 				break;
 		}
