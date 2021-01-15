@@ -49,6 +49,7 @@ class Aggregator {
 		// read pageviews buffer file into array
 		$filename = get_buffer_filename();
 		if ( ! file_exists( $filename ) ) {
+			// no pageviews were collected since last run, so we have nothing to do
 			return;
 		}
 

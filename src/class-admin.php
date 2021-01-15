@@ -13,16 +13,24 @@ class Admin
 		global $pagenow;
 
 		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
-		add_action( 'init', array( $this, 'maybe_seed' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
 
-		// Hooks for Plugins overview page
-		if ( $pagenow === 'plugins.php' ) {
-			add_filter( 'plugin_action_links_' . plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ), array( $this, 'add_plugin_settings_link' ), 10, 2 );
-			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2 );
+		switch ( $pagenow ) {
+			case 'index.php':
+				// Hooks for main dashboard page
+				add_action( 'shutdown', array( $this, 'maybe_run_endpoint_installer' ) );
+				add_action( 'init', array( $this, 'maybe_seed' ) );
+				break;
+
+			case 'plugins.php':
+				// Hooks for plugins overview page
+				add_filter( 'plugin_action_links_' . plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ), array( $this, 'add_plugin_settings_link' ), 10, 2 );
+				add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2 );
+				break;
 		}
+
 	}
 
 	public function register_menu()
@@ -30,7 +38,8 @@ class Admin
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
-	public function enqueue_scripts( $suffix ) {
+	public function enqueue_scripts( $suffix )
+	{
 		switch ( $suffix ) {
 			case 'index.php':
 				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
@@ -79,7 +88,8 @@ class Admin
 		}
 	}
 
-	private function get_available_roles() {
+	private function get_available_roles()
+	{
 		$roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
 			$roles[ $key ] = $role['name'];
@@ -87,7 +97,8 @@ class Admin
 		return $roles;
 	}
 
-	private function is_cron_event_working() {
+	private function is_cron_event_working()
+	{
 		// detect issues with WP Cron event not running
 		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
 		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
@@ -109,16 +120,22 @@ class Admin
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
-
-		// run endpoint installer on shutdown hook
-		$endpoint_installer = new Endpoint_Installer();
-		add_action( 'shutdown', array( $endpoint_installer, 'run' ) );
 	}
 
 	public function footer_text()
 	{
 		/* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
 		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url( 'post-new.php' ) );
+	}
+
+	public function maybe_run_endpoint_installer()
+	{
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'koko-analytics' ) {
+			return;
+		}
+
+		$endpoint_installer = new Endpoint_Installer();
+		$endpoint_installer->run();
 	}
 
 	public function maybe_run_migrations()
@@ -323,7 +340,4 @@ class Admin
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values ) );
 		}
 	}
-
-
-
 }
