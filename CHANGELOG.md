@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.0.23 - Jan 15, 2021
+
+Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
+
+If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
+
+
 #### 1.0.22 - Nov 18, 2020
 
 - Fix PHP warnings in migration script, for trying to unlink unexisting file  (eg on new plugin installs).
