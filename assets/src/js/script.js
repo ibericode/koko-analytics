@@ -95,9 +95,12 @@ window.addEventListener('load', function () {
     queryStr += '&nv=' + (isNewVisitor ? '1' : '0')
     queryStr += '&up=' + (isUniquePageview ? '1' : '0')
     queryStr += '&r=' + encodeURIComponent(referrer)
-    img.src = config.tracker_url + (config.tracker_url.indexOf('?') > -1 ? '&' : '?') + queryStr
+
+    // append random query parameter to avoid this request from being cached
+    queryStr += '&rqp=' + Math.random().toString(36).substr(2)
 
     // add to DOM to fire request
+    img.src = config.tracker_url + (config.tracker_url.indexOf('?') > -1 ? '&' : '?') + queryStr
     document.body.appendChild(img)
   }
 
