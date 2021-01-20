@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.0.24 - Jan 20, 2021
+
+- Append random query parameter to tracking request to avoid beind cached now that the plugin is using a custom tracking endpoint.
+- Update JS dependencies.
+
+
 #### 1.0.23 - Jan 15, 2021
 
 Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
