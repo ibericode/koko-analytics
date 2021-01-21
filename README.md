@@ -1,10 +1,12 @@
 Koko Analytics
 ===========
- [![Build Status](https://img.shields.io/travis/ibericode/koko-analytics/master)](https://travis-ci.org/ibericode/koko-analytics)
- [![Tested WordPress version](https://img.shields.io/wordpress/plugin/tested/koko-analytics)](https://wordpress.org/plugins/koko-analytics/)
- [![WordPress.org rating](https://img.shields.io/wordpress/plugin/stars/koko-analytics)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
- [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
- 
+![PHP status](https://github.com/ibericode/koko-analytics/workflows/PHP/badge.svg)
+![ESLint status](https://github.com/ibericode/koko-analytics/workflows/ESLint/badge.svg)
+![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)
+![Downloads](https://img.shields.io/wordpress/plugin/dt/koko-analytics.svg)
+[![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 [Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress. 
 
 ![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
