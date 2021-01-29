@@ -66,7 +66,7 @@ export default class Totals extends Component {
     let pageviewsPrevious = 0
 
     Promise.all([
-      // 1
+      // fetch stats for current period
       api.request('/stats', {
         body: {
           start_date: api.formatDate(this.props.startDate),
@@ -79,7 +79,7 @@ export default class Totals extends Component {
         })
       }),
 
-      // 2
+      // fetch stats for previous period
       api.request('/stats', {
         body: {
           start_date: api.formatDate(previousStartDate),
@@ -92,6 +92,14 @@ export default class Totals extends Component {
         })
       })
     ]).then(() => {
+      // show a minimum of 1 visitors whenever we have pageviews
+      if (visitors === 0 && pageviews > 0) {
+        visitors = 1
+      }
+      if (visitorsPrevious === 0 && pageviewsPrevious > 0) {
+        visitorsPrevious = 1
+      }
+
       if (visitorsPrevious > 0) {
         visitorsDiff = visitors - visitorsPrevious
         visitorsChange = Math.round((visitors / visitorsPrevious - 1) * 100)
@@ -103,6 +111,8 @@ export default class Totals extends Component {
       }
 
       const hash = api.formatDate(this.props.startDate) + '-' + api.formatDate(this.props.endDate)
+
+
       this.setState({ visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash })
     })
   }

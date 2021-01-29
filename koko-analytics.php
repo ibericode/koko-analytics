@@ -75,3 +75,4 @@ $pruner->init();
 require __DIR__ . '/src/class-plugin.php';
 $plugin = new Plugin( $aggregator );
 $plugin->init();
+
