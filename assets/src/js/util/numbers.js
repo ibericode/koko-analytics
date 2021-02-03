@@ -33,7 +33,28 @@ function formatPercentage (p) {
   return p >= 0 ? `+${p}%` : `${p}%`
 }
 
+/**
+ Return a nice human-comprehensible number.
+
+ n < 10 = 10
+ n < 100 = rounds up to the nearest power of 10
+ n < 1000 = rounds up to the nearest power of 100
+ ....
+ @return int
+ */
+function nice (n) {
+  if (n < 10) {
+    return 10
+  }
+
+  const exponent = Math.floor(Math.log10(n))
+  const pow = Math.pow(10, exponent)
+  const fraction = n / pow
+  return Math.ceil(fraction) * pow
+}
+
 export default {
   formatPretty,
-  formatPercentage
+  formatPercentage,
+  nice
 }

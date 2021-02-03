@@ -115,7 +115,7 @@ class Admin
 		$buffer_dirname = dirname( $buffer_filename );
 		$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
 
-		// determine whether cron event is set-up properly and running in-time
+		// determine whether cron event is set-up properly seeand running in-time
 		$is_cron_event_working = $this->is_cron_event_working();
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';

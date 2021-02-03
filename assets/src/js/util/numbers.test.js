@@ -20,3 +20,30 @@ test('formatPretty works', () => {
   expect(numbers.formatPretty(999999)).toBe('1000K')
   expect(numbers.formatPretty(9999990)).toBe('10M')
 })
+
+test('nice works properly', () => {
+  [
+    [1, 10],
+    [2, 10],
+    [3, 10],
+    [4, 10],
+    [6, 10],
+    [7, 10],
+    [8, 10],
+    [9, 10],
+    [10, 10],
+    [11, 20],
+    [21, 30],
+    [24, 30],
+    [99, 100],
+    [100, 100],
+    [101, 200],
+    [1001, 2000],
+    [1200, 2000],
+    [20000, 20000],
+    [20001, 30000]
+  ].map((args) => {
+    const [n, expected] = args;
+    expect(numbers.nice(n)).toBe(expected)
+  })
+})

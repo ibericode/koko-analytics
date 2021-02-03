@@ -1,45 +1,22 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
-import { modify } from './../util/colors.js'
+import { modify } from '../util/colors'
 import { isLastDayOfMonth } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 
 const color1 = window.koko_analytics.colors[window.koko_analytics.colors.length - 1]
 const color2 = modify(color1, -20)
 
-function yScale (_min, _max, maxTicks) {
-  function niceNum (range, round) {
-    const exponent = Math.floor(Math.log10(range))
-    const fraction = range / Math.pow(10, exponent)
-    let niceFraction
-
-    if (round) {
-      if (fraction < 1.5) niceFraction = 1
-      else if (fraction < 3) niceFraction = 2
-      else if (fraction < 7) niceFraction = 5
-      else niceFraction = 10
-    } else {
-      if (fraction <= 1) niceFraction = 1
-      else if (fraction <= 2) niceFraction = 2
-      else if (fraction <= 5) niceFraction = 5
-      else niceFraction = 10
-    }
-
-    return niceFraction * Math.pow(10, exponent)
-  }
-
-  const range = Math.max(4, niceNum(_max - _min, false))
-  const step = Math.max(1, niceNum(range / (maxTicks - 1), true))
-  const max = Math.ceil(range / step) * step
-
+function yScale (yMax) {
+  const max = numbers.nice(yMax)
+  const nTicks = 2
+  const step = Math.round(max / nTicks)
   const ticks = []
-  for (let i = _min; i <= max; i = i + step) {
+  for (let i = 0; i <= max; i+= step) {
     ticks.push(i)
   }
 
@@ -228,7 +205,7 @@ export default class Chart extends Component {
     const barPadding = (tickWidth - barWidth) / 2
     const innerBarWidth = barWidth * 0.6
     const innerBarPadding = (barWidth - innerBarWidth) / 2
-    const y = yScale(0, yMax, 4)
+    const y = yScale(yMax)
     const getX = i => i * tickWidth
     const getY = v => y.max > 0 ? innerHeight - (v / y.max * innerHeight) : innerHeight
 
