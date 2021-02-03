@@ -43,7 +43,7 @@ test('nice works properly', () => {
     [20000, 20000],
     [20001, 30000]
   ].map((args) => {
-    const [n, expected] = args;
+    const [n, expected] = args
     expect(numbers.nice(n)).toBe(expected)
   })
 })

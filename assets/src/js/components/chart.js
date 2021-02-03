@@ -16,7 +16,7 @@ function yScale (yMax) {
   const nTicks = 2
   const step = Math.round(max / nTicks)
   const ticks = []
-  for (let i = 0; i <= max; i+= step) {
+  for (let i = 0; i <= max; i += step) {
     ticks.push(i)
   }
 

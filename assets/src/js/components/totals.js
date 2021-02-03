@@ -112,7 +112,6 @@ export default class Totals extends Component {
 
       const hash = api.formatDate(this.props.startDate) + '-' + api.formatDate(this.props.endDate)
 
-
       this.setState({ visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash })
     })
   }
