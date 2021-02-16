@@ -8,7 +8,7 @@ export default [
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 27, 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59)
+      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
       return { startDate, endDate }
     }
   },
@@ -18,7 +18,17 @@ export default [
     dates: () => {
       const now = new Date()
       const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+      const endDate = new Date(now.getFullYear(), now.getMonth(), startDate.getDate(), 23, 59, 59)
+      return { startDate, endDate }
+    }
+  },
+  {
+    key: 'yesterday',
+    label: __('Yesterday', 'koko-analytics'),
+    dates: () => {
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1, 0, 0, 0)
+      const endDate = new Date(now.getFullYear(), now.getMonth(), startDate.getDate(), 23, 59, 59)
       return { startDate, endDate }
     }
   },
