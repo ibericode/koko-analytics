@@ -1,6 +1,12 @@
 # Changelog
 
+#### 1.0.25 - Feb 15, 2021
 
+- Add several new date presets, like yesterday or last week.
+- Add support for entering custom date ranges using keyboard input.
+- Improve algorithm for chart y-axes to prevent huge jumps.
+- Add function for manually printing tracking script: `<?php koko_analyics_tracking_script(); ?>`
+- Update JS dependencies.
 
 
 #### 1.0.24 - Jan 20, 2021
