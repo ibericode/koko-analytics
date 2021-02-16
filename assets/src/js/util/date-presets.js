@@ -27,7 +27,7 @@ export default [
     label: __('Yesterday', 'koko-analytics'),
     dates: () => {
       const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1, 0, 0, 0)
+      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0)
       const endDate = new Date(now.getFullYear(), now.getMonth(), startDate.getDate(), 23, 59, 59)
       return { startDate, endDate }
     }
