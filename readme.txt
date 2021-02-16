@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 5.6
-Stable tag: 1.0.24
+Stable tag: 1.0.25
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -98,6 +98,15 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.25 - Feb 15, 2021
+
+- Add several new date presets, like yesterday or last week.
+- Add support for entering custom date ranges using keyboard input.
+- Improve algorithm for chart y-axes to prevent huge jumps.
+- Add function for manually printing tracking script: `<?php koko_analyics_tracking_script(); ?>`
+- Update JS dependencies.
+
 
 #### 1.0.24 - Jan 20, 2021
 
