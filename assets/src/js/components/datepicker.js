@@ -9,6 +9,7 @@ import datePresets from '../util/date-presets.js'
 import { isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 const startOfWeek = parseInt(window.koko_analytics.start_of_week)
+const settings = window.koko_analytics.settings
 
 export default class Datepicker extends Component {
   constructor (props) {
@@ -17,7 +18,7 @@ export default class Datepicker extends Component {
     this.state = {
       open: false,
       picking: false,
-      allowCustom: false,
+      preset: settings.default_view,
       startDate: new Date(props.startDate.getTime()),
       endDate: new Date(props.endDate.getTime())
     }
@@ -46,7 +47,8 @@ export default class Datepicker extends Component {
       keyboardInput: false,
       onSelect: (date) => {
         let newState = {
-          picking: !this.state.picking
+          picking: !this.state.picking,
+          preset: 'custom'
         }
 
         if (!this.state.picking || this.state.startDate === null || date < this.state.startDate) {
@@ -100,9 +102,9 @@ export default class Datepicker extends Component {
     return evt => {
       evt.preventDefault()
       if (p.key === 'custom') {
-        this.setState({ allowCustom: true })
+        this.setState({ preset: p.key })
       } else {
-        this.setState({ allowCustom: false })
+        this.setState({ preset: p.key })
         const { startDate, endDate } = p.dates()
         this.setDates(startDate, endDate)
       }
@@ -146,12 +148,14 @@ export default class Datepicker extends Component {
       endDate = addDays(endDate, diffInDays * modifier)
     }
 
+    this.setState({ preset: 'custom' })
     this.setDates(startDate, endDate)
   }
 
   setCustomStartDate (evt) {
     const date = parseISO8601(evt.target.value)
     if (date !== null) {
+      date.setHours(0, 0, 0)
       this.setDates(date, this.state.endDate)
     }
   }
@@ -159,6 +163,7 @@ export default class Datepicker extends Component {
   setCustomEndDate (evt) {
     const date = parseISO8601(evt.target.value)
     if (date !== null) {
+      date.setHours(23, 59, 59)
       this.setDates(this.state.startDate, date)
     }
   }
@@ -191,14 +196,14 @@ export default class Datepicker extends Component {
               <div>
                 <label for='ka-date-presets'>{__('Date presets', 'koko-analytics')}</label>
                 <select id='ka-date-presets'>
-                  {datePresets.map(p => <option onClick={this.setPeriod(p)}>{p.label}</option>)}
+                  {datePresets.map(p => <option onClick={this.setPeriod(p)} selected={state.preset === p.key}>{p.label}</option>)}
                 </select>
               </div>
               <div>
                 <label>{__('Custom date range', 'koko-analytics')}</label>
-                <input type='text' value={format(startDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomStartDate} disabled={!state.allowCustom} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(startDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomStartDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
                 <span> - </span>
-                <input type='text' value={format(endDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomEndDate} disabled={!state.allowCustom} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(endDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomEndDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
               </div>
             </div>
             <div className='date-picker'>

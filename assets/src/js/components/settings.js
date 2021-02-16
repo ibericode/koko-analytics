@@ -96,7 +96,7 @@ export default class Settings extends Component {
               <div className='input-group'>
                 <label>{__('Default date period', 'koko-analytics')}</label>
                 <select
-                  name='exclude_user_roles[]' onChange={evt => {
+                  name='default_view' onChange={evt => {
                     settings.default_view = evt.target.value
                     this.setState({ settings })
                   }}>

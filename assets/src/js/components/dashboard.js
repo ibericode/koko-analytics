@@ -49,8 +49,12 @@ export default class Dashboard extends Component {
   }
 
   setDatesFromDefaultView () {
-    const preset = datePresets.filter(p => p.key === settings.default_view).shift() || datePresets[0]
-    return preset.dates()
+    const preset = datePresets.filter(p => p.key === settings.default_view).shift() || datePresets[5]
+    if (typeof (preset.dates) === 'function') {
+      return preset.dates()
+    }
+
+    return {}
   }
 
   parseStateFromLocation (str) {
@@ -77,7 +81,7 @@ export default class Dashboard extends Component {
   }
 
   setDates (startDate, endDate) {
-    if (startDate.getTime() === this.state.startDate.getTime() && endDate.getTime() === this.state.endDate.getTime()) {
+    if (startDate.getFullYear() === endDate.getFullYear() && startDate.getMonth() === endDate.getMonth() && startDate.getDate() === endDate.getDate()) {
       return
     }
 
