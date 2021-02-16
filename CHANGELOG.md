@@ -1,5 +1,8 @@
 # Changelog
 
+
+
+
 #### 1.0.24 - Jan 20, 2021
 
 - Append random query parameter to tracking request to avoid beind cached now that the plugin is using a custom tracking endpoint.

@@ -81,7 +81,7 @@ export default class Dashboard extends Component {
   }
 
   setDates (startDate, endDate) {
-    if (startDate.getFullYear() === endDate.getFullYear() && startDate.getMonth() === endDate.getMonth() && startDate.getDate() === endDate.getDate()) {
+    if (startDate.getTime() === endDate.getTime()) {
       return
     }
 
