@@ -1,5 +1,3 @@
-'use strict'
-
 import { h } from 'preact'
 import { Link } from 'preact-router/match'
 import { __ } from '@wordpress/i18n'

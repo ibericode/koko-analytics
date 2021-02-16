@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import Chart from './chart.js'
@@ -9,6 +7,7 @@ import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets.js'
+import { parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 const settings = window.koko_analytics.settings
 const pad = d => d < 10 ? '0' + d : d
@@ -66,26 +65,8 @@ export default class Dashboard extends Component {
       return {}
     }
 
-    // parse url parameter into valid date (in local timezone)
-    const parseDate = (str) => {
-      const p = str.split('-')
-        .map(i => parseInt(i))
-
-      if (p.length !== 3) {
-        return null
-      }
-
-      const year = p[0]
-      const month = p[1] - 1
-      const day = p[2]
-      if (year < 2000 || year > 2100 || month < 0 || month > 11 || day < 0 || day > 31) {
-        return null
-      }
-
-      return new Date(year, month, day)
-    }
-    const startDate = parseDate(params.start_date)
-    const endDate = parseDate(params.end_date)
+    const startDate = parseISO8601(params.start_date)
+    const endDate = parseISO8601(params.end_date)
     if (!startDate || !endDate) {
       return {}
     }

@@ -66,6 +66,15 @@
 	padding: 12px 24px 12px 12px;
 	border-right: 1px solid $border-base;
 	min-width: 100px;
+
+	label {
+	  font-weight: bold;
+	  font-size: 1em;
+	}
+
+	> div {
+	  margin-bottom: 1em;
+	}
   }
 
   .date-presets strong {

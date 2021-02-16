@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import Pikaday from 'pikaday'
@@ -8,7 +6,7 @@ import '../../sass/datepicker.scss'
 import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
-import { isLastDayOfMonth } from '../util/dates.js'
+import { isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 const startOfWeek = parseInt(window.koko_analytics.start_of_week)
 
@@ -19,15 +17,19 @@ export default class Datepicker extends Component {
     this.state = {
       open: false,
       picking: false,
+      allowCustom: false,
       startDate: new Date(props.startDate.getTime()),
       endDate: new Date(props.endDate.getTime())
     }
     this.datepicker = null
     this.datepickerContainer = null
+
     this.toggle = this.toggle.bind(this)
     this.maybeClose = this.maybeClose.bind(this)
     this.setPeriod = this.setPeriod.bind(this)
     this.onKeydown = this.onKeydown.bind(this)
+    this.setCustomStartDate = this.setCustomStartDate.bind(this)
+    this.setCustomEndDate = this.setCustomEndDate.bind(this)
   }
 
   componentDidMount () {
@@ -97,8 +99,13 @@ export default class Datepicker extends Component {
   setPeriod (p) {
     return evt => {
       evt.preventDefault()
-      const { startDate, endDate } = p.dates()
-      this.setDates(startDate, endDate)
+      if (p.key === 'custom') {
+        this.setState({ allowCustom: true })
+      } else {
+        this.setState({ allowCustom: false })
+        const { startDate, endDate } = p.dates()
+        this.setDates(startDate, endDate)
+      }
     }
   }
 
@@ -142,6 +149,20 @@ export default class Datepicker extends Component {
     this.setDates(startDate, endDate)
   }
 
+  setCustomStartDate (evt) {
+    const date = parseISO8601(evt.target.value)
+    if (date !== null) {
+      this.setDates(date, this.state.endDate)
+    }
+  }
+
+  setCustomEndDate (evt) {
+    const date = parseISO8601(evt.target.value)
+    if (date !== null) {
+      this.setDates(this.state.startDate, date)
+    }
+  }
+
   render (props, state) {
     const { open } = state
     const { startDate, endDate } = props
@@ -167,8 +188,18 @@ export default class Datepicker extends Component {
           </div>
           <div className='flex'>
             <div className='date-presets'>
-              <strong>{__('Date presets', 'koko-analytics')}</strong>
-              {datePresets.map(p => <a href='' onClick={this.setPeriod(p)}>{p.label}</a>)}
+              <div>
+                <label for='ka-date-presets'>{__('Date presets', 'koko-analytics')}</label>
+                <select id='ka-date-presets'>
+                  {datePresets.map(p => <option onClick={this.setPeriod(p)}>{p.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label>{__('Custom date range', 'koko-analytics')}</label>
+                <input type='text' value={format(startDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomStartDate} disabled={!state.allowCustom} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <span> - </span>
+                <input type='text' value={format(endDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomEndDate} disabled={!state.allowCustom} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+              </div>
             </div>
             <div className='date-picker'>
               <div ref={el => {
