@@ -98,17 +98,16 @@ export default class Datepicker extends Component {
     this.toggle()
   }
 
-  setPeriod (p) {
-    return evt => {
-      evt.preventDefault()
-      if (p.key === 'custom') {
-        this.setState({ preset: p.key })
-      } else {
-        this.setState({ preset: p.key })
-        const { startDate, endDate } = p.dates()
-        this.setDates(startDate, endDate)
-      }
+  setPeriod (key) {
+    if (key === 'custom') {
+      this.setState({ preset: key })
+      return
     }
+
+    const p = datePresets.filter((p) => p.key === key).shift()
+    this.setState({ preset: p.key })
+    const { startDate, endDate } = p.dates()
+    this.setDates(startDate, endDate)
   }
 
   setDates (startDate, endDate) {
@@ -194,13 +193,13 @@ export default class Datepicker extends Component {
           <div className='flex'>
             <div className='date-presets'>
               <div>
-                <label for='ka-date-presets'>{__('Date presets', 'koko-analytics')}</label>
-                <select id='ka-date-presets'>
-                  {datePresets.map(p => <option onClick={this.setPeriod(p)} selected={state.preset === p.key}>{p.label}</option>)}
+                <label for='ka-date-presets'>{__('Date range', 'koko-analytics')}</label>
+                <select id='ka-date-presets' onChange={(evt) => { this.setPeriod(evt.target.value) }}>
+                  {datePresets.map(p => <option value={p.key} selected={state.preset === p.key}>{p.label}</option>)}
                 </select>
               </div>
               <div>
-                <label>{__('Custom date range', 'koko-analytics')}</label>
+                <label>{__('Custom', 'koko-analytics')}</label>
                 <input type='text' value={format(startDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomStartDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
                 <span> - </span>
                 <input type='text' value={format(endDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomEndDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
@@ -213,7 +212,6 @@ export default class Datepicker extends Component {
             </div>
           </div>
         </div>
-
         <input type='hidden' id='start-date-input' />
       </div>
     )
