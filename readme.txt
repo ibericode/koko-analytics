@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 5.6
-Stable tag: 1.0.25
+Stable tag: 1.0.26
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -99,7 +99,14 @@ A visitor represents the number of sessions during which your website or a speci
 
 == Changelog ==
 
-#### 1.0.25 - Feb 15, 2021
+#### 1.0.26 - Feb 17, 2021
+
+- Re-introduce last 28 days by popular request.
+- Fix date presets dropdown not working in WebKit based browsers.
+- Update built-in referrer blocklist.
+
+
+#### 1.0.25 - Feb 16, 2021
 
 - Add several new date presets, like yesterday or last week.
 - Add support for entering custom date ranges using keyboard input.
