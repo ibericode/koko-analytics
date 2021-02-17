@@ -57,6 +57,16 @@ export default [
     }
   },
   {
+    key: 'last_28_days',
+    label: __('Last 28 days', 'koko-analytics'),
+    dates: () => {
+      const now = new Date()
+      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 27, 0, 0, 0)
+      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+      return { startDate, endDate }
+    }
+  },
+  {
     key: 'this_month',
     label: __('This month', 'koko-analytics'),
     dates: () => {
