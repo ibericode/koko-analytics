@@ -1,6 +1,13 @@
 # Changelog
 
-#### 1.0.25 - Feb 15, 2021
+#### 1.0.26 - Feb 17, 2021
+
+- Re-introduce last 28 days by popular request.
+- Fix date presets dropdown not working in WebKit based browsers.
+- Update built-in referrer blocklist.
+
+
+#### 1.0.25 - Feb 16, 2021
 
 - Add several new date presets, like yesterday or last week.
 - Add support for entering custom date ranges using keyboard input.
