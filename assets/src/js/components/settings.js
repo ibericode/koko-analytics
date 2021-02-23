@@ -134,9 +134,7 @@ export default class Settings extends Component {
                 ? <p>✓ {__('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics')}</p>
                 : (<div>
                   <p dangerouslySetInnerHTML={{
-                    __html: '❌ ' + __(`The plugin is currently not using an optimized tracking endpoint. To address, create a file
-                    named %1s in your WordPress root directory with the following
-                    file contents:`, 'koko-analytics')
+                    __html: '❌ ' + __('The plugin is currently not using an optimized tracking endpoint. To address, create a file named %1s in your WordPress root directory with the following file contents:', 'koko-analytics')
                       .replace('%1s', '<strong>koko-analytics-collect.php</strong>')
                   }}> </p>
                   <p><strong>Filename: </strong> <em>{data.custom_endpoint.wp_root_dir}/koko-analytics-collect.php</em></p>
