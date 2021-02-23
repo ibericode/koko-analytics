@@ -137,7 +137,7 @@ export default class Settings extends Component {
                     __html: '❌ ' + __('The plugin is currently not using an optimized tracking endpoint. To address, create a file named %1s in your WordPress root directory with the following file contents:', 'koko-analytics')
                       .replace('%1s', '<strong>koko-analytics-collect.php</strong>')
                   }}> </p>
-                  <p><strong>Filename: </strong> <em>{data.custom_endpoint.wp_root_dir}/koko-analytics-collect.php</em></p>
+                  <p><strong>{__('Filename:', 'koko-analytics')} </strong> <em>{data.custom_endpoint.wp_root_dir}/koko-analytics-collect.php</em></p>
                   <pre className='code' onClick={(evt) => {
                     const range = new Range()
                     range.setStart(evt.target, 0)
