@@ -66,6 +66,10 @@ require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
 $shortcode->init();
 
+require __DIR__ . '/src/class-shortcode-site-counter.php';
+$site_counter_shortcode = new ShortCode_Site_Counter();
+$site_counter_shortcode->init();
+
 require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
