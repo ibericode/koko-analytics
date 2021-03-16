@@ -31,6 +31,10 @@ final class AggregatorTest extends TestCase
 		$tests = [
 			'https://wordpress.org/plugins/koko-analytics/' => 'https://wordpress.org/plugins/koko-analytics/',
 			'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
+			'https://www.pinterest.com/' => 'https://pinterest.com/',
+			'https://www.pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
+			'www.pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
+			'pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
 			'www.google.com' => 'https://www.google.com',
 			'https://www.google.com' => 'https://www.google.com',
 			'https://www.google.nl/url' => 'https://www.google.nl',

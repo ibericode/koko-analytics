@@ -285,6 +285,7 @@ class Aggregator {
 			'/^https?:\/\/(?:[a-z-]+)?\.?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
 			'/^https?:\/\/(?:[a-z-]+)?\.?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
 			'/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://www.linkedin.com',
+			'/^https?:\/\/(?:www\.)?pinterest\.com\//' => 'https://pinterest.com/',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
 		);
