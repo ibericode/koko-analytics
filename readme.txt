@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten
 Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
-Tested up to: 5.6
-Stable tag: 1.0.26
+Tested up to: 5.7
+Stable tag: 1.0.27
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -98,6 +98,13 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.27 - May 4, 2021
+
+- Use `defer` attribute on script to not block parsing at all.
+- Normalize Pinterest URL's with and without www subdomain.
+- Fix some missing translations.
+
 
 #### 1.0.26 - Feb 17, 2021
 
