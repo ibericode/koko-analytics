@@ -19,6 +19,8 @@ class Script_Loader {
 	 * @param bool $echo Whether to use the default WP script enqueue method or print the script tag directly
 	 */
 	public function maybe_enqueue_script( $echo = false ) {
+		$echo = (bool) $echo;
+
 		/**
 		 * Allows short-circuiting this function to not load the tracking script using some custom logic.
 		 * @param bool
@@ -53,7 +55,7 @@ class Script_Loader {
 			wp_enqueue_script( 'koko-analytics', plugins_url( 'assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(), KOKO_ANALYTICS_VERSION, true );
 		} else {
 			$this->print_js_object();
-			echo '<script src="', plugins_url( sprintf( 'assets/dist/js/script.js?ver=%s', KOKO_ANALYTICS_VERSION ), KOKO_ANALYTICS_PLUGIN_FILE ), '" async="async"></script>';
+			echo '<script defer src="', plugins_url( sprintf( 'assets/dist/js/script.js?ver=%s', KOKO_ANALYTICS_VERSION ), KOKO_ANALYTICS_PLUGIN_FILE ), '"></script>';
 		}
 
 	}
@@ -116,11 +118,11 @@ class Script_Loader {
 	}
 
 	public function add_async_attribute( $tag, $handle ) {
-		if ( $handle !== 'koko-analytics' ) {
+		if ( $handle !== 'koko-analytics' || stripos( $tag, 'defer' ) !== false ) {
 			return $tag;
 		}
 
-		return str_replace( ' src', ' async="async" src', $tag );
+		return str_replace( ' src=', ' defer src=', $tag );
 	}
 
 	public function user_has_roles( WP_User $user, array $roles ) {
