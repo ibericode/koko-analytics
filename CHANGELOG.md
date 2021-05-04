@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.0.27 - May 4, 2021
+
+- Use `defer` attribute on script to not block parsing at all.
+- Normalize Pinterest URL's with and without www subdomain.
+- Fix some missing translations.
+
+
 #### 1.0.26 - Feb 17, 2021
 
 - Re-introduce last 28 days by popular request.
