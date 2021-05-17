@@ -1,8 +1,5 @@
-'use strict'
-
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
-const Terser = require('terser')
 
 module.exports = {
   watchOptions: {
@@ -18,7 +15,7 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'assets/dist/js')
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -58,9 +55,11 @@ module.exports = {
     '@wordpress/i18n': 'wp.i18n'
   },
   plugins: [
-    new CopyPlugin([
-      { from: './assets/src/js/script.js', to: path.resolve(__dirname, './assets/dist/js/script.js'), transform: content => Terser.minify(content.toString()).code },
-      { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') }
-    ])
+    new CopyPlugin({
+      patterns: [
+        { from: './assets/src/js/script.js', to: path.resolve(__dirname, './assets/dist/js/script.js') },
+        { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') }
+      ]
+    })
   ]
 }
