@@ -198,17 +198,19 @@ export default class Chart extends Component {
       top: 24,
       right: 24
     }
+    const isLargeScreen = window.innerWidth >= 1280
+    const drawTick = ticks <= 90
     const innerWidth = width - padding.left - padding.right
     const innerHeight = height - padding.bottom - padding.top
-    const tickWidth = innerWidth / ticks
-    const barWidth = 0.9 * tickWidth
-    const barPadding = (tickWidth - barWidth) / 2
-    const innerBarWidth = barWidth * 0.6
-    const innerBarPadding = (barWidth - innerBarWidth) / 2
+    const tickWidth = Math.round(innerWidth / ticks)
+    const barWidth = Math.round(0.9 * tickWidth)
+    const barPadding = Math.round((tickWidth - barWidth) / 2)
+    const innerBarWidth = Math.round(barWidth * 0.6)
+    const innerBarPadding = Math.round((barWidth - innerBarWidth) / 2)
     const y = yScale(yMax)
-    const getX = i => i * tickWidth
-    const getY = v => y.max > 0 ? innerHeight - (v / y.max * innerHeight) : innerHeight
-
+    const heightModifier = innerHeight / y.max
+    const getX = v => v * tickWidth
+    const getY = v => y.max > 0 ? Math.round(innerHeight - (v * heightModifier)) : innerHeight
     return (
       <div className='box'>
         <div className='chart-container'>
@@ -227,15 +229,12 @@ export default class Chart extends Component {
               </g>
               <g className='axes-x' text-anchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
                 {dataset.map((d, i) => {
-                  // draw nothing if showing lots of ticks & this not first or last tick
-                  const tick = ticks <= 90
-
                   let label = null
                   if (i === 0) {
                     label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d, yyyy')
                   } else if (i === (ticks - 1)) {
                     label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d')
-                  } else if (window.innerWidth >= 1280) {
+                  } else if (isLargeScreen) {
                     // for large screens only
                     if (ticks <= 7 || d.date.getDate() === 1) {
                       label = format(d.date, groupByMonth ? 'MMM' : 'MMM d')
@@ -244,7 +243,8 @@ export default class Chart extends Component {
                     }
                   }
 
-                  if (!tick && !label) {
+                  // draw nothing if showing lots of ticks & this not first or last tick
+                  if (!drawTick && !label) {
                     return null
                   }
 
@@ -265,8 +265,8 @@ export default class Chart extends Component {
                   return ''
                 }
 
-                const pageviewHeight = d.pageviews / y.max * innerHeight
-                const visitorHeight = d.visitors / y.max * innerHeight
+                const pageviewHeight = Math.round(d.pageviews * heightModifier)
+                const visitorHeight = Math.round(d.visitors * heightModifier)
                 const x = getX(i)
                 const showTooltip = this.showTooltip(d, barWidth)
 

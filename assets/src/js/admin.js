@@ -1,5 +1,3 @@
-'use strict'
-
 import '../sass/admin.scss'
 import { render, h } from 'preact'
 import Router from 'preact-router'
