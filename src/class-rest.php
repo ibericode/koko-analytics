@@ -103,6 +103,12 @@ class Rest {
 		);
 	}
 
+	private function respond( $data ) {
+		$result = new \WP_REST_Response( $data, 200 );
+		$result->set_headers( array( 'Cache-Control' => 'max-age=300' ) );
+		return $result;
+	}
+
 	public function validate_date_param( $param, $one, $two ) {
 		return strtotime( $param ) !== false;
 	}
@@ -114,11 +120,12 @@ class Rest {
 		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$sql        = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
 		$result     = $wpdb->get_results( $sql );
-		return is_array( $result ) ? array_map(function ( $row ) {
+		$result = is_array( $result ) ? array_map(function ( $row ) {
 			$row->pageviews = (int) $row->pageviews;
 			$row->visitors = (int) $row->visitors;
 			return $row;
 		}, $result) : $result;
+		return $this->respond( $result );
 	}
 
 	public function get_posts( \WP_REST_Request $request ) {
@@ -131,16 +138,17 @@ class Rest {
 		$sql        = $wpdb->prepare( "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, p.post_title FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->posts} p ON p.ID = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, s.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
 		if ( empty( $results ) ) {
-			return array();
+			return $this->respond( array() );
 		}
 
 		// add permalink to each result
-		return array_map( function( $row ) {
+		$results = array_map( function( $row ) {
 			$row->post_permalink = get_permalink( $row->id );
 			$row->pageviews = (int) $row->pageviews;
 			$row->visitors = (int) $row->visitors;
 			return $row;
 		}, $results);
+		return $this->respond( $results );
 	}
 
 	public function get_referrers( \WP_REST_Request $request ) {
@@ -152,7 +160,7 @@ class Rest {
 		$limit = isset( $params['limit'] ) ? absint( $params['limit'] ) : 10;
 		$sql        = $wpdb->prepare( "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, r.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
-		return $results;
+		return $this->respond( $results );
 	}
 
 	public function update_settings( \WP_REST_Request $request ) {
