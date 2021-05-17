@@ -75,7 +75,7 @@ Then configure your cookie consent plugin to add the following code for visitors
 
 `
 <script>
-window.koko_analytics.use_cookie = true;
+if (window.koko_analytics) window.koko_analytics.use_cookie = true;
 </script>
 `
 
@@ -130,7 +130,7 @@ A visitor represents the number of sessions during which your website or a speci
 
 #### 1.0.23 - Jan 15, 2021
 
-Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
+Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
 
 If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
 
@@ -150,14 +150,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists 
+- Only call add_cap on administrator role if such a role exists
 - Update JS dependencies.
 - Update built-in referrer blocklist.
 
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 
