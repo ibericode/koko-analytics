@@ -262,7 +262,7 @@ export default class Chart extends Component {
               {y.max > 0 && dataset.map((d, i) => {
                 // do not draw unnecessary elements
                 if (d.pageviews === 0) {
-                  return
+                  return ''
                 }
 
                 const pageviewHeight = d.pageviews / y.max * innerHeight
