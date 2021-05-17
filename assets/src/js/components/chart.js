@@ -120,8 +120,8 @@ export default class Chart extends Component {
           continue
         }
 
-        map[key].pageviews += parseInt(data[i].pageviews)
-        map[key].visitors += parseInt(data[i].visitors)
+        map[key].pageviews += data[i].pageviews
+        map[key].visitors += data[i].visitors
 
         if (map[key].pageviews > yMax) {
           yMax = map[key].pageviews

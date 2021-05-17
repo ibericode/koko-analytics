@@ -74,8 +74,8 @@ export default class Totals extends Component {
         }
       }).then(data => {
         data.forEach(r => {
-          visitors += parseInt(r.visitors)
-          pageviews += parseInt(r.pageviews)
+          visitors += r.visitors
+          pageviews += r.pageviews
         })
       }),
 
@@ -87,8 +87,8 @@ export default class Totals extends Component {
         }
       }).then(data => {
         data.forEach(r => {
-          visitorsPrevious += parseInt(r.visitors)
-          pageviewsPrevious += parseInt(r.pageviews)
+          visitorsPrevious += r.visitors
+          pageviewsPrevious += r.pageviews
         })
       })
     ]).then(() => {

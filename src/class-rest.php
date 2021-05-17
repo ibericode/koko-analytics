@@ -114,7 +114,11 @@ class Rest {
 		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$sql        = $wpdb->prepare( "SELECT date, visitors, pageviews FROM {$wpdb->prefix}koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s", array( $start_date, $end_date ) );
 		$result     = $wpdb->get_results( $sql );
-		return $result;
+		return is_array( $result ) ? array_map(function ( $row ) {
+			$row->pageviews = (int) $row->pageviews;
+			$row->visitors = (int) $row->visitors;
+			return $row;
+		}, $result) : $result;
 	}
 
 	public function get_posts( \WP_REST_Request $request ) {
@@ -131,11 +135,12 @@ class Rest {
 		}
 
 		// add permalink to each result
-		foreach ( $results as $i => $row ) {
-			$results[ $i ]->post_permalink = get_permalink( $row->id );
-		}
-
-		return $results;
+		return array_map( function( $row ) {
+			$row->post_permalink = get_permalink( $row->id );
+			$row->pageviews = (int) $row->pageviews;
+			$row->visitors = (int) $row->visitors;
+			return $row;
+		}, $results);
 	}
 
 	public function get_referrers( \WP_REST_Request $request ) {
