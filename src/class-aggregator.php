@@ -55,6 +55,19 @@ class Aggregator {
 
 		// rename file to temporary location so nothing new is written to it while we process it
 		$tmp_filename = dirname( $filename ) . '/pageviews-busy.php';
+
+		// if file exists, previous aggregation job is still running or never finished
+		if ( file_exists( $tmp_filename ) ) {
+			// if file is less than 5 minutes old, wait for it to eventually finish
+			if ( filemtime( $tmp_filename ) > ( time() - 5 * 60 ) ) {
+				return;
+			} else {
+				// try to delete file to signal other process to finish
+				unlink( $tmp_filename, 0 );
+				sleep( 2 );
+			}
+		}
+
 		$renamed = rename( $filename, $tmp_filename );
 		if ( $renamed !== true ) {
 			if ( WP_DEBUG ) {
@@ -208,7 +221,7 @@ class Aggregator {
 
 		foreach ( $counts as $timestamp => $count ) {
 			// delete all data older than one hour
-			if ( $timestamp < $one_hour_ago ) {
+			if ( (int) $timestamp < $one_hour_ago ) {
 				unset( $counts[ $timestamp ] );
 			}
 		}
