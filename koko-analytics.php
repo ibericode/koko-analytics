@@ -76,3 +76,8 @@ require __DIR__ . '/src/class-plugin.php';
 $plugin = new Plugin( $aggregator );
 $plugin->init();
 
+
+if ( class_exists( 'WP_CLI' ) ) {
+	require __DIR__ . '/src/class-command.php';
+	\WP_CLI::add_command( 'koko-analytics', 'KokoAnalytics\Command' );
+}
