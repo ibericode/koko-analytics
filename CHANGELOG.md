@@ -1,5 +1,15 @@
 # Changelog
 
+#### 1.0.28 - Sep 27, 2021
+
+- Account for missing configuration object, for example if theme does not properly call `wp_head()`.
+- Cast database result to integer types so we do not have to do it client-side.
+- Cache dashboard requests to REST API for 5 minutes (using browser cache).
+- Use integers for viewbox coordinates (for increased performance).
+- Simple locking mechanism for aggregation job to detect previous runs which are still busy.
+- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate` 
+
+
 #### 1.0.27 - May 4, 2021
 
 - Use `defer` attribute on script to not block parsing at all.
