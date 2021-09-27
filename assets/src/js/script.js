@@ -4,7 +4,7 @@
  * @license GPL-3.0+
  */
 window.addEventListener('load', function () {
-  const config = window.koko_analytics3
+  const config = window.koko_analytics
 
   // window.koko_analytics might be missing if the page is not calling wp_head()
   if (config === undefined) {
