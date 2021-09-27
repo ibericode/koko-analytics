@@ -20,6 +20,6 @@ class Command {
 	function aggregate( $args, $assoc_args ) {
 		$aggregator = new Aggregator();
 		$aggregator->aggregate();
-		WP_CLI::success('Stats aggregated.');
+		WP_CLI::success( 'Stats aggregated.' );
 	}
 }
