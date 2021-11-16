@@ -97,7 +97,11 @@ class Aggregator {
 		$referrer_stats = array();
 
 		while ( ( $line = fgets( $file_handle, 1024 ) ) !== false ) {
-			$line            = rtrim( $line );
+			$line = rtrim( $line );
+			if ( empty( $line ) ) {
+				continue;
+			}
+
 			$p               = explode( ',', $line );
 			$post_id         = (int) $p[0];
 			$new_visitor     = (int) $p[1];
