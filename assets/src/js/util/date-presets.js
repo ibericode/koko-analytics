@@ -1,5 +1,23 @@
 import { __ } from '@wordpress/i18n'
-const startOfWeek = parseInt(window.koko_analytics.start_of_week)
+import {
+  endOfMonth,
+  endOfQuarter,
+  endOfToday,
+  endOfWeek,
+  endOfYear,
+  endOfYesterday,
+  startOfDay,
+  startOfMonth,
+  startOfQuarter,
+  startOfToday,
+  startOfWeek,
+  startOfYear,
+  startOfYesterday,
+  sub
+} from 'date-fns'
+
+const monday = 1
+const firstDayOfTheWeek = parseInt(window.koko_analytics.start_of_week) || monday
 
 export default [
   {
@@ -10,9 +28,8 @@ export default [
     key: 'today',
     label: __('Today', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), startDate.getDate(), 23, 59, 59)
+      const startDate = startOfToday()
+      const endDate = endOfToday()
       return { startDate, endDate }
     }
   },
@@ -20,9 +37,8 @@ export default [
     key: 'yesterday',
     label: __('Yesterday', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), startDate.getDate(), 23, 59, 59)
+      const startDate = startOfYesterday()
+      const endDate = endOfYesterday()
       return { startDate, endDate }
     }
   },
@@ -31,13 +47,8 @@ export default [
     label: __('This week', 'koko-analytics'),
     dates: () => {
       const now = new Date()
-      let d = now.getDate() - now.getDay() + startOfWeek
-      if (now.getDay() < startOfWeek) {
-        d = d - 7
-      }
-
-      const startDate = new Date(now.getFullYear(), now.getMonth(), d, 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate() + 6, 23, 59, 59)
+      const startDate = startOfWeek(now, { weekStartsOn: firstDayOfTheWeek })
+      const endDate = endOfWeek(now, { weekStartsOn: firstDayOfTheWeek })
       return { startDate, endDate }
     }
   },
@@ -45,14 +56,14 @@ export default [
     key: 'last_week',
     label: __('Last week', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      let d = now.getDate() - now.getDay() + startOfWeek
-      if (now.getDay() < startOfWeek) {
-        d = d - 7
-      }
-
-      const startDate = new Date(now.getFullYear(), now.getMonth(), d - 7, 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate() + 6, 23, 59, 59)
+      const today = new Date()
+      const lastWeekToday = sub(today, { weeks: 1 })
+      const startDate = startOfWeek(lastWeekToday, {
+        weekStartsOn: firstDayOfTheWeek
+      })
+      const endDate = endOfWeek(lastWeekToday, {
+        weekStartsOn: firstDayOfTheWeek
+      })
       return { startDate, endDate }
     }
   },
@@ -60,9 +71,10 @@ export default [
     key: 'last_28_days',
     label: __('Last 28 days', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 27, 0, 0, 0)
-      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+      const today = new Date()
+      const twentySevenDaysAgo = sub(today, { days: 27 })
+      const startDate = startOfDay(twentySevenDaysAgo)
+      const endDate = endOfToday()
       return { startDate, endDate }
     }
   },
@@ -70,9 +82,9 @@ export default [
     key: 'this_month',
     label: __('This month', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59)
+      const today = new Date()
+      const startDate = startOfMonth(today)
+      const endDate = endOfMonth(today)
       return { startDate, endDate }
     }
   },
@@ -80,9 +92,10 @@ export default [
     key: 'last_month',
     label: __('Last month', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0, 23, 59, 59)
+      const today = new Date()
+      const lastMonthToday = sub(today, { months: 1 })
+      const startDate = startOfMonth(lastMonthToday)
+      const endDate = endOfMonth(lastMonthToday)
       return { startDate, endDate }
     }
   },
@@ -90,9 +103,9 @@ export default [
     key: 'this_quarter',
     label: __('This quarter', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), (Math.ceil((now.getMonth() + 1) / 3) - 1) * 3, 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 3, 0, 23, 59, 59)
+      const today = new Date()
+      const startDate = startOfQuarter(today)
+      const endDate = endOfQuarter(today)
       return { startDate, endDate }
     }
   },
@@ -100,9 +113,11 @@ export default [
     key: 'last_quarter',
     label: __('Last quarter', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), (Math.ceil((now.getMonth() + 1) / 3) - 1) * 3 - 3, 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 3, 0, 23, 59, 59)
+      const today = new Date()
+      const startOfThisQuarter = startOfQuarter(today)
+      const insideLastQuarter = sub(startOfThisQuarter, { weeks: 1 })
+      const startDate = startOfQuarter(insideLastQuarter)
+      const endDate = endOfQuarter(insideLastQuarter)
       return { startDate, endDate }
     }
   },
@@ -110,9 +125,9 @@ export default [
     key: 'this_year',
     label: __('This year', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), 12, 0, 23, 59, 59)
+      const today = new Date()
+      const startDate = startOfYear(today)
+      const endDate = endOfYear(today)
       return { startDate, endDate }
     }
   },
@@ -120,9 +135,10 @@ export default [
     key: 'last_year',
     label: __('Last year', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = new Date(now.getFullYear() - 1, 0, 1, 0, 0, 0)
-      const endDate = new Date(startDate.getFullYear(), 12, 0, 23, 59, 59)
+      const today = new Date()
+      const lastYearToday = sub(today, { years: 1 })
+      const startDate = startOfYear(lastYearToday)
+      const endDate = endOfYear(lastYearToday)
       return { startDate, endDate }
     }
   }
