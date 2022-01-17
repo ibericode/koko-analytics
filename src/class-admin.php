@@ -102,6 +102,11 @@ class Admin
 		// detect issues with WP Cron event not running
 		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
 		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
+
+		if ( has_filter( 'koko_analytics_disable_cron_warning' ) ) {
+			return apply_filters( 'koko_analytics_disable_cron_warning', $next_scheduled );
+		}
+
 		return $next_scheduled !== false && $next_scheduled > ( time() - HOUR_IN_SECONDS );
 	}
 
