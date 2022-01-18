@@ -3,7 +3,7 @@
 
 	<?php
 	if ( false === $is_cron_event_working ) {
-		echo '<div class="notice notice-warning inline"><p>';
+		echo '<div class="notice notice-warning inline koko-analytics-cron-warning"><p>';
 		echo esc_html__( 'There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics' );
 		echo ' ';
 		echo esc_html__( 'If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics' );
