@@ -50,7 +50,7 @@ window.addEventListener('load', function () {
     }
 
     // do not track if user agent looks like a bot
-    if ((/bot|crawler|spider|crawling|seo|chrome-lighthouse/i).test(navigator.userAgent)) {
+    if ((/bot|crawler|spider|crawling|seo|chrome-lighthouse|preview/i).test(navigator.userAgent)) {
       return
     }
 
