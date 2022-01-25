@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 1.0.28
+Stable tag: 1.0.29
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -98,6 +98,15 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 == Changelog ==
+
+#### 1.0.29 - Jan 25, 2022
+
+- Skip empty lines in buffer file to avoid a PHP notice in certain edge cases.
+- Make use of JS library for date presets.
+- Filter out user agents containing "preview".
+- Normalize referrer URl's for Yahoo search results.
+- Add class attribute to cron warning so it can be hidden using CSS by targeting `.koko-analytics-cron-warning`.
+
 
 #### 1.0.28 - Sep 27, 2021
 
