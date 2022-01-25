@@ -18,6 +18,7 @@ final class AggregatorTest extends TestCase
 	        'https://wordpress.org/?utm_source=duckduckgo&p=500&cat=cars&product=toyota-yaris' => 'https://wordpress.org/?p=500&cat=cars&product=toyota-yaris',
 			'https://wordpress.org/?foo=bar&p=500&utm_source=duckduckgo#utm_medium=link' => 'https://wordpress.org/?p=500',
 	        'https://wordpress.org/#foo=bar&bar=foo' => 'https://wordpress.org',
+			'https://search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten&fr=sfp&fr2=p%3As%2Cv%3Asfp%2Cm%3Asb-top&b=8&pz=7&bct=0&xargs=0' => 'https://search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten',
         ];
 
         foreach ($tests as $input => $output) {
@@ -67,6 +68,8 @@ final class AggregatorTest extends TestCase
 			'https://www.baidu.com/link' => 'https://www.baidu.com',
 			'https://m.baidu.com/from=844b/bd_page_type=1/ssid=98c26c6f6e676d65697869620b/uid=0/pu=usm%402%2Csz%40320_1001%2Cta%40iphone_2_9.0_24_79.0/baiduid=B24A174BB75A8A37CEA414106EC583CB/w=0_10_/t=iphone/l=1/tc' => 'https://www.baidu.com',
 			'https://yandex.ru/clck/jsredir' => 'https://yandex.ru',
+			'https://search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten' => 'https://search.yahoo.com/search?p=danny+van+kooten',
+			'https://r.search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten' => 'https://search.yahoo.com/search?p=danny+van+kooten',
 		];
 
 		foreach ($tests as $input => $output) {

@@ -271,7 +271,7 @@ class Aggregator {
 			$params = array();
 			parse_str( $query_str, $params );
 
-			// strip all non-allowed params from url
+			// strip all but the following query parameters from the URL
 			$allowed_params = array( 'page_id', 'p', 'cat', 'product' );
 			$new_params    = array_intersect_key( $params, array_flip( $allowed_params ) );
 			$new_query_str = http_build_query( $new_params );
@@ -282,14 +282,12 @@ class Aggregator {
 		}
 
 		// trim trailing slash
-		$url = rtrim( $url, '/' );
-
-		return $url;
+		return rtrim( $url, '/' );
 	}
 
 	public function normalize_url( $url ) {
 		// if URL has no protocol, assume HTTP
-		// we change this to HTTPS for sites that are known to support it (hopefully, all)
+		// we change this to HTTPS for sites that are known to support it
 		if ( strpos( $url, '://' ) === false ) {
 			$url = 'http://' . $url;
 		}
@@ -305,6 +303,7 @@ class Aggregator {
 			'/^https?:\/\/(?:www\.)?pinterest\.com\//' => 'https://pinterest.com/',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
+			'/^^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/search[^?]*(.*)/' => 'https://search.yahoo.com/search$1'
 		);
 
 		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url, 1 );
