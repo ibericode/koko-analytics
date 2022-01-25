@@ -303,7 +303,7 @@ class Aggregator {
 			'/^https?:\/\/(?:www\.)?pinterest\.com\//' => 'https://pinterest.com/',
 			'/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
 			'/yandex\.ru\/clck.*/' => 'yandex.ru',
-			'/^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1'
+			'/^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
 		);
 
 		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url, 1 );
