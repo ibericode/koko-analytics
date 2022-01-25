@@ -27,5 +27,10 @@
     "test": "php vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
     "codestyle": "php vendor/bin/phpcs -n -s",
 	"codestyle-fix": "php vendor/bin/phpcbf"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
