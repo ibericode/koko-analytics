@@ -59,7 +59,7 @@ export default class TopPosts extends Component {
   render () {
     const { offset, limit, items } = this.state
     return (
-      <div className='box fade top-posts'>
+      <div className='box koko-fade top-posts'>
         <div className='head box-grid'>
           <div className=''>
             <span className='muted'>#</span>
@@ -72,7 +72,7 @@ export default class TopPosts extends Component {
         </div>
         <div className='body'>
           {items.map((p, i) => (
-            <div key={p.id} className='box-grid fade'>
+            <div key={p.id} className='box-grid koko-fade'>
               <div>
                 <span className='muted'>{offset + i + 1}</span>
                 <a href={p.post_permalink}>{p.post_title || '(no title)'}</a>
