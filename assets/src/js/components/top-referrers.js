@@ -79,7 +79,7 @@ export default class TopReferrers extends Component {
   render () {
     const { offset, limit, items } = this.state
     return (
-      <div className='box fade top-referrers'>
+      <div className='box koko-fade top-referrers'>
         <div className='box-grid head'>
           <div className=''>
             <span className='muted'>#</span>
@@ -92,7 +92,7 @@ export default class TopReferrers extends Component {
         </div>
         <div className='body'>
           {items.map((p, i) => (
-            <div key={p.id} className='box-grid fade'>
+            <div key={p.id} className='box-grid koko-fade'>
               <div className='url-col'>
                 <span className='muted'>{offset + i + 1}</span>
                 {p.url.length ? <a href={p.url}>{p.displayUrl}</a> : p.displayUrl}

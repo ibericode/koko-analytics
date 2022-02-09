@@ -38,7 +38,7 @@ export default class Realtime extends Component {
     const { pageviews } = state
 
     return (
-      <div className='totals-box fade' key={'realtime-pageviews'}>
+      <div className='totals-box koko-fade' key={'realtime-pageviews'}>
         <div className='totals-label'>{__('Realtime pageviews', 'koko-analytics')}</div>
         <div className='totals-amount'>{numbers.formatPretty(pageviews)}
         </div>

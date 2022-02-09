@@ -121,7 +121,7 @@ export default class Totals extends Component {
 
     return (
       <div className='totals-container'>
-        <div className='totals-box fade' key={hash + '-visitors'}>
+        <div className='totals-box koko-fade' key={hash + '-visitors'}>
           <div className='totals-label'>{__('Total visitors', 'koko-analytics')}</div>
           <div className='totals-amount'>{numbers.formatPretty(visitors)} <span
             className={visitorsChange > 0 ? 'up' : visitorsChange === 0 ? 'neutral' : 'down'}
@@ -132,7 +132,7 @@ export default class Totals extends Component {
             <span>{numbers.formatPretty(Math.abs(visitorsDiff))} {visitorsDiff > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</span>
           </div>
         </div>
-        <div className='totals-box fade' key={hash + '-pageviews'}>
+        <div className='totals-box koko-fade' key={hash + '-pageviews'}>
           <div className='totals-label'>{__('Total pageviews', 'koko-analytics')}</div>
           <div className='totals-amount'>{numbers.formatPretty(pageviews)} <span
             className={pageviewsChange > 0 ? 'up' : pageviewsChange === 0 ? 'neutral' : 'down'}

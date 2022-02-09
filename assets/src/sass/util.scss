@@ -12,8 +12,8 @@
 	margin: 72px 0;
 }
 
-.fade {
-	animation: fadein 0.4s;
+.koko-fade {
+	animation: koko-fadein 0.4s;
 }
 
 .left {
@@ -33,7 +33,7 @@
 	clear: both;
 }
 
-@keyframes fadein {
+@keyframes koko-fadein {
 	from {
 		opacity: 0
 	}
