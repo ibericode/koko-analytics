@@ -8,6 +8,10 @@ class Endpoint_Installer {
 	}
 
 	private function install_optimized_endpoint_file() {
+		if ( defined( 'KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT === false) {
+			return;
+		}
+
 		/* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
 		if ( is_multisite() ) {
 			return false;

@@ -15,3 +15,7 @@ Only if you're still not seeing this file, try the manual approach described bel
 
 #### How to manually install the optimized tracking endpoint?
 Go to the settings page in your Koko Analytics dashboard. Follow the instructions at the bottom of the page to manually install the optimized tracking endpoint.
+
+### How to disable the optimized tracking endpoint?
+
+In your `wp-config.php`, set `define('KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT', false);`
