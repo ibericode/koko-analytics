@@ -20,3 +20,8 @@ $wpdb->query(
     {$wpdb->prefix}koko_analytics_referrer_stats,
     {$wpdb->prefix}koko_analytics_referrer_urls"
 );
+
+// delete custom endpoint file
+if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
+	unlink(ABSPATH . '/koko-analytics-collect.php');
+}
