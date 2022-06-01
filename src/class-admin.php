@@ -40,8 +40,14 @@ class Admin
 
 	public function enqueue_scripts( $suffix )
 	{
+		// do not load any scripts if user is missing required capability for viewing
+		if ( ! current_user_can( 'view_koko_analytics' ) ) {
+			return;
+		}
+
 		switch ( $suffix ) {
 			case 'index.php':
+				// load scripts for dashboard widget
 				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
 				if ( function_exists( 'wp_set_script_translations' ) ) {
 					wp_set_script_translations( 'koko-analytics-dashboard-widget', 'koko-analytics' );
