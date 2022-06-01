@@ -134,8 +134,12 @@ class Admin
 			return;
 		}
 
-		$endpoint_installer = new Endpoint_Installer();
-		$endpoint_installer->run();
+		// do not run if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined
+		if ( defined( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT' ) ) {
+			return;
+		}
+
+		install_and_test_custom_endpoint();
 	}
 
 	public function maybe_run_migrations()

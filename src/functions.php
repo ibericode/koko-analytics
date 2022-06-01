@@ -173,5 +173,14 @@ function get_realtime_pageview_count( $since = null ) {
 }
 
 function using_custom_endpoint() {
+	if ( defined( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT' ) ) {
+		return KOKO_ANALYTICS_CUSTOM_ENDPOINT;
+	}
+
 	return get_option( 'koko_analytics_use_custom_endpoint', false );
+}
+
+function install_and_test_custom_endpoint() {
+	$endpoint_installer = new Endpoint_Installer();
+	$endpoint_installer->run();
 }

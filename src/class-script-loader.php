@@ -65,6 +65,10 @@ class Script_Loader {
 	}
 
 	private function get_tracker_url() {
+		if ( defined( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT' ) && KOKO_ANALYTICS_CUSTOM_ENDPOINT ) {
+			return site_url( KOKO_ANALYTICS_CUSTOM_ENDPOINT );
+		}
+
 		// We should use site_url() here because we place the file in ABSPATH and other plugins may be filtering home_url (eg multilingual plugin)
 		// In any case: what we use here should match what we test when creating the optimized endpoint file.
 		return using_custom_endpoint() ? site_url( '/koko-analytics-collect.php' ) : admin_url( 'admin-ajax.php?action=koko_analytics_collect' );
