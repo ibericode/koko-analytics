@@ -20,7 +20,7 @@ class Endpoint_Installer {
 
 		/* If we made it this far we ideally want to use the custom endpoint file */
 		/* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
-		if ( ! wp_next_scheduled( 'koko_analytics_test_custom_endpoint') ) {
+		if ( ! wp_next_scheduled( 'koko_analytics_test_custom_endpoint' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint' );
 		}
 
