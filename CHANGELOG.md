@@ -1,5 +1,13 @@
 # Changelog
 
+#### 1.0.30 - Jun 1, 2022
+
+- Delete option `koko_analytics_use_custom_endpoint` on plugin uninstall.
+- Only load dashboard-widget.js if user has required capability for viewing stats.
+- Add constant `KOKO_ANALYTICS_CUSTOM_ENDPOINT` for  [disabling the custom endpoint](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/disable-custom-endpoint.php) entirely. This filter can also be used to [manually install the endpoint file to a different file location](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/use-different-custom-endpoint.php).
+- Re-attempt installation of the custom endpoint file every hour. This also automatically re-tests whether the custom endpoint is still working as expected. The plugin already did this whenever you visited the dashboard page, but now it simply runs more often and without requiring you to log-in to your WordPress admin.
+
+
 #### 1.0.29 - Jan 25, 2022
 
 - Skip empty lines in buffer file to avoid a PHP notice in certain edge cases.
