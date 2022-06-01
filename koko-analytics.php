@@ -62,8 +62,6 @@ require __DIR__ . '/src/class-rest.php';
 $rest = new Rest();
 $rest->init();
 
-add_action( 'widgets_init', 'KokoAnalytics\widgets_init' );
-
 require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
 $shortcode->init();
@@ -80,3 +78,7 @@ if ( class_exists( 'WP_CLI' ) ) {
 	require __DIR__ . '/src/class-command.php';
 	\WP_CLI::add_command( 'koko-analytics', 'KokoAnalytics\Command' );
 }
+
+add_action( 'widgets_init', 'KokoAnalytics\widgets_init' );
+
+add_action( 'koko_analytics_test_custom_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint' );

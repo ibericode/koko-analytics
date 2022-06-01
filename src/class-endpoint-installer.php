@@ -13,6 +13,17 @@ class Endpoint_Installer {
 			return false;
 		}
 
+		/* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
+		if ( defined( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT' ) ) {
+			return false;
+		}
+
+		/* If we made it this far we ideally want to use the custom endpoint file */
+		/* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
+		if ( ! wp_next_scheduled( 'koko_analytics_test_custom_endpoint') ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint' );
+		}
+
 		/* Attempt to put the file into place if it does not exist already */
 		if ( ! file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
 			$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->get_file_contents() );

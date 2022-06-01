@@ -49,19 +49,4 @@ class Plugin {
 		// schedule action for aggregating stats
 		$this->aggregator->setup_scheduled_event();
 	}
-
-	//
-	//    public function create_symlink()
-	//    {
-	//        if (!file_exists( ABSPATH . '/koko-analytics-collect.php') && function_exists('symlink')) {
-	//            @symlink( KOKO_ANALYTICS_PLUGIN_DIR . '/collect.php', ABSPATH . '/koko-analytics-collect.php'  );
-	//        }
-	//    }
-	//
-	//    public function remove_symlink()
-	//    {
-	//        if (file_exists( ABSPATH . '/koko-analytics-collect.php' )) {
-	//            unlink(ABSPATH . '/koko-analytics-collect.php');
-	//        }
-	//    }
 }
