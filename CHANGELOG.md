@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.31 - Jun 2, 2022
+
+- Fix error in latest release by ensuring Endpoint_Installer class is always loaded when needed.
+
+
 #### 1.0.30 - Jun 1, 2022
 
 - Delete option `koko_analytics_use_custom_endpoint` on plugin uninstall.
