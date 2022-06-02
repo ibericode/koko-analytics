@@ -4,7 +4,7 @@ Donate link: https://kokoanalytics.com/
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 1.0.31
+Stable tag: 1.0.32
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -99,7 +99,7 @@ A visitor represents the number of sessions during which your website or a speci
 
 == Changelog ==
 
-#### 1.0.31 - Jun 2, 2022
+#### 1.0.32 - Jun 2, 2022
 
 - Fix error in latest release by ensuring Endpoint_Installer class is always loaded when needed.
 
