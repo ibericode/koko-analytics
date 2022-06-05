@@ -4,7 +4,8 @@
  * it to use a file with .txt extension. Make sure to change SECRET-NAME to something unique
  * so that nobody can see your temporary visitor logs. Additionally, make sure this is added to your themes functions.php
  * BEFORE you activate Koko analytics. If Koko has previously been activated, you need to delete the file /koko-analytics-collect.php
- * and then go to the Koko Analytics Settings page to trigger it to install the file again.
+ * and then go to the Koko Analytics Settings page to trigger it to install the file again. This define() needs to be placed in your
+ * themes function.php or a plugin hooked on 'wp' hook, as it needs access to wp_upload_dir() function.
  *
  * See https://github.com/timber/timber/issues/1311 for more info on this behaviour surrounding creation of .php files on WP Engine.
  */
