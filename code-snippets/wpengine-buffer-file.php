@@ -1,6 +1,6 @@
 <?php
 /**
- * WP Engine does not allow the creation of .php files using file_put_content which Koko uses, so we change
+ * WP Engine does not allow the creation of .php files using file_put_contents which Koko uses, so we change
  * it to use a file with .txt extension. Make sure to change SECRET-NAME to something unique
  * so that nobody can see your temporary visitor logs. Additionally, make sure this is added to your themes functions.php
  * BEFORE you activate Koko analytics. If Koko has previously been activated, you need to delete the file /koko-analytics-collect.php
