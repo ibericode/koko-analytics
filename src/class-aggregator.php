@@ -53,8 +53,13 @@ class Aggregator {
 			return;
 		}
 
+		$buffer_file_busy = 'pageviews-busy.php';
+		if ( defined( 'KOKO_ANALYTICS_BUFFER_FILE_BUSY' ) ) {
+			$buffer_file_busy = KOKO_ANALYTICS_BUFFER_FILE_BUSY;
+		}
+
 		// rename file to temporary location so nothing new is written to it while we process it
-		$tmp_filename = dirname( $filename ) . '/pageviews-busy.php';
+		$tmp_filename = dirname( $filename ) . '/' . $buffer_file_busy;
 
 		// if file exists, previous aggregation job is still running or never finished
 		if ( file_exists( $tmp_filename ) ) {

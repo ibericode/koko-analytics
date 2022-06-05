@@ -10,3 +10,4 @@
  * See https://github.com/timber/timber/issues/1311 for more info on this behaviour surrounding creation of .php files on WP Engine.
  */
 define('KOKO_ANALYTICS_BUFFER_FILE', rtrim( wp_upload_dir( null, false )['basedir'], '/' ) . '/pageviews-SECRET-NAME.txt');
+define('KOKO_ANALYTICS_BUFFER_FILE_BUSY', 'pageviews-SECRET-NAME-busy.txt');
