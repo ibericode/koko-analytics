@@ -1,6 +1,6 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
-Donate link: https://kokoanalytics.com/
+Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 6.0
@@ -40,7 +40,7 @@ You can contribute to Koko Analytics in many different ways. For example:
 - Write about the plugin on your blog or share it on social media.
 - [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-
+- Help fund the plugin through our [OpenCollective intiative](https://opencollective.com/koko-analytics).
 
 == Installation ==
 
@@ -128,7 +128,7 @@ A visitor represents the number of sessions during which your website or a speci
 - Cache dashboard requests to REST API for 5 minutes (using browser cache).
 - Use integers for viewbox coordinates (for increased performance).
 - Simple locking mechanism for aggregation job to detect previous runs which are still busy.
-- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate` 
+- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate`
 
 
 #### 1.0.27 - May 4, 2021
@@ -162,7 +162,7 @@ A visitor represents the number of sessions during which your website or a speci
 
 #### 1.0.23 - Jan 15, 2021
 
-Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
+Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
 
 If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
 
@@ -182,14 +182,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists 
+- Only call add_cap on administrator role if such a role exists
 - Update JS dependencies.
 - Update built-in referrer blocklist.
 
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 

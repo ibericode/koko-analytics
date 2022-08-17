@@ -1,5 +1,14 @@
 # Changelog
 
+#### 1.0.33 - Aug 17, 2022
+
+- Always show at least 1 visitor if pageviews were recorded that day.
+- Decrease Cache-Control header of REST API responses to 60s.
+- Add button to reset all statistics.
+- Add filter `koko_analytics_url_aggregations` to modify or add URL aggregations for referrer URL's.
+- Created an initiative on OpenCollective for others to help fund development and support costs of Koko Analytics. Please visit https://opencollective.com/koko-analytics for more details.
+
+
 #### 1.0.32 - Jun 2, 2022
 
 - Fix error in latest release by ensuring Endpoint_Installer class is always loaded when needed.
