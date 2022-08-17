@@ -117,7 +117,7 @@ class Rest {
 
 	private function respond( $data ) {
 		$result = new \WP_REST_Response( $data, 200 );
-		$result->set_headers( array( 'Cache-Control' => 'max-age=300' ) );
+		$result->set_headers( array( 'Cache-Control' => 'max-age=60' ) );
 		return $result;
 	}
 
