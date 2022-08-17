@@ -24,7 +24,7 @@
     "classmap": [ "src/" ]
   },
   "scripts": {
-    "test": "php vendor/bin/phpunit --bootstrap vendor/autoload.php tests/",
+    "test": "php vendor/bin/phpunit --bootstrap tests/bootstrap.php  tests/",
     "codestyle": "php vendor/bin/phpcs -n -s",
 	"codestyle-fix": "php vendor/bin/phpcbf"
   },
