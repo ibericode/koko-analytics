@@ -101,6 +101,18 @@ class Rest {
 				},
 			)
 		);
+
+		register_rest_route(
+			'koko-analytics/v1',
+			'/reset',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'reset_data' ),
+				'permission_callback' => function () {
+					return current_user_can( 'manage_koko_analytics' );
+				},
+			)
+		);
 	}
 
 	private function respond( $data ) {
@@ -187,4 +199,13 @@ class Rest {
 		return get_realtime_pageview_count( $since );
 	}
 
+	public function reset_data( \WP_REST_Request $request ) {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_urls;" );
+		delete_option( "koko_analytics_realtime_pageview_count" );
+		return true;
+	}
 }

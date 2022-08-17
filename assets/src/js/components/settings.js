@@ -3,6 +3,7 @@ import api from './../util/api.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets'
 import { __ } from '@wordpress/i18n'
+import ButtonReset from './button-reset.js'
 
 const data = window.koko_analytics
 const roles = window.koko_analytics.user_roles
@@ -40,13 +41,10 @@ export default class Settings extends Component {
         })
       }, Math.max(20, 400 - (+new Date() - startTime)))
     }).finally(() => {
-      this.setState({
-        saving: false
-      })
-
       window.setTimeout(() => {
         this.setState({
-          buttonText: __('Save Changes', 'koko-analytics')
+          buttonText: __('Save Changes', 'koko-analytics'),
+          saving: false
         })
       }, 4000)
     })
@@ -150,6 +148,12 @@ export default class Settings extends Component {
               }
             </div>
             <div className='margin-m'>
+              <h2>{__('Data', 'koko-analytics')}</h2>
+              <div className='input-group'>
+                <p>
+                  <ButtonReset />
+                </p>
+              </div>
               <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
             </div>
           </div>
