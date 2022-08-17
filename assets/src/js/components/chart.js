@@ -128,7 +128,17 @@ export default class Chart extends Component {
         }
       }
 
-      this.setState({ dataset: Object.values(map), yMax, groupByMonth })
+      // Set visitors to be at least 1 if there are pageviews
+      // This may not actually be technically true but it is easier than explaining the nuances of the tracking mechanism.
+      const dataset = Object.values(map).map((d) => {
+        if (d.pageviews > 0) {
+          d.visitors = Math.max(1, d.visitors)
+        }
+
+        return d
+      })
+
+      this.setState({ dataset, yMax, groupByMonth })
     }).catch(_ => {
       // empty chart if request somehow failed
       this.setState({
