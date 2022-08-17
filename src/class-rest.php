@@ -205,7 +205,7 @@ class Rest {
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;" );
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_stats;" );
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_urls;" );
-		delete_option( "koko_analytics_realtime_pageview_count" );
+		delete_option( 'koko_analytics_realtime_pageview_count' );
 		return true;
 	}
 }
