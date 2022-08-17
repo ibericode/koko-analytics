@@ -306,6 +306,8 @@ class Aggregator {
 			'/^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
 		);
 
+		$aggregations = apply_filters( 'koko_analytics_url_aggregations', $aggregations );
+
 		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url, 1 );
 	}
 
