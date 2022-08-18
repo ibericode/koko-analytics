@@ -143,7 +143,7 @@ class Rest {
 			return $row;
 		}, $result) : $result;
 
-		$send_cache_headers = $end_date < date('Y-m-d');
+		$send_cache_headers = $end_date < date( 'Y-m-d' );
 		return $this->respond( $result, $send_cache_headers );
 	}
 
@@ -168,7 +168,7 @@ class Rest {
 			return $row;
 		}, $results);
 
-		$send_cache_headers = $end_date < date('Y-m-d');
+		$send_cache_headers = $end_date < date( 'Y-m-d' );
 		return $this->respond( $results, $send_cache_headers );
 	}
 
@@ -182,7 +182,7 @@ class Rest {
 		$sql        = $wpdb->prepare( "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, r.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
 
-		$send_cache_headers = $end_date < date('Y-m-d');
+		$send_cache_headers = $end_date < date( 'Y-m-d' );
 		return $this->respond( $results, $send_cache_headers );
 	}
 
