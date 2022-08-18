@@ -149,12 +149,13 @@ export default class Settings extends Component {
             </div>
             <div className='margin-m'>
               <h2>{__('Data', 'koko-analytics')}</h2>
+              <p>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
               <div className='input-group'>
+                <p>{__('Use the button below to erase all of your current analytics data. You may have to clear your browser\'s cache afterwards for the effect to be evident.', 'koko-analytics')}</p>
                 <p>
                   <ButtonReset />
                 </p>
               </div>
-              <p className='help'>{__('Database size:', 'koko-analytics')} {data.dbSize} MB</p>
             </div>
           </div>
           <Nav />

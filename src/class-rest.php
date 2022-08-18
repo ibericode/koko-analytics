@@ -115,9 +115,14 @@ class Rest {
 		);
 	}
 
-	private function respond( $data ) {
+	private function respond( $data, bool $send_cache_headers = false ) {
 		$result = new \WP_REST_Response( $data, 200 );
-		$result->set_headers( array( 'Cache-Control' => 'max-age=60' ) );
+
+		// if this request was for stats for a closed (past) period
+		// instruct browsers to cache the response for 7 days
+		if ( $send_cache_headers ) {
+			$result->set_headers( array( 'Cache-Control' => 'max-age=604800' ) );
+		}
 		return $result;
 	}
 
@@ -137,7 +142,9 @@ class Rest {
 			$row->visitors = (int) $row->visitors;
 			return $row;
 		}, $result) : $result;
-		return $this->respond( $result );
+
+		$send_cache_headers = $end_date < date('Y-m-d');
+		return $this->respond( $result, $send_cache_headers );
 	}
 
 	public function get_posts( \WP_REST_Request $request ) {
@@ -160,7 +167,9 @@ class Rest {
 			$row->visitors = (int) $row->visitors;
 			return $row;
 		}, $results);
-		return $this->respond( $results );
+
+		$send_cache_headers = $end_date < date('Y-m-d');
+		return $this->respond( $results, $send_cache_headers );
 	}
 
 	public function get_referrers( \WP_REST_Request $request ) {
@@ -172,7 +181,9 @@ class Rest {
 		$limit = isset( $params['limit'] ) ? absint( $params['limit'] ) : 10;
 		$sql        = $wpdb->prepare( "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, r.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
-		return $this->respond( $results );
+
+		$send_cache_headers = $end_date < date('Y-m-d');
+		return $this->respond( $results, $send_cache_headers );
 	}
 
 	public function update_settings( \WP_REST_Request $request ) {
