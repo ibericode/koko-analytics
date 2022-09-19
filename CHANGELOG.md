@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.0.34 - Sep 19, 2022
+
+- Track visits to front page (if not a static page) as well.
+- Use gmdate() for determining whether to send cache headers.
+- Update JavaScript dependencies.
+
+
 #### 1.0.33 - Aug 17, 2022
 
 - Always show at least 1 visitor if pageviews were recorded that day.
