@@ -60,8 +60,22 @@ class Script_Loader {
 
 	}
 
+	/**
+	 * Returns the internal ID of the page or post that is being shown.
+	 * If page is not a singular object, the function returns 1 if it is the front page (from Settings) or -1 if something else (eg category archive).
+	 *
+	 * @return int
+	 */
 	private function get_post_id() {
-		return is_singular() ? get_queried_object_id() : 0;
+		if ( is_singular() ) {
+			return get_queried_object_id();
+		}
+
+		if ( is_front_page() ) {
+			return 0;
+		}
+
+		return -1;
 	}
 
 	private function get_tracker_url() {

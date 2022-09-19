@@ -115,7 +115,7 @@ class Aggregator {
 			}
 
 			// update page stats (if received)
-			if ( $post_id > 0 ) {
+			if ( $post_id >= 0 ) {
 				if ( ! isset( $post_stats[ $post_id ] ) ) {
 					$post_stats[ $post_id ] = array(
 						'visitors'  => 0,

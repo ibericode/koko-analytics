@@ -162,7 +162,14 @@ class Rest {
 
 		// add permalink to each result
 		$results = array_map( function( $row ) {
-			$row->post_permalink = get_permalink( $row->id );
+			// special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
+			if ( $row->id == 0 ) {
+				$row->post_permalink = home_url();
+				$row->post_title = get_bloginfo( 'name' );
+			} else {
+				$row->post_permalink = get_permalink( $row->id );
+			}
+
 			$row->pageviews = (int) $row->pageviews;
 			$row->visitors = (int) $row->visitors;
 			return $row;

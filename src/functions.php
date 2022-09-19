@@ -114,7 +114,7 @@ function get_most_viewed_posts( array $args ) {
 	$args = array_merge( $default_args, $args );
 	$start_date = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
 	$end_date   = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
-	$sql        = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE s.date >= %s AND s.date <= %s AND p.post_type = %s AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['post_type'], $args['number'] ) );
+	$sql        = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id > 0 AND s.date >= %s AND s.date <= %s AND p.post_type = %s AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['post_type'], $args['number'] ) );
 	$results    = $wpdb->get_results( $sql );
 	if ( empty( $results ) ) {
 		return array();
