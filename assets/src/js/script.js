@@ -112,6 +112,5 @@ window.addEventListener('load', function () {
 
   trackPageview()
 
-  window.koko_analytics.trackPageview = trackPageview;
-
+  window.koko_analytics.trackPageview = trackPageview
 })
