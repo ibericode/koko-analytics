@@ -11,7 +11,6 @@ window.addEventListener('load', function () {
     console.log('Koko Analytics: no configuration object found in DOM.')
     return
   }
-  const postId = String(config.post_id)
 
   function getCookie (name) {
     if (!document.cookie) {
@@ -38,7 +37,9 @@ window.addEventListener('load', function () {
     document.cookie = str
   }
 
-  function trackPageview () {
+  function trackPageview (postId) {
+    postId = String(postId)
+
     // do not track if "Do Not Track" is enabled
     if ('doNotTrack' in navigator && navigator.doNotTrack === '1' && config.honor_dnt) {
       return
@@ -110,7 +111,7 @@ window.addEventListener('load', function () {
     document.body.appendChild(img)
   }
 
-  trackPageview()
+  trackPageview(config.post_id)
 
   window.koko_analytics.trackPageview = trackPageview
 })
