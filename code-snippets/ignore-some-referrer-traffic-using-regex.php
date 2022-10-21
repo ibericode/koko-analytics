@@ -5,7 +5,7 @@
 
 // This filter is only for more advanced filtering, like requiring a regex.
 add_filter( 'koko_analytics_ignore_referrer_url', function( $url ) {
-	if ( preg_match( '/spambot(.+)/', $url) ) {
+	if ( preg_match( '/spambot(.+)/', $url ) ) {
 		return true;
 	}
 
