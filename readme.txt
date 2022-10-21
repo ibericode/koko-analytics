@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 1.0.34
+Stable tag: 1.0.35
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 5.3
@@ -106,6 +106,14 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 
 == Changelog ==
+
+### 1.0.35 - Oct 21, 2022
+
+- You can now call `koko_analytics.trackPageview( postId )` to manually track a pageview. This is especially useful for Single Page Applications.
+- Update referrer blocklist.
+- If referrer URL is on referrer blocklist, the entire request is now ignored (vs. just the referrer part).
+- Update JavaScript dependencies.
+
 
 #### 1.0.34 - Sep 19, 2022
 
