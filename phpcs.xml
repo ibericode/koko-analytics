@@ -6,6 +6,7 @@
     <file>migrations/</file>
     <file>views/</file>
     <file>koko-analytics.php</file>
+	<exclude-pattern>*\.(html|css|js)</exclude-pattern>
     <rule ref="WordPress-Core">
         <exclude name="WordPress.PHP.YodaConditions" />
         <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
