@@ -108,6 +108,11 @@ class Aggregator {
 			$unique_pageview = (int) $p[2];
 			$referrer_url    = trim( $p[3] );
 
+			// Ignore entire line (request) if referrer URL is on blocklist
+			if ( $referrer_url !== '' && $this->ignore_referrer_url( $referrer_url ) ) {
+				continue;
+			}
+
 			// update site stats
 			$site_stats['pageviews'] += 1;
 			if ( $new_visitor ) {
@@ -131,7 +136,7 @@ class Aggregator {
 			}
 
 			// increment referrals
-			if ( $referrer_url !== '' && ! $this->ignore_referrer_url( $referrer_url ) ) {
+			if ( $referrer_url !== '' ) {
 				$referrer_url = $this->clean_url( $referrer_url );
 				$referrer_url = $this->normalize_url( $referrer_url );
 
