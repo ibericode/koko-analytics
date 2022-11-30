@@ -23,15 +23,16 @@ Stop sharing visitor data with third-party companies making money off that same 
 
 - **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
 - **Privacy**: No personal information or anything visitor specific is tracked.
+- **No external services**: Data about visits to your website is yours and yours alone.
+- **Performance**: Handles thousands of simultaneous pageviews without breaking a sweat.
+- **Lightweight**: Adds only 985 bytes of data to your pages.
 - **GDPR**: Compliant by design.
-- **Data ownership**: No external services are used. Data about visits to your website is yours and yours alone.
-- **Performance**. Handles sudden bursts of traffic without breaking a sweat.
 - **Metrics**: All the essentials: visitors, pageviews and referrers.
 - **Cookies**: There is an option to not use any cookies.
 - **Referrer spam:** Built-in blacklist to filter out referrer spam.
-- **Cache**: Fully compatible with pages served from any cache.
+- **Cache**: Fully compatible with pages served from any kind of cache.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only, for now).
-- **Open-source**: Code is released under the GPL 3.0 license.
+- **Open-Source**: Code is released under the GPL 3.0 license.
 
 ### Contributing
 

@@ -15,8 +15,9 @@ Koko Analytics
 
 - No external services. Data is yours and yours alone.
 - No personal information or anything visitor specific is tracked.
-- Blazingly fast. Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- Plug and play. Just install and activate the plugin and stats will automatically be recorded.
+- Fast! Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
+- Lightweight. Adds only 985 bytes of data to your pages.
+- Plug and play. Just install and activate the plugin and stats will be recorded right away.
 - Open-source (GPLv3 licensed).
 
 ### How to install
