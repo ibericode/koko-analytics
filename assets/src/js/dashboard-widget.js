@@ -1,5 +1,3 @@
-'use strict'
-
 import Chart from './components/chart'
 import { render, h } from 'preact'
 const el = document.getElementById('koko-analytics-dashboard-widget-mount')

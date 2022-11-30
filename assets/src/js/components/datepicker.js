@@ -8,7 +8,7 @@ import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-const startOfWeek = parseInt(window.koko_analytics.start_of_week)
+const startOfWeek = parseInt(window.koko_analytics.start_of_week, 10)
 const settings = window.koko_analytics.settings
 
 export default class Datepicker extends Component {
@@ -195,7 +195,7 @@ export default class Datepicker extends Component {
               <div>
                 <label for='ka-date-presets'>{__('Date range', 'koko-analytics')}</label>
                 <select id='ka-date-presets' onChange={(evt) => { this.setPeriod(evt.target.value) }}>
-                  {datePresets.map(p => <option value={p.key} selected={state.preset === p.key}>{p.label}</option>)}
+                  {datePresets.map(p => <option key={p.key} value={p.key} selected={state.preset === p.key}>{p.label}</option>)}
                 </select>
               </div>
               <div>

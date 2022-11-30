@@ -55,7 +55,7 @@ export default class Chart extends Component {
     window.clearInterval(this.refreshInterval)
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
       return
     }
@@ -139,7 +139,7 @@ export default class Chart extends Component {
       })
 
       this.setState({ dataset, yMax, groupByMonth })
-    }).catch(_ => {
+    }).catch(() => {
       // empty chart if request somehow failed
       this.setState({
         dataset: [],

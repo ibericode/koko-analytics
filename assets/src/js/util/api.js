@@ -1,5 +1,3 @@
-'use strict'
-
 import fetch from 'unfetch'
 import 'promise-polyfill/src/polyfill'
 

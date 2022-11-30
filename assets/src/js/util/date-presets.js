@@ -17,7 +17,7 @@ import {
 } from 'date-fns'
 
 const monday = 1
-const firstDayOfTheWeek = parseInt(window.koko_analytics.start_of_week) || monday
+const firstDayOfTheWeek = parseInt(window.koko_analytics.start_of_week, 10) || monday
 
 export default [
   {

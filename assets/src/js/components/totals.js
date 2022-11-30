@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import '../../sass/totals.scss'
@@ -36,7 +34,7 @@ export default class Totals extends Component {
     window.clearInterval(this.refreshInterval)
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
       return
     }

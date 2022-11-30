@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
 import Pagination from './table-pagination.js'
@@ -27,7 +25,7 @@ export default class TopPosts extends Component {
     window.clearInterval(this.refreshInterval)
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps) {
     if (this.props.startDate.getTime() === prevProps.startDate.getTime() && this.props.endDate.getTime() === prevProps.endDate.getTime()) {
       return
     }
@@ -48,7 +46,7 @@ export default class TopPosts extends Component {
       body: {
         start_date: api.formatDate(this.props.startDate),
         end_date: api.formatDate(this.props.endDate),
-        offset: offset,
+        offset,
         limit: this.state.limit
       }
     }).then(items => {

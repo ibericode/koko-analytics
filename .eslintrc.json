@@ -4,8 +4,7 @@
 	"es6": true
   },
   "extends": [
-	"standard",
-	"standard-preact",
+	"preact",
 	"plugin:jest/recommended"
   ],
   "globals": {
@@ -16,14 +15,13 @@
 	"ecmaFeatures": {
 	  "jsx": true
 	},
-	"ecmaVersion": 9,
+	"ecmaVersion": 2021,
 	"sourceType": "module"
   },
   "plugins": [
-	"react",
 	"jest"
   ],
   "rules": {
-	"dot-notation": "off"
+	"prefer-template": "off"
   }
 }

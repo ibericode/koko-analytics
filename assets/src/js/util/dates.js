@@ -11,7 +11,7 @@ function parseISO8601 (v) {
     return null
   }
 
-  let [y, m, d] = parts.map(v => parseInt(v))
+  let [y, m, d] = parts.map(v => parseInt(v, 10))
   if (y < 1000) {
     y += 2000
   }

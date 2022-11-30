@@ -4,6 +4,7 @@ import Nav from './nav.js'
 import datePresets from '../util/date-presets'
 import { __ } from '@wordpress/i18n'
 import ButtonReset from './button-reset.js'
+/* eslint react/no-danger: "off" */
 
 const data = window.koko_analytics
 const roles = window.koko_analytics.user_roles
@@ -34,7 +35,7 @@ export default class Settings extends Component {
     api.request('/settings', {
       method: 'POST',
       body: settings
-    }).then(success => {
+    }).then(() => {
       window.setTimeout(() => {
         this.setState({
           buttonText: __('Saved!', 'koko-analytics')
@@ -52,7 +53,7 @@ export default class Settings extends Component {
 
   handleRadioClick (key) {
     return (evt) => {
-      settings[key] = parseInt(evt.target.value)
+      settings[key] = parseInt(evt.target.value, 10)
       this.setState({ settings })
     }
   }
@@ -98,7 +99,7 @@ export default class Settings extends Component {
                     settings.default_view = evt.target.value
                     this.setState({ settings })
                   }}>
-                  {datePresets.map(i => <option value={i.key} selected={settings.default_view === i.key}>{i.label}</option>)}
+                  {datePresets.map(i => <option value={i.key} key={i.key} selected={settings.default_view === i.key}>{i.label}</option>)}
                 </select>
                 <p className='help'>
                   {__('The default date period to show when opening the analytics dashboard.', 'koko-analytics')}
@@ -109,7 +110,7 @@ export default class Settings extends Component {
                 <label>{__('Automatically delete data older than how many months?', 'koko-analytics')}</label>
                 <input
                   type='number' value={settings.prune_data_after_months} onChange={(evt) => {
-                    settings.prune_data_after_months = parseInt(evt.target.value)
+                    settings.prune_data_after_months = parseInt(evt.target.value, 10)
                     this.setState({ settings })
                   }} step={1} min={0} max={600}
                 /> {__('months', 'koko-analytics')}

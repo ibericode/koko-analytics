@@ -1,5 +1,3 @@
-'use strict'
-
 import { h, Component } from 'preact'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'

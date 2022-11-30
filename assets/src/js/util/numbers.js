@@ -1,5 +1,3 @@
-'use strict'
-
 const M = 1000000
 const K = 1000
 const REGEX_TRAILING_ZEROES = /\.0+$/
