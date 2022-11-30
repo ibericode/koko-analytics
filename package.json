@@ -24,8 +24,8 @@
 	},
 	"homepage": "https://github.com/ibericode/koko-analytics#readme",
 	"dependencies": {
-		"@wordpress/i18n": "^4.0.0",
-		"date-fns": "^2.21.3",
+	  	"@wordpress/i18n": "^4.22.0",
+	  	"date-fns": "^2.21.3",
 		"history": "^5.0.0",
 		"pikaday": "^1.8.0",
 		"preact": "^10.5.12",
