@@ -100,11 +100,20 @@ class Script_Loader {
 	public function print_js_object() {
 		$settings = get_settings();
 		$script_config         = array(
-			'tracker_url'   => $this->get_tracker_url(),
+			// the URL of the tracking endpoint
+			'url'   => $this->get_tracker_url(),
+
+			// ID of the current post (or -1 in case of non-singular type)
 			'post_id'       => (int) $this->get_post_id(),
+
+			// wether to set a cookie
 			'use_cookie'    => (int) $settings['use_cookie'],
+
+			// path to store the cookie in (will be subdirectory if website root is in subdirectory)
 			'cookie_path' => $this->get_cookie_path(),
-			'honor_dnt' => apply_filters( 'koko_analytics_honor_dnt', true ),
+
+			// whether to honor DoNotTrack
+			'dnt' => apply_filters( 'koko_analytics_honor_dnt', true ),
 		);
 		echo '<script>window.koko_analytics = ', json_encode( $script_config ), ';</script>';
 	}

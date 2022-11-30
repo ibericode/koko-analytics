@@ -9,13 +9,13 @@ module.exports = {
   },
   entry: {
     admin: './assets/src/js/admin.js',
-    'dashboard-widget': './assets/src/js/dashboard-widget.js'
+    'dashboard-widget': './assets/src/js/dashboard-widget.js',
+    script: './assets/src/js/script.js'
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'assets/dist/js')
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -51,13 +51,12 @@ module.exports = {
     ]
   },
   externals: {
-    'moment': 'moment',
+    moment: 'moment',
     '@wordpress/i18n': 'wp.i18n'
   },
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: './assets/src/js/script.js', to: path.resolve(__dirname, './assets/dist/js/script.js') },
         { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') }
       ]
     })
