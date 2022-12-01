@@ -1,4 +1,4 @@
-name: JS Lint
+name: JS
 
 on: [ push, pull_request ]
 

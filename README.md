@@ -1,7 +1,7 @@
 Koko Analytics
 ===========
 ![PHP status](https://github.com/ibericode/koko-analytics/workflows/PHP/badge.svg)
-![ESLint status](https://github.com/ibericode/koko-analytics/workflows/ESLint/badge.svg)
+![ESLint status](https://github.com/ibericode/koko-analytics/workflows/JS/badge.svg)
 ![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)
 ![Downloads](https://img.shields.io/wordpress/plugin/dt/koko-analytics.svg)
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
