@@ -7,7 +7,7 @@
 		"watch": "webpack --mode=development --watch",
 		"download-referrer-blocklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist",
 		"create-pot": "wp i18n make-pot .",
-		"lint": "eslint assets/src"
+		"lint": "eslint assets/src/js/. --ext js"
 	},
 	"private": true,
 	"repository": {
