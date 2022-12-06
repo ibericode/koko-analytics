@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.0.36 - Dec 06, 2022
+
+- Shrink size of tracking script to 985 bytes (when using gzip compression).
+
+
 ### 1.0.35 - Oct 21, 2022
 
 - You can now call `koko_analytics.trackPageview( postId )` to manually track a pageview. This is especially useful for Single Page Applications.
