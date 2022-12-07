@@ -36,8 +36,8 @@ function trackPageview (postId) {
 
   const pagesViewed = getPagesViewed()
   // first element is always empty string, so if length is 1 it is empty
-  let isNewVisitor = +pagesViewed.length === 1
-  let isUniquePageview = +pagesViewed.indexOf(postId) === -1
+  let isNewVisitor = pagesViewed.length === 1 ? 1 : 0
+  let isUniquePageview = pagesViewed.indexOf(postId) === -1 ? 1 : 0
   let referrer = doc.referrer
 
   // check if referred by same-site (so definitely a returning visitor)
