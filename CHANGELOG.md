@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.0.37 - Dec 07, 2022
+
+- Fix potential issue in tracking script causing incorrect stats collection.
+
+
 ### 1.0.36 - Dec 06, 2022
 
 - Shrink size of tracking script to 985 bytes (when using gzip compression).
