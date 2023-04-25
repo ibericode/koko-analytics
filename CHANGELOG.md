@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.0.38 - Apr 25, 2023
+
+- Fix issue with dashboard widget rendering incorrectly when it was initially hidden.
+- Only render chart in dashboard widget when it is currently visible.
+
+
 ### 1.0.37 - Dec 07, 2022
 
 - Fix potential issue in tracking script causing incorrect stats collection.
