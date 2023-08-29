@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.0.39 - Aug 29, 2023
+
+- Update referrer blocklist
+- Update third-party JS dependencies
+- Bump tested WordPress version
+
+
 ### 1.0.38 - Apr 25, 2023
 
 - Fix issue with dashboard widget rendering incorrectly when it was initially hidden.
