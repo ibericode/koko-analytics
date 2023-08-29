@@ -2,7 +2,7 @@
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-Version: 1.0.38
+Version: 1.0.39
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KokoAnalytics;
 
-define( 'KOKO_ANALYTICS_VERSION', '1.0.38' );
+define( 'KOKO_ANALYTICS_VERSION', '1.0.39' );
 define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
 define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
 
