@@ -150,10 +150,6 @@ class Admin
 
 	public function maybe_run_migrations()
 	{
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
 		$from_version = isset( $_GET['koko_analytics_migrate_from_version'] ) ? $_GET['koko_analytics_migrate_from_version'] : get_option( 'koko_analytics_version', '0.0.1' );
 		$to_version = KOKO_ANALYTICS_VERSION;
 		if ( version_compare( $from_version, $to_version, '>=' ) ) {
