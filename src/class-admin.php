@@ -144,7 +144,15 @@ class Admin
 			return;
 		}
 
+		// do not run if we attempted in the last hour already
+		if ( get_transient( 'koko_analytics_install_custom_endpoint_attempt' ) !== false ) {
+			return;
+		}
+
 		install_and_test_custom_endpoint();
+
+		// set flag to prevent attempting to install again within the next hour
+		set_transient( 'koko_analytics_install_custom_endpoint_attempt', 1, HOUR_IN_SECONDS );
 	}
 
 	private function get_colors()
