@@ -154,7 +154,7 @@ class Rest {
 		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$offset = isset( $params['offset'] ) ? absint( $params['offset'] ) : 0;
 		$limit = isset( $params['limit'] ) ? absint( $params['limit'] ) : 10;
-		$sql        = $wpdb->prepare( "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, p.post_title FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->posts} p ON p.ID = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, s.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
+		$sql        = $wpdb->prepare( "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, COALESCE(NULLIF(p.post_title, ''), p.post_name) AS post_title FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->posts} p ON p.ID = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, s.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ) );
 		$results    = $wpdb->get_results( $sql );
 		if ( empty( $results ) ) {
 			return $this->respond( array() );
@@ -167,6 +167,7 @@ class Rest {
 				$row->post_permalink = home_url();
 				$row->post_title = get_bloginfo( 'name' );
 			} else {
+				/* TODO: Optimize this */
 				$row->post_permalink = get_permalink( $row->id );
 			}
 
