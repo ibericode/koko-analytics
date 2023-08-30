@@ -39,10 +39,10 @@ require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
 require __DIR__ . '/src/class-endpoint-installer.php';
 
+
 if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	maybe_collect_request();
 } elseif ( is_admin() ) {
-	require __DIR__ . '/src/class-migrations.php';
 	require __DIR__ . '/src/class-admin.php';
 	$admin = new Admin();
 	$admin->init();
@@ -59,6 +59,10 @@ require __DIR__ . '/src/class-pageview-aggregator.php';
 $aggregator = new Aggregator();
 $aggregator->init();
 
+require __DIR__ . '/src/class-plugin.php';
+$plugin = new Plugin( $aggregator );
+$plugin->init();
+
 require __DIR__ . '/src/class-rest.php';
 $rest = new Rest();
 $rest->init();
@@ -70,10 +74,6 @@ $shortcode->init();
 require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
-
-require __DIR__ . '/src/class-plugin.php';
-$plugin = new Plugin( $aggregator );
-$plugin->init();
 
 if ( class_exists( 'WP_CLI' ) ) {
 	require __DIR__ . '/src/class-command.php';

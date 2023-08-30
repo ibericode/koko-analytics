@@ -12,7 +12,6 @@ class Admin
 	{
 		global $pagenow;
 
-		add_action( 'init', array( $this, 'maybe_run_migrations' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
@@ -146,25 +145,6 @@ class Admin
 		}
 
 		install_and_test_custom_endpoint();
-	}
-
-	public function maybe_run_migrations()
-	{
-		$from_version = isset( $_GET['koko_analytics_migrate_from_version'] ) ? $_GET['koko_analytics_migrate_from_version'] : get_option( 'koko_analytics_version', '0.0.1' );
-		$to_version = KOKO_ANALYTICS_VERSION;
-		if ( version_compare( $from_version, $to_version, '>=' ) ) {
-			return;
-		}
-
-		// run upgrade migrations (if any)
-		$migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
-		$migrations = new Migrations( $from_version, $to_version, $migrations_dir );
-		$migrations->run();
-		update_option( 'koko_analytics_version', $to_version );
-
-		// make sure scheduled event is set-up correctly
-		$aggregator = new Aggregator();
-		$aggregator->setup_scheduled_event();
 	}
 
 	private function get_colors()
