@@ -19,12 +19,21 @@ function maybe_collect_request() {
 }
 
 function collect_request() {
-	$unique_visitor  = (int) $_GET['nv'];
-	$unique_pageview = (int) $_GET['up'];
-	$post_id         = (int) $_GET['p'];
-	$referrer        = isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '';
+	if ( ! isset( $_GET['e'] ) ) {
+		$data = array(
+			(int) $_GET['p'],   // post ID
+			(int) $_GET['nv'],  // new visitor?
+			(int) $_GET['up'],  // unique pageview?
+			isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '', // referrer URL
+		);
+	} else {
+		$data = array(
+			trim( $_GET['e'] ), // event name
+			$_GET['p'],         // event params
+		);
+	}
 
-	$success = isset( $_GET['test'] ) ? test_collect_in_file() : collect_in_file( $post_id, $unique_visitor, $unique_pageview, $referrer );
+	$success = isset( $_GET['test'] ) ? test_collect_in_file() : collect_in_file( $data );
 
 	// set OK headers & prevent caching
 	if ( ! $success ) {
@@ -65,7 +74,7 @@ function get_buffer_filename() {
 	return rtrim( $uploads['basedir'], '/' ) . '/pageviews.php';
 }
 
-function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $referrer = '' ) {
+function collect_in_file( array $data ) {
 	$filename = get_buffer_filename();
 
 	// if file does not yet exist, add PHP header to prevent direct file access
@@ -76,8 +85,8 @@ function collect_in_file( $post_id, $is_new_visitor, $is_unique_pageview, $refer
 	}
 
 	// append data to file
-	$line = join( ',', array( $post_id, $is_new_visitor, $is_unique_pageview, $referrer ) );
-	$content .= $line . PHP_EOL;
+	$line = join( ',', $data ) . PHP_EOL;
+	$content .= $line;
 	return file_put_contents( $filename, $content, FILE_APPEND );
 }
 
