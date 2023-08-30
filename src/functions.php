@@ -51,10 +51,10 @@ function collect_request() {
 	header( 'Tk: N' );
 
 	// set cookie server-side if requested (eg for AMP requests)
-	if ( isset( $_GET['sc'] ) && (int) $_GET['sc'] === 1 ) {
-		$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
-		if ( $unique_pageview ) {
-			$posts_viewed[] = $post_id;
+	if ( isset( $_GET['p'] ) && isset( $_GET['sc'] ) && (int) $_GET['sc'] === 1 ) {
+		$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array( '' );
+		if ( (int) $_GET['nv'] ) {
+			$posts_viewed[] = (int) $_GET['p'];
 		}
 		$cookie = join( ',', $posts_viewed );
 		setcookie( '_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/' );
