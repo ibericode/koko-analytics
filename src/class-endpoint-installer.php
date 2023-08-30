@@ -24,6 +24,14 @@ class Endpoint_Installer {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint' );
 		}
 
+		/* Check if path to buffer file changed */
+		if ( file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
+			$content = file_get_contents( ABSPATH . '/koko-analytics-collect.php' );
+			if ( ! str_contains( $content, get_buffer_filename() ) ) {
+				unlink( ABSPATH . '/koko-analytics-collect.php' );
+			}
+		}
+
 		/* Attempt to put the file into place if it does not exist already */
 		if ( ! file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
 			$success = file_put_contents( ABSPATH . '/koko-analytics-collect.php', $this->get_file_contents() );
