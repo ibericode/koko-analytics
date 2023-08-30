@@ -39,7 +39,6 @@ require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
 require __DIR__ . '/src/class-endpoint-installer.php';
 
-
 if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	maybe_collect_request();
 } elseif ( is_admin() ) {
