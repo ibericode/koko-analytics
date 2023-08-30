@@ -60,7 +60,7 @@ class Pageview_Aggregator {
 		}
 
 		// increment referrals
-		if ( $referrer_url !== '' ) {
+		if ( $this->is_valid_url( $referrer_url ) ) {
 			$referrer_url = $this->clean_url( $referrer_url );
 			$referrer_url = $this->normalize_url( $referrer_url );
 
@@ -245,6 +245,14 @@ class Pageview_Aggregator {
 		$aggregations = apply_filters( 'koko_analytics_url_aggregations', $aggregations );
 
 		return preg_replace( array_keys( $aggregations ), array_values( $aggregations ), $url, 1 );
+	}
+
+	public function is_valid_url( $url ) {
+		if ( $url === '' || strlen( $url ) < 4 ) {
+			return false;
+		}
+
+		return filter_var( $url, FILTER_VALIDATE_URL );
 	}
 
 }
