@@ -208,7 +208,8 @@ export default class Chart extends Component {
       top: 24,
       right: 24
     }
-    const isLargeScreen = window.innerWidth >= 1280
+    const mount = this.__P ?? this.base;
+    const isLargeScreen = mount && mount.clientWidth >= 1280
     const drawTick = ticks <= 90
     const innerWidth = width - padding.left - padding.right
     const innerHeight = height - padding.bottom - padding.top

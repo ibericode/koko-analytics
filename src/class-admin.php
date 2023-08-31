@@ -58,6 +58,7 @@ class Admin
 						'root' => rest_url(),
 						'nonce' => wp_create_nonce( 'wp_rest' ),
 						'colors' => $this->get_colors(),
+						'date_format' => get_option( 'date_format' ),
 					)
 				);
 				break;
