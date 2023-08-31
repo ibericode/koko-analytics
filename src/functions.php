@@ -123,6 +123,7 @@ function get_most_viewed_posts( array $args ) {
 
 	$args = array_merge( $default_args, $args );
 	$args['post_type'] = is_array( $args['post_type'] ) ? $args['post_type'] : explode( ',', $args['post_type'] );
+	$args['post_type'] = array_map( 'trim', $args['post_type'] );
 	$start_date = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
 	$end_date   = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
 	$post_types = join(',', array_map( function( $v ) {
