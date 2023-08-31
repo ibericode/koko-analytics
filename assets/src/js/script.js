@@ -29,7 +29,7 @@ function request(url, cb) {
 }
 
 function trackPageview (postId) {
-  let {dnt, use_cookie, cookie_path, url} = win[ka]
+  let {dnt, use_cookie, cookie_path} = win[ka]
 
   if (
     // do not track if "Do Not Track" is enabled

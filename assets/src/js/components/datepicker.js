@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
-import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
-import { isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
+import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 const startOfWeek = parseInt(window.koko_analytics.start_of_week, 10)
 const settings = window.koko_analytics.settings
+const defaultDateFormat = window.koko_analytics.date_format
 
 export default class Datepicker extends Component {
   constructor (props) {
@@ -175,18 +175,18 @@ export default class Datepicker extends Component {
         <div>
           <div className={'date-label'} onClick={this.toggle}>
             <span className='dashicons dashicons-calendar-alt' />
-            <span>{format(startDate, 'MMM d, yyyy')}</span>
+            <span>{format(startDate, defaultDateFormat)}</span>
             <span> &mdash; </span>
-            <span>{format(endDate, 'MMM d, yyyy')}</span>
+            <span>{format(endDate, defaultDateFormat)}</span>
           </div>
         </div>
         <div className='date-picker-ui' style={{ display: open ? '' : 'none' }}>
           <div className='date-quicknav cf'>
             <span onClick={this.onQuickNavClick('prev')} className='prev dashicons dashicons-arrow-left' title={__('Previous', 'koko-analytics')} />
             <span className='date'>
-              <span>{format(startDate, 'MMM d, yyyy')}</span>
+              <span>{format(startDate, defaultDateFormat)}</span>
               <span> &mdash; </span>
-              <span>{format(endDate, 'MMM d, yyyy')}</span>
+              <span>{format(endDate, defaultDateFormat)}</span>
             </span>
             <span onClick={this.onQuickNavClick('next')} className='next dashicons dashicons-arrow-right' title={__('Next', 'koko-analytics')} />
           </div>
@@ -200,9 +200,9 @@ export default class Datepicker extends Component {
               </div>
               <div>
                 <label>{__('Custom', 'koko-analytics')}</label>
-                <input type='text' value={format(startDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomStartDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(startDate, 'Y-m-d')} size='10' onChange={this.setCustomStartDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
                 <span> - </span>
-                <input type='text' value={format(endDate, 'yyyy-MM-dd')} size='10' onChange={this.setCustomEndDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(endDate, 'Y-m-d')} size='10' onChange={this.setCustomEndDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
               </div>
             </div>
             <div className='date-picker'>

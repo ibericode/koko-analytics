@@ -83,6 +83,7 @@ class Admin
 					'dbSize' => $this->get_database_size(),
 					'colors' => $colors,
 					'multisite' => is_multisite(),
+					'date_format' => get_option( 'date_format' ),
 					'custom_endpoint' => array(
 						'enabled' => using_custom_endpoint(),
 						'file_contents' => $endpoint_installer->get_file_contents(),

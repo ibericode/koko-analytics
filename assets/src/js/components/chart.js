@@ -1,15 +1,15 @@
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
-import format from 'date-fns/format'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from '../util/colors'
-import { isLastDayOfMonth } from '../util/dates.js'
+import { isLastDayOfMonth, format } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 
 const color1 = window.koko_analytics.colors[window.koko_analytics.colors.length - 1]
 const color2 = modify(color1, -20)
+const dateFormat = window.koko_analytics.date_format;
 
 function yScale (yMax) {
   const max = numbers.nice(yMax)
@@ -162,7 +162,7 @@ export default class Chart extends Component {
     return (evt) => {
       el.innerHTML = `
       <div class="tooltip-inner">
-        <div class="heading">${format(data.date, groupByMonth ? 'MMM yyyy' : 'MMM d, yyyy - EEEE')}</div>
+        <div class="heading">${format(data.date, dateFormat, { day: !groupByMonth })}</div>
         <div class="content">
           <div class="visitors" style="border-top-color: ${color2}">
             <div class="amount">${data.visitors}</div>
@@ -241,15 +241,15 @@ export default class Chart extends Component {
                 {dataset.map((d, i) => {
                   let label = null
                   if (i === 0) {
-                    label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d, yyyy')
+                    label = format(d.date,  dateFormat, { day: !groupByMonth })
                   } else if (i === (ticks - 1)) {
-                    label = format(d.date, groupByMonth ? 'MMM yyyy' : 'MMM d')
+                    label = format(d.date,  dateFormat, { day: !groupByMonth, year: false })
                   } else if (isLargeScreen) {
                     // for large screens only
                     if (ticks <= 7 || d.date.getDate() === 1) {
-                      label = format(d.date, groupByMonth ? 'MMM' : 'MMM d')
+                      label = format(d.date, dateFormat, { year: false, day: !groupByMonth})
                     } else if (ticks <= 31 && i >= 3 && i < (ticks - 3) && d.date.getDay() === 0) {
-                      label = format(d.date, groupByMonth ? 'MMM' : 'MMM d')
+                      label = format(d.date, dateFormat, { year: false, day: !groupByMonth})
                     }
                   }
 
