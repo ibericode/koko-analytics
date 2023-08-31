@@ -1,8 +1,56 @@
-const monthsFull = Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
-const monthsShort = Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
-const daysFull = Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
-const daysShort =  Array('Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat');
+import { __ } from '@wordpress/i18n'
 
+const monthsFull = [
+  __('January', 'koko-analytics' ),
+  __('February', 'koko-analytics' ),
+  __('March', 'koko-analytics' ),
+  __('April', 'koko-analytics' ),
+  __('May', 'koko-analytics' ),
+  __('June', 'koko-analytics' ),
+  __('July', 'koko-analytics' ),
+  __('August', 'koko-analytics' ),
+  __('September', 'koko-analytics' ),
+  __('October', 'koko-analytics' ),
+  __('November', 'koko-analytics' ),
+  __('December', 'koko-analytics' ),
+]
+const monthsShort = [
+  __( 'Jan', 'koko-analytics' ),
+  __( 'Feb', 'koko-analytics' ),
+  __( 'Mar', 'koko-analytics' ),
+  __( 'Apr', 'koko-analytics' ),
+  __( 'May', 'koko-analytics' ),
+  __( 'Jun', 'koko-analytics' ),
+  __( 'Jul', 'koko-analytics' ),
+  __( 'Aug', 'koko-analytics' ),
+  __( 'Sep', 'koko-analytics' ),
+  __( 'Oct', 'koko-analytics' ),
+  __( 'Nov', 'koko-analytics' ),
+  __( 'Dec', 'koko-analytics' )
+]
+const daysFull = [
+  __( 'Sunday', 'koko-analytics' ),
+  __( 'Monday', 'koko-analytics' ),
+  __( 'Tuesday', 'koko-analytics' ),
+  __( 'Wednesday', 'koko-analytics' ),
+  __( 'Thursday', 'koko-analytics' ),
+  __( 'Friday', 'koko-analytics' ),
+  __( 'Saturday', 'koko-analytics' )
+]
+const daysShort =  [
+  __( 'Sun', 'koko-analytics' ),
+  __( 'Mon', 'koko-analytics' ),
+  __( 'Tue', 'koko-analytics' ),
+  __( 'Wed', 'koko-analytics' ),
+  __( 'Thr', 'koko-analytics' ),
+  __( 'Fri', 'koko-analytics' ),
+  __( 'Sat', 'koko-analytics' )
+];
+
+/**
+ * @param _date {Date}
+ * @returns {boolean}
+ */
 function isLastDayOfMonth (_date) {
   const d = new Date(_date.getFullYear(), _date.getMonth(), 1)
   d.setMonth(d.getMonth() + 1)
@@ -26,33 +74,35 @@ function format (date, format, opts) {
     d = date.getDate(),     // day of the month (1-31)
     y = date.getFullYear() // 1999 or 2003
 
-  opts = Object.assign({
-    day: true,
-    year: true
-  }, opts ?? {})
+  if (opts && false === opts.day) {
+    format = format.replace(/[djlwD]/, '');
+  }
+  if (opts && false === opts.year) {
+    format = format.replace(/[yY]/, '');
+  }
+
+  format = format.replace('//', '/').replace(/^[-/, ]/, '').replace(/[-/, ]$/, '')
 
   for (let i = 0, len = format.length; i < len; i++) {
     switch (format[i]) {
       case 'j': // Day of the month without leading zeros  (1 to 31)
-        string += opts.day ? d : ''
+        string += d
         break
 
       case 'd': // Day of the month, 2 digits with leading zeros (01 to 31)
-        if (opts.day) {
-          string += (d < 10) ? '0' + d : d
-        }
+        string += (d < 10) ? '0' + d : d
         break
 
       case 'l': // (lowercase 'L') A full textual representation of the day of the week
-        string += opts.day ? daysFull[dow] : ''
+        string += daysFull[dow]
         break
 
       case 'w': // Numeric representation of the day of the week (0=Sunday,1=Monday,...6=Saturday)
-        string += opts.day ? dow : ''
+        string += dow
         break
 
       case 'D': // A textual representation of a day, three letters
-        string += opts.day ? daysShort[dow] : ''
+        string += daysShort[dow]
         break
 
       case 'm': // Numeric representation of a month, with leading zeros (01 to 12)
@@ -72,25 +122,26 @@ function format (date, format, opts) {
         break
 
       case 'Y': // A full numeric representation of a year, 4 digits (1999 OR 2003)
-        string += opts.year ? y : ''
+        string += y
         break
 
       case 'y': // A two digit representation of a year (99 OR 03)
-        string += opts.year ? y.toString().slice(-2) : ''
+        string += y.toString().slice(-2)
         break
 
-      case 'c': // ISO 8601 date (eg: 2012-11-20T18:05:54.944Z)
-        string += date.toISOString()
-        break
-
-      default:
+      default: // spaces, commas, slashes, other delims
         string += format[i]
     }
   }
 
-  return string.replace(' ,', '').replace('//', '/').replace(/[-,/] ?$/, '').replace(/^[-,/]*/, '')
+  return string
 }
 
+/**
+ *
+ * @param v {string}
+ * @returns {Date|null}
+ */
 function parseISO8601 (v) {
   const parts = v.split('-')
   if (parts.length !== 3) {
