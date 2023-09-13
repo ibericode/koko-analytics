@@ -21,15 +21,19 @@ function maybe_collect_request() {
 function collect_request() {
 	if ( ! isset( $_GET['e'] ) ) {
 		$data = array(
+			'p',                // type indicator
 			(int) $_GET['p'],   // post ID
 			(int) $_GET['nv'],  // new visitor?
 			(int) $_GET['up'],  // unique pageview?
-			isset( $_GET['r'] ) ? trim( $_GET['r'] ) : '', // referrer URL
+			$_GET['r'] ?? '',   // referrer URL
 		);
 	} else {
 		$data = array(
-			trim( $_GET['e'] ), // event name
-			$_GET['p'],         // event params
+			'e',            // type indicator
+			$_GET['e'],     // event name
+			$_GET['p1'],    // event param 1
+			$_GET['p2'],    // event param 2
+			$_GET['v']      // event value
 		);
 	}
 

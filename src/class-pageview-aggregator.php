@@ -18,19 +18,20 @@ class Pageview_Aggregator {
 	protected $referrer_stats = array();
 
 	public function init() {
-		add_action( 'koko_analytics_aggregate_line', array( $this, 'line' ) );
+		add_action( 'koko_analytics_aggregate_line', array( $this, 'line' ), 10, 2 );
 		add_action( 'koko_analytics_aggregate_finish', array( $this, 'finish' ) );
 	}
 
-	public function line( array $p ) {
-		if ( count( $p ) !== 4 ) {
+	public function line( string $type, array $params ) {
+		// bail if this record doesn't contain data for a pageview
+		if ( $type !== 'p' ) {
 			return;
 		}
 
-		$post_id         = (int) $p[0];
-		$new_visitor     = (int) $p[1];
-		$unique_pageview = (int) $p[2];
-		$referrer_url    = trim( $p[3] );
+		$post_id         = (int) $params[0];
+		$new_visitor     = (int) $params[1];
+		$unique_pageview = (int) $params[2];
+		$referrer_url    = trim( $params[3] );
 
 		// Ignore entire line (request) if referrer URL is on blocklist
 		if ( $referrer_url !== '' && $this->ignore_referrer_url( $referrer_url ) ) {

@@ -19,7 +19,7 @@ class Aggregator {
 
 	public function add_interval( $intervals ) {
 		$intervals['koko_analytics_stats_aggregate_interval'] = array(
-			'interval' => 1 * 60, // 1 minute
+			'interval' => 60, // 60 seconds
 			'display'  => esc_html__( 'Every minute', 'koko-analytics' ),
 		);
 		return $intervals;
@@ -44,7 +44,7 @@ class Aggregator {
 	 *
 	 * @throws Exception
 	 */
-	public function aggregate() {
+	public function aggregate($force = false) {
 		// init pageview aggregator
 		$pageview_aggregator = new Pageview_Aggregator();
 		$pageview_aggregator->init();
@@ -60,13 +60,13 @@ class Aggregator {
 		$tmp_filename = dirname( $filename ) . '/pageviews-busy.php';
 
 		// if file exists, previous aggregation job is still running or never finished
-		if ( file_exists( $tmp_filename ) ) {
-			// if file is less than 5 minutes old, wait for it to eventually finish
-			if ( filemtime( $tmp_filename ) > ( time() - 5 * 60 ) ) {
+		if ( !$force && file_exists( $tmp_filename ) ) {
+			// if file is less than 3 minutes old, wait for it to eventually finish
+			if ( filemtime( $tmp_filename ) > ( time() - 3 * 60 ) ) {
 				return;
 			} else {
 				// try to delete file to signal other process to finish
-				unlink( $tmp_filename, 0 );
+				unlink( $tmp_filename );
 				sleep( 2 );
 			}
 		}
@@ -97,8 +97,9 @@ class Aggregator {
 				continue;
 			}
 
-			$p = explode( ',', $line );
-			do_action( 'koko_analytics_aggregate_line', $p );
+			$params = explode( ',', $line );
+			$type = array_shift( $params );
+			do_action( 'koko_analytics_aggregate_line', $type, $params );
 		}
 
 		// close file & remove it from filesystem
