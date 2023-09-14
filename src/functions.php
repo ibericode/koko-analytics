@@ -33,7 +33,7 @@ function collect_request() {
 			$_GET['e'],     // event name
 			$_GET['p1'],    // event param 1
 			$_GET['p2'],    // event param 2
-			$_GET['v']      // event value
+			$_GET['v'],    // event value
 		);
 	}
 
