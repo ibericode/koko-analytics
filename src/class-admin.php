@@ -106,6 +106,12 @@ class Admin
 
 	private function is_cron_event_working()
 	{
+		// Always return true on localhost / dev-ish environments
+		$site_url = get_site_url();
+		if (strpos($site_url, ':') !== false || strpos($site_url, 'localhost') !== false || strpos($site_url, '.local') !== false) {
+			return true;
+		}
+
 		// detect issues with WP Cron event not running
 		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
 		$next_scheduled = wp_next_scheduled( 'koko_analytics_aggregate_stats' );
