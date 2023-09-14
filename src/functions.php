@@ -175,7 +175,7 @@ function admin_bar_menu( $wp_admin_bar ) {
 }
 
 function widgets_init() {
-	require __DIR__ . '/class-widget-most-viewed-posts.php';
+	require KOKO_ANALYTICS_PLUGIN_DIR . '/src/class-widget-most-viewed-posts.php';
 	register_widget( 'KokoAnalytics\Widget_Most_Viewed_Posts' );
 }
 
