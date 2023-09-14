@@ -10,13 +10,11 @@ import {createRoot} from 'react-dom'
 function Page() {
   const [path, setPath] = useState(history.location.pathname)
   useEffect(() => {
-    history.listen(({location}) => setPath(location.pathname))
+    return history.listen(({location}) => setPath(location.pathname))
   },[])
 
   return (
-    <div>
-      {path === '/' ? <Dashboard history={history} /> : <Settings history={history} />}
-    </div>
+    path === '/' ? <Dashboard history={history} /> : <Settings history={history} />
   )
 }
 

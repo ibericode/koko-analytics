@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
@@ -6,37 +6,30 @@ import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
+
 const startOfWeek = parseInt(window.koko_analytics.start_of_week, 10)
 const settings = window.koko_analytics.settings
 const defaultDateFormat = window.koko_analytics.date_format
+let datepicker
 
-export default class Datepicker extends Component {
-  constructor (props) {
-    super(props)
+export default function Datepicker ({
+  startDate,
+  endDate,
+  onUpdate
+}) {
+  let [isOpen, setIsOpen] = useState(false)
+  let [preset, setPreset] = useState(settings.default_view)
+  let [dateRange, setDateRange] = useState({
+    startDate,
+    endDate
+  })
+  const datepickerContainer = useRef(null)
+  const root = useRef(null)
 
-    this.state = {
-      open: false,
-      picking: false,
-      preset: settings.default_view,
-      startDate: new Date(props.startDate.getTime()),
-      endDate: new Date(props.endDate.getTime())
-    }
-    this.datepicker = null
-    this.datepickerContainer = null
-
-    this.toggle = this.toggle.bind(this)
-    this.maybeClose = this.maybeClose.bind(this)
-    this.setPeriod = this.setPeriod.bind(this)
-    this.onKeydown = this.onKeydown.bind(this)
-    this.setCustomStartDate = this.setCustomStartDate.bind(this)
-    this.setCustomEndDate = this.setCustomEndDate.bind(this)
-  }
-
-  componentDidMount () {
-    document.body.addEventListener('click', this.maybeClose)
-    document.body.addEventListener('keydown', this.onKeydown)
-
-    const datepicker = this.datepicker = new Pikaday({
+  let tmpStartDate = null, tmpEndDate = null
+  useEffect(() => {
+    document.body.addEventListener('keydown', onKeydown)
+    datepicker = new Pikaday({
       field: document.getElementById('start-date-input'),
       bound: false,
       firstDay: startOfWeek,
@@ -45,174 +38,203 @@ export default class Datepicker extends Component {
       showDaysInNextAndPreviousMonths: true,
       keyboardInput: false,
       onSelect: (date) => {
-        let newState = {
-          picking: !this.state.picking,
-          preset: 'custom'
-        }
+        setPreset('custom')
 
-        if (!this.state.picking || this.state.startDate === null || date < this.state.startDate) {
+        if (tmpStartDate === null || date < tmpStartDate) {
           date.setHours(0, 0, 0)
-          newState = { ...newState, startDate: date, endDate: null }
+          tmpStartDate = date
           datepicker.setStartRange(date)
           datepicker.setEndRange(null)
         } else {
           date.setHours(23, 59, 59)
-          newState = { ...newState, endDate: date }
+          tmpEndDate = date
           datepicker.setEndRange(date)
-          this.props.onUpdate(this.state.startDate, date)
         }
 
-        this.setState(newState)
+        if (tmpStartDate !== null && tmpEndDate !== null && tmpStartDate < tmpEndDate) {
+          setDateRange({
+            startDate: tmpStartDate,
+            endDate: tmpEndDate
+          })
+          onUpdate(tmpStartDate, tmpEndDate)
+          tmpStartDate = null
+          tmpEndDate = null
+        }
+
         datepicker.draw()
       },
-      container: this.datepickerContainer
+      container: datepickerContainer.current
+    })
+    datepicker.setStartRange(startDate)
+    datepicker.setEndRange(endDate)
+    datepicker.gotoDate(endDate)
+
+    return () => {
+      datepicker.destroy()
+      document.body.removeEventListener('keydown', onKeydown)
+    }
+  }, [])
+
+  useEffect(() => {
+    // update Pikaday selection range
+    datepicker.setStartRange(dateRange.startDate)
+    datepicker.setEndRange(dateRange.endDate)
+    datepicker.gotoDate(dateRange.endDate)
+
+    // update other components in dashboard
+    onUpdate(dateRange.startDate, dateRange.endDate)
+  }, [dateRange])
+
+  function toggle () {
+    setIsOpen(isOpen => !isOpen)
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    function maybeClose (evt) {
+      /* don't close if clicking anywhere inside this component */
+      for (let el = evt.target; el !== null; el = el.parentNode) {
+        if (el === root.current) {
+          return
+        }
+      }
+
+      setIsOpen(false)
+    }
+
+    document.addEventListener('click', maybeClose)
+    return () => {
+      document.removeEventListener('click', maybeClose)
+    }
+  },[isOpen])
+
+  function setPeriod (key) {
+    if (key === 'custom') {
+      setPreset(key)
+      return
+    }
+
+    const p = datePresets.find((p) => p.key === key)
+    const {
+      startDate,
+      endDate
+    } = p.dates()
+    setPreset(p.key)
+    setDateRange({
+      startDate,
+      endDate
+    })
+  }
+
+  function quickNav (dir) {
+    const modifier = dir === 'prev' ? -1 : 1
+    setDateRange(({
+      startDate,
+      endDate
+    }) => {
+      const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
+      if (cycleMonths) {
+        const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
+        return {
+          startDate: new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0),
+          endDate: new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
+        }
+      } else {
+        const diffInDays = Math.round((endDate - startDate) / 86400000)
+        return {
+          startDate: addDays(startDate, diffInDays * modifier),
+          endDate: addDays(endDate, diffInDays * modifier),
+        }
+      }
     })
 
-    this.datepicker.setStartRange(this.state.startDate)
-    this.datepicker.setEndRange(this.state.endDate)
-    this.datepicker.gotoDate(this.state.endDate)
+    setPreset('custom')
   }
 
-  componentWillUnmount () {
-    this.datepicker.destroy()
-    document.body.removeEventListener('click', this.maybeClose)
-    document.body.removeEventListener('keydown', this.onKeydown)
-  }
-
-  toggle () {
-    this.setState({ open: !this.state.open })
-  }
-
-  maybeClose (evt) {
-    if (!this.state.open) {
-      return
-    }
-
-    for (let i = evt.target; i !== null; i = i.parentNode) {
-      if (typeof (i.className) === 'string' && (i.className.indexOf('date-picker-ui') > -1 || i.className.indexOf('date-label') > -1)) {
-        return
-      }
-    }
-
-    this.toggle()
-  }
-
-  setPeriod (key) {
-    if (key === 'custom') {
-      this.setState({ preset: key })
-      return
-    }
-
-    const p = datePresets.filter((p) => p.key === key).shift()
-    this.setState({ preset: p.key })
-    const { startDate, endDate } = p.dates()
-    this.setDates(startDate, endDate)
-  }
-
-  setDates (startDate, endDate) {
-    this.datepicker.setStartRange(startDate)
-    this.datepicker.setEndRange(endDate)
-    this.datepicker.gotoDate(endDate)
-    this.setState({ startDate, endDate })
-    this.props.onUpdate(startDate, endDate)
-  }
-
-  onKeydown (evt) {
+  function onKeydown (evt) {
     if (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight') {
-      this.quickNav(evt.key === 'ArrowLeft' ? 'prev' : 'next')
+      quickNav(evt.key === 'ArrowLeft' ? 'prev' : 'next')
     }
   }
 
-  onQuickNavClick (dir) {
+  function onQuickNavClick (dir) {
     return (evt) => {
       evt.preventDefault()
-      this.quickNav(dir)
+      quickNav(dir)
     }
   }
 
-  quickNav (dir) {
-    let { startDate, endDate } = this.state
-    const diff = (endDate.getTime() - startDate.getTime()) / 1000
-    const diffInDays = Math.round(diff / 86400)
-    const modifier = dir === 'prev' ? -1 : 1
-    const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
-
-    if (cycleMonths) {
-      const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
-      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
-    } else {
-      startDate = addDays(startDate, diffInDays * modifier)
-      endDate = addDays(endDate, diffInDays * modifier)
-    }
-
-    this.setState({ preset: 'custom' })
-    this.setDates(startDate, endDate)
-  }
-
-  setCustomStartDate (evt) {
-    const date = parseISO8601(evt.target.value)
-    if (date !== null) {
-      date.setHours(0, 0, 0)
-      this.setDates(date, this.state.endDate)
+  function setCustomStartDate (evt) {
+    const startDate = parseISO8601(evt.target.value)
+    if (startDate !== null) {
+      startDate.setHours(0, 0, 0)
+      setDateRange(({ endDate }) => ({
+        startDate,
+        endDate
+      }))
     }
   }
 
-  setCustomEndDate (evt) {
-    const date = parseISO8601(evt.target.value)
-    if (date !== null) {
-      date.setHours(23, 59, 59)
-      this.setDates(this.state.startDate, date)
+  function setCustomEndDate (evt) {
+    const endDate = parseISO8601(evt.target.value)
+    if (endDate !== null) {
+      endDate.setHours(23, 59, 59)
+      setDateRange(({ startDate }) => ({
+        startDate,
+        endDate
+      }))
     }
   }
 
-  render () {
-    const { open, preset } = this.state
-    const { startDate, endDate } = this.props
-    return (
-      <div className='date-nav'>
-        <div>
-          <div className={'date-label'} onClick={this.toggle}>
-            <span className='dashicons dashicons-calendar-alt' />
-            <span>{format(startDate, defaultDateFormat)}</span>
-            <span> &mdash; </span>
-            <span>{format(endDate, defaultDateFormat)}</span>
-          </div>
+  return (
+    <div className="date-nav" ref={root}>
+      <div>
+        <div className={'date-label'} onClick={toggle}>
+          <span className="dashicons dashicons-calendar-alt"/>
+          <span>{format(dateRange.startDate, defaultDateFormat)}</span>
+          <span> &mdash; </span>
+          <span>{format(dateRange.endDate, defaultDateFormat)}</span>
         </div>
-        <div className='date-picker-ui' style={{ display: open ? '' : 'none' }}>
-          <div className='date-quicknav cf'>
-            <span onClick={this.onQuickNavClick('prev')} className='prev dashicons dashicons-arrow-left' title={__('Previous', 'koko-analytics')} />
-            <span className='date'>
-              <span>{format(startDate, defaultDateFormat)}</span>
-              <span> &mdash; </span>
-              <span>{format(endDate, defaultDateFormat)}</span>
-            </span>
-            <span onClick={this.onQuickNavClick('next')} className='next dashicons dashicons-arrow-right' title={__('Next', 'koko-analytics')} />
-          </div>
-          <div className='flex'>
-            <div className='date-presets'>
-              <div>
-                <label htmlFor='ka-date-presets'>{__('Date range', 'koko-analytics')}</label>
-                <select id='ka-date-presets' onChange={(evt) => { this.setPeriod(evt.target.value) }} defaultValue={preset}>
-                  {datePresets.map(p => <option key={p.key} value={p.key}>{p.label}</option>)}
-                </select>
-              </div>
-              <div>
-                <label>{__('Custom', 'koko-analytics')}</label>
-                <input type='text' value={format(startDate, 'Y-m-d')} size='10' onChange={this.setCustomStartDate} disabled={preset !== 'custom'} placeholder='YYYY-MM-DD' maxLength='10' minLength='6' />
-                <span> - </span>
-                <input type='text' value={format(endDate, 'Y-m-d')} size='10' onChange={this.setCustomEndDate} disabled={preset !== 'custom'} placeholder='YYYY-MM-DD' maxLength='10' minLength='6' />
-              </div>
-            </div>
-            <div className='date-picker'>
-              <div ref={el => {
-                this.datepickerContainer = el
-              }} />
-            </div>
-          </div>
-        </div>
-        <input type='hidden' id='start-date-input' />
       </div>
-    )
-  }
+      <div className="date-picker-ui" style={{ display: isOpen ? '' : 'none' }}>
+        <div className="date-quicknav cf">
+          <span onClick={onQuickNavClick('prev')} className="prev dashicons dashicons-arrow-left"
+                title={__('Previous', 'koko-analytics')}/>
+          <span className="date">
+              <span>{format(dateRange.startDate, defaultDateFormat)}</span>
+              <span> &mdash; </span>
+              <span>{format(dateRange.endDate, defaultDateFormat)}</span>
+            </span>
+          <span onClick={onQuickNavClick('next')} className="next dashicons dashicons-arrow-right"
+                title={__('Next', 'koko-analytics')}/>
+        </div>
+        <div className="flex">
+          <div className="date-presets">
+            <div>
+              <label htmlFor="ka-date-presets">{__('Date range', 'koko-analytics')}</label>
+              <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} defaultValue={preset}>
+                {datePresets.map(p => <option key={p.key} value={p.key}>{p.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label>{__('Custom', 'koko-analytics')}</label>
+              <input type="text" value={format(dateRange.startDate, 'Y-m-d')} size="10" onChange={setCustomStartDate}
+                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
+              <span> - </span>
+              <input type="text" value={format(dateRange.endDate, 'Y-m-d')} size="10" onChange={setCustomEndDate}
+                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
+            </div>
+          </div>
+          <div className="date-picker">
+            <div ref={datepickerContainer}/>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="start-date-input"/>
+    </div>
+  )
 }
+

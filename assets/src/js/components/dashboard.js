@@ -1,4 +1,4 @@
-import React, {Component, createElement} from 'react'
+import React, {createElement, useState, useEffect} from 'react'
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
 import Totals from './totals.js'
@@ -16,103 +16,76 @@ window.koko_analytics.registerDashboardComponent = function(c) {
   blockComponents.push(c)
 }
 
-function parseUrlParams (str) {
-  const params = {}
-  let match
-  const matches = str.split('&')
 
-  for (let i = 0; i < matches.length; i++) {
-    match = matches[i].split('=')
-    params[match[0]] = decodeURIComponent(match[1])
-  }
-
-  return params
+/**
+ *
+ * @returns {*}
+ */
+function getDatesFromPreset() {
+    return (datePresets.find(p => p.key === settings.default_view) || datePresets[0]).dates()
 }
 
-export default class Dashboard extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      ...this.parseStateFromLocation(window.location.hash)
-    }
-    this.setDates = this.setDates.bind(this)
+/**
+ *
+ * @param {string} str
+ * @returns {{endDate: Date, startDate: Date}}
+ */
+function parseDatesFromUrlHash (str) {
+  let params = new URLSearchParams(str);
+  const startDate = parseISO8601(params.get('start_date'))
+  const endDate = parseISO8601(params.get('end_date'))
+  if (!startDate || !endDate) {
+    return getDatesFromPreset()
   }
 
-  componentDidMount () {
-    this.unlisten = this.props.history.listen(({location, action}) => {
+  startDate.setHours(0, 0, 0)
+  endDate.setHours(23, 59, 59)
+  return { startDate, endDate }
+}
+
+export default function Dashboard({ history }) {
+  const [dates, setDates] = useState(parseDatesFromUrlHash(history.location.search))
+
+  useEffect(() => {
+    return history.listen(({location, action}) => {
       if (action === 'POP') {
-        this.setState(this.parseStateFromLocation(location.search))
+        setDates(parseDatesFromUrlHash(location.search))
       }
     })
-  }
+  })
 
-  componentWillUnmount () {
-    this.unlisten()
-  }
-
-  setDatesFromDefaultView () {
-    const preset = datePresets.filter(p => p.key === settings.default_view).shift() || datePresets[5]
-    return preset.dates ? preset.dates() : {};
-  }
-
-  parseStateFromLocation (str) {
-    const searchPos = str.indexOf('?')
-    if (searchPos === -1) {
-      return this.setDatesFromDefaultView()
-    }
-
-    const queryStr = str.substring(searchPos + 1)
-    const params = parseUrlParams(queryStr)
-    if (!params.start_date || !params.end_date) {
-      return this.setDatesFromDefaultView()
-    }
-
-    const startDate = parseISO8601(params.start_date)
-    const endDate = parseISO8601(params.end_date)
-    if (!startDate || !endDate) {
-      return {}
-    }
-
-    startDate.setHours(0, 0, 0)
-    endDate.setHours(23, 59, 59)
-    return { startDate, endDate }
-  }
-
-  setDates (startDate, endDate) {
-    if (startDate.getTime() === endDate.getTime()) {
+  /**
+   * @param {Date} startDate
+   * @param {Date} endDate
+   */
+  function onDatepickerUpdate (startDate, endDate) {
+    if (+startDate === +endDate) {
       return
     }
 
-    // update state
-    this.setState({ startDate, endDate })
-
-    // update URL
-    startDate = toISO8601(startDate)
-    endDate = toISO8601(endDate)
-    this.props.history.push(`/?start_date=${startDate}&end_date=${endDate}`)
+    setDates({startDate, endDate})
+    history.push(`/?start_date=${toISO8601(startDate)}&end_date=${toISO8601(endDate)}`)
   }
 
-  render () {
-    const { startDate, endDate } = this.state
-    return (
-      <main>
-        <div>
-          <div className='grid'>
-            <div className='four'>
-              <Datepicker startDate={startDate} endDate={endDate} onUpdate={this.setDates} />
-            </div>
-            <Nav history={this.props.history} />
+  const {startDate, endDate} = dates
+  return (
+    <main>
+      <div>
+        <div className='grid'>
+          <div className='four'>
+            <Datepicker startDate={startDate} endDate={endDate} onUpdate={onDatepickerUpdate} />
           </div>
-          <Totals startDate={startDate} endDate={endDate} />
-          <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
-          <div className='grid'>
-            {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
-          </div>
-          <div>
-            <span className={'description right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
-          </div>
+          <Nav history={history} />
         </div>
-      </main>
-    )
-  }
+        <Totals startDate={startDate} endDate={endDate} />
+        <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
+        <div className='grid'>
+          {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
+        </div>
+        <div>
+          <span className={'description right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
+        </div>
+      </div>
+    </main>
+  )
 }

@@ -1,36 +1,36 @@
-import fetch from 'unfetch'
-import 'promise-polyfill/src/polyfill'
+const {nonce, root} = window.koko_analytics
+/**
+ *
+ * @param {string} path
+ * @param {object} opts
+ * @returns {Promise<any>}
+ */
+export function request (path, opts = {}) {
+  Object.assign(opts, {
+    headers: {
+      'X-WP-Nonce': nonce,
+      Accepts: 'application/json'
+    },
+    credentials: 'same-origin'
+  })
 
-const vars = window.koko_analytics
-
-function request (path, opts = {}) {
-  opts.headers = {
-    'X-WP-Nonce': vars.nonce,
-    Accepts: 'application/json'
-  }
-  opts.credentials = 'same-origin'
-
-  let url = vars.root + 'koko-analytics/v1' + path
-
+  let url = root + 'koko-analytics/v1' + path
   if (opts.body) {
     // allow passing "body" option for GET requests, convert it to query params
     if (!opts.method || opts.method === 'GET') {
-      if (url.indexOf('?') < 0) {
-        url += '?'
-      } else {
-        url += '&'
-      }
+      url += url.indexOf('?') ? '&' : '?'
+
       for (const key in opts.body) {
-        url += `${window.encodeURIComponent(key)}=${window.encodeURIComponent(opts.body[key])}&`
+        url += encodeURIComponent(key) + '=' + encodeURIComponent(opts.body[key]) + '&'
       }
-      url = url.substring(0, url.length - 1)
+      url = url.slice(0, -1)
       delete opts.body
     }
 
     if (opts.method === 'POST') {
       opts.headers['Content-Type'] = 'application/json'
 
-      if (typeof (opts.body) !== 'string') {
+      if (typeof opts.body !== 'string') {
         opts.body = JSON.stringify(opts.body)
       }
     }
@@ -45,5 +45,3 @@ function request (path, opts = {}) {
     return r
   }).then(r => r.json())
 }
-
-export default { request }

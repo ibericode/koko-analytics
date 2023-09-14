@@ -22,9 +22,7 @@ module.exports = {
                         options: {
                             presets: [
                                 "@babel/preset-react",
-                                ['@babel/preset-env', {
-                                    targets: '> 0.2%, last 2 versions, not dead, Firefox ESR'
-                                }]
+                                '@babel/preset-env'
                             ]
                         }
                     }

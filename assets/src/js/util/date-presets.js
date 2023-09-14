@@ -4,20 +4,22 @@ import {
   endOfQuarter,
   endOfToday,
   endOfWeek,
-  endOfYear,
   endOfYesterday,
   startOfDay,
   startOfMonth,
   startOfQuarter,
   startOfToday,
   startOfWeek,
-  startOfYear,
   startOfYesterday,
   sub
 } from 'date-fns'
 
 const monday = 1
 const firstDayOfTheWeek = parseInt(window.koko_analytics.start_of_week, 10) || monday
+
+function now() {
+  return new Date()
+}
 
 export default [
   {
@@ -28,118 +30,84 @@ export default [
     key: 'today',
     label: __('Today', 'koko-analytics'),
     dates: () => {
-      const startDate = startOfToday()
-      const endDate = endOfToday()
-      return { startDate, endDate }
+      return { startDate: startOfToday(), endDate: endOfToday() }
     }
   },
   {
     key: 'yesterday',
     label: __('Yesterday', 'koko-analytics'),
     dates: () => {
-      const startDate = startOfYesterday()
-      const endDate = endOfYesterday()
-      return { startDate, endDate }
+      return { startDate: startOfYesterday(), endDate: endOfYesterday() }
     }
   },
   {
     key: 'this_week',
     label: __('This week', 'koko-analytics'),
     dates: () => {
-      const now = new Date()
-      const startDate = startOfWeek(now, { weekStartsOn: firstDayOfTheWeek })
-      const endDate = endOfWeek(now, { weekStartsOn: firstDayOfTheWeek })
-      return { startDate, endDate }
+      return { startDate: startOfWeek(now(), { weekStartsOn: firstDayOfTheWeek }), endDate: endOfWeek(now(), { weekStartsOn: firstDayOfTheWeek }) }
     }
   },
   {
     key: 'last_week',
     label: __('Last week', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const lastWeekToday = sub(today, { weeks: 1 })
-      const startDate = startOfWeek(lastWeekToday, {
-        weekStartsOn: firstDayOfTheWeek
-      })
-      const endDate = endOfWeek(lastWeekToday, {
-        weekStartsOn: firstDayOfTheWeek
-      })
-      return { startDate, endDate }
+      const lastWeekToday = sub(now(), { weeks: 1 })
+      return { startDate: startOfWeek(lastWeekToday, { weekStartsOn: firstDayOfTheWeek }), endDate: endOfWeek(lastWeekToday, { weekStartsOn: firstDayOfTheWeek }) }
     }
   },
   {
     key: 'last_28_days',
     label: __('Last 28 days', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const twentySevenDaysAgo = sub(today, { days: 27 })
-      const startDate = startOfDay(twentySevenDaysAgo)
-      const endDate = endOfToday()
-      return { startDate, endDate }
+      const twentySevenDaysAgo = sub(now(), { days: 27 })
+      return { startDate: startOfDay(twentySevenDaysAgo), endDate: endOfToday() }
     }
   },
   {
     key: 'this_month',
     label: __('This month', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const startDate = startOfMonth(today)
-      const endDate = endOfMonth(today)
-      return { startDate, endDate }
+      return { startDate: startOfMonth(now()), endDate: endOfMonth(now()) }
     }
   },
   {
     key: 'last_month',
     label: __('Last month', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const lastMonthToday = sub(today, { months: 1 })
-      const startDate = startOfMonth(lastMonthToday)
-      const endDate = endOfMonth(lastMonthToday)
-      return { startDate, endDate }
+      const lastMonthToday = sub(now(), { months: 1 })
+      return { startDate: startOfMonth(lastMonthToday), endDate: endOfMonth(lastMonthToday) }
     }
   },
   {
     key: 'this_quarter',
     label: __('This quarter', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const startDate = startOfQuarter(today)
-      const endDate = endOfQuarter(today)
-      return { startDate, endDate }
+      return { startDate: startOfQuarter(now()), endDate: endOfQuarter(now()) }
     }
   },
   {
     key: 'last_quarter',
     label: __('Last quarter', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const startOfThisQuarter = startOfQuarter(today)
+      const startOfThisQuarter = startOfQuarter(now())
       const insideLastQuarter = sub(startOfThisQuarter, { weeks: 1 })
-      const startDate = startOfQuarter(insideLastQuarter)
-      const endDate = endOfQuarter(insideLastQuarter)
-      return { startDate, endDate }
+      return { startDate: startOfQuarter(insideLastQuarter), endDate: endOfQuarter(insideLastQuarter) }
     }
   },
   {
     key: 'this_year',
     label: __('This year', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const startDate = startOfYear(today)
-      const endDate = endOfYear(today)
-      return { startDate, endDate }
+      const y = now().getFullYear()
+      return { startDate: new Date(y, 0, 1), endDate: new Date(y, 11, 31) }
     }
   },
   {
     key: 'last_year',
     label: __('Last year', 'koko-analytics'),
     dates: () => {
-      const today = new Date()
-      const lastYearToday = sub(today, { years: 1 })
-      const startDate = startOfYear(lastYearToday)
-      const endDate = endOfYear(lastYearToday)
-      return { startDate, endDate }
+      const y = now().getFullYear() - 1
+      return { startDate: new Date(y, 0, 1), endDate:  new Date(y, 11, 31) }
     }
   }
 ]

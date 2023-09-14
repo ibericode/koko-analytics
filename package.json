@@ -24,15 +24,12 @@
 	},
 	"homepage": "https://github.com/ibericode/koko-analytics#readme",
 	"dependencies": {
-		"@wordpress/i18n": "^4.22.0",
 		"date-fns": "^2.21.3",
 		"history": "^5.0.0",
-		"pikaday": "^1.8.0",
-		"promise-polyfill": "^8.2.0",
-		"unfetch": "^4.1.0"
+		"pikaday": "^1.8.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.20.5",
+		"@babel/core": "^7.22.19",
 		"@babel/preset-env": "^7.20.2",
 		"@babel/preset-react": "^7.22.15",
 		"babel-loader": "^9.1.0",
