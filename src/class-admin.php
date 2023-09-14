@@ -15,6 +15,8 @@ class Admin
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
+		add_action( 'admin_init', array( $this, 'maybe_run_actions') );
+		add_action( 'koko_analytics_install_optimized_endpoint', 'KokoAnalytics\\install_and_test_custom_endpoint' );
 
 		switch ( $pagenow ) {
 			case 'index.php':
@@ -29,7 +31,6 @@ class Admin
 				add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2 );
 				break;
 		}
-
 	}
 
 	public function register_menu()
@@ -37,14 +38,28 @@ class Admin
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
-	public function enqueue_scripts( $suffix )
+	public function maybe_run_actions() {
+		if (! isset( $_GET['koko_analytics_action'] ) ) {
+			return;
+		}
+
+		if (! current_user_can( 'manage_koko_analytics' ) ) {
+			return;
+		}
+
+		do_action( "koko_analytics_{$_GET['koko_analytics_action']}" );
+		wp_safe_redirect(remove_query_arg( 'koko_analytics_action' ) );
+		exit;
+	}
+
+	public function enqueue_scripts( $page )
 	{
 		// do not load any scripts if user is missing required capability for viewing
 		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;
 		}
 
-		switch ( $suffix ) {
+		switch ( $page ) {
 			case 'index.php':
 				// load scripts for dashboard widget
 				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
@@ -95,7 +110,7 @@ class Admin
 		}
 	}
 
-	private function get_available_roles()
+	private function get_available_roles() : array
 	{
 		$roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
@@ -104,7 +119,7 @@ class Admin
 		return $roles;
 	}
 
-	private function is_cron_event_working()
+	private function is_cron_event_working() : bool
 	{
 		// detect issues with WP Cron event not running
 		// it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
@@ -122,7 +137,7 @@ class Admin
 		$buffer_dirname = dirname( $buffer_filename );
 		$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
 
-		// determine whether cron event is set-up properly seeand running in-time
+		// determine whether cron event is set up properly and running in-time
 		$is_cron_event_working = $this->is_cron_event_working();
 
 		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';

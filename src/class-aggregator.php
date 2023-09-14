@@ -45,6 +45,8 @@ class Aggregator {
 	 * @throws Exception
 	 */
 	public function aggregate($force = false) {
+		update_option('koko_analytics_last_aggregation_at', time(), true);
+
 		// init pageview aggregator
 		$pageview_aggregator = new Pageview_Aggregator();
 		$pageview_aggregator->init();

@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h, Component, createElement } from 'preact'
 import PropTypes from 'prop-types'
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
@@ -96,6 +96,9 @@ export default class Dashboard extends Component {
 
   render (props, state) {
     const { startDate, endDate } = state
+    const components = [
+        TopPosts, TopReferrers
+    ] + window.koko_analytics.blockComponents;
     return (
       <main>
         <div>
@@ -108,8 +111,7 @@ export default class Dashboard extends Component {
           <Totals startDate={startDate} endDate={endDate} />
           <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
           <div className='grid'>
-            <TopPosts startDate={startDate} endDate={endDate} />
-            <TopReferrers startDate={startDate} endDate={endDate} />
+            {components.map(c => createElement(c, {startDate, endDate}))}
           </div>
           <div>
             <span className={'description right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>

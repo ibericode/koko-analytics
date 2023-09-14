@@ -85,14 +85,10 @@ EOT;
 	private function test() {
 		$tracker_url = site_url( '/koko-analytics-collect.php?nv=1&p=0&up=1&test=1' );
 		$response = wp_remote_get( $tracker_url );
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
 		$status = wp_remote_retrieve_response_code( $response );
 		$headers = wp_remote_retrieve_headers( $response );
 		$body = wp_remote_retrieve_body( $response );
-		if ( $status !== 200 || $headers['Content-Type'] !== 'image/gif' || $body !== base64_decode( 'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' ) ) {
+		if ( $status !== 200 || ! isset( $headers['Content-Type'] ) || $headers['Content-Type'] !== 'image/gif' || $body !== base64_decode( 'R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' ) ) {
 			return false;
 		}
 
