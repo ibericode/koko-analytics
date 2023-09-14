@@ -1,5 +1,4 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
+import {Component} from 'react'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
 import '../../sass/datepicker.scss'
@@ -167,9 +166,9 @@ export default class Datepicker extends Component {
     }
   }
 
-  render (props, state) {
-    const { open } = state
-    const { startDate, endDate } = props
+  render () {
+    const { open, preset } = this.state
+    const { startDate, endDate } = this.props
     return (
       <div className='date-nav'>
         <div>
@@ -193,16 +192,16 @@ export default class Datepicker extends Component {
           <div className='flex'>
             <div className='date-presets'>
               <div>
-                <label for='ka-date-presets'>{__('Date range', 'koko-analytics')}</label>
-                <select id='ka-date-presets' onChange={(evt) => { this.setPeriod(evt.target.value) }}>
-                  {datePresets.map(p => <option key={p.key} value={p.key} selected={state.preset === p.key}>{p.label}</option>)}
+                <label htmlFor='ka-date-presets'>{__('Date range', 'koko-analytics')}</label>
+                <select id='ka-date-presets' onChange={(evt) => { this.setPeriod(evt.target.value) }} defaultValue={preset}>
+                  {datePresets.map(p => <option key={p.key} value={p.key}>{p.label}</option>)}
                 </select>
               </div>
               <div>
                 <label>{__('Custom', 'koko-analytics')}</label>
-                <input type='text' value={format(startDate, 'Y-m-d')} size='10' onChange={this.setCustomStartDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(startDate, 'Y-m-d')} size='10' onChange={this.setCustomStartDate} disabled={preset !== 'custom'} placeholder='YYYY-MM-DD' maxLength='10' minLength='6' />
                 <span> - </span>
-                <input type='text' value={format(endDate, 'Y-m-d')} size='10' onChange={this.setCustomEndDate} disabled={state.preset !== 'custom'} placeholder='YYYY-MM-DD' maxlength='10' minlength='6' />
+                <input type='text' value={format(endDate, 'Y-m-d')} size='10' onChange={this.setCustomEndDate} disabled={preset !== 'custom'} placeholder='YYYY-MM-DD' maxLength='10' minLength='6' />
               </div>
             </div>
             <div className='date-picker'>
@@ -216,10 +215,4 @@ export default class Datepicker extends Component {
       </div>
     )
   }
-}
-
-Datepicker.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  onUpdate: PropTypes.func.isRequired
 }

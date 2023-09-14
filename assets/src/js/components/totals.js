@@ -1,26 +1,26 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
+import {Component} from 'react'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
+import {toISO8601} from '../util/dates'
 import api from '../util/api.js'
 import Realtime from './realtime.js'
 import { __ } from '@wordpress/i18n'
 
 export default class Totals extends Component {
+  state = {
+    visitors: 0,
+    visitorsChange: 0,
+    visitorsDiff: 0,
+    visitorsPrevious: 0,
+    pageviews: 0,
+    pageviewsChange: 0,
+    pageviewsDiff: 0,
+    pageviewsPrevious: 0,
+    hash: 'initial' // recompute this when data changes so we can redraw elements for animations
+  }
+
   constructor (props) {
     super(props)
-    this.state = {
-      visitors: 0,
-      visitorsChange: 0,
-      visitorsDiff: 0,
-      visitorsPrevious: 0,
-      pageviews: 0,
-      pageviewsChange: 0,
-      pageviewsDiff: 0,
-      pageviewsPrevious: 0,
-      hash: 'initial' // recompute this when data changes so we can redraw elements for animations
-    }
-
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
   }
@@ -67,8 +67,8 @@ export default class Totals extends Component {
       // fetch stats for current period
       api.request('/stats', {
         body: {
-          start_date: api.formatDate(this.props.startDate),
-          end_date: api.formatDate(this.props.endDate)
+          start_date: toISO8601(this.props.startDate),
+          end_date: toISO8601(this.props.endDate)
         }
       }).then(data => {
         data.forEach(r => {
@@ -80,8 +80,8 @@ export default class Totals extends Component {
       // fetch stats for previous period
       api.request('/stats', {
         body: {
-          start_date: api.formatDate(previousStartDate),
-          end_date: api.formatDate(previousEndDate)
+          start_date: toISO8601(previousStartDate),
+          end_date: toISO8601(previousEndDate)
         }
       }).then(data => {
         data.forEach(r => {
@@ -108,7 +108,7 @@ export default class Totals extends Component {
         pageviewsChange = Math.round((pageviews / pageviewsPrevious - 1) * 100)
       }
 
-      const hash = api.formatDate(this.props.startDate) + '-' + api.formatDate(this.props.endDate)
+      const hash = toISO8601(this.props.startDate) + '-' + toISO8601(this.props.endDate)
 
       this.setState({ visitors, visitorsPrevious, visitorsDiff, visitorsChange, pageviews, pageviewsPrevious, pageviewsDiff, pageviewsChange, hash })
     })
@@ -145,9 +145,4 @@ export default class Totals extends Component {
       </div>
     )
   }
-}
-
-Totals.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired
 }

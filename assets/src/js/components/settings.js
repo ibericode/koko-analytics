@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import {Component} from 'react'
 import api from './../util/api.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets'
@@ -11,15 +11,14 @@ const roles = window.koko_analytics.user_roles
 const settings = window.koko_analytics.settings
 
 export default class Settings extends Component {
+  state = {
+    settings,
+    saving: false,
+    buttonText: __('Save Changes', 'koko-analytics')
+  }
+
   constructor (props) {
     super(props)
-
-    this.state = {
-      settings,
-      saving: false,
-      buttonText: __('Save Changes', 'koko-analytics')
-    }
-
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -58,8 +57,8 @@ export default class Settings extends Component {
     }
   }
 
-  render (props, state) {
-    const { saving, buttonText, settings } = state
+  render () {
+    const { saving, buttonText, settings } = this.state
     return (
       <main>
         <div className='grid'>
@@ -69,13 +68,13 @@ export default class Settings extends Component {
               <div className='input-group'>
                 <label>{__('Exclude pageviews from these user roles', 'koko-analytics')}</label>
                 <select
-                  name='exclude_user_roles[]' multiple onChange={(evt) => {
+                  name='exclude_user_roles[]' multiple defaultValue={settings.exclude_user_roles} onChange={(evt) => {
                     settings.exclude_user_roles = [].filter.call(evt.target.options, el => el.selected).map(el => el.value)
                     this.setState({ settings })
                   }}
                 >
                   {Object.keys(roles).map(key => {
-                    return (<option key={key} value={key} selected={settings.exclude_user_roles.indexOf(key) > -1}>{roles[key]}</option>)
+                    return (<option key={key} value={key}>{roles[key]}</option>)
                   })}
                 </select>
                 <p className='help'>
@@ -98,8 +97,9 @@ export default class Settings extends Component {
                   name='default_view' onChange={evt => {
                     settings.default_view = evt.target.value
                     this.setState({ settings })
-                  }}>
-                  {datePresets.map(i => <option value={i.key} key={i.key} selected={settings.default_view === i.key}>{i.label}</option>)}
+                  }}
+                defaultValue={settings.default_view }>
+                  {datePresets.map(i => <option value={i.key} key={i.key}>{i.label}</option>)}
                 </select>
                 <p className='help'>
                   {__('The default date period to show when opening the analytics dashboard.', 'koko-analytics')}
@@ -127,7 +127,7 @@ export default class Settings extends Component {
                 </p>
               </div>
             </form>
-            <div className='margin-m' style={`display: ${data.multisite ? 'none' : ''}`}>
+            <div className='margin-m' style={{display: data.multisite ? 'none' : ''}}>
               <h2>{__('Performance', 'koko-analytics')}</h2>
               {data.custom_endpoint.enabled
                 ? <p>✓ {__('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics')}</p>
@@ -159,7 +159,7 @@ export default class Settings extends Component {
               </div>
             </div>
           </div>
-          <Nav />
+          <Nav history={this.props.history} />
         </div>
       </main>
     )

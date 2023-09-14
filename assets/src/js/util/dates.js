@@ -160,4 +160,12 @@ function parseISO8601 (v) {
   return new Date(y, m - 1, d)
 }
 
-export { format, isLastDayOfMonth, parseISO8601 }
+function pad(d) {
+  return d < 10 ? '0' + d : d;
+}
+
+function toISO8601(d) {
+   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+export { format, isLastDayOfMonth, parseISO8601, toISO8601 }

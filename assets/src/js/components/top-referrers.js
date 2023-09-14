@@ -1,6 +1,6 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
+import {Component} from 'react'
 import api from '../util/api.js'
+import {toISO8601} from '../util/dates'
 import Pagination from './table-pagination'
 import { __ } from '@wordpress/i18n'
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
@@ -23,13 +23,14 @@ function enhance (item) {
 }
 
 export default class TopReferrers extends Component {
+  state = {
+    offset: 0,
+    limit: 25,
+    items: []
+  }
+
   constructor (props) {
     super(props)
-    this.state = {
-      offset: 0,
-      limit: 25,
-      items: []
-    }
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
   }
@@ -63,8 +64,8 @@ export default class TopReferrers extends Component {
   loadData (offset = this.state.offset) {
     api.request('/referrers', {
       body: {
-        start_date: api.formatDate(this.props.startDate),
-        end_date: api.formatDate(this.props.endDate),
+        start_date: toISO8601(this.props.startDate),
+        end_date: toISO8601(this.props.endDate),
         offset,
         limit: this.state.limit
       }
@@ -105,9 +106,4 @@ export default class TopReferrers extends Component {
       </div>
     )
   }
-}
-
-TopReferrers.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired
 }

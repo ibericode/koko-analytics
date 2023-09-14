@@ -1,18 +1,25 @@
 import '../sass/admin.scss'
-import { render, h } from 'preact'
-import Router from 'preact-router'
 import Dashboard from './components/dashboard'
 import Settings from './components/settings'
 import { createHashHistory } from 'history'
 const history = createHashHistory()
+import './globals.js'
+import{useEffect, useState} from 'react'
+import {createRoot} from 'react-dom'
 
-function Page () {
+function Page() {
+  const [path, setPath] = useState(history.location.pathname)
+  useEffect(() => {
+    history.listen(({location}) => setPath(location.pathname))
+  },[])
+
   return (
-    <Router history={history}>
-      <Dashboard path={'/'} history={history} />
-      <Settings path={'/settings'} />
-    </Router>
+    <div>
+      {path === '/' ? <Dashboard history={history} /> : <Settings history={history} />}
+    </div>
   )
 }
 
-render(<Page />, document.getElementById('koko-analytics-mount'))
+document.addEventListener('DOMContentLoaded', () => {
+  createRoot(document.getElementById('koko-analytics-mount')).render(<Page />)
+})

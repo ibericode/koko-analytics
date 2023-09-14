@@ -1,17 +1,18 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
+import {Component} from 'react'
 import Pagination from './table-pagination.js'
 import api from '../util/api.js'
+import {toISO8601} from '../util/dates'
 import { __ } from '@wordpress/i18n'
 
 export default class TopPosts extends Component {
+  state = {
+    offset: 0,
+    limit: 25,
+    items: []
+  }
+
   constructor (props) {
     super(props)
-    this.state = {
-      offset: 0,
-      limit: 25,
-      items: []
-    }
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
   }
@@ -44,8 +45,8 @@ export default class TopPosts extends Component {
   loadData (offset = this.state.offset) {
     api.request('/posts', {
       body: {
-        start_date: api.formatDate(this.props.startDate),
-        end_date: api.formatDate(this.props.endDate),
+        start_date: toISO8601(this.props.startDate),
+        end_date: toISO8601(this.props.endDate),
         offset,
         limit: this.state.limit
       }
@@ -70,7 +71,7 @@ export default class TopPosts extends Component {
         </div>
         <div className='body'>
           {items.map((p, i) => (
-            <div key={p.id} className='box-grid koko-fade'>
+            <div key={`k-${p.id}-${i}`} className='box-grid koko-fade'>
               <div>
                 <span className='muted'>{offset + i + 1}</span>
                 <a href={p.post_permalink}>{p.post_title || '(no title)'}</a>
@@ -85,9 +86,4 @@ export default class TopPosts extends Component {
       </div>
     )
   }
-}
-
-TopPosts.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired
 }

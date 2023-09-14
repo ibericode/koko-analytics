@@ -1,11 +1,10 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
 import { modify } from '../util/colors'
-import { isLastDayOfMonth, format } from '../util/dates.js'
+import { isLastDayOfMonth, format, toISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
+import {Component} from 'react'
 
 const color1 = window.koko_analytics.colors[window.koko_analytics.colors.length - 1]
 const color2 = modify(color1, -20)
@@ -26,15 +25,17 @@ function yScale (yMax) {
   }
 }
 
+
 export default class Chart extends Component {
+  state = {
+    dataset: [],
+    yMax: 0,
+    groupByMonth: false
+  }
+
   constructor (props) {
     super(props)
 
-    this.state = {
-      dataset: [],
-      yMax: 0,
-      groupByMonth: false
-    }
     this.tooltip = this.createTooltip()
     this.showTooltip = this.showTooltip.bind(this)
     this.hideTooltip = this.hideTooltip.bind(this)
@@ -82,8 +83,8 @@ export default class Chart extends Component {
     // fetch actual stats
     api.request('/stats', {
       body: {
-        start_date: api.formatDate(startDate),
-        end_date: api.formatDate(endDate)
+        start_date: toISO8601(startDate),
+        end_date: toISO8601(endDate)
       }
     }).then(data => {
       const map = {}
@@ -95,7 +96,7 @@ export default class Chart extends Component {
       const d = new Date(+startDate)
       // eslint-disable-next-line no-unmodified-loop-condition
       while (d <= endDate) {
-        key = api.formatDate(d)
+        key = toISO8601(d)
         map[key] = {
           date: new Date(d.getTime()),
           pageviews: 0,
@@ -112,7 +113,7 @@ export default class Chart extends Component {
         if (groupByMonth) {
           const d = new Date(key)
           d.setDate(1)
-          key = api.formatDate(d)
+          key = toISO8601(d)
         }
 
         if (typeof map[key] === 'undefined') {
@@ -191,7 +192,8 @@ export default class Chart extends Component {
     this.tooltip.style.display = 'none'
   }
 
-  render (props, state) {
+  render () {
+    const {state, props} = this
     const { dataset, yMax, groupByMonth } = state
     const ticks = dataset.length
 
@@ -227,7 +229,7 @@ export default class Chart extends Component {
         <div className='chart-container'>
           <svg className='chart' width='100%' height={height}>
             <g className='axes'>
-              <g className='axes-y' transform={`translate(0, ${padding.top})`} text-anchor='end'>
+              <g className='axes-y' transform={`translate(0, ${padding.top})`} textAnchor='end'>
                 {y.ticks.map((v, i) => {
                   const y = getY(v)
                   return (
@@ -238,7 +240,7 @@ export default class Chart extends Component {
                   )
                 })}
               </g>
-              <g className='axes-x' text-anchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
+              <g className='axes-x' textAnchor='middle' transform={`translate(${padding.left}, ${padding.top + innerHeight})`}>
                 {dataset.map((d, i) => {
                   let label = null
                   if (i === 0) {
@@ -311,11 +313,4 @@ export default class Chart extends Component {
       </div>
     )
   }
-}
-
-Chart.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number
 }

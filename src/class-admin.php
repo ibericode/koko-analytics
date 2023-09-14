@@ -44,7 +44,7 @@ class Admin {
 		switch ( $suffix ) {
 			case 'index.php':
 				// load scripts for dashboard widget
-				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
+				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true );
 				if ( function_exists( 'wp_set_script_translations' ) ) {
 					wp_set_script_translations( 'koko-analytics-dashboard-widget', 'koko-analytics' );
 				}
@@ -67,7 +67,7 @@ class Admin {
 				$colors             = $this->get_colors();
 				$endpoint_installer = new Endpoint_Installer();
 
-				wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
+				wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true );
 				if ( function_exists( 'wp_set_script_translations' ) ) {
 					wp_set_script_translations( 'koko-analytics-admin', 'koko-analytics' );
 				}

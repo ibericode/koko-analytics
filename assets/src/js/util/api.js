@@ -46,11 +46,4 @@ function request (path, opts = {}) {
   }).then(r => r.json())
 }
 
-// pad number with zero's (for use in formatDate function below)
-const pad = d => d < 10 ? '0' + d : d
-
-function formatDate (d) {
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
-export default { request, formatDate }
+export default { request }

@@ -1,14 +1,15 @@
-import { h, Component } from 'preact'
+import {Component} from 'react'
 import numbers from '../util/numbers.js'
 import api from '../util/api.js'
 import { __ } from '@wordpress/i18n'
 
 export default class Realtime extends Component {
+  state = {
+    pageviews: 0
+  }
+
   constructor (props) {
     super(props)
-    this.state = {
-      pageviews: 0
-    }
 
     this.loadData = this.loadData.bind(this)
   }
@@ -32,8 +33,8 @@ export default class Realtime extends Component {
     })
   }
 
-  render (props, state) {
-    const { pageviews } = state
+  render () {
+    const { pageviews } = this.state
 
     return (
       <div className='totals-box koko-fade' key={'realtime-pageviews'}>

@@ -1,5 +1,4 @@
-import { h, Component } from 'preact'
-import PropTypes from 'prop-types'
+import {Component} from 'react'
 import { __ } from '@wordpress/i18n'
 
 export default class Pagination extends Component {
@@ -18,8 +17,8 @@ export default class Pagination extends Component {
     }
   }
 
-  render (props) {
-    const { offset, limit, total } = props
+  render () {
+    const { offset, limit, total } = this.props
 
     return (
       <div className='pagination'>
@@ -36,11 +35,4 @@ export default class Pagination extends Component {
       </div>
     )
   }
-}
-
-Pagination.propTypes = {
-  offset: PropTypes.number.isRequired,
-  limit: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  onUpdate: PropTypes.func.isRequired
 }

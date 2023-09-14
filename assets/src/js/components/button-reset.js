@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import {Component} from 'react'
 import api from './../util/api.js'
 import { __ } from '@wordpress/i18n'
 
@@ -48,7 +48,8 @@ export default class ButtonReset extends Component {
     })
   }
 
-  render (props, state) {
+  render () {
+    const {state} = this
     const { saving, buttonText } = state
     return (
       <button
