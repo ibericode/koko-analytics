@@ -1,34 +1,24 @@
 {
 	"env": {
 		"browser": true,
-		"es6": true,
-		"node": true
+		"es2021": true,
+		"amd": true
 	},
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"plugin:jest/recommended"
 	],
-	"globals": {
-		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly"
-	},
 	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 2021,
+		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
-	"plugins": [
-		"jest"
-	],
 	"rules": {
-		"prefer-template": "off",
 		"react/prop-types": "off"
 	},
 	"settings": {
 		"react": {
+			/* match the version shipped in latest WordPress: https://core.trac.wordpress.org/browser/trunk/package.json#L162 */
 			"version": "18.2"
 		}
 	}

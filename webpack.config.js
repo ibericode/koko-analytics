@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
@@ -41,8 +42,8 @@ module.exports = {
     externals: {
         moment: 'moment',
         '@wordpress/i18n': 'wp.i18n',
-        react: 'window.React',
-        'react-dom': 'window.ReactDOM',
+        react: 'React',
+        'react-dom': 'ReactDOM',
     },
     plugins: [
         new CopyPlugin({
