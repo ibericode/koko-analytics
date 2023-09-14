@@ -26,5 +26,10 @@
 	"rules": {
 		"prefer-template": "off",
 		"react/prop-types": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "18.2"
+		}
 	}
 }
