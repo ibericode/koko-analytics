@@ -1,3 +1,4 @@
+import React from "react"
 import api from '../util/api.js'
 import '../../sass/chart.scss'
 import numbers from '../util/numbers'
@@ -27,12 +28,6 @@ function yScale (yMax) {
 
 
 export default class Chart extends Component {
-  state = {
-    dataset: [],
-    yMax: 0,
-    groupByMonth: false
-  }
-
   constructor (props) {
     super(props)
 
@@ -42,6 +37,11 @@ export default class Chart extends Component {
     this.updateChart = this.updateChart.bind(this)
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
+    this.state = {
+      dataset: [],
+      yMax: 0,
+      groupByMonth: false
+    }
   }
 
   componentDidMount () {

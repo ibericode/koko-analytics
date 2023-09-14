@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import { __ } from '@wordpress/i18n'
 
 export default class Pagination extends Component {

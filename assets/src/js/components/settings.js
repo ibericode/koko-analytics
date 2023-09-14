@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import api from './../util/api.js'
 import Nav from './nav.js'
 import datePresets from '../util/date-presets'
@@ -11,14 +11,13 @@ const roles = window.koko_analytics.user_roles
 const settings = window.koko_analytics.settings
 
 export default class Settings extends Component {
-  state = {
-    settings,
-    saving: false,
-    buttonText: __('Save Changes', 'koko-analytics')
-  }
-
   constructor (props) {
     super(props)
+    this.state = {
+      settings,
+      saving: false,
+      buttonText: __('Save Changes', 'koko-analytics')
+    }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -135,7 +134,7 @@ export default class Settings extends Component {
                   <p dangerouslySetInnerHTML={{
                     __html: '❌ ' + __('The plugin is currently not using an optimized tracking endpoint. To address, create a file named %1s in your WordPress root directory with the following file contents:', 'koko-analytics')
                       .replace('%1s', '<strong>koko-analytics-collect.php</strong>')
-                  }}> </p>
+                  }} />
                   <p><strong>{__('Filename:', 'koko-analytics')} </strong> <em>{data.custom_endpoint.wp_root_dir}/koko-analytics-collect.php</em></p>
                   <pre className='code' onClick={(evt) => {
                     const range = new Range()

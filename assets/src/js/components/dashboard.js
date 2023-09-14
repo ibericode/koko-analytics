@@ -1,4 +1,4 @@
-import {Component, createElement} from 'react'
+import React, {Component, createElement} from 'react'
 import Chart from './chart.js'
 import Datepicker from './datepicker.js'
 import Totals from './totals.js'

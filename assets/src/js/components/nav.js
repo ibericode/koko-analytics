@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n'
+import React from "react"
 
 export default function Nav (props) {
   // do not show navigation if user can not access settings anyway

@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import '../../sass/totals.scss'
 import numbers from '../util/numbers.js'
 import {toISO8601} from '../util/dates'
@@ -7,22 +7,21 @@ import Realtime from './realtime.js'
 import { __ } from '@wordpress/i18n'
 
 export default class Totals extends Component {
-  state = {
-    visitors: 0,
-    visitorsChange: 0,
-    visitorsDiff: 0,
-    visitorsPrevious: 0,
-    pageviews: 0,
-    pageviewsChange: 0,
-    pageviewsDiff: 0,
-    pageviewsPrevious: 0,
-    hash: 'initial' // recompute this when data changes so we can redraw elements for animations
-  }
-
   constructor (props) {
     super(props)
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
+    this.state = {
+      visitors: 0,
+      visitorsChange: 0,
+      visitorsDiff: 0,
+      visitorsPrevious: 0,
+      pageviews: 0,
+      pageviewsChange: 0,
+      pageviewsDiff: 0,
+      pageviewsPrevious: 0,
+      hash: 'initial' // recompute this when data changes so we can redraw elements for animations
+    }
   }
 
   componentDidMount () {

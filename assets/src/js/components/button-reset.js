@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import api from './../util/api.js'
 import { __ } from '@wordpress/i18n'
 

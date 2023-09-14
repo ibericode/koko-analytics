@@ -1,3 +1,4 @@
+import React from "react"
 import Chart from './components/chart'
 const el = document.getElementById('koko-analytics-dashboard-widget-mount')
 const now = new Date()

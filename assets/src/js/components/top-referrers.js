@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import api from '../util/api.js'
 import {toISO8601} from '../util/dates'
 import Pagination from './table-pagination'
@@ -23,16 +23,17 @@ function enhance (item) {
 }
 
 export default class TopReferrers extends Component {
-  state = {
-    offset: 0,
-    limit: 25,
-    items: []
-  }
+
 
   constructor (props) {
     super(props)
     this.loadData = this.loadData.bind(this)
     this.autoRefresh = this.autoRefresh.bind(this)
+    this.state = {
+      offset: 0,
+      limit: 25,
+      items: []
+    }
   }
 
   componentDidMount () {

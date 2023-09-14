@@ -1,11 +1,13 @@
 {
   "env": {
 	"browser": true,
-	"es6": true
+	"es6": true,
+	  "node": true
   },
   "extends": [
-	"preact",
-	"plugin:jest/recommended"
+	  "eslint:recommended",
+	  "plugin:react/recommended",
+	  "plugin:jest/recommended"
   ],
   "globals": {
 	"Atomics": "readonly",
@@ -22,6 +24,7 @@
 	"jest"
   ],
   "rules": {
-	"prefer-template": "off"
+	"prefer-template": "off",
+	  "react/prop-types": "off"
   }
 }

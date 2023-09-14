@@ -4,7 +4,7 @@ import Settings from './components/settings'
 import { createHashHistory } from 'history'
 const history = createHashHistory()
 import './globals.js'
-import{useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {createRoot} from 'react-dom'
 
 function Page() {
