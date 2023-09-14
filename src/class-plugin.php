@@ -55,7 +55,7 @@ class Plugin {
 
 	public function maybe_run_db_migrations() {
 		$from_version = isset( $_GET['koko_analytics_migrate_from_version'] ) ? $_GET['koko_analytics_migrate_from_version'] : get_option( 'koko_analytics_version', '0.0.1' );
-		$to_version = KOKO_ANALYTICS_VERSION;
+		$to_version   = KOKO_ANALYTICS_VERSION;
 		if ( version_compare( $from_version, $to_version, '>=' ) ) {
 			return;
 		}

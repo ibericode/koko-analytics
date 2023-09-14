@@ -68,7 +68,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 		$instance['title']     = sanitize_text_field( $new_instance['title'] );
 		$instance['number']    = absint( $new_instance['number'] );
 		$instance['show_date'] = isset( $new_instance['show_date'] ) ? (bool) $new_instance['show_date'] : false;
-		$instance['days']    = absint( $new_instance['days'] );
+		$instance['days']      = absint( $new_instance['days'] );
 		$instance['post_type'] = isset( $new_instance['post_type'] ) && in_array( $new_instance['post_type'], get_post_types(), true ) ? $new_instance['post_type'] : 'post';
 		return $instance;
 	}
@@ -79,7 +79,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 	 * @param array $settings Current settings.
 	 */
 	public function form( $settings ) {
-		$settings = array_merge( $this->get_default_settings(), $settings );
+		$settings   = array_merge( $this->get_default_settings(), $settings );
 		$post_types = get_post_types( array( 'public' => true ), false );
 		?>
 		<p>

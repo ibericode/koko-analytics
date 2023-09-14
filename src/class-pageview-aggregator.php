@@ -10,11 +10,11 @@ use Exception;
 
 class Pageview_Aggregator {
 
-	protected $site_stats = array(
+	protected $site_stats     = array(
 		'visitors' => 0,
 		'pageviews' => 0,
 	);
-	protected $post_stats = array();
+	protected $post_stats     = array();
 	protected $referrer_stats = array();
 
 	public function init() {
@@ -148,16 +148,16 @@ class Pageview_Aggregator {
 		$this->update_realtime_pageview_count( $this->site_stats['pageviews'] );
 
 		// reset properties in case aggregation runs again in current request lifecycle
-		$this->site_stats = array(
+		$this->site_stats     = array(
 		'visitors' => 0,
 		'pageviews' => 0,
 		);
 		$this->referrer_stats = array();
-		$this->post_stats = array();
+		$this->post_stats     = array();
 	}
 
 	private function update_realtime_pageview_count( $pageviews ) {
-		$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
+		$counts       = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
 		$one_hour_ago = strtotime( '-60 minutes' );
 
 		foreach ( $counts as $timestamp => $count ) {
@@ -180,7 +180,7 @@ class Pageview_Aggregator {
 
 			// add result of filter hook to blocklist so user can provide custom domains to block through simple array
 			$custom_blocklist = apply_filters( 'koko_analytics_referrer_blocklist', array() );
-			$blocklist = array_merge( $blocklist, $custom_blocklist );
+			$blocklist        = array_merge( $blocklist, $custom_blocklist );
 		}
 
 		foreach ( $blocklist as $blocklisted_domain ) {
@@ -210,9 +210,9 @@ class Pageview_Aggregator {
 
 			// strip all but the following query parameters from the URL
 			$allowed_params = array( 'page_id', 'p', 'cat', 'product' );
-			$new_params    = array_intersect_key( $params, array_flip( $allowed_params ) );
-			$new_query_str = http_build_query( $new_params );
-			$new_url       = substr( $url, 0, $pos + 1 ) . $new_query_str;
+			$new_params     = array_intersect_key( $params, array_flip( $allowed_params ) );
+			$new_query_str  = http_build_query( $new_params );
+			$new_url        = substr( $url, 0, $pos + 1 ) . $new_query_str;
 
 			// trim trailing question mark & replace url with new sanitized url
 			$url = rtrim( $new_url, '?' );

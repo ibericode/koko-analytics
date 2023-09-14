@@ -89,7 +89,7 @@ function collect_in_file( array $data ) {
 	}
 
 	// append data to file
-	$line = join( ',', $data ) . PHP_EOL;
+	$line     = join( ',', $data ) . PHP_EOL;
 	$content .= $line;
 	return file_put_contents( $filename, $content, FILE_APPEND );
 }
@@ -111,8 +111,8 @@ function get_settings() {
 		'prune_data_after_months' => 5 * 12, // 5 years
 		'default_view' => 'last_28_days',
 	);
-	$settings = (array) get_option( 'koko_analytics_settings', array() );
-	$settings = array_merge( $default_settings, $settings );
+	$settings         = (array) get_option( 'koko_analytics_settings', array() );
+	$settings         = array_merge( $default_settings, $settings );
 	return $settings;
 }
 
@@ -125,22 +125,22 @@ function get_most_viewed_posts( array $args ) {
 		'days'    => 30,
 	);
 
-	$args = array_merge( $default_args, $args );
+	$args              = array_merge( $default_args, $args );
 	$args['post_type'] = is_array( $args['post_type'] ) ? $args['post_type'] : explode( ',', $args['post_type'] );
 	$args['post_type'] = array_map( 'trim', $args['post_type'] );
-	$start_date = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
-	$end_date   = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
-	$post_types = join(',', array_map( function( $v ) {
+	$start_date        = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
+	$end_date          = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
+	$post_types        = join(',', array_map( function( $v ) {
 		return "'" . esc_sql( $v ) . "'";
 	}, $args['post_type'] ) );
-	$sql        = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id > 0 AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types) AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['number'] ) );
-	$results    = $wpdb->get_results( $sql );
+	$sql               = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id > 0 AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types) AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['number'] ) );
+	$results           = $wpdb->get_results( $sql );
 	if ( empty( $results ) ) {
 		return array();
 	}
 
 	$ids = wp_list_pluck( $results, 'id' );
-	$r = new WP_Query(
+	$r   = new WP_Query(
 		array(
 			'posts_per_page'      => -1,
 			'post__in'            => $ids,
@@ -180,9 +180,9 @@ function widgets_init() {
 }
 
 function get_realtime_pageview_count( $since = null ) {
-	$since = $since !== null ? $since : strtotime( '-5 minutes' );
+	$since  = $since !== null ? $since : strtotime( '-5 minutes' );
 	$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
-	$sum = 0;
+	$sum    = 0;
 	foreach ( $counts as $timestamp => $pageviews ) {
 		if ( $timestamp > $since ) {
 			$sum += $pageviews;

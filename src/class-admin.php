@@ -6,10 +6,9 @@
  */
 namespace KokoAnalytics;
 
-class Admin
-{
-	public function init()
-	{
+class Admin {
+
+	public function init() {
 		global $pagenow;
 
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
@@ -32,13 +31,11 @@ class Admin
 
 	}
 
-	public function register_menu()
-	{
+	public function register_menu() {
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
-	public function enqueue_scripts( $suffix )
-	{
+	public function enqueue_scripts( $suffix ) {
 		// do not load any scripts if user is missing required capability for viewing
 		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;
@@ -64,10 +61,10 @@ class Admin
 				break;
 
 			case 'dashboard_page_koko-analytics':
-				$user_roles = $this->get_available_roles();
-				$start_of_week = (int) get_option( 'start_of_week' );
-				$settings = get_settings();
-				$colors = $this->get_colors();
+				$user_roles         = $this->get_available_roles();
+				$start_of_week      = (int) get_option( 'start_of_week' );
+				$settings           = get_settings();
+				$colors             = $this->get_colors();
 				$endpoint_installer = new Endpoint_Installer();
 
 				wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true );
@@ -95,8 +92,7 @@ class Admin
 		}
 	}
 
-	private function get_available_roles()
-	{
+	private function get_available_roles() {
 		$roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
 			$roles[ $key ] = $role['name'];
@@ -104,8 +100,7 @@ class Admin
 		return $roles;
 	}
 
-	private function is_cron_event_working()
-	{
+	private function is_cron_event_working() {
 		// Always return true on localhost / dev-ish environments
 		$site_url = get_site_url();
 		if (strpos($site_url, ':') !== false || strpos($site_url, 'localhost') !== false || strpos($site_url, '.local') !== false) {
@@ -118,14 +113,13 @@ class Admin
 		return $next_scheduled !== false && $next_scheduled > ( time() - HOUR_IN_SECONDS );
 	}
 
-	public function show_page()
-	{
+	public function show_page() {
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
 		// determine whether buffer file is writable
-		$buffer_filename = get_buffer_filename();
-		$buffer_dirname = dirname( $buffer_filename );
+		$buffer_filename        = get_buffer_filename();
+		$buffer_dirname         = dirname( $buffer_filename );
 		$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
 
 		// determine whether cron event is set-up properly seeand running in-time
@@ -135,14 +129,12 @@ class Admin
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 	}
 
-	public function footer_text()
-	{
+	public function footer_text() {
 		/* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
 		return sprintf( wp_kses( __( 'If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics' ), array( 'a' => array( 'href' => array() ) ) ), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url( 'post-new.php' ) );
 	}
 
-	public function maybe_run_endpoint_installer()
-	{
+	public function maybe_run_endpoint_installer() {
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'koko-analytics' ) {
 			return;
 		}
@@ -163,8 +155,7 @@ class Admin
 		set_transient( 'koko_analytics_install_custom_endpoint_attempt', 1, HOUR_IN_SECONDS );
 	}
 
-	private function get_colors()
-	{
+	private function get_colors() {
 		$color_scheme_name = get_user_option( 'admin_color' );
 		global $_wp_admin_css_colors;
 		if ( empty( $_wp_admin_css_colors[ $color_scheme_name ] ) ) {
@@ -174,8 +165,7 @@ class Admin
 		return $_wp_admin_css_colors[ $color_scheme_name ]->colors;
 	}
 
-	public function register_dashboard_widget()
-	{
+	public function register_dashboard_widget() {
 		// only show if user can view stats
 		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;
@@ -184,8 +174,7 @@ class Admin
 		add_meta_box( 'koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high' );
 	}
 
-	public function dashboard_widget()
-	{
+	public function dashboard_widget() {
 		echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
 		echo sprintf( '<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', esc_html__( 'Showing site visits over last 14 days', 'koko-analytics' ), esc_attr( admin_url( 'index.php?page=koko-analytics' ) ), esc_html__( 'View all statistics', 'koko-analytics' ) );
 	}
@@ -198,8 +187,7 @@ class Admin
 	 *
 	 * @return array
 	 */
-	public function add_plugin_settings_link( $links, $file )
-	{
+	public function add_plugin_settings_link( $links, $file ) {
 		$settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'index.php?page=koko-analytics#/settings' ), esc_html__( 'Settings', 'koko-analytics' ) );
 		array_unshift( $links, $settings_link );
 		return $links;
@@ -213,8 +201,7 @@ class Admin
 	 *
 	 * @return array
 	 */
-	public function add_plugin_meta_links( $links, $file )
-	{
+	public function add_plugin_meta_links( $links, $file ) {
 		if ( $file !== plugin_basename( KOKO_ANALYTICS_PLUGIN_FILE ) ) {
 			return $links;
 		}
@@ -223,8 +210,7 @@ class Admin
 		return $links;
 	}
 
-	public function get_database_size()
-	{
+	public function get_database_size() {
 		global $wpdb;
 		$sql = $wpdb->prepare(
 			'
@@ -238,24 +224,23 @@ class Admin
 		return $wpdb->get_var( $sql );
 	}
 
-	public function maybe_seed()
-	{
+	public function maybe_seed() {
 		global $wpdb;
 
 		if ( ! isset( $_GET['koko_analytics_seed'] ) || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		$query = new \WP_Query();
-		$posts = $query->query(
+		$query            = new \WP_Query();
+		$posts            = $query->query(
 			array(
 				'posts_per_page' => 32,
 				'post_type' => 'any',
 				'post_status' => 'publish',
 			)
 		);
-		$post_count = count( $posts );
-		$referrer_urls = array();
+		$post_count       = count( $posts );
+		$referrer_urls    = array();
 		$sample_referrers = array(
 			'https://www.wordpress.org',
 			'https://www.wordpress.org/plugins/koko-analytics',
@@ -307,15 +292,15 @@ class Admin
 
 		$n = 3 * 365;
 		for ( $i = 0; $i < $n; $i++ ) {
-			$progress = ( $n - $i ) / $n;
-			$date = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
+			$progress  = ( $n - $i ) / $n;
+			$date      = gmdate( 'Y-m-d', strtotime( sprintf( '-%d days', $i ) ) );
 			$pageviews = max( 1, rand( 500, 1000 ) * $progress ^ 2 );
-			$visitors = max( 1, $pageviews * rand( 3, 6 ) / 10 );
+			$visitors  = max( 1, $pageviews * rand( 3, 6 ) / 10 );
 
 			// simulate a huge peak in traffic every 180 days
 			if ( rand( 1, 180 ) === 1 ) {
 				$pageviews = $pageviews * 10;
-				$visitors = $visitors * 10;
+				$visitors  = $visitors * 10;
 			}
 
 			$wpdb->insert(
