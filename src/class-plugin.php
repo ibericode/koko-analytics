@@ -62,7 +62,7 @@ class Plugin {
 
 		// run upgrade migrations (if any)
 		$migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
-		require __DIR__ . '/src/class-migrations.php';
+		require KOKO_ANALYTICS_PLUGIN_DIR . '/src/class-migrations.php';
 		$migrations = new Migrations( $from_version, $to_version, $migrations_dir );
 		$migrations->run();
 		update_option( 'koko_analytics_version', $to_version, true );
