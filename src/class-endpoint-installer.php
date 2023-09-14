@@ -27,7 +27,7 @@ class Endpoint_Installer {
 		/* Check if path to buffer file changed */
 		if ( file_exists( ABSPATH . '/koko-analytics-collect.php' ) ) {
 			$content = file_get_contents( ABSPATH . '/koko-analytics-collect.php' );
-			if ( ! str_contains( $content, get_buffer_filename() ) ) {
+			if ( strpos( $content, get_buffer_filename() ) === false ) {
 				unlink( ABSPATH . '/koko-analytics-collect.php' );
 			}
 		}
