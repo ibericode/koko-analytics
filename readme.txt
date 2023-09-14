@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 6.3
-Stable tag: 1.0.39
+Stable tag: 1.0.40
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.0
@@ -108,6 +108,21 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 == Changelog ==
 
+#### 1.0.40 - Sep 14, 2023
+
+- Fallback to post slug if post has no title
+- Validate referrer URL and ignore if invalid
+- Delete optimized tracking endpoint if buffer filename changed and is no longer present in it. This fixes an issue when moving between servers
+- Always run database migrations when needed, regardless of current user role
+- Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
+- Limit attempts to install optimized tracking endpoint to once per hour
+- On the analytics dashboard, use the date format from WordPress settings
+- Translate day and month names (only relevant if using M, F, l or D in the date format string)
+- WP CLI command to manually run aggregation now accepts an optional `--force` flag. Example: `wp koko-analytics aggregate --force`
+- Don't show warning about WP Cron not working properly on sites on localhost, sites ending in `.local` and sites containing a port number
+- Last but certainly not least, some preparatory work for event tracking... Coming soon!
+
+
 ### 1.0.39 - Aug 29, 2023
 
 - Update referrer blocklist
@@ -184,7 +199,7 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 - Cache dashboard requests to REST API for 5 minutes (using browser cache).
 - Use integers for viewbox coordinates (for increased performance).
 - Simple locking mechanism for aggregation job to detect previous runs which are still busy.
-- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate`
+- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate` 
 
 
 #### 1.0.27 - May 4, 2021
@@ -218,7 +233,7 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 #### 1.0.23 - Jan 15, 2021
 
-Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
+Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
 
 If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
 
@@ -238,14 +253,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists
+- Only call add_cap on administrator role if such a role exists 
 - Update JS dependencies.
 - Update built-in referrer blocklist.
 
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 
