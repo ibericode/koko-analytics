@@ -18,7 +18,7 @@ export function request (path, opts = {}) {
   if (opts.body) {
     // allow passing "body" option for GET requests, convert it to query params
     if (!opts.method || opts.method === 'GET') {
-      url += url.indexOf('?') ? '&' : '?'
+      url += url.indexOf('?') > -1 ? '&' : '?'
 
       for (const key in opts.body) {
         url += encodeURIComponent(key) + '=' + encodeURIComponent(opts.body[key]) + '&'
