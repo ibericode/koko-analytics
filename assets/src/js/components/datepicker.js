@@ -25,10 +25,14 @@ export default function Datepicker ({
   })
   const datepickerContainer = useRef(null)
   const root = useRef(null)
-
   let tmpStartDate = null, tmpEndDate = null
+
+  /**
+   * Setup event listeners and initialize Pikaday on first render
+   */
   useEffect(() => {
-    document.body.addEventListener('keydown', onKeydown)
+    document.addEventListener('keydown', onKeydown)
+    document.addEventListener('click', maybeClose)
     datepicker = new Pikaday({
       field: document.getElementById('start-date-input'),
       bound: false,
@@ -71,10 +75,14 @@ export default function Datepicker ({
 
     return () => {
       datepicker.destroy()
-      document.body.removeEventListener('keydown', onKeydown)
+      document.removeEventListener('keydown', onKeydown)
+      document.removeEventListener('click', maybeClose)
     }
   }, [])
 
+  /**
+   * Update Pikaday & rest of dashboard whenever date range state changes
+   */
   useEffect(() => {
     // update Pikaday selection range
     datepicker.setStartRange(dateRange.startDate)
@@ -85,32 +93,33 @@ export default function Datepicker ({
     onUpdate(dateRange.startDate, dateRange.endDate)
   }, [dateRange])
 
+  /**
+   * Toggle the date / period picker dropdown
+   */
   function toggle () {
     setIsOpen(isOpen => !isOpen)
   }
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    function maybeClose (evt) {
-      /* don't close if clicking anywhere inside this component */
-      for (let el = evt.target; el !== null; el = el.parentNode) {
-        if (el === root.current) {
-          return
-        }
+  /**
+   * Close the date / period picker dropdown if clicking anywhere outside it
+   *
+   * @param {MouseEvent} evt
+   */
+  function maybeClose (evt) {
+    /* don't close if clicking anywhere inside this component */
+    for (let el = evt.target; el !== null; el = el.parentNode) {
+      if (el === root.current || (typeof el.className === 'string' && el.className.indexOf('date-label') > -1)) {
+        return
       }
-
-      setIsOpen(false)
     }
 
-    document.addEventListener('click', maybeClose)
-    return () => {
-      document.removeEventListener('click', maybeClose)
-    }
-  },[isOpen])
+    setIsOpen(false)
+  }
 
+  /**
+   * Set selected preset period
+   * @param {string} key
+   */
   function setPeriod (key) {
     if (key === 'custom') {
       setPreset(key)
@@ -129,6 +138,10 @@ export default function Datepicker ({
     })
   }
 
+  /**
+   * Handle quick nav between next and previous periods.
+   * @param {string} dir Must be one of `prev` or `next`
+   */
   function quickNav (dir) {
     const modifier = dir === 'prev' ? -1 : 1
     setDateRange(({
@@ -154,6 +167,11 @@ export default function Datepicker ({
     setPreset('custom')
   }
 
+  /**
+   * Listen for key events, trigger quickNav() when arrow keys are pressed.
+   *
+   * @param {KeyboardEvent} evt
+   */
   function onKeydown (evt) {
     if (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight') {
       quickNav(evt.key === 'ArrowLeft' ? 'prev' : 'next')
@@ -190,7 +208,7 @@ export default function Datepicker ({
   }
 
   return (
-    <div className="date-nav" ref={root}>
+    <div className="date-nav">
       <div>
         <div className={'date-label'} onClick={toggle}>
           <span className="dashicons dashicons-calendar-alt"/>
@@ -199,7 +217,7 @@ export default function Datepicker ({
           <span>{format(dateRange.endDate, defaultDateFormat)}</span>
         </div>
       </div>
-      <div className="date-picker-ui" style={{ display: isOpen ? '' : 'none' }}>
+      <div className="date-picker-ui" style={{ display: isOpen ? '' : 'none' }} ref={root}>
         <div className="date-quicknav cf">
           <span onClick={onQuickNavClick('prev')} className="prev dashicons dashicons-arrow-left"
                 title={__('Previous', 'koko-analytics')}/>
