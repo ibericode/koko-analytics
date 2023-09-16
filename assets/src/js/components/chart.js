@@ -91,7 +91,7 @@ export default function Chart({startDate, endDate, width, height}) {
       const d = new Date(+startDate)
       // eslint-disable-next-line no-unmodified-loop-condition
       while (d <= endDate) {
-        key = toISO8601(d)
+        key = groupByMonth ? toISO8601(d).substring(0, 7) : toISO8601(d)
         map[key] = {
           date: new Date(d.getTime()),
           pageviews: 0,
@@ -102,36 +102,28 @@ export default function Chart({startDate, endDate, width, height}) {
       }
 
       // replace tick data with values from response data
-      for (let i = 0; i < data.length; i++) {
-        key = data[i].date
-
-        if (groupByMonth) {
-          const d = new Date(key)
-          d.setDate(1)
-          key = toISO8601(d)
-        }
-
-        if (typeof map[key] === 'undefined') {
+      for (let i = 0, tick; i < data.length; i++) {
+        let {date, visitors, pageviews} = data[i]
+        key = groupByMonth ? date.substring(0, 7) : date
+        tick = map[key]
+        if (typeof tick === 'undefined') {
           console.error('Unexpected date in response data', key)
           continue
         }
 
-        map[key].pageviews += data[i].pageviews
-        map[key].visitors += data[i].visitors
+        tick.pageviews += pageviews
+
+        // If data returned from server had data for this day, it means there were pageviews,
+        // and if there were pageviews, there was at least 1 visitor.
+        // The data may not always reflect this b/c the cookie may have been set just before midnight,
+        // so here we default to always adding at least 1 visitor whenever there are pageviews for that day.
+        tick.visitors += Math.max(1, visitors)
       }
 
-      // Set visitors to be at least 1 if there are pageviews
-      // This may not actually be technically true but it is easier than explaining the nuances of the tracking mechanism.
-      const dataset = Object.values(map).map((d) => {
-        if (d.pageviews > 0) {
-          d.visitors = Math.max(1, d.visitors)
-        }
+      setDataset(Object.values(map))
+    }).catch((e) => {
+      console.error(e)
 
-        return d
-      })
-
-      setDataset(dataset)
-    }).catch(() => {
       // empty chart if request somehow failed
       setDataset([])
     })
