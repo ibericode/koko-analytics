@@ -43,7 +43,7 @@ export default function TopReferrers({ startDate, endDate }) {
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [startDate, endDate])
 
   // reload data when property for fetching change
   useEffect(loadData, [startDate, endDate, offset])

@@ -48,13 +48,16 @@ export default function Chart({startDate, endDate, width, height}) {
   }, [dataset]);
   let groupByMonth = 0;
 
-
   useEffect(() => {
     tooltip = createTooltip();
     document.body.appendChild(tooltip)
     document.addEventListener('click', hideTooltip)
+    return () => {
+      document.removeEventListener('click', hideTooltip)
+    }
+  }, [])
 
-    // refresh dataset every 60s
+  useEffect(() => {
     const refreshInterval = setInterval(() => {
       const now = new Date()
       if (startDate < now && endDate > now) {
@@ -63,10 +66,9 @@ export default function Chart({startDate, endDate, width, height}) {
     }, 60000)
 
     return () => {
-      document.removeEventListener('click', hideTooltip)
-      window.clearInterval(refreshInterval)
+      clearInterval(refreshInterval)
     }
-  }, [])
+  }, [startDate, endDate])
 
   useEffect(updateChart, [startDate, endDate])
 

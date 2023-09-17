@@ -20,7 +20,7 @@ export default function TopPosts({ startDate, endDate }) {
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [startDate, endDate])
 
   // reload data when property for fetching change
   useEffect(loadData, [startDate, endDate, offset])
@@ -33,9 +33,7 @@ export default function TopPosts({ startDate, endDate }) {
         offset,
         limit,
       }
-    }).then(items => {
-      setItems(items)
-    })
+    }).then(setItems)
   }
 
   return (

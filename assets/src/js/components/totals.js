@@ -9,13 +9,6 @@ import { __ } from '@wordpress/i18n'
 export default function Totals({ startDate, endDate }) {
   let [totals, setTotals] = useState([{ visitors: 0, pageviews: 0}, { visitors: 0, pageviews: 0}])
 
-  function autoRefresh () {
-    const now = new Date()
-    if (startDate < now && endDate > now) {
-      loadData()
-    }
-  }
-
   function loadData() {
     const diff = (endDate - startDate) + 1
     const previousStartDate = new Date(startDate - diff)
@@ -55,11 +48,16 @@ export default function Totals({ startDate, endDate }) {
   }
 
   useEffect(() => {
-    const interval = setInterval(autoRefresh, 60000)
+    const interval = setInterval(() => {
+      const now = new Date()
+      if (startDate < now && endDate > now) {
+        loadData()
+      }
+    }, 60000)
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [startDate, endDate])
 
   useEffect(loadData, [startDate, endDate])
   let [p1, p2] = totals;
