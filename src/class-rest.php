@@ -189,7 +189,14 @@ class Rest {
 		$params              = $request->get_query_params();
 		$start_date          = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$end_date            = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+
+		// if end date is a future date, cap it at today so that relative differences to previous period are fair
+		$today = gmdate('Y-m-d' );
+		if ( $end_date > $today) {
+			$end_date = $today;
+		}
 		$previous_start_date = gmdate('Y-m-d', strtotime($start_date) - ( strtotime($end_date . ' 23:59:59') - strtotime($start_date) ));
+
 		$sql                 = $wpdb->prepare( 'SELECT
 			        cur.*,
 			        cur.visitors - prev.visitors AS visitors_change,

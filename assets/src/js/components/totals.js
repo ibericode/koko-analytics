@@ -38,7 +38,7 @@ export default function Totals({ startDate, endDate }) {
       <div className='totals-box koko-fade'>
         <div className='totals-label'>{__('Total visitors', 'koko-analytics')}</div>
         <div className='totals-amount'>{formatLargeNumber(totals.visitors)} {totals.visitors_change_rel !== null ? <span
-          className={totals.visitors_change_rel > 0 ? 'up' : totals.visitors_change_rel === 0 ? 'neutral' : 'down'}
+          className={totals.visitors_change_rel > 0 ? 'up' : parseInt(totals.visitors_change_rel) === 0 ? 'neutral' : 'down'}
         >{formatPercentage(totals.visitors_change_rel)}
           </span> : ''}
         </div>
@@ -49,7 +49,7 @@ export default function Totals({ startDate, endDate }) {
       <div className='totals-box koko-fade'>
         <div className='totals-label'>{__('Total pageviews', 'koko-analytics')}</div>
         <div className='totals-amount'>{formatLargeNumber(totals.pageviews)} {totals.pageviews_change_rel !== null ? <span
-          className={totals.pageviews_change > 0 ? 'up' : totals.pageviews_change === 0 ? 'neutral' : 'down'}
+          className={totals.pageviews_change > 0 ? 'up' : parseInt(totals.pageviews_change) === 0 ? 'neutral' : 'down'}
         >{formatPercentage(totals.pageviews_change_rel)}
           </span> : ''}
         </div>
