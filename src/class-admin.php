@@ -36,7 +36,22 @@ class Admin {
 		add_submenu_page( 'index.php', esc_html__( 'Koko Analytics', 'koko-analytics' ), esc_html__( 'Analytics', 'koko-analytics' ), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ) );
 	}
 
-	public function enqueue_scripts( $suffix ) {
+	public function maybe_run_actions() {
+		if (! isset($_GET['koko_analytics_action'])) {
+			return;
+		}
+
+		if (! current_user_can( 'manage_koko_analytics')) {
+			return;
+		}
+
+		$action = $_GET['koko_analytics_action'];
+		do_action( 'koko_analytics_' . $action);
+		wp_safe_redirect(remove_query_arg('koko_analytics_action'));
+		exit;
+	}
+
+	public function enqueue_scripts( $page ) {
 		// do not load any scripts if user is missing required capability for viewing
 		if ( ! current_user_can( 'view_koko_analytics' ) ) {
 			return;

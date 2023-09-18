@@ -72,21 +72,20 @@ function trackPageview (postId) {
 
 /**
  * @param {string} name
- * @param {string} param1
- * @param {string} param2
+ * @param {string} param
  * @param {number} value
  */
-function trackEvent(name, param1, param2, value) {
-  if (typeof value === 'undefined' && typeof param2 === 'number') {
-    value = param2;
-    param2 = null;
-  }
-  if (typeof value === 'undefined' && typeof param1 === 'number') {
-    value = param1;
-    param1 = null;
+function trackEvent(name, param, value) {
+  if (value === undefined && typeof param2 === 'number') {
+    value = param;
+    param = null;
   }
 
-  request(`e=${name}&p1=${enc(param1 ?? '')}&p2=${enc(param2 ?? '')}&v=${parseFloat(value) ?? 0}&rqp=${Math.random().toString(36)}`)
+  if (value === undefined) {
+    value = 0
+  }
+
+  request(`e=${name}&p=${enc(param ?? '')}&v=${parseFloat(value) ?? 0}&rqp=${Math.random().toString(36)}`)
 }
 
 win.addEventListener('load', () => {

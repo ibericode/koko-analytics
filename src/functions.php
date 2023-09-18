@@ -31,8 +31,7 @@ function collect_request() {
 		$data = array(
 			'e',            // type indicator
 			$_GET['e'],     // event name
-			$_GET['p1'],    // event param 1
-			$_GET['p2'],    // event param 2
+			$_GET['p'],    // event param 1
 			$_GET['v'],    // event value
 		);
 	}
