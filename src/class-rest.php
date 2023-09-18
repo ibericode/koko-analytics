@@ -35,6 +35,26 @@ class Rest {
 
 		register_rest_route(
 			'koko-analytics/v1',
+			'/totals',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_totals' ),
+				'args'                => array(
+					'start_date' => array(
+						'validate_callback' => array( $this, 'validate_date_param' ),
+					),
+					'end_date'   => array(
+						'validate_callback' => array( $this, 'validate_date_param' ),
+					),
+				),
+				'permission_callback' => function () {
+					return current_user_can( 'view_koko_analytics' );
+				},
+			)
+		);
+
+		register_rest_route(
+			'koko-analytics/v1',
 			'/posts',
 			array(
 				'methods'             => 'GET',
@@ -144,6 +164,27 @@ class Rest {
 		}, $result) : $result;
 
 		$send_cache_headers = $end_date < gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		return $this->respond( $result, $send_cache_headers );
+	}
+
+	public function get_totals( \WP_REST_Request $request ) {
+		global $wpdb;
+		$params              = $request->get_query_params();
+		$start_date          = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		$end_date            = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		$previous_start_date = gmdate('Y-m-d', strtotime($start_date) - ( strtotime($end_date . ' 23:59:59') - strtotime($start_date) ));
+		$sql                 = $wpdb->prepare( 'SELECT
+			        cur.*,
+			        cur.visitors - prev.visitors AS visitors_change,
+			        cur.pageviews - prev.pageviews AS pageviews_change,
+			        cur.visitors / prev.visitors - 1 AS visitors_change_rel,
+			        cur.pageviews / prev.pageviews - 1 AS pageviews_change_rel
+			    FROM
+			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM wp_koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s) AS cur,
+			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM wp_koko_analytics_site_stats s WHERE s.date >= %s AND s.date < %s) AS prev;
+			', array( $start_date, $end_date, $previous_start_date, $start_date ) );
+		$result              = $wpdb->get_row( $sql );
+		$send_cache_headers  = $end_date < gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		return $this->respond( $result, $send_cache_headers );
 	}
 
