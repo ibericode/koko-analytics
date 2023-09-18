@@ -77,15 +77,12 @@ function trackPageview (postId) {
  */
 function trackEvent(name, param, value) {
   if (value === undefined && typeof param2 === 'number') {
-    value = param;
-    param = null;
+    value = parseFloat(param);
+    param = '';
   }
 
-  if (value === undefined) {
-    value = 0
-  }
-
-  request(`e=${name}&p=${enc(param ?? '')}&v=${parseFloat(value) ?? 0}&rqp=${Math.random().toString(36)}`)
+  /** TODO: Determine if this was a unique trigger */
+  request(`e=${name}&p=${enc(param ?? '')}&v=${value ?? 0}&rqp=${Math.random().toString(36)}`)
 }
 
 win.addEventListener('load', () => {

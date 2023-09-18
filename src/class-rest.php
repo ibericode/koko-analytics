@@ -124,18 +124,6 @@ class Rest {
 				},
 			)
 		);
-
-		register_rest_route(
-			'koko-analytics/v1',
-			'/reset',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'reset_data' ),
-				'permission_callback' => function () {
-					return current_user_can( 'manage_koko_analytics' );
-				},
-			)
-		);
 	}
 
 	private function respond( $data, bool $send_cache_headers = false ) {
@@ -186,9 +174,9 @@ class Rest {
 	 */
 	public function get_totals( \WP_REST_Request $request ) {
 		global $wpdb;
-		$params              = $request->get_query_params();
-		$start_date          = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
-		$end_date            = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		$params     = $request->get_query_params();
+		$start_date = isset( $params['start_date'] ) ? $params['start_date'] : gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		$end_date   = isset( $params['end_date'] ) ? $params['end_date'] : gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 
 		// if end date is a future date, cap it at today so that relative differences to previous period are fair
 		$today = gmdate('Y-m-d' );
@@ -197,7 +185,7 @@ class Rest {
 		}
 		$previous_start_date = gmdate('Y-m-d', strtotime($start_date) - ( strtotime($end_date . ' 23:59:59') - strtotime($start_date) ));
 
-		$sql                 = $wpdb->prepare( 'SELECT
+		$sql                = $wpdb->prepare( 'SELECT
 			        cur.*,
 			        cur.visitors - prev.visitors AS visitors_change,
 			        cur.pageviews - prev.pageviews AS pageviews_change,
@@ -207,8 +195,8 @@ class Rest {
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM wp_koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s) AS cur,
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM wp_koko_analytics_site_stats s WHERE s.date >= %s AND s.date < %s) AS prev;
 			', array( $start_date, $end_date, $previous_start_date, $start_date ) );
-		$result              = $wpdb->get_row( $sql );
-		$send_cache_headers  = $end_date < gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+		$result             = $wpdb->get_row( $sql );
+		$send_cache_headers = $end_date < gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		return $this->respond( $result, $send_cache_headers );
 	}
 
@@ -302,22 +290,5 @@ class Rest {
 		$params = $request->get_query_params();
 		$since  = isset( $params['since'] ) ? strtotime( $params['since'] ) : null;
 		return get_realtime_pageview_count( $since );
-	}
-
-	/**
-	 * Empties all database tables holding collected stats.
-	 *
-	 * @param \WP_REST_Request $request
-	 *
-	 * @return true
-	 */
-	public function reset_data( \WP_REST_Request $request ) {
-		global $wpdb;
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;" );
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;" );
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_stats;" );
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_urls;" );
-		delete_option( 'koko_analytics_realtime_pageview_count' );
-		return true;
 	}
 }

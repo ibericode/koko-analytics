@@ -14,8 +14,10 @@ class Admin {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
-		add_action( 'admin_init', array( $this, 'maybe_run_actions') );
+		add_action( 'admin_init', array( $this, 'maybe_run_actions' ) );
 		add_action( 'koko_analytics_install_optimized_endpoint', 'KokoAnalytics\\install_and_test_custom_endpoint' );
+		add_action( 'koko_analytics_save_settings', array( $this, 'save_settings' ));
+		add_action( 'koko_analytics_reset_statistics', array( $this, 'reset_statistics' ));
 
 		switch ( $pagenow ) {
 			case 'index.php':
@@ -61,6 +63,7 @@ class Admin {
 			case 'index.php':
 				// load scripts for dashboard widget
 				wp_enqueue_script( 'koko-analytics-dashboard-widget', plugins_url( '/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true );
+
 				if ( function_exists( 'wp_set_script_translations' ) ) {
 					wp_set_script_translations( 'koko-analytics-dashboard-widget', 'koko-analytics' );
 				}
@@ -77,33 +80,28 @@ class Admin {
 				break;
 
 			case 'dashboard_page_koko-analytics':
-				$user_roles         = $this->get_available_roles();
-				$start_of_week      = (int) get_option( 'start_of_week' );
-				$settings           = get_settings();
-				$colors             = $this->get_colors();
-				$endpoint_installer = new Endpoint_Installer();
+				wp_enqueue_style('koko-analytics-admin', plugins_url( 'assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE));
 
-				wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true );
-				if ( function_exists( 'wp_set_script_translations' ) ) {
-					wp_set_script_translations( 'koko-analytics-admin', 'koko-analytics' );
+				if (!isset($_GET['tab'])) {
+					$settings = get_settings();
+					$colors   = $this->get_colors();
+
+					wp_enqueue_script( 'koko-analytics-admin', plugins_url( 'assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE ), array(
+						'wp-i18n',
+						'wp-element',
+					), KOKO_ANALYTICS_VERSION, true );
+					if ( function_exists( 'wp_set_script_translations' ) ) {
+						wp_set_script_translations( 'koko-analytics-admin', 'koko-analytics' );
+					}
+					wp_localize_script( 'koko-analytics-admin', 'koko_analytics', array(
+						'root'             => rest_url(),
+						'nonce'            => wp_create_nonce( 'wp_rest' ),
+						'colors'           => $colors,
+						'startOfWeek'      => (int) get_option( 'start_of_week' ),
+						'defaultDateRange' => $settings['default_view'],
+						'dateFormat'       => get_option( 'date_format' ),
+					) );
 				}
-				wp_localize_script('koko-analytics-admin', 'koko_analytics', array(
-					'root'          => rest_url(),
-					'nonce'         => wp_create_nonce( 'wp_rest' ),
-					'start_of_week' => (int) $start_of_week,
-					'user_roles'    => $user_roles,
-					'settings'      => $settings,
-					'showSettings'  => current_user_can( 'manage_koko_analytics' ),
-					'dbSize' => $this->get_database_size(),
-					'colors' => $colors,
-					'multisite' => is_multisite(),
-					'date_format' => get_option( 'date_format' ),
-					'custom_endpoint' => array(
-						'enabled' => using_custom_endpoint(),
-						'file_contents' => $endpoint_installer->get_file_contents(),
-						'wp_root_dir' => rtrim( ABSPATH, '/' ),
-					),
-				));
 				break;
 		}
 	}
@@ -133,15 +131,30 @@ class Admin {
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
-		// determine whether buffer file is writable
-		$buffer_filename        = get_buffer_filename();
-		$buffer_dirname         = dirname( $buffer_filename );
-		$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
+		$tab = $_GET['tab'] ?? '';
 
-		// determine whether cron event is set up properly and running in-time
-		$is_cron_event_working = $this->is_cron_event_working();
+		if ($tab === 'settings' && current_user_can('manage_koko_analytics')) {
+			$settings           = get_settings();
+			$endpoint_installer = new Endpoint_Installer();
+			$custom_endpoint    = array(
+				'enabled' => using_custom_endpoint(),
+				'file_contents' => $endpoint_installer->get_file_contents(),
+				'filename' => rtrim( ABSPATH, '/' ) . '/koko-analytics-collect.php',
+			);
+			$database_size      = $this->get_database_size();
+			require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
+		} else {
+			// determine whether buffer file is writable
+			$buffer_filename        = get_buffer_filename();
+			$buffer_dirname         = dirname( $buffer_filename );
+			$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
 
-		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/admin-page.php';
+			// determine whether cron event is set up properly and running in-time
+			$is_cron_event_working = $this->is_cron_event_working();
+
+			require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
+		}
+
 		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
 	}
 
@@ -342,5 +355,27 @@ class Admin {
 			$placeholders = rtrim( str_repeat( '(%s,%d,%d,%d),', count( $referrer_urls ) ), ',' );
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values ) );
 		}
+	}
+
+	public function reset_statistics() {
+		check_admin_referer('koko_analytics_reset_statistics');
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_stats;" );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}koko_analytics_referrer_urls;" );
+		delete_option( 'koko_analytics_realtime_pageview_count' );
+	}
+
+	public function save_settings() {
+		check_admin_referer('koko_analytics_save_settings');
+		$settings                                = get_settings();
+		$new_settings                            = $_POST['koko_analytics_settings'];
+		$new_settings['prune_data_after_months'] = abs( (int) $new_settings['prune_data_after_months'] );
+		$new_settings['use_cookie']              = (int) $new_settings['use_cookie'];
+		$new_settings                            = array_merge( $settings, $new_settings );
+		update_option( 'koko_analytics_settings', $new_settings, true );
+		wp_safe_redirect(add_query_arg(array( 'settings-updated' => true ), wp_get_referer()));
+		exit;
 	}
 }

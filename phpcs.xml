@@ -11,6 +11,9 @@
 		<!-- No thanks -->
 		<exclude name="WordPress.PHP.YodaConditions"/>
 
+		<!-- Sometimes we want the translation from core -->
+		<exclude name="WordPress.WP.I18n.MissingArgDomain" />
+
 		<!-- False positives -->
 		<exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/>
 		<exclude name="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare"/>

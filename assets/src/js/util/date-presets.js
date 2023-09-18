@@ -14,8 +14,7 @@ import {
   sub
 } from 'date-fns'
 
-const monday = 1
-const firstDayOfTheWeek = parseInt(window.koko_analytics.start_of_week, 10) || monday
+const weekStartsOn = window.koko_analytics.startOfWeek;
 
 function now() {
   return new Date()
@@ -44,7 +43,7 @@ export default [
     key: 'this_week',
     label: __('This week', 'koko-analytics'),
     dates: () => {
-      return { startDate: startOfWeek(now(), { weekStartsOn: firstDayOfTheWeek }), endDate: endOfWeek(now(), { weekStartsOn: firstDayOfTheWeek }) }
+      return { startDate: startOfWeek(now(), { weekStartsOn: weekStartsOn }), endDate: endOfWeek(now(), { weekStartsOn: weekStartsOn }) }
     }
   },
   {
@@ -52,7 +51,7 @@ export default [
     label: __('Last week', 'koko-analytics'),
     dates: () => {
       const lastWeekToday = sub(now(), { weeks: 1 })
-      return { startDate: startOfWeek(lastWeekToday, { weekStartsOn: firstDayOfTheWeek }), endDate: endOfWeek(lastWeekToday, { weekStartsOn: firstDayOfTheWeek }) }
+      return { startDate: startOfWeek(lastWeekToday, { weekStartsOn }), endDate: endOfWeek(lastWeekToday, { weekStartsOn }) }
     }
   },
   {

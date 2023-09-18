@@ -21,5 +21,6 @@
 		<?php echo esc_html__( 'Please enable JavaScript for this page to work.', 'koko-analytics' ); ?>
 	</noscript>
 
-	<div id="koko-analytics-mount"></div>
+	<?php require __DIR__ . '/nav.php'; ?>
+	<div id="koko-analytics-mount"><p><?php echo __( 'Please wait, your Koko Analytics dashboard is booting up...', 'koko-analytics'); ?></p></div>
 </div>

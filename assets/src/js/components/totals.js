@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import '../../sass/totals.scss'
 import { formatLargeNumber, formatPercentage } from '../util/numbers.js'
 import {toISO8601} from '../util/dates'
 import {request} from '../util/api'
@@ -34,7 +33,7 @@ export default function Totals({ startDate, endDate }) {
   useEffect(loadData, [startDate, endDate])
 
   return (
-    <div className='totals-container'>
+    <div className='totals-container m'>
       <div className='totals-box koko-fade'>
         <div className='totals-label'>{__('Total visitors', 'koko-analytics')}</div>
         <div className='totals-amount'>{formatLargeNumber(totals.visitors)} {totals.visitors_change_rel !== null ? <span

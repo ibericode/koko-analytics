@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Pikaday from 'pikaday'
 import 'pikaday/css/pikaday.css'
-import '../../sass/datepicker.scss'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-
-const startOfWeek = parseInt(window.koko_analytics.start_of_week, 10)
-const settings = window.koko_analytics.settings
-const defaultDateFormat = window.koko_analytics.date_format
+const { dateFormat, defaultDateRange, startOfWeek } = window.koko_analytics
 let datepicker
 
 export default function Datepicker ({
@@ -18,7 +14,7 @@ export default function Datepicker ({
   onUpdate
 }) {
   let [isOpen, setIsOpen] = useState(false)
-  let [preset, setPreset] = useState(settings.default_view)
+  let [preset, setPreset] = useState(defaultDateRange)
   let [dateRange, setDateRange] = useState({
     startDate,
     endDate
@@ -36,7 +32,7 @@ export default function Datepicker ({
     datepicker = new Pikaday({
       field: document.getElementById('start-date-input'),
       bound: false,
-      firstDay: startOfWeek,
+      firstDay: parseInt(startOfWeek),
       numberOfMonths: window.innerWidth > 680 ? 2 : 1,
       enableSelectionDaysInNextAndPreviousMonths: true,
       showDaysInNextAndPreviousMonths: true,
@@ -208,13 +204,13 @@ export default function Datepicker ({
   }
 
   return (
-    <div className="date-nav">
+    <div className="date-nav m">
       <div>
         <div className={'date-label'} onClick={toggle}>
           <span className="dashicons dashicons-calendar-alt"/>
-          <span>{format(dateRange.startDate, defaultDateFormat)}</span>
+          <span>{format(dateRange.startDate, dateFormat)}</span>
           <span> &mdash; </span>
-          <span>{format(dateRange.endDate, defaultDateFormat)}</span>
+          <span>{format(dateRange.endDate, dateFormat)}</span>
         </div>
       </div>
       <div className="date-picker-ui" style={{ display: isOpen ? '' : 'none' }} ref={root}>
@@ -222,9 +218,9 @@ export default function Datepicker ({
           <span onClick={onQuickNavClick('prev')} className="prev dashicons dashicons-arrow-left"
                 title={__('Previous', 'koko-analytics')}/>
           <span className="date">
-              <span>{format(dateRange.startDate, defaultDateFormat)}</span>
+              <span>{format(dateRange.startDate, dateFormat)}</span>
               <span> &mdash; </span>
-              <span>{format(dateRange.endDate, defaultDateFormat)}</span>
+              <span>{format(dateRange.endDate, dateFormat)}</span>
             </span>
           <span onClick={onQuickNavClick('next')} className="next dashicons dashicons-arrow-right"
                 title={__('Next', 'koko-analytics')}/>

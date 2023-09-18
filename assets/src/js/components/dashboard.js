@@ -4,11 +4,10 @@ import Datepicker from './datepicker.js'
 import Totals from './totals.js'
 import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
-import Nav from './nav.js'
 import datePresets from '../util/date-presets.js'
 import { parseISO8601, toISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-const settings = window.koko_analytics.settings
+const { defaultDateRange } = window.koko_analytics
 let blockComponents = [
   TopPosts, TopReferrers
 ]
@@ -16,13 +15,12 @@ window.koko_analytics.registerDashboardComponent = function(c) {
   blockComponents.push(c)
 }
 
-
 /**
  *
  * @returns {*}
  */
 function getDatesFromPreset() {
-    return (datePresets.find(p => p.key === settings.default_view) || datePresets[0]).dates()
+    return (datePresets.find(p => p.key === defaultDateRange) || datePresets[0]).dates()
 }
 
 /**
@@ -71,11 +69,10 @@ export default function Dashboard({ history }) {
   return (
     <main>
       <div>
-        <div className='grid'>
-          <div className='four'>
+        <div className=''>
+          <div className=''>
             <Datepicker startDate={startDate} endDate={endDate} onUpdate={onDatepickerUpdate} />
           </div>
-          <Nav history={history} />
         </div>
         <Totals startDate={startDate} endDate={endDate} />
         <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
@@ -83,7 +80,7 @@ export default function Dashboard({ history }) {
           {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
         </div>
         <div>
-          <span className={'description right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
+          <span className={'description ka-right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
         </div>
       </div>
     </main>

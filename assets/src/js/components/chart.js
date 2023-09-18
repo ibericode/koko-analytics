@@ -1,12 +1,11 @@
 import React, {useState, useEffect, useMemo} from "react"
 import { request } from '../util/api.js'
-import '../../sass/chart.scss'
 import { magnitude, formatLargeNumber } from '../util/numbers'
 import { modify } from '../util/colors'
 import { isLastDayOfMonth, format, toISO8601, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 
-const {colors, date_format} = window.koko_analytics;
+const {colors, dateFormat} = window.koko_analytics;
 const color1 = colors.pop()
 const color2 = modify(color1, -20)
 const padding = {
@@ -98,7 +97,7 @@ export default function Chart({startDate, endDate, width, height}) {
     return (evt) => {
       tooltip.innerHTML = `
       <div class="tooltip-inner">
-        <div class="heading">${format(parseISO8601(data.date), date_format, { day: data.date.length > 7 })}</div>
+        <div class="heading">${format(parseISO8601(data.date), dateFormat, { day: data.date.length > 7 })}</div>
         <div class="content">
           <div class="visitors" style="border-top-color: ${color2}">
             <div class="amount">${data.visitors}</div>
@@ -150,7 +149,7 @@ export default function Chart({startDate, endDate, width, height}) {
   const getY = v => y.max > 0 ? Math.round(innerHeight - (v * heightModifier)) : innerHeight
 
   return (
-    <div className='box'>
+    <div className='box m'>
       <div className='chart-container'>
         <svg className='chart' width='100%' height={height}>
           <g className='axes'>
@@ -178,7 +177,7 @@ export default function Chart({startDate, endDate, width, height}) {
                 return (
                   <g key={d.date}>
                     <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
-                    {label && <text fill='#757575' x={x} y='10' dy='1em'>{format(parseISO8601(d.date), date_format, { day: d.date.length > 7})}</text>}
+                    {label && <text fill='#757575' x={x} y='10' dy='1em'>{format(parseISO8601(d.date), dateFormat, { day: d.date.length > 7})}</text>}
                   </g>
                 )
               })}

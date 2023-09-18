@@ -1,0 +1,39 @@
+
+.ka-admin-nav {
+	float: right;
+}
+
+.ka-admin-nav li:not(:last-child):after{
+	content: " | ";
+}
+
+.ka-margin-m {
+	margin: 24px 0;
+}
+.ka-margin-l {
+	margin: 48px 0;
+}
+.ka-right {
+	float: right;
+}
+
+#koko-analytics-admin label {
+	display: block;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 6px
+}
+
+#koko-analytics-admin label.cb {
+	font-size: 1em;
+	font-weight: normal
+}
+
+#koko-analytics-admin select {
+	margin: 0;
+	min-width: 320px
+}
+
+#koko-analytics-admin select[multiple] {
+	min-height: 160px
+}

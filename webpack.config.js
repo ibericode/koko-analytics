@@ -28,11 +28,10 @@ module.exports = {
                     }
             },
             {
-                test: /\.s?[ca]ss$/i,
+                test: /\.css$/i,
                 use: [
                     'style-loader',
                     'css-loader',
-                    'sass-loader'
                 ]
             }
                 ]
@@ -46,7 +45,8 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') }
+              { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
+              { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css') }
             ]
         })
     ],
