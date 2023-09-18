@@ -1,5 +1,2 @@
 # Browsers that we support
-# We're relying on the Browserslists defaults shortcut
-# Which at the time of writing expands to `> 0.5%, last 2 versions, Firefox ESR, not dead.`
-# See https://browsersl.ist/#q=defaults for more info
-defaults
+extends @wordpress/browserslist-config
