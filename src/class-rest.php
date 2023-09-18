@@ -98,18 +98,6 @@ class Rest {
 
 		register_rest_route(
 			'koko-analytics/v1',
-			'/settings',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'update_settings' ),
-				'permission_callback' => function () {
-					return current_user_can( 'manage_koko_analytics' );
-				},
-			)
-		);
-
-		register_rest_route(
-			'koko-analytics/v1',
 			'/realtime',
 			array(
 				'methods'             => 'GET',
@@ -259,24 +247,6 @@ class Rest {
 
 		$send_cache_headers = $end_date < gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		return $this->respond( $results, $send_cache_headers );
-	}
-
-	public function update_settings( \WP_REST_Request $request ) {
-		$settings     = get_settings();
-		$new_settings = $request->get_json_params();
-
-		if ( isset( $new_settings['prune_data_after_months'] ) ) {
-			$new_settings['prune_data_after_months'] = abs( intval( $new_settings['prune_data_after_months'] ) );
-		}
-
-		if ( isset( $new_settings['use_cookie'] ) ) {
-			$new_settings['use_cookie'] = intval( $new_settings['use_cookie'] );
-		}
-
-		// merge with old settings to allow posting partial settings
-		$new_settings = array_merge( $settings, $new_settings );
-		update_option( 'koko_analytics_settings', $new_settings, true );
-		return true;
 	}
 
 	/**

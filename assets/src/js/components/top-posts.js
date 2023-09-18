@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n'
 export default function TopPosts({ startDate, endDate }) {
   let [offset, setOffset] = useState(0)
   let [items, setItems] = useState([])
-  const limit = 25;
+  const limit = 10;
 
   // periodically reload data
   useEffect(() => {

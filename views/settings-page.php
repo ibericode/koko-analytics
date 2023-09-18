@@ -81,6 +81,8 @@ $date_presets = array(
 			</div>
 		</form>
 
+		<?php do_action('koko_analytics_show_settings_sections'); ?>
+
 		<?php if (false === is_multisite()) { ?>
 		<div class="ka-margin-l">
 			<h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>

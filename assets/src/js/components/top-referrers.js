@@ -30,7 +30,7 @@ function enhance (item) {
 export default function TopReferrers({ startDate, endDate }) {
   let [offset, setOffset] = useState(0)
   let [items, setItems] = useState([])
-  const limit = 25;
+  const limit = 10;
 
   // periodically reload data
   useEffect(() => {
