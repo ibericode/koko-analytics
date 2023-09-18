@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
@@ -20,17 +21,8 @@ module.exports = {
                         loader: 'babel-loader',
                         options: {
                             presets: [
-                                ['@babel/preset-env', {
-                                    targets: '> 0.2%, last 2 versions, not dead, Firefox ESR'
-                                }]
-                            ],
-                            plugins: [
-                                [
-                                    '@babel/plugin-transform-react-jsx',
-                                    {
-                                        pragma: 'h'
-                                    }
-                                ]
+                                "@babel/preset-react",
+                                '@babel/preset-env'
                             ]
                         }
                     }
@@ -47,7 +39,9 @@ module.exports = {
     },
     externals: {
         moment: 'moment',
-        '@wordpress/i18n': 'wp.i18n'
+        '@wordpress/i18n': 'wp.i18n',
+        react: 'React',
+        'react-dom': 'ReactDOM',
     },
     plugins: [
         new CopyPlugin({
@@ -56,9 +50,5 @@ module.exports = {
             ]
         })
     ],
-    watchOptions: {
-        aggregateTimeout: 300,
-        poll: 1000,
-        ignored: ['node_modules']
-    },
+
 }

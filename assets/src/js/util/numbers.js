@@ -2,9 +2,14 @@ const M = 1000000
 const K = 1000
 const REGEX_TRAILING_ZEROES = /\.0+$/
 
-// format large numbers using M (millions) or K (thousands)
-// numbers lower than 10.000 are left untouched
-function formatPretty (num) {
+/**
+ * Format large numbers by replacing zeros with either M (millions) or K (thousands)
+ * Numbers lower than 10.000 are left untouched.
+ *
+ * @param {number} num
+ * @returns {string}
+ */
+export function formatLargeNumber (num) {
   let decimals = 0
 
   if (num >= M) {
@@ -23,36 +28,32 @@ function formatPretty (num) {
   return String(num)
 }
 
-function formatPercentage (p) {
-  if (p < 1 && p > -1) {
-    p = Math.round(p * 100)
-  }
-
+/**
+ * Format a percentage amount (eg 0.55) as a human-readable percentage (eg 55%).
+ *
+ * @param {number} p The percentage amount, must conform to -1.00 <= p <= 1.00
+ * @returns {string}
+ */
+export function formatPercentage (p) {
+  p = Math.round(p * 100)
   return p >= 0 ? `+${p}%` : `${p}%`
 }
 
 /**
- Return a nice human-comprehensible number.
-
- n < 10 = 10
- n < 100 = rounds up to the nearest power of 10
- n < 1000 = rounds up to the nearest power of 100
- ....
- @return int
+ *  Return a nice human-comprehensible number.
+ *
+ *  n < 10 = 10
+ *  n < 100 = rounds up to the nearest power of 10
+ *  n < 1000 = rounds up to the nearest power of 100
+ * @param {number} n
+ * @returns {number}
  */
-function nice (n) {
+export function magnitude (n) {
   if (n < 10) {
     return 10
   }
 
   const exponent = Math.floor(Math.log10(n))
   const pow = Math.pow(10, exponent)
-  const fraction = n / pow
-  return Math.ceil(fraction) * pow
-}
-
-export default {
-  formatPretty,
-  formatPercentage,
-  nice
+  return Math.ceil(n / pow) * pow
 }

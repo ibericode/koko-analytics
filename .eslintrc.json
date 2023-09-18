@@ -1,27 +1,25 @@
 {
-  "env": {
-	"browser": true,
-	"es6": true
-  },
-  "extends": [
-	"preact",
-	"plugin:jest/recommended"
-  ],
-  "globals": {
-	"Atomics": "readonly",
-	"SharedArrayBuffer": "readonly"
-  },
-  "parserOptions": {
-	"ecmaFeatures": {
-	  "jsx": true
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"amd": true
 	},
-	"ecmaVersion": 2021,
-	"sourceType": "module"
-  },
-  "plugins": [
-	"jest"
-  ],
-  "rules": {
-	"prefer-template": "off"
-  }
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:jest/recommended"
+	],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"rules": {
+		"react/prop-types": "off"
+	},
+	"settings": {
+		"react": {
+			/* match the version shipped in latest WordPress: https://core.trac.wordpress.org/browser/trunk/package.json#L162 */
+			"version": "18.2"
+		}
+	}
 }

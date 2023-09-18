@@ -98,8 +98,8 @@ class Script_Loader {
 	}
 
 	public function print_js_object() {
-		$settings = get_settings();
-		$script_config         = array(
+		$settings      = get_settings();
+		$script_config = array(
 			// the URL of the tracking endpoint
 			'url'   => $this->get_tracker_url(),
 
@@ -119,18 +119,18 @@ class Script_Loader {
 	}
 
 	public function print_amp_analytics_tag() {
-		$settings = get_settings();
-		$post_id = $this->get_post_id();
-		$tracker_url = $this->get_tracker_url();
+		$settings     = get_settings();
+		$post_id      = $this->get_post_id();
+		$tracker_url  = $this->get_tracker_url();
 		$posts_viewed = isset( $_COOKIE['_koko_analytics_pages_viewed'] ) ? explode( ',', $_COOKIE['_koko_analytics_pages_viewed'] ) : array();
-		$data = array(
+		$data         = array(
 			'sc' => $settings['use_cookie'], // inform tracker endpoint to set cookie server-side
 			'nv' => $posts_viewed === array() ? 1 : 0,
 			'up' => ! in_array( $post_id, $posts_viewed ) ? 1 : 0,
 			'p' => $post_id,
 		);
-		$url = add_query_arg( $data, $tracker_url );
-		$config = array(
+		$url          = add_query_arg( $data, $tracker_url );
+		$config       = array(
 			'requests' => array(
 				'pageview' => $url,
 			),

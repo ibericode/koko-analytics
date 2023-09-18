@@ -1,5 +1,20 @@
 # Changelog
 
+#### 1.0.40 - Sep 14, 2023
+
+- Fallback to post slug if post has no title
+- Validate referrer URL and ignore if invalid
+- Delete optimized tracking endpoint if buffer filename changed and is no longer present in it. This fixes an issue when moving between servers
+- Always run database migrations when needed, regardless of current user role
+- Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
+- Limit attempts to install optimized tracking endpoint to once per hour
+- On the analytics dashboard, use the date format from WordPress settings
+- Translate day and month names (only relevant if using M, F, l or D in the date format string)
+- WP CLI command to manually run aggregation now accepts an optional `--force` flag. Example: `wp koko-analytics aggregate --force`
+- Don't show warning about WP Cron not working properly on sites on localhost, sites ending in `.local` and sites containing a port number
+- Last but certainly not least, some preparatory work for event tracking... Coming soon!
+
+
 ### 1.0.39 - Aug 29, 2023
 
 - Update referrer blocklist

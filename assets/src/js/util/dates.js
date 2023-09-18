@@ -52,7 +52,7 @@ const daysShort =  [
  * @returns {boolean}
  */
 function isLastDayOfMonth (_date) {
-  const d = new Date(_date.getFullYear(), _date.getMonth(), 1)
+  const d = new Date(_date.getFullYear(), _date.getMonth() , 1)
   d.setMonth(d.getMonth() + 1)
   d.setDate(0)
   return d.getDate() === _date.getDate()
@@ -138,12 +138,20 @@ function format (date, format, opts) {
 }
 
 /**
+ * Parse a ISO8601 date string (YYYY-MM-DD) into a Date object.
  *
  * @param v {string}
  * @returns {Date|null}
  */
 function parseISO8601 (v) {
+  if (v === null) {
+    return null;
+  }
   const parts = v.split('-')
+  if (parts.length === 2) {
+    parts.push('1')
+  }
+
   if (parts.length !== 3) {
     return null
   }
@@ -160,4 +168,24 @@ function parseISO8601 (v) {
   return new Date(y, m - 1, d)
 }
 
-export { format, isLastDayOfMonth, parseISO8601 }
+/**
+ * Pad a number with zeroes if it's below 10
+ *
+ * @param {int} d
+ * @returns {string}
+ */
+function pad(d) {
+  return d < 10 ? '0' + d : d;
+}
+
+/**
+ * Returns a string representing the given Date object in YYYY-MM-DD format
+ *
+ * @param {Date} d
+ * @returns {string}
+ */
+function toISO8601(d) {
+   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+export { format, isLastDayOfMonth, parseISO8601, toISO8601 }

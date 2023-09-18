@@ -1,51 +1,37 @@
-import { h, Component } from 'preact'
-import numbers from '../util/numbers.js'
-import api from '../util/api.js'
+import React, {useState, useEffect} from 'react'
+import { formatLargeNumber } from '../util/numbers.js'
+import {request} from '../util/api'
 import { __ } from '@wordpress/i18n'
 
-export default class Realtime extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      pageviews: 0
-    }
+export default function Realtime() {
+  const [pageviews, setPageviews] = useState(0)
 
-    this.loadData = this.loadData.bind(this)
-  }
-
-  componentDidMount () {
-    this.loadData()
-    this.refreshInterval = window.setInterval(this.loadData, 60000)
-  }
-
-  componentWillUnmount () {
-    window.clearInterval(this.refreshInterval)
-  }
-
-  loadData () {
-    api.request('/realtime', {
+  function load() {
+    request('/realtime', {
       body: {
         since: '-1 hour'
       }
-    }).then(pageviews => {
-      this.setState({ pageviews })
-    })
+    }).then(setPageviews)
   }
 
-  render (props, state) {
-    const { pageviews } = state
+  useEffect(() => {
+    load()
+    const refreshInterval = setInterval(load, 60000)
+    return () => {
+      clearInterval(refreshInterval)
+    }
+  }, [])
 
-    return (
-      <div className='totals-box koko-fade' key={'realtime-pageviews'}>
-        <div className='totals-label'>{__('Realtime pageviews', 'koko-analytics')}</div>
-        <div className='totals-amount'>{numbers.formatPretty(pageviews)}
-        </div>
-        <div className='totals-compare'>
+  return (
+    <div className='totals-box koko-fade' key={'realtime-pageviews'}>
+      <div className='totals-label'>{__('Realtime pageviews', 'koko-analytics')}</div>
+      <div className='totals-amount'>{formatLargeNumber(pageviews)}
+      </div>
+      <div className='totals-compare'>
           <span>
             <span>{__('pageviews in the last hour', 'koko-analytics')}</span>
           </span>
-        </div>
       </div>
-    )
-  }
+    </div>
+  )
 }

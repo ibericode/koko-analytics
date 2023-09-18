@@ -21,8 +21,8 @@ class Shortcode_Most_Viewed_Posts {
 			'show_date' => false,
 			'days'    => 30,
 		);
-		$args = shortcode_atts( $default_args, $args, self::SHORTCODE );
-		$posts = get_most_viewed_posts( $args );
+		$args         = shortcode_atts( $default_args, $args, self::SHORTCODE );
+		$posts        = get_most_viewed_posts( $args );
 
 		$html = '<ul>';
 		foreach ( $posts as $p ) {

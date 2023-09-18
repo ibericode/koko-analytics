@@ -100,7 +100,7 @@ class Aggregator {
 			}
 
 			$params = explode( ',', $line );
-			$type = array_shift( $params );
+			$type   = array_shift( $params );
 			do_action( 'koko_analytics_aggregate_line', $type, $params );
 		}
 

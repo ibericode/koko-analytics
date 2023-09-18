@@ -1,36 +1,23 @@
 import '../sass/admin.scss'
-import Router from 'preact-router'
 import Dashboard from './components/dashboard'
 import Settings from './components/settings'
 import { createHashHistory } from 'history'
 const history = createHashHistory()
+import './globals.js'
+import React, {useEffect, useState} from 'react'
+import {createRoot} from 'react-dom'
 
-import * as preact from 'preact'
-import api from './util/api.js'
-const h = preact.h;
-import Pagination from './components/table-pagination'
-window.koko_analytics.api = api;
-window.koko_analytics.components = {
-  preact,
-  Pagination,
-};
-let blockComponents = [];
-let settingComponents = [];
+function Page() {
+  const [path, setPath] = useState(history.location.pathname)
+  useEffect(() => {
+    return history.listen(({location}) => setPath(location.pathname))
+  },[])
 
-window.koko_analytics.registerBlockComponent = function(c) {
-  blockComponents.push(c)
-}
-window.koko_analytics.registerSettingsComponent = function(c) {
-  settingComponents.push(c)
-}
-
-function Page () {
   return (
-    <Router history={history}>
-      <Dashboard path={'/'} history={history} />
-      <Settings path={'/settings'} />
-    </Router>
+    path === '/' ? <Dashboard history={history} /> : <Settings history={history} />
   )
 }
 
-preact.render(<Page />, document.getElementById('koko-analytics-mount'))
+document.addEventListener('DOMContentLoaded', () => {
+  createRoot(document.getElementById('koko-analytics-mount')).render(<Page />)
+})
