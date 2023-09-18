@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KokoAnalytics;
 
-define( 'KOKO_ANALYTICS_VERSION', '1.0.40' );
+define( 'KOKO_ANALYTICS_VERSION', '1.1.0-dev' );
 define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
 define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
 

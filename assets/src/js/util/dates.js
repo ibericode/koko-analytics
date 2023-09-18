@@ -144,9 +144,14 @@ function format (date, format, opts) {
  * @returns {Date|null}
  */
 function parseISO8601 (v) {
-  if (!v) return null;
-
+  if (v === null) {
+    return null;
+  }
   const parts = v.split('-')
+  if (parts.length === 2) {
+    parts.push('1')
+  }
+
   if (parts.length !== 3) {
     return null
   }
