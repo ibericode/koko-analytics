@@ -39,7 +39,11 @@ class Admin {
 	}
 
 	public function maybe_run_actions() {
-		if (! isset($_GET['koko_analytics_action'])) {
+		if (isset($_GET['koko_analytics_action'])) {
+			$action = $_GET['koko_analytics_action'];
+		} elseif (isset($_POST['koko_analytics_action'])) {
+			$action = $_POST['koko_analytics_action'];
+		} else {
 			return;
 		}
 
@@ -47,7 +51,6 @@ class Admin {
 			return;
 		}
 
-		$action = $_GET['koko_analytics_action'];
 		do_action( 'koko_analytics_' . $action);
 		wp_safe_redirect(remove_query_arg('koko_analytics_action'));
 		exit;
@@ -128,34 +131,44 @@ class Admin {
 	}
 
 	public function show_page() {
+		add_action('koko_analytics_show_settings_page', array( $this, 'show_settings_page' ));
+		add_action('koko_analytics_show_dashboard_page', array( $this, 'show_dashboard_page' ));
+
+		$tab = $_GET['tab'] ?? 'dashboard';
+		do_action("koko_analytics_show_{$tab}_page");
+
+		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
+	}
+
+	public function show_dashboard_page() {
 		// aggregate stats whenever this page is requested
 		do_action( 'koko_analytics_aggregate_stats' );
 
-		$tab = $_GET['tab'] ?? '';
+		// determine whether buffer file is writable
+		$buffer_filename        = get_buffer_filename();
+		$buffer_dirname         = dirname( $buffer_filename );
+		$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
 
-		if ($tab === 'settings' && current_user_can('manage_koko_analytics')) {
-			$settings           = get_settings();
-			$endpoint_installer = new Endpoint_Installer();
-			$custom_endpoint    = array(
-				'enabled' => using_custom_endpoint(),
-				'file_contents' => $endpoint_installer->get_file_contents(),
-				'filename' => rtrim( ABSPATH, '/' ) . '/koko-analytics-collect.php',
-			);
-			$database_size      = $this->get_database_size();
-			require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
-		} else {
-			// determine whether buffer file is writable
-			$buffer_filename        = get_buffer_filename();
-			$buffer_dirname         = dirname( $buffer_filename );
-			$is_buffer_dir_writable = wp_mkdir_p( $buffer_dirname ) && is_writable( $buffer_dirname );
+		// determine whether cron event is set up properly and running in-time
+		$is_cron_event_working = $this->is_cron_event_working();
 
-			// determine whether cron event is set up properly and running in-time
-			$is_cron_event_working = $this->is_cron_event_working();
+		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
+	}
 
-			require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
+	public function show_settings_page() {
+		if (! current_user_can('manage_koko_analytics')) {
+			return;
 		}
 
-		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
+		$settings           = get_settings();
+		$endpoint_installer = new Endpoint_Installer();
+		$custom_endpoint    = array(
+			'enabled' => using_custom_endpoint(),
+			'file_contents' => $endpoint_installer->get_file_contents(),
+			'filename' => rtrim( ABSPATH, '/' ) . '/koko-analytics-collect.php',
+		);
+		$database_size      = $this->get_database_size();
+		require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
 	}
 
 	public function footer_text() {

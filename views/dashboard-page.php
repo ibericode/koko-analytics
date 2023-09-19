@@ -1,4 +1,6 @@
-<?php defined( 'ABSPATH' ) or exit; ?>
+<?php defined( 'ABSPATH' ) or exit;
+$tab = 'dashboard';
+?>
 <div class="wrap" id="koko-analytics-admin">
 
 	<?php

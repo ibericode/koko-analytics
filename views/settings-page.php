@@ -1,11 +1,11 @@
 <?php defined( 'ABSPATH' ) or exit;
 /**
- * @var string $tab
  * @var \KokoAnalytics\Admin $this
  * @var array $settings
  * @var string $database_size
  * @var array $custom_endpoint
  */
+$tab          = 'settings';
 $user_roles   = $this->get_available_roles();
 $date_presets = array(
 	'custom' => __( 'Custom', 'koko-analytics'),
@@ -26,7 +26,7 @@ $date_presets = array(
 <div class="wrap" id="koko-analytics-admin">
 	<?php require __DIR__ . '/nav.php'; ?>
 
-	<div class="">
+	<div class="" style="max-width: 720px;">
 		<h1><?php esc_html_e('Settings', 'koko-analytics'); ?></h1>
 
 		<?php if (isset($_GET['settings-updated'])) { ?>
