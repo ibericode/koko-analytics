@@ -22,17 +22,18 @@ function collect_request() {
 	if ( ! isset( $_GET['e'] ) ) {
 		$data = array(
 			'p',                // type indicator
-			(int) $_GET['p'],   // post ID
-			(int) $_GET['nv'],  // new visitor?
-			(int) $_GET['up'],  // unique pageview?
-			$_GET['r'] ?? '',   // referrer URL
+			(int) $_GET['p'],   // 0: post ID
+			(int) $_GET['nv'],  // 1: is new visitor?
+			(int) $_GET['up'],  // 2: is unique pageview?
+			$_GET['r'] ?? '',   // 3: referrer URL
 		);
 	} else {
 		$data = array(
 			'e',            // type indicator
-			$_GET['e'],     // event name
-			$_GET['p'],    // event param 1
-			$_GET['v'],    // event value
+			$_GET['e'],     // 0: event name
+			$_GET['p'],     // 1: event parameter
+			$_GET['u'],     // 2: is unique?
+			$_GET['v'],     // 3: event value
 		);
 	}
 

@@ -70,25 +70,10 @@ function trackPageview (postId) {
   })
 }
 
-/**
- * @param {string} name
- * @param {string} param
- * @param {number} value
- */
-function trackEvent(name, param, value) {
-  if (value === undefined && typeof param2 === 'number') {
-    value = parseFloat(param);
-    param = '';
-  }
-
-  /** TODO: Determine if this was a unique trigger */
-  request(`e=${name}&p=${enc(param ?? '')}&v=${value ?? 0}&rqp=${Math.random().toString(36)}`)
-}
-
 win.addEventListener('load', () => {
   // window.koko_analytics might be missing if the active theme is not calling wp_head()
   if (win[ka]) {
     trackPageview(win[ka].post_id)
-    win[ka] = {...win[ka], trackPageview, trackEvent}
+    win[ka] = {...win[ka], trackPageview}
   }
 })

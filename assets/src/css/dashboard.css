@@ -24,6 +24,10 @@ body.dashboard_page_koko-analytics {
 	text-align: left
 }
 
+#koko-analytics-admin .box-grid.c4 {
+	grid-template-columns: 9fr 1fr 1fr 1fr;
+}
+
 @media (max-width: 800px) {
 	#koko-analytics-admin .box {
 		grid-column: span 6

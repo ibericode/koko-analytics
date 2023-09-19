@@ -79,8 +79,8 @@ export default function Dashboard({ history }) {
         <div className='grid'>
           {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
         </div>
-        <div>
-          <span className={'description ka-right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</span>
+        <div className={'ka-margin-m'}>
+          <p className={'description ka-right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</p>
         </div>
       </div>
     </main>
