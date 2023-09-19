@@ -29,6 +29,7 @@ body.dashboard_page_koko-analytics {
 }
 
 @media (max-width: 800px) {
+
 	#koko-analytics-admin .box {
 		grid-column: span 6
 	}
@@ -133,21 +134,17 @@ body.dashboard_page_koko-analytics {
 	padding: 24px;
 	margin-bottom: 12px;
 	display: flex;
+	flex-flow: row wrap;
+	gap: 48px;
 	border-radius: 6px;
+	width: 100%;
+	box-sizing: border-box;
 }
-#koko-analytics-admin .totals-box {
-	display: block;
-	margin-right: 48px;
-	/* iphone SE fix to make it fit on 1 line */
-}
+
 #koko-analytics-admin .totals-box:last-of-type {
 	margin-right: 0;
 }
-@media (max-width: 320px) {
-	#koko-analytics-admin .totals-box {
-		margin-right: 36px;
-	}
-}
+
 #koko-analytics-admin .totals-label {
 	color: #EEE;
 	margin-bottom: 6px;
@@ -162,13 +159,13 @@ body.dashboard_page_koko-analytics {
 	margin-bottom: 6px;
 }
 #koko-analytics-admin .totals-amount span {
-	font-size: 0.4em;
+	font-size: 16px;
 	font-weight: normal;
 	vertical-align: top;
 	letter-spacing: normal;
 }
 #koko-analytics-admin .totals-compare {
-	color: #EEE;
+	color: #DDD;
 }
 #koko-analytics-admin .neutral {
 	color: #aaa;
@@ -191,11 +188,6 @@ body.dashboard_page_koko-analytics {
 	display: inline-block;
 	background: white;
 	line-height: 20px;
-}
-@media (max-width: 320px) {
-	#koko-analytics-admin .date-label .dashicons {
-		display: none;
-	}
 }
 #koko-analytics-admin .date-label .dashicons {
 	margin-right: 2px;
