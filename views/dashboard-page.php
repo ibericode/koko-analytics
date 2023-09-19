@@ -25,7 +25,7 @@ $tab = 'dashboard';
             <?php _e( 'You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
         </p>
     </div>
-    <script src="<?php echo plugins_url('/assets/js/dist/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE ); ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
+    <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE ); ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
 
 	<noscript>
 		<?php echo esc_html__( 'Please enable JavaScript for this page to work.', 'koko-analytics' ); ?>
