@@ -65,8 +65,8 @@ export default function TopReferrers({ startDate, endDate }) {
   return (
     <div className='box koko-fade top-referrers'>
       <div className='box-grid head'>
+        <div className='muted'>#</div>
         <div className=''>
-          <span className='muted'>#</span>
           {__('Referrers', 'koko-analytics')}
           <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
         </div>
@@ -76,8 +76,8 @@ export default function TopReferrers({ startDate, endDate }) {
       <div className='body'>
         {items.map((p, i) => (
           <div key={p.id} className='box-grid koko-fade'>
+            <div className='muted'>{offset + i + 1}</div>
             <div className='url-col'>
-              <span className='muted'>{offset + i + 1}</span>
               {p.url.length ? <a href={p.url}>{p.displayUrl}</a> : p.displayUrl}
             </div>
             <div className='amount-col'>{Math.max(p.visitors, 1)}</div>
@@ -85,7 +85,7 @@ export default function TopReferrers({ startDate, endDate }) {
           </div>
         ))}
         {items.length === 0 && (
-          <div className='box-grid'>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
+          <div style={{padding: '6px 12px 0'}}>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
       </div>
     </div>
   )

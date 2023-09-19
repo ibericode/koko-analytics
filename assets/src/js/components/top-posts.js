@@ -39,8 +39,8 @@ export default function TopPosts({ startDate, endDate }) {
   return (
     <div className='box koko-fade top-posts'>
       <div className='head box-grid'>
+        <div className='muted'>#</div>
         <div className=''>
-          <span className='muted'>#</span>
           {__('Pages', 'koko-analytics')}
           <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
         </div>
@@ -50,8 +50,8 @@ export default function TopPosts({ startDate, endDate }) {
       <div className='body'>
         {items.map((p, i) => (
           <div key={`k-${p.id}-${i}`} className='box-grid koko-fade'>
+            <div className='muted'>{offset + i + 1}</div>
             <div>
-              <span className='muted'>{offset + i + 1}</span>
               <a href={p.post_permalink}>{p.post_title || '(no title)'}</a>
             </div>
             <div className='amount-col'>{Math.max(1, p.visitors)}</div>
@@ -59,7 +59,7 @@ export default function TopPosts({ startDate, endDate }) {
           </div>
         ))}
         {items.length === 0 && (
-          <div className='box-grid'>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
+          <div style={{padding: '6px 12px 0'}}>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
       </div>
     </div>
   )
