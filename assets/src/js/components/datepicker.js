@@ -229,17 +229,19 @@ export default function Datepicker ({
           <div className="ka-datepicker--presets">
             <div>
               <label htmlFor="ka-date-presets">{__('Date range', 'koko-analytics')}</label>
-              <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} defaultValue={preset}>
+              <div>
+                <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} defaultValue={preset}>
                 {datePresets.map(p => <option key={p.key} value={p.key}>{p.label}</option>)}
               </select>
+              </div>
             </div>
             <div>
               <label>{__('Custom', 'koko-analytics')}</label>
-              <input type="text" value={format(dateRange.startDate, 'Y-m-d')} size="10" onChange={setCustomStartDate}
+              <div><input type="text" value={format(dateRange.startDate, 'Y-m-d')} size="10" onChange={setCustomStartDate}
                      disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
               <span> - </span>
               <input type="text" value={format(dateRange.endDate, 'Y-m-d')} size="10" onChange={setCustomEndDate}
-                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
+                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/></div>
             </div>
           </div>
           <div className="ka-datepicker--pikaday-container">
