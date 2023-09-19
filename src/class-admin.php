@@ -382,12 +382,13 @@ class Admin {
 
 	public function save_settings() {
 		check_admin_referer('koko_analytics_save_settings');
-		$settings                                = get_settings();
 		$new_settings                            = $_POST['koko_analytics_settings'];
-		$new_settings['prune_data_after_months'] = abs( (int) $new_settings['prune_data_after_months'] );
-		$new_settings['use_cookie']              = (int) $new_settings['use_cookie'];
-		$new_settings                            = array_merge( $settings, $new_settings );
-		update_option( 'koko_analytics_settings', $new_settings, true );
+		$settings                                = get_settings();
+		$settings['exclude_user_roles'] = $new_settings['exclude_user_roles'] ?? array();
+		$settings['prune_data_after_months'] = abs( (int) $new_settings['prune_data_after_months'] );
+		$settings['use_cookie']              = (int) $new_settings['use_cookie'];
+		$settings['default_view'] = trim($new_settings['default_view']);
+		update_option( 'koko_analytics_settings', $settings, true );
 		wp_safe_redirect(add_query_arg(array( 'settings-updated' => true ), wp_get_referer()));
 		exit;
 	}
