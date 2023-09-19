@@ -27,14 +27,14 @@ export default function Pagination({offset, limit, total, onUpdate}) {
   }
 
   return (
-    <div className='pagination'>
+    <div className='ka-pagination'>
         <span
-          className={'prev ' + (offset === 0 ? 'disabled' : '')} title={__('Previous', 'koko-analytics')}
+          className={'ka-pagination--prev ' + (offset === 0 ? 'disabled' : '')} title={__('Previous', 'koko-analytics')}
           onClick={prev}
         ><span className='dashicons dashicons-arrow-left' />
         </span>
       <span
-        className={'next ' + (total < limit ? 'disabled' : '')} title={__('Next', 'koko-analytics')}
+        className={'ka-pagination--next ' + (total < limit ? 'disabled' : '')} title={__('Next', 'koko-analytics')}
         onClick={next}
       ><span className='dashicons dashicons-arrow-right' />
         </span>

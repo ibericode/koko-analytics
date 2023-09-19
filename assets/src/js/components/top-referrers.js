@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {request} from '../util/api'
 import {toISO8601} from '../util/dates'
-import Pagination from './table-pagination'
+import Pagination from './pagination'
 import { __ } from '@wordpress/i18n'
 const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 
@@ -63,25 +63,25 @@ export default function TopReferrers({ startDate, endDate }) {
   }
 
   return (
-    <div className='box koko-fade top-referrers'>
-      <div className='box-grid head'>
-        <div className='muted'>#</div>
+    <div className='ka-topx ka-box ka-fade top-referrers'>
+      <div className='ka-topx--head ka-topx--row'>
+        <div className='ka-muted'>#</div>
         <div className=''>
           {__('Referrers', 'koko-analytics')}
           <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
         </div>
-        <div className='amount-col'>{__('Visitors', 'koko-analytics')}</div>
-        <div className='amount-col'>{__('Pageviews', 'koko-analytics')}</div>
+        <div className='ka-topx--amount'>{__('Visitors', 'koko-analytics')}</div>
+        <div className='ka-topx--amount'>{__('Pageviews', 'koko-analytics')}</div>
       </div>
-      <div className='body'>
+      <div className='ka-topx--body'>
         {items.map((p, i) => (
-          <div key={p.id} className='box-grid koko-fade'>
-            <div className='muted'>{offset + i + 1}</div>
-            <div className='url-col'>
+          <div key={p.id} className='ka-topx--row ka-fade'>
+            <div className='ka-topx--rank'>{offset + i + 1}</div>
+            <div className='ka-topx--col'>
               {p.url.length ? <a href={p.url}>{p.displayUrl}</a> : p.displayUrl}
             </div>
-            <div className='amount-col'>{Math.max(p.visitors, 1)}</div>
-            <div className='amount-col'>{p.pageviews}</div>
+            <div className='ka-topx--amount'>{Math.max(p.visitors, 1)}</div>
+            <div className='ka-topx--amount'>{p.pageviews}</div>
           </div>
         ))}
         {items.length === 0 && (

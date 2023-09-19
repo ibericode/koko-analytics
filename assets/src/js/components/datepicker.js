@@ -104,7 +104,7 @@ export default function Datepicker ({
   function maybeClose (evt) {
     /* don't close if clicking anywhere inside this component */
     for (let el = evt.target; el !== null; el = el.parentNode) {
-      if (el === root.current || (typeof el.className === 'string' && el.className.indexOf('date-label') > -1)) {
+      if (el === root.current || (typeof el.className === 'string' && el.className.indexOf('ka-datepicker--label') > -1)) {
         return
       }
     }
@@ -204,17 +204,17 @@ export default function Datepicker ({
   }
 
   return (
-    <div className="date-nav m">
+    <div className="ka-datepicker">
       <div>
-        <div className={'date-label'} onClick={toggle}>
+        <div className={'ka-datepicker--label'} onClick={toggle}>
           <span className="dashicons dashicons-calendar-alt"/>
           <span>{format(dateRange.startDate, dateFormat)}</span>
           <span> &mdash; </span>
           <span>{format(dateRange.endDate, dateFormat)}</span>
         </div>
       </div>
-      <div className="date-picker-ui" style={{ display: isOpen ? '' : 'none' }} ref={root}>
-        <div className="date-quicknav cf">
+      <div className="ka-datepicker--dropdown" style={{ display: isOpen ? '' : 'none' }} ref={root}>
+        <div className="ka-datepicker--quicknav">
           <span onClick={onQuickNavClick('prev')} className="prev dashicons dashicons-arrow-left"
                 title={__('Previous', 'koko-analytics')}/>
           <span className="date">
@@ -225,8 +225,8 @@ export default function Datepicker ({
           <span onClick={onQuickNavClick('next')} className="next dashicons dashicons-arrow-right"
                 title={__('Next', 'koko-analytics')}/>
         </div>
-        <div className="flex">
-          <div className="date-presets">
+        <div style={{display: 'flex'}}>
+          <div className="ka-datepicker--presets">
             <div>
               <label htmlFor="ka-date-presets">{__('Date range', 'koko-analytics')}</label>
               <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} defaultValue={preset}>
@@ -242,7 +242,7 @@ export default function Datepicker ({
                      disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
             </div>
           </div>
-          <div className="date-picker">
+          <div className="ka-datepicker--pikaday-container">
             <div ref={datepickerContainer}/>
           </div>
         </div>

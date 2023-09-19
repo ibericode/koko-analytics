@@ -33,27 +33,26 @@ export default function Totals({ startDate, endDate }) {
   useEffect(loadData, [startDate, endDate])
 
   return (
-    <div className='totals-container m'>
-      <div className='totals-box koko-fade'>
-        <div className='totals-label'>{__('Total visitors', 'koko-analytics')}</div>
-        <div className='totals-amount'>{formatLargeNumber(totals.visitors)} {totals.visitors_change_rel !== null ? <span
-          className={totals.visitors_change_rel > 0 ? 'up' : parseInt(totals.visitors_change_rel) === 0 ? 'neutral' : 'down'}
+    <div className='ka-totals m'>
+      <div className='ka-fade'>
+        <div className='ka-totals--heading'>{__('Total visitors', 'koko-analytics')}</div>
+        <div className='ka-totals--amount'>{formatLargeNumber(totals.visitors)} {totals.visitors_change_rel !== null ? <span
+          className={'ka-totals--change ' + (totals.visitors_change_rel > 0 ? 'up' : (parseInt(totals.visitors_change_rel*100) === 0 ? 'neutral' : 'down'))}
         >{formatPercentage(totals.visitors_change_rel)}
           </span> : ''}
         </div>
-        <div className='totals-compare'>
-          <span>{formatLargeNumber(Math.abs(totals.visitors_change))} {totals.visitors_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</span>
-        </div>
+        <div className='ka-totals--subtext'>{formatLargeNumber(Math.abs(totals.visitors_change))} {totals.visitors_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</div>
       </div>
-      <div className='totals-box koko-fade'>
-        <div className='totals-label'>{__('Total pageviews', 'koko-analytics')}</div>
-        <div className='totals-amount'>{formatLargeNumber(totals.pageviews)} {totals.pageviews_change_rel !== null ? <span
-          className={totals.pageviews_change > 0 ? 'up' : parseInt(totals.pageviews_change) === 0 ? 'neutral' : 'down'}
+      <div className='ka-fade'>
+        <div className='ka-totals--heading'>{__('Total pageviews', 'koko-analytics')}</div>
+        <div className='ka-totals--amount'>
+          {formatLargeNumber(totals.pageviews)}
+          {totals.pageviews_change_rel !== null ? <span className={'ka-totals--change ' + (totals.pageviews_change > 0 ? 'up' : parseInt(totals.pageviews_change*100) === 0 ? 'neutral' : 'down')}
         >{formatPercentage(totals.pageviews_change_rel)}
           </span> : ''}
         </div>
-        <div className='totals-compare'>
-          <span>{formatLargeNumber(Math.abs(totals.pageviews_change))} {totals.pageviews_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</span>
+        <div className='ka-totals--subtext'>
+          {formatLargeNumber(Math.abs(totals.pageviews_change))} {totals.pageviews_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}
         </div>
       </div>
       <Realtime />

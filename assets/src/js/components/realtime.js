@@ -23,14 +23,11 @@ export default function Realtime() {
   }, [])
 
   return (
-    <div className='totals-box koko-fade' key={'realtime-pageviews'}>
-      <div className='totals-label'>{__('Realtime pageviews', 'koko-analytics')}</div>
-      <div className='totals-amount'>{formatLargeNumber(pageviews)}
-      </div>
-      <div className='totals-compare'>
-          <span>
-            <span>{__('pageviews in the last hour', 'koko-analytics')}</span>
-          </span>
+    <div className='ka-fade' key={'realtime-pageviews'}>
+      <div className='ka-totals--label'>{__('Realtime pageviews', 'koko-analytics')}</div>
+      <div className='ka-totals--amount'>{formatLargeNumber(pageviews)}</div>
+      <div className='ka-totals--subtext'>
+          {__('pageviews in the last hour', 'koko-analytics')}
       </div>
     </div>
   )

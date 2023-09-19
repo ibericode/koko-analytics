@@ -1,21 +1,22 @@
-body.dashboard_page_koko-analytics {
+.dashboard_page_koko-analytics {
 	overflow-x: hidden
 }
 
-#koko-analytics-admin .grid {
+.ka-dashboard-components {
 	display: grid;
 	grid-gap: 12px;
 	grid-template-columns: repeat(6, 1fr);
 }
-
-#koko-analytics-admin .box {
-	background: #fff;
-	border-radius: 6px;
-	border: 1px solid #ddd;
-	grid-column: span 3
+/** TopX components */
+.ka-topx {
+	grid-column: span 6;
 }
-
-#koko-analytics-admin .box-grid {
+@media (min-width: 840px) {
+	.ka-topx {
+		grid-column: span 3;
+	}
+}
+.ka-topx--row {
 	display: grid;
 	grid-gap: 12px;
 	grid-template-columns: min-content 8fr 2fr 2fr;
@@ -23,98 +24,267 @@ body.dashboard_page_koko-analytics {
 	padding: 6px 12px;
 	text-align: left
 }
-
-#koko-analytics-admin .box-grid.c4 {
+.ka-topx--row.c4 {
 	grid-template-columns: min-content 9fr 1fr 1fr 1fr;
 }
-
-@media (max-width: 800px) {
-	#koko-analytics-admin .box {
-		grid-column: span 6
-	}
-}
-
-
-#koko-analytics-admin .box .head {
+.ka-topx--head {
 	font-weight: bold;
 	font-size: 1.1em;
 	padding: 6px 12px;
 	border: 0
 }
-
-#koko-analytics-admin .box .body {
+.ka-topx--body {
 	padding-bottom: 6px
 }
-
-#koko-analytics-admin .box .muted {
+.ka-topx--rank {
 	color: #757575;
 	font-size: .9em
 }
-
-#koko-analytics-admin .box .amount-col {
+.ka-topx--amount {
 	text-align: right
 }
-
-#koko-analytics-admin .box .url-col {
+.ka-topx--col,
+.ka-topx--url {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap
 }
 
-#koko-analytics-admin .pagination {
+/* Pagination component */
+/* TODO: Move to bottom of component, on its own row */
+.ka-pagination {
 	color: #757575;
 	cursor: pointer;
 	display: inline-block;
-	margin-left: 12px
+	margin-left: 6px;
 }
-
-#koko-analytics-admin .pagination .prev, #koko-analytics-admin .pagination .next {
+.ka-pagination--prev,
+.ka-pagination--next {
 	display: inline-block;
-	padding: 0 4px
+	padding: 0;
 }
-
-#koko-analytics-admin .pagination .prev:hover, #koko-analytics-admin .pagination .prev:focus, #koko-analytics-admin .pagination .next:hover, #koko-analytics-admin .pagination .next:focus {
+.ka-pagination--prev:hover,
+.ka-pagination--prev:focus,
+.ka-pagination--next:hover,
+.ka-pagination--next:focus {
 	transform: scale(1.4);
 	transition: transform .2s
 }
-
-#koko-analytics-admin .pagination .prev.hidden, #koko-analytics-admin .pagination .next.hidden {
-	display: initial;
-	visibility: hidden
-}
-
-#koko-analytics-admin .pagination .prev.disabled, #koko-analytics-admin .pagination .next.disabled {
+.ka-pagination--prev.disabled,
+.ka-pagination--next.disabled {
 	opacity: .4
 }
 
-#koko-analytics-admin .pagination .prev.disabled:hover, #koko-analytics-admin .pagination .prev.disabled:focus, #koko-analytics-admin .pagination .next.disabled:hover, #koko-analytics-admin .pagination .next.disabled:focus {
+.ka-pagination--prev.disabled:hover,
+.ka-pagination--prev.disabled:focus,
+.ka-pagination--next.disabled:hover,
+.ka-pagination--next.disabled:focus {
 	transform: none;
 	cursor: initial
 }
 
-@media (max-width: 320px) {
-	#koko-analytics-admin .pagination {
-		margin-left: 6px
+@media (min-width: 420px) {
+	.ka-pagination {
+		margin-left: 12px
 	}
 
-	#koko-analytics-admin .pagination .prev, #koko-analytics-admin .pagination .next {
-		padding: 0
+	.ka-pagination--prev,
+	.ka-pagination--next {
+		padding: 0 4px;
 	}
 }
 
+/** Totals Component */
+.ka-totals {
+	background: #2e363f;
+	color: white;
+	padding: 24px;
+	margin: 12px 0;
+	display: flex;
+	flex-flow: row wrap;
+	gap: 48px;
+	border-radius: 6px;
+	width: 100%;
+	box-sizing: border-box;
+}
 
-#koko-analytics-admin .koko-fade {
+.ka-totals--label {
+	color: #EEE;
+	margin-bottom: 6px;
+	font-size: 14px;
+}
+.ka-totals--amount {
+	display: block;
+	line-height: 48px;
+	font-size: 48px;
+	font-weight: 500;
+	letter-spacing: -1px;
+	margin-bottom: 6px;
+}
+.ka-totals--change {
+	font-size: 16px;
+	margin-left: 6px;
+	font-weight: normal;
+	vertical-align: top;
+	letter-spacing: normal;
+}
+.ka-totals--change.neutral {
+	color: #aaa;
+}
+.ka-totals--change.up {
+	color: limegreen;
+}
+.ka-totals--change.down {
+	color: #fb7272;
+}
+.ka-totals--subtext {
+	color: #DDD;
+}
+
+/** Datepicker component */
+/* TODO: Make datepicker usable on mobile */
+.ka-datepicker--label {
+	cursor: pointer;
+	padding: 6px;
+	border: 1px solid #DDD;
+	border-radius: 6px;
+	display: inline-block;
+	background: white;
+	line-height: 20px;
+}
+.ka-datepicker--label .dashicons {
+	margin-right: 2px;
+}
+
+.ka-datepicker--dropdown {
+	background: white;
+	width: auto;
+	z-index: 20;
+	border-radius: 6px;
+	position: absolute;
+	margin-top: 6px;
+	box-shadow: 2px 2px 12px 0 rgba(0, 0, 0, 0.5);
+}
+.ka-datepicker--quicknav {
+	background: #2e363f;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	color: white;
+	text-align: center;
+	padding: 12px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.ka-datepicker--quicknav .prev,
+.ka-datepicker--quicknav .next {
+	margin: 0 6px;
+	color: white;
+}
+.ka-datepicker--quicknav .prev:hover,
+.ka-datepicker--quicknav .prev:focus,
+.ka-datepicker--quicknav .next:hover,
+.ka-datepicker--quicknav .next:focus {
+	cursor: pointer;
+	transform: scale(1.4);
+	transition: transform 0.2s;
+}
+.ka-datepicker--presets {
+	padding: 12px 24px 12px 12px;
+	border-right: 1px solid #DDD;
+	min-width: 100px;
+}
+.ka-datepicker--presets label {
+	font-weight: bold;
+	font-size: 1em;
+}
+.ka-datepicker--presets > div {
+	margin-bottom: 1em;
+}
+.ka-datepicker--presets strong {
+	display: block;
+	padding: 6px 0;
+}
+.ka-datepicker--presets a {
+	display: block;
+	padding: 4px 0;
+}
+.ka-datepicker--pikaday-container {
+	padding: 12px;
+}
+.ka-datepicker .pika-lendar {
+	margin: 0;
+}
+.ka-datepicker .pika-single {
+	color: inherit;
+	border: 0;
+}
+.ka-datepicker .pika-label {
+	font-size: inherit;
+	font-weight: normal;
+}
+.ka-datepicker .pika-prev,
+.ka-datepicker .pika-next {
+	opacity: 0.3;
+}
+
+/** Chart component */
+.ka-chart {
+	position: relative;
+}
+.ka-chart--tooltip {
+	position: absolute;
+	z-index: 9991; /* above wp admin menu */
+}
+.ka-chart--tooltip > div {
+	background: rgba(46, 54, 63, 0.96);
+	box-shadow: 2px 2px 12px 0 rgba(0,0,0,0.5);
+	border-radius: 4px;
+	color: #EEE;
+}
+.ka-chart--tooltip-heading {
+	font-weight: 600;
+	padding: 12px;
+	line-height: 1;
+}
+.ka-chart--tooltip .pageviews,
+.ka-chart--tooltip .visitors { border-top: 3px solid transparent; }
+.ka-chart--tooltip-content {
+	display: flex;
+}
+.ka-chart--tooltip-content > div {
+	padding: 6px 12px;
+	width: 50%;
+	display: block;
+	flex: 1;
+}
+.ka-chart--tooltip-amount {
+	color: #FFF;
+	font-weight: bold;
+}
+.ka-chart--tooltip-arrow {
+	width: 0;
+	height: 0;
+	margin-left: auto;
+	margin-right: auto;
+	/* css trick to create a downward pointing triangle */
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid rgba(46, 54, 63, 0.96);
+}
+
+/* General styles / Utility classes */
+#koko-analytics-dashboard-widget-mount {
+	text-align: center;
+}
+
+.ka-box {
+	background: #fff;
+	border-radius: 6px;
+	border: 1px solid #ddd;
+}
+
+.ka-fade {
 	animation: koko-fadein .4s
-}
-
-#koko-analytics-admin .flex {
-	display: flex
-}
-
-#koko-analytics-admin .cf:after {
-	content: "";
-	display: table;
-	clear: both
 }
 
 @keyframes koko-fadein {
@@ -126,198 +296,3 @@ body.dashboard_page_koko-analytics {
 	}
 }
 
-#koko-analytics-admin .totals-container {
-	background: #2e363f;
-	color: white;
-	padding: 24px;
-	margin-bottom: 12px;
-	display: flex;
-	flex-flow: row wrap;
-	gap: 48px;
-	border-radius: 6px;
-	width: 100%;
-	box-sizing: border-box;
-}
-
-#koko-analytics-admin .totals-box:last-of-type {
-	margin-right: 0;
-}
-
-#koko-analytics-admin .totals-label {
-	color: #EEE;
-	margin-bottom: 6px;
-	font-size: 14px;
-}
-#koko-analytics-admin .totals-amount {
-	display: block;
-	line-height: 48px;
-	font-size: 48px;
-	font-weight: 500;
-	letter-spacing: -1px;
-	margin-bottom: 6px;
-}
-#koko-analytics-admin .totals-amount span {
-	font-size: 16px;
-	font-weight: normal;
-	vertical-align: top;
-	letter-spacing: normal;
-}
-#koko-analytics-admin .totals-compare {
-	color: #DDD;
-}
-#koko-analytics-admin .neutral {
-	color: #aaa;
-}
-#koko-analytics-admin .up {
-	color: limegreen;
-}
-#koko-analytics-admin .down {
-	color: #fb7272;
-}
-#koko-analytics-admin .m {
-	margin-bottom: 12px;
-}
-
-#koko-analytics-admin .date-label {
-	cursor: pointer;
-	padding: 6px;
-	border: 1px solid #DDD;
-	border-radius: 6px;
-	display: inline-block;
-	background: white;
-	line-height: 20px;
-}
-#koko-analytics-admin .date-label .dashicons {
-	margin-right: 2px;
-}
-#koko-analytics-admin .date-picker-ui {
-	background: white;
-	width: auto;
-	z-index: 20;
-	border-radius: 6px;
-	position: absolute;
-	margin-top: 6px;
-	box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.5);
-}
-#koko-analytics-admin .date-quicknav {
-	background: #2e363f;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-	color: white;
-	text-align: center;
-	padding: 12px;
-	font-weight: bold;
-	font-size: 1.1em;
-}
-#koko-analytics-admin .date-quicknav .prev,
-#koko-analytics-admin .date-quicknav .next {
-	margin: 0 6px;
-	color: white;
-}
-#koko-analytics-admin .date-quicknav .prev:hover,
-#koko-analytics-admin .date-quicknav .prev:focus,
-#koko-analytics-admin .date-quicknav .next:hover,
-#koko-analytics-admin .date-quicknav .next:focus {
-	cursor: pointer;
-	transform: scale(1.4);
-	transition: transform 0.2s;
-}
-#koko-analytics-admin .date-presets {
-	padding: 12px 24px 12px 12px;
-	border-right: 1px solid #DDD;
-	min-width: 100px;
-}
-#koko-analytics-admin .date-presets label {
-	font-weight: bold;
-	font-size: 1em;
-}
-#koko-analytics-admin .date-presets > div {
-	margin-bottom: 1em;
-}
-#koko-analytics-admin .date-presets strong {
-	display: block;
-	padding: 6px 0;
-}
-#koko-analytics-admin .date-presets a {
-	display: block;
-	padding: 4px 0;
-}
-#koko-analytics-admin .date-picker {
-	padding: 12px;
-}
-@media (min-width: 680px) {
-	#koko-analytics-admin .date-picker {
-		min-width: 480px;
-	}
-}
-#koko-analytics-admin .date-picker .pika-lendar {
-	margin: 0;
-}
-#koko-analytics-admin .pika-single {
-	color: inherit;
-	border: 0;
-}
-#koko-analytics-admin .pika-label {
-	font-size: inherit;
-	font-weight: normal;
-}
-#koko-analytics-admin .pika-prev, #koko-analytics-admin .pika-next {
-	opacity: 0.3;
-}
-
-.chart-container {
-	position: relative;
-}
-
-.chart {
-	overflow: visible;
-}
-
-.chart-tooltip {
-	position: absolute;
-	z-index: 9991; /* above wp admin menu */
-}
-.chart-tooltip .heading {
-	font-weight: 600;
-	padding: 12px;
-	line-height: 1;
-}
-
-.chart-tooltip .pageviews,
-.chart-tooltip .visitors { border-top: 3px solid transparent; }
-
-.chart-tooltip .content {
-	display: flex;
-}
-.chart-tooltip .content > div {
-	padding: 6px 12px;
-	width: 50%;
-	display: block;
-	flex: 1;
-}
-
-.chart-tooltip .amount {
-	color: #FFF;
-	font-weight: bold;
-}
-
-.tooltip-inner {
-	background: rgba(46, 54, 63, 0.96);
-	box-shadow: 2px 2px 12px 0 rgba(0,0,0,0.5);
-	border-radius: 4px;
-	color: #EEE;
-}
-
-.tooltip-arrow {
-	width: 0;
-	height: 0;
-	margin-left: auto;
-	margin-right: auto;
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 6px solid rgba(46, 54, 63, 0.96);
-}
-
-#koko-analytics-dashboard-widget-mount {
-	text-align: center;
-}

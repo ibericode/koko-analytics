@@ -69,14 +69,10 @@ export default function Dashboard({ history }) {
   return (
     <main>
       <div>
-        <div className=''>
-          <div className=''>
-            <Datepicker startDate={startDate} endDate={endDate} onUpdate={onDatepickerUpdate} />
-          </div>
-        </div>
+        <Datepicker startDate={startDate} endDate={endDate} onUpdate={onDatepickerUpdate} />
         <Totals startDate={startDate} endDate={endDate} />
         <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
-        <div className='grid'>
+        <div className='ka-dashboard-components'>
           {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
         </div>
         <div className={'ka-margin-m'}>

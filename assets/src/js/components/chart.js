@@ -34,7 +34,7 @@ function yScale (yMax) {
 
 function createTooltip () {
   const el = document.createElement('div')
-  el.className = 'chart-tooltip'
+  el.className = 'ka-chart--tooltip'
   el.style.display = 'none'
   return el
 }
@@ -96,20 +96,20 @@ export default function Chart({startDate, endDate, width, height}) {
   function createShowTooltip (data, barWidth) {
     return (evt) => {
       tooltip.innerHTML = `
-      <div class="tooltip-inner">
-        <div class="heading">${format(parseISO8601(data.date), dateFormat, { day: data.date.length > 7 })}</div>
-        <div class="content">
+      <div>
+        <div class="ka-chart--tooltip-heading">${format(parseISO8601(data.date), dateFormat, { day: data.date.length > 7 })}</div>
+        <div class="ka-chart--tooltip-content">
           <div class="visitors" style="border-top-color: ${color2}">
-            <div class="amount">${data.visitors}</div>
+            <div class="ka-chart--tooltip-amount">${data.visitors}</div>
             <div>${__('Visitors', 'koko-analytics')}</div>
           </div>
           <div class="pageviews" style="border-top-color: ${color1}">
-            <div class="amount">${data.pageviews}</div>
+            <div class="ka-chart--tooltip-amount">${data.pageviews}</div>
             <div>${__('Pageviews', 'koko-analytics')}</div>
           </div>
         </div>
       </div>
-      <div class="tooltip-arrow"></div>`
+      <div class="ka-chart--tooltip-arrow"></div>`
 
       const styles = evt.currentTarget.getBoundingClientRect()
       tooltip.style.display = 'block'
@@ -149,9 +149,9 @@ export default function Chart({startDate, endDate, width, height}) {
   const getY = v => y.max > 0 ? Math.round(innerHeight - (v * heightModifier)) : innerHeight
 
   return (
-    <div className='box m'>
-      <div className='chart-container'>
-        <svg className='chart' width='100%' height={height}>
+    <div className='ka-box ka-margin-s'>
+      <div className='ka-chart'>
+        <svg width={'100%'} height={height}>
           <g className='axes'>
             <g className='axes-y' transform={`translate(0, ${padding.top})`} textAnchor='end'>
               {y.ticks.map((v, i) => {

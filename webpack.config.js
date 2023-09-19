@@ -1,6 +1,7 @@
 /* eslint-env node */
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
+const lightningcss = require('lightningcss')
 
 module.exports = {
     entry: {
@@ -47,7 +48,15 @@ module.exports = {
         new CopyPlugin({
             patterns: [
               { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
-              { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css') }
+              { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css'), transform: (content, path) => {
+                  const { code } = lightningcss.transform({
+                    filename: path.split('/').pop(),
+                    code: Buffer.from(content),
+                    minify: true,
+                    sourceMap: false
+                  })
+                  return code
+                } }
             ]
         })
     ],

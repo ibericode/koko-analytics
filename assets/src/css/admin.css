@@ -2,11 +2,13 @@
 .ka-admin-nav {
 	float: right;
 }
-
-.ka-admin-nav li:not(:last-child):after{
+.ka-admin-nav li:not(:last-child):after {
 	content: " | ";
 }
 
+.ka-margin-s {
+	margin: 12px 0;
+}
 .ka-margin-m {
 	margin: 24px 0;
 }
@@ -17,23 +19,12 @@
 	float: right;
 }
 
-#koko-analytics-admin label {
+.ka-settings--label {
 	display: block;
 	font-size: 1.2em;
 	font-weight: bold;
 	margin-bottom: 6px
 }
-
-#koko-analytics-admin label.cb {
-	font-size: 1em;
-	font-weight: normal
-}
-
-#koko-analytics-admin select {
-	margin: 0;
-	min-width: 320px
-}
-
-#koko-analytics-admin select[multiple] {
-	min-height: 160px
+.ka-setings--cb-label {
+	margin-right: 12px;
 }
