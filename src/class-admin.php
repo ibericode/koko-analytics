@@ -137,7 +137,7 @@ class Admin {
 		$tab = $_GET['tab'] ?? 'dashboard';
 		do_action("koko_analytics_show_{$tab}_page");
 
-		add_action( 'admin_footer_text', array( $this, 'footer_text' ) );
+		add_action('admin_footer_text', array($this, 'footer_text'));
 	}
 
 	public function show_dashboard_page() {

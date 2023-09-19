@@ -6,7 +6,8 @@ module.exports = {
     entry: {
         admin: './assets/src/js/admin.js',
         'dashboard-widget': './assets/src/js/dashboard-widget.js',
-        script: './assets/src/js/script.js'
+        script: './assets/src/js/script.js',
+        'koko-analytics-script-test': './assets/src/js/koko-analytics-script-test.js'
     },
     output: {
         filename: '[name].js',
