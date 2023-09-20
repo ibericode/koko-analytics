@@ -41,16 +41,8 @@ function parseDatesFromUrlHash (str) {
   return { startDate, endDate }
 }
 
-export default function Dashboard({ history }) {
-  const [dates, setDates] = useState(parseDatesFromUrlHash(history.location.search))
-
-  useEffect(() => {
-    return history.listen(({location, action}) => {
-      if (action === 'POP') {
-        setDates(parseDatesFromUrlHash(location.search))
-      }
-    })
-  })
+export default function Dashboard() {
+  const [dates, setDates] = useState(parseDatesFromUrlHash(window.location.hash.substring(3)))
 
   /**
    * @param {Date} startDate
@@ -62,7 +54,7 @@ export default function Dashboard({ history }) {
     }
 
     setDates({startDate, endDate})
-    history.push(`/?start_date=${toISO8601(startDate)}&end_date=${toISO8601(endDate)}`)
+    history.replaceState(undefined, undefined, `#/?start_date=${toISO8601(startDate)}&end_date=${toISO8601(endDate)}`)
   }
 
   // refresh start & end date every 60s to reload stats (if viewing recent data)
