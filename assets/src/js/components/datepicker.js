@@ -215,14 +215,14 @@ export default function Datepicker ({
       </div>
       <div className="ka-datepicker--dropdown" style={{ display: isOpen ? '' : 'none' }} ref={root}>
         <div className="ka-datepicker--quicknav">
-          <span onClick={onQuickNavClick('prev')} className="prev dashicons dashicons-arrow-left"
+          <span onClick={onQuickNavClick('prev')} className="ka-datepicker--quicknav-prev dashicons dashicons-arrow-left"
                 title={__('Previous', 'koko-analytics')}/>
           <span className="date">
               <span>{format(dateRange.startDate, dateFormat)}</span>
               <span> &mdash; </span>
               <span>{format(dateRange.endDate, dateFormat)}</span>
             </span>
-          <span onClick={onQuickNavClick('next')} className="next dashicons dashicons-arrow-right"
+          <span onClick={onQuickNavClick('next')} className="ka-datepicker--quicknav-next dashicons dashicons-arrow-right"
                 title={__('Next', 'koko-analytics')}/>
         </div>
         <div style={{display: 'flex'}}>

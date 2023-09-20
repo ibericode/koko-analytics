@@ -96,14 +96,14 @@ export default function Chart({startDate, endDate, width, height}) {
   function createShowTooltip (data, barWidth) {
     return (evt) => {
       tooltip.innerHTML = `
-      <div>
+      <div class="ka-chart--tooltip-box">
         <div class="ka-chart--tooltip-heading">${format(parseISO8601(data.date), dateFormat, { day: data.date.length > 7 })}</div>
-        <div class="ka-chart--tooltip-content">
-          <div class="visitors" style="border-top-color: ${color2}">
+        <div style="display: flex;">
+          <div class="ka-chart--tooltip-content visitors" style="border-top-color: ${color2}">
             <div class="ka-chart--tooltip-amount">${data.visitors}</div>
             <div>${__('Visitors', 'koko-analytics')}</div>
           </div>
-          <div class="pageviews" style="border-top-color: ${color1}">
+          <div class="ka-chart--tooltip-content pageviews" style="border-top-color: ${color1}">
             <div class="ka-chart--tooltip-amount">${data.pageviews}</div>
             <div>${__('Pageviews', 'koko-analytics')}</div>
           </div>

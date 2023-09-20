@@ -1,12 +1,12 @@
 .dashboard_page_koko-analytics {
 	overflow-x: hidden
 }
-
 .ka-dashboard-components {
 	display: grid;
 	grid-gap: 12px;
 	grid-template-columns: repeat(6, 1fr);
 }
+
 /** TopX components */
 .ka-topx {
 	grid-column: span 6;
@@ -107,7 +107,6 @@
 	width: 100%;
 	box-sizing: border-box;
 }
-
 .ka-totals--label {
 	color: #EEE;
 	margin-bottom: 6px;
@@ -155,7 +154,6 @@
 .ka-datepicker--label .dashicons {
 	margin-right: 2px;
 }
-
 .ka-datepicker--dropdown {
 	background: white;
 	width: auto;
@@ -175,15 +173,15 @@
 	font-weight: bold;
 	font-size: 1.1em;
 }
-.ka-datepicker--quicknav .prev,
-.ka-datepicker--quicknav .next {
+.ka-datepicker--quicknav-prev,
+.ka-datepicker--quicknav-next {
 	margin: 0 6px;
 	color: white;
 }
-.ka-datepicker--quicknav .prev:hover,
-.ka-datepicker--quicknav .prev:focus,
-.ka-datepicker--quicknav .next:hover,
-.ka-datepicker--quicknav .next:focus {
+.ka-datepicker--quicknav-prev:hover,
+.ka-datepicker--quicknav-prev:focus,
+.ka-datepicker--quicknav-next:hover,
+.ka-datepicker--quicknav-next:focus {
 	cursor: pointer;
 	transform: scale(1.4);
 	transition: transform 0.2s;
@@ -235,7 +233,7 @@
 	position: absolute;
 	z-index: 9991; /* above wp admin menu */
 }
-.ka-chart--tooltip > div {
+.ka-chart--tooltip-box {
 	background: rgba(46, 54, 63, 0.96);
 	box-shadow: 2px 2px 12px 0 rgba(0,0,0,0.5);
 	border-radius: 4px;
@@ -246,16 +244,15 @@
 	padding: 12px;
 	line-height: 1;
 }
-.ka-chart--tooltip .pageviews,
-.ka-chart--tooltip .visitors { border-top: 3px solid transparent; }
 .ka-chart--tooltip-content {
-	display: flex;
-}
-.ka-chart--tooltip-content > div {
 	padding: 6px 12px;
 	width: 50%;
 	display: block;
 	flex: 1;
+}
+.ka-chart--tooltip-content.pageviews,
+.ka-chart--tooltip-content.visitors {
+	border-top: 3px solid transparent;
 }
 .ka-chart--tooltip-amount {
 	color: #FFF;

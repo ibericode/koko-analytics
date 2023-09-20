@@ -9,7 +9,6 @@
 }
 .ka-admin-nav--link.current {
 	color: black;
-	font-weight: bold;
 }
 .ka-admin-nav--link.last {
 	margin-right: 0;
