@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n'
 export default function Totals({ startDate, endDate }) {
   let [totals, setTotals] = useState({ visitors: 0, pageviews: 0, visitors_change: 0, pageviews_change: 0, visitors_change_rel: 0.00, pageviews_change_rel: 0.00 })
 
-  function loadData() {
+  useEffect(() => {
     // fetch stats for current period
     request('/totals', {
       body: {
@@ -16,21 +16,7 @@ export default function Totals({ startDate, endDate }) {
         end_date: toISO8601(endDate)
       }
     }).then(setTotals)
-  }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date()
-      if (startDate < now && endDate > now) {
-        loadData()
-      }
-    }, 60000)
-    return () => {
-      clearInterval(interval)
-    }
   }, [startDate, endDate])
-
-  useEffect(loadData, [startDate, endDate])
 
   return (
     <div className='ka-totals m'>

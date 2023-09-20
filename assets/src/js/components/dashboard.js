@@ -65,6 +65,32 @@ export default function Dashboard({ history }) {
     history.push(`/?start_date=${toISO8601(startDate)}&end_date=${toISO8601(endDate)}`)
   }
 
+  // refresh start & end date every 60s to reload stats (if viewing recent data)
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setDates(({
+        startDate,
+        endDate
+      }) => {
+        if (endDate < new Date()) {
+          return {
+            startDate,
+            endDate
+          }
+        }
+
+        return {
+          startDate,
+          endDate: new Date(endDate),
+        }
+      })
+    }, 60 * 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   const {startDate, endDate} = dates
   return (
     <main>

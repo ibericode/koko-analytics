@@ -9,23 +9,8 @@ export default function TopPosts({ startDate, endDate }) {
   let [items, setItems] = useState([])
   const limit = 10;
 
-  // periodically reload data
-  useEffect(() => {
-    const interval = setInterval(() => {
-        const now = new Date()
-        if (startDate < now && endDate > now) {
-          loadData()
-        }
-      }, 60000)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [startDate, endDate])
-
   // reload data when property for fetching change
-  useEffect(loadData, [startDate, endDate, offset])
-
-  function loadData() {
+  useEffect(() => {
     request('/posts', {
       body: {
         start_date: toISO8601(startDate),
@@ -34,7 +19,7 @@ export default function TopPosts({ startDate, endDate }) {
         limit,
       }
     }).then(setItems)
-  }
+  }, [startDate, endDate, offset])
 
   return (
     <div className='ka-topx ka-box ka-fade top-posts'>
