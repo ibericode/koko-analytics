@@ -137,7 +137,7 @@ class Admin {
 		$tab = $_GET['tab'] ?? 'dashboard';
 		do_action("koko_analytics_show_{$tab}_page");
 
-		add_action('admin_footer_text', array($this, 'footer_text'));
+		add_action('admin_footer_text', array( $this, 'footer_text' ));
 	}
 
 	public function show_dashboard_page() {
@@ -382,12 +382,12 @@ class Admin {
 
 	public function save_settings() {
 		check_admin_referer('koko_analytics_save_settings');
-		$new_settings                            = $_POST['koko_analytics_settings'];
-		$settings                                = get_settings();
-		$settings['exclude_user_roles'] = $new_settings['exclude_user_roles'] ?? array();
+		$new_settings                        = $_POST['koko_analytics_settings'];
+		$settings                            = get_settings();
+		$settings['exclude_user_roles']      = $new_settings['exclude_user_roles'] ?? array();
 		$settings['prune_data_after_months'] = abs( (int) $new_settings['prune_data_after_months'] );
 		$settings['use_cookie']              = (int) $new_settings['use_cookie'];
-		$settings['default_view'] = trim($new_settings['default_view']);
+		$settings['default_view']            = trim($new_settings['default_view']);
 		update_option( 'koko_analytics_settings', $settings, true );
 		wp_safe_redirect(add_query_arg(array( 'settings-updated' => true ), wp_get_referer()));
 		exit;

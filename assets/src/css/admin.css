@@ -1,11 +1,19 @@
-
 .ka-admin-nav {
 	float: right;
+	line-height: 34px;
 }
-.ka-admin-nav li:not(:last-child):after {
-	content: " | ";
+.ka-admin-nav--link {
+	display: inline-block;
+	text-decoration: none;
+	margin: 0 6px;
 }
-
+.ka-admin-nav--link.current {
+	color: black;
+	font-weight: bold;
+}
+.ka-admin-nav--link.last {
+	margin-right: 0;
+}
 .ka-margin-s {
 	margin: 12px 0;
 }
@@ -18,7 +26,6 @@
 .ka-right {
 	float: right;
 }
-
 .ka-settings--label {
 	display: block;
 	font-size: 1.2em;

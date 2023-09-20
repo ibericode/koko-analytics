@@ -4,17 +4,14 @@
 */
 ?>
 <?php if (current_user_can('manage_koko_analytics')) { ?>
-<ul class="ka-admin-nav subsubsub">
-	<li><a href="<?php echo admin_url('index.php?page=koko-analytics'); ?>"
-							<?php
-							if ($tab === 'dashboard') {
-								?>
-		 class="current"<?php } ?>><?php echo __('Stats', 'koko-analytics'); ?></a></li>
 
-		<li><a href="<?php echo admin_url('index.php?page=koko-analytics&tab=settings'); ?>"
-								<?php
-								if ($tab === 'settings') {
-									?>
-			class="current"<?php } ?>><?php echo __('Settings', 'koko-analytics'); ?></a></li>
-</ul>
+<div class="ka-admin-nav">
+	<a href="<?php echo admin_url('index.php?page=koko-analytics'); ?>" class="ka-admin-nav--link <?php echo $tab === 'dashboard' ? 'current' : ''; ?>">
+		<?php echo __('Stats', 'koko-analytics'); ?>
+	</a>
+	<span> | </span>
+	<a href="<?php echo admin_url('index.php?page=koko-analytics&tab=settings'); ?>" class="ka-admin-nav--link last <?php echo $tab === 'settings' ? 'current' : ''; ?>">
+		<?php echo __('Settings', 'koko-analytics'); ?>
+	</a>
+</div>
 <?php } ?>
