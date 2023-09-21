@@ -32,8 +32,8 @@ function collect_request() {
 			'e',            // type indicator
 			$_GET['e'],     // 0: event name
 			$_GET['p'],     // 1: event parameter
-			$_GET['u'],     // 2: is unique?
-			$_GET['v'],     // 3: event value
+			(int) $_GET['u'],     // 2: is unique?
+			(int) $_GET['v'],     // 3: event value
 		);
 	}
 
