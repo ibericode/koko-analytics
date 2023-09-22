@@ -121,7 +121,6 @@ function get_most_viewed_posts( array $args ) {
 	$default_args = array(
 		'number'    => 5,
 		'post_type' => 'post',
-		'show_date' => false,
 		'days'    => 30,
 	);
 
