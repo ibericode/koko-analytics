@@ -69,7 +69,7 @@ function collect_request() {
 	exit;
 }
 
-function get_buffer_filename() {
+function get_buffer_filename() : string {
 	if ( defined( 'KOKO_ANALYTICS_BUFFER_FILE' ) ) {
 		return KOKO_ANALYTICS_BUFFER_FILE;
 	}
@@ -78,7 +78,7 @@ function get_buffer_filename() {
 	return rtrim( $uploads['basedir'], '/' ) . '/pageviews.php';
 }
 
-function collect_in_file( array $data ) {
+function collect_in_file( array $data ) : bool {
 	$filename = get_buffer_filename();
 
 	// if file does not yet exist, add PHP header to prevent direct file access
@@ -91,10 +91,10 @@ function collect_in_file( array $data ) {
 	// append data to file
 	$line     = join( ',', $data ) . PHP_EOL;
 	$content .= $line;
-	return file_put_contents( $filename, $content, FILE_APPEND );
+	return (bool) file_put_contents( $filename, $content, FILE_APPEND );
 }
 
-function test_collect_in_file() {
+function test_collect_in_file() : bool {
 	$filename = get_buffer_filename();
 	if ( file_exists( $filename ) ) {
 		return is_writable( $filename );
@@ -104,7 +104,7 @@ function test_collect_in_file() {
 	return is_writable( $dir );
 }
 
-function get_settings() {
+function get_settings() : array {
 	$default_settings = array(
 		'use_cookie' => 1,
 		'exclude_user_roles' => array(),
@@ -116,7 +116,7 @@ function get_settings() {
 	return $settings;
 }
 
-function get_most_viewed_posts( array $args ) {
+function get_most_viewed_posts(array $args = array()) : array {
 	global $wpdb;
 	$default_args = array(
 		'number'    => 5,
@@ -178,24 +178,24 @@ function widgets_init() {
 	register_widget( 'KokoAnalytics\Widget_Most_Viewed_Posts' );
 }
 
-function get_realtime_pageview_count( $since = null ) {
+function get_realtime_pageview_count( $since = null ) : int {
 	$since  = $since !== null ? $since : strtotime( '-5 minutes' );
 	$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
 	$sum    = 0;
 	foreach ( $counts as $timestamp => $pageviews ) {
 		if ( $timestamp > $since ) {
-			$sum += $pageviews;
+			$sum += (int) $pageviews;
 		}
 	}
 	return $sum;
 }
 
-function using_custom_endpoint() {
+function using_custom_endpoint() : bool {
 	if ( defined( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT' ) ) {
-		return KOKO_ANALYTICS_CUSTOM_ENDPOINT;
+		return (bool) KOKO_ANALYTICS_CUSTOM_ENDPOINT;
 	}
 
-	return get_option( 'koko_analytics_use_custom_endpoint', false );
+	return (bool) get_option( 'koko_analytics_use_custom_endpoint', false );
 }
 
 function install_and_test_custom_endpoint() {

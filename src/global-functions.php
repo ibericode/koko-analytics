@@ -20,9 +20,11 @@ function koko_analyics_tracking_script() {
  *  `post_type` => A single post type or an array of post types to return
  *  `days`      => Specified the last X number of days for which the most viewed posts should be returned
  *
+ * @param array $args
+ * @return array
  * @since 1.1
  */
-function koko_analytics_get_most_viewed_posts(array $args) {
+function koko_analytics_get_most_viewed_posts(array $args = array()) : array {
 	return KokoAnalytics\get_most_viewed_posts($args);
 }
 
@@ -38,7 +40,7 @@ function koko_analytics_get_most_viewed_posts(array $args) {
  * @return int
  * @since 1.1
  */
-function koko_analytics_get_realtime_pageview_count($since = null) {
+function koko_analytics_get_realtime_pageview_count($since = null) : int {
 	if (is_string($since)) {
 		$since = strtotime($since);
 	}
