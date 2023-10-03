@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.1.2 - Oct 3, 2023
+
+- Fix broken totals and chart component on sites using a custom database table prefix.
+
+
 #### 1.1.1 - Oct 3, 2023
 
 - Fix for date table not being created, leading to an empty chart as of v1.1.0.
