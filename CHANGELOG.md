@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.1.1 - Oct 3, 2023
+
+- Fix for date table not being created, leading to an empty chart as of v1.1.0.
+
+
 #### Koko Analytics v1.1.0 - Oct 3, 2023
 
 - Switch out Preact for the React version that is bundled with WordPress, reducing bundle size for the admin dashboard by 40 kB (or 30%).
