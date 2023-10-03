@@ -179,6 +179,7 @@ class Pageview_Aggregator {
 			$blocklist = file( KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
 			// add result of filter hook to blocklist so user can provide custom domains to block through simple array
+			// @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php
 			$custom_blocklist = apply_filters( 'koko_analytics_referrer_blocklist', array() );
 			$blocklist        = array_merge( $blocklist, $custom_blocklist );
 		}
@@ -190,6 +191,7 @@ class Pageview_Aggregator {
 		}
 
 		// run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
+		// @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-traffic-using-regex.php
 		return apply_filters( 'koko_analytics_ignore_referrer_url', false, $url );
 	}
 

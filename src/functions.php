@@ -178,7 +178,7 @@ function widgets_init() {
 	register_widget( 'KokoAnalytics\Widget_Most_Viewed_Posts' );
 }
 
-function get_realtime_pageview_count( $since = null ) : int {
+function get_realtime_pageview_count($since = null) : int {
 	$since  = $since !== null ? $since : strtotime( '-5 minutes' );
 	$counts = (array) get_option( 'koko_analytics_realtime_pageview_count', array() );
 	$sum    = 0;

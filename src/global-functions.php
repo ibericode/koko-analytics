@@ -30,15 +30,17 @@ function koko_analytics_get_most_viewed_posts(array $args = array()) : array {
 
 
 /**
- * Returns the number of realtime pageviews, eg in the last hour or in the last 5 minutes.
+ * Returns the number of realtime pageviews, for example in the last hour or in the last 5 minutes.
+ * Does not work with timestamps over 1 hour ago.
  *
  * Examples:
  *  koko_analytics_get_realtime_pageview_count('-5 minutes');
  *  koko_analytics_get_realtime_pageview_count('-1 hour');
  *
- * @param string|int $since
- * @return int
  * @since 1.1
+ * @param string|int $since A time string (in the format accepted by strtotime()) or UNIX timestamp
+ * @return int
+ * @see strtotime
  */
 function koko_analytics_get_realtime_pageview_count($since = null) : int {
 	if (is_string($since)) {
@@ -55,10 +57,10 @@ function koko_analytics_get_realtime_pageview_count($since = null) : int {
  * @param bool $new_visitor Whether this is a new site visitor.
  * @param bool $unique_pageview Whether this was an unique pageview. (Ie the first time this visitor views this page today).
  * @param string $referrer_url External URL that this visitor came from, or empty string if direct traffic or coming from internal link.
- * @return false|int
+ * @return bool
  * @since 1.1
  */
-function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = '') {
+function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = '') : bool {
 	$data = array(
 		'p',
 		$post_id,

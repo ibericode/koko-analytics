@@ -1,5 +1,20 @@
 # Changelog
 
+#### Koko Analytics v1.1.0 - Oct 3, 2023
+
+- Switch out Preact for the React version that is bundled with WordPress, reducing bundle size for the admin dashboard by 40 kB (or 30%).
+- Stop showing warning about WP Cron events not running if on local or developer environments.
+- Use the same Browserslist configuration as WordPress core.
+- Performance optimizations for fetching and parsing chart data.
+- Create optimized endpoint for fetching data for the totals component.
+- Settings page is now a server-side rendered page instead of a React component.
+- Improved CSS selector performance.
+- Add public PHP API. You can now call the following functions:
+	- `koko_analytics_get_most_viewed_posts()` to get a list of the most viewed posts.
+	- `koko_analytics_get_realtime_pageview_count('-1 hour')` to get the total number of pageviews in the last hour.
+	- `koko_analytics_track_pageview($post_id)` to track a pageview to the post with ID `$post_id`
+
+
 #### 1.0.40 - Sep 14, 2023
 
 - Fallback to post slug if post has no title
