@@ -54,7 +54,7 @@ class Plugin {
 	}
 
 	public function maybe_run_db_migrations() {
-		$from_version = isset( $_GET['koko_analytics_migrate_from_version'] ) ? $_GET['koko_analytics_migrate_from_version'] : get_option( 'koko_analytics_version', '0.0.1' );
+		$from_version = get_option( 'koko_analytics_version', '0.0.0' );
 		$to_version   = KOKO_ANALYTICS_VERSION;
 		if ( version_compare( $from_version, $to_version, '>=' ) ) {
 			return;
@@ -67,7 +67,7 @@ class Plugin {
 		$migrations->run();
 		update_option( 'koko_analytics_version', $to_version, true );
 
-		// make sure scheduled event is set-up correctly
+		// make sure scheduled event is set up correctly
 		$this->aggregator->setup_scheduled_event();
 	}
 

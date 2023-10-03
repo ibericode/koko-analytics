@@ -30,7 +30,7 @@ class Migrations {
 	 * @param string $to
 	 * @param string $migrations_dir
 	 */
-	public function __construct( $from, $to, $migrations_dir ) {
+	public function __construct( string $from, string $to, string $migrations_dir ) {
 		$this->version_from   = $from;
 		$this->version_to     = $to;
 		$this->migrations_dir = $migrations_dir;
@@ -41,7 +41,7 @@ class Migrations {
 	 * @throws Exception
 	 * @return bool
 	 */
-	public function run() {
+	public function run() : bool {
 		$migrations = $this->find_migrations();
 
 		foreach ( $migrations as $migration_file ) {
@@ -54,7 +54,7 @@ class Migrations {
 	/**
 	 * @return array
 	 */
-	public function find_migrations() {
+	public function find_migrations() : array {
 		$files = glob( rtrim( $this->migrations_dir, '/' ) . '/*.php' );
 
 		// return empty array when glob returns non-array value.
@@ -91,7 +91,7 @@ class Migrations {
 	 * @param string $file
 	 * @throws Exception
 	 */
-	protected function run_migration( $file ) {
+	protected function run_migration( string $file ) {
 		if ( ! file_exists( $file ) ) {
 			throw new Exception( "Migration file $file does not exist." );
 		}
