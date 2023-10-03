@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 5.0
 Tested up to: 6.3
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.0
@@ -108,6 +108,11 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 
 == Changelog ==
+
+#### 1.1.2 - Oct 3, 2023
+
+- Fix broken totals and chart component on sites using a custom database table prefix.
+
 
 #### 1.1.1 - Oct 3, 2023
 
