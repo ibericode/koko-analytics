@@ -3,7 +3,7 @@ import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-const { dateFormat, defaultDateRange } = window.koko_analytics
+const { defaultDateRange } = window.koko_analytics
 
 export default function Datepicker ({
   startDate,
@@ -160,9 +160,9 @@ export default function Datepicker ({
       <div>
         <div className={'ka-datepicker--label'} onClick={toggle}>
           <span className="dashicons dashicons-calendar-alt"/>
-          <span>{format(dateRange.startDate, dateFormat)}</span>
+          <span>{format(dateRange.startDate)}</span>
           <span> &mdash; </span>
-          <span>{format(dateRange.endDate, dateFormat)}</span>
+          <span>{format(dateRange.endDate)}</span>
         </div>
       </div>
       <div className="ka-datepicker--dropdown" style={{ display: isOpen ? '' : 'none' }} ref={root}>
@@ -170,9 +170,9 @@ export default function Datepicker ({
           <span onClick={onQuickNavClick('prev')} className="ka-datepicker--quicknav-prev dashicons dashicons-arrow-left"
                 title={__('Previous', 'koko-analytics')}/>
           <span className="date">
-              <span>{format(dateRange.startDate, dateFormat)}</span>
+              <span>{format(dateRange.startDate)}</span>
               <span> &mdash; </span>
-              <span>{format(dateRange.endDate, dateFormat)}</span>
+              <span>{format(dateRange.endDate)}</span>
             </span>
           <span onClick={onQuickNavClick('next')} className="ka-datepicker--quicknav-next dashicons dashicons-arrow-right"
                 title={__('Next', 'koko-analytics')}/>
@@ -190,12 +190,12 @@ export default function Datepicker ({
             <div style={{display: 'flex'}}>
               <div>
                 <label htmlFor='ka-date-start' style={{display: 'block'}}>{__('Start date', 'koko-analytics')}</label>
-                <input id='ka-date-start' type="date" value={format(dateRange.startDate, 'Y-m-d')} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
+                <input id='ka-date-start' type="date" value={dateRange.endDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
                 <span>&nbsp;&mdash;&nbsp;</span>
               </div>
               <div>
                 <label htmlFor='ka-date-end' style={{display: 'block'}}>{__('End date', 'koko-analytics')}</label>
-                <input id='ka-date-end' type="date" value={format(dateRange.endDate, 'Y-m-d')} size="10" placeholder="YYYY-MM-DD" onChange={setCustomEndDate} />
+                <input id='ka-date-end' type="date" value={dateRange.endDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomEndDate} />
               </div>
             </div>
           </div>

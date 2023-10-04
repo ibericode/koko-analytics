@@ -2,11 +2,11 @@ import React, {useState, useEffect, useMemo} from "react"
 import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers'
 import { modify } from '../util/colors'
-import { isLastDayOfMonth, format, toISO8601, parseISO8601 } from '../util/dates.js'
+import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 import "../../css/chart.css"
 
-const {colors, dateFormat} = window.koko_analytics;
+const {colors} = window.koko_analytics;
 const color1 = colors.pop()
 const color2 = modify(color1, -20)
 const padding = {
@@ -49,6 +49,10 @@ export default function Chart({startDate, endDate, width, height}) {
   let yMax = useMemo(() => {
     return dataset.reduce((prev, current) => (prev.pageviews > current.pageviews) ? prev : current, 0).pageviews
   }, [dataset]);
+
+  // if grouping by month, remove day component from formatted dates
+  const groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
+  const dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
   useEffect(() => {
     tooltip = createTooltip();
@@ -102,7 +106,7 @@ export default function Chart({startDate, endDate, width, height}) {
     return (evt) => {
       tooltip.innerHTML = `
       <div class="ka-chart--tooltip-box">
-        <div class="ka-chart--tooltip-heading">${format(parseISO8601(data.date), dateFormat, { day: data.date.length > 7 })}</div>
+        <div class="ka-chart--tooltip-heading">${format(data.date, dateFormatOptions)}</div>
         <div style="display: flex;">
           <div class="ka-chart--tooltip-content visitors" style="border-top-color: ${color2}">
             <div class="ka-chart--tooltip-amount">${data.visitors}</div>
@@ -182,7 +186,7 @@ export default function Chart({startDate, endDate, width, height}) {
                 return (
                   <g key={d.date}>
                     <line stroke='#DDD' x1={x} x2={x} y1='0' y2='6' />
-                    {label && <text fill='#757575' x={x} y='10' dy='1em'>{format(parseISO8601(d.date), dateFormat, { day: d.date.length > 7})}</text>}
+                    {label && <text fill='#757575' x={x} y='10' dy='1em'>{format(d.date, dateFormatOptions)}</text>}
                   </g>
                 )
               })}

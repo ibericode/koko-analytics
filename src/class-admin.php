@@ -77,7 +77,6 @@ class Admin {
 						'root' => rest_url(),
 						'nonce' => wp_create_nonce( 'wp_rest' ),
 						'colors' => $this->get_colors(),
-						'dateFormat' => get_option( 'date_format' ),
 					)
 				);
 				break;
@@ -102,7 +101,6 @@ class Admin {
 						'colors'           => $colors,
 						'startOfWeek'      => (int) get_option( 'start_of_week' ),
 						'defaultDateRange' => $settings['default_view'],
-						'dateFormat'       => get_option( 'date_format' ),
 					) );
 				}
 				break;
