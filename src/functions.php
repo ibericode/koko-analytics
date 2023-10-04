@@ -118,35 +118,40 @@ function get_settings() : array {
 
 function get_most_viewed_posts(array $args = array()) : array {
 	global $wpdb;
-	$default_args = array(
+	$args = array_merge( array(
 		'number'    => 5,
 		'post_type' => 'post',
 		'days'    => 30,
-	);
+	), $args );
 
-	$args              = array_merge( $default_args, $args );
+	$args['days'] = (int) $args['days'];
 	$args['post_type'] = is_array( $args['post_type'] ) ? $args['post_type'] : explode( ',', $args['post_type'] );
 	$args['post_type'] = array_map( 'trim', $args['post_type'] );
-	$start_date        = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
-	$end_date          = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
-	$post_types        = join(',', array_map( function( $v ) {
-		return "'" . esc_sql( $v ) . "'";
-	}, $args['post_type'] ) );
-	$sql               = $wpdb->prepare( "SELECT p.id, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id > 0 AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types) AND p.post_status = 'publish' GROUP BY s.id ORDER BY pageviews DESC LIMIT 0, %d", array( $start_date, $end_date, $args['number'] ) );
+
+	$start_date = gmdate( 'Y-m-d', strtotime( "-{$args['days']} days" ) );
+	$end_date = gmdate( 'Y-m-d', strtotime( 'tomorrow midnight' ) );
+
+	// build query
+	$sql_params = array(get_option('page_on_front', 0), $start_date, $end_date);
+	$post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
+	$sql_params = array_merge($sql_params, $args['post_type']);
+	$sql_params[] = $args['number'];
+	$sql               = $wpdb->prepare( "SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT 0, %d", $sql_params );
 	$results           = $wpdb->get_results( $sql );
 	if ( empty( $results ) ) {
 		return array();
 	}
 
-	$ids = wp_list_pluck( $results, 'id' );
+
+
+	$post_ids = array_map(function($r) { return $r->id; }, $results);
 	$r   = new WP_Query(
 		array(
 			'posts_per_page'      => -1,
-			'post__in'            => $ids,
-			'orderby'             => 'post__in',
+			'post__in'            => $post_ids,
+			'orderby'             => 'post__in', // indicates that we want to use the order of our $post_ids array
 			'post_type'           => $args['post_type'],
 			'no_found_rows'       => true,
-			'ignore_sticky_posts' => true,
 		)
 	);
 	return $r->posts;
