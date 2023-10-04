@@ -26,19 +26,26 @@ function getDatesFromPreset() {
 /**
  *
  * @param {string} str
- * @returns {{endDate: Date, startDate: Date}}
+ * @returns {{endDate: Date, startDate: Date, initialPreset: string}}
  */
 function parseDatesFromUrlHash (str) {
   let params = new URLSearchParams(str);
   const startDate = parseISO8601(params.get('start_date'))
   const endDate = parseISO8601(params.get('end_date'))
   if (!startDate || !endDate) {
-    return getDatesFromPreset()
+    return {
+      ...getDatesFromPreset(),
+      initialPreset: defaultDateRange
+    }
   }
 
   startDate.setHours(0, 0, 0)
   endDate.setHours(23, 59, 59)
-  return { startDate, endDate }
+  return {
+    startDate,
+    endDate,
+    initialPreset: 'custom'
+  }
 }
 
 export default function Dashboard() {
@@ -64,6 +71,7 @@ export default function Dashboard() {
         startDate,
         endDate
       }) => {
+
         if (endDate < new Date()) {
           return {
             startDate,
@@ -83,11 +91,11 @@ export default function Dashboard() {
     }
   }, [])
 
-  const {startDate, endDate} = dates
+  const {startDate, endDate, initialPreset} = dates
   return (
     <main>
       <div>
-        <Datepicker startDate={startDate} endDate={endDate} onUpdate={onDatepickerUpdate} />
+        <Datepicker startDate={startDate} endDate={endDate} initialPreset={initialPreset} onUpdate={onDatepickerUpdate} />
         <Totals startDate={startDate} endDate={endDate} />
         <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
         <div className='ka-dashboard-components'>

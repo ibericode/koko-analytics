@@ -3,15 +3,15 @@ import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-const { defaultDateRange } = window.koko_analytics
 
 export default function Datepicker ({
   startDate,
   endDate,
-  onUpdate
+  onUpdate,
+  initialPreset
 }) {
   let [isOpen, setIsOpen] = useState(false)
-  let [preset, setPreset] = useState(defaultDateRange)
+  let [preset, setPreset] = useState(initialPreset)
   let [dateRange, setDateRange] = useState({
     startDate,
     endDate
