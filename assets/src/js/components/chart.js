@@ -4,6 +4,7 @@ import { magnitude, formatLargeNumber } from '../util/numbers'
 import { modify } from '../util/colors'
 import { isLastDayOfMonth, format, toISO8601, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
+import "../../css/chart.css"
 
 const {colors, dateFormat} = window.koko_analytics;
 const color1 = colors.pop()
@@ -16,11 +17,15 @@ const padding = {
 }
 let tooltip;
 
-
+/**
+ *
+ * @param {number} yMax
+ * @returns {{ticks: *[], max: number}}
+ */
 function yScale (yMax) {
   const max = magnitude(yMax)
   const nTicks = 2
-  const step = Math.round(max / nTicks)
+  const step = max / nTicks
   const ticks = []
   for (let i = 0; i <= max; i += step) {
     ticks.push(i)
@@ -140,13 +145,13 @@ export default function Chart({startDate, endDate, width, height}) {
   const drawTick = dataset.length <= 90
   const innerWidth = width - padding.left - padding.right,
     innerHeight = height - padding.bottom - padding.top,
-    tickWidth = Math.round(innerWidth / dataset.length),
-    barWidth = Math.round(0.9 * tickWidth),
-    barPadding = Math.round((tickWidth - barWidth) / 2)
+    tickWidth = innerWidth / dataset.length,
+    barWidth = 0.9 * tickWidth,
+    barPadding = (tickWidth - barWidth) / 2
   const y = yScale(yMax)
   const heightModifier = innerHeight / y.max
   const getX = v => v * tickWidth
-  const getY = v => y.max > 0 ? Math.round(innerHeight - (v * heightModifier)) : innerHeight
+  const getY = y.max <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))
 
   return (
     <div className='ka-box ka-margin-s'>
@@ -190,8 +195,8 @@ export default function Chart({startDate, endDate, width, height}) {
                 return ''
               }
 
-              const pageviewHeight = Math.round(d.pageviews * heightModifier)
-              const visitorHeight = Math.round(d.visitors * heightModifier)
+              const pageviewHeight = d.pageviews * heightModifier
+              const visitorHeight = d.visitors * heightModifier
               const x = getX(i)
               const showTooltip = createShowTooltip(d, barWidth)
 
