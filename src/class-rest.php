@@ -141,7 +141,7 @@ class Rest {
 		$params             = $request->get_query_params();
 		$start_date         = $params['start_date'] ?? gmdate( 'Y-m-d', strtotime( '1st of this month' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 		$end_date           = $params['end_date'] ?? gmdate( 'Y-m-d', time() + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
-		$date_format        = $params['monthly'] ? '%Y-%m' : '%Y-%m-%d';
+		$date_format        = ($params['monthly'] ?? false) ? '%Y-%m' : '%Y-%m-%d';
 		$sql                = $wpdb->prepare( "SELECT DATE_FORMAT(d.date, %s) AS date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$wpdb->prefix}koko_analytics_dates d LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date WHERE d.date >= %s AND d.date <= %s GROUP BY date", array( $date_format, $start_date, $end_date ) );
 		$result             = $wpdb->get_results( $sql );
 		$result             = is_array( $result ) ? array_map(function ( $row ) {
