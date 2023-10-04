@@ -190,7 +190,7 @@ export default function Datepicker ({
             <div style={{display: 'flex'}}>
               <div>
                 <label htmlFor='ka-date-start' style={{display: 'block'}}>{__('Start date', 'koko-analytics')}</label>
-                <input id='ka-date-start' type="date" value={dateRange.endDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
+                <input id='ka-date-start' type="date" value={dateRange.startDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
                 <span>&nbsp;&mdash;&nbsp;</span>
               </div>
               <div>
