@@ -15,13 +15,13 @@ class Shortcode_Most_Viewed_Posts {
 	}
 
 	public function content( $args ) {
-		$default_args = array(
+		$allowed_args = array(
 			'number'    => 5,
-			'post_type' => 'post',
 			'show_date' => false,
 			'days'    => 30,
+			'post_type' => 'post',
 		);
-		$args         = shortcode_atts( $default_args, $args, self::SHORTCODE );
+		$args         = shortcode_atts( $allowed_args, $args, self::SHORTCODE );
 		$posts        = get_most_viewed_posts( $args );
 
 		$html = '<ul>';
