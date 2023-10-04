@@ -101,6 +101,7 @@ class Admin {
 						'colors'           => $colors,
 						'startOfWeek'      => (int) get_option( 'start_of_week' ),
 						'defaultDateRange' => $settings['default_view'],
+						'items_per_page' => apply_filters('koko_analytics_items_per_page', 20),
 					) );
 				}
 				break;

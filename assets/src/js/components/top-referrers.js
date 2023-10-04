@@ -3,8 +3,9 @@ import {request} from '../util/api'
 import {toISO8601} from '../util/dates'
 import Pagination from './pagination'
 import { __ } from '@wordpress/i18n'
-const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 
+const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
+const {items_per_page} = window.koko_analytics;
 /**
  * @param {string} url
  * @returns {string}
@@ -30,7 +31,7 @@ function enhance (item) {
 export default function TopReferrers({ startDate, endDate }) {
   let [offset, setOffset] = useState(0)
   let [items, setItems] = useState([])
-  const limit = 10;
+  const limit = items_per_page ?? 20;
 
   // reload data when property for fetching change
   useEffect(() => {
