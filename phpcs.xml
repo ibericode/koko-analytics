@@ -28,6 +28,7 @@
 
 		<!-- Exclude all whitespace related rulesets -->
 		<exclude name="WordPress.WhiteSpace"/>
+		<exclude name="Generic.WhiteSpace.ArbitraryParenthesesSpacing" />
 		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen"/>
 		<exclude name="PEAR.Functions.FunctionCallSignature"/>
 	</rule>
