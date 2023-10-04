@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Pikaday from 'pikaday'
-import 'pikaday/css/pikaday.css'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
 import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-const { dateFormat, defaultDateRange, startOfWeek } = window.koko_analytics
-let datepicker
+const { dateFormat, defaultDateRange } = window.koko_analytics
 
 export default function Datepicker ({
   startDate,
@@ -19,9 +16,7 @@ export default function Datepicker ({
     startDate,
     endDate
   })
-  const datepickerContainer = useRef(null)
   const root = useRef(null)
-  let tmpStartDate = null, tmpEndDate = null
 
   /**
    * Setup event listeners and initialize Pikaday on first render
@@ -29,48 +24,8 @@ export default function Datepicker ({
   useEffect(() => {
     document.addEventListener('keydown', onKeydown)
     document.addEventListener('click', maybeClose)
-    datepicker = new Pikaday({
-      field: document.getElementById('start-date-input'),
-      bound: false,
-      firstDay: parseInt(startOfWeek),
-      numberOfMonths: window.innerWidth > 680 ? 2 : 1,
-      enableSelectionDaysInNextAndPreviousMonths: true,
-      showDaysInNextAndPreviousMonths: true,
-      keyboardInput: false,
-      onSelect: (date) => {
-        setPreset('custom')
-
-        if (tmpStartDate === null || date < tmpStartDate) {
-          date.setHours(0, 0, 0)
-          tmpStartDate = date
-          datepicker.setStartRange(date)
-          datepicker.setEndRange(null)
-        } else {
-          date.setHours(23, 59, 59)
-          tmpEndDate = date
-          datepicker.setEndRange(date)
-        }
-
-        if (tmpStartDate !== null && tmpEndDate !== null && tmpStartDate < tmpEndDate) {
-          setDateRange({
-            startDate: tmpStartDate,
-            endDate: tmpEndDate
-          })
-          onUpdate(tmpStartDate, tmpEndDate)
-          tmpStartDate = null
-          tmpEndDate = null
-        }
-
-        datepicker.draw()
-      },
-      container: datepickerContainer.current
-    })
-    datepicker.setStartRange(startDate)
-    datepicker.setEndRange(endDate)
-    datepicker.gotoDate(endDate)
 
     return () => {
-      datepicker.destroy()
       document.removeEventListener('keydown', onKeydown)
       document.removeEventListener('click', maybeClose)
     }
@@ -80,12 +35,6 @@ export default function Datepicker ({
    * Update Pikaday & rest of dashboard whenever date range state changes
    */
   useEffect(() => {
-    // update Pikaday selection range
-    datepicker.setStartRange(dateRange.startDate)
-    datepicker.setEndRange(dateRange.endDate)
-    datepicker.gotoDate(dateRange.endDate)
-
-    // update other components in dashboard
     onUpdate(dateRange.startDate, dateRange.endDate)
   }, [dateRange])
 
@@ -114,6 +63,7 @@ export default function Datepicker ({
 
   /**
    * Set selected preset period
+   *
    * @param {string} key
    */
   function setPeriod (key) {
@@ -184,6 +134,7 @@ export default function Datepicker ({
   function setCustomStartDate (evt) {
     const startDate = parseISO8601(evt.target.value)
     if (startDate !== null) {
+      setPreset('custom')
       startDate.setHours(0, 0, 0)
       setDateRange(({ endDate }) => ({
         startDate,
@@ -195,6 +146,7 @@ export default function Datepicker ({
   function setCustomEndDate (evt) {
     const endDate = parseISO8601(evt.target.value)
     if (endDate !== null) {
+      setPreset('custom')
       endDate.setHours(23, 59, 59)
       setDateRange(({ startDate }) => ({
         startDate,
@@ -225,27 +177,27 @@ export default function Datepicker ({
           <span onClick={onQuickNavClick('next')} className="ka-datepicker--quicknav-next dashicons dashicons-arrow-right"
                 title={__('Next', 'koko-analytics')}/>
         </div>
-        <div style={{display: 'flex'}}>
+        <div>
           <div className="ka-datepicker--presets">
             <div>
               <label htmlFor="ka-date-presets">{__('Date range', 'koko-analytics')}</label>
               <div>
-                <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} defaultValue={preset}>
-                {datePresets.map(p => <option key={p.key} value={p.key}>{p.label}</option>)}
+                <select id="ka-date-presets" onChange={(evt) => { setPeriod(evt.target.value) }} value={preset}>
+                {datePresets.map(p => <option key={p.key} value={p.key} >{p.label}</option>)}
               </select>
               </div>
             </div>
-            <div>
-              <label>{__('Custom', 'koko-analytics')}</label>
-              <div><input type="text" value={format(dateRange.startDate, 'Y-m-d')} size="10" onChange={setCustomStartDate}
-                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/>
-              <span> - </span>
-              <input type="text" value={format(dateRange.endDate, 'Y-m-d')} size="10" onChange={setCustomEndDate}
-                     disabled={preset !== 'custom'} placeholder="YYYY-MM-DD" maxLength="10" minLength="6"/></div>
+            <div style={{display: 'flex'}}>
+              <div>
+                <label htmlFor='ka-date-start' style={{display: 'block'}}>{__('Start date', 'koko-analytics')}</label>
+                <input id='ka-date-start' type="date" value={format(dateRange.startDate, 'Y-m-d')} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
+                <span>&nbsp;&mdash;&nbsp;</span>
+              </div>
+              <div>
+                <label htmlFor='ka-date-end' style={{display: 'block'}}>{__('End date', 'koko-analytics')}</label>
+                <input id='ka-date-end' type="date" value={format(dateRange.endDate, 'Y-m-d')} size="10" placeholder="YYYY-MM-DD" onChange={setCustomEndDate} />
+              </div>
             </div>
-          </div>
-          <div className="ka-datepicker--pikaday-container">
-            <div ref={datepickerContainer}/>
           </div>
         </div>
       </div>

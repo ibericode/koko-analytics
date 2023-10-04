@@ -206,24 +206,6 @@
 	display: block;
 	padding: 4px 0;
 }
-.ka-datepicker--pikaday-container {
-	padding: 12px;
-}
-.ka-datepicker .pika-lendar {
-	margin: 0;
-}
-.ka-datepicker .pika-single {
-	color: inherit;
-	border: 0;
-}
-.ka-datepicker .pika-label {
-	font-size: inherit;
-	font-weight: normal;
-}
-.ka-datepicker .pika-prev,
-.ka-datepicker .pika-next {
-	opacity: 0.3;
-}
 
 
 /* General styles / Utility classes */
