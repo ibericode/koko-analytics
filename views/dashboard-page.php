@@ -33,5 +33,8 @@ $tab = 'dashboard';
 
 	<?php require __DIR__ . '/nav.php'; ?>
 
-	<div id="koko-analytics-mount"><p><?php echo __( 'Please wait, your Koko Analytics dashboard is booting up...', 'koko-analytics'); ?></p></div>
+	<div id="koko-analytics-mount">
+		<p><?php echo __( 'Please wait, your Koko Analytics dashboard is booting up...', 'koko-analytics'); ?></p>
+		<p><?php echo __( 'If your dashboard does not automatically appear in a few seconds, please check your browser console for any error messages.', 'koko-analytics' ); ?></p>
+	</div>
 </div>
