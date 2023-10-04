@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import addDays from 'date-fns/addDays'
 import datePresets from '../util/date-presets.js'
-import { format, isLastDayOfMonth, parseISO8601 } from '../util/dates.js'
+import { format, isLastDayOfMonth, parseISO8601, toISO8601 } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 
 export default function Datepicker ({
@@ -190,12 +190,12 @@ export default function Datepicker ({
             <div style={{display: 'flex'}}>
               <div>
                 <label htmlFor='ka-date-start' style={{display: 'block'}}>{__('Start date', 'koko-analytics')}</label>
-                <input id='ka-date-start' type="date" value={dateRange.startDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
+                <input id='ka-date-start' type="date" value={toISO8601(dateRange.startDate).substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomStartDate} />
                 <span>&nbsp;&mdash;&nbsp;</span>
               </div>
               <div>
                 <label htmlFor='ka-date-end' style={{display: 'block'}}>{__('End date', 'koko-analytics')}</label>
-                <input id='ka-date-end' type="date" value={dateRange.endDate.toISOString().substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomEndDate} />
+                <input id='ka-date-end' type="date" value={toISO8601(dateRange.endDate).substring(0, 10)} size="10" placeholder="YYYY-MM-DD" onChange={setCustomEndDate} />
               </div>
             </div>
           </div>
