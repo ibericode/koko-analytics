@@ -13,17 +13,17 @@ class Migrations {
 	/**
 	 * @var string
 	 */
-	protected $version_from = 0;
+	protected $version_from;
 
 	/**
 	 * @var string
 	 */
-	protected $version_to = 0;
+	protected $version_to;
 
 	/**
 	 * @var string
 	 */
-	protected $migrations_dir = '';
+	protected $migrations_dir;
 
 	/**
 	 * @param string $from

@@ -80,7 +80,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget {
 	 */
 	public function form( $settings ) {
 		$settings   = array_merge( $this->get_default_settings(), $settings );
-		$post_types = get_post_types( array( 'public' => true ), false );
+		$post_types = get_post_types( array( 'public' => true ) );
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>" style="display: block;"><?php echo esc_html__( 'Title:', 'koko-analytics' ); ?></label>
