@@ -5,9 +5,9 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+declare(strict_types=1);
 
-use Exception;
+namespace KokoAnalytics;
 
 class Pageview_Aggregator
 {

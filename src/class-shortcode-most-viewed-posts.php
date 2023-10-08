@@ -5,11 +5,13 @@
  * @author Danny van Kooten
  */
 
+declare(strict_types=1);
+
 namespace KokoAnalytics;
 
 class Shortcode_Most_Viewed_Posts
 {
-    public const SHORTCODE = 'koko_analytics_most_viewed_posts';
+    const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
     public function init()
     {
