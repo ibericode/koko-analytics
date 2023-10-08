@@ -7,9 +7,10 @@
  *
  * @since 1.0.25
  */
-function koko_analyics_tracking_script() {
-	$script_loader = new KokoAnalytics\Script_Loader();
-	$script_loader->maybe_enqueue_script( true );
+function koko_analyics_tracking_script()
+{
+    $script_loader = new KokoAnalytics\Script_Loader();
+    $script_loader->maybe_enqueue_script(true);
 }
 
 /**
@@ -24,8 +25,9 @@ function koko_analyics_tracking_script() {
  * @return array
  * @since 1.1
  */
-function koko_analytics_get_most_viewed_posts(array $args = array()) : array {
-	return KokoAnalytics\get_most_viewed_posts($args);
+function koko_analytics_get_most_viewed_posts(array $args = array()): array
+{
+    return KokoAnalytics\get_most_viewed_posts($args);
 }
 
 
@@ -42,12 +44,13 @@ function koko_analytics_get_most_viewed_posts(array $args = array()) : array {
  * @return int
  * @see strtotime
  */
-function koko_analytics_get_realtime_pageview_count($since = null) : int {
-	if (is_string($since)) {
-		$since = strtotime($since);
-	}
+function koko_analytics_get_realtime_pageview_count($since = null): int
+{
+    if (is_string($since)) {
+        $since = strtotime($since);
+    }
 
-	return KokoAnalytics\get_realtime_pageview_count($since);
+    return KokoAnalytics\get_realtime_pageview_count($since);
 }
 
 /**
@@ -60,13 +63,14 @@ function koko_analytics_get_realtime_pageview_count($since = null) : int {
  * @return bool
  * @since 1.1
  */
-function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = '') : bool {
-	$data = array(
-		'p',
-		$post_id,
-		(int) $new_visitor,
-		(int) $unique_pageview,
-		$referrer_url,
-	);
-	return KokoAnalytics\collect_in_file($data);
+function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = ''): bool
+{
+    $data = array(
+        'p',
+        $post_id,
+        (int) $new_visitor,
+        (int) $unique_pageview,
+        $referrer_url,
+    );
+    return KokoAnalytics\collect_in_file($data);
 }
