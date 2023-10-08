@@ -139,7 +139,7 @@ class Rest
         return $result;
     }
 
-    public function validate_date_param($param, $one, $two)
+    public function validate_date_param($param, $one, $two): bool
     {
         return strtotime($param) !== false;
     }
@@ -151,7 +151,7 @@ class Rest
      *
      * @return \WP_REST_Response
      */
-    public function get_stats(\WP_REST_Request $request)
+    public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
         global $wpdb;
         $params             = $request->get_query_params();
@@ -176,7 +176,7 @@ class Rest
      *
      * @return \WP_REST_Response
      */
-    public function get_totals(\WP_REST_Request $request)
+    public function get_totals(\WP_REST_Request $request): \WP_REST_Response
     {
         global $wpdb;
         $params     = $request->get_query_params();
@@ -212,7 +212,7 @@ class Rest
      *
      * @return \WP_REST_Response
      */
-    public function get_posts(\WP_REST_Request $request)
+    public function get_posts(\WP_REST_Request $request): \WP_REST_Response
     {
         global $wpdb;
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
@@ -251,7 +251,7 @@ class Rest
      *
      * @return \WP_REST_Response
      */
-    public function get_referrers(\WP_REST_Request $request)
+    public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
         global $wpdb;
         $params             = $request->get_query_params();
