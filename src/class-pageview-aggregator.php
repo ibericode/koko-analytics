@@ -35,7 +35,7 @@ class Pageview_Aggregator
         $post_id         = (int) $params[0];
         $new_visitor     = (int) $params[1];
         $unique_pageview = (int) $params[2];
-        $referrer_url    = trim($params[3]);
+        $referrer_url    = trim((string) $params[3]);
 
         // Ignore entire line (request) if referrer URL is on blocklist
         if ($referrer_url !== '' && $this->ignore_referrer_url($referrer_url)) {
@@ -154,14 +154,14 @@ class Pageview_Aggregator
 
         // reset properties in case aggregation runs again in current request lifecycle
         $this->site_stats     = array(
-        'visitors' => 0,
-        'pageviews' => 0,
+            'visitors' => 0,
+            'pageviews' => 0,
         );
         $this->referrer_stats = array();
         $this->post_stats     = array();
     }
 
-    private function update_realtime_pageview_count($pageviews)
+    private function update_realtime_pageview_count(int $pageviews)
     {
         $counts       = (array) get_option('koko_analytics_realtime_pageview_count', array());
         $one_hour_ago = strtotime('-60 minutes');
@@ -178,7 +178,7 @@ class Pageview_Aggregator
         update_option('koko_analytics_realtime_pageview_count', $counts, false);
     }
 
-    private function ignore_referrer_url($url)
+    private function ignore_referrer_url(string $url)
     {
         // read blocklist into array
         static $blocklist = null;
@@ -202,7 +202,7 @@ class Pageview_Aggregator
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
     }
 
-    public function clean_url($url)
+    public function clean_url(string $url)
     {
         // remove # from URL
         $pos = strpos($url, '#');
@@ -232,7 +232,7 @@ class Pageview_Aggregator
         return rtrim($url, '/');
     }
 
-    public function normalize_url($url)
+    public function normalize_url(string $url)
     {
         // if URL has no protocol, assume HTTP
         // we change this to HTTPS for sites that are known to support it
@@ -259,7 +259,7 @@ class Pageview_Aggregator
         return preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);
     }
 
-    public function is_valid_url($url)
+    public function is_valid_url(string $url)
     {
         if ($url === '' || strlen($url) < 4) {
             return false;
