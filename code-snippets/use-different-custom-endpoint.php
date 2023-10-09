@@ -9,7 +9,7 @@
 
 # Define a constant
 // To tell Koko Analytics of your custom endpoint, define the following constant:
-define( 'KOKO_ANALYTICS_CUSTOM_ENDPOINT', '/path-to-your-custom-endpoint-file.php' );
+define('KOKO_ANALYTICS_CUSTOM_ENDPOINT', '/path-to-your-custom-endpoint-file.php');
 
 # Test the result
 // Finally, ensure the file is accessible through your web server and that Koko Analytics is able to use it correctly.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
@@ -266,5 +267,4 @@ class Pageview_Aggregator
 
         return filter_var($url, FILTER_VALIDATE_URL);
     }
-
 }

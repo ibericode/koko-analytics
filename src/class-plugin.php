@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
@@ -78,6 +79,4 @@ class Plugin
         // make sure scheduled event is set up correctly
         $this->aggregator->setup_scheduled_event();
     }
-
-
 }

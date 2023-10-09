@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="rules">
+    <description>rules</description>
+    <arg name="colors"/>
+    <file>code-snippets/</file>
+    <file>src/</file>
+    <file>migrations/</file>
+    <file>views/</file>
+    <file>koko-analytics.php</file>
+    <exclude-pattern>*\.(html|css|js)</exclude-pattern>
+    <rule ref="PSR12">
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
+    </rule>
+</ruleset>

@@ -1,4 +1,5 @@
 <?php
+
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
@@ -27,30 +28,32 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+phpcs:disable PSR1.Files.SideEffects
 */
 
 namespace KokoAnalytics;
 
-define( 'KOKO_ANALYTICS_VERSION', '1.1.2' );
-define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
-define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
+define('KOKO_ANALYTICS_VERSION', '1.1.2');
+define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
+define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
 require __DIR__ . '/src/class-endpoint-installer.php';
 
-if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-	maybe_collect_request();
-} elseif ( is_admin() ) {
-	require __DIR__ . '/src/class-admin.php';
-	$admin = new Admin();
-	$admin->init();
+if (defined('DOING_AJAX') && DOING_AJAX) {
+    maybe_collect_request();
+} elseif (is_admin()) {
+    require __DIR__ . '/src/class-admin.php';
+    $admin = new Admin();
+    $admin->init();
 } else {
-	require __DIR__ . '/src/class-script-loader.php';
-	$loader = new Script_Loader();
-	$loader->init();
+    require __DIR__ . '/src/class-script-loader.php';
+    $loader = new Script_Loader();
+    $loader->init();
 
-	add_action( 'admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40 );
+    add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40);
 }
 
 require __DIR__ . '/src/class-aggregator.php';
@@ -59,7 +62,7 @@ $aggregator = new Aggregator();
 $aggregator->init();
 
 require __DIR__ . '/src/class-plugin.php';
-$plugin = new Plugin( $aggregator );
+$plugin = new Plugin($aggregator);
 $plugin->init();
 
 require __DIR__ . '/src/class-rest.php';
@@ -74,11 +77,11 @@ require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
 
-if ( class_exists( 'WP_CLI' ) ) {
-	require __DIR__ . '/src/class-command.php';
-	\WP_CLI::add_command( 'koko-analytics', 'KokoAnalytics\Command' );
+if (class_exists('WP_CLI')) {
+    require __DIR__ . '/src/class-command.php';
+    \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
 }
 
-add_action( 'widgets_init', 'KokoAnalytics\widgets_init' );
+add_action('widgets_init', 'KokoAnalytics\widgets_init');
 
-add_action( 'koko_analytics_test_custom_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint' );
+add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint');

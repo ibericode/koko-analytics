@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
@@ -56,7 +57,6 @@ class Script_Loader
             $this->print_js_object();
             echo '<script defer src="', plugins_url(sprintf('assets/dist/js/script.js?ver=%s', KOKO_ANALYTICS_VERSION), KOKO_ANALYTICS_PLUGIN_FILE), '"></script>';
         }
-
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
@@ -18,7 +19,6 @@ class Aggregator
         add_action('koko_analytics_aggregate_stats', array( $this, 'aggregate' ));
         add_filter('cron_schedules', array( $this, 'add_interval' ));
         add_action('init', array( $this, 'maybe_setup_scheduled_event' ));
-
     }
 
     public function add_interval($intervals)
@@ -118,5 +118,4 @@ class Aggregator
 
         do_action('koko_analytics_aggregate_finish');
     }
-
 }

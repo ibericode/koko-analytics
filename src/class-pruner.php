@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
@@ -47,5 +48,4 @@ class Pruner
         // delete unused referrer URL's
         $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN ( SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
     }
-
 }
