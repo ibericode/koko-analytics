@@ -65,7 +65,7 @@ class Script_Loader
      *
      * @return int
      */
-    private function get_post_id()
+    private function get_post_id(): int
     {
         if (is_singular()) {
             return get_queried_object_id();
@@ -78,7 +78,7 @@ class Script_Loader
         return -1;
     }
 
-    private function get_tracker_url()
+    private function get_tracker_url(): string
     {
         if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
@@ -89,7 +89,7 @@ class Script_Loader
         return using_custom_endpoint() ? site_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php?action=koko_analytics_collect');
     }
 
-    private function get_cookie_path()
+    private function get_cookie_path(): string
     {
         $home_url = get_home_url();
         // 8 characters for protocol
@@ -157,7 +157,7 @@ class Script_Loader
         return str_replace(' src=', ' defer src=', $tag);
     }
 
-    public function user_has_roles(WP_User $user, array $roles)
+    public function user_has_roles(WP_User $user, array $roles): bool
     {
         foreach ($user->roles as $user_role) {
             if (in_array($user_role, $roles, true)) {

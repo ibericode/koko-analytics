@@ -17,7 +17,7 @@ class Endpoint_Installer
         update_option('koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true);
     }
 
-    private function install_optimized_endpoint_file()
+    private function install_optimized_endpoint_file(): bool
     {
         /* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
         if (is_multisite()) {
@@ -63,7 +63,7 @@ class Endpoint_Installer
         return true;
     }
 
-    public function get_file_contents()
+    public function get_file_contents(): string
     {
         $buffer_filename    = get_buffer_filename();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php';
@@ -94,7 +94,7 @@ EOT;
      * @see collect_request()
      * @return bool
      */
-    private function test()
+    private function test(): bool
     {
         $tracker_url = site_url('/koko-analytics-collect.php?nv=1&p=0&up=1&test=1');
         $response    = wp_remote_get($tracker_url);

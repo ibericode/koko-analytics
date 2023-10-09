@@ -116,7 +116,7 @@ class Admin
         }
     }
 
-    private function get_available_roles()
+    private function get_available_roles(): array
     {
         $roles = array();
         foreach (wp_roles()->roles as $key => $role) {
@@ -125,7 +125,7 @@ class Admin
         return $roles;
     }
 
-    private function is_cron_event_working()
+    private function is_cron_event_working(): bool
     {
         // Always return true on localhost / dev-ish environments
         $site_url = get_site_url();
