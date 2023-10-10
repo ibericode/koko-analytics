@@ -28,7 +28,6 @@ class Admin
             case 'index.php':
                 // Hooks for main dashboard page
                 add_action('shutdown', array( $this, 'maybe_run_endpoint_installer' ));
-                add_action('init', array( $this, 'maybe_seed' ));
                 break;
 
             case 'plugins.php':
@@ -284,111 +283,6 @@ class Admin
         );
 
         return $wpdb->get_var($sql);
-    }
-
-    public function maybe_seed()
-    {
-        global $wpdb;
-
-        if (! isset($_GET['koko_analytics_seed']) || ! current_user_can('manage_options')) {
-            return;
-        }
-
-        $query            = new \WP_Query();
-        $posts            = $query->query(
-            array(
-                'posts_per_page' => 32,
-                'post_type' => 'any',
-                'post_status' => 'publish',
-            )
-        );
-        $post_count       = count($posts);
-        $referrer_urls    = array();
-        $sample_referrers = array(
-            'https://www.wordpress.org',
-            'https://www.wordpress.org/plugins/koko-analytics',
-            'https://www.ibericode.com',
-            'https://duckduckgo.com',
-            'https://www.mozilla.org',
-            'https://www.eff.org',
-            'https://letsencrypt.org',
-            'https://dannyvankooten.com',
-            'https://github.com/ibericode/koko-analytics',
-            'https://lobste.rs',
-            'https://joinmastodon.org',
-            'https://www.php.net',
-            'https://mariadb.org',
-            'https://referrer-1.com',
-            'https://referrer-2.com',
-            'https://referrer-3.com',
-            'https://referrer-4.com',
-            'https://referrer-5.com',
-            'https://referrer-6.com',
-            'https://referrer-7.com',
-            'https://referrer-8.com',
-            'https://referrer-9.com',
-            'https://referrer-10.com',
-            'https://referrer-11.com',
-            'https://referrer-12.com',
-            'https://referrer-13.com',
-            'https://referrer-14.com',
-            'https://referrer-15.com',
-            'https://referrer-16.com',
-            'https://referrer-17.com',
-            'https://referrer-18.com',
-            'https://referrer-19.com',
-            'https://referrer-20.com',
-            'https://t.co/IiADWZC13f',
-            'https://www.reddit.com/r/Wordpress/comments/e6ycsm/privacy_friendly_analytics_plugin_that_does_not/',
-            'android-app://com.stefandekanski.hackernews.free',
-        );
-        foreach ($sample_referrers as $url) {
-            $wpdb->insert(
-                $wpdb->prefix . 'koko_analytics_referrer_urls',
-                array(
-                    'url' => $url,
-                )
-            );
-            $referrer_urls[ $wpdb->insert_id ] = $url;
-        }
-        $referrer_count = count($referrer_urls);
-
-        $n = 3 * 365;
-        for ($i = 0; $i < $n; $i++) {
-            $progress  = ($n - $i) / $n;
-            $date      = gmdate('Y-m-d', strtotime(sprintf('-%d days', $i)));
-            $pageviews = max(1, rand(500, 1000) * $progress ^ 2);
-            $visitors  = max(1, $pageviews * rand(3, 6) / 10);
-
-            // simulate a huge peak in traffic every 180 days
-            if (rand(1, 180) === 1) {
-                $pageviews = $pageviews * 10;
-                $visitors  = $visitors * 10;
-            }
-
-            $wpdb->insert(
-                $wpdb->prefix . 'koko_analytics_site_stats',
-                array(
-                    'date' => $date,
-                    'pageviews' => $pageviews,
-                    'visitors' => $visitors,
-                )
-            );
-
-            $values = array();
-            foreach ($posts as $post) {
-                array_push($values, $date, $post->ID, round($pageviews / $post_count * rand(5, 15) / 10), round($visitors / $post_count * rand(5, 15) / 10));
-            }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($posts)), ',');
-            $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values));
-
-            $values = array();
-            foreach ($referrer_urls as $id => $referrer_url) {
-                array_push($values, $date, $id, round($pageviews / $referrer_count * rand(5, 15) / 10), round($visitors / $referrer_count * rand(5, 15) / 10));
-            }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($referrer_urls)), ',');
-            $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, pageviews, visitors) VALUES {$placeholders}", $values));
-        }
     }
 
     public function reset_statistics()
