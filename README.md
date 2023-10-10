@@ -7,7 +7,7 @@ Koko Analytics
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-[Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress. 
+[Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress.
 
 ![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
 
@@ -20,7 +20,17 @@ Koko Analytics
 - Plug and play. Just install and activate the plugin and stats will be recorded right away.
 - Open-source (GPLv3 licensed).
 
-### How to install
+## Installation
+
+### Requirements
+
+Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
+
+- WordPress 5.0 or later.
+- PHP 7.3 or higher.
+- `php-json` extension.
+
+### Instructions
 
 To run the latest development version of the plugin, take the following steps.
 
@@ -40,7 +50,7 @@ npm install
 ```
 
 Build the plugin assets by issuing the following command:
-``` 
+```
 npm run build
 ```
 
@@ -48,7 +58,7 @@ npm run build
 
 Stats will be collected right away after you install and activate the plugin. You can view your stats on the **Dashboard > Analytics** page.
 
-### Contributing
+## Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
@@ -57,6 +67,6 @@ You can contribute to Koko Analytics in many different ways. For example:
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
 - Help fund development and support costs through [Koko Analytics on OpenCollective](https://opencollective.com/koko-analytics).
 
-### License
+## License
 
 GNU General Public License v3.0
