@@ -8,7 +8,6 @@ import {
   startOfDay,
   startOfMonth,
   startOfQuarter,
-  startOfToday,
   startOfWeek,
   startOfYesterday,
   sub
@@ -29,7 +28,11 @@ export default [
     key: 'today',
     label: __('Today', 'koko-analytics'),
     dates: () => {
-      return { startDate: startOfToday(), endDate: endOfToday() }
+      let startDate = new Date(),
+        endDate = new Date()
+      startDate.setHours(0, 0, 0)
+      endDate.setHours(23, 59, 59)
+      return { startDate, endDate }
     }
   },
   {
