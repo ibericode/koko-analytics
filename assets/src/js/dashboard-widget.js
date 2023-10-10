@@ -13,5 +13,6 @@ function maybeRender() {
 
   createRoot(el).render(<Chart startDate={startDate} endDate={endDate} height={200} width={el.clientWidth} />)
 }
+
 window.jQuery(document).on('postbox-toggled', maybeRender)
 maybeRender();
