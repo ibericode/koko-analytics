@@ -25,7 +25,7 @@ class Command
     {
         $force      = $assoc_args['force'] ?? false;
         $aggregator = new Aggregator();
-        $aggregator->aggregate($force);
+        $aggregator->aggregate();
         WP_CLI::success('Stats aggregated.');
     }
 }

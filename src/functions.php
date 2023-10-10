@@ -90,16 +90,16 @@ function collect_in_file(array $data): bool
     $filename = get_buffer_filename();
 
     // if file does not yet exist, add PHP header to prevent direct file access
-    if (! file_exists($filename)) {
+    if (! \is_file($filename)) {
         $content = '<?php exit; ?>' . PHP_EOL;
     } else {
         $content = '';
     }
 
     // append data to file
-    $line     = join(',', $data) . PHP_EOL;
+    $line     = \join(',', $data) . PHP_EOL;
     $content .= $line;
-    return (bool) file_put_contents($filename, $content, FILE_APPEND);
+    return (bool) \file_put_contents($filename, $content, FILE_APPEND);
 }
 
 function test_collect_in_file(): bool
