@@ -6,9 +6,10 @@ import {createRoot, render} from 'react-dom'
 import "../css/dashboard.css"
 
 document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('koko-analytics-mount')
   if (typeof createRoot === 'function') {
-    createRoot(document.getElementById('koko-analytics-mount')).render(<Dashboard />)
+    createRoot(el).render(<Dashboard />)
   } else {
-    render(<Dashboard />, document.getElementById('koko-analytics-mount'))
+    render(<Dashboard />, el)
   }
 })
