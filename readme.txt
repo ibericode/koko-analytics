@@ -33,7 +33,7 @@ Stop sharing visitor data with third-party companies making money off that same 
 - **Cache**: Fully compatible with pages served from any kind of cache.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only, for now).
 - **Open-Source**: Code is released under the GPL 3.0 license.
-- **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.0.
+- **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 
 ### Contributing
 
