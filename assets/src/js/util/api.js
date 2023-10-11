@@ -39,6 +39,7 @@ export function request (path, opts = {}) {
   return fetch(url, opts).then(r => {
     // reject response when status is not ok-ish
     if (r.status >= 400) {
+      console.error('Koko Analytics encountered an error trying to request data from the REST endpoints. Please check your PHP error logs for the error that occurred.')
       throw new Error(r.statusText)
     }
 
