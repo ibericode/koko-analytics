@@ -34,15 +34,15 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-define('KOKO_ANALYTICS_VERSION', '1.1.2');
-define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
-define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
+\define('KOKO_ANALYTICS_VERSION', '1.1.2');
+\define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
+\define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
 require __DIR__ . '/src/class-endpoint-installer.php';
 
-if (defined('DOING_AJAX') && DOING_AJAX) {
+if (\defined('DOING_AJAX') && DOING_AJAX) {
     maybe_collect_request();
 } elseif (is_admin()) {
     require __DIR__ . '/src/class-admin.php';
@@ -77,7 +77,7 @@ require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
 
-if (class_exists('WP_CLI')) {
+if (\class_exists('WP_CLI')) {
     require __DIR__ . '/src/class-command.php';
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
 }

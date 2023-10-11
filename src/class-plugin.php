@@ -25,10 +25,10 @@ class Plugin
         $this->aggregator = $aggregator;
     }
 
-    public function init()
+    public function init(): void
     {
-        add_filter('pre_update_option_active_plugins', array( $this, 'filter_active_plugins' ));
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array( $this, 'on_activation' ));
+        add_filter('pre_update_option_active_plugins', array( $this, 'filter_active_plugins' ));
         add_action('init', array( $this, 'maybe_run_db_migrations' ));
     }
 
@@ -47,7 +47,7 @@ class Plugin
         );
     }
 
-    public function on_activation()
+    public function on_activation(): void
     {
         // make sure koko analytics loads first to prevent unnecessary work on stat collection requests
         update_option('activate_plugins', get_option('active_plugins'));
@@ -61,11 +61,11 @@ class Plugin
         $this->aggregator->setup_scheduled_event();
     }
 
-    public function maybe_run_db_migrations()
+    public function maybe_run_db_migrations(): void
     {
         $from_version = get_option('koko_analytics_version', '0.0.0');
         $to_version   = KOKO_ANALYTICS_VERSION;
-        if (version_compare($from_version, $to_version, '>=')) {
+        if (\version_compare($from_version, $to_version, '>=')) {
             return;
         }
 

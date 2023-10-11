@@ -12,14 +12,14 @@ namespace KokoAnalytics;
 
 class Shortcode_Most_Viewed_Posts
 {
-    const SHORTCODE = 'koko_analytics_most_viewed_posts';
+    private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
     public function init()
     {
         add_shortcode(self::SHORTCODE, array( $this, 'content' ));
     }
 
-    public function content($args)
+    public function content($args): string
     {
         $allowed_args = array(
             'number'    => 5,

@@ -31,13 +31,13 @@ function collect_request()
             (int) $_GET['p'],   // 0: post ID
             (int) $_GET['nv'],  // 1: is new visitor?
             (int) $_GET['up'],  // 2: is unique pageview?
-            $_GET['r'] ?? '',   // 3: referrer URL
+            isset($_GET['r']) ? trim($_GET['r']) : '',   // 3: referrer URL
         );
     } else {
         $data = array(
             'e',            // type indicator
-            $_GET['e'],     // 0: event name
-            $_GET['p'],     // 1: event parameter
+            trim($_GET['e']),     // 0: event name
+            trim($_GET['p']),     // 1: event parameter
             (int) $_GET['u'],     // 2: is unique?
             (int) $_GET['v'],     // 3: event value
         );
@@ -47,42 +47,42 @@ function collect_request()
 
     // set OK headers & prevent caching
     if (! $success) {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+        \header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
     } else {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+        \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     }
-    header('Content-Type: image/gif');
-    header('X-Content-Type-Options: nosniff');
-    header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-    header('Cache-Control: no-cache, must-revalidate, max-age=0');
-    header_remove('Last-Modified');
+    \header('Content-Type: image/gif');
+    \header('X-Content-Type-Options: nosniff');
+    \header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    \header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    \header_remove('Last-Modified');
 
     // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
-    header('Tk: N');
+    \header('Tk: N');
 
     // set cookie server-side if requested (eg for AMP requests)
     if (isset($_GET['p']) && isset($_GET['sc']) && (int) $_GET['sc'] === 1) {
-        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array( '' );
+        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array( '' );
         if ((int) $_GET['nv']) {
             $posts_viewed[] = (int) $_GET['p'];
         }
-        $cookie = join(',', $posts_viewed);
-        setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/');
+        $cookie = \join(',', $posts_viewed);
+        \setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/');
     }
 
     // 1px transparent GIF, needs to be an actual image to make sure browser fires the onload event
-    echo base64_decode('R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+    echo \base64_decode('R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
     exit;
 }
 
 function get_buffer_filename(): string
 {
-    if (defined('KOKO_ANALYTICS_BUFFER_FILE')) {
+    if (\defined('KOKO_ANALYTICS_BUFFER_FILE')) {
         return KOKO_ANALYTICS_BUFFER_FILE;
     }
 
     $uploads = wp_upload_dir(null, false);
-    return rtrim($uploads['basedir'], '/') . '/pageviews.php';
+    return \rtrim($uploads['basedir'], '/') . '/pageviews.php';
 }
 
 function collect_in_file(array $data): bool
