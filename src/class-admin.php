@@ -6,8 +6,6 @@
  * @author Danny van Kooten
  */
 
-declare(strict_types=1);
-
 namespace KokoAnalytics;
 
 class Admin

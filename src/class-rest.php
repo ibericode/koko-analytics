@@ -6,8 +6,6 @@
  * @author Danny van Kooten
  */
 
-declare(strict_types=1);
-
 namespace KokoAnalytics;
 
 class Rest
@@ -127,7 +125,8 @@ class Rest
             return false;
         }
 
-        $today = gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
+        $today = gmdate('Y-m-d', (int) (time() + get_option('gmt_offset') * HOUR_IN_SECONDS));
+
         return $end_date < $today;
     }
 
