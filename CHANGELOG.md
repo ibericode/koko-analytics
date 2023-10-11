@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.2.1 - Oct 11m 2023
+
+- Fix issue with strict types and non-hourly UTC offsets.
+
+
 #### 1.2.0 - Oct 11, 2023
 
 - Fix compatibility with WordPress 6.0.
