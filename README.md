@@ -26,7 +26,7 @@ Koko Analytics
 
 Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
 
-- WordPress 5.0 or later.
+- WordPress 6.0 or later.
 - PHP 7.3 or higher.
 - `php-json` extension.
 

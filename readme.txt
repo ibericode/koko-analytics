@@ -2,7 +2,7 @@
 Contributors: Ibericode, DvanKooten
 Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
-Requires at least: 5.0
+Requires at least: 6.0
 Tested up to: 6.3
 Stable tag: 1.1.2
 License: GPLv3 or later
