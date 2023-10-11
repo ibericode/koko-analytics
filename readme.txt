@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 6.0
 Tested up to: 6.3
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -108,6 +108,22 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 
 == Changelog ==
+
+#### 1.2.0 - Oct 11, 2023
+
+- Fix compatibility with WordPress 6.0.
+- Fix aggregation process not running for 5 minutes if an earlier run failed somehow.
+- Fix chart tooltips not showing on WordPress dashboard.
+- Minor performance improvements for aggregation process.
+- Move seed (sample data) function out of the core plugin.
+- Add message about checking browser console for error message in case the dashboard doesn't boot up.
+- Format dates in dashboard using `Intl.DateTimeFormat` in browser, if available.
+- Remove Pikaday datepicker in favor of native `<input type="date">` elements.
+- Improve mobile view of datepicker dropdown.
+- Exclude (fixed page) homepage from most viewed posts widget/shortcode/function.
+- Add filter hook `koko_analytics_items_per_page` to override the number of items to show per page for the dashboard components.
+- Bump required PHP version to 7.3.
+
 
 #### 1.1.2 - Oct 3, 2023
 
