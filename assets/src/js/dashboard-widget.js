@@ -6,6 +6,7 @@ const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 14
 const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
 // eslint-disable-next-line react/no-deprecated
 import {createRoot, render} from 'react-dom'
+let root = null;
 
 function maybeRender() {
   if (!el.clientWidth) {
@@ -13,7 +14,10 @@ function maybeRender() {
   }
 
   if (typeof createRoot === 'function') {
-    createRoot(el).render(<Chart startDate={startDate} endDate={endDate} height={200} width={el.clientWidth} />)
+    if (root === null) {
+      root = createRoot(el)
+    }
+    root.render(<Chart startDate={startDate} endDate={endDate} height={200} width={el.clientWidth} />)
   } else {
     render(<Chart startDate={startDate} endDate={endDate} height={200} width={el.clientWidth} />, el)
   }
