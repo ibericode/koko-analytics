@@ -131,7 +131,8 @@ export default function Chart({startDate, endDate, width, height}) {
    * @param {MouseEvent} evt
    */
   function hideTooltip (evt) {
-    if (evt.type === 'click' && typeof evt.target.matches === 'function' && evt.target.matches('.chart *, .tooltip *')) {
+    // hide tooltip if clicking outside of chart or tooltip
+    if (evt.type === 'click' && typeof evt.target.matches === 'function' && evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
       return
     }
 
