@@ -69,21 +69,15 @@ class Admin
 
         switch ($page) {
             case 'index.php':
+                $script_data = array(
+                    'root' => rest_url(),
+                    'nonce' => wp_create_nonce('wp_rest'),
+                    'colors' => $this->get_colors(),
+                );
                 // load scripts for dashboard widget
                 wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true);
-
-                if (function_exists('wp_set_script_translations')) {
-                    wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
-                }
-                wp_localize_script(
-                    'koko-analytics-dashboard-widget',
-                    'koko_analytics',
-                    array(
-                        'root' => rest_url(),
-                        'nonce' => wp_create_nonce('wp_rest'),
-                        'colors' => $this->get_colors(),
-                    )
-                );
+                wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
+                wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 break;
 
             case 'dashboard_page_koko-analytics':
@@ -92,22 +86,21 @@ class Admin
                 if (!isset($_GET['tab'])) {
                     $settings = get_settings();
                     $colors   = $this->get_colors();
-
-                    wp_enqueue_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(
-                        'wp-i18n',
-                        'wp-element',
-                    ), KOKO_ANALYTICS_VERSION, true);
-                    if (function_exists('wp_set_script_translations')) {
-                        wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
-                    }
-                    wp_localize_script('koko-analytics-admin', 'koko_analytics', array(
+                    $script_data = array(
                         'root'             => rest_url(),
                         'nonce'            => wp_create_nonce('wp_rest'),
                         'colors'           => $colors,
                         'startOfWeek'      => (int) get_option('start_of_week'),
                         'defaultDateRange' => $settings['default_view'],
-                        'items_per_page' => apply_filters('koko_analytics_items_per_page', 20),
-                    ));
+                        'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
+                    );
+
+                    wp_enqueue_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(
+                        'wp-i18n',
+                        'wp-element',
+                    ), KOKO_ANALYTICS_VERSION, true);
+                    wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
+                    wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 }
                 break;
         }
