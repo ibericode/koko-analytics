@@ -162,8 +162,9 @@ function get_most_viewed_posts(array $args = array()): array
         array(
             'posts_per_page'      => -1,
             'post__in'            => $post_ids,
-            'orderby'             => 'post__in', // indicates that we want to use the order of our $post_ids array
-            'post_type'           => $args['post_type'],
+            // indicates that we want to use the order of our $post_ids array
+            'orderby'             => 'post__in',
+            // excludes SQL_CALC_FOUND_ROWS from the query, tiny performance gain
             'no_found_rows'       => true,
         )
     );
