@@ -281,6 +281,7 @@ class Admin
 
     public function get_database_size(): string
     {
+        /** @var \WPDB $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
             '
@@ -297,6 +298,7 @@ class Admin
     public function reset_statistics(): void
     {
         check_admin_referer('koko_analytics_reset_statistics');
+        /** @var \WPDB $wpdb */
         global $wpdb;
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;");
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;");
