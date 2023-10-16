@@ -252,7 +252,7 @@ class Admin
      */
     public function add_plugin_settings_link($links)
     {
-        $settings_link = sprintf('<a href="%s">%s</a>', admin_url('index.php?page=koko-analytics#/settings'), esc_html__('Settings', 'koko-analytics'));
+        $settings_link = sprintf('<a href="%s">%s</a>', admin_url('index.php?page=koko-analytics&tab=settings'), esc_html__('Settings', 'koko-analytics'));
         array_unshift($links, $settings_link);
         return $links;
     }
@@ -271,7 +271,11 @@ class Admin
             return $links;
         }
 
-        $links[] = '<a href="https://www.kokoanalytics.com/">' . esc_html__('Visit plugin site', 'koko-analytics') . '</a>';
+        $links[] = '<a href="https://www.kokoanalytics.com/kb/">' . esc_html__('Documentation', 'koko-analytics') . '</a>';
+
+        if (! \defined('KOKO_ANALYTICS_PRO_VERSION')) {
+            $links[] = '<a href="https://www.kokoanalytics.com/pricing/">' . esc_html__('Koko Analytics Pro', 'koko-analytics') . '</a>';
+        }
         return $links;
     }
 

@@ -110,5 +110,20 @@ $date_presets = array(
                 </form>
             </div>
         </div>
+
+        <div class="ka-margin-l">
+            <h2><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
+            <p><?php printf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'); ?></p>
+        </div>
+
+        <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
+        <div class="ka-margin-l">
+            <h2>Koko Analytics Pro</h2>
+            <p>We created Koko Analytics Pro to add some more advanced analytics features to Koko Analytics, like custom event tracking and periodic email reports.</p>
+            <p>Please consider <a href="https://www.kokoanalytics.com/pricing/">purchasing Koko Analytics Pro</a> even if you're not currently in need of the additional features it provides.
+                It helps us fund development and support costs for the free (and open-source) plugin as well.</p>
+        </div>
+        <?php } ?>
+
     </div>
 </div>
