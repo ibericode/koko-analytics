@@ -4,9 +4,10 @@ import Datepicker from './datepicker.js'
 import Totals from './totals.js'
 import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
+import { UsageTip } from './usage-tip.js'
 import datePresets from '../util/date-presets.js'
+
 import { parseISO8601, toISO8601 } from '../util/dates.js'
-import { __ } from '@wordpress/i18n'
 const { defaultDateRange } = window.koko_analytics
 let blockComponents = [
   TopPosts, TopReferrers
@@ -92,6 +93,8 @@ export default function Dashboard() {
   }, [])
 
   const {startDate, endDate, initialPreset} = dates
+
+
   return (
     <main>
       <div>
@@ -101,9 +104,7 @@ export default function Dashboard() {
         <div className='ka-dashboard-components'>
           {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
         </div>
-        <div className={'ka-margin-m'}>
-          <p className={'description ka-right'}>{__('Tip: use the arrow keys to quickly cycle through date ranges.', 'koko-analytics')}</p>
-        </div>
+        <UsageTip />
       </div>
     </main>
   )
