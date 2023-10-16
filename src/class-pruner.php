@@ -13,12 +13,13 @@ class Pruner
     public function init()
     {
         add_action('koko_analytics_prune_data', array( $this, 'run' ));
-        add_action('init', array( $this, 'maybe_schedule' ));
+        add_action('admin_init', array( $this, 'maybe_schedule' ));
     }
 
     public function maybe_schedule()
     {
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST' || ! is_admin()) {
+        // only run on POST requests
+        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
             return;
         }
 
@@ -29,6 +30,7 @@ class Pruner
 
     public function run()
     {
+        /** @var \WPDB $wpdb */
         global $wpdb;
 
         $settings = get_settings();
@@ -44,6 +46,6 @@ class Pruner
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
 
         // delete unused referrer URL's
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN ( SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
+        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN (SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
     }
 }
