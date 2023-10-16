@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Admin
 {
-    public function init()
+    public function init(): void
     {
         global $pagenow;
 
@@ -37,12 +37,12 @@ class Admin
         }
     }
 
-    public function register_menu()
+    public function register_menu(): void
     {
         add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ));
     }
 
-    public function maybe_run_actions()
+    public function maybe_run_actions(): void
     {
         if (isset($_GET['koko_analytics_action'])) {
             $action = $_GET['koko_analytics_action'];
@@ -61,7 +61,7 @@ class Admin
         exit;
     }
 
-    public function enqueue_scripts($page)
+    public function enqueue_scripts($page): void
     {
         // do not load any scripts if user is missing required capability for viewing
         if (! current_user_can('view_koko_analytics')) {
@@ -194,7 +194,7 @@ class Admin
         return sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array( 'a' => array( 'href' => array() ) )), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
     }
 
-    public function maybe_run_endpoint_installer()
+    public function maybe_run_endpoint_installer(): void
     {
         if (! isset($_GET['page']) || $_GET['page'] !== 'koko-analytics') {
             return;
@@ -216,7 +216,7 @@ class Admin
         set_transient('koko_analytics_install_custom_endpoint_attempt', 1, HOUR_IN_SECONDS);
     }
 
-    private function get_colors()
+    private function get_colors(): array
     {
         $color_scheme_name = get_user_option('admin_color');
         global $_wp_admin_css_colors;
@@ -227,7 +227,7 @@ class Admin
         return $_wp_admin_css_colors[ $color_scheme_name ]->colors;
     }
 
-    public function register_dashboard_widget()
+    public function register_dashboard_widget(): void
     {
         // only show if user can view stats
         if (! current_user_can('view_koko_analytics')) {
@@ -237,7 +237,7 @@ class Admin
         add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high');
     }
 
-    public function dashboard_widget()
+    public function dashboard_widget(): void
     {
         echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
         echo sprintf('<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', esc_html__('Showing site visits over last 14 days', 'koko-analytics'), esc_attr(admin_url('index.php?page=koko-analytics')), esc_html__('View all statistics', 'koko-analytics'));
@@ -250,7 +250,7 @@ class Admin
      *
      * @return array
      */
-    public function add_plugin_settings_link($links)
+    public function add_plugin_settings_link($links): array
     {
         $settings_link = sprintf('<a href="%s">%s</a>', admin_url('index.php?page=koko-analytics&tab=settings'), esc_html__('Settings', 'koko-analytics'));
         array_unshift($links, $settings_link);
@@ -265,7 +265,7 @@ class Admin
      *
      * @return array
      */
-    public function add_plugin_meta_links($links, $file)
+    public function add_plugin_meta_links($links, $file): array
     {
         if ($file !== plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE)) {
             return $links;
