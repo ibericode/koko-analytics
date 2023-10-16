@@ -2,6 +2,9 @@
 	float: right;
 	line-height: 34px;
 }
+.ka-admin-container {
+  max-width: 620px;
+}
 .ka-admin-nav--link {
 	display: inline-block;
 	text-decoration: none;
@@ -27,9 +30,9 @@
 }
 .ka-settings--label {
 	display: block;
-	font-size: 1.2em;
 	font-weight: bold;
-	margin-bottom: 6px
+	margin: 0 0 4px 0;
+  padding: 0;
 }
 .ka-setings--cb-label {
 	margin-right: 12px;

@@ -30,7 +30,8 @@ class Admin
 
             case 'plugins.php':
                 // Hooks for plugins overview page
-                add_filter('plugin_action_links_' . plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE), array( $this, 'add_plugin_settings_link' ), 10, 2);
+                $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
+                add_filter('plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ));
                 add_filter('plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2);
                 break;
         }
@@ -129,7 +130,7 @@ class Admin
         return $next_scheduled !== false && $next_scheduled > (time() - HOUR_IN_SECONDS);
     }
 
-    public function show_page()
+    public function show_page(): void
     {
         add_action('koko_analytics_show_settings_page', array( $this, 'show_settings_page' ));
         add_action('koko_analytics_show_dashboard_page', array( $this, 'show_dashboard_page' ));
@@ -140,7 +141,7 @@ class Admin
         add_action('admin_footer_text', array( $this, 'footer_text' ));
     }
 
-    public function show_dashboard_page()
+    public function show_dashboard_page(): void
     {
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');
@@ -156,11 +157,12 @@ class Admin
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
     }
 
-    public function show_settings_page()
+    public function show_settings_page(): void
     {
         if (! current_user_can('manage_koko_analytics')) {
             return;
         }
+        add_action('koko_analytics_show_settings_sections', array($this, 'show_settings_section_for_custom_events'));
 
         $settings           = get_settings();
         $endpoint_installer = new Endpoint_Installer();
@@ -173,7 +175,17 @@ class Admin
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
     }
 
-    public function footer_text()
+    public function show_settings_section_for_custom_events(): void
+    {
+        // Do not show if Koko Analytics Pro is active
+        if (\defined('KOKO_ANALYTICS_PRO_VERSION')) {
+            return;
+        }
+
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-section-events.php';
+    }
+
+    public function footer_text(): string
     {
         /* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
         return sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array( 'a' => array( 'href' => array() ) )), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
@@ -232,11 +244,10 @@ class Admin
      * Add the settings link to the Plugins overview
      *
      * @param array $links
-     * @param       $file
      *
      * @return array
      */
-    public function add_plugin_settings_link($links, $file)
+    public function add_plugin_settings_link($links)
     {
         $settings_link = sprintf('<a href="%s">%s</a>', admin_url('index.php?page=koko-analytics#/settings'), esc_html__('Settings', 'koko-analytics'));
         array_unshift($links, $settings_link);
@@ -261,7 +272,7 @@ class Admin
         return $links;
     }
 
-    public function get_database_size()
+    public function get_database_size(): string
     {
         global $wpdb;
         $sql = $wpdb->prepare(
@@ -276,7 +287,7 @@ class Admin
         return $wpdb->get_var($sql);
     }
 
-    public function reset_statistics()
+    public function reset_statistics(): void
     {
         check_admin_referer('koko_analytics_reset_statistics');
         global $wpdb;
@@ -287,7 +298,7 @@ class Admin
         delete_option('koko_analytics_realtime_pageview_count');
     }
 
-    public function save_settings()
+    public function save_settings(): void
     {
         check_admin_referer('koko_analytics_save_settings');
         $new_settings                        = $_POST['koko_analytics_settings'];
