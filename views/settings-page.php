@@ -26,7 +26,7 @@ $date_presets = array(
 <div class="wrap" id="koko-analytics-admin">
     <?php require __DIR__ . '/nav.php'; ?>
 
-    <div class="" style="max-width: 720px;">
+    <div class="ka-admin-container">
         <h1><?php esc_html_e('Settings', 'koko-analytics'); ?></h1>
 
         <?php if (isset($_GET['settings-updated'])) { ?>
@@ -53,9 +53,11 @@ $date_presets = array(
                 </p>
             </div>
             <div class="ka-margin-m">
-                <label class="ka-settings--label"><?php esc_html_e('Use cookie to determine unique visitors and pageviews?', 'koko-analytics'); ?></label>
-                <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="1" <?php checked($settings['use_cookie'], 1); ?>><?php esc_html_e('Yes'); ?></label>
-                <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="0" <?php checked($settings['use_cookie'], 0); ?>> <?php esc_html_e('No'); ?></label>
+                <fieldset>
+                    <legend class="ka-settings--label"><?php esc_html_e('Use cookie to determine unique visitors and pageviews?', 'koko-analytics'); ?></legend>
+                    <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="1" <?php checked($settings['use_cookie'], 1); ?>><?php esc_html_e('Yes'); ?></label>
+                    <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="0" <?php checked($settings['use_cookie'], 0); ?>> <?php esc_html_e('No'); ?></label>
+                </fieldset>
                 <p class="description">
                     <?php esc_html_e('Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics'); ?>
                 </p>
