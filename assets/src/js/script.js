@@ -29,12 +29,9 @@ function request(url, cb) {
 }
 
 function trackPageview (postId) {
-  let {dnt, use_cookie, cookie_path} = win[ka]
+  let {use_cookie, cookie_path} = win[ka]
 
   if (
-    // do not track if "Do Not Track" is enabled
-    (nav.doNotTrack == 1 && dnt) ||
-
     // do not track if this is a prerender request
     (doc.visibilityState == 'prerender') ||
 

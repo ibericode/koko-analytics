@@ -112,9 +112,6 @@ class Script_Loader
 
             // path to store the cookie in (will be subdirectory if website root is in subdirectory)
             'cookie_path' => $this->get_cookie_path(),
-
-            // whether to honor DoNotTrack
-            'dnt' => apply_filters('koko_analytics_honor_dnt', true),
         );
         echo '<script>window.koko_analytics = ', json_encode($script_config), ';</script>';
     }
