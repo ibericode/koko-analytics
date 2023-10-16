@@ -28,7 +28,8 @@ class Pruner
         }
     }
 
-    public function run() {
+    public function run()
+    {
         /** @var \WPDB $wpdb */
         global $wpdb;
 

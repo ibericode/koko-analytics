@@ -4,6 +4,7 @@
 }
 .ka-admin-container {
   max-width: 620px;
+  font-size: 14px;
 }
 .ka-admin-nav--link {
 	display: inline-block;
@@ -36,4 +37,8 @@
 }
 .ka-setings--cb-label {
 	margin-right: 12px;
+}
+.ka-admin-container .description {
+  font-size: 14px;
+
 }

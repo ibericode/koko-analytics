@@ -39,7 +39,7 @@ $date_presets = array(
             <?php wp_nonce_field('koko_analytics_save_settings'); ?>
             <div class="ka-margin-m">
                 <label for="ka-exclude-user-roles" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these user roles', 'koko-analytics'); ?></label>
-                <select id="ka-exclude-user-roles" multiple="" name="koko_analytics_settings[exclude_user_roles][]" class="regular-text" style="min-height: <?php echo count($user_roles) * 30; ?>px">
+                <select id="ka-exclude-user-roles" multiple="" name="koko_analytics_settings[exclude_user_roles][]" style="min-height: <?php echo count($user_roles) * 30; ?>px; min-width: 240px;">
                     <?php
                     foreach ($user_roles as $key => $value) {
                         echo sprintf('<option value="%s" %s>%s</option>', esc_attr($key), selected(in_array($key, $settings['exclude_user_roles']), true, false), esc_html($value));
@@ -79,7 +79,7 @@ $date_presets = array(
                 <p class="description"><?php esc_html_e('Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.', 'koko-analytics'); ?></p>
             </div>
             <div class="ka-margin-m">
-                <?php submit_button(); ?>
+                <?php submit_button(null, 'primary', 'submit', false); ?>
             </div>
         </form>
 
