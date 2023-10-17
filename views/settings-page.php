@@ -27,7 +27,7 @@ $date_presets = array(
     <?php require __DIR__ . '/nav.php'; ?>
 
     <div class="ka-admin-container">
-        <h1><?php esc_html_e('Settings', 'koko-analytics'); ?></h1>
+        <h1 class="ka-logo"><?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
         <?php if (isset($_GET['settings-updated'])) { ?>
             <div class="notice notice-success is-dismissible">

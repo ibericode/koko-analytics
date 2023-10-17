@@ -1,3 +1,17 @@
+h1.ka-logo,
+.ka-logo {
+  line-height: 32px;
+}
+.ka-logo::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' data-name='Layer 1'%3E%3Ccircle cx='32' cy='32' r='32' style='display:inline;fill:%23b60205;fill-opacity:1;stroke-width:1.01241'/%3E%3Cpath d='M48.42 20.641a.6.6 0 0 0-.66.15L31.984 37.736l-7.36-7.36a.6.6 0 0 0-.848 0l-8.4 8.4a.6.6 0 0 0-.176.424v3.6a.6.6 0 0 0 .6.6h32.4a.6.6 0 0 0 .6-.6V21.2a.6.6 0 0 0-.38-.559z' style='fill:%23fff;fill-opacity:1;stroke-width:.6'/%3E%3Cpath d='M48.42 20.641a.6.6 0 0 0-.66.15L31.984 37.736l5.664 5.664H48.2a.6.6 0 0 0 .6-.6V21.2a.6.6 0 0 0-.38-.559z' style='fill:%23fff;fill-opacity:1;stroke-width:.6'/%3E%3C/svg%3E");  background-size: contain;
+  margin-right: 18px;
+  float: left;
+  visibility: visible;
+}
 .ka-admin-nav {
 	float: right;
 	line-height: 34px;
