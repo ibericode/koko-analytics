@@ -159,7 +159,7 @@ class Admin
 
         $settings           = get_settings();
         $endpoint_installer = new Endpoint_Installer();
-        $using_custom_endpoint = $endpoint_installer->verify();
+        $using_custom_endpoint = using_custom_endpoint() && \is_file($endpoint_installer->get_file_name());
         $database_size      = $this->get_database_size();
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
     }
