@@ -3,7 +3,8 @@
  * @var \KokoAnalytics\Admin $this
  * @var array $settings
  * @var string $database_size
- * @var array $custom_endpoint
+ * @var array $using_custom_endpoint
+ * @var \KokoAnalytics\Endpoint_Installer $endpoint_installer
  */
 $tab          = 'settings';
 $user_roles   = $this->get_available_roles();
@@ -21,6 +22,7 @@ $date_presets = array(
     'this_year' => __('This year', 'koko-analytics'),
     'last_year' => __('Last year', 'koko-analytics'),
 );
+
 
 ?>
 <div class="wrap" id="koko-analytics-admin">
@@ -88,11 +90,17 @@ $date_presets = array(
         <?php if (false === is_multisite()) { ?>
         <div class="ka-margin-l">
             <h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
-            <?php if ($custom_endpoint['enabled']) { ?>
-                <p>✓ <?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
+            <?php if ($using_custom_endpoint) { ?>
+                <p><?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
             <?php } else { ?>
-                <p>❌ <?php echo sprintf(esc_html__('The plugin is currently not using an optimized tracking endpoint. To address, create a file named %1s in your WordPress root directory with the following file contents:', 'koko-analytics'), $custom_endpoint['filename']); ?></p>
-                <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($custom_endpoint['file_contents']); ?></textarea>
+                <p><?php esc_html_e('The plugin is currently not using an optimized tracking endpoint.', 'koko-analytics'); ?></p>
+                <form method="POST" action="">
+                    <?php wp_nonce_field('koko_analytics_install_optimized_endpoint'); ?>
+                    <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint" />
+                    <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="button button-secondary" />
+                </form>
+                <p><?php printf(__('Alternatively, create the file %1s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
+                <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($endpoint_installer->get_file_contents()); ?></textarea>
                 <p><?php esc_html_e('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics'); ?></p>
             <?php } ?>
         </div>

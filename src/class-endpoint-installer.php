@@ -10,55 +10,21 @@ namespace KokoAnalytics;
 
 class Endpoint_Installer
 {
-    public function run()
+    public function run(): void
     {
-        update_option('koko_analytics_use_custom_endpoint', $this->install_optimized_endpoint_file(), true);
+        update_option('koko_analytics_use_custom_endpoint', $this->create_and_test(), true);
     }
 
-    private function install_optimized_endpoint_file(): bool
+    public function verify(): bool
     {
-        /* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
-        if (is_multisite()) {
-            return false;
-        }
+        $test = $this->test();
+        update_option('koko_analytics_use_custom_endpoint', $test, true);
+        return $test;
+    }
 
-        /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
-            return false;
-        }
-
-        /* If we made it this far we ideally want to use the custom endpoint file */
-        /* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
-        if (! wp_next_scheduled('koko_analytics_test_custom_endpoint')) {
-            wp_schedule_event(time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint');
-        }
-
-        /* Check if path to buffer file changed */
-        if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
-            $content = file_get_contents(ABSPATH . '/koko-analytics-collect.php');
-            if (strpos($content, get_buffer_filename()) === false) {
-                unlink(ABSPATH . '/koko-analytics-collect.php');
-            }
-        }
-
-        /* Attempt to put the file into place if it does not exist already */
-        if (! file_exists(ABSPATH . '/koko-analytics-collect.php')) {
-            $success = file_put_contents(ABSPATH . '/koko-analytics-collect.php', $this->get_file_contents());
-            if (! $success) {
-                return false;
-            }
-        }
-
-        /* Send an HTTP request to the custom endpoint to see if it's working properly */
-        $works = $this->test();
-        if (! $works) {
-            /* Remove the file */
-            unlink(ABSPATH . '/koko-analytics-collect.php');
-            return false;
-        }
-
-        /* All looks good! Custom endpoint file exists and returns the correct response */
-        return true;
+    public function get_file_name(): string
+    {
+        return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
     public function get_file_contents(): string
@@ -86,12 +52,6 @@ KokoAnalytics\collect_request();
 EOT;
     }
 
-    /**
-     * Check for correct HTTP response from custom endpoint file.
-     *
-     * @see collect_request()
-     * @return bool
-     */
     private function test(): bool
     {
         $tracker_url = site_url('/koko-analytics-collect.php?nv=1&p=0&up=1&test=1');
@@ -107,6 +67,53 @@ EOT;
             return false;
         }
 
+        return true;
+    }
+
+    private function create_and_test(): bool
+    {
+        /* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
+        if (is_multisite()) {
+            return false;
+        }
+
+        /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
+        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
+            return false;
+        }
+
+        /* If we made it this far we ideally want to use the custom endpoint file */
+        /* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
+        if (! wp_next_scheduled('koko_analytics_test_custom_endpoint')) {
+            wp_schedule_event(time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint');
+        }
+
+        /* Check if path to buffer file changed */
+        $file_name = $this->get_file_name();
+        if (file_exists($file_name)) {
+            $content = file_get_contents($file_name);
+            if (strpos($content, get_buffer_filename()) === false) {
+                @unlink(ABSPATH . '/koko-analytics-collect.php');
+            }
+        }
+
+        /* Attempt to put the file into place if it does not exist already */
+        if (! file_exists($file_name)) {
+            $success = @file_put_contents($file_name, $this->get_file_contents());
+            if (! $success) {
+                return false;
+            }
+        }
+
+        /* Send an HTTP request to the custom endpoint to see if it's working properly */
+        $works = $this->test();
+        if (! $works) {
+            /* Remove the file */
+            @unlink($file_name);
+            return false;
+        }
+
+        /* All looks good! Custom endpoint file exists and returns the correct response */
         return true;
     }
 }

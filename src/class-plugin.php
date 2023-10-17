@@ -50,13 +50,19 @@ class Plugin
         // make sure koko analytics loads first to prevent unnecessary work on stat collection requests
         update_option('activate_plugins', get_option('active_plugins'));
 
-        // add capabilities to administrator role
+        // add capabilities to administrator role (if it exists)
         $role = get_role('administrator');
-        $role->add_cap('view_koko_analytics');
-        $role->add_cap('manage_koko_analytics');
+        if ($role instanceof \WP_User) {
+            $role->add_cap('view_koko_analytics');
+            $role->add_cap('manage_koko_analytics');
+        }
 
         // schedule action for aggregating stats
         $this->aggregator->setup_scheduled_event();
+
+        // create optimized endpoint file
+        $endpoint_installer = new Endpoint_Installer();
+        $endpoint_installer->run();
     }
 
     public function maybe_run_db_migrations(): void

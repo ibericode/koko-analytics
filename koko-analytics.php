@@ -83,5 +83,4 @@ if (\class_exists('WP_CLI')) {
 }
 
 add_action('widgets_init', 'KokoAnalytics\widgets_init');
-
 add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint');

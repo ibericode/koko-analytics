@@ -18,22 +18,15 @@ class Admin
         add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ));
         add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ));
         add_action('admin_init', array( $this, 'maybe_run_actions' ));
-        add_action('koko_analytics_install_optimized_endpoint', 'KokoAnalytics\\install_and_test_custom_endpoint');
+        add_action('koko_analytics_install_optimized_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint');
         add_action('koko_analytics_save_settings', array( $this, 'save_settings' ));
         add_action('koko_analytics_reset_statistics', array( $this, 'reset_statistics' ));
 
-        switch ($pagenow) {
-            case 'index.php':
-                // Hooks for main dashboard page
-                add_action('shutdown', array( $this, 'maybe_run_endpoint_installer' ));
-                break;
-
-            case 'plugins.php':
-                // Hooks for plugins overview page
-                $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
-                add_filter('plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ));
-                add_filter('plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2);
-                break;
+        // Hooks for plugins overview page
+        if ($pagenow === 'plugins.php') {
+            $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
+            add_filter('plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ));
+            add_filter('plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2);
         }
     }
 
@@ -166,11 +159,7 @@ class Admin
 
         $settings           = get_settings();
         $endpoint_installer = new Endpoint_Installer();
-        $custom_endpoint    = array(
-            'enabled' => using_custom_endpoint(),
-            'file_contents' => $endpoint_installer->get_file_contents(),
-            'filename' => rtrim(ABSPATH, '/') . '/koko-analytics-collect.php',
-        );
+        $using_custom_endpoint = $endpoint_installer->verify();
         $database_size      = $this->get_database_size();
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
     }
@@ -192,28 +181,6 @@ class Admin
 
         /* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
         return sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array( 'a' => array( 'href' => array() ) )), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
-    }
-
-    public function maybe_run_endpoint_installer(): void
-    {
-        if (! isset($_GET['page']) || $_GET['page'] !== 'koko-analytics') {
-            return;
-        }
-
-        // do not run if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
-            return;
-        }
-
-        // do not run if we attempted in the last hour already
-        if (get_transient('koko_analytics_install_custom_endpoint_attempt') !== false) {
-            return;
-        }
-
-        install_and_test_custom_endpoint();
-
-        // set flag to prevent attempting to install again within the next hour
-        set_transient('koko_analytics_install_custom_endpoint_attempt', 1, HOUR_IN_SECONDS);
     }
 
     private function get_colors(): array
