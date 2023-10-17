@@ -51,22 +51,25 @@
 }
 
 /* Pagination component */
-/* TODO: Move to bottom of component, on its own row */
 .ka-pagination {
 	color: #757575;
 	cursor: pointer;
-	display: inline-block;
-	margin-left: 6px;
+  font-weight: normal;
+  border-top: 1px dashed #eee;
+
 }
 .ka-pagination--prev,
 .ka-pagination--next {
 	display: inline-block;
-	padding: 0;
+  padding: 6px 12px 0;
 }
-.ka-pagination--prev:hover,
-.ka-pagination--prev:focus,
-.ka-pagination--next:hover,
-.ka-pagination--next:focus {
+.ka-pagination--next {
+  float: right;
+}
+.ka-pagination--prev:hover .dashicons,
+.ka-pagination--prev:focus .dashicons,
+.ka-pagination--next:hover .dashicons,
+.ka-pagination--next:focus .dashicons {
 	transform: scale(1.4);
 	transition: transform .2s
 }
@@ -74,25 +77,19 @@
 .ka-pagination--next.disabled {
 	opacity: .4
 }
-
 .ka-pagination--prev.disabled:hover,
 .ka-pagination--prev.disabled:focus,
 .ka-pagination--next.disabled:hover,
 .ka-pagination--next.disabled:focus {
+  cursor: initial
+}
+.ka-pagination--prev.disabled:hover .dashicons,
+.ka-pagination--prev.disabled:focus .dashicons,
+.ka-pagination--next.disabled:hover .dashicons,
+.ka-pagination--next.disabled:focus .dashicons {
 	transform: none;
-	cursor: initial
 }
 
-@media (min-width: 420px) {
-	.ka-pagination {
-		margin-left: 12px
-	}
-
-	.ka-pagination--prev,
-	.ka-pagination--next {
-		padding: 0 4px;
-	}
-}
 
 /** Totals Component */
 .ka-totals {

@@ -25,10 +25,7 @@ export default function TopPosts({ startDate, endDate }) {
     <div className='ka-topx ka-box ka-fade top-posts'>
       <div className='ka-topx--head ka-topx--row'>
         <div className='ka-topx--rank'>#</div>
-        <div className=''>
-          {__('Pages', 'koko-analytics')}
-          <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
-        </div>
+        <div>{__('Pages', 'koko-analytics')}</div>
         <div className='ka-topx--amount' title={__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics')}>{__('Visitors', 'koko-analytics')}</div>
         <div className='ka-topx--amount' title={__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics')}>{__('Pageviews', 'koko-analytics')}</div>
       </div>
@@ -45,6 +42,7 @@ export default function TopPosts({ startDate, endDate }) {
         ))}
         {items.length === 0 && (
           <div style={{padding: '6px 12px 0'}}>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
+        <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
       </div>
     </div>
   )
