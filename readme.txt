@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 6.0
 Tested up to: 6.3
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -109,7 +109,29 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 == Changelog ==
 
-#### 1.2.1 - Oct 11m 2023
+#### 1.2.2 - Oct 18, 2023
+
+First off, we would like to [introduce Koko Analytics Pro](https://www.kokoanalytics.com/2023/10/18/introducing-koko-analytics-pro/) to you.
+
+It is a paid add-on plugin for Koko Analytics containing more complex features, like [custom event tracking](https://www.kokoanalytics.com/kb/tracking-events/).
+Koko Analytics Pro is available for a [yearly price of €59](https://www.kokoanalytics.com/pricing/).
+We hope you will consider becoming a Pro user as this will help us cover support and development costs for Koko Analytics.
+
+Then, for a list of changes in this new version:
+
+- Fix link to settings page from plugins overview page.
+- Fix pagination not working because `wp_localize_script` turns everything into a string.
+- Fix React warning for dashboard widget when toggling visibility more than once.
+- Fix chart tooltip not showing on touch devices.
+- Minor styling improvements to settings page.
+- Install custom endpoint on plugin activation only.
+- Add button to settings page to re-attempt custom endpoint installation.
+- Move table pagination to bottom of component and add text label.
+- Wrap `input[type="radio"]` in `<fieldset>` tag.
+- Remove support for honouring "Do Not Track" header as per [MDN recommendations](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT).
+
+
+#### 1.2.1 - Oct 11, 2023
 
 - Fix issue with strict types and non-hourly UTC offsets.
 
