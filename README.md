@@ -8,17 +8,21 @@ Koko Analytics
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 [Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress.
+You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
 
 ![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
 
 ## Features
 
-- No external services. Data is yours and yours alone.
-- No personal information or anything visitor specific is tracked.
-- Fast! Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- Lightweight. Adds only 985 bytes of data to your pages.
-- Plug and play. Just install and activate the plugin and stats will be recorded right away.
-- Open-source (GPLv3 licensed).
+- **No external services**.
+- **No personal information** or anything visitor specific is tracked.
+- **No cookies** (optional).
+- **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
+- **Lightweight**: Adds only 985 bytes of data to your pages.
+- **Plug and play**: After activating the plugin, stats are recorded right away.
+- **Cached**: Fully compatible with pages served from cache.
+- **Open-source**: GPLv3 licensed.
+- **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian and Russian.
 
 ## Installation
 
