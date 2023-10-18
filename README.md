@@ -10,8 +10,6 @@ Koko Analytics
 [Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress.
 You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
 
-![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
-
 ## Features
 
 - **No external services**.
@@ -23,6 +21,8 @@ You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
 - **Cached**: Fully compatible with pages served from cache.
 - **Open-source**: GPLv3 licensed.
 - **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian and Russian.
+
+![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
 
 ## Installation
 
@@ -67,9 +67,9 @@ Stats will be collected right away after you install and activate the plugin. Yo
 You can contribute to Koko Analytics in many different ways. For example:
 
 - Write about the plugin on your blog or share it on social media.
-- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- Help fund development and support costs through [Koko Analytics on OpenCollective](https://opencollective.com/koko-analytics).
+- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
+- Purchase [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) for its advanced features or simply to help fund development and support costs.
 
 ## License
 
