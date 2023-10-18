@@ -15,34 +15,36 @@ Privacy-friendly analytics for your WordPress site
 
 Koko Analytics is a privacy-friendly analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party company.
 
-Furthermore, no visitor specific data is collected and visitors can easily opt-out of tracking by enabling "Do Not Track" in their browser settings.
+Furthermore, no visitor specific data is collected, only aggregated counts.
 
-Stop sharing visitor data with third-party companies making money off that same data. Stop unnecessarily slowing down your website. Koko Analytics lets you focus on what is important and gives you all the essential metrics, while respecting the privacy of your visitors.
+Stop sharing visitor data with third-party companies who also happen to sell ads.
+Stop unnecessarily slowing down your website.
+Koko Analytics lets you focus on what is important and gives you all the essential metrics, while respecting the privacy of your visitors.
 
 ### Features
 
+- **No external services**: Any data never leaves your server.
+- **No personal data** or anything visitor specific is tracked.
+- **No cookies**: There is an option to not use any cookies.
 - **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
-- **Privacy**: No personal information or anything visitor specific is tracked.
-- **No external services**: Data about visits to your website is yours and yours alone.
-- **Performance**: Handles thousands of simultaneous pageviews without breaking a sweat.
+- **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
 - **Lightweight**: Adds only 985 bytes of data to your pages.
 - **GDPR**: Compliant by design.
 - **Metrics**: All the essentials: visitors, pageviews and referrers.
-- **Cookies**: There is an option to not use any cookies.
-- **Referrer spam:** Built-in blacklist to filter out referrer spam.
-- **Cache**: Fully compatible with pages served from any kind of cache.
-- **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only, for now).
+- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+- **Referrer spam:** Built-in blocklist to filter out referrer spam.
+- **Cached**: Fully compatible with pages served from any kind of cache.
 - **Open-Source**: Code is released under the GPL 3.0 license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
+- **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
 
 ### Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
 - Write about the plugin on your blog or share it on social media.
-- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- Help fund the plugin through our [OpenCollective intiative](https://opencollective.com/koko-analytics).
+- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 
 == Installation ==
 
@@ -96,7 +98,7 @@ Koko Analytics was recently added to EasyPrivacy, a popular filter list which is
 Until then, please ensure to whitelist your own domain in your ad-blocker settings.
 
 ### How can I help fund Koko Analytics?
-Please visit the [Koko Analytics project page on OpenCollective](https://opencollective.com/koko-analytics).
+You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
 
 
 == Screenshots ==
