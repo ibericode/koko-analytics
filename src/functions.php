@@ -164,7 +164,13 @@ function get_most_viewed_posts(array $args = array()): array
             'post__in'            => $post_ids,
             // indicates that we want to use the order of our $post_ids array
             'orderby'             => 'post__in',
-            // excludes SQL_CALC_FOUND_ROWS from the query, tiny performance gain
+
+            // By default, WP_Query only returns "post" types
+            // Without this argument, this function would not return any page types
+            'post_type' => 'any',
+            // Prevent sticky post from always being included
+            'ignore_sticky_posts' => true,
+            // Excludes SQL_CALC_FOUND_ROWS from the query (tiny performance gain)
             'no_found_rows'       => true,
         )
     );
