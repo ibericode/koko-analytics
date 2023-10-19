@@ -49,4 +49,6 @@ export function request (path, opts = {}) {
 
 // Nonces are valid for 24 hours, whereas WP Admin sessions can live for much longer.
 // So here we reload the page every 12 hours so that we get a new X-WP-Nonce that is guaranteed to work.
-window.setTimeout(window.location.reload, 12 * 3600);
+window.setTimeout(() => {
+  window.location.reload()
+}, 12 * 60 * 60 * 1000);
