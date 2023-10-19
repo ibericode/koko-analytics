@@ -69,7 +69,7 @@ class Admin
                     'colors' => $this->get_colors(),
                 );
                 // load scripts for dashboard widget
-                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n', 'wp-element' ), KOKO_ANALYTICS_VERSION, true);
+                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n', 'react', 'react-dom' ), KOKO_ANALYTICS_VERSION, true);
                 wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
                 wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 break;
@@ -91,7 +91,8 @@ class Admin
 
                     wp_enqueue_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(
                         'wp-i18n',
-                        'wp-element',
+                        'react',
+                        'react-dom',
                     ), KOKO_ANALYTICS_VERSION, true);
                     wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
                     wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
