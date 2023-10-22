@@ -1,14 +1,10 @@
 import React, {useState, useEffect, useMemo} from "react"
 import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers'
-import { modify } from '../util/colors'
 import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
 import "../../css/chart.css"
 
-const {colors} = window.koko_analytics;
-const color1 = colors.pop()
-const color2 = modify(color1, -20)
 const padding = {
   left: 48,
   bottom: 36,
@@ -108,11 +104,11 @@ export default function Chart({startDate, endDate, width, height}) {
       <div class="ka-chart--tooltip-box">
         <div class="ka-chart--tooltip-heading">${format(data.date, dateFormatOptions)}</div>
         <div style="display: flex;">
-          <div class="ka-chart--tooltip-content visitors" style="border-top-color: ${color2}">
+          <div class="ka-chart--tooltip-content ka--visitors">
             <div class="ka-chart--tooltip-amount">${data.visitors}</div>
             <div>${__('Visitors', 'koko-analytics')}</div>
           </div>
-          <div class="ka-chart--tooltip-content pageviews" style="border-top-color: ${color1}">
+          <div class="ka-chart--tooltip-content ka--pageviews">
             <div class="ka-chart--tooltip-amount">${data.pageviews}</div>
             <div>${__('Pageviews', 'koko-analytics')}</div>
           </div>
@@ -212,20 +208,18 @@ export default function Chart({startDate, endDate, width, height}) {
                 onMouseLeave={hideTooltip}
               >
                 <rect
-                  className='pageviews'
+                  className='ka--pageviews'
                   height={pageviewHeight}
                   width={barWidth}
                   x={x + barPadding}
                   y={getY(d.pageviews)}
-                  fill={color1}
                 />
                 <rect
-                  className='visitors'
+                  className='ka--visitors'
                   height={visitorHeight}
                   width={barWidth}
                   x={x + barPadding}
                   y={getY(d.visitors)}
-                  fill={color2}
                 />
               </g>)
             })}

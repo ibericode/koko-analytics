@@ -23,8 +23,8 @@
 	display: block;
 	flex: 1;
 }
-.ka-chart--tooltip-content.pageviews,
-.ka-chart--tooltip-content.visitors {
+.ka-chart--tooltip-content.ka--pageviews,
+.ka-chart--tooltip-content.ka--visitors {
 	border-top: 3px solid transparent;
 }
 .ka-chart--tooltip-amount {
@@ -40,4 +40,13 @@
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;
 	border-top: 6px solid rgba(46, 54, 63, 0.96);
+}
+
+.ka--pageviews {
+  border-top-color: #e14d43 !important;
+  fill: #e14d43;
+}
+.ka--visitors {
+  border-top-color: #b43d35 !important;
+  fill: #b43d35;
 }
