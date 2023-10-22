@@ -93,11 +93,8 @@ export default function Dashboard() {
   }, [])
 
   const {startDate, endDate, initialPreset} = dates
-
-
   return (
     <main>
-      <div>
         <Datepicker startDate={startDate} endDate={endDate} initialPreset={initialPreset} onUpdate={onDatepickerUpdate} />
         <Totals startDate={startDate} endDate={endDate} />
         <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
@@ -105,7 +102,6 @@ export default function Dashboard() {
           {blockComponents.map((c, key) => createElement(c, {startDate, endDate, key}))}
         </div>
         <UsageTip />
-      </div>
     </main>
   )
 }
