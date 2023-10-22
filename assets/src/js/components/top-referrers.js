@@ -50,7 +50,7 @@ export default function TopReferrers({ startDate, endDate }) {
   return (
     <div className='ka-topx ka-box ka-fade top-referrers'>
       <div className='ka-topx--head ka-topx--row'>
-        <div className='ka-muted'>#</div>
+        <div className='ka-topx--rank'>#</div>
         <div>{__('Referrers', 'koko-analytics')}</div>
         <div className='ka-topx--amount'>{__('Visitors', 'koko-analytics')}</div>
         <div className='ka-topx--amount'>{__('Pageviews', 'koko-analytics')}</div>
@@ -68,7 +68,7 @@ export default function TopReferrers({ startDate, endDate }) {
         ))}
         {items.length === 0 && (
           <div style={{padding: '6px 12px 0'}}>{__('There\'s nothing here, yet!', 'koko-analytics')}</div>)}
-        <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
+          <Pagination offset={offset} limit={limit} total={items.length} onUpdate={setOffset} />
       </div>
     </div>
   )
