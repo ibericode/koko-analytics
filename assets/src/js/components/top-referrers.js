@@ -4,19 +4,10 @@ import {toISO8601} from '../util/dates'
 import Pagination from './pagination'
 import { __ } from '@wordpress/i18n'
 
-const URL_REGEX = /^https?:\/\/(www\.)?(.+?)\/?$/
 const limit = window.koko_analytics.items_per_page;
-/**
- * @param {string} url
- * @returns {string}
- */
-function formatUrl (url) {
-  return url.replace(URL_REGEX, '$2')
-}
 
-
-function enhance (item) {
-  item.displayUrl = formatUrl(item.url)
+function modifyUrlsForDisplay (item) {
+  item.displayUrl = item.url.replace(/^https?:\/\/(www\.)?(.+?)\/?$/, '$2')
 
   if (item.url.indexOf('https://t.co/') === 0) {
     item.url = 'https://twitter.com/search?q=' + encodeURI(item.url)
@@ -42,8 +33,7 @@ export default function TopReferrers({ startDate, endDate }) {
         limit,
       }
     }).then(items => {
-      items = items.map(enhance)
-      setItems(items)
+      setItems(items.map(modifyUrlsForDisplay))
     })
   }, [startDate, endDate, offset])
 
