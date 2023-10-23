@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php defined('ABSPATH') or exit; ?><!DOCTYPE html>
 <html lang="<?php bloginfo('language'); ?>">
 <head>
     <meta name="charset" content="<?php bloginfo('charset'); ?>>">
