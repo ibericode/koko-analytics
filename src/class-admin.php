@@ -14,18 +14,18 @@ class Admin
     {
         global $pagenow;
 
-        add_action('admin_menu', array( $this, 'register_menu' ));
-        add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ));
-        add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ));
-        add_action('admin_init', array( $this, 'maybe_run_actions' ));
-        add_action('koko_analytics_install_optimized_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint');
-        add_action('koko_analytics_save_settings', array( $this, 'save_settings' ));
-        add_action('koko_analytics_reset_statistics', array( $this, 'reset_statistics' ));
+        add_action('init', array( $this, 'maybe_run_actions' ), 10, 0);
+        add_action('admin_menu', array( $this, 'register_menu' ), 10, 0);
+        add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 1);
+        add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ), 10, 0);
+        add_action('koko_analytics_install_optimized_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint', 10, 0);
+        add_action('koko_analytics_save_settings', array( $this, 'save_settings' ), 10, 0);
+        add_action('koko_analytics_reset_statistics', array( $this, 'reset_statistics' ), 10, 0);
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
             $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
-            add_filter('plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ));
+            add_filter('plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ), 10, 1);
             add_filter('plugin_row_meta', array( $this, 'add_plugin_meta_links' ), 10, 2);
         }
     }
