@@ -44,6 +44,10 @@ class Admin
             return;
         }
 
+        if (!current_user_can('view_koko_analytics')) {
+            return;
+        }
+
         $this->register_scripts();
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
         exit;
