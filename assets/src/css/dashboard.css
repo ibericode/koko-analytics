@@ -182,25 +182,13 @@
 	transform: scale(1.4);
 	transition: transform 0.2s;
 }
-.ka-datepicker--presets {
-	padding: 12px 24px 12px 12px;
-	border-right: 1px solid #DDD;
-	min-width: 100px;
+.ka-datepicker--dropdown-content {
+	padding: 12px;
 }
-.ka-datepicker--presets label {
+.ka-datepicker--dropdown-content label {
 	font-weight: bold;
 	font-size: 1em;
-}
-.ka-datepicker--presets > div {
-	margin-bottom: 1em;
-}
-.ka-datepicker--presets strong {
-	display: block;
-	padding: 6px 0;
-}
-.ka-datepicker--presets a {
-	display: block;
-	padding: 4px 0;
+  display: block;
 }
 
 

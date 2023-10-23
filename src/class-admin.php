@@ -321,4 +321,15 @@ class Admin
             'last_year' => __('Last year', 'koko-analytics'),
         ];
     }
+
+    private function get_usage_tip(): string
+    {
+        $tips = [
+            __('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
+            __('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
+            sprintf(__('Tip: did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
+            sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
+        ];
+        return $tips[array_rand($tips)];
+    }
 }

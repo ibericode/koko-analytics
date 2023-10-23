@@ -39,6 +39,8 @@ export default function Datepicker(root, callback) {
     /* don't close if clicking anywhere inside this component */
     for (let el = evt.target; el !== null; el = el.parentNode) {
       if (el === root) {
+
+        console.log("clicked inside", el.className)
         return
       }
     }
