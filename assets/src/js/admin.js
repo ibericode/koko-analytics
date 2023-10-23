@@ -8,7 +8,7 @@ import Datepicker from './datepicker.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  Datepicker(document.querySelector('.ka-datepicker'));
+
 
   const el = document.getElementById('koko-analytics-mount')
   if (typeof createRoot === 'function') {

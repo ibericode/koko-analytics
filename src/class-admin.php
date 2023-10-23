@@ -185,6 +185,9 @@ class Admin
         $endpoint_installer = new Endpoint_Installer();
         $using_custom_endpoint = using_custom_endpoint() && \is_file($endpoint_installer->get_file_name());
         $database_size      = $this->get_database_size();
+        $user_roles   = $this->get_available_roles();
+        $date_presets = $this->get_date_presets();
+
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
     }
 
@@ -299,5 +302,23 @@ class Admin
         update_option('koko_analytics_settings', $settings, true);
         wp_safe_redirect(add_query_arg(array( 'settings-updated' => true ), wp_get_referer()));
         exit;
+    }
+
+    private function get_date_presets(): array
+    {
+        return [
+            'custom' => __('Custom', 'koko-analytics'),
+            'today' => __('Today', 'koko-analytics'),
+            'yesterday' => __('Yesterday', 'koko-analytics'),
+            'this_week' => __('This week', 'koko-analytics'),
+            'last_week' => __('Last week', 'koko-analytics'),
+            'last_28_days' => __('Last 28 days', 'koko-analytics'),
+            'this_month' => __('This month', 'koko-analytics'),
+            'last_month' => __('Last month', 'koko-analytics'),
+            'this_quarter' => __('This quarter', 'koko-analytics'),
+            'last_quarter' => __('Last quarter', 'koko-analytics'),
+            'this_year' => __('This year', 'koko-analytics'),
+            'last_year' => __('Last year', 'koko-analytics'),
+        ];
     }
 }

@@ -1,6 +1,6 @@
 import React, {createElement, useState, useEffect} from 'react'
 import Chart from './chart.js'
-import Datepicker from './datepicker.js'
+import Datepicker from './../datepicker.js'
 import Totals from './totals.js'
 import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
@@ -56,46 +56,22 @@ export default function Dashboard() {
    * @param {Date} startDate
    * @param {Date} endDate
    */
-  function onDatepickerUpdate (startDate, endDate) {
-    if (+startDate === +endDate) {
-      return
-    }
-
+  function onDatepickerUpdate ({startDate, endDate}) {
     setDates({startDate, endDate})
-    history.replaceState(undefined, undefined, `#/?start_date=${toISO8601(startDate)}&end_date=${toISO8601(endDate)}`)
+
+    let s = new URLSearchParams(window.location.search);
+    s.set('start_date', toISO8601(startDate))
+    s.set('end_date', toISO8601(endDate))
+    history.replaceState(undefined, undefined, window.location.pathname + '?' + s)
   }
 
-  // refresh start & end date every 60s to reload stats (if viewing recent data)
   useEffect(() => {
-    let interval = setInterval(() => {
-      setDates(({
-        startDate,
-        endDate
-      }) => {
+    Datepicker(document.querySelector('.ka-datepicker'), onDatepickerUpdate);
+  })
 
-        if (endDate < new Date()) {
-          return {
-            startDate,
-            endDate
-          }
-        }
-
-        return {
-          startDate,
-          endDate: new Date(endDate),
-        }
-      })
-    }, 60 * 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
-  const {startDate, endDate, initialPreset} = dates
+  const {startDate, endDate} = dates
   return (
     <main>
-        <Datepicker startDate={startDate} endDate={endDate} initialPreset={initialPreset} onUpdate={onDatepickerUpdate} />
         <Totals startDate={startDate} endDate={endDate} />
         <Chart startDate={startDate} endDate={endDate} width={document.getElementById('koko-analytics-mount').clientWidth} />
         <div className='ka-dashboard-components'>

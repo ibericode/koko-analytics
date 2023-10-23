@@ -5,25 +5,10 @@
  * @var string $database_size
  * @var array $using_custom_endpoint
  * @var \KokoAnalytics\Endpoint_Installer $endpoint_installer
+ * @var array $user_roles
+ * @var array $date_presets
  */
 $tab          = 'settings';
-$user_roles   = $this->get_available_roles();
-$date_presets = array(
-    'custom' => __('Custom', 'koko-analytics'),
-    'today' => __('Today', 'koko-analytics'),
-    'yesterday' => __('Yesterday', 'koko-analytics'),
-    'this_week' => __('This week', 'koko-analytics'),
-    'last_week' => __('Last week', 'koko-analytics'),
-    'last_28_days' => __('Last 28 days', 'koko-analytics'),
-    'this_month' => __('This month', 'koko-analytics'),
-    'last_month' => __('Last month', 'koko-analytics'),
-    'this_quarter' => __('This quarter', 'koko-analytics'),
-    'last_quarter' => __('Last quarter', 'koko-analytics'),
-    'this_year' => __('This year', 'koko-analytics'),
-    'last_year' => __('Last year', 'koko-analytics'),
-);
-
-
 ?>
 <div class="wrap" id="koko-analytics-admin">
     <?php require __DIR__ . '/nav.php'; ?>

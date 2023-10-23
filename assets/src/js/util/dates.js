@@ -62,7 +62,7 @@ function toISO8601(d) {
 
 /**
  * @param {string|Date} d
- * @param {object} options
+ * @param {object?} options
  * @returns {string}
  */
 function format(d, options) {
