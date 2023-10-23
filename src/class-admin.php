@@ -89,6 +89,8 @@ class Admin
             'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
         );
         wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
+
+        do_action('koko_analytics_register_admin_scripts');
     }
 
     public function enqueue_scripts($page): void
@@ -116,6 +118,7 @@ class Admin
                 if (!isset($_GET['tab'])) {
                     $this->register_scripts();
                     wp_enqueue_script('koko-analytics-admin');
+                    do_action('koko_analytics_enqueue_admin_scripts');
                 }
                 break;
         }

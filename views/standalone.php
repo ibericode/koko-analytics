@@ -63,5 +63,6 @@
 <body>
     <?php require __DIR__ . '/dashboard-page.php'; ?>
     <?php wp_print_scripts('koko-analytics-admin'); ?>
+    <?php do_action('koko_analytics_standalone_footer'); ?>
 </body>
 </html>
