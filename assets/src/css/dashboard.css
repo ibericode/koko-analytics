@@ -138,7 +138,6 @@
 }
 
 /** Datepicker component */
-/* TODO: Make datepicker usable on mobile */
 .ka-datepicker--label {
 	cursor: pointer;
 	padding: 6px;

@@ -1,6 +1,6 @@
 import React, {createElement, useState, useEffect} from 'react'
 import Chart from './chart.js'
-import Datepicker from './../datepicker.js'
+import Datepicker from './datepicker.js'
 import Totals from './totals.js'
 import TopPosts from './top-posts.js'
 import TopReferrers from './top-referrers.js'
@@ -67,7 +67,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     Datepicker(document.querySelector('.ka-datepicker'), onDatepickerUpdate);
-  })
+  }, [])
 
   const {startDate, endDate} = dates
   return (

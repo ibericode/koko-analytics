@@ -19,9 +19,11 @@ $tab = 'dashboard';
     }
 
 
+    $settings = \KokoAnalytics\get_settings();
     $dateStart = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : new \DateTimeImmutable('-28 days');
     $dateEnd = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : new \DateTimeImmutable('now');
     $dateFormat = get_option('date_format');
+    $preset = !isset($_GET['start_date']) && !isset($_GET['end_date']) ? $settings['default_view'] : '';
     ?>
 
     <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
@@ -40,17 +42,13 @@ $tab = 'dashboard';
     <div class="ka-datepicker">
         <div class='ka-datepicker--label'>
             <span class="dashicons dashicons-calendar-alt"></span>
-            <span data-bind="startDate"><?php echo $dateStart->format($dateFormat); ?></span>
-            <span> &mdash; </span>
-            <span data-bind="endDate"><?php echo $dateEnd->format($dateFormat); ?></span>
+            <span><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
         </div>
         <div class="ka-datepicker--dropdown" style="display: none;">
             <div class="ka-datepicker--quicknav">
                 <span class="ka-datepicker--quicknav-prev dashicons dashicons-arrow-left"
                     title=<?php echo __('Previous', 'koko-analytics'); ?>></span>
-                <span data-bind="startDate"><?php echo $dateStart->format($dateFormat); ?></span>
-                <span> &mdash; </span>
-                <span data-bind="endDate"><?php echo $dateEnd->format($dateFormat); ?></span>
+                <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
                 <span class="ka-datepicker--quicknav-next dashicons dashicons-arrow-right"
                       title=<?php echo __('Next', 'koko-analytics'); ?>></span>
             </div>
@@ -60,7 +58,7 @@ $tab = 'dashboard';
                         <label for="ka-date-presets" style="display: block;"><?php echo __('Date range', 'koko-analytics'); ?></label>
                         <select id="ka-date-presets">
                             <?php foreach ($this->get_date_presets() as $key => $label) { ?>
-                                <option value="<?php echo $key; ?>"><?php echo $label; ?></option>
+                                <option value="<?php echo $key; ?>" <?php echo ($key === $preset) ? 'selected' : ''; ?>><?php echo $label; ?></option>
                             <?php } ?>}
                         </select>
                     </div>
