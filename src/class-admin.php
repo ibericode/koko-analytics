@@ -103,6 +103,8 @@ class Admin
             return;
         }
 
+        wp_register_style('koko-analytics-admin', plugins_url('assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE));
+
         switch ($page) {
             case 'index.php':
                 $script_data = array(
@@ -110,14 +112,14 @@ class Admin
                     'nonce' => wp_create_nonce('wp_rest'),
                 );
                 // load scripts for dashboard widget
+                wp_enqueue_style('koko-analytics-admin');
                 wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true);
                 wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
                 wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 break;
 
             case 'dashboard_page_koko-analytics':
-                wp_enqueue_style('koko-analytics-admin', plugins_url('assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE));
-
+                wp_enqueue_style('koko-analytics-admin');
                 if (!isset($_GET['tab'])) {
                     $this->register_scripts();
                     wp_enqueue_script('koko-analytics-admin');

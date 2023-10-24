@@ -55,5 +55,276 @@ h1.ka-logo,
 }
 .ka-admin-container .description {
   font-size: 14px;
-
 }
+
+
+/** Chart */
+.ka-chart {
+	position: relative;
+	overflow: visible;
+}
+.ka-chart--tooltip {
+	position: absolute;
+	z-index: 9991; /* above wp admin menu */
+}
+.ka-chart--tooltip-box {
+	background: rgba(46, 54, 63, 0.96);
+	box-shadow: 2px 2px 12px 0 rgba(0,0,0,0.5);
+	border-radius: 4px;
+	color: #EEE;
+}
+.ka-chart--tooltip-heading {
+	font-weight: 600;
+	padding: 12px;
+	line-height: 1;
+}
+.ka-chart--tooltip-content {
+	padding: 6px 12px;
+	width: 50%;
+	display: block;
+	flex: 1;
+}
+.ka-chart--tooltip-content.ka--pageviews,
+.ka-chart--tooltip-content.ka--visitors {
+	border-top: 3px solid transparent;
+}
+.ka-chart--tooltip-amount {
+	color: #FFF;
+	font-weight: bold;
+}
+.ka-chart--tooltip-arrow {
+	width: 0;
+	height: 0;
+	margin-left: auto;
+	margin-right: auto;
+	/* css trick to create a downward pointing triangle */
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid rgba(46, 54, 63, 0.96);
+}
+
+.ka--pageviews {
+	border-top-color: #e14d43 !important;
+	fill: #e14d43;
+}
+.ka--visitors {
+	border-top-color: #b43d35 !important;
+	fill: #b43d35;
+}
+
+/** Dashboard */
+.dashboard_page_koko-analytics {
+	overflow-x: hidden
+}
+.ka-dashboard-components {
+	display: grid;
+	grid-gap: 12px;
+	grid-template-columns: repeat(6, 1fr);
+}
+
+/** TopX components */
+.ka-topx {
+	grid-column: span 6;
+}
+@media (min-width: 840px) {
+	.ka-topx {
+		grid-column: span 3;
+	}
+}
+.ka-topx--row {
+	display: grid;
+	grid-gap: 12px;
+	grid-template-columns: min-content 8fr 2fr 2fr;
+	border-top: 1px dashed #eee;
+	padding: 6px 12px;
+	text-align: left
+}
+.ka-topx--placeholder {
+	padding: 6px 12px;
+}
+.ka-topx--row.c4 {
+	grid-template-columns: min-content 9fr 1fr 1fr 1fr;
+}
+.ka-topx--head {
+	font-weight: bold;
+	font-size: 1.1em;
+	padding: 6px 12px;
+	border: 0
+}
+.ka-topx--rank {
+	color: #757575;
+	font-size: .9em
+}
+.ka-topx--amount {
+	text-align: right
+}
+.ka-topx--col,
+.ka-topx--url {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap
+}
+
+/* Pagination component */
+.ka-pagination {
+	color: #757575;
+	cursor: pointer;
+	font-weight: normal;
+	border-top: 1px dashed #eee;
+}
+.ka-pagination--prev,
+.ka-pagination--next {
+	display: inline-block;
+	padding: 6px 12px;
+}
+.ka-pagination--next {
+	float: right;
+}
+.ka-pagination--prev:hover .dashicons,
+.ka-pagination--prev:focus .dashicons,
+.ka-pagination--next:hover .dashicons,
+.ka-pagination--next:focus .dashicons {
+	transform: scale(1.4);
+	transition: transform .2s
+}
+.ka-pagination--prev.disabled,
+.ka-pagination--next.disabled {
+	opacity: .4
+}
+.ka-pagination--prev.disabled:hover,
+.ka-pagination--prev.disabled:focus,
+.ka-pagination--next.disabled:hover,
+.ka-pagination--next.disabled:focus {
+	cursor: initial
+}
+.ka-pagination--prev.disabled:hover .dashicons,
+.ka-pagination--prev.disabled:focus .dashicons,
+.ka-pagination--next.disabled:hover .dashicons,
+.ka-pagination--next.disabled:focus .dashicons {
+	transform: none;
+}
+
+
+/** Totals Component */
+.ka-totals {
+	background: #2e363f;
+	color: white;
+	padding: 24px;
+	margin: 12px 0;
+	display: flex;
+	flex-flow: row wrap;
+	gap: 48px;
+	border-radius: 6px;
+	width: 100%;
+	box-sizing: border-box;
+}
+.ka-totals--label {
+	color: #EEE;
+	margin-bottom: 6px;
+	font-size: 14px;
+}
+.ka-totals--amount {
+	display: block;
+	line-height: 48px;
+	font-size: 48px;
+	font-weight: 500;
+	letter-spacing: -1px;
+	margin-bottom: 6px;
+}
+.ka-totals--change {
+	font-size: 16px;
+	margin-left: 6px;
+	font-weight: normal;
+	vertical-align: top;
+	letter-spacing: normal;
+	color: #aaa;
+}
+.ka-totals--change.up {
+	color: limegreen;
+}
+.ka-totals--change.down {
+	color: #fb7272;
+}
+.ka-totals--subtext {
+	color: #DDD;
+}
+
+/** Datepicker component */
+.ka-datepicker--label {
+	cursor: pointer;
+	padding: 6px;
+	border: 1px solid #DDD;
+	border-radius: 6px;
+	display: inline-block;
+	background: white;
+	line-height: 20px;
+}
+.ka-datepicker--label .dashicons {
+	margin-right: 2px;
+}
+.ka-datepicker--dropdown {
+	background: white;
+	width: auto;
+	z-index: 20;
+	border-radius: 6px;
+	position: absolute;
+	margin-top: 6px;
+	box-shadow: 2px 2px 12px 0 rgba(0, 0, 0, 0.5);
+}
+.ka-datepicker--quicknav {
+	background: #2e363f;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	color: white;
+	text-align: center;
+	padding: 12px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.ka-datepicker--quicknav-prev,
+.ka-datepicker--quicknav-next {
+	margin: 0 6px;
+	color: white;
+}
+.ka-datepicker--quicknav-prev:hover,
+.ka-datepicker--quicknav-prev:focus,
+.ka-datepicker--quicknav-next:hover,
+.ka-datepicker--quicknav-next:focus {
+	cursor: pointer;
+	transform: scale(1.4);
+	transition: transform 0.2s;
+}
+.ka-datepicker--dropdown-content {
+	padding: 12px;
+}
+.ka-datepicker--dropdown-content label {
+	font-weight: bold;
+	font-size: 1em;
+	display: block;
+}
+
+
+/* General styles / Utility classes */
+#koko-analytics-dashboard-widget-mount {
+	text-align: center;
+}
+
+.ka-box {
+	background: #fff;
+	border-radius: 6px;
+	border: 1px solid #ddd;
+}
+
+.ka-fade {
+	animation: koko-fadein .4s
+}
+
+@keyframes koko-fadein {
+	from {
+		opacity: 0
+	}
+	to {
+		opacity: 1
+	}
+}
+

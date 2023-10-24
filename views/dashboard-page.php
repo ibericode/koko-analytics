@@ -94,7 +94,7 @@ $tab = 'dashboard';
                 <span></span>
                 <span class="ka-totals--change"></span>
             </div>
-            <div class='ka-totals--subtext'></div>
+            <div class='ka-totals--subtext'>&nbsp;</div>
         </div>
         <div class='ka-fade'>
             <div class='ka-totals--heading'><?php echo __('Total pageviews', 'koko-analytics'); ?></div>
@@ -102,10 +102,10 @@ $tab = 'dashboard';
                 <span></span>
                 <span class="ka-totals--change"></span>
             </div>
-            <div class='ka-totals--subtext'></div>
+            <div class='ka-totals--subtext'>&nbsp;</div>
         </div>
         <div id="ka-realtime" class='ka-fade'>
-            <div class='ka-totals--label'><?php echo __('Realtime pageviews', 'koko-analytics'); ?></div>
+            <div class='ka-totals--heading'><?php echo __('Realtime pageviews', 'koko-analytics'); ?></div>
             <div class='ka-totals--amount'></div>
             <div class='ka-totals--subtext'>
                 <?php echo __('pageviews in the last hour', 'koko-analytics'); ?>

@@ -2,7 +2,6 @@ import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers'
 import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-import "../../css/chart.css"
 import { classModule, eventListenersModule, attributesModule, init, h } from "snabbdom";
 
 const patch = init([classModule, eventListenersModule, attributesModule]);

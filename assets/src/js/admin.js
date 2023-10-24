@@ -1,5 +1,4 @@
 import './globals.js'
-import "../css/dashboard.css"
 import Chart from './components/chart.js'
 import Datepicker from './components/datepicker.js'
 import Totals from './components/totals'
