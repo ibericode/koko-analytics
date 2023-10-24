@@ -113,7 +113,7 @@ $tab = 'dashboard';
         </div>
     </div>
 
-    <div id="ka-chart"></div>
+    <div class="ka-box ka-margin-s ka-chart"><div id="ka-chart"></div></div>
 
     <div class="ka-dashboard-components">
         <div class='ka-topx ka-box ka-fade top-posts'>
@@ -145,6 +145,8 @@ $tab = 'dashboard';
                 <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
             </div>
         </div>
+
+        <?php do_action('koko_analytics_show_dashboard_components'); ?>
     </div>
 
     <div class="ka-margin-s">

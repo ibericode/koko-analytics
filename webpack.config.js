@@ -35,8 +35,8 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: "./assets/src/img", to: "./assets/dist/img" },
-                { from: "./assets/src/css", to: "./assets/dist/css" },
+              { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
+              { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css') }
             ],
         }),
     ],

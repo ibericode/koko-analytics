@@ -2,9 +2,9 @@ import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers'
 import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
 import { __ } from '@wordpress/i18n'
-import { classModule, eventListenersModule, attributesModule, init, h } from "snabbdom";
+import { eventListenersModule, attributesModule, init, h } from "snabbdom";
 
-const patch = init([classModule, eventListenersModule, attributesModule]);
+const patch = init([eventListenersModule, attributesModule]);
 const padding = {
   left: 48,
   bottom: 36,
@@ -44,10 +44,13 @@ function hideTooltip() {
   tooltip.style.display = 'none'
 }
 
-export default function(root) {
-  let groupByMonth = false,
-    dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
+export default function(root, height) {
+  height = height ?? Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
+  let groupByMonth = false;
+  let dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
   let width = root.clientWidth;
+  const innerWidth = width - padding.left - padding.right;
+  const innerHeight = height - padding.bottom - padding.top;
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
@@ -112,9 +115,7 @@ export default function(root) {
       return h('!')
     }
 
-    const height = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-    const innerWidth = width - padding.left - padding.right,
-      innerHeight = height - padding.bottom - padding.top,
+    const
       tickWidth = innerWidth / dataset.length,
       barWidth = 0.9 * tickWidth,
       barPadding = (tickWidth - barWidth) / 2
@@ -125,127 +126,115 @@ export default function(root) {
     const getX = v => v * tickWidth
     const getY = y.max <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))
 
-    return h('div',  {
+    return h('svg', {
       attrs: {
-        class: 'ka-box ka-margin-s',
+        'width': '100%',
+        'height': height,
       }
     }, [
-      h('div', {
-        attrs: {
-          class: 'ka-chart',
-        }
-      }, [
-        h('svg', {
+      h('g', [
+        h('g', {
           attrs: {
-            'width': '100%',
-            'height': height,
+            class: 'axes-y',
+            transform: `translate(0, ${padding.top})`,
+            'text-anchor': 'end',
+          }
+        }, y.ticks.map(v => {
+          const y = getY(v)
+          return h('g', [
+            h('line', {
+              attrs: {
+                stroke: '#eee',
+                x1: padding.left,
+                x2: innerWidth + padding.left,
+                y1: y,
+                y2: y,
+              }
+            }),
+            h('text', {
+              attrs: {
+                y,
+                fill: '#757575',
+                x: 0.75 * padding.left,
+                dy: '0.33em'
+              }
+            }, formatLargeNumber(v))
+          ])
+        })),
+        h('g', {
+          attrs: {
+            class: 'axes-x',
+            'text-anchor': 'middle',
+            'transform': `translate(${padding.left}, ${padding.top + innerHeight})`
+          }
+        }, dataset.map((d, i) => {
+          let label = i === 0 || i === dataset.length - 1 ? d.date : null
+
+          // draw nothing if showing lots of ticks & this not first or last tick
+          if (!drawTick && !label) {
+            return null
+          }
+
+          const x = getX(i) + 0.5 * tickWidth
+          return h('g', [
+            h('line', {
+              attrs: {
+                stroke: '#ddd',
+                x1: x,
+                x2: x,
+                y1: 0,
+                y2: 6,
+              }
+            }),
+            label ? h('text', {
+              attrs: {
+                fill: '#757575',
+                x: x,
+                y: 10,
+                dy: '1em',
+              }
+            }, format(d.date, dateFormatOptions)) : '',
+          ])
+        }).filter(el => el !== null))
+      ]),
+      h('g', {
+        attrs: {
+          class: 'bars',
+          transform: `translate(${padding.left}, ${padding.top})`
+        }
+      }, dataset.map((d, i) => {
+        const pageviewHeight = d.pageviews * heightModifier
+        const visitorHeight = d.visitors * heightModifier
+        const x = getX(i)
+        const showTooltip = createShowTooltip(d, barWidth)
+
+        return h('g', {
+          on: {
+            click: showTooltip,
+            mouseenter: showTooltip,
+            mouseleave: hideTooltip,
           }
         }, [
-          h('g', [
-            h('g', {
-              attrs: {
-                class: 'axes-y',
-                transform: `translate(0, ${padding.top})`,
-                'text-anchor': 'end',
-              }
-            }, y.ticks.map(v => {
-              const y = getY(v)
-              return h('g', [
-                h('line', {
-                  attrs: {
-                    stroke: '#eee',
-                    x1: padding.left,
-                    x2: innerWidth + padding.left,
-                    y1: y,
-                    y2: y,
-                  }
-                }),
-                h('text', {
-                  attrs: {
-                    y,
-                    fill: '#757575',
-                    x: 0.75 * padding.left,
-                    dy: '0.33em'
-                  }
-                }, formatLargeNumber(v))
-              ])
-            })),
-            h('g', {
-              attrs: {
-                class: 'axes-x',
-                'text-anchor': 'middle',
-                'transform': `translate(${padding.left}, ${padding.top + innerHeight})`
-              }
-            }, dataset.map((d, i) => {
-              let label = i === 0 || i === dataset.length - 1 ? d.date : null;
-
-              // draw nothing if showing lots of ticks & this not first or last tick
-              if (!drawTick && !label) {
-                return null
-              }
-
-              const x = getX(i) + 0.5 * tickWidth
-              return h('g', [
-                h('line', {
-                  attrs: {
-                    stroke: '#ddd',
-                    x1: x,
-                    x2: x,
-                    y1: 0,
-                    y2: 6,
-                  }
-                }),
-                label ? h('text', {
-                  attrs: {
-                    fill: '#757575',
-                    x: x,
-                    y: 10,
-                    dy: '1em',
-                  }
-                }, format(d.date, dateFormatOptions)) : '',
-              ])
-            }).filter(el => el !== null))
-          ]),
-          h('g', {
+          h('rect', {
             attrs: {
-              class: 'bars',
-              transform: `translate(${padding.left}, ${padding.top})`
+              class: 'ka--pageviews',
+              height: pageviewHeight,
+              width: barWidth,
+              x: x + barPadding,
+              y: getY(d.pageviews)
             }
-          }, dataset.map((d, i) => {
-            const pageviewHeight = d.pageviews * heightModifier
-            const visitorHeight = d.visitors * heightModifier
-            const x = getX(i)
-            const showTooltip = createShowTooltip(d, barWidth)
-
-            return h('g', {
-              on: {
-                click: showTooltip,
-                mouseenter: showTooltip,
-                mouseleave: hideTooltip,
-              }
-            }, [
-              h('rect', {
-                attrs: {
-                  class: 'ka--pageviews',
-                  height: pageviewHeight,
-                  width: barWidth,
-                  x: x + barPadding,
-                  y: getY(d.pageviews)
-                }
-              }),
-              h('rect', {
-                attrs: {
-                  class: 'ka--visitors',
-                  height: visitorHeight,
-                  width: barWidth,
-                  x: x + barPadding,
-                  y: getY(d.visitors)
-                }
-              }),
-            ])
-          }))
+          }),
+          h('rect', {
+            attrs: {
+              class: 'ka--visitors',
+              height: visitorHeight,
+              width: barWidth,
+              x: x + barPadding,
+              y: getY(d.visitors)
+            }
+          }),
         ])
-      ])
+      }))
     ])
   }
 

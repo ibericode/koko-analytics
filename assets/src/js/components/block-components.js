@@ -4,7 +4,7 @@ const limit = window.koko_analytics.items_per_page;
 import { attributesModule, init, h } from "snabbdom";
 const patch = init([attributesModule]);
 
-export function BlockComponent(root, apiEndpoint, rowView) {
+export function BlockComponent(root, apiEndpoint, rowView, onUpdate) {
   let elPlaceholder = root.nextElementSibling;
   let pagination = elPlaceholder.nextElementSibling;
   let buttonPrev = pagination.children[0];
@@ -32,14 +32,18 @@ export function BlockComponent(root, apiEndpoint, rowView) {
     }).then(items => {
       total = items.length
       root = patch(root, render(items))
+      if (onUpdate) {
+        onUpdate(items)
+      }
     })
   }
 
   function render(items) {
     buttonNext.classList.toggle('disabled', total < limit)
     buttonPrev.classList.toggle('disabled', offset === 0 )
+
     elPlaceholder.style.display = items.length ? 'none' : '';
-    pagination.style.display = items.length ? '' : 'none';
+    pagination.style.display = (items.length < limit && offset === 0) ? 'none' : '';
 
     return h('div.ka-topx--body', items.map((item, i) => {
       return rowView(item, offset + i + 1)

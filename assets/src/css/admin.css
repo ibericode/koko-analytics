@@ -142,7 +142,15 @@ h1.ka-logo,
 .ka-topx--placeholder {
 	padding: 6px 12px;
 }
-.ka-topx--row.c4 {
+.ka-topx--head > div:nth-child(5),
+.ka-topx--row > div:nth-child(5) {
+	display: none;
+}
+.with-4th-col .ka-topx--head > div:nth-child(5),
+.with-4th-col .ka-topx--row > div:nth-child(5) {
+	display: block;
+}
+.with-4th-col .ka-topx--row {
 	grid-template-columns: min-content 9fr 1fr 1fr 1fr;
 }
 .ka-topx--head {
@@ -303,18 +311,18 @@ h1.ka-logo,
 	display: block;
 }
 
-
 /* General styles / Utility classes */
 #koko-analytics-dashboard-widget-mount {
 	text-align: center;
 }
-
 .ka-box {
 	background: #fff;
 	border-radius: 6px;
 	border: 1px solid #ddd;
 }
-
+.ka-box:empty {
+	display: none;
+}
 .ka-fade {
 	animation: koko-fadein .4s
 }

@@ -7,10 +7,7 @@ import { parseISO8601, toISO8601 } from './util/dates.js'
 import { PostsComponent, ReferrersComponent } from './components/block-components'
 const { defaultDateRange } = window.koko_analytics
 
-let blockComponents = []
-window.koko_analytics.registerDashboardComponent = function(c) {
-  blockComponents.push(c)
-}
+
 /**
  * @returns {{endDate: Date, startDate: Date}}
  */
@@ -28,11 +25,19 @@ function parseDatesFromUrl () {
   }
 }
 
-let chart, totals, topPosts, topReferrers;
+let blockComponents = [
+  PostsComponent(document.querySelector('#ka-top-posts')),
+  ReferrersComponent(document.querySelector('#ka-top-referrers'))
+]
+window.koko_analytics.registerDashboardComponent = function(c) {
+  blockComponents.push(c)
+}
+let chart, totals;
 let {startDate, endDate} = parseDatesFromUrl()
 
+
 Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
-  [totals, chart, topPosts, topReferrers].forEach(f => f.update(startDate, endDate))
+  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
 
   let s = new URLSearchParams(window.location.search);
   s.set('start_date', toISO8601(startDate))
@@ -41,7 +46,8 @@ Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
 });
 totals = Totals(document.querySelector('#ka-totals'));
 chart = Chart(document.querySelector('#ka-chart'));
-topPosts = PostsComponent(document.querySelector('#ka-top-posts'));
-topReferrers = ReferrersComponent(document.querySelector('#ka-top-referrers'));
-[totals, chart, topPosts, topReferrers].forEach(f => f.update(startDate, endDate))
+
+document.addEventListener('DOMContentLoaded', () => {
+  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
+})
 
