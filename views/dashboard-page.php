@@ -49,8 +49,7 @@ $tab = 'dashboard';
 
     <div class="ka-datepicker">
         <div class='ka-datepicker--label'>
-            <span class="dashicons dashicons-calendar-alt"></span>
-            <span><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
+            <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
         </div>
         <div class="ka-datepicker--dropdown" style="display: none;">
             <div class="ka-datepicker--quicknav">
@@ -126,8 +125,8 @@ $tab = 'dashboard';
             <div id="ka-top-posts" class='ka-topx--body'></div>
             <div class="ka-topx--placeholder">There is nothing here. Yet!</div>
             <div class='ka-pagination'>
-                <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
-                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
+                <span class='ka-pagination--prev disabled'><?php echo __('Previous', 'koko-analytics'); ?></span>
+                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?></span>
             </div>
         </div>
 
@@ -141,8 +140,8 @@ $tab = 'dashboard';
             <div id="ka-top-referrers" class='ka-topx--body'></div>
             <div class="ka-topx--placeholder">There is nothing here. Yet!</div>
             <div class='ka-pagination'>
-                <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
-                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
+                <span class='ka-pagination--prev disabled'><?php echo __('Previous', 'koko-analytics'); ?></span>
+                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?></span>
             </div>
         </div>
 

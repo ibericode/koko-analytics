@@ -58,7 +58,6 @@
         }
     </style>
     <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
-    <?php wp_print_styles('dashicons'); ?>
 </head>
 <body>
     <?php require __DIR__ . '/dashboard-page.php'; ?>

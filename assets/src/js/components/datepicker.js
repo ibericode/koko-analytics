@@ -30,7 +30,7 @@ export default function Datepicker(root, callback) {
    */
   function updateDateRange(bubble) {
     const str = `${format(startDate)} — ${format(endDate)}`;
-    dropdownToggle.lastElementChild.textContent = str
+    dropdownToggle.textContent = str
     dropdownHeading.textContent = str;
 
     if (bubble) {
