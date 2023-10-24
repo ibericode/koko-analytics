@@ -53,15 +53,12 @@ $tab = 'dashboard';
         </div>
         <div class="ka-datepicker--dropdown" style="display: none;">
             <div class="ka-datepicker--quicknav">
-                <span class="ka-datepicker--quicknav-prev dashicons dashicons-arrow-left"
-                      title=<?php echo __('Previous', 'koko-analytics'); ?>></span>
+                <span class="ka-datepicker--quicknav-prev" title=<?php echo __('Previous', 'koko-analytics'); ?>></span>
                 <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
-                <span class="ka-datepicker--quicknav-next dashicons dashicons-arrow-right"
-                      title=<?php echo __('Next', 'koko-analytics'); ?>></span>
+                <span class="ka-datepicker--quicknav-next" title=<?php echo __('Next', 'koko-analytics'); ?>></span>
             </div>
             <div class="ka-datepicker--dropdown-content">
-                <label for="ka-date-presets"
-                       style="display: block;"><?php echo __('Date range', 'koko-analytics'); ?></label>
+                <label for="ka-date-presets"><?php echo __('Date range', 'koko-analytics'); ?></label>
                 <select id="ka-date-presets">
                     <?php foreach ($this->get_date_presets() as $key => $label) { ?>
                         <option value="<?php echo $key; ?>" <?php echo ( $key === $preset ) ? 'selected' : ''; ?>><?php echo $label; ?></option>
@@ -69,15 +66,13 @@ $tab = 'dashboard';
                 </select>
                 <div style="display: flex; margin-top: 12px;">
                     <div>
-                        <label for='ka-date-start'
-                               style="display: block;"><?php echo __('Start date', 'koko-analytics'); ?></label>
+                        <label for='ka-date-start'><?php echo __('Start date', 'koko-analytics'); ?></label>
                         <input id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD"
                                value="<?php echo $dateStart->format('Y-m-d'); ?>"/>
                         <span>&nbsp;&mdash;&nbsp;</span>
                     </div>
                     <div>
-                        <label for='ka-date-end'
-                               style="display: block;"><?php echo __('End date', 'koko-analytics'); ?></label>
+                        <label for='ka-date-end'><?php echo __('End date', 'koko-analytics'); ?></label>
                         <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD"
                                value="<?php echo $dateEnd->format('Y-m-d'); ?>"/>
                     </div>
@@ -148,8 +143,8 @@ $tab = 'dashboard';
         <?php do_action('koko_analytics_show_dashboard_components'); ?>
     </div>
 
-    <div class="ka-margin-s">
-        <p class="description ka-right"><?php echo $random_usage_tip; ?></p>
+    <div class="ka-margin-s" style="text-align: right">
+        <p><?php echo $random_usage_tip; ?></p>
     </div>
 
 </div>

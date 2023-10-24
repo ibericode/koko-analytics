@@ -126,7 +126,7 @@ h1.ka-logo,
 /** Topx components */
 .ka-topx {
 	grid-column: span 6;
-	min-height: 689px;
+
 }
 @media (min-width: 840px) {
 	.ka-topx {
@@ -184,14 +184,17 @@ h1.ka-logo,
 }
 .ka-pagination--prev,
 .ka-pagination--next {
-	display: inline-block;
 	padding: 6px 12px;
+  line-height: 1;
+  height: 20px;
 }
 .ka-pagination--prev:before,
 .ka-pagination--next:after {
 	line-height: 1;
-	font-size: 16px;
-	vertical-align: top;
+  height: 20px;
+  font-size: 12px;
+	vertical-align: middle;
+  display: inline-block;
 }
 .ka-pagination--prev:before {
 	content: "◀";
@@ -200,7 +203,6 @@ h1.ka-logo,
 .ka-pagination--next:after {
 	content: "▶";
 	margin-left: 6px;
-	vertical-align: top;
 }
 .ka-pagination--next {
 	float: right;
@@ -303,16 +305,27 @@ h1.ka-logo,
 }
 .ka-datepicker--quicknav-prev,
 .ka-datepicker--quicknav-next {
-	margin: 0 6px;
 	color: white;
+  cursor: pointer;
+  height: 20px;
+  line-height: 1;
+  vertical-align: middle;
 }
-.ka-datepicker--quicknav-prev:hover,
-.ka-datepicker--quicknav-prev:focus,
-.ka-datepicker--quicknav-next:hover,
-.ka-datepicker--quicknav-next:focus {
-	cursor: pointer;
-	transform: scale(1.4);
-	transition: transform 0.2s;
+.ka-datepicker--quicknav-prev:before,
+.ka-datepicker--quicknav-next:after {
+  line-height: 1;
+  height: 20px;
+  font-size: 12px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.ka-datepicker--quicknav-prev:before {
+  content: "◀";
+  margin-right: 12px;
+}
+.ka-datepicker--quicknav-next:after {
+  content: "▶";
+  margin-left: 12px;
 }
 .ka-datepicker--dropdown-content {
 	padding: 12px;

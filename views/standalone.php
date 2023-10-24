@@ -11,14 +11,13 @@
             background: #f1f1f1;
             color: #3c434a;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-            font-size: 13px;
-            line-height: 1.4em;
+            font-size: 14px;
+            line-height: 1.5;
         }
         a {
             color: #3858e9;
         }
         select {
-            font-size: 14px;
             line-height: 2;
             color: #2c3338;
             border-color: #8c8f94;
@@ -36,9 +35,9 @@
 
         input,
         select {
+            font-size: 14px;
             box-sizing: border-box;
             font-family: inherit;
-            font-size: inherit;
             font-weight: inherit;
             box-shadow: 0 0 0 transparent;
             border-radius: 4px;
