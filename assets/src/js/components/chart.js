@@ -46,8 +46,8 @@ function hideTooltip() {
 
 export default function(root, height) {
   height = height ?? Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-  let groupByMonth = false;
-  let dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
+  root.parentElement.style.minHeight = `${height+4}px`;
+  let dateFormatOptions = {month: 'short', year: 'numeric'};
   let width = root.clientWidth;
   const innerWidth = width - padding.left - padding.right;
   const innerHeight = height - padding.bottom - padding.top;
@@ -92,7 +92,7 @@ export default function(root, height) {
    * @param {Date} endDate
    */
   function update(startDate, endDate) {
-    groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
+    const groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {

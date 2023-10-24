@@ -62,6 +62,7 @@ h1.ka-logo,
 .ka-chart {
 	position: relative;
 	overflow: visible;
+	min-height: 244px;
 }
 .ka-chart--tooltip {
 	position: absolute;
@@ -122,9 +123,10 @@ h1.ka-logo,
 	grid-template-columns: repeat(6, 1fr);
 }
 
-/** TopX components */
+/** Topx components */
 .ka-topx {
 	grid-column: span 6;
+	min-height: 689px;
 }
 @media (min-width: 840px) {
 	.ka-topx {
@@ -239,6 +241,7 @@ h1.ka-logo,
 	font-weight: 500;
 	letter-spacing: -1px;
 	margin-bottom: 6px;
+	min-width: 160px;
 }
 .ka-totals--change {
 	font-size: 16px;
