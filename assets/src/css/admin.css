@@ -181,20 +181,14 @@ h1.ka-logo,
 	cursor: pointer;
 	font-weight: normal;
 	border-top: 1px dashed #eee;
-}
-.ka-pagination--prev,
-.ka-pagination--next {
-	padding: 6px 12px;
-  line-height: 1;
-  height: 20px;
+  padding: 6px 12px;
 }
 .ka-pagination--prev:before,
 .ka-pagination--next:after {
-	line-height: 1;
-  height: 20px;
   font-size: 12px;
-	vertical-align: middle;
-  display: inline-block;
+	vertical-align: top;
+  line-height: 16px;
+
 }
 .ka-pagination--prev:before {
 	content: "◀";
@@ -313,19 +307,20 @@ h1.ka-logo,
 }
 .ka-datepicker--quicknav-prev:before,
 .ka-datepicker--quicknav-next:after {
-  line-height: 1;
-  height: 20px;
   font-size: 12px;
-  vertical-align: middle;
+  vertical-align: top;
   display: inline-block;
+  line-height: 10px;
 }
 .ka-datepicker--quicknav-prev:before {
   content: "◀";
   margin-right: 12px;
+  padding: 4px 12px 4px 0;
 }
 .ka-datepicker--quicknav-next:after {
   content: "▶";
   margin-left: 12px;
+  padding: 4px 0 4px 12px;
 }
 .ka-datepicker--dropdown-content {
 	padding: 12px;
