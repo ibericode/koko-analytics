@@ -93,7 +93,6 @@ export default function(root) {
     groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
-    // fetch actual stats
     request('/stats', {
       body: {
         start_date: toISO8601(startDate),
@@ -101,9 +100,7 @@ export default function(root) {
         monthly: groupByMonth ? 1 : 0,
       }
     }).then(data => {
-      let newVnode = render(data)
-      patch(root, newVnode)
-      root = newVnode
+      root = patch(root,  render(data))
     })
   }
 
@@ -113,7 +110,7 @@ export default function(root) {
    */
   function render(dataset) {
     if (dataset.length <= 1) {
-      return h('div')
+      return h('!')
     }
 
     const height = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));

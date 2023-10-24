@@ -123,9 +123,8 @@ $tab = 'dashboard';
                 <div class='ka-topx--amount' title="<?php echo __('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php echo __('Visitors', 'koko-analytics'); ?></div>
                     <div class='ka-topx--amount' title="<?php echo __('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php echo __('Pageviews', 'koko-analytics'); ?></div>
             </div>
-            <div id="ka-top-posts" class='ka-topx--body'>
-
-            </div>
+            <div id="ka-top-posts" class='ka-topx--body'></div>
+            <div class="ka-topx--placeholder">There is nothing here. Yet!</div>
             <div class='ka-pagination'>
                 <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
                 <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
@@ -139,7 +138,8 @@ $tab = 'dashboard';
                 <div class='ka-topx--amount'><?php echo __('Visitors', 'koko-analytics'); ?></div>
                 <div class='ka-topx--amount'><?php echo __('Pageviews', 'koko-analytics'); ?></div>
             </div>
-            <div id="ka-top-referrers" class='ka-topx--body'>            </div>
+            <div id="ka-top-referrers" class='ka-topx--body'></div>
+            <div class="ka-topx--placeholder">There is nothing here. Yet!</div>
             <div class='ka-pagination'>
                 <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
                 <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>

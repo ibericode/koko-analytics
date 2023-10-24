@@ -24,6 +24,9 @@
 	padding: 6px 12px;
 	text-align: left
 }
+.ka-topx--placeholder {
+	padding: 6px 12px;
+}
 .ka-topx--row.c4 {
 	grid-template-columns: min-content 9fr 1fr 1fr 1fr;
 }
@@ -32,9 +35,6 @@
 	font-size: 1.1em;
 	padding: 6px 12px;
 	border: 0
-}
-.ka-topx--body {
-	padding-bottom: 6px
 }
 .ka-topx--rank {
 	color: #757575;
@@ -54,14 +54,13 @@
 .ka-pagination {
 	color: #757575;
 	cursor: pointer;
-  font-weight: normal;
-  border-top: 1px dashed #eee;
-
+ 	font-weight: normal;
+ 	border-top: 1px dashed #eee;
 }
 .ka-pagination--prev,
 .ka-pagination--next {
 	display: inline-block;
-  padding: 6px 12px 0;
+ 	padding: 6px 12px;
 }
 .ka-pagination--next {
   float: right;
@@ -123,8 +122,6 @@
 	font-weight: normal;
 	vertical-align: top;
 	letter-spacing: normal;
-}
-.ka-totals--change.neutral {
 	color: #aaa;
 }
 .ka-totals--change.up {

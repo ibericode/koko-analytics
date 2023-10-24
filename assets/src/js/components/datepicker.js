@@ -54,6 +54,8 @@ export default function Datepicker(root, callback) {
     }
 
     presetSelect.value = 'custom';
+    startDateInput.value = toISO8601(startDate)
+    endDateInput.value = toISO8601(endDate)
     updateDateRange(true)
   }
 

@@ -1,12 +1,12 @@
 import {request} from '../util/api'
 import {toISO8601} from '../util/dates'
-import { __ } from '@wordpress/i18n'
 const limit = window.koko_analytics.items_per_page;
 import { attributesModule, init, h } from "snabbdom";
 const patch = init([attributesModule]);
 
 export function BlockComponent(root, apiEndpoint, rowView) {
-  let pagination = root.nextElementSibling;
+  let elPlaceholder = root.nextElementSibling;
+  let pagination = elPlaceholder.nextElementSibling;
   let buttonPrev = pagination.children[0];
   let buttonNext = pagination.children[1];
   let offset = 0,
@@ -31,16 +31,15 @@ export function BlockComponent(root, apiEndpoint, rowView) {
       }
     }).then(items => {
       total = items.length
-
-      let newVnode = render(items)
-      patch(root, newVnode)
-      root = newVnode
+      root = patch(root, render(items))
     })
   }
 
   function render(items) {
     buttonNext.classList.toggle('disabled', total < limit)
     buttonPrev.classList.toggle('disabled', offset === 0 )
+    elPlaceholder.style.display = items.length ? 'none' : '';
+    pagination.style.display = items.length ? '' : 'none';
 
     return h('div.ka-topx--body', items.map((item, i) => {
       return rowView(item, offset + i + 1)
