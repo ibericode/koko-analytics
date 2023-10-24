@@ -17,13 +17,16 @@ export default function Datepicker(root, callback) {
   let endDate = parseISO8601(endDateInput.value)
   let isOpen = false;
 
+  /**
+   * @param {boolean|undefined} open
+   */
   function toggle(open) {
     isOpen = typeof(open) === 'boolean' ? open : !isOpen;
     dropdown.style.display = isOpen ? '' : 'none';
   }
 
   /**
-   * @param {boolean} bubble Whether to signal to parent component that dates have changed
+   * @param {boolean?} bubble Whether to signal to parent component that dates have changed
    */
   function updateDateRange(bubble) {
     const str = `${format(startDate)} — ${format(endDate)}`;
@@ -35,12 +38,29 @@ export default function Datepicker(root, callback) {
     }
   }
 
+  /**
+   * @param {int} modifier
+   */
+  function quickNav (modifier) {
+    const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
+    if (cycleMonths) {
+      const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
+      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
+      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
+    } else {
+      const diffInDays = Math.round((endDate - startDate) / 86400000)
+      startDate = addDays(startDate, diffInDays * modifier)
+      endDate = addDays(endDate, diffInDays * modifier)
+    }
+
+    presetSelect.value = 'custom';
+    updateDateRange(true)
+  }
+
   document.addEventListener('click', evt => {
     /* don't close if clicking anywhere inside this component */
     for (let el = evt.target; el !== null; el = el.parentNode) {
       if (el === root) {
-
-        console.log("clicked inside", el.className)
         return
       }
     }
@@ -79,22 +99,6 @@ export default function Datepicker(root, callback) {
     endDateInput.value = toISO8601(endDate)
     updateDateRange(true)
   })
-
-  function quickNav (modifier) {
-    const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
-    if (cycleMonths) {
-      const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
-      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
-    } else {
-      const diffInDays = Math.round((endDate - startDate) / 86400000)
-      startDate = addDays(startDate, diffInDays * modifier)
-      endDate = addDays(endDate, diffInDays * modifier)
-    }
-
-    presetSelect.value = 'custom';
-    updateDateRange(true)
-  }
 
   document.addEventListener('keydown', evt => {
     if (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight') {

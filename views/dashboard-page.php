@@ -25,7 +25,6 @@ $tab = 'dashboard';
         echo '</p></div>';
     }
 
-
     $settings   = \KokoAnalytics\get_settings();
     $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : new \DateTimeImmutable('-28 days');
     $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : new \DateTimeImmutable('now');
@@ -114,9 +113,38 @@ $tab = 'dashboard';
         </div>
     </div>
 
-    <div id="koko-analytics-mount">
-        <p><?php echo __('Please wait, your Koko Analytics dashboard is booting up...', 'koko-analytics'); ?></p>
-        <p><?php echo __('If your dashboard does not automatically appear in a few seconds, please check your browser console for any error messages.', 'koko-analytics'); ?></p>
+    <div id="ka-chart"></div>
+
+    <div class="ka-dashboard-components">
+        <div class='ka-topx ka-box ka-fade top-posts'>
+            <div class='ka-topx--head ka-topx--row'>
+                <div class='ka-topx--rank'>#</div>
+                <div><?php echo __('Pages', 'koko-analytics'); ?></div>
+                <div class='ka-topx--amount' title="<?php echo __('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php echo __('Visitors', 'koko-analytics'); ?></div>
+                    <div class='ka-topx--amount' title="<?php echo __('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php echo __('Pageviews', 'koko-analytics'); ?></div>
+            </div>
+            <div id="ka-top-posts" class='ka-topx--body'>
+
+            </div>
+            <div class='ka-pagination'>
+                <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
+                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
+            </div>
+        </div>
+
+        <div class='ka-topx ka-box ka-fade top-referrers'>
+            <div class='ka-topx--head ka-topx--row'>
+                <div class='ka-topx--rank'>#</div>
+                <div><?php echo __('Referrers', 'koko-analytics'); ?></div>
+                <div class='ka-topx--amount'><?php echo __('Visitors', 'koko-analytics'); ?></div>
+                <div class='ka-topx--amount'><?php echo __('Pageviews', 'koko-analytics'); ?></div>
+            </div>
+            <div id="ka-top-referrers" class='ka-topx--body'>            </div>
+            <div class='ka-pagination'>
+                <span class='ka-pagination--prev disabled'><span class='dashicons dashicons-arrow-left'></span> <?php echo __('Previous', 'koko-analytics'); ?></span>
+                <span class='ka-pagination--next'><?php echo __('Next', 'koko-analytics'); ?> <span class='dashicons dashicons-arrow-right'></span></span>
+            </div>
+        </div>
     </div>
 
     <div class="ka-margin-s">

@@ -39,7 +39,6 @@ class Admin
     public function maybe_load_standalone(): void
     {
         global $pagenow;
-
         if ($pagenow !== 'index.php' || ($_GET['page'] ?? '') !== 'koko-analytics' || ! isset($_GET['standalone'])) {
             return;
         }
@@ -49,6 +48,12 @@ class Admin
         }
 
         $this->register_scripts();
+
+        // Maybe we can get rid of wp-polyfill?
+//      global $wp_scripts;
+//      $wp_scripts->registered['wp-i18n']->deps = ['wp-hooks'];
+//      $wp_scripts->registered['wp-hooks']->deps = [];
+
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
         exit;
     }
@@ -76,8 +81,6 @@ class Admin
     {
         wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(
             'wp-i18n',
-            'react',
-            'react-dom',
         ), KOKO_ANALYTICS_VERSION, true);
         wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
         $settings = get_settings();
@@ -107,7 +110,7 @@ class Admin
                     'nonce' => wp_create_nonce('wp_rest'),
                 );
                 // load scripts for dashboard widget
-                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n', 'react', 'react-dom' ), KOKO_ANALYTICS_VERSION, true);
+                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true);
                 wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
                 wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 break;

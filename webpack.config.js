@@ -23,7 +23,6 @@ module.exports = {
                         loader: 'babel-loader',
                         options: {
                             presets: [
-                                "@babel/preset-react",
                                 '@babel/preset-env'
                             ]
                         }
@@ -39,10 +38,7 @@ module.exports = {
                 ]
     },
     externals: {
-        moment: 'moment',
         '@wordpress/i18n': 'wp.i18n',
-        react: 'React',
-        'react-dom': 'ReactDOM',
     },
     plugins: [
         new CopyPlugin({

@@ -6,20 +6,10 @@
 	},
 	"extends": [
 		"eslint:recommended",
-		"plugin:react/recommended",
 		"plugin:jest/recommended"
 	],
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module"
-	},
-	"rules": {
-		"react/prop-types": "off"
-	},
-	"settings": {
-		"react": {
-			/* match the version shipped in latest WordPress: https://core.trac.wordpress.org/browser/trunk/package.json#L162 */
-			"version": "18.2"
-		}
 	}
 }

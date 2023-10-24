@@ -14,7 +14,7 @@ export default function() {
     root.children[2].textContent = formatLargeNumber(Math.abs(change)) + ' ' + (change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics'));
   }
 
-  function fetch(startDate, endDate) {
+  function update(startDate, endDate) {
     request('/totals', {
       body: {
         start_date: toISO8601(startDate),
@@ -25,7 +25,7 @@ export default function() {
     })
   }
 
-  function fetchRealtime() {
+  function updateRealtime() {
     request('/realtime', {
       body: {
         since: '-1 hour'
@@ -35,8 +35,8 @@ export default function() {
     })
   }
 
-  window.setInterval(fetchRealtime, 60000)
-  fetchRealtime()
+  window.setInterval(updateRealtime, 60000)
+  updateRealtime()
 
-  return {fetch}
+  return {update}
 }
