@@ -1,48 +1,42 @@
-import React, {useState, useEffect} from 'react'
-import { formatLargeNumber, formatPercentage } from '../util/numbers.js'
-import {toISO8601} from '../util/dates'
-import {request} from '../util/api'
-import Realtime from './realtime.js'
+import { request } from '../util/api'
+import { toISO8601 } from '../util/dates'
+import { formatLargeNumber, formatPercentage } from '../util/numbers'
 import { __ } from '@wordpress/i18n'
 
-export default function Totals({ startDate, endDate }) {
-  let [totals, setTotals] = useState({ visitors: 0, pageviews: 0, visitors_change: 0, pageviews_change: 0, visitors_change_rel: 0.00, pageviews_change_rel: 0.00 })
+export default function() {
+  const root = document.getElementById('ka-totals');
 
-  useEffect(() => {
-    // fetch stats for current period
+  function updateDom(root, amount, change, changeRel) {
+    root.children[1].children[0].textContent = formatLargeNumber(amount)
+    root.children[1].children[1].textContent = changeRel !== null ? formatPercentage(changeRel) : '';
+    root.children[1].children[1].classList.toggle('up', change > 0);
+    root.children[1].children[1].classList.toggle('down', change < 0);
+    root.children[2].textContent = formatLargeNumber(Math.abs(change)) + ' ' + (change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics'));
+  }
+
+  function fetch(startDate, endDate) {
     request('/totals', {
       body: {
         start_date: toISO8601(startDate),
         end_date: toISO8601(endDate)
+      }}).then(data => {
+        updateDom(root.children[0], data.visitors, data.visitors_change, data.visitors_change_rel)
+        updateDom(root.children[1], data.pageviews, data.pageviews_change, data.pageviews_change_rel)
+    })
+  }
+
+  function fetchRealtime() {
+    request('/realtime', {
+      body: {
+        since: '-1 hour'
       }
-    }).then(setTotals)
-  }, [startDate, endDate])
+    }).then(data => {
+      root.children[2].children[1].textContent = formatLargeNumber(data)
+    })
+  }
 
-  return (
-    <div className='ka-totals m'>
-      <div className='ka-fade'>
-        <div className='ka-totals--heading'>{__('Total visitors', 'koko-analytics')}</div>
-        <div className='ka-totals--amount'>{formatLargeNumber(totals.visitors)} {totals.visitors_change_rel !== null ? <span
-          className={'ka-totals--change ' + (totals.visitors_change_rel > 0 ? 'up' : (parseInt(totals.visitors_change_rel*100) === 0 ? 'neutral' : 'down'))}
-        >{formatPercentage(totals.visitors_change_rel)}
-          </span> : ''}
-        </div>
-        <div className='ka-totals--subtext'>{formatLargeNumber(Math.abs(totals.visitors_change))} {totals.visitors_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}</div>
-      </div>
-      <div className='ka-fade'>
-        <div className='ka-totals--heading'>{__('Total pageviews', 'koko-analytics')}</div>
-        <div className='ka-totals--amount'>
-          {formatLargeNumber(totals.pageviews)}
-          {totals.pageviews_change_rel !== null ? <span className={'ka-totals--change ' + (totals.pageviews_change > 0 ? 'up' : parseInt(totals.pageviews_change*100) === 0 ? 'neutral' : 'down')}
-        >{formatPercentage(totals.pageviews_change_rel)}
-          </span> : ''}
-        </div>
-        <div className='ka-totals--subtext'>
-          {formatLargeNumber(Math.abs(totals.pageviews_change))} {totals.pageviews_change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics')}
-        </div>
-      </div>
-      <Realtime />
-    </div>
-  )
+  window.setInterval(fetchRealtime, 60000)
+  fetchRealtime()
+
+  return {fetch}
 }
-

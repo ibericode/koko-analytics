@@ -5,6 +5,7 @@ $tab = 'dashboard';
  * @var \KokoAnalytics\Admin $this
  * @var bool $is_cron_event_working
  * @var bool $is_buffer_dir_writable
+ * @var string $buffer_dirname
  */
 ?>
 <div class="wrap" id="koko-analytics-admin">
@@ -83,6 +84,32 @@ $tab = 'dashboard';
                                value="<?php echo $dateEnd->format('Y-m-d'); ?>"/>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ka-totals" class='ka-totals m'>
+        <div class='ka-fade'>
+            <div class='ka-totals--heading'><?php echo __('Total visitors', 'koko-analytics'); ?></div>
+            <div class='ka-totals--amount'>
+                <span></span>
+                <span class="ka-totals--change"></span>
+            </div>
+            <div class='ka-totals--subtext'></div>
+        </div>
+        <div class='ka-fade'>
+            <div class='ka-totals--heading'><?php echo __('Total pageviews', 'koko-analytics'); ?></div>
+            <div class='ka-totals--amount'>
+                <span></span>
+                <span class="ka-totals--change"></span>
+            </div>
+            <div class='ka-totals--subtext'></div>
+        </div>
+        <div id="ka-realtime" class='ka-fade'>
+            <div class='ka-totals--label'><?php echo __('Realtime pageviews', 'koko-analytics'); ?></div>
+            <div class='ka-totals--amount'></div>
+            <div class='ka-totals--subtext'>
+                <?php echo __('pageviews in the last hour', 'koko-analytics'); ?>
             </div>
         </div>
     </div>
