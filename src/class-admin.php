@@ -79,11 +79,7 @@ class Admin
 
     public function register_scripts(): void
     {
-        wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(
-            'wp-i18n',
-        ), KOKO_ANALYTICS_VERSION, true);
-        wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
-
+        wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
         $settings = get_settings();
         $dateRange = (new Dates())->get_range($settings['default_view']);
         $script_data = array(
@@ -92,6 +88,10 @@ class Admin
             'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
             'startDate' => $_GET['start_date'] ?? $dateRange[0]->format('Y-m-d'),
             'endDate' => $_GET['end_date'] ?? $dateRange[1]->format('Y-m-d'),
+            'i18n' => array(
+                'Visitors' => __('Visitors', 'koko-analytics'),
+                'Pageviews' => __('Pageviews', 'koko-analytics'),
+            )
         );
         wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
         do_action('koko_analytics_register_admin_scripts');
@@ -111,11 +111,14 @@ class Admin
                 $script_data = array(
                     'root' => rest_url(),
                     'nonce' => wp_create_nonce('wp_rest'),
+                    'i18n' => array(
+                        'Visitors' => __('Visitors', 'koko-analytics'),
+                        'Pageviews' => __('Pageviews', 'koko-analytics'),
+                    )
                 );
                 // load scripts for dashboard widget
                 wp_enqueue_style('koko-analytics-admin');
-                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array( 'wp-i18n' ), KOKO_ANALYTICS_VERSION, true);
-                wp_set_script_translations('koko-analytics-dashboard-widget', 'koko-analytics');
+                wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
                 wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
                 break;
 

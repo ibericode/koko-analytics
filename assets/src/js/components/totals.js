@@ -1,7 +1,6 @@
 import { request } from '../util/api'
 import { toISO8601 } from '../util/dates'
 import { formatLargeNumber, formatPercentage } from '../util/numbers'
-import { __ } from '@wordpress/i18n'
 
 /**
  * @param {HTMLElement} root
@@ -17,12 +16,10 @@ export default function(root) {
    */
   function updateDom(root, amount, change, changeRel) {
     root.children[1].children[0].textContent = formatLargeNumber(amount)
-    root.children[1].children[1].textContent = changeRel !== null ? formatPercentage(changeRel) : '';
-
-    let changeRelInt=  parseInt(changeRel * 100)
-    root.children[1].children[1].classList.toggle('up', changeRelInt > 0);
-    root.children[1].children[1].classList.toggle('down', changeRelInt < 0);
-    root.children[2].textContent = formatLargeNumber(Math.abs(change)) + ' ' + (change > 0 ? __('more than previous period', 'koko-analytics') : __('less than previous period', 'koko-analytics'));
+    root.children[1].children[1].textContent = changeRel !== null ? formatPercentage(changeRel) : ''
+    root.classList.toggle('ka-up', change > 0)
+    root.classList.toggle('ka-down', change < 0)
+    root.children[2].firstElementChild.textContent = formatLargeNumber(Math.abs(change))
   }
 
   /**

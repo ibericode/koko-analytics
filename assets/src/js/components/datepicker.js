@@ -1,4 +1,4 @@
-import { parseISO8601, format, toISO8601 } from '../util/dates'
+import { parseISO8601, format, toISO8601, isLastDayOfMonth } from '../util/dates'
 
 export default function Datepicker(root, callback) {
   const
@@ -13,34 +13,28 @@ export default function Datepicker(root, callback) {
 
   let startDate = parseISO8601(startDateInput.value)
   let endDate = parseISO8601(endDateInput.value)
-  let isOpen = false;
+  let isOpen = false
 
   /**
    * @param {boolean|undefined} open
    */
   function toggle(open) {
-    isOpen = typeof(open) === 'boolean' ? open : !isOpen;
-    dropdown.style.display = isOpen ? '' : 'none';
-    dropdownToggle.setAttribute('aria-expanded', isOpen);
+    isOpen = typeof(open) === 'boolean' ? open : !isOpen
+    dropdown.style.display = isOpen ? '' : 'none'
+    dropdownToggle.setAttribute('aria-expanded', isOpen)
   }
 
   /**
    * @param {boolean?} bubble Whether to signal to parent component that dates have changed
    */
   function updateDateRange(bubble) {
-    const str = `${format(startDate)} — ${format(endDate)}`;
+    const str = `${format(startDate)} — ${format(endDate)}`
     dropdownToggle.textContent = str
-    dropdownHeading.textContent = str;
+    dropdownHeading.textContent = str
 
     if (bubble) {
       callback({startDate, endDate})
     }
-  }
-
-  function isLastDayOfMonth(a) {
-    let b = new Date(a);
-    b.setDate(b.getDate() + 1);
-    return a.getMonth() !== b.getMonth()
   }
 
   /**
@@ -50,17 +44,17 @@ export default function Datepicker(root, callback) {
     const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
     if (cycleMonths) {
       const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-      const amount = monthsDiff * modifier;
+      const amount = monthsDiff * modifier
       startDate = new Date(startDate.getFullYear(), startDate.getMonth() + amount, 1, 0, 0, 0)
       endDate = new Date(endDate.getFullYear(), endDate.getMonth() + amount + 1, 0, 23, 59, 59)
     } else {
       const diffInDays = Math.round((endDate - startDate) / 86400000)
-      const amount = diffInDays * modifier;
+      const amount = diffInDays * modifier
       startDate.setDate(startDate.getDate () + amount)
       endDate.setDate(endDate.getDate () + amount)
     }
 
-    presetSelect.value = 'custom';
+    presetSelect.value = 'custom'
     startDateInput.value = toISO8601(startDate)
     endDateInput.value = toISO8601(endDate)
     updateDateRange(true)
@@ -74,16 +68,16 @@ export default function Datepicker(root, callback) {
       }
     }
 
-    toggle(false);
+    toggle(false)
   })
 
   startDateInput.addEventListener('change', evt => {
     let d = parseISO8601(evt.target.value)
     if (!d) {
-      return;
+      return
     }
 
-    startDate = d;
+    startDate = d
     presetSelect.value = 'custom'
     updateDateRange(true)
   })
@@ -91,7 +85,7 @@ export default function Datepicker(root, callback) {
   endDateInput.addEventListener('change', evt => {
     let d = parseISO8601(evt.target.value)
     if (!d) {
-      return;
+      return
     }
 
     endDate = d
@@ -101,10 +95,10 @@ export default function Datepicker(root, callback) {
 
   presetSelect.addEventListener('change', evt => {
     if (evt.target.value === 'custom') {
-      return;
+      return
     }
-    startDate = parseISO8601(evt.target.selectedOptions[0].dataset.startDate);
-    endDate = parseISO8601(evt.target.selectedOptions[0].dataset.endDate);
+    startDate = parseISO8601(evt.target.selectedOptions[0].dataset.startDate)
+    endDate = parseISO8601(evt.target.selectedOptions[0].dataset.endDate)
     startDateInput.value = toISO8601(startDate)
     endDateInput.value = toISO8601(endDate)
     updateDateRange(true)
@@ -119,5 +113,5 @@ export default function Datepicker(root, callback) {
   quickNavPrevEl.addEventListener('click', () => quickNav(-1))
   quickNavNextEl.addEventListener('click', () => quickNav(1))
   dropdownToggle.addEventListener('click', toggle)
-  updateDateRange();
+  updateDateRange()
 }

@@ -1,13 +1,13 @@
 /**
- * @param _date {Date}
+ * @param {Date} a
  * @returns {boolean}
  */
-function isLastDayOfMonth (_date) {
-  const d = new Date(_date.getFullYear(), _date.getMonth() , 1)
-  d.setMonth(d.getMonth() + 1)
-  d.setDate(0)
-  return d.getDate() === _date.getDate()
+export function isLastDayOfMonth(a) {
+  let b = new Date(a);
+  b.setDate(b.getDate() + 1);
+  return a.getMonth() !== b.getMonth()
 }
+
 
 /**
  * Parse a ISO8601 date string (YYYY-MM-DD) into a Date object.
@@ -15,7 +15,7 @@ function isLastDayOfMonth (_date) {
  * @param v {string}
  * @returns {Date|null}
  */
-function parseISO8601 (v) {
+export function parseISO8601 (v) {
   if (v === null) {
     return null;
   }
@@ -56,7 +56,7 @@ function pad(d) {
  * @param {Date} d
  * @returns {string}
  */
-function toISO8601(d) {
+export function toISO8601(d) {
    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
@@ -65,7 +65,7 @@ function toISO8601(d) {
  * @param {object?} options
  * @returns {string}
  */
-function format(d, options) {
+export function format(d, options) {
   if (typeof d === 'string') {
     d = parseISO8601(d)
   }
@@ -78,5 +78,3 @@ function format(d, options) {
 
   return d.toLocaleDateString()
 }
-
-export { isLastDayOfMonth, parseISO8601, toISO8601, format }

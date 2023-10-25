@@ -247,14 +247,22 @@ h1.ka-logo,
 	letter-spacing: normal;
 	color: #aaa;
 }
-.ka-totals--change.up {
+.ka-up .ka-totals--change {
 	color: limegreen;
 }
-.ka-totals--change.down {
+.ka-down .ka-totals--change {
 	color: #fb7272;
 }
 .ka-totals--subtext {
 	color: #DDD;
+}
+.ka-up .ka-totals--subtext-up,
+.ka-down .ka-totals--subtext-down {
+	display: inline;
+}
+.ka-down .ka-totals--subtext-up,
+.ka-up .ka-totals--subtext-down {
+	display: none;
 }
 
 /** Datepicker component */

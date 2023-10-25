@@ -1,17 +1,16 @@
 import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers'
 import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
-import { __ } from '@wordpress/i18n'
-import { eventListenersModule, attributesModule, init, h } from "snabbdom";
-
-const patch = init([eventListenersModule, attributesModule]);
+import { eventListenersModule, attributesModule, init, h } from "snabbdom"
+const {i18n} = window.koko_analytics;
+const patch = init([eventListenersModule, attributesModule])
 const padding = {
   left: 48,
   bottom: 36,
   top: 24,
   right: 24
 }
-const tooltip = createTooltip();
+const tooltip = createTooltip()
 
 /**
  *
@@ -45,12 +44,12 @@ function hideTooltip() {
 }
 
 export default function(root, height) {
-  height = height ?? Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
-  root.parentElement.style.minHeight = `${height+4}px`;
-  let dateFormatOptions = {month: 'short', year: 'numeric'};
-  let width = root.clientWidth;
-  const innerWidth = width - padding.left - padding.right;
-  const innerHeight = height - padding.bottom - padding.top;
+  height = height ?? Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
+  root.parentElement.style.minHeight = `${height+4}px`
+  let dateFormatOptions = {month: 'short', year: 'numeric'}
+  let width = root.clientWidth
+  const innerWidth = width - padding.left - padding.right
+  const innerHeight = height - padding.bottom - padding.top
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
@@ -67,14 +66,14 @@ export default function(root, height) {
       tooltip.innerHTML = `
       <div class="ka-chart--tooltip-box">
         <div class="ka-chart--tooltip-heading">${format(data.date, dateFormatOptions)}</div>
-        <div style="display: flex;">
+        <div style="display: flex">
           <div class="ka-chart--tooltip-content ka--visitors">
             <div class="ka-chart--tooltip-amount">${data.visitors}</div>
-            <div>${__('Visitors', 'koko-analytics')}</div>
+            <div>${i18n['Visitors']}</div>
           </div>
           <div class="ka-chart--tooltip-content ka--pageviews">
             <div class="ka-chart--tooltip-amount">${data.pageviews}</div>
-            <div>${__('Pageviews', 'koko-analytics')}</div>
+            <div>${i18n['Pageviews']}</div>
           </div>
         </div>
       </div>
