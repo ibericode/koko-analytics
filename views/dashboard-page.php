@@ -72,13 +72,13 @@ use function KokoAnalytics\fmt_large_number;
                 <div style="display: flex; margin-top: 12px;">
                     <div>
                         <label for='ka-date-start'><?php echo __('Start date', 'koko-analytics'); ?></label>
-                        <input id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD"
+                        <input id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
                                value="<?php echo $dateStart->format('Y-m-d'); ?>">
                         <span>&nbsp;&mdash;&nbsp;</span>
                     </div>
                     <div>
                         <label for='ka-date-end'><?php echo __('End date', 'koko-analytics'); ?></label>
-                        <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD"
+                        <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
                                value="<?php echo $dateEnd->format('Y-m-d'); ?>">
                     </div>
                 </div>
