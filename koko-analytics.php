@@ -38,7 +38,11 @@ namespace KokoAnalytics;
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
-require __DIR__ . '/vendor/autoload.php';
+// Conditionally load our autoloader
+// This allows people to install the plugin through wpackagist and use a site-wide autoloader
+if (! class_exists('KokoAnalytics\Plugin')) {
+    require __DIR__ . '/vendor/autoload.php';
+}
 
 if (\defined('DOING_AJAX') && DOING_AJAX) {
     maybe_collect_request();
