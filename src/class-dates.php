@@ -18,14 +18,16 @@ class Dates
                     new \DateTime('today midnight, -1 second')
                 ];
             case 'this_week':
+                $offset = get_option('start_of_week', 0);
                 return [
-                    new \DateTime('last monday, midnight'),
-                    new \DateTime('next monday, midnight, -1 second')
+                    (new \DateTime('last sunday, midnight'))->modify("+$offset days"),
+                    (new \DateTime('next sunday, midnight, -1 second'))->modify("+$offset days")
                 ];
             case 'last_week':
+                $offset = get_option('start_of_week', 0);
                 return [
-                    new \DateTime('last monday, midnight, -7 days'),
-                    new \DateTime('last monday, midnight, -1 second')
+                    (new \DateTime('last sunday, midnight, -7 days'))->modify("+$offset days"),
+                    (new \DateTime('last sunday, midnight, -1 second'))->modify("+$offset days"),
                 ];
             case 'last_28_days':
                 return [
