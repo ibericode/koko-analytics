@@ -48,10 +48,10 @@ use function KokoAnalytics\fmt_large_number;
     <?php require __DIR__ . '/nav.php'; ?>
 
     <div class="ka-datepicker">
-        <div class='ka-datepicker--label'>
+        <div class='ka-datepicker--label' aria-expanded="false" aria-controls="ka-datepicker-dropdown">
             <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
         </div>
-        <div class="ka-datepicker--dropdown" style="display: none;">
+        <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
             <div class="ka-datepicker--quicknav">
                 <span class="ka-datepicker--quicknav-prev" title=<?php echo esc_html__('Previous', 'koko-analytics'); ?>></span>
                 <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>

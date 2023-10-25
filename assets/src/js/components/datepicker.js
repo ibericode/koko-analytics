@@ -2,7 +2,7 @@ import { parseISO8601, format, toISO8601 } from '../util/dates'
 
 export default function Datepicker(root, callback) {
   const
-    dropdown = root.children[1],
+    dropdown = root.querySelector('#ka-datepicker-dropdown'),
     startDateInput = root.querySelector('#ka-date-start'),
     endDateInput = root.querySelector('#ka-date-end'),
     dropdownToggle = root.querySelector('.ka-datepicker--label'),
@@ -21,6 +21,7 @@ export default function Datepicker(root, callback) {
   function toggle(open) {
     isOpen = typeof(open) === 'boolean' ? open : !isOpen;
     dropdown.style.display = isOpen ? '' : 'none';
+    dropdownToggle.setAttribute('aria-expanded', isOpen);
   }
 
   /**
