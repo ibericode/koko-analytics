@@ -1,4 +1,8 @@
-<?php defined('ABSPATH') or exit; ?><!DOCTYPE html>
+<?php
+/**
+* @var KokoAnalytics\Admin $this
+ */
+defined('ABSPATH') or exit; ?><!DOCTYPE html>
 <html lang="<?php bloginfo('language'); ?>">
 <head>
     <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/standalone.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
@@ -10,7 +14,7 @@
     <title>Koko Analytics</title>
 </head>
 <body>
-    <?php require __DIR__ . '/dashboard-page.php'; ?>
+    <?php $this->show_dashboard_page(); ?>
     <?php wp_print_scripts('koko-analytics-admin'); ?>
     <?php do_action('koko_analytics_standalone_footer'); ?>
 </body>

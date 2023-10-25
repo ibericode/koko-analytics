@@ -24,7 +24,6 @@
 	},
 	"homepage": "https://github.com/ibericode/koko-analytics#readme",
 	"dependencies": {
-		"date-fns": "^2.21.3",
 		"snabbdom": "^3.5.1"
 	},
 	"devDependencies": {

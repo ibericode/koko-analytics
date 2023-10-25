@@ -1,5 +1,4 @@
 import { parseISO8601, format, toISO8601 } from '../util/dates'
-import { isLastDayOfMonth, addDays } from 'date-fns'
 
 export default function Datepicker(root, callback) {
   const
@@ -37,6 +36,12 @@ export default function Datepicker(root, callback) {
     }
   }
 
+  function isLastDayOfMonth(a) {
+    let b = new Date(a);
+    b.setDate(b.getDate() + 1);
+    return a.getMonth() !== b.getMonth()
+  }
+
   /**
    * @param {int} modifier
    */
@@ -44,12 +49,14 @@ export default function Datepicker(root, callback) {
     const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
     if (cycleMonths) {
       const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + (monthsDiff * modifier), 1, 0, 0, 0)
-      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + (monthsDiff * modifier) + 1, 0, 23, 59, 59)
+      const amount = monthsDiff * modifier;
+      startDate = new Date(startDate.getFullYear(), startDate.getMonth() + amount, 1, 0, 0, 0)
+      endDate = new Date(endDate.getFullYear(), endDate.getMonth() + amount + 1, 0, 23, 59, 59)
     } else {
       const diffInDays = Math.round((endDate - startDate) / 86400000)
-      startDate = addDays(startDate, diffInDays * modifier)
-      endDate = addDays(endDate, diffInDays * modifier)
+      const amount = diffInDays * modifier;
+      startDate.setDate(startDate.getDate () + amount)
+      endDate.setDate(endDate.getDate () + amount)
     }
 
     presetSelect.value = 'custom';

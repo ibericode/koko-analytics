@@ -169,13 +169,20 @@ class Admin
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');
 
+        $settings   = get_settings();
+        $dates = new Dates();
+        $dateRange = $dates->get_range($settings['default_view']);
+        $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : $dateRange[0];
+        $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : $dateRange[1];
+        $dateFormat = get_option('date_format');
+        $preset     = ! isset($_GET['start_date']) && ! isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
+        $totals = (new \KokoAnalytics\Stats())->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
+        $realtime = get_realtime_pageview_count('-1 hour');
+
         // determine whether buffer file is writable
         $buffer_filename        = get_buffer_filename();
         $buffer_dirname         = dirname($buffer_filename);
         $is_buffer_dir_writable = wp_mkdir_p($buffer_dirname) && is_writable($buffer_dirname);
-
-        // determine whether cron event is set up properly and running in-time
-        $is_cron_event_working = $this->is_cron_event_working();
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
     }
