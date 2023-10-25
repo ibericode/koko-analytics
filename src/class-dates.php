@@ -29,6 +29,11 @@ class Dates
                     (new \DateTime('last sunday, midnight, -7 days'))->modify("+$offset days"),
                     (new \DateTime('last sunday, midnight, -1 second'))->modify("+$offset days"),
                 ];
+            case 'last_14_days':
+                return [
+                    new \DateTime('-14 days'),
+                    new \DateTime('tomorrow midnight, -1 second')
+                ];
             case 'last_28_days':
                 return [
                     new \DateTime('-28 days'),

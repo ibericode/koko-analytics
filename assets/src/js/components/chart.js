@@ -95,7 +95,7 @@ export default function(root, height) {
    * @param {Date} endDate
    */
   function update(startDate, endDate) {
-    const groupByMonth = startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate.getMonth() - startDate.getMonth()) >= 2
+    const groupByMonth = (startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate - startDate) > 86400000 * 92) || (endDate - startDate) > 86400000 * 365
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {

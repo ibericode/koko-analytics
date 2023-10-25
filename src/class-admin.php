@@ -327,6 +327,7 @@ class Admin
             'yesterday' => __('Yesterday', 'koko-analytics'),
             'this_week' => __('This week', 'koko-analytics'),
             'last_week' => __('Last week', 'koko-analytics'),
+            'last_14_days' => __('Last 14 days', 'koko-analytics'),
             'last_28_days' => __('Last 28 days', 'koko-analytics'),
             'this_month' => __('This month', 'koko-analytics'),
             'last_month' => __('Last month', 'koko-analytics'),
