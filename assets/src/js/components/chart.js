@@ -36,6 +36,22 @@ function createTooltip () {
   const el = document.createElement('div')
   el.className = 'ka-chart--tooltip'
   el.style.display = 'none'
+  el.innerHTML = `
+<div class="ka-chart--tooltip-box">
+  <div class="ka-chart--tooltip-heading"></div>
+  <div style="display: flex">
+    <div class="ka-chart--tooltip-content ka--visitors">
+      <div class="ka-chart--tooltip-amount"></div>
+      <div>${i18n['Visitors']}</div>
+    </div>
+    <div class="ka-chart--tooltip-content ka--pageviews">
+      <div class="ka-chart--tooltip-amount"></div>
+      <div>${i18n['Pageviews']}</div>
+    </div>
+  </div>
+</div>
+<div class="ka-chart--tooltip-arrow"></div>`
+
   return el
 }
 
@@ -53,8 +69,8 @@ export default function(root, height) {
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
-    // hide tooltip if clicking outside of chart or tooltip
-    if (evt.type === 'click' && typeof evt.target.matches === 'function' && evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
+    // don't hide if click was inside tooltip
+    if (evt.target.matches && evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
       return
     }
 
@@ -63,21 +79,9 @@ export default function(root, height) {
 
   function createShowTooltip (data, barWidth) {
     return (evt) => {
-      tooltip.innerHTML = `
-      <div class="ka-chart--tooltip-box">
-        <div class="ka-chart--tooltip-heading">${format(data.date, dateFormatOptions)}</div>
-        <div style="display: flex">
-          <div class="ka-chart--tooltip-content ka--visitors">
-            <div class="ka-chart--tooltip-amount">${data.visitors}</div>
-            <div>${i18n['Visitors']}</div>
-          </div>
-          <div class="ka-chart--tooltip-content ka--pageviews">
-            <div class="ka-chart--tooltip-amount">${data.pageviews}</div>
-            <div>${i18n['Pageviews']}</div>
-          </div>
-        </div>
-      </div>
-      <div class="ka-chart--tooltip-arrow"></div>`
+      tooltip.querySelector('.ka-chart--tooltip-heading').textContent = format(data.date, dateFormatOptions);
+      tooltip.querySelector('.ka--visitors').children[0].textContent = data.visitors
+      tooltip.querySelector('.ka--pageviews').children[0].textContent = data.visitors
 
       const styles = evt.currentTarget.getBoundingClientRect()
       tooltip.style.display = 'block'
