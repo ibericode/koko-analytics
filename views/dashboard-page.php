@@ -87,7 +87,7 @@ use function KokoAnalytics\fmt_large_number;
     </div>
 
     <div id="ka-totals" class='ka-totals m'>
-        <div class="ka-fade <?php echo $totals->visitors_change > 0 ? 'ka-up' : 'ka-down'; ?>">
+        <div class="ka-fade <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
             <div class='ka-totals--heading'><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></div>
             <div class='ka-totals--amount'>
                 <span><?php echo fmt_large_number($totals->visitors); ?></span>
@@ -101,7 +101,7 @@ use function KokoAnalytics\fmt_large_number;
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
             </div>
         </div>
-        <div class="ka-fade <?php echo $totals->pageviews_change_rel > 0 ? 'ka-up' : 'ka-down'; ?>">
+        <div class="ka-fade <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
             <div class='ka-totals--heading'><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></div>
             <div class='ka-totals--amount'>
                 <span><?php echo fmt_large_number($totals->pageviews); ?></span>
