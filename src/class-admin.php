@@ -83,16 +83,17 @@ class Admin
             'wp-i18n',
         ), KOKO_ANALYTICS_VERSION, true);
         wp_set_script_translations('koko-analytics-admin', 'koko-analytics');
+
         $settings = get_settings();
+        $dateRange = (new Dates())->get_range($settings['default_view']);
         $script_data = array(
             'root'             => rest_url(),
             'nonce'            => wp_create_nonce('wp_rest'),
-            'startOfWeek'      => (int) get_option('start_of_week'),
-            'defaultDateRange' => $settings['default_view'],
             'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
+            'startDate' => $_GET['start_date'] ?? $dateRange[0]->format('Y-m-d'),
+            'endDate' => $_GET['end_date'] ?? $dateRange[1]->format('Y-m-d'),
         );
         wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
-
         do_action('koko_analytics_register_admin_scripts');
     }
 
@@ -312,7 +313,6 @@ class Admin
     private function get_date_presets(): array
     {
         return [
-            'custom' => __('Custom', 'koko-analytics'),
             'today' => __('Today', 'koko-analytics'),
             'yesterday' => __('Yesterday', 'koko-analytics'),
             'this_week' => __('This week', 'koko-analytics'),
@@ -320,8 +320,6 @@ class Admin
             'last_28_days' => __('Last 28 days', 'koko-analytics'),
             'this_month' => __('This month', 'koko-analytics'),
             'last_month' => __('Last month', 'koko-analytics'),
-            'this_quarter' => __('This quarter', 'koko-analytics'),
-            'last_quarter' => __('Last quarter', 'koko-analytics'),
             'this_year' => __('This year', 'koko-analytics'),
             'last_year' => __('Last year', 'koko-analytics'),
         ];

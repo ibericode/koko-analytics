@@ -26,13 +26,17 @@ $tab = 'dashboard';
     }
 
     $settings   = \KokoAnalytics\get_settings();
-    $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : new \DateTimeImmutable('-28 days');
-    $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : new \DateTimeImmutable('now');
+    $dates = new \KokoAnalytics\Dates();
+    $dateRange = $dates->get_range($settings['default_view']);
+    $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : $dateRange[0];
+    $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : $dateRange[1];
     $dateFormat = get_option('date_format');
     $preset     = ! isset($_GET['start_date']) && ! isset($_GET['end_date']) ? $settings['default_view'] : '';
     $random_usage_tip = $this->get_usage_tip();
+    $totals = (new \KokoAnalytics\Stats())->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
     ?>
 
+    <?php dump($dateStart, $dateEnd); ?>
     <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
         <p>
             <?php _e('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
@@ -42,7 +46,7 @@ $tab = 'dashboard';
             defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
 
     <noscript>
-        <?php echo esc_html__('Please enable JavaScript for this page to work.', 'koko-analytics'); ?>
+        <p><?php echo esc_html__('Please enable JavaScript for this page to work.', 'koko-analytics'); ?></p>
     </noscript>
 
     <?php require __DIR__ . '/nav.php'; ?>
@@ -60,8 +64,13 @@ $tab = 'dashboard';
             <div class="ka-datepicker--dropdown-content">
                 <label for="ka-date-presets"><?php echo __('Date range', 'koko-analytics'); ?></label>
                 <select id="ka-date-presets">
-                    <?php foreach ($this->get_date_presets() as $key => $label) { ?>
-                        <option value="<?php echo $key; ?>" <?php echo ( $key === $preset ) ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                    <option value="custom"><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
+                    <?php foreach ($this->get_date_presets() as $key => $label) {
+                        $range = $dates->get_range($key); ?>
+                        <option value="<?php echo $key; ?>"
+                                data-start-date="<?php echo $range[0]->format('Y-m-d'); ?>"
+                                data-end-date="<?php echo $range[1]->format('Y-m-d'); ?>"
+                                <?php echo ( $key === $preset ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option>
                     <?php } ?>
                 </select>
                 <div style="display: flex; margin-top: 12px;">
@@ -85,7 +94,7 @@ $tab = 'dashboard';
         <div class='ka-fade'>
             <div class='ka-totals--heading'><?php echo __('Total visitors', 'koko-analytics'); ?></div>
             <div class='ka-totals--amount'>
-                <span>&nbsp;</span>
+                <span><?php echo $totals->visitors; ?></span>
                 <span class="ka-totals--change"></span>
             </div>
             <div class='ka-totals--subtext'>&nbsp;</div>
@@ -93,7 +102,7 @@ $tab = 'dashboard';
         <div class='ka-fade'>
             <div class='ka-totals--heading'><?php echo __('Total pageviews', 'koko-analytics'); ?></div>
             <div class='ka-totals--amount'>
-                <span>&nbsp;</span>
+                <span><?php echo $totals->pageviews; ?></span>
                 <span class="ka-totals--change"></span>
             </div>
             <div class='ka-totals--subtext'>&nbsp;</div>

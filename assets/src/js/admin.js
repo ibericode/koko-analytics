@@ -2,40 +2,22 @@ import './globals.js'
 import Chart from './components/chart.js'
 import Datepicker from './components/datepicker.js'
 import Totals from './components/totals'
-import datePresets from './util/date-presets.js'
-import { parseISO8601, toISO8601 } from './util/dates.js'
 import { PostsComponent, ReferrersComponent } from './components/block-components'
-const { defaultDateRange } = window.koko_analytics
+import { parseISO8601, toISO8601 } from './util/dates'
+let { startDate, endDate } = window.koko_analytics
+startDate = parseISO8601(startDate)
+endDate = parseISO8601(endDate)
 
-
-/**
- * @returns {{endDate: Date, startDate: Date}}
- */
-function parseDatesFromUrl () {
-  let params = new URLSearchParams(window.location.search);
-  const startDate = parseISO8601(params.get('start_date'))
-  const endDate = parseISO8601(params.get('end_date'))
-  if (!startDate || !endDate) {
-    return datePresets.find(p => p.key === defaultDateRange).dates()
-  }
-
-  return {
-    startDate,
-    endDate,
-  }
-}
-
-let blockComponents = [
+const blockComponents = [
   PostsComponent(document.querySelector('#ka-top-posts')),
   ReferrersComponent(document.querySelector('#ka-top-referrers'))
 ]
 window.koko_analytics.registerDashboardComponent = function(c) {
   blockComponents.push(c)
 }
-let chart, totals;
-let {startDate, endDate} = parseDatesFromUrl()
 
-
+const totals = Totals(document.querySelector('#ka-totals'));
+const chart = Chart(document.querySelector('#ka-chart'));
 Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
   [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
 
@@ -44,8 +26,6 @@ Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
   s.set('end_date', toISO8601(endDate))
   history.replaceState(undefined, undefined, window.location.pathname + '?' + s)
 });
-totals = Totals(document.querySelector('#ka-totals'));
-chart = Chart(document.querySelector('#ka-chart'));
 
 document.addEventListener('DOMContentLoaded', () => {
   [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))

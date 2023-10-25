@@ -1,5 +1,4 @@
 import { parseISO8601, format, toISO8601 } from '../util/dates'
-import datePresets from '../util/date-presets'
 import { isLastDayOfMonth, addDays } from 'date-fns'
 
 export default function Datepicker(root, callback) {
@@ -93,10 +92,8 @@ export default function Datepicker(root, callback) {
   })
 
   presetSelect.addEventListener('change', evt => {
-    const p = datePresets.find((p) => p.key === evt.target.value)
-    const dates = p.dates();
-    startDate = dates.startDate
-    endDate = dates.endDate
+    startDate = parseISO8601(evt.target.selectedOptions[0].dataset.startDate);
+    endDate = parseISO8601(evt.target.selectedOptions[0].dataset.endDate);
     startDateInput.value = toISO8601(startDate)
     endDateInput.value = toISO8601(endDate)
     updateDateRange(true)
