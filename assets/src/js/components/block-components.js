@@ -23,12 +23,10 @@ export function BlockComponent(root, apiEndpoint, rowView, onUpdate) {
 
   function fetch() {
     request(apiEndpoint, {
-      body: {
-        offset,
-        limit,
-        start_date: toISO8601(startDate),
-        end_date: toISO8601(endDate)
-      }
+      offset,
+      limit,
+      start_date: toISO8601(startDate),
+      end_date: toISO8601(endDate)
     }).then(items => {
       total = items.length
       root = patch(root, render(items))

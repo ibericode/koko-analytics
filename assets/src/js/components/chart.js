@@ -95,11 +95,9 @@ export default function(root, height) {
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {
-      body: {
-        start_date: toISO8601(startDate),
-        end_date: toISO8601(endDate),
-        monthly: groupByMonth ? 1 : 0,
-      }
+      start_date: toISO8601(startDate),
+      end_date: toISO8601(endDate),
+      monthly: groupByMonth ? 1 : 0,
     }).then(data => {
       root = patch(root,  render(data))
     })
