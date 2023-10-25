@@ -28,7 +28,7 @@ Koko Analytics lets you focus on what is important and gives you all the essenti
 - **No cookies**: There is an option to not use any cookies.
 - **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-- **Lightweight**: Adds only 985 bytes of data to your pages.
+- **Lightweight**: Adds less than 950 bytes of data to your pages.
 - **GDPR**: Compliant by design.
 - **Metrics**: All the essentials: visitors, pageviews and referrers.
 - **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
@@ -42,9 +42,11 @@ Koko Analytics lets you focus on what is important and gives you all the essenti
 
 You can contribute to Koko Analytics in many different ways. For example:
 
+- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
+- [Vote on feature suggestions in our idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas?discussions_q=is%3Aopen+sort%3Atop+created%3A%3E%3D2022-10-25+category%3AIdeas)
+
 
 == Installation ==
 
