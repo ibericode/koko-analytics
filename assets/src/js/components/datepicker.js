@@ -92,6 +92,9 @@ export default function Datepicker(root, callback) {
   })
 
   presetSelect.addEventListener('change', evt => {
+    if (evt.target.value === 'custom') {
+      return;
+    }
     startDate = parseISO8601(evt.target.selectedOptions[0].dataset.startDate);
     endDate = parseISO8601(evt.target.selectedOptions[0].dataset.endDate);
     startDateInput.value = toISO8601(startDate)

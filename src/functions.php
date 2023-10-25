@@ -232,3 +232,16 @@ function install_and_test_custom_endpoint()
     $endpoint_installer = new Endpoint_Installer();
     $endpoint_installer->run();
 }
+
+function fmt_large_number(float $number): string
+{
+    if ($number < 10000) {
+        return $number;
+    }
+
+    $number /= 1000;
+    if ($number > 100) {
+        $number = round($number);
+    }
+    return rtrim(rtrim(number_format($number, 1), '0'), '.')  . 'K';
+}

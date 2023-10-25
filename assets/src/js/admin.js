@@ -28,6 +28,6 @@ Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
+  [chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
 })
 

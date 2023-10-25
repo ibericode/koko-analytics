@@ -51,7 +51,5 @@ export default function(root) {
   }
 
   window.setInterval(updateRealtime, 60000)
-  updateRealtime()
-
   return {update}
 }

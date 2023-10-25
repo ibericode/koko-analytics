@@ -39,8 +39,6 @@ namespace KokoAnalytics;
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/functions.php';
-require __DIR__ . '/src/global-functions.php';
 
 if (\defined('DOING_AJAX') && DOING_AJAX) {
     maybe_collect_request();
