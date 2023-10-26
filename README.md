@@ -1,15 +1,16 @@
 Koko Analytics
 ===========
-![PHP status](https://github.com/ibericode/koko-analytics/workflows/PHP/badge.svg)
-![ESLint status](https://github.com/ibericode/koko-analytics/workflows/JS/badge.svg)
-![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)
-![Downloads](https://img.shields.io/wordpress/plugin/dt/koko-analytics.svg)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/ibericode/koko-analytics/master/LICENSE)
+[![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)](https://wordpress.org/plugins/koko-analytics/advanced/)
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
-[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Lighthouse accessibility score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_accessibility.svg)
+![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
 [Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 900 bytes) and privacy-friendly website analytics plugin for WordPress.
 
-You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
+It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
+
+You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?go-to-demo).
 
 ## Features
 
@@ -23,7 +24,12 @@ You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
 - **Open-source**: GPLv3 licensed.
 - **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian and Russian.
 
-![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
+
+<figure>
+  <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
+  <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="">view a live demo here</a>.</figcaption>
+</figure>
+
 
 ## Installation
 
@@ -31,25 +37,35 @@ You can view a [live demo here](https://www.kokoanalytics.com/?go-to-demo).
 
 Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
 
-- WordPress 6.0 or later.
+- WordPress 6.0 or higher.
 - PHP 7.3 or higher.
-- `php-json` extension.
 
-### Instructions
+### Installing latest stable release
+
+You can download a pre-packaged version of Koko Analytics here:
+
+- [Koko Analytics on WordPress.org](https://wordpress.org/plugins/koko-analytics/)
+- From the [GitHub releases page](https://github.com/ibericode/koko-analytics/releases).
+- From your WordPress admin by searching for "Koko Analytics" in the "Add plugin" screen.
+
+After extracting this package into your `/wp-content/plugins/` directory the plugin is ready t be used right away.
+
+### Installing latest development version
 
 To run the latest development version of the plugin, take the following steps.
 
-First, clone the repository using Git in your `/wp-content/plugins/` directory
+First, clone or download the repository into your `/wp-content/plugins/` directory
+
 ```
 git clone git@github.com:ibericode/koko-analytics.git
 ```
 
-Create the autoloader using Composer.
+Create the autoloader using [Composer](https://getcomposer.org/).
 ```
 composer install
 ```
 
-Install client-side dependencies using NPM
+Install client-side dependencies using [NPM](https://docs.npmjs.com/cli/configuring-npm/install).
 ```
 npm install
 ```
@@ -61,7 +77,8 @@ npm run build
 
 ### Usage
 
-Stats will be collected right away after you install and activate the plugin. You can view your stats on the **Dashboard > Analytics** page.
+Stats will be collected right away after you install and activate the plugin.
+You can view your stats on the **Dashboard > Analytics** page.
 
 ## Contributing
 
