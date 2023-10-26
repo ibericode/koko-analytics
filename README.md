@@ -26,7 +26,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 
 <figure>
-  <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
+  <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1-830x447.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
   <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="">view a live demo here</a>.</figcaption>
 </figure>
 
@@ -48,7 +48,7 @@ You can download a pre-packaged version of Koko Analytics here:
 - From the [GitHub releases page](https://github.com/ibericode/koko-analytics/releases).
 - From your WordPress admin by searching for "Koko Analytics" in the "Add plugin" screen.
 
-After extracting this package into your `/wp-content/plugins/` directory the plugin is ready t be used right away.
+After extracting this package into your `/wp-content/plugins/` directory the plugin is ready to be used right away.
 
 ### Installing latest development version
 
