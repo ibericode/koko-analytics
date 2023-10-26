@@ -48,12 +48,6 @@ class Admin
         }
 
         $this->register_scripts();
-
-        // Maybe we can get rid of wp-polyfill?
-//      global $wp_scripts;
-//      $wp_scripts->registered['wp-i18n']->deps = ['wp-hooks'];
-//      $wp_scripts->registered['wp-hooks']->deps = [];
-
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
         exit;
     }
@@ -238,8 +232,12 @@ class Admin
 
     public function dashboard_widget(): void
     {
-        echo '<div id="koko-analytics-dashboard-widget-mount"></div>';
-        echo sprintf('<p class="help" style="text-align: center;">%s &mdash; <a href="%s">%s</a></p>', esc_html__('Showing site visits over last 14 days', 'koko-analytics'), esc_attr(admin_url('index.php?page=koko-analytics')), esc_html__('View all statistics', 'koko-analytics'));
+        $stats = new Stats();
+        $dateStart = new \DateTime('-14 days');
+        $dateEnd = new \DateTimeImmutable('now');
+        $realtime = get_realtime_pageview_count('-1 hour');
+        $posts = $stats->get_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), 0, 5);
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-widget.php';
     }
 
     /**
