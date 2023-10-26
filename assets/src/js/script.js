@@ -10,22 +10,14 @@ const win = window
 const nav = navigator
 const enc = encodeURIComponent
 const loc = win.location
-const body = doc.body
 const ka = "koko_analytics"
 
 function getPagesViewed() {
   return (doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/) ?? [""]).pop().split('a')
 }
 
-function request(url, cb) {
-  const img = doc.createElement('img')
-  img.style.display = 'none'
-  img.onload = () => {
-    body.removeChild(img)
-    if (cb) cb()
-  }
-  img.src = win[ka].url + (win[ka].url.indexOf('?') > -1 ? '&' : '?') + url
-  body.appendChild(img)
+function request(url) {
+  return nav.sendBeacon(win[ka].url + (win[ka].url.indexOf('?') > -1 ? '&' : '?') + url)
 }
 
 function trackPageview (postId) {
@@ -61,16 +53,12 @@ function trackPageview (postId) {
     referrer = ''
   }
 
-  request(`p=${postId}&nv=${isNewVisitor}&up=${isUniquePageview}&r=${enc(referrer)}&rqp=${Math.random().toString(36)}`, () => {
-    if (isUniquePageview) pagesViewed.push(postId)
-    if (use_cookie) doc.cookie = `_${ka}_pages_viewed=${pagesViewed.join('a')};SameSite=lax;path=${cookie_path};max-age=21600`
-  })
+  request(`p=${postId}&nv=${isNewVisitor}&up=${isUniquePageview}&r=${enc(referrer)}`)
+  if (isUniquePageview) pagesViewed.push(postId)
+  if (use_cookie) doc.cookie = `_${ka}_pages_viewed=${pagesViewed.join('a')};SameSite=lax;path=${cookie_path};max-age=21600`
 }
 
-win.addEventListener('load', () => {
-  // window.koko_analytics might be missing if the active theme is not calling wp_head()
-  if (win[ka]) {
-    trackPageview(win[ka].post_id)
-    win[ka] = {...win[ka], trackPageview}
-  }
-})
+if (win[ka]) {
+  win[ka].trackPageview = trackPageview;
+}
+win.addEventListener('load', () =>  trackPageview(win[ka].post_id))

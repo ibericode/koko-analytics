@@ -6,7 +6,7 @@ Koko Analytics
 ![Lighthouse accessibility score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_accessibility.svg)
 ![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
-[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 900 bytes) and privacy-friendly website analytics plugin for WordPress.
+[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 850 bytes) and privacy-friendly website analytics plugin for WordPress.
 
 It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
 

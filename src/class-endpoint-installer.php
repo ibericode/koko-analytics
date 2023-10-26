@@ -62,8 +62,7 @@ EOT;
 
         $status  = wp_remote_retrieve_response_code($response);
         $headers = wp_remote_retrieve_headers($response);
-        $body    = wp_remote_retrieve_body($response);
-        if ($status !== 200 || $headers['Content-Type'] !== 'image/gif' || $body !== base64_decode('R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==')) {
+        if ($status !== 200 || $headers['Content-Type'] !== 'text/plain') {
             return false;
         }
 

@@ -49,11 +49,11 @@ function collect_request()
     } else {
         \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
     }
-    \header('Content-Type: image/gif');
-    \header('X-Content-Type-Options: nosniff');
-    \header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+
+    \header('Content-Type: text/plain');
+
+    // Prevent this response from being cached
     \header('Cache-Control: no-cache, must-revalidate, max-age=0');
-    \header_remove('Last-Modified');
 
     // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
     \header('Tk: N');
@@ -68,8 +68,6 @@ function collect_request()
         \setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/');
     }
 
-    // 1px transparent GIF, needs to be an actual image to make sure browser fires the onload event
-    echo \base64_decode('R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
     exit;
 }
 
