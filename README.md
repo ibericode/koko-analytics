@@ -75,10 +75,16 @@ Build the plugin assets by issuing the following command:
 npm run build
 ```
 
-### Usage
+## Usage
 
 Stats will be collected right away after you install and activate the plugin.
 You can view your stats on the **Dashboard > Analytics** page.
+
+## Help and documentation
+
+The [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/) contains general help articles on effectively using the plugin.
+
+We also have a [repository of sample code snippets](https://github.com/ibericode/koko-analytics/tree/master/code-snippets) to help you modify or extend the plugin's default behavior.
 
 ## Contributing
 
