@@ -29,15 +29,12 @@ module.exports = {
       }
     ]
   },
-  externals: {
-    '@wordpress/i18n': 'wp.i18n',
-  },
-    plugins: [
-        new CopyPlugin({
-            patterns: [
-              { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
-              { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css') }
-            ],
-        }),
-    ],
+  plugins: [
+      new CopyPlugin({
+          patterns: [
+            { from: './assets/src/img', to: path.resolve(__dirname, './assets/dist/img') },
+            { from: './assets/src/css', to: path.resolve(__dirname, './assets/dist/css') }
+          ],
+      }),
+  ],
 }
