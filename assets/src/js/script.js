@@ -58,7 +58,5 @@ function trackPageview (postId) {
   if (use_cookie) doc.cookie = `_${ka}_pages_viewed=${pagesViewed.join('a')};SameSite=lax;path=${cookie_path};max-age=21600`
 }
 
-if (win[ka]) {
-  win[ka].trackPageview = trackPageview;
-}
+win[ka].trackPageview = trackPageview;
 win.addEventListener('load', () =>  trackPageview(win[ka].post_id))
