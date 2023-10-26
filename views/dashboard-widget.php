@@ -18,7 +18,11 @@
 <h3 style="margin-top: 2em;">
    <?php echo esc_html__('Showing site visits over last 14 days', 'koko-analytics'); ?>
 </h3>
-<div id="koko-analytics-dashboard-widget-mount"></div>
+
+<div style="min-height: 204px;">
+    <div id="koko-analytics-dashboard-widget-mount"></div>
+</div>
+
 <h3 style="margin-top: 2em;">
     <?php echo esc_html__('Most viewed pages over last 14 days', 'koko-analytics'); ?>
     <span style="float: right;"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></span>

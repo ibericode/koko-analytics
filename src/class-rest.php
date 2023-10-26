@@ -155,18 +155,11 @@ class Rest
      */
     public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
-        global $wpdb;
         $params             = $request->get_query_params();
         $start_date         = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
         $end_date           = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
-        $date_format        = ($params['monthly'] ?? false) ? '%Y-%m' : '%Y-%m-%d';
-        $sql                = $wpdb->prepare("SELECT DATE_FORMAT(d.date, %s) AS date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$wpdb->prefix}koko_analytics_dates d LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date WHERE d.date >= %s AND d.date <= %s GROUP BY date", array( $date_format, $start_date, $end_date ));
-        $result             = $wpdb->get_results($sql);
-        $result             = is_array($result) ? array_map(function ($row) {
-            $row->pageviews = (int) $row->pageviews;
-            $row->visitors  = (int) $row->visitors;
-            return $row;
-        }, $result) : $result;
+        $group = ($params['monthly'] ?? false) ? 'month' : 'day';
+        $result = (new Stats())->get_stats($start_date, $end_date, $group);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         return $this->respond($result, $send_cache_headers);
     }
@@ -216,14 +209,12 @@ class Rest
      */
     public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
-        global $wpdb;
         $params             = $request->get_query_params();
         $start_date         = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
         $end_date           = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
-        $sql                = $wpdb->prepare("SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_referrer_stats s JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id WHERE s.date >= %s AND s.date <= %s GROUP BY s.id ORDER BY pageviews DESC, r.id ASC LIMIT %d, %d", array( $start_date, $end_date, $offset, $limit ));
-        $results            = $wpdb->get_results($sql);
+        $results = (new Stats())->get_referrers($start_date, $end_date, $offset, $limit);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         return $this->respond($results, $send_cache_headers);
     }
