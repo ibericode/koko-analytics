@@ -73,7 +73,7 @@ class Admin
 
     public function register_scripts(): void
     {
-        wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+        wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION);
         $settings = get_settings();
         $dateRange = (new Dates())->get_range($settings['default_view']);
         $script_data = array(
@@ -89,6 +89,13 @@ class Admin
         );
         wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
         do_action('koko_analytics_register_admin_scripts');
+        add_filter('script_loader_tag', function ($tag, $handle) {
+            if ($handle === 'koko-analytics-admin') {
+                $tag = str_replace('<script src=', '<script defer src=', $tag);
+            }
+
+            return $tag;
+        }, 10, 2);
     }
 
     public function enqueue_scripts($page): void
