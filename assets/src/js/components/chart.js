@@ -60,7 +60,7 @@ function hideTooltip() {
 }
 
 export default function(root, height) {
-  height = height ?? Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
+  height = height ? height : Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
   root.parentElement.style.minHeight = `${height+4}px`
   let dateFormatOptions = {month: 'short', year: 'numeric'}
   let width = root.clientWidth

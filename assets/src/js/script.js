@@ -13,7 +13,8 @@ const loc = win.location
 const ka = "koko_analytics"
 
 function getPagesViewed() {
-  return (doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/) ?? [""]).pop().split('a')
+  let m = doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/)
+  return m ? m.pop().split('a') : [];
 }
 
 function request(url) {

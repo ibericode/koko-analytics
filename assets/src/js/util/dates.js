@@ -66,13 +66,11 @@ export function toISO8601(d) {
  * @returns {string}
  */
 export function format(d, options) {
-  if (typeof d === 'string') {
-    d = parseISO8601(d)
-  }
-
+  d = typeof d === 'string' ? parseISO8601(d) : d;
+  options = options ? options : { day: 'numeric', month: 'short', year: 'numeric' };
   try {
-    return (new Intl.DateTimeFormat(undefined, options ?? { day: 'numeric', month: 'short', year: 'numeric' })).format(d)
-  } catch {
+    return (new Intl.DateTimeFormat(undefined, options)).format(d);
+  } catch (e) {
     // ignore error
   }
 
