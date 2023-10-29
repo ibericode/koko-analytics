@@ -13,22 +13,6 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'assets/dist/js')
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/i,
-        exclude: [/\/node_modules\//],
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env'
-            ]
-          }
-        }
-      }
-    ]
-  },
   plugins: [
       new CopyPlugin({
           patterns: [

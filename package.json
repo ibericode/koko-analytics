@@ -27,9 +27,6 @@
 		"snabbdom": "^3.5.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.22.19",
-		"@babel/preset-env": "^7.20.2",
-		"babel-loader": "^9.1.0",
 		"copy-webpack-plugin": "^11.0.0",
 		"eslint": "^8.28.0",
 		"eslint-plugin-jest": "^27.1.6",
