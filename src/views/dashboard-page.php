@@ -15,12 +15,12 @@ $tab = 'dashboard';
 
 use function KokoAnalytics\fmt_large_number;
 ?>
-<script src="<?php echo plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>" defer></script>
+<script src="<?php echo plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
 <script>
     var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
 </script>
-<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
 <?php do_action('koko_analytics_dashboard_print_assets'); ?>
+<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 <div class="wrap">
 
     <?php $this->maybe_show_adblocker_notice(); ?>
