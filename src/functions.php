@@ -116,6 +116,7 @@ function get_settings(): array
         'exclude_user_roles' => array(),
         'prune_data_after_months' => 5 * 12, // 5 years
         'default_view' => 'last_28_days',
+        'is_dashboard_public' => 0,
     );
     $settings         = (array) get_option('koko_analytics_settings', array());
     $settings         = array_merge($default_settings, $settings);

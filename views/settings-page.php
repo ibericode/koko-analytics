@@ -9,6 +9,7 @@
  * @var array $date_presets
  */
 $tab          = 'settings';
+$public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), get_home_url());
 ?>
 <div class="wrap" id="koko-analytics-admin">
     <?php require __DIR__ . '/nav.php'; ?>
@@ -47,6 +48,16 @@ $tab          = 'settings';
                 </fieldset>
                 <p class="description">
                     <?php esc_html_e('Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics'); ?>
+                </p>
+            </div>
+            <div class="ka-margin-m">
+                <fieldset>
+                    <legend class="ka-settings--label"><?php esc_html_e('Should your dashboard be publicly accessible?', 'koko-analytics'); ?></legend>
+                    <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="1" <?php checked($settings['is_dashboard_public'], 1); ?>><?php esc_html_e('Yes'); ?></label>
+                    <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No'); ?></label>
+                </fieldset>
+                <p class="description">
+                    <?php printf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), $public_dashboard_url); ?>
                 </p>
             </div>
             <div class="ka-margin-m">

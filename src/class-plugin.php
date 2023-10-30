@@ -28,6 +28,7 @@ class Plugin
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array( $this, 'on_activation' ));
         add_filter('pre_update_option_active_plugins', array( $this, 'filter_active_plugins' ));
         add_action('init', array( $this, 'maybe_run_db_migrations' ));
+        add_action('init', array( $this, 'maybe_show_dashboard' ));
     }
 
     // move koko analytics to top of active plugins
@@ -81,5 +82,20 @@ class Plugin
 
         // make sure scheduled event is set up correctly
         $this->aggregator->setup_scheduled_event();
+    }
+
+    public function maybe_show_dashboard(): void
+    {
+        if (! isset($_GET['koko-analytics-dashboard'])) {
+            return;
+        }
+
+        $settings = get_settings();
+        if (!$settings['is_dashboard_public']) {
+            return;
+        }
+
+        $admin = new Admin();
+        $admin->show_standalone_dashboard_page();
     }
 }

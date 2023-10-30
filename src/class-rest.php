@@ -17,6 +17,9 @@ class Rest
 
     public function register_routes()
     {
+        $settings = get_settings();
+        $is_dashboard_public = $settings['is_dashboard_public'];
+
         register_rest_route(
             'koko-analytics/v1',
             '/stats',
@@ -34,8 +37,8 @@ class Rest
                         'validate_callback' => 'absint',
                     ),
                 ),
-                'permission_callback' => function () {
-                    return current_user_can('view_koko_analytics');
+                'permission_callback' => function () use ($is_dashboard_public) {
+                    return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             )
         );
@@ -54,8 +57,8 @@ class Rest
                         'validate_callback' => array( $this, 'validate_date_param' ),
                     ),
                 ),
-                'permission_callback' => function () {
-                    return current_user_can('view_koko_analytics');
+                'permission_callback' => function () use ($is_dashboard_public) {
+                    return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             )
         );
@@ -74,8 +77,8 @@ class Rest
                         'validate_callback' => array( $this, 'validate_date_param' ),
                     ),
                 ),
-                'permission_callback' => function () {
-                    return current_user_can('view_koko_analytics');
+                'permission_callback' => function () use ($is_dashboard_public) {
+                    return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             )
         );
@@ -94,8 +97,8 @@ class Rest
                         'validate_callback' => array( $this, 'validate_date_param' ),
                     ),
                 ),
-                'permission_callback' => function () {
-                    return current_user_can('view_koko_analytics');
+                'permission_callback' => function () use ($is_dashboard_public) {
+                    return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             )
         );
@@ -111,8 +114,8 @@ class Rest
                         'validate_callback' => array( $this, 'validate_date_param' ),
                     ),
                 ),
-                'permission_callback' => function () {
-                    return current_user_can('view_koko_analytics');
+                'permission_callback' => function () use ($is_dashboard_public) {
+                    return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             )
         );

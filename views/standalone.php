@@ -12,7 +12,7 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <meta name="charset" content="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex,nofollow">
     <title>Koko Analytics</title>
 </head>
 <body>

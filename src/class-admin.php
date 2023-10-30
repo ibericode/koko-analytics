@@ -15,7 +15,7 @@ class Admin
         global $pagenow;
 
         add_action('init', array( $this, 'maybe_run_actions' ), 10, 0);
-        add_action('wp_loaded', array( $this, 'maybe_load_standalone' ), 10, 0);
+        add_action('init', array( $this, 'maybe_show_standalone_dashboard_page' ), 10, 0);
         add_action('admin_menu', array( $this, 'register_menu' ), 10, 0);
         add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 1);
         add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ), 10, 0);
@@ -36,7 +36,7 @@ class Admin
         add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ));
     }
 
-    public function maybe_load_standalone(): void
+    public function maybe_show_standalone_dashboard_page(): void
     {
         global $pagenow;
         if ($pagenow !== 'index.php' || ($_GET['page'] ?? '') !== 'koko-analytics' || ! isset($_GET['standalone'])) {
@@ -47,6 +47,11 @@ class Admin
             return;
         }
 
+        $this->show_standalone_dashboard_page();
+    }
+
+    public function show_standalone_dashboard_page(): void
+    {
         $this->register_scripts();
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
         exit;
@@ -319,6 +324,7 @@ class Admin
         $settings['exclude_user_roles']      = $new_settings['exclude_user_roles'] ?? array();
         $settings['prune_data_after_months'] = abs((int) $new_settings['prune_data_after_months']);
         $settings['use_cookie']              = (int) $new_settings['use_cookie'];
+        $settings['is_dashboard_public']     = (int) $new_settings['is_dashboard_public'];
         $settings['default_view']            = trim($new_settings['default_view']);
         update_option('koko_analytics_settings', $settings, true);
         wp_safe_redirect(add_query_arg(array( 'settings-updated' => true ), wp_get_referer()));
