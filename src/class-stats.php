@@ -46,12 +46,12 @@ class Stats
                 GROUP BY date",
             array( $date_format, $start_date, $end_date )
         );
-        $result             = $wpdb->get_results($sql);
-        return is_array($result) ? array_map(function ($row) {
+        $result = $wpdb->get_results($sql);
+        return array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
             return $row;
-        }, $result) : $result;
+        }, $result);
     }
 
     public function get_posts(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
@@ -59,9 +59,8 @@ class Stats
         global $wpdb;
         $sql = $wpdb->prepare(
             "
-                SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, COALESCE(NULLIF(p.post_title, ''), p.post_name) AS post_title
+                SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
-                    LEFT JOIN {$wpdb->posts} p ON p.ID = s.id
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.id
                 ORDER BY pageviews DESC, s.id ASC
@@ -69,6 +68,7 @@ class Stats
             array( $start_date, $end_date, $offset, $limit )
         );
         $results = $wpdb->get_results($sql);
+
         return array_map(function ($row) {
             // special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
             if ($row->id == 0) {
@@ -76,7 +76,9 @@ class Stats
                 $row->post_title     = get_bloginfo('name');
             } else {
                 /* TODO: Optimize this */
-                $row->post_permalink = get_permalink($row->id);
+                $post = get_post($row->id);
+                $row->post_title = get_the_title($post);
+                $row->post_permalink = get_permalink($post);
             }
 
             $row->pageviews = (int) $row->pageviews;
