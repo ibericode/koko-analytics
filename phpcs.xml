@@ -5,7 +5,6 @@
     <file>code-snippets/</file>
     <file>src/</file>
     <file>migrations/</file>
-    <file>views/</file>
     <file>koko-analytics.php</file>
     <exclude-pattern>*\.(html|css|js)</exclude-pattern>
     <rule ref="PSR12">
