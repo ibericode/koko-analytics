@@ -25,7 +25,7 @@ class Dashboard
 
     public function show_standalone_dashboard_page(): void
     {
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
+        require __DIR__ . '/views/standalone.php';
         exit;
     }
 
@@ -33,15 +33,16 @@ class Dashboard
     {
         $settings   = get_settings();
         $dates = new Dates();
+        $stats = new Stats();
         $dateRange = $dates->get_range($settings['default_view']);
         $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : $dateRange[0];
         $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : $dateRange[1];
         $dateFormat = get_option('date_format');
         $preset     = ! isset($_GET['start_date']) && ! isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
-        $totals = (new \KokoAnalytics\Stats())->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
+        $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
         $realtime = get_realtime_pageview_count('-1 hour');
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
+        require __DIR__ . '/views/dashboard-page.php';
     }
 
     private function get_script_data(): array
@@ -86,5 +87,18 @@ class Dashboard
             sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
         ];
         return $tips[array_rand($tips)];
+    }
+
+    private function maybe_show_adblocker_notice()
+    {
+        ?>
+        <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
+        <p>
+            <?php _e('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
+        </p>
+        </div>
+        <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>"
+            defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
+        <?php
     }
 }

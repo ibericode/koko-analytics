@@ -10,6 +10,7 @@ $tab = 'dashboard';
  * @var string $dateFormat
  * @var string $preset
  * @var \KokoAnalytics\Dates $dates
+ * @var \KokoAnalytics\Stats $stats
  */
 
 use function KokoAnalytics\fmt_large_number;
@@ -20,15 +21,9 @@ use function KokoAnalytics\fmt_large_number;
 </script>
 <link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
 <?php do_action('koko_analytics_dashboard_print_assets'); ?>
-
 <div class="wrap">
-    <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
-        <p>
-            <?php _e('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
-        </p>
-    </div>
-    <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>"
-            defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
+
+    <?php $this->maybe_show_adblocker_notice(); ?>
 
     <noscript>
         <p><?php echo esc_html__('Please enable JavaScript for this page to work.', 'koko-analytics'); ?></p>
@@ -154,3 +149,12 @@ use function KokoAnalytics\fmt_large_number;
     </div>
 
 </div>
+
+<script>
+var koko_analytics_data = {
+    chart: <?php echo json_encode($stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 'day')) ?>,
+    posts: <?php echo json_encode($stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, 20)) ?>,
+    referrers: <?php echo json_encode($stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, 20)) ?>,
+    <?php do_action('koko_analytics_print_dashboard_data', $dateStart, $dateEnd); ?>
+}
+</script>

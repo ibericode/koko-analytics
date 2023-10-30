@@ -1,18 +1,32 @@
-import {request} from '../util/api'
-import {toISO8601} from '../util/dates'
+import {request} from '../util/api.js'
+import {toISO8601} from '../util/dates.js'
 const limit = window.koko_analytics.items_per_page;
 import { attributesModule, init, h } from "snabbdom";
 const patch = init([attributesModule]);
 
-export function BlockComponent(root, apiEndpoint, rowView, onUpdate) {
+/**
+ * @param {HTMLElement} root
+ * @param {array} data
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @param {string} apiEndpoint
+ * @param {function} rowView
+ * @param {function?} onUpdate
+ * @returns {{update: update}}
+ * @constructor
+ */
+export function BlockComponent(root, data, startDate, endDate, apiEndpoint, rowView, onUpdate) {
   let elPlaceholder = root.nextElementSibling;
   let pagination = elPlaceholder.nextElementSibling;
   let buttonPrev = pagination.children[0];
   let buttonNext = pagination.children[1];
   let offset = 0,
-    total = 0,
-    startDate,
-    endDate;
+    total = data.length;
+
+  root = patch(root, render(data))
+  if (onUpdate) {
+    onUpdate(data)
+  }
 
   function update(newStartDate, newEndDate) {
     startDate = newStartDate
@@ -68,8 +82,15 @@ export function BlockComponent(root, apiEndpoint, rowView, onUpdate) {
   return {update}
 }
 
-export function PostsComponent(root) {
-  return BlockComponent(root, '/posts', function(item, rank) {
+/**
+ * @param {HTMLElement} root
+ * @param {array} data
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {{update: update}}
+ */
+export function PostsComponent(root, data, startDate, endDate) {
+  return BlockComponent(root, data, startDate, endDate, '/posts', function(item, rank) {
     return h('div.ka-topx--row ka-fade', [
       h('div.ka-topx--rank', {}, rank),
       h('div.ka-topx--col', {}, [
@@ -94,8 +115,15 @@ function modifyUrlsForDisplay (item) {
   return item
 }
 
-export function ReferrersComponent(root) {
-  return BlockComponent(root, '/referrers', function(item, rank) {
+/**
+ * @param {HTMLElement} root
+ * @param {array} data
+ * @param {Date} startdate
+ * @param {Date} endDate
+ * @returns {{update: update}}
+ */
+export function ReferrersComponent(root, data, startdate, endDate) {
+  return BlockComponent(root, data,startdate, endDate, '/referrers', function(item, rank) {
     item = modifyUrlsForDisplay(item)
     return h('div.ka-topx--row ka-fade', [
       h('div.ka-topx--rank', {}, rank),

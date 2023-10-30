@@ -1,23 +1,24 @@
 import './globals.js'
 import Chart from './components/chart.js'
 import Datepicker from './components/datepicker.js'
-import Totals from './components/totals'
-import { PostsComponent, ReferrersComponent } from './components/block-components'
-import { parseISO8601, toISO8601 } from './util/dates'
+import Totals from './components/totals.js'
+import { PostsComponent, ReferrersComponent } from './components/block-components.js'
+import { parseISO8601, toISO8601 } from './util/dates.js'
+const data = window.koko_analytics_data;
 let { startDate, endDate } = window.koko_analytics
 startDate = parseISO8601(startDate)
 endDate = parseISO8601(endDate)
 
 const blockComponents = [
-  PostsComponent(document.querySelector('#ka-top-posts')),
-  ReferrersComponent(document.querySelector('#ka-top-referrers'))
+  PostsComponent(document.querySelector('#ka-top-posts'), data.posts, startDate, endDate),
+  ReferrersComponent(document.querySelector('#ka-top-referrers'), data.referrers, startDate, endDate)
 ]
 window.koko_analytics.registerDashboardComponent = function(c) {
   blockComponents.push(c)
 }
 
 const totals = Totals(document.querySelector('#ka-totals'));
-const chart = Chart(document.querySelector('#ka-chart'));
+const chart = Chart(document.querySelector('#ka-chart'), data.chart);
 Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
   [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
 
@@ -26,8 +27,3 @@ Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
   s.set('end_date', toISO8601(endDate))
   history.replaceState(undefined, undefined, window.location.pathname + '?' + s)
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  [chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
-})
-

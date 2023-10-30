@@ -155,7 +155,7 @@ class Admin
         $user_roles   = $this->get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
+        require __DIR__ . '/views/settings-page.php';
     }
 
     public function show_settings_section_for_custom_events(): void
@@ -165,7 +165,7 @@ class Admin
             return;
         }
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-section-events.php';
+        require __DIR__ . '/views/settings-section-events.php';
     }
 
     public function footer_text(): string
@@ -194,7 +194,7 @@ class Admin
         $dateEnd = new \DateTimeImmutable('now');
         $realtime = get_realtime_pageview_count('-1 hour');
         $posts = $stats->get_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), 0, 5);
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-widget.php';
+        require __DIR__ . '/views/dashboard-widget.php';
     }
 
     /**

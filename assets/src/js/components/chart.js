@@ -59,13 +59,16 @@ function hideTooltip() {
   tooltip.style.display = 'none'
 }
 
-export default function(root, height) {
-  height = height ? height : Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360))
+export default function(root, data, height) {
+  if (!height) {
+    height = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
+  }
   root.parentElement.style.minHeight = `${height+4}px`
   let dateFormatOptions = {month: 'short', year: 'numeric'}
   let width = root.clientWidth
   const innerWidth = width - padding.left - padding.right
   const innerHeight = height - padding.bottom - padding.top
+  root = patch(root,  render(data))
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
