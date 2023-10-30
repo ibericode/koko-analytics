@@ -19,6 +19,7 @@ $wpdb->query(
     {$wpdb->prefix}koko_analytics_site_stats,
     {$wpdb->prefix}koko_analytics_post_stats,
     {$wpdb->prefix}koko_analytics_referrer_stats,
+    {$wpdb->prefix}koko_analytics_dates,
     {$wpdb->prefix}koko_analytics_referrer_urls"
 );
 
