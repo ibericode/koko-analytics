@@ -225,12 +225,6 @@ function using_custom_endpoint(): bool
     return (bool) get_option('koko_analytics_use_custom_endpoint', false);
 }
 
-function install_and_test_custom_endpoint()
-{
-    $endpoint_installer = new Endpoint_Installer();
-    $endpoint_installer->run();
-}
-
 function fmt_large_number(float $number): string
 {
     if ($number < 10000) {
@@ -242,4 +236,10 @@ function fmt_large_number(float $number): string
         $number = round($number);
     }
     return rtrim(rtrim(number_format($number, 1), '0'), '.')  . 'K';
+}
+
+function test_custom_endpoint(): void
+{
+    $endpoint_installer = new Endpoint_Installer();
+    $endpoint_installer->verify();
 }

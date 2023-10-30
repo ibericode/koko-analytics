@@ -10,9 +10,11 @@ namespace KokoAnalytics;
 
 class Endpoint_Installer
 {
-    public function run(): void
+    public function run(): bool
     {
-        update_option('koko_analytics_use_custom_endpoint', $this->create_and_test(), true);
+        $successfully_installed = $this->create_and_test();
+        update_option('koko_analytics_use_custom_endpoint', $successfully_installed, true);
+        return $successfully_installed;
     }
 
     public function verify(): bool

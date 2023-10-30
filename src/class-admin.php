@@ -19,7 +19,7 @@ class Admin
         add_action('admin_menu', array( $this, 'register_menu' ), 10, 0);
         add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 1);
         add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ), 10, 0);
-        add_action('koko_analytics_install_optimized_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint', 10, 0);
+        add_action('koko_analytics_install_optimized_endpoint', array( $this, 'install_optimized_endpoint' ), 10, 0);
         add_action('koko_analytics_save_settings', array( $this, 'save_settings' ), 10, 0);
         add_action('koko_analytics_reset_statistics', array( $this, 'reset_statistics' ), 10, 0);
 
@@ -350,5 +350,11 @@ class Admin
             sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
         ];
         return $tips[array_rand($tips)];
+    }
+
+    public function install_optimized_endpoint(): void
+    {
+        $installer = new Endpoint_Installer();
+        $installer->run();
     }
 }
