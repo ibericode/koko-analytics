@@ -126,37 +126,44 @@ function get_settings(): array
 function get_most_viewed_posts(array $args = array()): array
 {
     global $wpdb;
-    $args = array_merge(array(
-        'number'    => 5,
-        'post_type' => 'post',
-        'days'    => 30,
-    ), $args);
+    $cache_key = md5(serialize($args));
+    $post_ids = wp_cache_get($cache_key, 'koko-analytics');
 
-    $args['days']      = (int) $args['days'];
-    $args['post_type'] = is_array($args['post_type']) ? $args['post_type'] : explode(',', $args['post_type']);
-    $args['post_type'] = array_map('trim', $args['post_type']);
+    if (!$post_ids) {
+        $args = array_merge(array(
+            'number'    => 5,
+            'post_type' => 'post',
+            'days'    => 30,
+        ), $args);
 
-    $start_date = gmdate('Y-m-d', strtotime("-{$args['days']} days"));
-    $end_date   = gmdate('Y-m-d', strtotime('tomorrow midnight'));
+        $args['days']      = (int) $args['days'];
+        $args['post_type'] = is_array($args['post_type']) ? $args['post_type'] : explode(',', $args['post_type']);
+        $args['post_type'] = array_map('trim', $args['post_type']);
 
-    // build query
-    $sql_params             = array(
-        get_option('page_on_front', 0),
-        $start_date,
-        $end_date,
-    );
-    $post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
-    $sql_params             = array_merge($sql_params, $args['post_type']);
-    $sql_params[]           = $args['number'];
-    $sql                    = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT 0, %d", $sql_params);
-    $results                = $wpdb->get_results($sql);
-    if (empty($results)) {
-        return array();
+        $start_date = gmdate('Y-m-d', strtotime("-{$args['days']} days"));
+        $end_date   = gmdate('Y-m-d', strtotime('tomorrow midnight'));
+
+        // build query
+        $sql_params             = array(
+            get_option('page_on_front', 0),
+            $start_date,
+            $end_date,
+        );
+        $post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
+        $sql_params             = array_merge($sql_params, $args['post_type']);
+        $sql_params[]           = $args['number'];
+        $sql                    = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT 0, %d", $sql_params);
+        $results                = $wpdb->get_results($sql);
+        if (empty($results)) {
+            return array();
+        }
+
+        $post_ids = array_map(function ($r) {
+            return $r->id;
+        }, $results);
+        wp_cache_set($cache_key, $post_ids, 'koko-analytics', 3600);
     }
 
-    $post_ids = array_map(function ($r) {
-        return $r->id;
-    }, $results);
     $r        = new WP_Query(
         array(
             'posts_per_page'      => -1,
