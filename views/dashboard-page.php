@@ -2,9 +2,7 @@
 $tab = 'dashboard';
 
 /**
- * @var \KokoAnalytics\Admin $this
- * @var bool $is_buffer_dir_writable
- * @var string $buffer_dirname
+ * @var \KokoAnalytics\Dashboard $this
  * @var \DateTimeInterface $dateStart
  * @var \DateTimeInterface $dateEnd
  * @var object $totals
@@ -16,23 +14,14 @@ $tab = 'dashboard';
 
 use function KokoAnalytics\fmt_large_number;
 ?>
-<div class="wrap" id="koko-analytics-admin">
-    <?php
-    if (false === $this->is_cron_event_working()) {
-        echo '<div class="notice notice-warning inline koko-analytics-cron-warning is-dismissible"><p>';
-        echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
-        echo ' ';
-        echo esc_html__('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
-        echo '</p></div>';
-    }
+<script src="<?php echo plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>" defer></script>
+<script>
+    var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
+</script>
+<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
+<?php do_action('koko_analytics_dashboard_print_assets'); ?>
 
-    if (false === $is_buffer_dir_writable) {
-        echo '<div class="notice notice-warning inline is-dismissible"><p>';
-        echo wp_kses(sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), array( 'code' => array() ));
-        echo '</p></div>';
-    }
-
-    ?>
+<div class="wrap">
     <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
         <p>
             <?php _e('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>

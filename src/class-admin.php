@@ -15,7 +15,6 @@ class Admin
         global $pagenow;
 
         add_action('init', array( $this, 'maybe_run_actions' ), 10, 0);
-        add_action('init', array( $this, 'maybe_show_standalone_dashboard_page' ), 10, 0);
         add_action('admin_menu', array( $this, 'register_menu' ), 10, 0);
         add_action('admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 1);
         add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ), 10, 0);
@@ -34,27 +33,6 @@ class Admin
     public function register_menu(): void
     {
         add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', array( $this, 'show_page' ));
-    }
-
-    public function maybe_show_standalone_dashboard_page(): void
-    {
-        global $pagenow;
-        if ($pagenow !== 'index.php' || ($_GET['page'] ?? '') !== 'koko-analytics' || ! isset($_GET['standalone'])) {
-            return;
-        }
-
-        if (!current_user_can('view_koko_analytics')) {
-            return;
-        }
-
-        $this->show_standalone_dashboard_page();
-    }
-
-    public function show_standalone_dashboard_page(): void
-    {
-        $this->register_scripts();
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/standalone.php';
-        exit;
     }
 
     public function maybe_run_actions(): void
@@ -76,41 +54,12 @@ class Admin
         exit;
     }
 
-    public function register_scripts(): void
-    {
-        wp_register_script('koko-analytics-admin', plugins_url('assets/dist/js/admin.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION);
-        $settings = get_settings();
-        $dateRange = (new Dates())->get_range($settings['default_view']);
-        $script_data = array(
-            'root'             => rest_url(),
-            'nonce'            => wp_create_nonce('wp_rest'),
-            'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
-            'startDate' => $_GET['start_date'] ?? $dateRange[0]->format('Y-m-d'),
-            'endDate' => $_GET['end_date'] ?? $dateRange[1]->format('Y-m-d'),
-            'i18n' => array(
-                'Visitors' => __('Visitors', 'koko-analytics'),
-                'Pageviews' => __('Pageviews', 'koko-analytics'),
-            )
-        );
-        wp_add_inline_script('koko-analytics-admin', 'var koko_analytics = ' . json_encode($script_data), 'before');
-        do_action('koko_analytics_register_admin_scripts');
-        add_filter('script_loader_tag', function ($tag, $handle) {
-            if ($handle === 'koko-analytics-admin') {
-                $tag = str_replace('<script src=', '<script defer src=', $tag);
-            }
-
-            return $tag;
-        }, 10, 2);
-    }
-
     public function enqueue_scripts($page): void
     {
         // do not load any scripts if user is missing required capability for viewing
         if (! current_user_can('view_koko_analytics')) {
             return;
         }
-
-        wp_register_style('koko-analytics-admin', plugins_url('assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE));
 
         switch ($page) {
             case 'index.php':
@@ -123,18 +72,9 @@ class Admin
                     )
                 );
                 // load scripts for dashboard widget
-                wp_enqueue_style('koko-analytics-admin');
+                wp_enqueue_style('koko-analytics-dashboard', plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE));
                 wp_enqueue_script('koko-analytics-dashboard-widget', plugins_url('/assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
                 wp_add_inline_script('koko-analytics-dashboard-widget', 'var koko_analytics = ' . json_encode($script_data), 'before');
-                break;
-
-            case 'dashboard_page_koko-analytics':
-                wp_enqueue_style('koko-analytics-admin');
-                if (!isset($_GET['tab'])) {
-                    $this->register_scripts();
-                    wp_enqueue_script('koko-analytics-admin');
-                    do_action('koko_analytics_enqueue_admin_scripts');
-                }
                 break;
         }
     }
@@ -178,22 +118,27 @@ class Admin
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');
 
-        $settings   = get_settings();
-        $dates = new Dates();
-        $dateRange = $dates->get_range($settings['default_view']);
-        $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : $dateRange[0];
-        $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : $dateRange[1];
-        $dateFormat = get_option('date_format');
-        $preset     = ! isset($_GET['start_date']) && ! isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
-        $totals = (new \KokoAnalytics\Stats())->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
-        $realtime = get_realtime_pageview_count('-1 hour');
+        if (false === $this->is_cron_event_working()) {
+            echo '<div class="notice notice-warning inline koko-analytics-cron-warning is-dismissible"><p>';
+            echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
+            echo ' ';
+            echo esc_html__('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
+            echo '</p></div>';
+        }
 
         // determine whether buffer file is writable
         $buffer_filename        = get_buffer_filename();
         $buffer_dirname         = dirname($buffer_filename);
         $is_buffer_dir_writable = wp_mkdir_p($buffer_dirname) && is_writable($buffer_dirname);
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/views/dashboard-page.php';
+        if (false === $is_buffer_dir_writable) {
+            echo '<div class="notice notice-warning inline is-dismissible"><p>';
+            echo wp_kses(sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), array( 'code' => array() ));
+            echo '</p></div>';
+        }
+
+        $dashboard = new Dashboard();
+        $dashboard->show();
     }
 
     public function show_settings_page(): void
@@ -208,7 +153,7 @@ class Admin
         $using_custom_endpoint = using_custom_endpoint() && \is_file($endpoint_installer->get_file_name());
         $database_size      = $this->get_database_size();
         $user_roles   = $this->get_available_roles();
-        $date_presets = $this->get_date_presets();
+        $date_presets = (new Dashboard())->get_date_presets();
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/views/settings-page.php';
     }
@@ -331,32 +276,6 @@ class Admin
         exit;
     }
 
-    private function get_date_presets(): array
-    {
-        return [
-            'today' => __('Today', 'koko-analytics'),
-            'yesterday' => __('Yesterday', 'koko-analytics'),
-            'this_week' => __('This week', 'koko-analytics'),
-            'last_week' => __('Last week', 'koko-analytics'),
-            'last_14_days' => __('Last 14 days', 'koko-analytics'),
-            'last_28_days' => __('Last 28 days', 'koko-analytics'),
-            'this_month' => __('This month', 'koko-analytics'),
-            'last_month' => __('Last month', 'koko-analytics'),
-            'this_year' => __('This year', 'koko-analytics'),
-            'last_year' => __('Last year', 'koko-analytics'),
-        ];
-    }
-
-    private function get_usage_tip(): string
-    {
-        $tips = [
-            __('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
-            __('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
-            sprintf(__('Tip: did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
-            sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
-        ];
-        return $tips[array_rand($tips)];
-    }
 
     public function install_optimized_endpoint(): void
     {

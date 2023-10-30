@@ -1,22 +1,21 @@
 <?php
 /**
-* @var KokoAnalytics\Admin $this
+* @var KokoAnalytics\Dashboard $this
  */
 defined('ABSPATH') or exit; ?><!DOCTYPE html>
 <html lang="<?php bloginfo('language'); ?>">
 <head>
-    <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/standalone.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
-    <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/admin.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
-    <?php wp_print_scripts('koko-analytics-admin'); ?>
-    <?php do_action('koko_analytics_standalone_head'); ?>
+    <?php wp_print_scripts('koko-analytics-dashboard'); ?>
+    <?php do_action('koko_analytics_dashboard_head'); ?>
+    <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
     <meta name="charset" content="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <meta name="robots" content="noindex,nofollow">
+    <meta name="robots" content="noindex, nofollow">
     <title>Koko Analytics</title>
 </head>
-<body>
-    <?php $this->show_dashboard_page(); ?>
-    <?php do_action('koko_analytics_standalone_footer'); ?>
+<body class="ka-dashboard">
+    <?php $this->show(); ?>
+    <?php do_action('koko_analytics_dashboard_footer'); ?>
 </body>
 </html>

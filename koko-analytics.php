@@ -56,6 +56,9 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
     add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40);
 }
 
+$dashboard = new Dashboard();
+$dashboard->add_hooks();
+
 $aggregator = new Aggregator();
 $aggregator->init();
 

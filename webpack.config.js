@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    admin: './assets/src/js/admin.js',
+    dashboard: './assets/src/js/dashboard.js',
     'dashboard-widget': './assets/src/js/dashboard-widget.js',
     script: './assets/src/js/script.js',
     'koko-analytics-script-test': './assets/src/js/koko-analytics-script-test.js'
