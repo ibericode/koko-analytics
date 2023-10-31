@@ -62,7 +62,7 @@ class Plugin
 
         // create optimized endpoint file
         $endpoint_installer = new Endpoint_Installer();
-        $endpoint_installer->run();
+        $endpoint_installer->install();
     }
 
     public function maybe_run_db_migrations(): void

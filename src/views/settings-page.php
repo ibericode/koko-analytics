@@ -24,6 +24,12 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             </div>
         <?php } ?>
 
+        <?php if (isset($_GET['endpoint-installed'])) { ?>
+            <div class="notice notice-<?php echo $_GET['endpoint-installed'] ? 'success' : 'warning'; ?> is-dismissible">
+                <p><?php echo $_GET['endpoint-installed'] ? esc_html__('Successfully installed optimized endpoint.') : esc_html__('Unable to install optimized endpoint. Please create the file manually and then try again.', 'koko-analytics'); ?></p>
+            </div>
+        <?php } ?>
+
         <form method="POST" action="<?php echo add_query_arg(array( 'koko_analytics_action' => 'save_settings' )); ?>">
             <?php wp_nonce_field('koko_analytics_save_settings'); ?>
             <div class="ka-margin-m">
@@ -84,7 +90,7 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
 
         <?php do_action('koko_analytics_show_settings_sections'); ?>
 
-        <?php if (false === is_multisite()) { ?>
+        <?php if ($endpoint_installer->is_eligibile()) { ?>
         <div class="ka-margin-l">
             <h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
             <?php if ($using_custom_endpoint) { ?>

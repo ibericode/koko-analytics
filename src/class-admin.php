@@ -280,6 +280,8 @@ class Admin
     public function install_optimized_endpoint(): void
     {
         $installer = new Endpoint_Installer();
-        $installer->run();
+        $success = $installer->install();
+        wp_safe_redirect(add_query_arg(array( 'endpoint-installed' => (int) $success ), wp_get_referer()));
+        exit;
     }
 }
