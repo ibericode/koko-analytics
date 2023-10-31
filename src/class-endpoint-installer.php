@@ -64,7 +64,7 @@ EOT;
 
         $status  = wp_remote_retrieve_response_code($response);
         $headers = wp_remote_retrieve_headers($response);
-        if ($status !== 200 || $headers['Content-Type'] !== 'text/plain') {
+        if ($status !== 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
             return false;
         }
 
@@ -94,23 +94,22 @@ EOT;
         if (file_exists($file_name)) {
             $content = file_get_contents($file_name);
             if (strpos($content, get_buffer_filename()) === false) {
-                @unlink(ABSPATH . '/koko-analytics-collect.php');
+                unlink(ABSPATH . '/koko-analytics-collect.php');
             }
         }
 
         /* Attempt to put the file into place if it does not exist already */
         if (! file_exists($file_name)) {
-            $success = @file_put_contents($file_name, $this->get_file_contents());
-            if (! $success) {
+            $success = file_put_contents($file_name, $this->get_file_contents());
+	        if (false === $success) {
                 return false;
             }
         }
 
-        /* Send an HTTP request to the custom endpoint to see if it's working properly */
+	    /* Send an HTTP request to the custom endpoint to see if it's working properly */
         $works = $this->test();
         if (! $works) {
-            /* Remove the file */
-            @unlink($file_name);
+	        unlink($file_name);
             return false;
         }
 
