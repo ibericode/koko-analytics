@@ -4,7 +4,7 @@ Donate link: https://opencollective.com/koko-analytics
 Tags: analytics, statistics, stats, koko
 Requires at least: 6.0
 Tested up to: 6.3
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -112,6 +112,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.3.0 - Oct 31, 2023
+
+- Major performance improvements for the dashboard by removing the dependency on React and further optimizations.
+- Added link for loading the dashboard outside of WordPress admin (standalone).
+- Added setting to make the analytics dashboard publicly available.
+- Only show button to create optimized endpoint file if location is writable.
+- Remove `wp_koko_analytics_dates` on plugin uninstall.
+- Optimized database query for getting most viewed posts and cache its results.
+- Expand dashboard widget to include realtime pageviews and a list of the most viewed posts.
+- Use `navigator.sendBeacon` for data collection requests.
+
 
 #### 1.2.2 - Oct 18, 2023
 
