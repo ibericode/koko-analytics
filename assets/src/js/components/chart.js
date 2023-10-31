@@ -84,7 +84,7 @@ export default function(root, data, height) {
     return (evt) => {
       tooltip.querySelector('.ka-chart--tooltip-heading').textContent = format(data.date, dateFormatOptions);
       tooltip.querySelector('.ka--visitors').children[0].textContent = data.visitors
-      tooltip.querySelector('.ka--pageviews').children[0].textContent = data.visitors
+      tooltip.querySelector('.ka--pageviews').children[0].textContent = data.pageviews
 
       const styles = evt.currentTarget.getBoundingClientRect()
       tooltip.style.display = 'block'
