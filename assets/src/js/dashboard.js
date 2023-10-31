@@ -4,8 +4,7 @@ import Datepicker from './components/datepicker.js'
 import Totals from './components/totals.js'
 import { PostsComponent, ReferrersComponent } from './components/block-components.js'
 import { parseISO8601, toISO8601 } from './util/dates.js'
-const data = window.koko_analytics_data;
-let { startDate, endDate } = window.koko_analytics
+let { startDate, endDate, data } = window.koko_analytics
 startDate = parseISO8601(startDate)
 endDate = parseISO8601(endDate)
 

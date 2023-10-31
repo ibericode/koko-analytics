@@ -47,19 +47,30 @@ class Dashboard
 
     private function get_script_data(): array
     {
+        // TODO: Determine group parameter for pre-loading chart data
+
         $settings = get_settings();
-        $dateRange = (new Dates())->get_range($settings['default_view']);
-        return array(
+        $stats = new Stats();
+        $dates = new Dates();
+        [$dateStart, $dateEnd] = $dates->get_range($settings['default_view']);
+        $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
+
+        return apply_filters('koko_analytics_dashboard_script_data', array(
             'root'             => rest_url(),
             'nonce'            => wp_create_nonce('wp_rest'),
-            'items_per_page'   => (int) apply_filters('koko_analytics_items_per_page', 20),
-            'startDate' => $_GET['start_date'] ?? $dateRange[0]->format('Y-m-d'),
-            'endDate' => $_GET['end_date'] ?? $dateRange[1]->format('Y-m-d'),
+            'items_per_page'   => $items_per_page,
+            'startDate' => $_GET['start_date'] ?? $dateStart->format('Y-m-d'),
+            'endDate' => $_GET['end_date'] ?? $dateEnd->format('Y-m-d'),
             'i18n' => array(
                 'Visitors' => __('Visitors', 'koko-analytics'),
                 'Pageviews' => __('Pageviews', 'koko-analytics'),
+            ),
+            'data' => array(
+                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 'day'),
+                'posts' => $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
+                'referrers' => $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
             )
-        );
+        ), $dateStart, $dateEnd);
     }
 
     public function get_date_presets(): array
@@ -81,23 +92,23 @@ class Dashboard
     private function get_usage_tip(): string
     {
         $tips = [
-            __('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
-            __('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
+            esc_html__('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
+            esc_html__('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
             sprintf(__('Tip: did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
             sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
         ];
         return $tips[array_rand($tips)];
     }
 
-    private function maybe_show_adblocker_notice()
+    private function maybe_show_adblocker_notice(): void
     {
         ?>
         <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
         <p>
-            <?php _e('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
+            <?php echo esc_html__('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
         </p>
         </div>
-        <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>"
+        <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>"
             defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
         <?php
     }

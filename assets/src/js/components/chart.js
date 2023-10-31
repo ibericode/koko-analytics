@@ -19,15 +19,8 @@ const tooltip = createTooltip()
  */
 function yScale (yMax) {
   const max = magnitude(yMax)
-  const nTicks = 2
-  const step = max / nTicks
-  const ticks = []
-  for (let i = 0; i <= max; i += step) {
-    ticks.push(i)
-  }
-
   return {
-    ticks,
+    ticks: [0, max / 2, max],
     max
   }
 }
@@ -59,6 +52,12 @@ function hideTooltip() {
   tooltip.style.display = 'none'
 }
 
+/**
+ * @param {HTMLElement|VNode} root
+ * @param {array} data
+ * @param {number} height
+ * @returns {{update: update}}
+ */
 export default function(root, data, height) {
   if (!height) {
     height = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
@@ -73,13 +72,18 @@ export default function(root, data, height) {
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
     // don't hide if click was inside tooltip
-    if (evt.target.matches && evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
+    if (evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
       return
     }
 
     tooltip.style.display = 'none'
   })
 
+  /**
+   * @param {{pageviews: number, visitors: number, date: Date}} data
+   * @param {number} barWidth
+   * @returns {(function(*): void)|*}
+   */
   function createShowTooltip (data, barWidth) {
     return (evt) => {
       tooltip.querySelector('.ka-chart--tooltip-heading').textContent = format(data.date, dateFormatOptions);

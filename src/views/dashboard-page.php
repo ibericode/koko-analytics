@@ -16,19 +16,10 @@ $tab = 'dashboard';
 use function KokoAnalytics\fmt_large_number;
 ?>
 <script src="<?php echo plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
-<script>
-    var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
-</script>
 <?php do_action('koko_analytics_dashboard_print_assets'); ?>
 <link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 <div class="wrap">
-
     <?php $this->maybe_show_adblocker_notice(); ?>
-
-    <noscript>
-        <p><?php echo esc_html__('Please enable JavaScript for this page to work.', 'koko-analytics'); ?></p>
-    </noscript>
-
     <?php require __DIR__ . '/nav.php'; ?>
 
     <div class="ka-datepicker">
@@ -42,7 +33,7 @@ use function KokoAnalytics\fmt_large_number;
                 <span class="ka-datepicker--quicknav-next" title=<?php echo esc_html__('Next', 'koko-analytics'); ?>></span>
             </div>
             <div class="ka-datepicker--dropdown-content">
-                <label for="ka-date-presets"><?php echo __('Date range', 'koko-analytics'); ?></label>
+                <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
                 <select id="ka-date-presets">
                     <option value="custom" <?php echo $preset === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
                     <?php foreach ($this->get_date_presets() as $key => $label) {
@@ -55,13 +46,13 @@ use function KokoAnalytics\fmt_large_number;
                 </select>
                 <div style="display: flex; margin-top: 12px;">
                     <div>
-                        <label for='ka-date-start'><?php echo __('Start date', 'koko-analytics'); ?></label>
+                        <label for='ka-date-start'><?php echo esc_html__('Start date', 'koko-analytics'); ?></label>
                         <input id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
                                value="<?php echo $dateStart->format('Y-m-d'); ?>">
                         <span>&nbsp;&mdash;&nbsp;</span>
                     </div>
                     <div>
-                        <label for='ka-date-end'><?php echo __('End date', 'koko-analytics'); ?></label>
+                        <label for='ka-date-end'><?php echo esc_html__('End date', 'koko-analytics'); ?></label>
                         <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
                                value="<?php echo $dateEnd->format('Y-m-d'); ?>">
                     </div>
@@ -147,14 +138,8 @@ use function KokoAnalytics\fmt_large_number;
     <div class="ka-margin-s" style="text-align: right">
         <p><?php echo $this->get_usage_tip(); ?></p>
     </div>
-
 </div>
 
 <script>
-var koko_analytics_data = {
-    chart: <?php echo json_encode($stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 'day')) ?>,
-    posts: <?php echo json_encode($stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, 20)) ?>,
-    referrers: <?php echo json_encode($stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, 20)) ?>,
-    <?php do_action('koko_analytics_print_dashboard_data', $dateStart, $dateEnd); ?>
-}
+var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
 </script>

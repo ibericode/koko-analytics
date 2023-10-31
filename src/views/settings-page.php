@@ -16,11 +16,11 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
     <?php require __DIR__ . '/nav.php'; ?>
 
     <div class="ka-admin-container">
-        <h1 class="ka-logo"><?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
+        <h1 class="ka-logo"><?php echo esc_html__('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
         <?php if (isset($_GET['settings-updated'])) { ?>
             <div class="notice notice-success is-dismissible">
-                <p><strong><?php echo __('Settings saved.'); ?></strong></p>
+                <p><strong><?php echo esc_html__('Settings saved.'); ?></strong></p>
             </div>
         <?php } ?>
 
@@ -58,15 +58,15 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                     <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No'); ?></label>
                 </fieldset>
                 <p class="description">
-                    <?php printf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), $public_dashboard_url); ?>
+                    <?php echo sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), $public_dashboard_url); ?>
                 </p>
             </div>
             <div class="ka-margin-m">
                 <label for="ka-default-date-period" class="ka-settings--label"><?php esc_html_e('Default date period', 'koko-analytics'); ?></label>
                 <select id="ka-default-date-period" name="koko_analytics_settings[default_view]">
                     <?php
-                    foreach ($date_presets as $key => $value) {
-                        echo sprintf('<option value="%s" %s>%s</option>', esc_attr($key), selected($key === $settings['default_view'], true, false), esc_html($value));
+                    foreach ($date_presets as $key => $label) {
+                        echo sprintf('<option value="%s" %s>%s</option>', esc_attr($key), selected($key === $settings['default_view'], true, false), esc_html($label));
                     }
                     ?>
                 </select>

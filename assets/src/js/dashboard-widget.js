@@ -9,7 +9,7 @@ function maybeRender() {
     return;
   }
 
-  let chart = Chart(el, 200);
+  let chart = Chart(el, [], 200);
   chart.update(startDate, endDate)
 }
 
