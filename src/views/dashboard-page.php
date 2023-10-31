@@ -141,5 +141,5 @@ use function KokoAnalytics\fmt_large_number;
 </div>
 
 <script>
-var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
+var koko_analytics = <?php echo json_encode($this->get_script_data($dateStart, $dateEnd)); ?>;
 </script>

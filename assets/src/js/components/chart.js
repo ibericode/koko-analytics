@@ -1,6 +1,6 @@
 import { request } from '../util/api.js'
-import { magnitude, formatLargeNumber } from '../util/numbers'
-import { isLastDayOfMonth, toISO8601, format } from '../util/dates.js'
+import { magnitude, formatLargeNumber } from '../util/numbers.js'
+import { toISO8601, format } from '../util/dates.js'
 import { eventListenersModule, attributesModule, init, h } from "snabbdom"
 const {i18n} = window.koko_analytics;
 const patch = init([eventListenersModule, attributesModule])
@@ -60,7 +60,7 @@ function hideTooltip() {
  */
 export default function(root, data, height) {
   if (!height) {
-    height = Math.max(240, Math.min(window.innerHeight / 3, window.innerWidth / 2, 360));
+    height = Math.max(240, Math.min(window.innerHeight / 3,   360));
   }
   root.parentElement.style.minHeight = `${height+4}px`
   let dateFormatOptions = {month: 'short', year: 'numeric'}
@@ -102,7 +102,7 @@ export default function(root, data, height) {
    * @param {Date} endDate
    */
   function update(startDate, endDate) {
-    const groupByMonth = (startDate.getDate() === 1 && isLastDayOfMonth(endDate) && (endDate - startDate) > 86400000 * 92) || (endDate - startDate) > 86400000 * 365
+    const groupByMonth = (endDate - startDate) >= 86400000 * 364
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {

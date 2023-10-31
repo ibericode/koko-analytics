@@ -45,15 +45,15 @@ class Dashboard
         require __DIR__ . '/views/dashboard-page.php';
     }
 
-    private function get_script_data(): array
+    private function get_script_data(\DateTimeInterface $dateStart, \DateTimeInterface $dateEnd): array
     {
-        // TODO: Determine group parameter for pre-loading chart data
-
-        $settings = get_settings();
         $stats = new Stats();
-        $dates = new Dates();
-        [$dateStart, $dateEnd] = $dates->get_range($settings['default_view']);
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
+        $groupChartBy = 'day';
+
+        if ($dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 364) {
+            $groupChartBy = 'month';
+        }
 
         return apply_filters('koko_analytics_dashboard_script_data', array(
             'root'             => rest_url(),
@@ -66,7 +66,7 @@ class Dashboard
                 'Pageviews' => __('Pageviews', 'koko-analytics'),
             ),
             'data' => array(
-                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 'day'),
+                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy),
                 'posts' => $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
                 'referrers' => $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
             )
