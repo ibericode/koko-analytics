@@ -89,7 +89,7 @@ class Script_Loader
 
     private function get_cookie_path(): string
     {
-        $home_url = get_home_url();
+        $home_url = home_url();
         // 8 characters for protocol
         // 1 or more characters for domain name
         // = 9 char offset
