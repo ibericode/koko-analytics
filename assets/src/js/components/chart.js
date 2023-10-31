@@ -55,19 +55,26 @@ function hideTooltip() {
 /**
  * @param {HTMLElement|VNode} root
  * @param {array} data
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @param {number} height
  * @returns {{update: update}}
  */
-export default function(root, data, height) {
+export default function(root, data, startDate, endDate, height) {
   if (!height) {
     height = Math.max(240, Math.min(window.innerHeight / 3,   360));
   }
   root.parentElement.style.minHeight = `${height+4}px`
-  let dateFormatOptions = {month: 'short', year: 'numeric'}
+  let dateFormatOptions = (endDate - startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
   let width = root.clientWidth
   const innerWidth = width - padding.left - padding.right
   const innerHeight = height - padding.bottom - padding.top
-  root = patch(root,  render(data))
+
+  if (data.length) {
+    root = patch(root,  render(data))
+  } else {
+    update(startDate, endDate)
+  }
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {

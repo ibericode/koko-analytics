@@ -1,4 +1,4 @@
-import Chart from './components/chart'
+import Chart from './components/chart.js'
 const el = document.getElementById('koko-analytics-dashboard-widget-mount')
 const now = new Date()
 const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 14, 0, 0, 0)
@@ -9,8 +9,7 @@ function maybeRender() {
     return;
   }
 
-  let chart = Chart(el, [], 200);
-  chart.update(startDate, endDate)
+  Chart(el, [], startDate, endDate, 200);
 }
 
 window.jQuery(document).on('postbox-toggled', maybeRender)
