@@ -77,7 +77,7 @@ class Stats
             } else {
                 /* TODO: Optimize this */
                 $post = get_post($row->id);
-                $row->post_title = get_the_title($post);
+                $row->post_title = isset($post->post_title) ? $post->post_title : $post->post_name;
                 $row->post_permalink = get_permalink($post);
             }
 

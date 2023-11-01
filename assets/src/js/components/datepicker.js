@@ -81,6 +81,7 @@ export default function (root, callback) {
     toggle(false)
   })
 
+
   startDateInput.addEventListener('change', evt => {
     let d = parseISO8601(evt.target.value)
     if (!d) {
