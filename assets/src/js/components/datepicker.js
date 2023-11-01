@@ -58,7 +58,9 @@ export default function (root, callback) {
       startDate = new Date(startDate.getFullYear(), startDate.getMonth() + amount, 1, 0, 0, 0)
       endDate = new Date(endDate.getFullYear(), endDate.getMonth() + amount + 1, 0, 23, 59, 59)
     } else {
-      const diffInDays = Math.round((endDate - startDate) / 86400000)
+      startDate.setHours(0, 0, 0)
+      endDate.setHours(23, 59, 59)
+      const diffInDays = (endDate - startDate) / 86400000
       const amount = diffInDays * modifier
       startDate.setDate(startDate.getDate () + amount)
       endDate.setDate(endDate.getDate () + amount)
