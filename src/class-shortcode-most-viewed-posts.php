@@ -28,6 +28,12 @@ class Shortcode_Most_Viewed_Posts
         $args         = shortcode_atts($allowed_args, $args, self::SHORTCODE);
         $posts        = get_most_viewed_posts($args);
 
+        // If shortcode arguments did not return any results
+        // Show a helpful message to editors and up
+        if (count($posts) === 0 && current_user_can('edit_posts')) {
+            return '<p>' . esc_html__('Heads up! Your shortcode is working, but did not return any results. Please check your shortcode arguments.', 'koko-analytics') . '</p>';
+        }
+
         $html = '<ul>';
         foreach ($posts as $p) {
             $post_title   = get_the_title($p);
