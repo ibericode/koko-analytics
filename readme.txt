@@ -1,9 +1,9 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
-Donate link: https://opencollective.com/koko-analytics
+Donate link: https://www.kokoanalytics.com/pricing/
 Tags: analytics, statistics, stats, koko
 Requires at least: 6.0
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
