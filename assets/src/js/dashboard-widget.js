@@ -13,4 +13,5 @@ function maybeRender() {
 }
 
 window.jQuery(document).on('postbox-toggled', maybeRender)
-maybeRender();
+el.parentElement.style.display = '';
+window.requestAnimationFrame(maybeRender);

@@ -15,12 +15,15 @@
 <p>
     <?php echo sprintf(esc_html__('Your site received %s pageviews in the last hour', 'koko-analytics'), '<strong>' . $realtime . '</strong>'); ?>
 </p>
-<h3 style="margin-top: 2em;">
-   <?php echo esc_html__('Showing site visits over last 14 days', 'koko-analytics'); ?>
-</h3>
-<div id="koko-analytics-dashboard-widget-mount">
-    Please wait, your chart is loading. <br />
-    If nothing shows up, check your browser console for any error messages.
+
+<div style="display: none;">
+    <h3 style="margin-top: 2em;">
+       <?php echo esc_html__('Showing site visits over last 14 days', 'koko-analytics'); ?>
+    </h3>
+    <div id="koko-analytics-dashboard-widget-mount">
+        Please wait, your chart is loading. <br />
+        If nothing shows up, check your browser console for any error messages.
+    </div>
 </div>
 
 <h3 style="margin-top: 2em;">
