@@ -251,3 +251,14 @@ function test_custom_endpoint(): void
     $endpoint_installer = new Endpoint_Installer();
     $endpoint_installer->verify();
 }
+
+function create_local_datetime($timestr): \DateTimeImmutable
+{
+    $offset = (float) get_option('gmt_offset', 0.0);
+    if ($offset >= 0) {
+        $offset = "+$offset";
+    }
+
+    $now_local = (new \DateTimeImmutable('now'))->modify($offset . ' hours');
+    return $now_local->modify($timestr);
+}

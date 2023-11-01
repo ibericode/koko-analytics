@@ -35,8 +35,8 @@ class Dashboard
         $dates = new Dates();
         $stats = new Stats();
         $dateRange = $dates->get_range($settings['default_view']);
-        $dateStart  = isset($_GET['start_date']) ? new \DateTimeImmutable($_GET['start_date']) : $dateRange[0];
-        $dateEnd    = isset($_GET['end_date']) ? new \DateTimeImmutable($_GET['end_date']) : $dateRange[1];
+        $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
+        $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
         $dateFormat = get_option('date_format');
         $preset     = ! isset($_GET['start_date']) && ! isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
         $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));

@@ -91,7 +91,7 @@ class Pageview_Aggregator
         }
 
         // store as local date using the timezone specified in WP settings
-        $date = gmdate('Y-m-d', time() + get_option('gmt_offset') * HOUR_IN_SECONDS);
+        $date = create_local_datetime('now')->format('Y-m-d');
 
         // insert site stats
         $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", array( $date, $this->site_stats['visitors'], $this->site_stats['pageviews'] ));
