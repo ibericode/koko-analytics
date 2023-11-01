@@ -26,6 +26,9 @@ class Shortcode_Most_Viewed_Posts
             'post_type' => 'post',
         );
         $args         = shortcode_atts($allowed_args, $args, self::SHORTCODE);
+        if ($args['show_date'] === "false") {
+            $args['show_date'] = false;
+        }
         $posts        = get_most_viewed_posts($args);
 
         // If shortcode arguments did not return any results
