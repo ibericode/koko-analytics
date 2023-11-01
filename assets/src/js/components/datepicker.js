@@ -1,6 +1,16 @@
-import { parseISO8601, format, toISO8601, isLastDayOfMonth } from '../util/dates'
+import { parseISO8601, format, toISO8601, isLastDayOfMonth } from '../util/dates.js'
 
-export default function Datepicker(root, callback) {
+/**
+ * @callback onDateChangeCallback
+ * @param  {Date} startDate
+ * @param  {Date} endDate
+ */
+
+/**
+ * @param {HTMLElement} root
+ * @param {onDateChangeCallback} callback
+ */
+export default function (root, callback) {
   const
     dropdown = root.querySelector('#ka-datepicker-dropdown'),
     startDateInput = root.querySelector('#ka-date-start'),
@@ -16,7 +26,7 @@ export default function Datepicker(root, callback) {
   let isOpen = false
 
   /**
-   * @param {boolean|undefined} open
+   * @param {boolean?} open
    */
   function toggle(open) {
     isOpen = typeof(open) === 'boolean' ? open : !isOpen
@@ -32,8 +42,8 @@ export default function Datepicker(root, callback) {
     dropdownToggle.textContent = str
     dropdownHeading.textContent = str
 
-    if (bubble) {
-      callback({startDate, endDate})
+    if (true === bubble) {
+      callback(startDate, endDate)
     }
   }
 
@@ -41,10 +51,10 @@ export default function Datepicker(root, callback) {
    * @param {int} modifier
    */
   function quickNav (modifier) {
-    const cycleMonths = startDate.getDate() === 1 && isLastDayOfMonth(endDate)
-    if (cycleMonths) {
-      const monthsDiff = endDate.getMonth() - startDate.getMonth() + 1
-      const amount = monthsDiff * modifier
+    // cycle by full month if we're watching a full month worth of data
+    if (startDate.getDate() === 1 && isLastDayOfMonth(endDate)) {
+      const diffInMonths = endDate.getMonth() - startDate.getMonth() + 1
+      const amount = diffInMonths * modifier
       startDate = new Date(startDate.getFullYear(), startDate.getMonth() + amount, 1, 0, 0, 0)
       endDate = new Date(endDate.getFullYear(), endDate.getMonth() + amount + 1, 0, 23, 59, 59)
     } else {
@@ -110,8 +120,13 @@ export default function Datepicker(root, callback) {
     }
   })
 
-  quickNavPrevEl.addEventListener('click', () => quickNav(-1))
-  quickNavNextEl.addEventListener('click', () => quickNav(1))
-  dropdownToggle.addEventListener('click', toggle)
+  root.addEventListener('click', evt => {
+    switch (evt.target) {
+      case quickNavPrevEl: quickNav(-1); break;
+      case quickNavNextEl: quickNav(1); break;
+      case dropdownToggle: toggle(); break;
+    }
+  })
+
   updateDateRange()
 }

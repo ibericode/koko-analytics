@@ -18,7 +18,7 @@ window.koko_analytics.registerDashboardComponent = function(c) {
 
 const totals = Totals(document.querySelector('#ka-totals'));
 const chart = Chart(document.querySelector('#ka-chart'), data.chart, startDate, endDate);
-Datepicker(document.querySelector('.ka-datepicker'), ({startDate, endDate}) => {
+Datepicker(document.querySelector('.ka-datepicker'), (startDate, endDate) => {
   [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
 
   let s = new URLSearchParams(window.location.search);

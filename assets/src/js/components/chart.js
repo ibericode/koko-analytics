@@ -57,7 +57,7 @@ function hideTooltip() {
  * @param {array} data
  * @param {Date} startDate
  * @param {Date} endDate
- * @param {number} height
+ * @param {number?} height
  * @returns {{update: update}}
  */
 export default function(root, data, startDate, endDate, height) {
