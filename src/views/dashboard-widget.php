@@ -9,8 +9,6 @@
 */
 
 ?>
-
-
 <div id="ka-dashboard-widget-realtime">
     <h3><?php echo esc_html__('Realtime', 'koko-analytics'); ?></h3>
     <p>
@@ -18,8 +16,8 @@
     </p>
 </div>
 
-<div id="ka-dashboard-widget-chart" style="display: none;">
-    <h3 style="margin-top: 2em;">
+<div id="ka-dashboard-widget-chart" style="display: none; margin-top: 2em;">
+    <h3>
        <?php echo esc_html__('Showing site visits over last 14 days', 'koko-analytics'); ?>
     </h3>
     <div id="koko-analytics-dashboard-widget-mount">
@@ -55,7 +53,7 @@
                 <?php } ?>
             </ul>
         </div>
-        <div style="">
+        <div>
             <h3>
             <?php echo esc_html__('Today\'s top referrers', 'koko-analytics'); ?>
             </h3>
