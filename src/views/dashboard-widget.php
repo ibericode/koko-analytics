@@ -62,7 +62,7 @@
             <ul class="ka-ul">
                 <?php foreach ($referrers as $referrer) {  ?>
                     <li>
-                        <span><?php echo $referrer->pageviews; ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url,  PHP_URL_HOST)); ?></a>
+                        <span><?php echo $referrer->pageviews; ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
                     </li>
                 <?php } ?>
             </ul>
