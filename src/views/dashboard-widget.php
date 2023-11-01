@@ -6,9 +6,14 @@
 * @var array $posts
 * @var array $referrers
 * @var stdClass $totals
+* @var $dateStart*
+*
 */
 
 ?>
+<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
+<script src="<?php echo plugins_url('assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
+
 <div id="ka-dashboard-widget-realtime">
     <h3><?php echo esc_html__('Realtime', 'koko-analytics'); ?></h3>
     <p>
@@ -74,3 +79,7 @@
         <?php echo esc_html__('View all statistics', 'koko-analytics'); ?>
     </a>
 </p>
+
+<script>
+var koko_analytics = <?php echo json_encode($this->get_script_data()); ?>;
+</script>

@@ -38,7 +38,7 @@ class Pruner
             return;
         }
 
-        $date = gmdate('Y-m-d', strtotime("-{$settings['prune_data_after_months']} months"));
+        $date = create_local_datetime(sprintf('-%d months', $settings['prune_data_after_months']))->format('Y-m-d');
 
         // delete stats older than date above
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_site_stats WHERE date < %s", $date));

@@ -9,7 +9,7 @@ class Stats
         global $wpdb;
 
         // if end date is a future date, cap it at today so that relative differences to previous period are fair
-        $today = gmdate('Y-m-d');
+        $today = create_local_datetime('now')->format('Y-m-d');
         if ($end_date > $today) {
             $end_date = $today;
         }

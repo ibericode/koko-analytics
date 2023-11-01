@@ -128,9 +128,8 @@ class Rest
             return false;
         }
 
-        $today = gmdate('Y-m-d', (int) (time() + get_option('gmt_offset') * HOUR_IN_SECONDS));
-
-        return $end_date < $today;
+        $now = create_local_datetime('now')->format('Y-m-d');
+        return $end_date < $now;
     }
 
     private function respond($data, bool $send_cache_headers = false): \WP_REST_Response
@@ -159,8 +158,8 @@ class Rest
     public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
-        $end_date           = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
+        $start_date         = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
         $result = (new Stats())->get_stats($start_date, $end_date, $group);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
@@ -177,8 +176,8 @@ class Rest
     public function get_totals(\WP_REST_Request $request): \WP_REST_Response
     {
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
-        $end_date   = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
+        $start_date = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $result = (new Stats())->get_totals($start_date, $end_date);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         return $this->respond($result, $send_cache_headers);
@@ -195,8 +194,8 @@ class Rest
     {
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
-        $end_date   = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
+        $start_date = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $offset     = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit      = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_posts($start_date, $end_date, $offset, $limit);
@@ -213,8 +212,8 @@ class Rest
     public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? gmdate('Y-m-d', strtotime('1st of this month') + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
-        $end_date           = $params['end_date'] ?? gmdate('Y-m-d', time() + get_option('gmt_offset', 0) * HOUR_IN_SECONDS);
+        $start_date         = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_referrers($start_date, $end_date, $offset, $limit);

@@ -1,15 +1,14 @@
 import Chart from './components/chart.js'
+import { parseISO8601 } from './util/dates'
 const el = document.getElementById('koko-analytics-dashboard-widget-mount')
-const now = new Date()
-const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 14, 0, 0, 0)
-const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+const {data, startDate, endDate} = window.koko_analytics;
 
 function maybeRender() {
   if (!el.clientWidth) {
     return;
   }
 
-  Chart(el, [], startDate, endDate, 200);
+  Chart(el, data, parseISO8601(startDate), parseISO8601(endDate), 200);
 }
 
 window.jQuery(document).on('postbox-toggled', maybeRender)
