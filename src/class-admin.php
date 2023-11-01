@@ -190,10 +190,11 @@ class Admin
     public function dashboard_widget(): void
     {
         $stats = new Stats();
-        $dateStart = create_local_datetime('-14 days');
+        $dateStart = create_local_datetime('-1 days');
         $dateEnd = create_local_datetime('now');
         $realtime = get_realtime_pageview_count('-1 hour');
-        $posts = $stats->get_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), 0, 5);
+        $posts = $stats->get_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), 0, 3);
+        $referrers = $stats->get_referrers($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), 0, 3);
         require __DIR__ . '/views/dashboard-widget.php';
     }
 

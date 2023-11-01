@@ -1,7 +1,7 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://www.kokoanalytics.com/pricing/
-Tags: analytics, statistics, stats, koko
+Tags: analytics, statistics, stats, koko, privacy, dashboard, pageviews
 Requires at least: 6.0
 Tested up to: 6.4
 Stable tag: 1.3.0
