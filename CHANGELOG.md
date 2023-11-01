@@ -6,6 +6,7 @@
 - Fix dashboard issues for users with a large UTC timezone offset.
 - Fix date format in chart component if grouping by month.
 - Revert to blue colors for the chart. If you want your chart to use different colors, please see this [example code snippet on how to change colors](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/change-chart-colors.php).
+- Change dashboard widget to show just a quick summary of today.
 - Show some feedback after using the "create optimized endpoint" button.
 
 
