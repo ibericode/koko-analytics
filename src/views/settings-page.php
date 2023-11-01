@@ -43,7 +43,6 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                 </select>
                 <p class="description">
                     <?php esc_html_e('Visits and pageviews from users with any of the selected roles will be ignored.', 'koko-analytics'); ?>
-                    <?php echo ' '; ?>
                     <?php esc_html_e('Use CTRL to select multiple options.', 'koko-analytics'); ?>
                 </p>
             </div>

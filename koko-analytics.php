@@ -49,6 +49,9 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
 } elseif (is_admin()) {
     $admin = new Admin();
     $admin->init();
+
+    $dashboard_widget = new Dashboard_Widget();
+    $dashboard_widget->init();
 } else {
     $loader = new Script_Loader();
     $loader->init();

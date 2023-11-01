@@ -1,6 +1,7 @@
 <?php defined('ABSPATH') or exit;
 
 /**
+* @var int $number_of_top_items
 * @var int $realtime
 * @var array $posts
 * @var array $referrers
@@ -38,8 +39,9 @@
         display: inline-block;
     }
 </style>
-<div id="ka-dashboard-widget-top-pages">
 
+<?php if ($number_of_top_items > 0) { ?>
+<div id="ka-dashboard-widget-top-pages">
     <div style="display: flex; flex-flow: row wrap; margin-top: 2em;">
         <div style="width: 50%; box-sizing: border-box; padding-right: 2em;">
             <h3>
@@ -67,7 +69,7 @@
         </div>
     </div>
 </div>
-
+<?php } ?>
 
 <p style="margin-top: 2em;">
     <a href="<?php echo esc_attr(admin_url('index.php?page=koko-analytics')); ?>">
