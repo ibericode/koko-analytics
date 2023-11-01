@@ -201,7 +201,7 @@ class Admin
             $wpdb->prefix . 'koko_analytics_%'
         );
 
-        return $wpdb->get_var($sql);
+        return (string) $wpdb->get_var($sql);
     }
 
     public function reset_statistics(): void
