@@ -18,11 +18,24 @@ window.koko_analytics.registerDashboardComponent = function(c) {
 
 const totals = Totals(document.querySelector('#ka-totals'));
 const chart = Chart(document.querySelector('#ka-chart'), data.chart, startDate, endDate);
-Datepicker(document.querySelector('.ka-datepicker'), (startDate, endDate) => {
-  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate))
+Datepicker(document.querySelector('.ka-datepicker'), (newStartDate, newEndDate) => {
+  startDate = newStartDate;
+  endDate = newEndDate;
+  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate));
 
   let s = new URLSearchParams(window.location.search);
   s.set('start_date', toISO8601(startDate))
   s.set('end_date', toISO8601(endDate))
   history.replaceState(undefined, undefined, window.location.pathname + '?' + s)
 });
+
+// every 1m, update all components with fresh data
+// if we're looking at a date range involving today
+window.setInterval(() => {
+  endDate.setHours(23, 59, 59)
+  if (endDate < new Date()) {
+    return;
+  }
+
+  [totals, chart, ...blockComponents].forEach(f => f.update(startDate, endDate));
+}, 60000);
