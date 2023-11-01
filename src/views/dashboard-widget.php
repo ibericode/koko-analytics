@@ -30,6 +30,7 @@
     </div>
 </div>
 
+<?php if (count($posts) > 0) { ?>
 <div id="ka-dashboard-widget-top-pages">
     <h3 style="margin-top: 2em;">
         <?php echo esc_html__('Most viewed pages today', 'koko-analytics'); ?>
@@ -44,7 +45,9 @@
         <?php } ?>
     </ul>
 </div>
+<?php } ?>
 
+<?php if (count($referrers) > 0) { ?>
 <div id="ka-dashboard-widget-top-referrers">
     <h3 style="margin-top: 2em;">
         <?php echo esc_html__('Top referrers today', 'koko-analytics'); ?>
@@ -59,6 +62,7 @@
         <?php } ?>
     </ul>
 </div>
+<?php } ?>
 
 <p style="margin-top: 2em;">
     <a href="<?php echo esc_attr(admin_url('index.php?page=koko-analytics')); ?>">
