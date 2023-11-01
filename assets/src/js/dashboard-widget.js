@@ -8,7 +8,7 @@ function maybeRender() {
     return;
   }
 
-  Chart(el, data, parseISO8601(startDate), parseISO8601(endDate), 200);
+  Chart(el, data.chart, parseISO8601(startDate), parseISO8601(endDate), 200);
 }
 
 window.jQuery(document).on('postbox-toggled', maybeRender)
