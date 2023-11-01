@@ -33,18 +33,22 @@
         overflow: hidden;
         white-space: nowrap;
     }
+    .ka-ul span {
+        min-width: 24px;
+        display: inline-block;
+    }
 </style>
 <div id="ka-dashboard-widget-top-pages">
 
     <div style="display: flex; flex-flow: row wrap; margin-top: 2em;">
-        <div style="width: 50%; box-sizing: border-box;">
+        <div style="width: 50%; box-sizing: border-box; padding-right: 2em;">
             <h3>
                 <?php echo esc_html__('Today\'s top pages', 'koko-analytics'); ?>
             </h3>
             <ul class="ka-ul">
                 <?php foreach ($posts as $post) { ?>
                 <li>
-                    <span style="font-variant-numeric: tabular-nums;"><?php echo $post->pageviews; ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
+                    <span><?php echo $post->pageviews; ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
                 </li>
                 <?php } ?>
             </ul>
@@ -56,7 +60,7 @@
             <ul class="ka-ul">
                 <?php foreach ($referrers as $referrer) {  ?>
                     <li>
-                        <span style="font-variant-numeric: tabular-nums;"><?php echo $referrer->pageviews; ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url,  PHP_URL_HOST)); ?></a>
+                        <span><?php echo $referrer->pageviews; ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url,  PHP_URL_HOST)); ?></a>
                     </li>
                 <?php } ?>
             </ul>
