@@ -194,8 +194,8 @@ class Admin
         $dateEnd = create_local_datetime('tomorrow, midnight')->format('Y-m-d');
         $realtime = get_realtime_pageview_count('-1 hour');
         $totals = $stats->get_totals($dateStart, $dateEnd);
-        $posts = $stats->get_posts($dateStart, $dateEnd, 0, 3);
-        $referrers = $stats->get_referrers($dateStart, $dateEnd, 0, 3);
+        $posts = $stats->get_posts($dateStart, $dateEnd, 0, 5);
+        $referrers = $stats->get_referrers($dateStart, $dateEnd, 0, 5);
         require __DIR__ . '/views/dashboard-widget.php';
     }
 

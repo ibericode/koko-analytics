@@ -8,11 +8,7 @@
 */
 
 ?>
-<style>
-    .ka-ul { margin: 0 -12px; }
-    .ka-ul li { padding: 4px 12px; }
-    .ka-ul li:nth-child(2n+1) { background-color: #f6f7f7; }
-</style>
+
 
 <div id="ka-dashboard-widget-realtime">
     <h3><?php echo esc_html__('Realtime', 'koko-analytics'); ?></h3>
@@ -31,39 +27,43 @@
     </div>
 </div>
 
-<?php if (count($posts) > 0) { ?>
+<style>
+    .ka-ul li {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+</style>
 <div id="ka-dashboard-widget-top-pages">
-    <h3 style="margin-top: 2em;">
-        <?php echo esc_html__('Most viewed pages today', 'koko-analytics'); ?>
-        <span style="float: right;"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></span>
-    </h3>
-    <ul class="ka-ul">
-        <?php foreach ($posts as $post) { ?>
-        <li>
-            <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
-            <span style="float: right;"><?php echo esc_html($post->pageviews); ?></span>
-        </li>
-        <?php } ?>
-    </ul>
-</div>
-<?php } ?>
 
-<?php if (count($referrers) > 0) { ?>
-<div id="ka-dashboard-widget-top-referrers">
-    <h3 style="margin-top: 2em;">
-        <?php echo esc_html__('Top referrers today', 'koko-analytics'); ?>
-        <span style="float: right;"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></span>
-    </h3>
-    <ul class="ka-ul">
-        <?php foreach ($referrers as $referrer) {  ?>
-            <li>
-                <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html($referrer->url); ?></a>
-                <span style="float: right;"><?php echo esc_html($referrer->pageviews); ?></span>
-            </li>
-        <?php } ?>
-    </ul>
+    <div style="display: flex; flex-flow: row wrap; margin-top: 2em;">
+        <div style="width: 50%; box-sizing: border-box;">
+            <h3>
+                <?php echo esc_html__('Today\'s top pages', 'koko-analytics'); ?>
+            </h3>
+            <ul class="ka-ul">
+                <?php foreach ($posts as $post) { ?>
+                <li>
+                    <span style="font-variant-numeric: tabular-nums;"><?php echo $post->pageviews; ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
+                </li>
+                <?php } ?>
+            </ul>
+        </div>
+        <div style="">
+            <h3>
+            <?php echo esc_html__('Today\'s top referrers', 'koko-analytics'); ?>
+            </h3>
+            <ul class="ka-ul">
+                <?php foreach ($referrers as $referrer) {  ?>
+                    <li>
+                        <span style="font-variant-numeric: tabular-nums;"><?php echo $referrer->pageviews; ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url,  PHP_URL_HOST)); ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
 </div>
-<?php } ?>
+
 
 <p style="margin-top: 2em;">
     <a href="<?php echo esc_attr(admin_url('index.php?page=koko-analytics')); ?>">
