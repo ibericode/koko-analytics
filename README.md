@@ -10,7 +10,7 @@ Koko Analytics
 
 It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
 
-You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?go-to-demo).
+You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
 
 ## Features
 
@@ -27,7 +27,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 <figure>
   <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1-830x447.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
-  <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="">view a live demo here</a>.</figcaption>
+  <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="https://www.kokoanalytics.com/?koko-analytics-dashboard">view a live demo here</a>.</figcaption>
 </figure>
 
 
