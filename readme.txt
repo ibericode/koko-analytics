@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: analytics, statistics, stats, privacy, pageviews
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -100,6 +100,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.3.2 - Nov 2, 2023
+
+- Fix chart tooltip immediately disappearing when viewing the dashboard widget on touch devices.
+- Fix fatal error if lacking permissions to read database size from MySQL information tables.
+- Fix double encoding of special characters in post titles.
+- Fix arrow-key or arrow-icon navigation when viewing a single day of data.
+- Automatically refresh dashboard data every 60s.
+- Improve dashboard widget by showing a summary of today.
+- Added filter hook `koko_analytics_dashboard_widget_number_of_top_items` to [modify or disable the top pages and referrers in the dashboard widget](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/modify-dashboard-widget/README.md).
+- The `[koko_analytics_most_viewed_posts]` shortcode now shows a debug message if the arguments did not lead to any results.
+
 
 #### 1.3.1 - Nov 1, 2023
 
