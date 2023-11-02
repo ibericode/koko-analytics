@@ -51,10 +51,16 @@ You can contribute to Koko Analytics in many different ways. For example:
 
 == Installation ==
 
-1. In your WordPress admin area, go to **Plugins > New Plugin**, search for **Koko Analytics** and click **Install now**.
-1. Alternatively, [download the plugin files](https://downloads.wordpress.org/plugin/koko-analytics.trunk.zip) and upload the contents of `koko-analytics.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
-1. Activate the plugin. Koko Analytics will start recording stats right away.
-1. Access your analytics by browsing to *Dashboard > Analytics* in your WordPress admin area.
+You can install Koko Analytics in multiple ways:
+
+- In your WordPress admin area, go to **Plugins > New Plugin**, search for **Koko Analytics** and click **Install now**.
+- [Download the latest version from WordPress.org](https://downloads.wordpress.org/plugin/koko-analytics.zip) and extract the files into your `/wp-content/plugins/` directory.
+- [Download the latest release from GitHub](https://github.com/ibericode/koko-analytics/releases) and extract the files into your `/wp-content/plugins/` directory.
+
+After installing and then activating the plugin, statistics will be collected right away.
+
+You can view your analytics dashboard by going to **WP Admin > Dashboard > Analytics**.
+
 
 == Frequently Asked Questions ==
 
@@ -75,30 +81,11 @@ In fact, because the plugin does not depend on any external services it is usual
 ### No pageviews are being recorded.
 This is usually a file permissions issue. The first thing to check is whether the `/wp-content/uploads/pageviews.php` file exists and is writable by your web server.
 
-### How to only use cookies after consent?
-First configure Koko Analytics to not use any cookies by default.
-
-Then configure your cookie consent plugin to add the following code for visitors that have given consent:
-
-`
-<script>
-if (window.koko_analytics) window.koko_analytics.use_cookie = true;
-</script>
-`
-
-### How do I give users access to the dashboard page?
-You can use a plugin like [User Role Editor](https://wordpress.org/plugins/user-role-editor/) to grant the `view_koko_analytics` and `manage_koko_analytics` capabilities to any user rolou can delete the plugin again after adding the capability.
-
 ### What is the definition of a "pageview"?
 A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.
 
 ### What is the definition of a "visitor"?
 A visitor represents the number of sessions during which your website or a specific page was viewed one or more times.
-
-### I only see an empty page when viewing the analytics dashboard.
-Koko Analytics was recently added to EasyPrivacy, a popular filter list which is used in many ad-blockers. It blocks both the tracking script and the dashboard script, but we are working with EasyPrivacy team to get this resolved.
-
-Until then, please ensure to whitelist your own domain in your ad-blocker settings.
 
 ### How can I help fund Koko Analytics?
 You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
