@@ -34,7 +34,7 @@ Koko Analytics lets you focus on what is important and gives you all the essenti
 - **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
-- **Open-Source**: Code is released under the GPL 3.0 license.
+- **Open-Source**: The plugin code is open-sourced under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
 
