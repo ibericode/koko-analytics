@@ -58,7 +58,9 @@
                 <?php } ?>
             </ul>
         </div>
+        <?php if (count($referrers) > 0) { ?>
         <div>
+
             <h3>
             <?php echo esc_html__('Today\'s top referrers', 'koko-analytics'); ?>
             </h3>
@@ -70,6 +72,7 @@
                 <?php } ?>
             </ul>
         </div>
+        <?php } ?>
     </div>
 </div>
 <?php } ?>
