@@ -44,6 +44,7 @@ You can contribute to Koko Analytics in many different ways. For example:
 
 - [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
+- [Review the plugin here on WordPress.org](https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post)
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
 - [Vote on feature suggestions in our idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas?discussions_q=is%3Aopen+sort%3Atop+created%3A%3E%3D2022-10-25+category%3AIdeas)
 
