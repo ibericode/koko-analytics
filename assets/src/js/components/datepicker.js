@@ -61,7 +61,7 @@ export default function (root, callback) {
       startDate.setHours(0, 0, 0)
       endDate.setHours(23, 59, 59)
       const diffInDays = (endDate - startDate) / 86400000
-      const amount = diffInDays * modifier
+      const amount = Math.round(diffInDays * modifier)
       startDate.setDate(startDate.getDate () + amount)
       endDate.setDate(endDate.getDate () + amount)
     }
