@@ -10,8 +10,22 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <meta name="robots" content="noindex, nofollow">
     <title>Koko Analytics</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Koko Analytics">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#B60205">
+    <link rel="manifest" href="<?php echo plugins_url('assets/dist/manifest.json', KOKO_ANALYTICS_PLUGIN_FILE); ?>" />
 </head>
 <body class="ka-dashboard">
     <?php $this->show(); ?>
+
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(
+        '<?php echo plugins_url('assets/dist/js/sw.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>'
+    );
+}
+</script>
 </body>
 </html>
