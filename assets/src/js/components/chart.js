@@ -78,12 +78,14 @@ export default function(root, data, startDate, endDate, height) {
 
   document.body.appendChild(tooltip)
   document.addEventListener('click', (evt) => {
-    // don't hide if click was inside tooltip
-    if (evt.target.matches('.ka-chart *,.ka-chart--tooltip *')) {
-      return
+    // return early if click was anywhere inside this component
+    for (let el = evt.target; el !== null; el = el.parentElement) {
+      if (el === root.elm) {
+        return;
+      }
     }
 
-    tooltip.style.display = 'none'
+    hideTooltip()
   })
 
   /**

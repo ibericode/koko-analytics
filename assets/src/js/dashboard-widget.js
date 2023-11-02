@@ -1,5 +1,5 @@
 import Chart from './components/chart.js'
-import { parseISO8601 } from './util/dates'
+import { parseISO8601 } from './util/dates.js'
 const el = document.getElementById('koko-analytics-dashboard-widget-mount')
 const {data, startDate, endDate} = window.koko_analytics;
 
