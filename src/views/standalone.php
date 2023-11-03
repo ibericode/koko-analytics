@@ -14,18 +14,18 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Koko Analytics">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="theme-color" content="#B60205">
+    <link rel="apple-touch-icon" href="<?php echo plugins_url('assets/dist/img/icon-256x256.png', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="manifest" href="<?php echo plugins_url('assets/dist/manifest.json', KOKO_ANALYTICS_PLUGIN_FILE); ?>" />
+    <meta name="theme-color" content="#B60205">
 </head>
 <body class="ka-dashboard">
     <?php $this->show(); ?>
-
-<script>
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(
-        '<?php echo plugins_url('assets/dist/js/sw.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>'
-    );
-}
-</script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register(
+            '<?php echo plugins_url('assets/dist/js/sw.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>'
+        );
+    }
+    </script>
 </body>
 </html>
