@@ -10,32 +10,20 @@
       "purpose": "any maskable"
     },
     {
-      "src": "img/icon-512x512.png",
+      "src": "img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "img/icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "maskable"
-    },
-    {
-      "src": "img/icon-256x256.png",
-      "type": "image/png",
-      "sizes": "256x256",
-      "purpose": "maskable"
-    },
-    {
-      "src": "img/icon-128x128.png",
-      "type": "image/png",
-      "sizes": "128x128",
-      "purpose": "maskable"
-    },
-    {
-      "src": "img/icon-64x64.png",
-      "type": "image/png",
-      "sizes": "64x64",
       "purpose": "maskable"
     }
   ],
   "display": "standalone",
   "start_url": "/?koko-analytics-dashboard",
-  "theme_color": "#B60205",
-  "background_color": "#f1f1f1"
+  "theme_color": "#FFF",
+  "background_color": "#FFF"
 }
