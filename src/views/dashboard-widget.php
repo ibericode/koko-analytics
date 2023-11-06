@@ -43,9 +43,10 @@
     }
 </style>
 
-<?php if ($number_of_top_items > 0) { ?>
+<?php if ($number_of_top_items > 0 && (count($posts) > 0 || count($referrers) > 0)) { ?>
 <div id="ka-dashboard-widget-top-pages">
     <div style="display: flex; flex-flow: row wrap; margin-top: 2em;">
+        <?php if (count($posts) > 0) { ?>
         <div style="width: 50%; box-sizing: border-box; padding-right: 2em;">
             <h3>
                 <?php echo esc_html__('Today\'s top pages', 'koko-analytics'); ?>
@@ -58,6 +59,7 @@
                 <?php } ?>
             </ul>
         </div>
+        <?php } // end if count posts ?>
         <?php if (count($referrers) > 0) { ?>
         <div>
 
