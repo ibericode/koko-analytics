@@ -72,7 +72,11 @@ Absolutely, nothing that could lead back to the visitor is recorded. If the visi
 No, the data never leaves your website. That's (part of) what makes Koko Analytics such a great choice if you value true privacy.
 
 ### Does this set any cookies?
-By default, yes. But you can easily disable this in the plugin's settings. Without cookies the plugin can still detect unique pageviews, but not returning visitors.
+By default, yes. Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of `6 hours`.
+
+This cookie is used to reliably detect unique pageviews and returning visitors without having to store any personal information on your server.
+
+You can disable the use of cookies from the plugin's settings page.
 
 ### Will this slow down my website?
 No, the plugin is built in such a way that it never slows down your website for your visitors. If there is any heavy lifting to be done, it is done in a background process.
