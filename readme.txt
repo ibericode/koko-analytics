@@ -4,39 +4,40 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: analytics, statistics, stats, privacy, pageviews
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
 
-Privacy-friendly analytics for your WordPress site
+Privacy-friendly and efficient analytics for your WordPress site
 
 == Description ==
 
-Koko Analytics is a privacy-friendly analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party company.
-
-Furthermore, no visitor specific data is collected, only aggregated counts.
+Koko Analytics is a privacy-friendly, simple and lightweight analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party.
+No visitor specific data is collected, only aggregated counts.
 
 Stop sharing visitor data with third-party companies who also happen to sell ads.
+
 Stop unnecessarily slowing down your website.
-Koko Analytics lets you focus on what is important and gives you all the essential metrics, while respecting the privacy of your visitors.
+
+Koko Analytics lets you focus on the important metrics, while respecting the privacy of your visitors.
 
 ### Features
 
+- **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
 - **No external services**: Any data never leaves your server.
 - **No personal data** or anything visitor specific is tracked.
 - **No cookies**: There is an option to not use any cookies.
-- **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-- **Lightweight**: Adds less than 950 bytes of data to your pages.
+- **Lightweight**: Adds less than 950 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
 - **GDPR**: Compliant by design.
-- **Metrics**: All the essentials: visitors, pageviews and referrers.
-- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+- **Metrics**: All the essentials: visitors, pageviews, referrers and [flexible custom events](https://www.kokoanalytics.com/kb/tracking-events/).
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
 - **Open-Source**: The plugin code is open-sourced under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
+- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
 
 ### Contributing
 
@@ -100,6 +101,12 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.3.3 - Nov 6, 2023
+
+- Fix quick navigation going forward.
+- Add `manifest.json` file so (standalone) dashboard can be installed as a Progressive Web App.
+
 
 #### 1.3.2 - Nov 2, 2023
 
