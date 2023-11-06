@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.3.3 - Nov 6, 2023
+
+- Fix quick navigation going forward.
+- Add `manifest.json` file so (standalone) dashboard can be installed as a Progressive Web App.
+
+
 #### 1.3.2 - Nov 2, 2023
 
 - Fix chart tooltip immediately disappearing when viewing the dashboard widget on touch devices.
