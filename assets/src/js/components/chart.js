@@ -52,6 +52,18 @@ function hideTooltip() {
   tooltip.style.display = 'none'
 }
 
+function getMaxPageviews(dataset) {
+  let max = 0;
+  let pv;
+  for (let i = 0; i < dataset.length; i++) {
+    pv = dataset[i].pageviews
+    if (pv > max) {
+      max = pv;
+    }
+  }
+  return max;
+}
+
 /**
  * @param {HTMLElement|VNode} root
  * @param {array} data
@@ -123,6 +135,7 @@ export default function(root, data, startDate, endDate, height) {
     })
   }
 
+
   /**
    * @param {array} dataset
    * @returns {VNode}
@@ -132,15 +145,15 @@ export default function(root, data, startDate, endDate, height) {
       return h('!')
     }
 
-    const
-      tickWidth = innerWidth / dataset.length,
-      barWidth = 0.9 * tickWidth,
-      barPadding = (tickWidth - barWidth) / 2
-    const yMax = dataset.reduce((prev, current) => (prev.pageviews > current.pageviews) ? prev : current, 0).pageviews
+    const r = value => Math.round(value * 100) / 100
+    const tickWidth = r(innerWidth / dataset.length);
+    const barPadding = dataset.length * 7 < innerWidth ? 2 : 0,
+      barWidth = tickWidth - barPadding * 2
+    let yMax = getMaxPageviews(dataset)
     const y = yScale(yMax)
     const drawTick = dataset.length <= 90
     const heightModifier = innerHeight / y.max
-    const getX = v => v * tickWidth
+    const getX = v => r(v * tickWidth)
     const getY = y.max <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))
 
     return h('svg', {
