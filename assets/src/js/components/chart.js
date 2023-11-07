@@ -27,8 +27,8 @@ function yScale (yMax) {
 
 function createTooltip () {
   const el = document.createElement('div')
-  el.className = 'ka-chart--tooltip'
   el.style.display = 'none'
+  el.className = 'ka-chart--tooltip'
   el.innerHTML = `
 <div class="ka-chart--tooltip-box">
   <div class="ka-chart--tooltip-heading"></div>
@@ -110,11 +110,13 @@ export default function(root, data, startDate, endDate, height) {
       tooltip.querySelector('.ka-chart--tooltip-heading').textContent = format(data.date, dateFormatOptions);
       tooltip.querySelector('.ka--visitors').children[0].textContent = data.visitors;
       tooltip.querySelector('.ka--pageviews').children[0].textContent = data.pageviews;
+      tooltip.style.display = 'block';
 
       const styles = evt.currentTarget.getBoundingClientRect()
-      tooltip.style.display = 'block'
-      tooltip.style.left = (styles.left + window.scrollX - 0.5 * tooltip.clientWidth + 0.5 * barWidth) + 'px'
-      tooltip.style.top = (styles.y + window.scrollY - tooltip.clientHeight) + 'px'
+      const left = (styles.left + window.scrollX - 0.5 * tooltip.clientWidth + 0.5 * barWidth) + 'px';
+      const top = (styles.y + window.scrollY - tooltip.clientHeight) + 'px';
+      tooltip.style.left = left;
+      tooltip.style.top = top;
     }
   }
 
