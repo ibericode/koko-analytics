@@ -75,10 +75,14 @@ class Stats
                 $row->post_permalink = home_url();
                 $row->post_title     = get_bloginfo('name');
             } else {
-                /* TODO: Optimize this */
                 $post = get_post($row->id);
-                $row->post_title = isset($post->post_title) ? $post->post_title : $post->post_name;
-                $row->post_permalink = get_permalink($post);
+                if ($post) {
+                    $row->post_title = isset($post->post_title) ? $post->post_title : $post->post_name;
+                    $row->post_permalink = get_permalink($post);
+                } else {
+                    $row->post_title = '(deleted post)';
+                    $row->post_permalink = '';
+                }
             }
 
             $row->pageviews = (int) $row->pageviews;
