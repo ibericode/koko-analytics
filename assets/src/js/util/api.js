@@ -6,7 +6,8 @@ const {nonce, root} = window.koko_analytics
  * @returns {Promise<any>}
  */
 export function request (path, params = {}) {
-  let url = root + 'koko-analytics/v1' + path  + (path.indexOf('?') > -1 ? '&' : '?') + (new URLSearchParams(params))
+  let url = root + 'koko-analytics/v1' + path;
+  url = url + (url.indexOf('?') > -1 ? '&' : '?') + (new URLSearchParams(params))
 
   return fetch(url, {
     headers: {
