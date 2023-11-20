@@ -1,13 +1,11 @@
 import { request } from '../util/api'
-import { toISO8601 } from '../util/dates'
 import { formatLargeNumber, formatPercentage } from '../util/numbers'
 
 /**
  * @param {HTMLElement} root
- * @param {object} state
  * @returns {{update: update}}
  */
-export default function(root, state) {
+export default function(root) {
 
   /**
    * @param {HTMLElement} root
@@ -24,13 +22,15 @@ export default function(root, state) {
   }
 
   /**
-
+   * @param {string} startDate
+   * @param {string} endDate
+   * @param {int} page
    */
-  function update() {
+  function update(startDate, endDate, page) {
     request('/totals', {
-      start_date: toISO8601(state.startDate),
-      end_date: toISO8601(state.endDate),
-      page: state.page,
+      start_date: startDate,
+      end_date: endDate,
+      page,
     }).then(data => {
       updateDom(root.children[0], data.visitors, data.visitors_change, data.visitors_change_rel)
       updateDom(root.children[1], data.pageviews, data.pageviews_change, data.pageviews_change_rel)
@@ -44,7 +44,7 @@ export default function(root, state) {
       root.children[2].children[1].textContent = formatLargeNumber(data)
     })
   }
-
   window.setInterval(updateRealtime, 60000)
+
   return {update}
 }

@@ -1,20 +1,20 @@
-import {request} from '../util/api.js'
-import {toISO8601} from '../util/dates.js'
-const limit = window.koko_analytics.items_per_page;
 import { attributesModule, eventListenersModule, init, h } from "snabbdom";
+import {request} from '../util/api.js'
+const limit = window.koko_analytics.items_per_page;
 const patch = init([attributesModule, eventListenersModule]);
 
 /**
  * @param {HTMLElement} root
  * @param {array} data
- * @param {Object} state
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @param {string} apiEndpoint
  * @param {function} rowView
  * @param {function?} onUpdate
  * @returns {{update: update}}
  * @constructor
  */
-export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate) {
+export function BlockComponent(root, data, startDate, endDate, apiEndpoint, rowView, onUpdate) {
   let elPlaceholder = root.nextElementSibling;
   let pagination = elPlaceholder.nextElementSibling;
   let buttonPrev = pagination.children[0];
@@ -26,7 +26,9 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
     onUpdate(data)
   }
 
-  function update() {
+  function update(newStartDate, newEndDate) {
+    startDate = newStartDate
+    endDate = newEndDate
     offset = 0;
     fetch()
   }
@@ -35,8 +37,8 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
     request(apiEndpoint, {
       offset,
       limit,
-      start_date: toISO8601(state.startDate),
-      end_date: toISO8601(state.endDate)
+      start_date: startDate,
+      end_date: endDate
     }).then(items => {
       total = items.length
       root = patch(root, render(items))
@@ -54,9 +56,7 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
     pagination.style.display = (items.length < limit && offset === 0) ? 'none' : '';
 
     return h('div.ka-topx--body', items.map((item, i) => {
-      return rowView(item, offset + i + 1, () => {
-        root = patch(root, render(items))
-      })
+      return rowView(item, offset + i + 1)
     }))
   }
 
@@ -65,8 +65,6 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
       return;
     }
 
-    window.koko_analytics.updateState({page: 0})
-    document.body.classList.remove('filter-active');
     offset = Math.max(0, offset - limit );
     fetch();
   })
@@ -75,8 +73,6 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
       return;
     }
 
-    window.koko_analytics.updateState({page: 0})
-    document.body.classList.remove('filter-active');
     offset += limit;
     fetch();
   })
@@ -87,16 +83,13 @@ export function BlockComponent(root, data, state, apiEndpoint, rowView, onUpdate
 /**
  * @param {HTMLElement} root
  * @param {array} data
- * @param {object} state
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @returns {{update: update}}
  */
-export function PostsComponent(root, data, state) {
-  return BlockComponent(root, data, state, '/posts', function(item, rank, redraw) {
-    return h('div', {
-        attrs: {
-            'class': 'ka-topx--row ka-fade ' + (state.page > 0 && String(state.page) === String(item.id) ? 'filter-cur' : ''),
-        },
-    },[
+export function PostsComponent(root, data, startDate, endDate, onPageClick) {
+  return BlockComponent(root, data, startDate, endDate, '/posts', function(item, rank) {
+    return h('div.ka-topx--row ka-fade', [
       h('div.ka-topx--rank', {}, rank),
       h('div.ka-topx--col', {}, [
         h('a', {
@@ -106,12 +99,15 @@ export function PostsComponent(root, data, state) {
           on: {
             click: (evt) => {
               evt.preventDefault();
-              window.koko_analytics.updateState({ page: state.page === item.id ? 0 : item.id })
-              document.body.classList.toggle('filter-active', state.page > 0);
-              redraw();
+              onPageClick(item.id, item.post_title);
             }
           }
-        },item.post_title || '(no title)')
+        },item.post_title || '(no title)'),
+        h('a.ka-link-external', {
+          attrs: {
+            href: item.post_permalink,
+          },
+        })
       ]),
       h('div.ka-topx--amount', Math.max(1, item.visitors)),
       h('div.ka-topx--amount', item.pageviews)
@@ -119,6 +115,10 @@ export function PostsComponent(root, data, state) {
   })
 }
 
+/**
+ * @param {{displayUrl, url}} item
+ * @returns {*}
+ */
 function modifyUrlsForDisplay (item) {
   item.displayUrl = item.url.replace(/^https?:\/\/(www\.)?(.+?)\/?$/, '$2')
 
@@ -135,11 +135,12 @@ function modifyUrlsForDisplay (item) {
 /**
  * @param {HTMLElement} root
  * @param {array} data
- * @param {object} state
+ * @param {Date} startDate
+ * @param {Date} endDate
  * @returns {{update: update}}
  */
-export function ReferrersComponent(root, data, state) {
-  return BlockComponent(root, data, state,'/referrers', function(item, rank) {
+export function ReferrersComponent(root, data, startDate, endDate) {
+  return BlockComponent(root, data, startDate, endDate, '/referrers', function(item, rank) {
     item = modifyUrlsForDisplay(item)
     return h('div.ka-topx--row ka-fade', [
       h('div.ka-topx--rank', {}, rank),

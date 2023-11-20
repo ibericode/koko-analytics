@@ -47,8 +47,8 @@ h1.ka-logo,
   visibility: visible;
 }
 .ka-admin-nav {
-  float: right;
   line-height: 34px;
+  margin-left: auto;
 }
 .ka-admin-container {
   max-width: 620px;
@@ -155,11 +155,46 @@ h1.ka-logo,
   grid-template-columns: repeat(6, 1fr);
 }
 
+/** Page filter */
+.ka-page-filter {
+  border: 1px solid #DDD;
+  padding: 6px;
+  background: hsl(205.2, 100%, 93.9%);
+  border-radius: 6px;
+  display: none;
+}
+.ka-page-filter--close {
+  text-decoration: none;
+  font-weight: normal;
+  margin-left: 2px;
+  color: #666;
+  padding: 4px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.ka-page-filter--close:hover,
+.ka-page-filter--close:focus {
+  opacity: 1;
+}
+.page-filter-active .ka-dashboard-components {
+  opacity: 0.4;
+}
+
 /** Topx components */
 .ka-topx {
   grid-column: span 6;
-
 }
+
+.ka-link-external {
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='24px' height='24px' viewBox='0 0 24 24' style='cursor:pointer'%3E%3Cg stroke-width='2.1' stroke='%23666' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='17 13.5 17 19.5 5 19.5 5 7.5 11 7.5'%3E%3C/polyline%3E%3Cpath d='M14,4.5 L20,4.5 L20,10.5 M20,4.5 L11,13.5'%3E%3C/path%3E%3C/g%3E%3C/svg%3E%0A");
+  background-size: contain;
+  vertical-align: top;
+  margin: 2px 0 0 6px;
+  display: none;
+}
+
 @media (min-width: 840px) {
   .ka-topx {
     grid-column: span 3;
@@ -173,12 +208,8 @@ h1.ka-logo,
   padding: 6px 12px;
   text-align: left
 }
-.filter-active .ka-topx--row {
-    opacity: 0.5;
-}
-.filter-active .ka-topx--row.filter-cur {
-  opacity: 1;
-  font-weight: bold;
+.ka-topx--row:hover .ka-link-external {
+  display: inline-block;
 }
 .ka-topx--placeholder {
   padding: 6px 12px;

@@ -1,7 +1,7 @@
+import { eventListenersModule, attributesModule, init, h } from "snabbdom"
 import { request } from '../util/api.js'
 import { magnitude, formatLargeNumber } from '../util/numbers.js'
-import { toISO8601, format } from '../util/dates.js'
-import { eventListenersModule, attributesModule, init, h } from "snabbdom"
+import { format, parseISO8601 } from '../util/dates.js'
 const {i18n} = window.koko_analytics;
 const patch = init([eventListenersModule, attributesModule])
 const tooltip = createTooltip()
@@ -48,22 +48,24 @@ function getMaxPageviews(dataset) {
 /**
  * @param {HTMLElement|VNode} root
  * @param {array} data
- * @param {object} state
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @param {number} page
  * @param {number?} height
  * @returns {{update: update}}
  */
-export default function(root, data, state, height) {
+export default function(root, data, startDate, endDate, page, height) {
   if (!height) {
     height = 280;
   }
   const width = root.clientWidth;
   root.parentElement.style.minHeight = `${height+4}px`
-  let dateFormatOptions = (state.endDate - state.startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
+  let dateFormatOptions = (endDate - startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
 
   if (data.length) {
     root = patch(root,  render(data))
   } else {
-    update()
+    update(startDate, endDate, page)
   }
 
   document.body.appendChild(tooltip)
@@ -100,17 +102,19 @@ export default function(root, data, state, height) {
   }
 
   /**
-
+   * @param {string} startDate
+   * @param {string} endDate
+   * @param {string} page
    */
-  function update() {
-    const groupByMonth = (state.endDate - state.startDate) >= 86400000 * 364
+  function update(startDate, endDate, page) {
+    const groupByMonth = (parseISO8601(endDate) - parseISO8601(startDate)) >= 86400000 * 364
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {
-      start_date: toISO8601(state.startDate),
-      end_date: toISO8601(state.endDate),
+      start_date: startDate,
+      end_date: endDate,
       monthly: groupByMonth ? 1 : 0,
-      page: state.page > 0 ? state.page : 0,
+      page: page > 0 ? page : 0,
     }).then(data => {
       root = patch(root,  render(data))
     })
