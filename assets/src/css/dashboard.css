@@ -96,6 +96,7 @@ h1.ka-logo,
   position: relative;
   overflow: visible;
   min-height: 244px;
+  padding: 24px;
 }
 .ka-chart--tooltip {
   position: absolute;

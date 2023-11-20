@@ -4,26 +4,7 @@ import { toISO8601, format } from '../util/dates.js'
 import { eventListenersModule, attributesModule, init, h } from "snabbdom"
 const {i18n} = window.koko_analytics;
 const patch = init([eventListenersModule, attributesModule])
-const padding = {
-  left: 48,
-  bottom: 36,
-  top: 24,
-  right: 24
-}
 const tooltip = createTooltip()
-
-/**
- *
- * @param {number} yMax
- * @returns {{ticks: *[], max: number}}
- */
-function yScale (yMax) {
-  const max = magnitude(yMax)
-  return {
-    ticks: [0, max / 2, max],
-    max
-  }
-}
 
 function createTooltip () {
   const el = document.createElement('div')
@@ -74,13 +55,11 @@ function getMaxPageviews(dataset) {
  */
 export default function(root, data, startDate, endDate, height) {
   if (!height) {
-    height = Math.max(240, Math.min(window.innerHeight / 3,   360));
+    height = Math.max(240, Math.min(window.innerHeight / 3,   320));
   }
+  const width = root.clientWidth;
   root.parentElement.style.minHeight = `${height+4}px`
   let dateFormatOptions = (endDate - startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
-  let width = root.clientWidth
-  const innerWidth = width - padding.left - padding.right
-  const innerHeight = height - padding.bottom - padding.top
 
   if (data.length) {
     root = patch(root,  render(data))
@@ -89,7 +68,7 @@ export default function(root, data, startDate, endDate, height) {
   }
 
   document.body.appendChild(tooltip)
-  document.addEventListener('click', (evt) => {
+  addEventListener('click', (evt) => {
     // return early if click was anywhere inside this component
     for (let el = evt.target; el !== null; el = el.parentElement) {
       if (el === root.elm) {
@@ -110,6 +89,7 @@ export default function(root, data, startDate, endDate, height) {
       tooltip.querySelector('.ka-chart--tooltip-heading').textContent = format(data.date, dateFormatOptions);
       tooltip.querySelector('.ka--visitors').children[0].textContent = data.visitors;
       tooltip.querySelector('.ka--pageviews').children[0].textContent = data.pageviews;
+
       tooltip.style.display = 'block';
 
       const styles = evt.currentTarget.getBoundingClientRect()
@@ -137,6 +117,9 @@ export default function(root, data, startDate, endDate, height) {
     })
   }
 
+  function r(n) {
+    return Math.round(n * 100) / 100
+  }
 
   /**
    * @param {array} dataset
@@ -147,16 +130,22 @@ export default function(root, data, startDate, endDate, height) {
       return h('!')
     }
 
-    const r = value => Math.round(value * 100) / 100
+    const yMax = getMaxPageviews(dataset)
+    const yMaxNice = magnitude(yMax);
+    const yTicks = [0, yMaxNice / 2, yMaxNice];
+    const drawTick = dataset.length <= 90;
+    const paddingLeft = 4 + String(formatLargeNumber(yMaxNice)).length * 8;
+    const paddingTop = 6;
+    const paddingBottom = 24;
+    const innerWidth = width - paddingLeft;
+    const innerHeight = height - paddingBottom - paddingTop;
+    const heightModifier = innerHeight / yMaxNice;
     const tickWidth = r(innerWidth / dataset.length);
-    const barPadding = dataset.length * 7 < innerWidth ? 2 : 0,
-      barWidth = tickWidth - barPadding * 2
-    let yMax = getMaxPageviews(dataset)
-    const y = yScale(yMax)
-    const drawTick = dataset.length <= 90
-    const heightModifier = innerHeight / y.max
+    const barPadding = dataset.length * 7 < innerWidth ? 2 : 0;
+    const barWidth = tickWidth - barPadding * 2
+
     const getX = v => r(v * tickWidth)
-    const getY = y.max <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))
+    const getY = yMaxNice <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))
 
     return h('svg', {
       attrs: {
@@ -164,21 +153,22 @@ export default function(root, data, startDate, endDate, height) {
         'height': height,
       }
     }, [
+
+      // grid lines + y-axes
       h('g', [
         h('g', {
           attrs: {
-            class: 'axes-y',
-            transform: `translate(0, ${padding.top})`,
+            transform: `translate(0, ${paddingTop})`,
             'text-anchor': 'end',
           }
-        }, y.ticks.map(v => {
+        }, yTicks.map(v => {
           const y = getY(v)
           return h('g', [
             h('line', {
               attrs: {
                 stroke: '#eee',
-                x1: padding.left,
-                x2: innerWidth + padding.left,
+                x1: paddingLeft,
+                x2: innerWidth + paddingLeft,
                 y1: y,
                 y2: y,
               }
@@ -187,7 +177,7 @@ export default function(root, data, startDate, endDate, height) {
               attrs: {
                 y,
                 fill: '#757575',
-                x: 0.75 * padding.left,
+                x: r((0.9 * paddingLeft) - 4),
                 dy: '0.33em'
               }
             }, formatLargeNumber(v))
@@ -196,8 +186,8 @@ export default function(root, data, startDate, endDate, height) {
         h('g', {
           attrs: {
             class: 'axes-x',
-            'text-anchor': 'middle',
-            'transform': `translate(${padding.left}, ${padding.top + innerHeight})`
+            'text-anchor': 'start',
+            'transform': `translate(${paddingLeft}, ${paddingTop + innerHeight})`
           }
         }, dataset.map((d, i) => {
           let label = i === 0 || i === dataset.length - 1 ? d.date : null
@@ -224,6 +214,7 @@ export default function(root, data, startDate, endDate, height) {
                 x: x,
                 y: 10,
                 dy: '1em',
+                'text-anchor': i === 0 ? 'start' : 'end'
               }
             }, format(d.date, dateFormatOptions)) : '',
           ])
@@ -232,7 +223,7 @@ export default function(root, data, startDate, endDate, height) {
       h('g', {
         attrs: {
           class: 'bars',
-          transform: `translate(${padding.left}, ${padding.top})`
+          transform: `translate(${paddingLeft}, ${paddingTop})`
         }
       }, dataset.map((d, i) => {
         const pageviewHeight = d.pageviews * heightModifier
