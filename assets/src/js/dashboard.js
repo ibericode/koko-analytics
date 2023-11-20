@@ -8,15 +8,18 @@ let { startDate, endDate, data } = window.koko_analytics
 let page = 0;
 let pageFilterEl = document.querySelector('.ka-page-filter');
 
-function applyPageFilter(pageId, pageTitle) {
+function applyPageFilter(pageId, pageTitle, pageHref) {
   page = String(pageId) === String(page) ? 0 : pageId;
   [totals, chart].forEach(f => f.update(startDate, endDate, page));
-  pageFilterEl.children[1].textContent = pageTitle;
+  let a = document.createElement('a');
+  a.setAttribute('href', pageHref);
+  a.textContent = pageTitle;
+  pageFilterEl.children[1].replaceChildren(a);
   pageFilterEl.style.display = page > 0 ? 'block' : 'none';
   document.body.classList.toggle('page-filter-active', page > 0);
 }
 
-document.querySelector('.ka-page-filter--close').addEventListener('click', function() {
+document.querySelector('.ka-page-filter--close').addEventListener('click', () => {
   applyPageFilter(0, '');
 })
 

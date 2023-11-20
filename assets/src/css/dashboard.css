@@ -185,15 +185,6 @@ h1.ka-logo,
   grid-column: span 6;
 }
 
-.ka-link-external {
-  width: 16px;
-  height: 16px;
-  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='24px' height='24px' viewBox='0 0 24 24' style='cursor:pointer'%3E%3Cg stroke-width='2.1' stroke='%23666' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='17 13.5 17 19.5 5 19.5 5 7.5 11 7.5'%3E%3C/polyline%3E%3Cpath d='M14,4.5 L20,4.5 L20,10.5 M20,4.5 L11,13.5'%3E%3C/path%3E%3C/g%3E%3C/svg%3E%0A");
-  background-size: contain;
-  vertical-align: top;
-  margin: 2px 0 0 6px;
-  display: none;
-}
 
 @media (min-width: 840px) {
   .ka-topx {
@@ -207,9 +198,6 @@ h1.ka-logo,
   border-top: 1px dashed #eee;
   padding: 6px 12px;
   text-align: left
-}
-.ka-topx--row:hover .ka-link-external {
-  display: inline-block;
 }
 .ka-topx--placeholder {
   padding: 6px 12px;

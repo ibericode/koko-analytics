@@ -85,6 +85,7 @@ export function BlockComponent(root, data, startDate, endDate, apiEndpoint, rowV
  * @param {array} data
  * @param {Date} startDate
  * @param {Date} endDate
+ * @param {function} onPageClick
  * @returns {{update: update}}
  */
 export function PostsComponent(root, data, startDate, endDate, onPageClick) {
@@ -99,15 +100,10 @@ export function PostsComponent(root, data, startDate, endDate, onPageClick) {
           on: {
             click: (evt) => {
               evt.preventDefault();
-              onPageClick(item.id, item.post_title);
+              onPageClick(item.id, item.post_title, item.post_permalink);
             }
           }
         },item.post_title || '(no title)'),
-        h('a.ka-link-external', {
-          attrs: {
-            href: item.post_permalink,
-          },
-        })
       ]),
       h('div.ka-topx--amount', Math.max(1, item.visitors)),
       h('div.ka-topx--amount', item.pageviews)

@@ -21,7 +21,7 @@ use function KokoAnalytics\fmt_large_number;
 <div class="wrap">
     <?php $this->maybe_show_adblocker_notice(); ?>
 
-    <div style="display: flex; gap: 24px; ">
+    <div style="display: flex; gap: 12px; ">
         <div class="ka-datepicker">
             <div class='ka-datepicker--label' aria-expanded="false" aria-controls="ka-datepicker-dropdown">
                 <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
@@ -62,7 +62,7 @@ use function KokoAnalytics\fmt_large_number;
         </div>
 
         <div class="ka-page-filter">
-            <span><?php esc_html_e( 'Page', 'koko-analytics' ); ?>: </span>
+            <span><?php esc_html_e( 'Page', 'koko-analytics' ); ?> = </span>
             <span style="font-weight: bold;"></span>
             <span class="ka-page-filter--close" aria-label="clear filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics' ); ?>">✕</span>
         </div>
