@@ -48,23 +48,22 @@ function getMaxPageviews(dataset) {
 /**
  * @param {HTMLElement|VNode} root
  * @param {array} data
- * @param {Date} startDate
- * @param {Date} endDate
+ * @param {object} state
  * @param {number?} height
  * @returns {{update: update}}
  */
-export default function(root, data, startDate, endDate, height) {
+export default function(root, data, state, height) {
   if (!height) {
-    height = Math.max(240, Math.min(window.innerHeight / 3,   320));
+    height = 280;
   }
   const width = root.clientWidth;
   root.parentElement.style.minHeight = `${height+4}px`
-  let dateFormatOptions = (endDate - startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
+  let dateFormatOptions = (state.endDate - state.startDate) >= 86400000 * 364 ? {month: 'short', year: 'numeric'} : undefined
 
   if (data.length) {
     root = patch(root,  render(data))
   } else {
-    update(startDate, endDate)
+    update()
   }
 
   document.body.appendChild(tooltip)
@@ -101,17 +100,17 @@ export default function(root, data, startDate, endDate, height) {
   }
 
   /**
-   * @param {Date} startDate
-   * @param {Date} endDate
+
    */
-  function update(startDate, endDate) {
-    const groupByMonth = (endDate - startDate) >= 86400000 * 364
+  function update() {
+    const groupByMonth = (state.endDate - state.startDate) >= 86400000 * 364
     dateFormatOptions = groupByMonth ? {month: 'short', year: 'numeric'} : undefined
 
     request('/stats', {
-      start_date: toISO8601(startDate),
-      end_date: toISO8601(endDate),
+      start_date: toISO8601(state.startDate),
+      end_date: toISO8601(state.endDate),
       monthly: groupByMonth ? 1 : 0,
+      page: state.page > 0 ? state.page : 0,
     }).then(data => {
       root = patch(root,  render(data))
     })
@@ -134,7 +133,7 @@ export default function(root, data, startDate, endDate, height) {
     const yMaxNice = magnitude(yMax);
     const yTicks = [0, yMaxNice / 2, yMaxNice];
     const drawTick = dataset.length <= 90;
-    const paddingLeft = 4 + String(formatLargeNumber(yMaxNice)).length * 8;
+    const paddingLeft = 4 + Math.max(5, String(formatLargeNumber(yMaxNice)).length) * 8;
     const paddingTop = 6;
     const paddingBottom = 24;
     const innerWidth = width - paddingLeft;

@@ -4,7 +4,7 @@ namespace KokoAnalytics;
 
 class Stats
 {
-    public function get_totals(string $start_date, string $end_date): ?object
+    public function get_totals(string $start_date, string $end_date, int $page = 0): ?object
     {
         global $wpdb;
 
@@ -15,6 +15,20 @@ class Stats
         }
         $previous_start_date = gmdate('Y-m-d', strtotime($start_date) - (strtotime($end_date . ' 23:59:59') - strtotime($start_date)));
 
+        $table = $wpdb->prefix . 'koko_analytics_site_stats';
+        $where_a = 's.date >= %s AND s.date <= %s';
+        $args_a = array( $start_date, $end_date );
+        $where_b = 's.date >= %s AND s.date < %s';
+        $args_b = array( $previous_start_date, $start_date );
+
+        if ( $page > 0 ) {
+            $table = $wpdb->prefix . 'koko_analytics_post_stats';
+            $where_a .= ' AND s.id = %d';
+            $where_b .= ' AND s.id = %d';
+            $args_a[] = $page;
+            $args_b[] = $page;
+        }
+
         $sql                = $wpdb->prepare("SELECT
 			        cur.*,
 			        cur.visitors - prev.visitors AS visitors_change,
@@ -22,13 +36,23 @@ class Stats
 			        cur.visitors / prev.visitors - 1 AS visitors_change_rel,
 			        cur.pageviews / prev.pageviews - 1 AS pageviews_change_rel
 			    FROM
-			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$wpdb->prefix}koko_analytics_site_stats s WHERE s.date >= %s AND s.date <= %s) AS cur,
-			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$wpdb->prefix}koko_analytics_site_stats s WHERE s.date >= %s AND s.date < %s) AS prev;
-			", array( $start_date, $end_date, $previous_start_date, $start_date ));
+			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_a) AS cur,
+			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_b) AS prev;
+			", array_merge( $args_a, $args_b ) );
         return $wpdb->get_row($sql);
     }
 
-    public function get_stats(string $start_date, string $end_date, string $group): array
+    /**
+     * Get aggregated statistics (per day or per month) between the two given dates.
+     * Without the $page parameter this returns the site-wide statistics.
+     *
+     * @param string $start_date
+     * @param string $end_date
+     * @param string $group
+     * @param int $page
+     * @return array
+     */
+    public function get_stats(string $start_date, string $end_date, string $group, int $page = 0): array
     {
         global $wpdb;
         if ($group === 'month') {
@@ -37,14 +61,24 @@ class Stats
             $date_format = '%Y-%m-%d';
         }
 
+        $table = $wpdb->prefix . 'koko_analytics_site_stats';
+        $where = 'd.date >= %s AND d.date <= %s';
+        $args = array( $date_format, $start_date, $end_date );
+
+        if ($page > 0) {
+            $table = $wpdb->prefix . 'koko_analytics_post_stats';
+            $where .= ' AND s.id = %d';
+            $args[] = $page;
+        }
+
         $sql = $wpdb->prepare(
             "
                 SELECT DATE_FORMAT(d.date, %s) AS date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_dates d
-                    LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date
-                WHERE d.date >= %s AND d.date <= %s
+                    LEFT JOIN {$table} s ON s.date = d.date
+                WHERE {$where}
                 GROUP BY date",
-            array( $date_format, $start_date, $end_date )
+            $args
         );
         $result = $wpdb->get_results($sql);
         return array_map(function ($row) {

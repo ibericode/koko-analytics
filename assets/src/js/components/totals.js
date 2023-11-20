@@ -4,9 +4,10 @@ import { formatLargeNumber, formatPercentage } from '../util/numbers'
 
 /**
  * @param {HTMLElement} root
+ * @param {object} state
  * @returns {{update: update}}
  */
-export default function(root) {
+export default function(root, state) {
 
   /**
    * @param {HTMLElement} root
@@ -23,13 +24,13 @@ export default function(root) {
   }
 
   /**
-   * @param {Date} startDate
-   * @param {Date} endDate
+
    */
-  function update(startDate, endDate) {
+  function update() {
     request('/totals', {
-      start_date: toISO8601(startDate),
-      end_date: toISO8601(endDate)
+      start_date: toISO8601(state.startDate),
+      end_date: toISO8601(state.endDate),
+      page: state.page,
     }).then(data => {
       updateDom(root.children[0], data.visitors, data.visitors_change, data.visitors_change_rel)
       updateDom(root.children[1], data.pageviews, data.pageviews_change, data.pageviews_change_rel)

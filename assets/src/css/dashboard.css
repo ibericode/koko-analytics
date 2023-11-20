@@ -173,6 +173,13 @@ h1.ka-logo,
   padding: 6px 12px;
   text-align: left
 }
+.filter-active .ka-topx--row {
+    opacity: 0.5;
+}
+.filter-active .ka-topx--row.filter-cur {
+  opacity: 1;
+  font-weight: bold;
+}
 .ka-topx--placeholder {
   padding: 6px 12px;
 }

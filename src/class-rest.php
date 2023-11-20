@@ -161,7 +161,8 @@ class Rest
         $start_date         = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
         $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
-        $result = (new Stats())->get_stats($start_date, $end_date, $group);
+        $page = $params['page'] ?? 0;
+        $result = (new Stats())->get_stats($start_date, $end_date, $group, $page);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         return $this->respond($result, $send_cache_headers);
     }
@@ -178,7 +179,8 @@ class Rest
         $params     = $request->get_query_params();
         $start_date = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
         $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
-        $result = (new Stats())->get_totals($start_date, $end_date);
+        $page = $params['page'] ?? 0;
+        $result = (new Stats())->get_totals($start_date, $end_date, $page);
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         return $this->respond($result, $send_cache_headers);
     }
