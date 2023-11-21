@@ -61,22 +61,22 @@ class Stats
             $date_format = '%Y-%m-%d';
         }
 
-        $table = $wpdb->prefix . 'koko_analytics_site_stats';
-        $where = 'd.date >= %s AND d.date <= %s';
-        $args = array( $date_format, $start_date, $end_date );
-
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
-            $where .= ' AND s.id = %d';
-            $args[] = $page;
+            $join_on = 's.date = d.date AND s.id = %d';
+            $args = array( $date_format, $page, $start_date, $end_date );
+        } else {
+            $table = $wpdb->prefix . 'koko_analytics_site_stats';
+            $args = array( $date_format, $start_date, $end_date );
+            $join_on = 's.date = d.date';
         }
 
         $sql = $wpdb->prepare(
             "
                 SELECT DATE_FORMAT(d.date, %s) AS date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_dates d
-                    LEFT JOIN {$table} s ON s.date = d.date
-                WHERE {$where}
+                    LEFT JOIN {$table} s ON {$join_on}
+                WHERE d.date >= %s AND d.date <= %s
                 GROUP BY date",
             $args
         );
