@@ -63,7 +63,6 @@ class Dates
                 ];
             default:
                 return $this->get_range('last_28_days');
-
         }
     }
 }

@@ -21,7 +21,7 @@ class Stats
         $where_b = 's.date >= %s AND s.date < %s';
         $args_b = array( $previous_start_date, $start_date );
 
-        if ( $page > 0 ) {
+        if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
             $where_a .= ' AND s.id = %d';
             $where_b .= ' AND s.id = %d';
@@ -38,7 +38,7 @@ class Stats
 			    FROM
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_a) AS cur,
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_b) AS prev;
-			", array_merge( $args_a, $args_b ) );
+			", array_merge($args_a, $args_b));
         return $wpdb->get_row($sql);
     }
 

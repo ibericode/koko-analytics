@@ -62,9 +62,9 @@ use function KokoAnalytics\fmt_large_number;
         </div>
 
         <div class="ka-page-filter">
-            <span><?php esc_html_e( 'Page', 'koko-analytics' ); ?> = </span>
+            <span><?php esc_html_e('Page', 'koko-analytics'); ?> = </span>
             <span style="font-weight: bold;"></span>
-            <span class="ka-page-filter--close" aria-label="clear filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics' ); ?>">✕</span>
+            <span class="ka-page-filter--close" aria-label="clear filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>">✕</span>
         </div>
 
         <?php require __DIR__ . '/nav.php'; ?>
