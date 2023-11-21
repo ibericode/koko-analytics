@@ -65,14 +65,15 @@ class Admin
     {
         // Always return true on localhost / dev-ish environments
         $site_url = get_site_url();
-        if (strpos($site_url, ':') !== false || strpos($site_url, 'localhost') !== false || strpos($site_url, '.local') !== false) {
+        $parts = parse_url($site_url);
+        if (!is_array($parts) || ! empty($parts['port']) || str_contains($parts['host'], 'localhost') || str_contains($parts['host'], 'local')) {
             return true;
         }
 
         // detect issues with WP Cron event not running
         // it should run every minute, so if it didn't run in 10 minutes there is most likely something wrong
         $next_scheduled = wp_next_scheduled('koko_analytics_aggregate_stats');
-        return $next_scheduled !== false && $next_scheduled > (time() - HOUR_IN_SECONDS);
+        return $next_scheduled !== false && $next_scheduled > (time() - 10 * 60);
     }
 
     public function show_page(): void
