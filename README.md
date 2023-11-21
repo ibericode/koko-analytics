@@ -3,7 +3,6 @@ Koko Analytics
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/ibericode/koko-analytics/master/LICENSE)
 [![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)](https://wordpress.org/plugins/koko-analytics/advanced/)
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
-![Lighthouse accessibility score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_accessibility.svg)
 ![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
 [Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 850 bytes) and privacy-friendly website analytics plugin for WordPress.
@@ -92,7 +91,7 @@ You can contribute to Koko Analytics in many different ways. For example:
 
 - Write about the plugin on your blog or share it on social media.
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- [Vote on features in the GitHub discussions idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas).
+- [Vote on features in the GitHub discussions idea board](https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop).
 - Purchase [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) for its advanced features or simply to help fund development and support costs.
 
 ## License
