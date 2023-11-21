@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.3.4 - Nov 21, 2023
+
+- New feature that allows you to filter by page. Clicking any page in the "top pages" list now updates the totals and chart component to only show visitors and pageviews for that specific page.
+- Fix warning that cron event isn't working not showing.
+- Fix error when default date period is stuck at removed period.
+- Fix API url for sites not using pretty permalinks.
+- Performance improvement for rendering chart and tooltips.
 
 
 #### 1.3.3 - Nov 6, 2023
