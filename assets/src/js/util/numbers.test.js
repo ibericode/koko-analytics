@@ -21,7 +21,7 @@ test('formatLargeNumber works', () => {
   expect(formatLargeNumber(9999990)).toBe('10M')
 })
 
-test('nice works properly', () => {
+test('magnitude works properly', () => {
   [
     [1, 10],
     [2, 10],
@@ -41,7 +41,10 @@ test('nice works properly', () => {
     [1001, 2000],
     [1200, 2000],
     [20000, 20000],
-    [20001, 30000]
+    [20001, 30000],
+    [100000, 100000],
+    [101000, 110000],
+    [151000, 160000],
   ].forEach((args) => {
     const [n, expected] = args
     expect(magnitude(n)).toBe(expected)
