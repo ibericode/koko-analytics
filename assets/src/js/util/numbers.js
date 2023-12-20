@@ -57,7 +57,7 @@ export function magnitude (n) {
   // because 100K to 200K is such an immense jump
   // we round up to the nearest 10K value here
   if (n > 100000) {
-    return Math.floor(n/10000) * 10000 + 10000;
+    return Math.ceil(n/10000) * 10000;
   }
 
   const exponent = Math.floor(Math.log10(n))

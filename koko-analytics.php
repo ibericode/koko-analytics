@@ -40,7 +40,7 @@ namespace KokoAnalytics;
 
 // Conditionally load our autoloader
 // This allows people to install the plugin through wpackagist and use a site-wide autoloader
-if (! class_exists('KokoAnalytics\Plugin')) {
+if (!class_exists('KokoAnalytics\Plugin')) {
     require __DIR__ . '/vendor/autoload.php';
 }
 
