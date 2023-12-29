@@ -1,4 +1,5 @@
-import {magnitude, formatLargeNumber} from './numbers'
+import {magnitude, formatLargeNumber} from './numbers.js';
+
 
 // eslint-disable-file no-undef
 test('formatLargeNumber works', () => {

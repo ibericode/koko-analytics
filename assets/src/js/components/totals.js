@@ -1,5 +1,5 @@
-import { request } from '../util/api'
-import { formatLargeNumber, formatPercentage } from '../util/numbers'
+import { request } from '../util/api.js'
+import { formatLargeNumber, formatPercentage } from '../util/numbers.js'
 
 /**
  * @param {HTMLElement} root
