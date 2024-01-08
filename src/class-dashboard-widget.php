@@ -1,22 +1,28 @@
 <?php
 
+/**
+ * @package koko-analytics
+ * @license GPL-3.0+
+ * @author Danny van Kooten
+ */
+
 namespace KokoAnalytics;
 
 class Dashboard_Widget
 {
     public function init(): void
     {
-        add_action('wp_dashboard_setup', array( $this, 'register_dashboard_widget' ), 10, 0);
+        add_action('wp_dashboard_setup', array($this, 'register_dashboard_widget'), 10, 0);
     }
 
     public function register_dashboard_widget(): void
     {
         // only show if user can view stats
-        if (! current_user_can('view_koko_analytics')) {
+        if (!current_user_can('view_koko_analytics')) {
             return;
         }
 
-        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', array( $this, 'dashboard_widget' ), 'dashboard', 'side', 'high');
+        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', array($this, 'dashboard_widget'), 'dashboard', 'side', 'high');
     }
 
     public function get_script_data(): array

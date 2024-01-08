@@ -1,5 +1,10 @@
 <?php
+
 /**
+ * @package koko-analytics
+ * @license GPL-3.0+
+ * @author Danny van Kooten
+ *
  * Perform the necessary steps to completely uninstall Koko Analytics
  */
 
@@ -25,5 +30,5 @@ $wpdb->query(
 
 // delete custom endpoint file
 if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
-	unlink(ABSPATH . '/koko-analytics-collect.php');
+    unlink(ABSPATH . '/koko-analytics-collect.php');
 }

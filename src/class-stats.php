@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @package koko-analytics
+ * @license GPL-3.0+
+ * @author Danny van Kooten
+ */
+
 namespace KokoAnalytics;
 
 class Stats
@@ -17,9 +23,9 @@ class Stats
 
         $table = $wpdb->prefix . 'koko_analytics_site_stats';
         $where_a = 's.date >= %s AND s.date <= %s';
-        $args_a = array( $start_date, $end_date );
+        $args_a = array($start_date, $end_date);
         $where_b = 's.date >= %s AND s.date < %s';
-        $args_b = array( $previous_start_date, $start_date );
+        $args_b = array($previous_start_date, $start_date);
 
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
@@ -64,10 +70,10 @@ class Stats
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
             $join_on = 's.date = d.date AND s.id = %d';
-            $args = array( $date_format, $page, $start_date, $end_date );
+            $args = array($date_format, $page, $start_date, $end_date);
         } else {
             $table = $wpdb->prefix . 'koko_analytics_site_stats';
-            $args = array( $date_format, $start_date, $end_date );
+            $args = array($date_format, $start_date, $end_date);
             $join_on = 's.date = d.date';
         }
 
@@ -99,7 +105,7 @@ class Stats
                 GROUP BY s.id
                 ORDER BY pageviews DESC, s.id ASC
                 LIMIT %d, %d",
-            array( $start_date, $end_date, $offset, $limit )
+            array($start_date, $end_date, $offset, $limit)
         );
         $results = $wpdb->get_results($sql);
 
@@ -138,7 +144,7 @@ class Stats
                 GROUP BY s.id
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
-            array( $start_date, $end_date, $offset, $limit )
+            array($start_date, $end_date, $offset, $limit)
         );
         return $wpdb->get_results($sql);
     }
