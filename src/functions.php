@@ -14,7 +14,7 @@ function maybe_collect_request()
 {
     // since we call this function (early) on every AJAX request, detect our specific request here
     // this allows us to short-circuit a bunch of unrelated AJAX stuff and gain a lot of performance
-    if (! isset($_GET['action']) || $_GET['action'] !== 'koko_analytics_collect' || ! defined('DOING_AJAX') || ! DOING_AJAX) {
+    if (!isset($_GET['action']) || $_GET['action'] !== 'koko_analytics_collect' || !defined('DOING_AJAX') || !DOING_AJAX) {
         return;
     }
 
@@ -23,7 +23,7 @@ function maybe_collect_request()
 
 function collect_request()
 {
-    if (! isset($_GET['e'])) {
+    if (!isset($_GET['e'])) {
         $data = array(
             'p',                // type indicator
             (int) $_GET['p'],   // 0: post ID
@@ -44,7 +44,7 @@ function collect_request()
     $success = isset($_GET['test']) ? test_collect_in_file() : collect_in_file($data);
 
     // set OK headers & prevent caching
-    if (! $success) {
+    if (!$success) {
         \header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
     } else {
         \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
@@ -60,12 +60,12 @@ function collect_request()
 
     // set cookie server-side if requested (eg for AMP requests)
     if (isset($_GET['p']) && isset($_GET['sc']) && (int) $_GET['sc'] === 1) {
-        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array( '' );
+        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array('');
         if ((int) $_GET['nv']) {
             $posts_viewed[] = (int) $_GET['p'];
         }
         $cookie = \join(',', $posts_viewed);
-        \setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * HOUR_IN_SECONDS, '/');
+        \setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * 3600, '/');
     }
 
     exit;
@@ -86,7 +86,7 @@ function collect_in_file(array $data): bool
     $filename = get_buffer_filename();
 
     // if file does not yet exist, add PHP header to prevent direct file access
-    if (! \is_file($filename)) {
+    if (!\is_file($filename)) {
         $content = '<?php exit; ?>' . PHP_EOL;
     } else {
         $content = '';
@@ -191,7 +191,7 @@ function admin_bar_menu($wp_admin_bar)
     }
 
     // only show for users who can access statistics page
-    if (! current_user_can('view_koko_analytics')) {
+    if (!current_user_can('view_koko_analytics')) {
         return;
     }
 
