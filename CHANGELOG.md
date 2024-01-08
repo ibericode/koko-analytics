@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.3.5 - Jan 8, 2023
+
+- Fix `HOUR_IN_SECONDS` constant not defined when using AMP with cookie enabled.
+- Fix days without any data not showing up in chart.
+- Improve chart y-axes for numbers just above 100.000.
+
+
 #### 1.3.4 - Nov 21, 2023
 
 - New feature that allows you to filter by page. Clicking any page in the "top pages" list now updates the totals and chart component to only show visitors and pageviews for that specific page.
