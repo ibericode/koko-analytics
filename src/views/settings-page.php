@@ -30,7 +30,7 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             </div>
         <?php } ?>
 
-        <form method="POST" action="<?php echo add_query_arg(array( 'koko_analytics_action' => 'save_settings' )); ?>">
+        <form method="POST" action="<?php echo add_query_arg(array('koko_analytics_action' => 'save_settings')); ?>">
             <?php wp_nonce_field('koko_analytics_save_settings'); ?>
             <div class="ka-margin-m">
                 <label for="ka-exclude-user-roles" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these user roles', 'koko-analytics'); ?></label>
@@ -90,22 +90,22 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
         <?php do_action('koko_analytics_show_settings_sections'); ?>
 
         <?php if ($endpoint_installer->is_eligibile()) { ?>
-        <div class="ka-margin-l">
-            <h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
-            <?php if ($using_custom_endpoint) { ?>
-                <p><?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
-            <?php } else { ?>
-                <p><?php esc_html_e('The plugin is currently not using an optimized tracking endpoint.', 'koko-analytics'); ?></p>
-                <form method="POST" action="">
-                    <?php wp_nonce_field('koko_analytics_install_optimized_endpoint'); ?>
-                    <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint">
-                    <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="button button-secondary">
-                </form>
-                <p><?php printf(__('To use one, create the file %1s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
-                <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($endpoint_installer->get_file_contents()); ?></textarea>
-                <p><?php esc_html_e('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics'); ?></p>
-            <?php } ?>
-        </div>
+            <div class="ka-margin-l">
+                <h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
+                <?php if ($using_custom_endpoint) { ?>
+                    <p><?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
+                <?php } else { ?>
+                    <p><?php esc_html_e('The plugin is currently not using an optimized tracking endpoint.', 'koko-analytics'); ?></p>
+                    <form method="POST" action="">
+                        <?php wp_nonce_field('koko_analytics_install_optimized_endpoint'); ?>
+                        <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint">
+                        <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="button button-secondary">
+                    </form>
+                    <p><?php printf(__('To use one, create the file %1s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
+                    <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($endpoint_installer->get_file_contents()); ?></textarea>
+                    <p><?php esc_html_e('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics'); ?></p>
+                <?php } ?>
+            </div>
         <?php } ?>
 
         <div class="ka-margin-l">
@@ -125,15 +125,6 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             <h2><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
             <p><?php printf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'); ?></p>
         </div>
-
-        <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
-        <div class="ka-margin-l">
-            <h2>Koko Analytics Pro</h2>
-            <p>We created Koko Analytics Pro to add some more advanced analytics features to Koko Analytics, like custom event tracking and periodic email reports.</p>
-            <p>Please consider <a href="https://www.kokoanalytics.com/pricing/">purchasing Koko Analytics Pro</a> even if you're not currently in need of the additional features it provides.
-                It helps us fund development and support costs for the free (and open-source) plugin as well.</p>
-        </div>
-        <?php } ?>
 
     </div>
 </div>

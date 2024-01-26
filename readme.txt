@@ -37,13 +37,11 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Open-Source**: The plugin code is open-sourced under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
-- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
 
 ### Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
-- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
 - [Review the plugin here on WordPress.org](https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post)
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
@@ -91,9 +89,6 @@ A pageview is defined as a view of a page on your site. If a user clicks reload 
 
 ### What is the definition of a "visitor"?
 A visitor represents the number of sessions during which your website or a specific page was viewed one or more times.
-
-### How can I help fund Koko Analytics?
-You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
 
 
 == Screenshots ==
@@ -164,7 +159,7 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 #### 1.2.2 - Oct 18, 2023
 
-First off, we would like to [introduce Koko Analytics Pro](https://www.kokoanalytics.com/2023/10/18/introducing-koko-analytics-pro/) to you.
+~~First off, we would like to [introduce Koko Analytics Pro](https://www.kokoanalytics.com/2023/10/18/introducing-koko-analytics-pro/) to you.~~
 
 It is a paid add-on plugin for Koko Analytics containing more complex features, like [custom event tracking](https://www.kokoanalytics.com/kb/tracking-events/).
 Koko Analytics Pro is available for a [yearly price of €59](https://www.kokoanalytics.com/pricing/).

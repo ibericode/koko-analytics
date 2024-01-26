@@ -58,14 +58,6 @@
 
 #### 1.2.2 - Oct 18, 2023
 
-First off, we would like to [introduce Koko Analytics Pro](https://www.kokoanalytics.com/2023/10/18/introducing-koko-analytics-pro/) to you.
-
-It is a paid add-on plugin for Koko Analytics containing more complex features, like [custom event tracking](https://www.kokoanalytics.com/kb/tracking-events/).
-Koko Analytics Pro is available for a [yearly price of €59](https://www.kokoanalytics.com/pricing/).
-We hope you will consider becoming a Pro user as this will help us cover support and development costs for Koko Analytics.
-
-Then, for a list of changes in this new version:
-
 - Fix link to settings page from plugins overview page.
 - Fix pagination not working because `wp_localize_script` turns everything into a string.
 - Fix React warning for dashboard widget when toggling visibility more than once.

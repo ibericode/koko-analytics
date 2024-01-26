@@ -101,20 +101,19 @@ class Dashboard
             esc_html__('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
             esc_html__('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
             sprintf(__('Tip: did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
-            sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/')
         ];
         return $tips[array_rand($tips)];
     }
 
     private function maybe_show_adblocker_notice(): void
     {
-?>
+        ?>
         <div class="notice notice-warning is-dismissible" id="koko-analytics-adblock-notice" style="display: none;">
             <p>
                 <?php echo esc_html__('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
             </p>
         </div>
         <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
-<?php
+        <?php
     }
 }
