@@ -1,6 +1,12 @@
 # Changelog
 
-#### 1.3.5 - Jan 8, 2023
+### 1.3.6 - Jan 29, 2024
+
+- Update referrer blocklist.
+- Update third-party JS dependencies.
+
+
+#### 1.3.5 - Jan 8, 2024
 
 - Fix `HOUR_IN_SECONDS` constant not defined when using AMP with cookie enabled.
 - Fix days without any data not showing up in chart.
