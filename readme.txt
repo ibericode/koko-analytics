@@ -1,10 +1,10 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
-Donate link: https://www.kokoanalytics.com/pricing/
+Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
 Tags: analytics, statistics, stats, privacy, pageviews
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -34,7 +34,7 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Metrics**: All the essentials: visitors, pageviews, referrers and [flexible custom events](https://www.kokoanalytics.com/kb/tracking-events/).
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
-- **Open-Source**: The plugin code is open-sourced under the GPL-3.0-or-later license.
+- **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
 
@@ -64,32 +64,34 @@ You can view your analytics dashboard by going to **WP Admin > Dashboard > Analy
 == Frequently Asked Questions ==
 
 #### Does this respect my visitor's privacy?
-Absolutely, nothing that could lead back to the visitor is recorded. If the visitor has "Do Not Track" enabled in their browser settings, the visitor won't be tracked at all.
+Yes, absolutely. Koko Analytics only stores aggregated counts. Nothing visitor specific is tracked.
 
 #### Does this use any external services?
-No, the data never leaves your website. That's (part of) what makes Koko Analytics such a great choice if you value true privacy.
+No external servives are used. All data lives on your server alone.
 
-### Does this set any cookies?
-By default, yes. Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of `6 hours`.
+### Does Koko Analytics set any cookies?
+By default yes, but you can disable it.
 
-This cookie is used to reliably detect unique pageviews and returning visitors without having to store any personal information on your server.
+Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of `6 hours`. This cookie is used to reliably detect unique pageviews and returning visitors without having to store any personal information on your server.
 
 You can disable the use of cookies from the plugin's settings page.
 
+https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/
+
 ### Will this slow down my website?
-No, the plugin is built in such a way that it never slows down your website for your visitors. If there is any heavy lifting to be done, it is done in a background process.
+No, the plugin is built in such a way that it never slows down your website for your visitors.
 
-In fact, because the plugin does not depend on any external services it is usually much faster than third-party analytics tools.
+- It only adds a single script of less than 800 bytes to your pages.
+- All heavy lifting (like aggregating the statistics) is done in a background process.
+- Everything lives on your server, so the plugin doesn't add any additional DNS look-ups and can benefit from your server's cache policy.
 
-### No pageviews are being recorded.
-This is usually a file permissions issue. The first thing to check is whether the `/wp-content/uploads/pageviews.php` file exists and is writable by your web server.
+https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/
 
-### What is the definition of a "pageview"?
-A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.
+### Is the code for this plugin on GitHub?
+Yes, see [github.com/ibericode/koko-analytics](https://github.com/ibericode/koko-analytics).
 
-### What is the definition of a "visitor"?
-A visitor represents the number of sessions during which your website or a specific page was viewed one or more times.
-
+### Where can I find more documentation?
+Have a look at the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/).
 
 == Screenshots ==
 
@@ -101,7 +103,13 @@ A visitor represents the number of sessions during which your website or a speci
 
 == Changelog ==
 
-#### 1.3.5 - Jan 8, 2023
+### 1.3.6 - Jan 29, 2024
+
+- Update referrer blocklist.
+- Update third-party JS dependencies.
+
+
+#### 1.3.5 - Jan 8, 2024
 
 - Fix `HOUR_IN_SECONDS` constant not defined when using AMP with cookie enabled.
 - Fix days without any data not showing up in chart.
@@ -158,14 +166,6 @@ A visitor represents the number of sessions during which your website or a speci
 
 
 #### 1.2.2 - Oct 18, 2023
-
-~~First off, we would like to [introduce Koko Analytics Pro](https://www.kokoanalytics.com/2023/10/18/introducing-koko-analytics-pro/) to you.~~
-
-It is a paid add-on plugin for Koko Analytics containing more complex features, like [custom event tracking](https://www.kokoanalytics.com/kb/tracking-events/).
-Koko Analytics Pro is available for a [yearly price of €59](https://www.kokoanalytics.com/pricing/).
-We hope you will consider becoming a Pro user as this will help us cover support and development costs for Koko Analytics.
-
-Then, for a list of changes in this new version:
 
 - Fix link to settings page from plugins overview page.
 - Fix pagination not working because `wp_localize_script` turns everything into a string.
