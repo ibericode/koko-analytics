@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.6 - Jan 29, 2024
+#### 1.3.6 - Jan 29, 2024
 
 - Update referrer blocklist.
 - Update third-party JS dependencies.

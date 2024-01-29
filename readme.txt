@@ -31,7 +31,7 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
 - **Lightweight**: Adds less than 950 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
 - **GDPR**: Compliant by design.
-- **Metrics**: All the essentials: visitors, pageviews, referrers and [flexible custom events](https://www.kokoanalytics.com/kb/tracking-events/).
+- **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
@@ -76,7 +76,7 @@ Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a 
 
 You can disable the use of cookies from the plugin's settings page.
 
-https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/
+[https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/](https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/)
 
 ### Will this slow down my website?
 No, the plugin is built in such a way that it never slows down your website for your visitors.
@@ -85,7 +85,7 @@ No, the plugin is built in such a way that it never slows down your website for 
 - All heavy lifting (like aggregating the statistics) is done in a background process.
 - Everything lives on your server, so the plugin doesn't add any additional DNS look-ups and can benefit from your server's cache policy.
 
-https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/
+[https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/](https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/)
 
 ### Is the code for this plugin on GitHub?
 Yes, see [github.com/ibericode/koko-analytics](https://github.com/ibericode/koko-analytics).
