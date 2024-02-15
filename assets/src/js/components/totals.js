@@ -32,6 +32,11 @@ export default function(root) {
       end_date: endDate,
       page,
     }).then(data => {
+      /* Ensure we always show at least 1 visitor if we have any pageviews */
+      if (data.pageviews > 0 && data.visitors == 0) {
+        data.visitors += 1;
+        data.visitors_change += 1;
+      }
       updateDom(root.children[0], data.visitors, data.visitors_change, data.visitors_change_rel)
       updateDom(root.children[1], data.pageviews, data.pageviews_change, data.pageviews_change_rel)
     })
