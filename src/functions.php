@@ -21,13 +21,14 @@ function maybe_collect_request()
     collect_request();
 }
 
-function extract_pageview_data() : array {
+function extract_pageview_data(): array
+{
     // do nothing if a required parameter is missing
     if (
         !isset($_GET['p'])
         || !isset($_GET['nv'])
-        || !isset($_GET['up']))
-    {
+        || !isset($_GET['up'])
+    ) {
         return array();
     }
 
@@ -49,7 +50,8 @@ function extract_pageview_data() : array {
     );
 }
 
-function extract_event_data() : array {
+function extract_event_data(): array
+{
     if (!isset($_GET['e']) || !isset($_GET['p']) || !isset($_GET['u']) || !isset($_GET['v'])) {
         return array();
     }
@@ -84,9 +86,9 @@ function collect_request()
         } else {
             \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
         }
-     } else {
+    } else {
         \header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
-     }
+    }
 
     \header('Content-Type: text/plain');
 

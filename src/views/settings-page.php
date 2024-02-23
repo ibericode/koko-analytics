@@ -114,8 +114,8 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             <p>
                 <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
                 <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
-                <span style="<?php echo $seconds_since_last_aggregation > 300 ? 'color: red;': ''; ?>">
-                    <?php printf( __( '%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation ); ?>
+                <span style="<?php echo $seconds_since_last_aggregation > 300 ? 'color: red;' : ''; ?>">
+                    <?php printf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation); ?>
                 </span>
             </p>
             <div class="ka-margin-m">
