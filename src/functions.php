@@ -21,34 +21,72 @@ function maybe_collect_request()
     collect_request();
 }
 
+function extract_pageview_data() : array {
+    // do nothing if a required parameter is missing
+    if (
+        !isset($_GET['p'])
+        || !isset($_GET['nv'])
+        || !isset($_GET['up']))
+    {
+        return array();
+    }
+
+    // do nothing if parameters are not of the correct type
+    if (
+        false === filter_var($_GET['p'], FILTER_VALIDATE_INT)
+        || false === filter_var($_GET['nv'], FILTER_VALIDATE_INT)
+        || false === filter_var($_GET['up'], FILTER_VALIDATE_INT)
+    ) {
+        return array();
+    }
+
+    return array(
+        'p',                // type indicator
+        $_GET['p'],   // 0: post ID
+        $_GET['nv'],  // 1: is new visitor?
+        $_GET['up'],  // 2: is unique pageview?
+        isset($_GET['r']) ? trim($_GET['r']) : '',   // 3: referrer URL
+    );
+}
+
+function extract_event_data() : array {
+    if (!isset($_GET['e']) || !isset($_GET['p']) || !isset($_GET['u']) || !isset($_GET['v'])) {
+        return array();
+    }
+
+    if (false === filter_var($_GET['u'], FILTER_VALIDATE_INT) || false === filter_var($_GET['v'], FILTER_VALIDATE_INT)) {
+        return array();
+    }
+
+    return array(
+        'e',                  // type indicator
+        trim($_GET['e']),     // 0: event name
+        trim($_GET['p']),     // 1: event parameter
+        (int) $_GET['u'],     // 2: is unique?
+        (int) $_GET['v'],     // 3: event value
+    );
+}
+
 function collect_request()
 {
-    if (!isset($_GET['e'])) {
-        $data = array(
-            'p',                // type indicator
-            (int) $_GET['p'],   // 0: post ID
-            (int) $_GET['nv'],  // 1: is new visitor?
-            (int) $_GET['up'],  // 2: is unique pageview?
-            isset($_GET['r']) ? trim($_GET['r']) : '',   // 3: referrer URL
-        );
+    if (isset($_GET['e'])) {
+        $data = extract_event_data();
     } else {
-        $data = array(
-            'e',            // type indicator
-            trim($_GET['e']),     // 0: event name
-            trim($_GET['p']),     // 1: event parameter
-            (int) $_GET['u'],     // 2: is unique?
-            (int) $_GET['v'],     // 3: event value
-        );
+        $data = extract_pageview_data();
     }
 
-    $success = isset($_GET['test']) ? test_collect_in_file() : collect_in_file($data);
+    if (!empty($data)) {
+        $success = isset($_GET['test']) ? test_collect_in_file() : collect_in_file($data);
 
-    // set OK headers & prevent caching
-    if (!$success) {
-        \header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
-    } else {
-        \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-    }
+        // set OK headers & prevent caching
+        if (!$success) {
+            \header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+        } else {
+            \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+        }
+     } else {
+        \header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+     }
 
     \header('Content-Type: text/plain');
 
@@ -59,7 +97,7 @@ function collect_request()
     \header('Tk: N');
 
     // set cookie server-side if requested (eg for AMP requests)
-    if (isset($_GET['p']) && isset($_GET['sc']) && (int) $_GET['sc'] === 1) {
+    if (isset($_GET['p']) && isset($_GET['nv']) && isset($_GET['sc']) && (int) $_GET['sc'] === 1) {
         $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array('');
         if ((int) $_GET['nv']) {
             $posts_viewed[] = (int) $_GET['p'];
