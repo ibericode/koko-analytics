@@ -111,6 +111,13 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
         <div class="ka-margin-l">
             <h2><?php esc_html_e('Data', 'koko-analytics'); ?></h2>
             <p><?php esc_html_e('Database size:', 'koko-analytics'); ?> <?php echo esc_html($database_size); ?> MB</p>
+            <p>
+                <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
+                <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
+                <span style="<?php echo $seconds_since_last_aggregation > 300 ? 'color: red;': ''; ?>">
+                    <?php printf( __( '%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation ); ?>
+                </span>
+            </p>
             <div class="ka-margin-m">
                 <p><?php esc_html_e('Use the button below to erase all of your current analytics data. You may have to clear your browser\'s cache afterwards for the effect to be evident.', 'koko-analytics'); ?></p>
                 <form method="POST" action="" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to reset all of your statistics? This can not be undone.', 'koko-analytics'); ?>')">
