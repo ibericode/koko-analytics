@@ -17,12 +17,6 @@ class Pageview_Aggregator
     protected $post_stats     = array();
     protected $referrer_stats = array();
 
-    public function init()
-    {
-        add_action('koko_analytics_aggregate_line', array( $this, 'line' ), 10, 2);
-        add_action('koko_analytics_aggregate_finish', array( $this, 'finish' ));
-    }
-
     public function line(string $type, array $params)
     {
         // bail if this record doesn't contain data for a pageview

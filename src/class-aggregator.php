@@ -65,7 +65,6 @@ class Aggregator
 
         // init pageview aggregator
         $pageview_aggregator = new Pageview_Aggregator();
-        $pageview_aggregator->init();
 
         // read pageviews buffer file into array
         $filename = get_buffer_filename();
@@ -104,6 +103,11 @@ class Aggregator
 
             $params = \explode(',', $line);
             $type   = \array_shift($params);
+
+            // core aggregator
+            $pageview_aggregator->line($type, $params);
+
+            // add-on aggregators
             do_action('koko_analytics_aggregate_line', $type, $params);
         }
 
@@ -111,7 +115,10 @@ class Aggregator
         \fclose($file_handle);
         \unlink($tmp_filename);
 
+        // tell aggregators to write their results to the database
+        $pageview_aggregator->finish();
         do_action('koko_analytics_aggregate_finish');
+
         $this->running = false;
     }
 }
