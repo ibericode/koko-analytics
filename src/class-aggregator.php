@@ -12,6 +12,11 @@ use Exception;
 
 class Aggregator
 {
+    /**
+     * Indicator to prevent running running two aggregations simultaneously
+     */
+    protected $running = false;
+
     public function init(): void
     {
         add_action('koko_analytics_aggregate_stats', array( $this, 'aggregate' ));
@@ -51,6 +56,11 @@ class Aggregator
      */
     public function aggregate(): void
     {
+        if ($this->running) {
+            return;
+        }
+
+        $this->running = true;
         update_option('koko_analytics_last_aggregation_at', time(), true);
 
         // init pageview aggregator
@@ -102,5 +112,6 @@ class Aggregator
         \unlink($tmp_filename);
 
         do_action('koko_analytics_aggregate_finish');
+        $this->running = false;
     }
 }

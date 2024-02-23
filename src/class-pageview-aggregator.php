@@ -151,7 +151,7 @@ class Pageview_Aggregator
         $this->update_realtime_pageview_count($this->site_stats['pageviews']);
 
         // reset properties in case aggregation runs again in current request lifecycle
-        $this->site_stats     = array(
+        $this->site_stats = array(
             'visitors' => 0,
             'pageviews' => 0,
         );
