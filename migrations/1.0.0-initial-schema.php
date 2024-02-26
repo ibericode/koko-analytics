@@ -1,21 +1,21 @@
 <?php
 
-defined( 'ABSPATH' ) or exit;
+defined('ABSPATH') or exit;
 
 global $wpdb;
 
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_site_stats" );
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_site_stats");
 $wpdb->query(
-	"CREATE TABLE {$wpdb->prefix}koko_analytics_site_stats (
+    "CREATE TABLE {$wpdb->prefix}koko_analytics_site_stats (
 		   date DATE PRIMARY KEY NOT NULL,
 		   visitors MEDIUMINT UNSIGNED NOT NULL,
 		   pageviews MEDIUMINT UNSIGNED NOT NULL
 	) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats" );
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats");
 $wpdb->query(
-	"CREATE TABLE {$wpdb->prefix}koko_analytics_post_stats (
+    "CREATE TABLE {$wpdb->prefix}koko_analytics_post_stats (
 	   date DATE NOT NULL,
 	   id BIGINT(20) UNSIGNED NOT NULL,
 	   visitors MEDIUMINT UNSIGNED NOT NULL,
@@ -24,9 +24,9 @@ $wpdb->query(
 	) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_stats" );
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_stats");
 $wpdb->query(
-	"CREATE TABLE {$wpdb->prefix}koko_analytics_referrer_stats (
+    "CREATE TABLE {$wpdb->prefix}koko_analytics_referrer_stats (
 	   date DATE NOT NULL,
 	   id MEDIUMINT UNSIGNED NOT NULL,
 	   visitors MEDIUMINT UNSIGNED NOT NULL,
@@ -35,9 +35,9 @@ $wpdb->query(
 	) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_urls" );
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_urls");
 $wpdb->query(
-	"CREATE TABLE {$wpdb->prefix}koko_analytics_referrer_urls (
+    "CREATE TABLE {$wpdb->prefix}koko_analytics_referrer_urls (
 	   id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	   url VARCHAR(255) NOT NULL,
 	   UNIQUE INDEX (url)

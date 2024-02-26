@@ -1,101 +1,97 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
-Donate link: https://opencollective.com/koko-analytics
-Tags: analytics, statistics, stats, koko
-Requires at least: 5.0
-Tested up to: 6.0
-Stable tag: 1.0.35
+Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
+Tags: analytics, statistics, stats, privacy, pageviews
+Requires at least: 6.0
+Tested up to: 6.4
+Stable tag: 1.3.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP: 5.3
+Requires PHP: 7.3
 
-Privacy-friendly analytics for your WordPress site
+Privacy-friendly and efficient analytics for your WordPress site
 
 == Description ==
 
-Koko Analytics is a privacy-friendly analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party company.
+Koko Analytics is a privacy-friendly, simple and lightweight analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party.
+No visitor specific data is collected, only aggregated counts.
 
-Furthermore, no visitor specific data is collected and visitors can easily opt-out of tracking by enabling "Do Not Track" in their browser settings.
+Stop sharing visitor data with third-party companies who also happen to sell ads.
 
-Stop sharing visitor data with third-party companies making money off that same data. Stop unnecessarily slowing down your website. Koko Analytics lets you focus on what is important and gives you all the essential metrics, while respecting the privacy of your visitors.
+Stop unnecessarily slowing down your website.
+
+Koko Analytics lets you focus on the important metrics, while respecting the privacy of your visitors.
 
 ### Features
 
 - **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
-- **Privacy**: No personal information or anything visitor specific is tracked.
+- **No external services**: Any data never leaves your server.
+- **No personal data** or anything visitor specific is tracked.
+- **No cookies**: There is an option to not use any cookies.
+- **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
+- **Lightweight**: Adds less than 950 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
 - **GDPR**: Compliant by design.
-- **Data ownership**: No external services are used. Data about visits to your website is yours and yours alone.
-- **Performance**. Handles sudden bursts of traffic without breaking a sweat.
-- **Metrics**: All the essentials: visitors, pageviews and referrers.
-- **Cookies**: There is an option to not use any cookies.
-- **Referrer spam:** Built-in blacklist to filter out referrer spam.
-- **Cache**: Fully compatible with pages served from any cache.
-- **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only, for now).
-- **Open-source**: Code is released under the GPL 3.0 license.
+- **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
+- **Referrer spam:** Built-in blocklist to filter out referrer spam.
+- **Cached**: Fully compatible with pages served from any kind of cache.
+- **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
+- **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
+- **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
 
 ### Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
 - Write about the plugin on your blog or share it on social media.
-- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
+- [Review the plugin here on WordPress.org](https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post)
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- Help fund the plugin through our [OpenCollective intiative](https://opencollective.com/koko-analytics).
+- [Vote on feature suggestions in our idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas?discussions_q=is%3Aopen+sort%3Atop+created%3A%3E%3D2022-10-25+category%3AIdeas)
+
 
 == Installation ==
 
-1. In your WordPress admin area, go to **Plugins > New Plugin**, search for **Koko Analytics** and click **Install now**.
-1. Alternatively, [download the plugin files](https://downloads.wordpress.org/plugin/koko-analytics.trunk.zip) and upload the contents of `koko-analytics.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
-1. Activate the plugin. Koko Analytics will start recording stats right away.
-1. Access your analytics by browsing to *Dashboard > Analytics* in your WordPress admin area.
+You can install Koko Analytics in multiple ways:
+
+- In your WordPress admin area, go to **Plugins > New Plugin**, search for **Koko Analytics** and click **Install now**.
+- [Download the latest version from WordPress.org](https://downloads.wordpress.org/plugin/koko-analytics.zip) and extract the files into your `/wp-content/plugins/` directory.
+- [Download the latest release from GitHub](https://github.com/ibericode/koko-analytics/releases) and extract the files into your `/wp-content/plugins/` directory.
+
+After installing and then activating the plugin, statistics will be collected right away.
+
+You can view your analytics dashboard by going to **WP Admin > Dashboard > Analytics**.
+
 
 == Frequently Asked Questions ==
 
 #### Does this respect my visitor's privacy?
-Absolutely, nothing that could lead back to the visitor is recorded. If the visitor has "Do Not Track" enabled in their browser settings, the visitor won't be tracked at all.
+Yes, absolutely. Koko Analytics only stores aggregated counts. Nothing visitor specific is tracked.
 
 #### Does this use any external services?
-No, the data never leaves your website. That's (part of) what makes Koko Analytics such a great choice if you value true privacy.
+No external servives are used. All data lives on your server alone.
 
-### Does this set any cookies?
-By default, yes. But you can easily disable this in the plugin's settings. Without cookies the plugin can still detect unique pageviews, but not returning visitors.
+### Does Koko Analytics set any cookies?
+By default yes, but you can disable it.
+
+Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of `6 hours`. This cookie is used to reliably detect unique pageviews and returning visitors without having to store any personal information on your server.
+
+You can disable the use of cookies from the plugin's settings page.
+
+[https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/](https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/)
 
 ### Will this slow down my website?
-No, the plugin is built in such a way that it never slows down your website for your visitors. If there is any heavy lifting to be done, it is done in a background process.
+No, the plugin is built in such a way that it never slows down your website for your visitors.
 
-In fact, because the plugin does not depend on any external services it is usually much faster than third-party analytics tools.
+- It only adds a single script of less than 800 bytes to your pages.
+- All heavy lifting (like aggregating the statistics) is done in a background process.
+- Everything lives on your server, so the plugin doesn't add any additional DNS look-ups and can benefit from your server's cache policy.
 
-### No pageviews are being recorded.
-This is usually a file permissions issue. The first thing to check is whether the `/wp-content/uploads/pageviews.php` file exists and is writable by your web server.
+[https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/](https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/)
 
-### How to only use cookies after consent?
-First configure Koko Analytics to not use any cookies by default.
+### Is the code for this plugin on GitHub?
+Yes, see [github.com/ibericode/koko-analytics](https://github.com/ibericode/koko-analytics).
 
-Then configure your cookie consent plugin to add the following code for visitors that have given consent:
-
-`
-<script>
-if (window.koko_analytics) window.koko_analytics.use_cookie = true;
-</script>
-`
-
-### How do I give users access to the dashboard page?
-You can use a plugin like [User Role Editor](https://wordpress.org/plugins/user-role-editor/) to grant the `view_koko_analytics` and `manage_koko_analytics` capabilities to any user rolou can delete the plugin again after adding the capability.
-
-### What is the definition of a "pageview"?
-A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a user navigates to a different page and then returns to the original page, a second pageview is recorded as well.
-
-### What is the definition of a "visitor"?
-A visitor represents the number of sessions during which your website or a specific page was viewed one or more times.
-
-### I only see an empty page when viewing the analytics dashboard.
-Koko Analytics was recently added to EasyPrivacy, a popular filter list which is used in many ad-blockers. It blocks both the tracking script and the dashboard script, but we are working with EasyPrivacy team to get this resolved.
-
-Until then, please ensure to whitelist your own domain in your ad-blocker settings.
-
-### How can I help fund Koko Analytics?
-Please visit the [Koko Analytics project page on OpenCollective](https://opencollective.com/koko-analytics).
-
+### Where can I find more documentation?
+Have a look at the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/).
 
 == Screenshots ==
 
@@ -106,6 +102,166 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 
 == Changelog ==
+
+### 1.3.6 - Jan 29, 2024
+
+- Update referrer blocklist.
+- Update third-party JS dependencies.
+
+
+#### 1.3.5 - Jan 8, 2024
+
+- Fix `HOUR_IN_SECONDS` constant not defined when using AMP with cookie enabled.
+- Fix days without any data not showing up in chart.
+- Improve chart y-axes for numbers just above 100.000.
+
+
+#### 1.3.4 - Nov 21, 2023
+
+- New feature that allows you to filter by page. Clicking any page in the "top pages" list now updates the totals and chart component to only show visitors and pageviews for that specific page.
+- Fix warning that cron event isn't working not showing.
+- Fix error when default date period is stuck at removed period.
+- Fix API url for sites not using pretty permalinks.
+- Performance improvement for rendering chart and tooltips.
+
+
+#### 1.3.3 - Nov 6, 2023
+
+- Fix quick navigation going forward.
+- Add `manifest.json` file so (standalone) dashboard can be installed as a Progressive Web App.
+
+
+#### 1.3.2 - Nov 2, 2023
+
+- Fix chart tooltip immediately disappearing when viewing the dashboard widget on touch devices.
+- Fix fatal error if lacking permissions to read database size from MySQL information tables.
+- Fix double encoding of special characters in post titles.
+- Fix arrow-key or arrow-icon navigation when viewing a single day of data.
+- Automatically refresh dashboard data every 60s.
+- Improve dashboard widget by showing a summary of today.
+- Added filter hook `koko_analytics_dashboard_widget_number_of_top_items` to [modify or disable the top pages and referrers in the dashboard widget](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/modify-dashboard-widget/README.md).
+- The `[koko_analytics_most_viewed_posts]` shortcode now shows a debug message if the arguments did not lead to any results.
+
+
+#### 1.3.1 - Nov 1, 2023
+
+- Fix new visitors not being counted.
+- Fix dashboard issues for users with a large UTC timezone offset.
+- Fix date format in chart component if grouping by month.
+- Revert to blue colors for the chart. If you want your chart to use different colors, please see this [example code snippet on how to change colors](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/change-chart-colors.php).
+- Change dashboard widget to show just a quick summary of today.
+- Show some feedback after using the "create optimized endpoint" button.
+
+
+#### 1.3.0 - Oct 31, 2023
+
+- Major [performance improvements for the dashboard](https://www.kokoanalytics.com/2023/10/31/speeding-up-dashboard-removing-react-vanilla-js/) by removing the dependency on React and further optimizations.
+- Added link for loading the dashboard outside of WordPress admin (standalone).
+- Added setting to make the analytics dashboard publicly available.
+- Only show button to create optimized endpoint file if location is writable.
+- Remove `wp_koko_analytics_dates` on plugin uninstall.
+- Optimized database query for getting most viewed posts and cache its results.
+- Expand dashboard widget to include realtime pageviews and a list of the most viewed posts.
+- Use `navigator.sendBeacon` for data collection requests.
+
+
+#### 1.2.2 - Oct 18, 2023
+
+- Fix link to settings page from plugins overview page.
+- Fix pagination not working because `wp_localize_script` turns everything into a string.
+- Fix React warning for dashboard widget when toggling visibility more than once.
+- Fix chart tooltip not showing on touch devices.
+- Minor styling improvements to settings page.
+- Install custom endpoint on plugin activation only.
+- Add button to settings page to re-attempt custom endpoint installation.
+- Move table pagination to bottom of component and add text label.
+- Wrap `input[type="radio"]` in `<fieldset>` tag.
+- Remove support for honouring "Do Not Track" header as per [MDN recommendations](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT).
+
+
+#### 1.2.1 - Oct 11, 2023
+
+- Fix issue with strict types and non-hourly UTC offsets.
+
+
+#### 1.2.0 - Oct 11, 2023
+
+- Fix compatibility with WordPress 6.0.
+- Fix aggregation process not running for 5 minutes if an earlier run failed somehow.
+- Fix chart tooltips not showing on WordPress dashboard.
+- Minor performance improvements for aggregation process.
+- Move seed (sample data) function out of the core plugin.
+- Add message about checking browser console for error message in case the dashboard doesn't boot up.
+- Format dates in dashboard using `Intl.DateTimeFormat` in browser, if available.
+- Remove Pikaday datepicker in favor of native `<input type="date">` elements.
+- Improve mobile view of datepicker dropdown.
+- Exclude (fixed page) homepage from most viewed posts widget/shortcode/function.
+- Add filter hook `koko_analytics_items_per_page` to override the number of items to show per page for the dashboard components.
+- Bump required PHP version to 7.3.
+
+
+#### 1.1.2 - Oct 3, 2023
+
+- Fix broken totals and chart component on sites using a custom database table prefix.
+
+
+#### 1.1.1 - Oct 3, 2023
+
+- Fix for date table not being created, leading to an empty chart as of v1.1.0.
+
+
+#### Koko Analytics v1.1.0 - Oct 3, 2023
+
+- Switch out Preact for the React version that is bundled with WordPress, reducing bundle size for the admin dashboard by 40 kB (or 30%).
+- Stop showing warning about WP Cron events not running if on local or developer environments.
+- Use the same Browserslist configuration as WordPress core.
+- Performance optimizations for fetching and parsing chart data.
+- Create optimized endpoint for fetching data for the totals component.
+- Settings page is now a server-side rendered page instead of a React component.
+- Improved CSS selector performance.
+- Add public PHP API. You can now call the following functions:
+	- `koko_analytics_get_most_viewed_posts()` to get a list of the most viewed posts.
+	- `koko_analytics_get_realtime_pageview_count('-1 hour')` to get the total number of pageviews in the last hour.
+	- `koko_analytics_track_pageview($post_id)` to track a pageview to the post with ID `$post_id`
+
+
+#### 1.0.40 - Sep 14, 2023
+
+- Fallback to post slug if post has no title
+- Validate referrer URL and ignore if invalid
+- Delete optimized tracking endpoint if buffer filename changed and is no longer present in it. This fixes an issue when moving between servers
+- Always run database migrations when needed, regardless of current user role
+- Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
+- Limit attempts to install optimized tracking endpoint to once per hour
+- On the analytics dashboard, use the date format from WordPress settings
+- Translate day and month names (only relevant if using M, F, l or D in the date format string)
+- WP CLI command to manually run aggregation now accepts an optional `--force` flag. Example: `wp koko-analytics aggregate --force`
+- Don't show warning about WP Cron not working properly on sites on localhost, sites ending in `.local` and sites containing a port number
+- Last but certainly not least, some preparatory work for event tracking... Coming soon!
+
+
+### 1.0.39 - Aug 29, 2023
+
+- Update referrer blocklist
+- Update third-party JS dependencies
+- Bump tested WordPress version
+
+
+### 1.0.38 - Apr 25, 2023
+
+- Fix issue with dashboard widget rendering incorrectly when it was initially hidden.
+- Only render chart in dashboard widget when it is currently visible.
+
+
+### 1.0.37 - Dec 07, 2022
+
+- Fix potential issue in tracking script causing incorrect stats collection.
+
+
+### 1.0.36 - Dec 06, 2022
+
+- Shrink size of tracking script to 985 bytes (when using gzip compression).
+
 
 ### 1.0.35 - Oct 21, 2022
 
@@ -160,7 +316,7 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 - Cache dashboard requests to REST API for 5 minutes (using browser cache).
 - Use integers for viewbox coordinates (for increased performance).
 - Simple locking mechanism for aggregation job to detect previous runs which are still busy.
-- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate` 
+- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate`
 
 
 #### 1.0.27 - May 4, 2021
@@ -194,7 +350,7 @@ Please visit the [Koko Analytics project page on OpenCollective](https://opencol
 
 #### 1.0.23 - Jan 15, 2021
 
-Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up. 
+Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
 
 If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
 
@@ -214,14 +370,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists 
+- Only call add_cap on administrator role if such a role exists
 - Update JS dependencies.
 - Update built-in referrer blocklist.
 
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install. 
+- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 

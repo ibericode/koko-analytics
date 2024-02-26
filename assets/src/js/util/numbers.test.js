@@ -1,27 +1,28 @@
-const numbers = require('./numbers.js').default
+import {magnitude, formatLargeNumber} from './numbers.js';
+
 
 // eslint-disable-file no-undef
-test('formatPretty works', () => {
-  expect(numbers.formatPretty(1000)).toBe('1000')
-  expect(numbers.formatPretty(10000)).toBe('10K')
-  expect(numbers.formatPretty(100000)).toBe('100K')
-  expect(numbers.formatPretty(1000000)).toBe('1M')
-  expect(numbers.formatPretty(10000000)).toBe('10M')
-  expect(numbers.formatPretty(170000)).toBe('170K')
-  expect(numbers.formatPretty(17000)).toBe('17K')
-  expect(numbers.formatPretty(1700)).toBe('1700')
-  expect(numbers.formatPretty(170)).toBe('170')
-  expect(numbers.formatPretty(175500)).toBe('176K')
-  expect(numbers.formatPretty(17550)).toBe('17.6K')
-  expect(numbers.formatPretty(1755)).toBe('1755')
-  expect(numbers.formatPretty(175)).toBe('175')
-  expect(numbers.formatPretty(9999)).toBe('9999')
-  expect(numbers.formatPretty(99999)).toBe('100K')
-  expect(numbers.formatPretty(999999)).toBe('1000K')
-  expect(numbers.formatPretty(9999990)).toBe('10M')
+test('formatLargeNumber works', () => {
+  expect(formatLargeNumber(1000)).toBe('1000')
+  expect(formatLargeNumber(10000)).toBe('10K')
+  expect(formatLargeNumber(100000)).toBe('100K')
+  expect(formatLargeNumber(1000000)).toBe('1M')
+  expect(formatLargeNumber(10000000)).toBe('10M')
+  expect(formatLargeNumber(170000)).toBe('170K')
+  expect(formatLargeNumber(17000)).toBe('17K')
+  expect(formatLargeNumber(1700)).toBe('1700')
+  expect(formatLargeNumber(170)).toBe('170')
+  expect(formatLargeNumber(175500)).toBe('176K')
+  expect(formatLargeNumber(17550)).toBe('17.6K')
+  expect(formatLargeNumber(1755)).toBe('1755')
+  expect(formatLargeNumber(175)).toBe('175')
+  expect(formatLargeNumber(9999)).toBe('9999')
+  expect(formatLargeNumber(99999)).toBe('100K')
+  expect(formatLargeNumber(999999)).toBe('1000K')
+  expect(formatLargeNumber(9999990)).toBe('10M')
 })
 
-test('nice works properly', () => {
+test('magnitude works properly', () => {
   [
     [1, 10],
     [2, 10],
@@ -41,9 +42,12 @@ test('nice works properly', () => {
     [1001, 2000],
     [1200, 2000],
     [20000, 20000],
-    [20001, 30000]
+    [20001, 30000],
+    [100000, 100000],
+    [101000, 110000],
+    [151000, 160000],
   ].forEach((args) => {
     const [n, expected] = args
-    expect(numbers.nice(n)).toBe(expected)
+    expect(magnitude(n)).toBe(expected)
   })
 })

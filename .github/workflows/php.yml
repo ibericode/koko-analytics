@@ -4,13 +4,13 @@ on: [ push, pull_request ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php-versions: [ '7.3', '7.4', '8.0' ]
+        php-versions: [ '8.2', '8.3' ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -35,8 +35,8 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress
 
-      - name: Run test suite
+      - name: Run PHPUnit
         run: composer run-script test
 
-      - name: Run codestyle sniffer
-        run: composer run-script codestyle
+      - name: Run PHPCS
+        run: composer run-script lint

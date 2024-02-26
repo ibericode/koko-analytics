@@ -1,60 +1,14 @@
 <?xml version="1.0"?>
 <ruleset name="rules">
     <description>rules</description>
-	<file>code-snippets/</file>
+    <arg name="colors"/>
+    <file>code-snippets/</file>
     <file>src/</file>
     <file>migrations/</file>
-    <file>views/</file>
     <file>koko-analytics.php</file>
-	<exclude-pattern>*\.(html|css|js)</exclude-pattern>
-    <rule ref="WordPress-Core">
-        <exclude name="WordPress.PHP.YodaConditions" />
-        <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
-        <exclude name="WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare" />
-        <exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
-        <exclude name="WordPress.WP.DeprecatedFunctions.get_settingsFound" />
-        <exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
-        <exclude name="WordPress.Arrays.ArrayIndentation.ItemNotAligned" />
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.ExtraSpaceAfterCloseParenthesis" />
-		<exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine" />
-        <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
-		<exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine" />
-		<exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
-		<exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments" />
-		<exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
+    <exclude-pattern>*\.(html|css|js)</exclude-pattern>
+    <rule ref="PSR12">
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
     </rule>
-
-    <rule ref="WordPress.WP.I18n">
-        <properties>
-            <property name="text_domain" type="array">
-                <element value="koko-analytics" />
-            </property>
-        </properties>
-    </rule>
-
-    <rule ref="WordPress.WP.DeprecatedFunctions">
-        <properties>
-            <property name="minimum_supported_version" value="4.6"/>
-        </properties>
-    </rule>
-
-    <rule ref="WordPress.Files.FileName">
-        <properties>
-            <property name="strict_class_file_names" value="false"/>
-        </properties>
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidHookName">
-        <properties>
-            <property name="additionalWordDelimiters" value="-"/>
-        </properties>
-    </rule>
-
-    <rule ref="WordPress.WP.CronInterval">
-        <properties>
-            <property name="min_interval" value="60"/>
-        </properties>
-    </rule>
-
-    <arg name="colors" />
 </ruleset>

@@ -1,13 +1,14 @@
 {
 	"name": "koko-analytics",
+	"type": "module",
 	"description": "Privacy-friendly analytics for your WordPress site",
 	"scripts": {
-		"test": "jest",
+		"test": "node --experimental-vm-modules --experimental-default-type=module node_modules/jest/bin/jest.js",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"download-referrer-blocklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist",
 		"create-pot": "wp i18n make-pot .",
-		"lint": "eslint assets/src"
+		"lint": "eslint assets/src/js/. --ext js"
 	},
 	"private": true,
 	"repository": {
@@ -24,47 +25,17 @@
 	},
 	"homepage": "https://github.com/ibericode/koko-analytics#readme",
 	"dependencies": {
-		"@wordpress/i18n": "^4.0.0",
-		"date-fns": "^2.21.3",
-		"history": "^5.0.0",
-		"pikaday": "^1.8.0",
-		"preact": "^10.5.12",
-		"preact-router": "^3.2.1",
-		"promise-polyfill": "^8.2.0",
-		"unfetch": "^4.1.0"
+		"snabbdom": "^3.5.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.14.2",
-		"@babel/plugin-transform-modules-commonjs": "^7.14.0",
-		"@babel/plugin-transform-react-jsx": "^7.13.12",
-		"@babel/preset-env": "^7.14.2",
-		"babel-loader": "^8.2.2",
-		"copy-webpack-plugin": "^8.1.1",
-		"css-loader": "^5.2.4",
-		"eslint": "^7.26.0",
-		"eslint-config-standard": "^16.0.2",
-		"eslint-config-standard-preact": "^1.1.6",
-		"eslint-plugin-import": "^2.23.2",
-		"eslint-plugin-jest": "^24.3.6",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^4.3.1",
-		"eslint-plugin-react": "^7.23.2",
-		"eslint-plugin-standard": "^5.0.0",
-		"jest": "^29.0.3",
-		"prop-types": "^15.7.2",
-		"sass": "^1.32.13",
-		"sass-loader": "^11.1.1",
-		"style-loader": "^2.0.0",
-		"webpack": "^5.37.0",
-		"webpack-cli": "^4.7.0"
+		"copy-webpack-plugin": "^11.0.0",
+		"eslint": "^8.28.0",
+		"eslint-plugin-jest": "^27.1.6",
+		"jest": "^29.3.1",
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.0"
 	},
-	"babel": {
-		"env": {
-			"test": {
-				"plugins": [
-					"@babel/plugin-transform-modules-commonjs"
-				]
-			}
-		}
+	"jest": {
+    	"transform": {}
 	}
 }

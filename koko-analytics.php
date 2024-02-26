@@ -1,11 +1,12 @@
 <?php
+
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-Version: 1.0.35
+Version: 1.3.6
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
-Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Author URI: https://www.ibericode.com/
 Author Email: support@kokoanalytics.com
 Text Domain: koko-analytics
 License: GPL-3.0
@@ -13,7 +14,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Koko Analytics - website analytics plugin for WordPress
 
-Copyright (C) 2019 - 2022, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2019 - 2024, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,42 +28,49 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+phpcs:disable PSR1.Files.SideEffects
 */
 
 namespace KokoAnalytics;
 
-define( 'KOKO_ANALYTICS_VERSION', '1.0.35' );
-define( 'KOKO_ANALYTICS_PLUGIN_FILE', __FILE__ );
-define( 'KOKO_ANALYTICS_PLUGIN_DIR', __DIR__ );
+\define('KOKO_ANALYTICS_VERSION', '1.3.6');
+\define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
+\define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
-require __DIR__ . '/src/functions.php';
-require __DIR__ . '/src/global-functions.php';
-require __DIR__ . '/src/class-endpoint-installer.php';
-
-if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-	maybe_collect_request();
-} elseif ( is_admin() ) {
-	require __DIR__ . '/src/class-migrations.php';
-	require __DIR__ . '/src/class-admin.php';
-	$admin = new Admin();
-	$admin->init();
-} else {
-	require __DIR__ . '/src/class-script-loader.php';
-	$loader = new Script_Loader();
-	$loader->init();
-
-	add_action( 'admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40 );
+// Conditionally load our autoloader
+// This allows people to install the plugin through wpackagist and use a site-wide autoloader
+if (!class_exists('KokoAnalytics\Plugin')) {
+    require __DIR__ . '/vendor/autoload.php';
 }
 
-require __DIR__ . '/src/class-aggregator.php';
+if (\defined('DOING_AJAX') && DOING_AJAX) {
+    maybe_collect_request();
+} elseif (is_admin()) {
+    $admin = new Admin();
+    $admin->init();
+
+    $dashboard_widget = new Dashboard_Widget();
+    $dashboard_widget->init();
+} else {
+    $loader = new Script_Loader();
+    $loader->init();
+
+    add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40);
+}
+
+$dashboard = new Dashboard();
+$dashboard->add_hooks();
+
 $aggregator = new Aggregator();
 $aggregator->init();
 
-require __DIR__ . '/src/class-rest.php';
+$plugin = new Plugin($aggregator);
+$plugin->init();
+
 $rest = new Rest();
 $rest->init();
 
-require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 $shortcode = new Shortcode_Most_Viewed_Posts();
 $shortcode->init();
 
@@ -74,15 +82,9 @@ require __DIR__ . '/src/class-pruner.php';
 $pruner = new Pruner();
 $pruner->init();
 
-require __DIR__ . '/src/class-plugin.php';
-$plugin = new Plugin( $aggregator );
-$plugin->init();
-
-if ( class_exists( 'WP_CLI' ) ) {
-	require __DIR__ . '/src/class-command.php';
-	\WP_CLI::add_command( 'koko-analytics', 'KokoAnalytics\Command' );
+if (\class_exists('WP_CLI')) {
+    \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
 }
 
-add_action( 'widgets_init', 'KokoAnalytics\widgets_init' );
-
-add_action( 'koko_analytics_test_custom_endpoint', 'KokoAnalytics\install_and_test_custom_endpoint' );
+add_action('widgets_init', 'KokoAnalytics\widgets_init');
+add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');

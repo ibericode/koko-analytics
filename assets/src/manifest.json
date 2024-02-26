@@ -1,0 +1,29 @@
+{
+  "name": "Koko Analytics",
+  "short_name": "Koko Analytics",
+  "description": "Analytics dashboard for your WordPress site. Powered by Koko Analytics.",
+  "icons": [
+    {
+      "src": "img/icon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/?koko-analytics-dashboard",
+  "theme_color": "#FFF",
+  "background_color": "#FFF"
+}

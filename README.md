@@ -1,61 +1,98 @@
 Koko Analytics
 ===========
-![PHP status](https://github.com/ibericode/koko-analytics/workflows/PHP/badge.svg)
-![ESLint status](https://github.com/ibericode/koko-analytics/workflows/ESLint/badge.svg)
-![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)
-![Downloads](https://img.shields.io/wordpress/plugin/dt/koko-analytics.svg)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/ibericode/koko-analytics/master/LICENSE)
+[![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)](https://wordpress.org/plugins/koko-analytics/advanced/)
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
-[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
-[Koko Analytics](https://www.kokoanalytics.com/) is an open-source and privacy-friendly analytics plugin for WordPress. 
+[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 850 bytes) and privacy-friendly website analytics plugin for WordPress.
 
-![Screenshot of the Koko Analytics dashboard](https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1.png?v=1)
+It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
+
+You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
 
 ## Features
 
-- No external services. Data is yours and yours alone.
-- No personal information or anything visitor specific is tracked.
-- Blazingly fast. Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- Plug and play. Just install and activate the plugin and stats will automatically be recorded.
-- Open-source (GPLv3 licensed).
+- **No external services**.
+- **No personal information** or anything visitor specific is tracked.
+- **No cookies** (optional).
+- **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
+- **Lightweight**: Adds less than 900 bytes of data to your pages.
+- **Plug and play**: After activating the plugin, stats are recorded right away.
+- **Cached**: Fully compatible with pages served from cache.
+- **Open-source**: GPLv3 licensed.
+- **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian and Russian.
 
-### How to install
+
+<figure>
+  <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1-830x447.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
+  <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="https://www.kokoanalytics.com/?koko-analytics-dashboard">view a live demo here</a>.</figcaption>
+</figure>
+
+
+## Installation
+
+### Requirements
+
+Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
+
+- WordPress 6.0 or higher.
+- PHP 7.3 or higher.
+
+### Installing latest stable release
+
+You can download a pre-packaged version of Koko Analytics here:
+
+- [Koko Analytics on WordPress.org](https://wordpress.org/plugins/koko-analytics/)
+- From the [GitHub releases page](https://github.com/ibericode/koko-analytics/releases).
+- From your WordPress admin by searching for "Koko Analytics" in the "Add plugin" screen.
+
+After extracting this package into your `/wp-content/plugins/` directory the plugin is ready to be used right away.
+
+### Installing latest development version
 
 To run the latest development version of the plugin, take the following steps.
 
-First, clone the repository using Git in your `/wp-content/plugins/` directory
+First, clone or download the repository into your `/wp-content/plugins/` directory
+
 ```
 git clone git@github.com:ibericode/koko-analytics.git
 ```
 
-Create the autoloader using Composer.
+Create the autoloader using [Composer](https://getcomposer.org/).
 ```
 composer install
 ```
 
-Install client-side dependencies using NPM
+Install client-side dependencies using [NPM](https://docs.npmjs.com/cli/configuring-npm/install).
 ```
 npm install
 ```
 
 Build the plugin assets by issuing the following command:
-``` 
+```
 npm run build
 ```
 
-### Usage
+## Usage
 
-Stats will be collected right away after you install and activate the plugin. You can view your stats on the **Dashboard > Analytics** page.
+Stats will be collected right away after you install and activate the plugin.
+You can view your stats on the **Dashboard > Analytics** page.
 
-### Contributing
+## Help and documentation
+
+The [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/) contains general help articles on effectively using the plugin.
+
+We also have a [repository of sample code snippets](https://github.com/ibericode/koko-analytics/tree/master/code-snippets) to help you modify or extend the plugin's default behavior.
+
+## Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
 - Write about the plugin on your blog or share it on social media.
-- [Vote on features in the GitHub issue list](https://github.com/ibericode/koko-analytics/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+suggestion%22).
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- Help fund development and support costs through [Koko Analytics on OpenCollective](https://opencollective.com/koko-analytics).
+- [Vote on features in the GitHub discussions idea board](https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop).
 
-### License
+## License
 
 GNU General Public License v3.0

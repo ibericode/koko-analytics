@@ -1,17 +1,22 @@
-## Code snippets for Koko Analytics
+# Code snippets for Koko Analytics
 
-This directory contains a collection of code snippets to modify the default behavior of the [Koko Analytics plugin](https://www.kokoanalytics.com/).
+This directory contains a collection of code snippets to modify or extend the default behavior of the [Koko Analytics plugin](https://www.kokoanalytics.com/).
 
-#### My installation is not using the optimized endpoint file. What can I do to force this?
-First, allow the plugin to install the optimized endpoint automatically by taking the following steps. 
+You can copy these snippets into a custom plugin or in your active theme its `functions.php` file.
+Our recommendation is to create a file called `/wp-content/plugins/koko-analytics-modifications.php` with the following file contents:
 
-1. Make your WordPress root directory writable for the user running nginx or Apache.
-2. Visit or refresh the Koko Analytics dashboard page. This will make the plugin attempt to install the optimized endpoint file.
-3. Search your WordPress root directory for a file named `koko-analytics-collect.php`.
-4. (Optional) Revert file permissions on WP root directory.
+Please read [modifying Koko Analytics using filter hooks](https://www.kokoanalytics.com/kb/modifying-koko-analytics-using-filter-hooks/) if you're unusure how to use any of these snippets.
 
-If you see the file named `koko-analytics-collect.php` then the plugin will now start using this file for improved performance. 
-Only if you're still not seeing this file, try the manual approach described below.
+```php
+<?php
+/**
+ * Plugin Name: Koko Analytics: My Modifications
+ */
 
-#### How to manually install the optimized tracking endpoint?
-Go to the settings page in your Koko Analytics dashboard. Follow the instructions at the bottom of the page to manually install the optimized tracking endpoint.
+// Your snippets go here...
+// Make sure to remove the opening <?php tag, since we already have one above.
+```
+
+## More help articles and documentation
+
+Please visit the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/) for some more general help articles on effectively using the plugin.
