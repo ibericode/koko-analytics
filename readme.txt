@@ -93,6 +93,24 @@ Yes, see [github.com/ibericode/koko-analytics](https://github.com/ibericode/koko
 ### Where can I find more documentation?
 Have a look at the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/).
 
+### How to show number of visits to a page?
+
+You can use the `[koko_analytics_counter]` shortcode to show the number of visitors to the current page.
+
+It takes 3 optional arguments:
+
+- `days`: Show count over the last N days. Defaults to "3650".
+- `global`: Whether to show the global count (for the entire site) or for the current page only. Defaults to "false".
+- `metric`: One of "visitors" or "pageviews". Defaults to "visitors".
+
+Example use with arguments:
+
+`
+[koko_analytics_counter days="30" metric="pageviews" global="true"]
+`
+
+
+
 == Screenshots ==
 
 1. Koko Analytics' dashboard to view your website statistics.

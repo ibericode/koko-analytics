@@ -33,7 +33,7 @@ class ShortCode_Site_Counter
         );
         $args = shortcode_atts($default_args, $args, self::SHORTCODE);
 
-        $id = $args['global'] ? 0 : (int) get_the_ID();
+        $id = $args['global'] && $args['global'] !== 'false' ? 0 : (int) get_the_ID();
         $start_date = create_local_datetime("-{$args['days']} days")->format('Y-m-d');
         $end_date = create_local_datetime('tomorrow midnight')->format('Y-m-d');
 
