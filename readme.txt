@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, pageviews
 Requires at least: 6.0
 Tested up to: 6.4
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -121,7 +121,15 @@ Example use with arguments:
 
 == Changelog ==
 
-### 1.3.6 - Jan 29, 2024
+#### 1.3.7 - Feb 26, 2024
+
+- Add `[koko_analytics_counter]` shortcode. Thanks Anil Kulkarni!
+- Show time since last aggregation on settings page.
+- Validate data collection request more aggressively before writing to buffer file.
+- Update referrer blocklist.
+
+
+#### 1.3.6 - Jan 29, 2024
 
 - Update referrer blocklist.
 - Update third-party JS dependencies.
