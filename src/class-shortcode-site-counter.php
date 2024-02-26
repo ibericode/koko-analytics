@@ -4,6 +4,7 @@
  * @package koko-analytics
  * @license GPL-3.0+
  * @author Anil Kulkarni, Danny van Kooten
+ * @since 1.3.7
  *
  * Adds support for a shortcode to display the number of times a page or a site has been viewed
 

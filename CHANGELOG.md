@@ -1,5 +1,13 @@
 # Changelog
 
+#### 1.3.7 - Feb 26, 2024
+
+- Add `[koko_analytics_counter]` shortcode. Thanks Anil Kulkarni!
+- Show time since last aggregation on settings page.
+- Validate data collection request more aggressively before writing to buffer file.
+- Update referrer blocklist.
+
+
 #### 1.3.6 - Jan 29, 2024
 
 - Update referrer blocklist.
