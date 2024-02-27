@@ -176,11 +176,12 @@ function get_most_viewed_posts(array $args = array()): array
             'days'    => 30,
         ), $args);
 
-        $args['days']      = (int) $args['days'];
+        $args['days']      = abs((int) $args['days']);
         $args['post_type'] = is_array($args['post_type']) ? $args['post_type'] : explode(',', $args['post_type']);
         $args['post_type'] = array_map('trim', $args['post_type']);
 
-        $start_date = create_local_datetime("-{$args['days']} days")->format('Y-m-d');
+        $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
+        $start_date = create_local_datetime($start_date_str)->format('Y-m-d');
         $end_date = create_local_datetime('tomorrow midnight')->format('Y-m-d');
 
         // build query
@@ -295,10 +296,14 @@ function test_custom_endpoint(): void
 function create_local_datetime($timestr): \DateTimeImmutable
 {
     $offset = (float) get_option('gmt_offset', 0.0);
-    if ($offset >= 0) {
+    if ($offset >= 0.00) {
         $offset = "+$offset";
     }
 
-    $now_local = (new \DateTimeImmutable('now'))->modify($offset . ' hours');
+    $now_local = (new \DateTimeImmutable('now'));
+    if ($offset > 0.00 || $offset < 0.00) {
+        $now_local = $now_local->modify($offset . ' hours');
+    }
+
     return $now_local->modify($timestr);
 }
