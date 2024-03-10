@@ -38,6 +38,14 @@ class Script_Loader
             }
         }
 
+        // Do not load script if excluded by IP address
+        if (count($settings['exclude_ip_addresses']) > 0) {
+            $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+            if ($ip_address !== '' && in_array($ip_address, $settings['exclude_ip_addresses'], true)) {
+                return;
+            }
+        }
+
         // TODO: Handle "term" requests so we track both terms and post types.
         add_filter('script_loader_tag', array( $this, 'add_async_attribute' ), 20, 2);
 

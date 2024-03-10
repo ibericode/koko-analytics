@@ -206,6 +206,7 @@ class Admin
         check_admin_referer('koko_analytics_save_settings');
         $new_settings                        = $_POST['koko_analytics_settings'];
         $settings                            = get_settings();
+        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($new_settings['exclude_ip_addresses'])))), function($value) { return $value !== ''; });
         $settings['exclude_user_roles']      = $new_settings['exclude_user_roles'] ?? array();
         $settings['prune_data_after_months'] = abs((int) $new_settings['prune_data_after_months']);
         $settings['use_cookie']              = (int) $new_settings['use_cookie'];

@@ -42,10 +42,25 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                     ?>
                 </select>
                 <p class="description">
-                    <?php esc_html_e('Visits and pageviews from users with any of the selected roles will be ignored.', 'koko-analytics'); ?>
+                    <?php esc_html_e('Visits and pageviews from any of the selected user roles will be ignored.', 'koko-analytics'); ?>
                     <?php esc_html_e('Use CTRL to select multiple options.', 'koko-analytics'); ?>
                 </p>
             </div>
+
+            <div class="ka-margin-m">
+                <label for="ka-exclude-ip-addresses" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these IP addresses', 'koko-analytics'); ?></label>
+                <textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="widefat" rows="6"><?php foreach($settings['exclude_ip_addresses'] as $ip) {
+                        echo esc_html($ip) . PHP_EOL;
+                    } ?></textarea>
+                <p class="description">
+                    <?php esc_html_e('Visits and pageviews from any of these IP addresses will be ignored.', 'koko-analytics'); ?>
+                    <?php echo ' '; ?>
+                    <?php esc_html_e('Enter each IP address on its own line.', 'koko-analytics'); ?>
+                    <?php echo ' '; ?>
+                    <?php printf(esc_html__('Your current IP address is %s.', 'koko-analytics'), '<code>' . $_SERVER['REMOTE_ADDR'] . '</code>'); ?>
+                </p>
+            </div>
+
             <div class="ka-margin-m">
                 <fieldset>
                     <legend class="ka-settings--label"><?php esc_html_e('Use cookie to determine unique visitors and pageviews?', 'koko-analytics'); ?></legend>
