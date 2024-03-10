@@ -45,7 +45,18 @@ class Stats
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_a) AS cur,
 			        (SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews FROM {$table} s WHERE $where_b) AS prev;
 			", array_merge($args_a, $args_b));
-        return $wpdb->get_row($sql);
+        $result = $wpdb->get_row($sql);
+
+        // sometimes there are pageviews, but no counted visitors
+        // this happens when the cookie was valid over a period of 2 calendar days
+        // we can make this less obviously wrong by always specifying there was at least 1 visitors
+        // whenever we have any pageviews
+        if ($result && $result->pageviews > 0 && $result->visitors == 0) {
+            $result->visitors = 1;
+            $result->visitors_change += $result->visitors_change > 0 ? -1 : 1;
+        }
+
+        return $result;
     }
 
     /**
