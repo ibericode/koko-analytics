@@ -15,6 +15,7 @@ export default function(root) {
    */
   function updateDom(root, amount, change, changeRel) {
     root.children[1].children[0].textContent = formatLargeNumber(amount)
+    root.children[1].children[0].setAttribute('title', amount)
     root.children[1].children[1].textContent = changeRel !== null ? formatPercentage(changeRel) : ''
     root.classList.toggle('ka-up', change > 0)
     root.classList.toggle('ka-down', change < 0)
