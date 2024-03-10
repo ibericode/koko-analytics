@@ -49,9 +49,11 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
 
             <div class="ka-margin-m">
                 <label for="ka-exclude-ip-addresses" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these IP addresses', 'koko-analytics'); ?></label>
-                <textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="widefat" rows="6"><?php foreach($settings['exclude_ip_addresses'] as $ip) {
-                        echo esc_html($ip) . PHP_EOL;
-                    } ?></textarea>
+                <?php
+                echo '<textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="widefat" rows="6">';
+                echo join(PHP_EOL, $settings['exclude_ip_addresses']);
+                echo '</textarea>';
+                ?>
                 <p class="description">
                     <?php esc_html_e('Visits and pageviews from any of these IP addresses will be ignored.', 'koko-analytics'); ?>
                     <?php echo ' '; ?>
