@@ -1,9 +1,9 @@
 === Koko Analytics ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
-Tags: analytics, statistics, stats, privacy, pageviews
+Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
