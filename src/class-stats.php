@@ -90,15 +90,18 @@ class Stats
 
         $sql = $wpdb->prepare(
             "
-                SELECT DATE_FORMAT(d.date, %s) AS date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
+                SELECT DATE_FORMAT(d.date, %s) AS _date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_dates d
                     LEFT JOIN {$table} s ON {$join_on}
                 WHERE d.date >= %s AND d.date <= %s
-                GROUP BY date",
+                GROUP BY _date",
             $args
         );
         $result = $wpdb->get_results($sql);
         return array_map(function ($row) {
+            $row->date = $row->_date;
+            unset($row->_date);
+
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
             return $row;
