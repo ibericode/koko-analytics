@@ -24,15 +24,6 @@
     "phpunit/phpunit": "^9.5",
     "squizlabs/php_codesniffer": "^3.7"
   },
-  "autoload": {
-    "classmap": [
-      "src/"
-    ],
-    "files": [
-      "src/functions.php",
-      "src/global-functions.php"
-    ]
-  },
   "scripts": {
     "test": "php vendor/bin/phpunit --bootstrap tests/bootstrap.php  tests/",
     "lint": "vendor/bin/phpcs -n -s",
