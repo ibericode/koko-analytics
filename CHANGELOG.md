@@ -1,5 +1,15 @@
 # Changelog
 
+#### 1.3.8 - May 29, 2024
+
+- Add setting to exclude views from IP addresses.
+- Show exact number of pageviews and visitors on hover.
+- Use an optimized custom autoloader.
+- Verify shortcode arguments for `[koko_analytics_counter]` shortcode.
+- Fix error when using SQLite about ambiguous column name.
+- Fix realtime pageview count using wrong duration.
+
+
 #### 1.3.7 - Feb 26, 2024
 
 - Add `[koko_analytics_counter]` shortcode. Thanks Anil Kulkarni!
