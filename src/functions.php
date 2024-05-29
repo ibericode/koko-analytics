@@ -253,9 +253,18 @@ function widgets_init()
     register_widget('KokoAnalytics\Widget_Most_Viewed_Posts');
 }
 
-function get_realtime_pageview_count(int $since = 0): int
+/**
+ * @param int|string $since Either an integer timestamp (in seconds since Unix epoch) or a relative time string that strtotime understands.
+ * @return int
+ */
+function get_realtime_pageview_count($since = '-5 minutes'): int
 {
-    $since  = $since !== 0 ? $since : strtotime('-5 minutes');
+    if (is_numeric($since)) {
+        $since = (int) $since;
+    } else {
+        // $since is relative time string
+        $since = strtotime($since);
+    }
     $counts = (array) get_option('koko_analytics_realtime_pageview_count', array());
     $sum    = 0;
     foreach ($counts as $timestamp => $pageviews) {

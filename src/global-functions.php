@@ -46,16 +46,12 @@ function koko_analytics_get_most_viewed_posts(array $args = array()): array
  *  koko_analytics_get_realtime_pageview_count('-1 hour');
  *
  * @since 1.1
- * @param string|int $since A time string (in the format accepted by strtotime()) or UNIX timestamp
+ * @param null|string|int $since An integer timestamp (seconds since Unix epoch) or a relative time string in the format that strtotime() understands. Defaults to "-5 minutes"
  * @return int
  * @see strtotime
  */
-function koko_analytics_get_realtime_pageview_count($since = null): int
+function koko_analytics_get_realtime_pageview_count($since = '-5 minutes'): int
 {
-    if (is_string($since)) {
-        $since = strtotime($since);
-    }
-
     return KokoAnalytics\get_realtime_pageview_count($since);
 }
 
