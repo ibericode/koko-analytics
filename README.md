@@ -25,7 +25,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 
 <figure>
-  <img src="https://github.com/ibericode/koko-analytics/raw/master/assets/src/img/screenshot-1-830x447.png?v=1" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" />
+  <img src="https://raw.githubusercontent.com/ibericode/koko-analytics/main/assets/src/img/screenshot-1-830x447.png" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" width="830" height="447" />
   <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="https://www.kokoanalytics.com/?koko-analytics-dashboard">view a live demo here</a>.</figcaption>
 </figure>
 
