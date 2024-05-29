@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.5
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -120,6 +120,16 @@ Example use with arguments:
 
 
 == Changelog ==
+
+#### 1.3.8 - May 29, 2024
+
+- Add setting to exclude views from IP addresses.
+- Show exact number of pageviews and visitors on hover.
+- Use an optimized custom autoloader.
+- Verify shortcode arguments for `[koko_analytics_counter]` shortcode.
+- Fix error when using SQLite about ambiguous column name.
+- Fix realtime pageview count using wrong duration.
+
 
 #### 1.3.7 - Feb 26, 2024
 
