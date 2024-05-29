@@ -253,9 +253,9 @@ function widgets_init()
     register_widget('KokoAnalytics\Widget_Most_Viewed_Posts');
 }
 
-function get_realtime_pageview_count($since = null): int
+function get_realtime_pageview_count(int $since = 0): int
 {
-    $since  = $since !== null ? $since : strtotime('-5 minutes');
+    $since  = $since !== 0 ? $since : strtotime('-5 minutes');
     $counts = (array) get_option('koko_analytics_realtime_pageview_count', array());
     $sum    = 0;
     foreach ($counts as $timestamp => $pageviews) {
@@ -277,12 +277,12 @@ function using_custom_endpoint(): bool
 
 function fmt_large_number(float $number): string
 {
-    if ($number < 10000) {
+    if ($number < 10000.0) {
         return $number;
     }
 
-    $number /= 1000;
-    if ($number > 100) {
+    $number /= 1000.0;
+    if ($number > 100.0) {
         $number = round($number);
     }
     return rtrim(rtrim(number_format($number, 1), '0'), '.')  . 'K';
