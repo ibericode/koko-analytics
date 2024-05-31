@@ -26,9 +26,6 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
-# Check if there is an existing file for this release already
-rm -f "$PACKAGE_FILE"
-
 # Build (optimized) client-side assets
 npm run build
 
@@ -43,6 +40,9 @@ wp-update-changelog
 
 # Move up one directory level because we need plugin directory in ZIP file
 cd ..
+
+# Check if there is an existing file for this release already
+rm -f "$PACKAGE_FILE"
 
 # Create archive (excl. development files)
 zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
@@ -64,8 +64,8 @@ SIZE=$(ls -lh "$PACKAGE_FILE" | cut -d' ' -f5)
 echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 
 # Create tag in Git and push to remote
-git add . -A
-git commit -m "v$VERSION"
-git tag "$VERSION"
-git push origin main
-git push origin "tags/$VERSION"
+# git add . -A
+# git commit -m "v$VERSION"
+# git tag "$VERSION"
+# git push origin main
+# git push origin "tags/$VERSION"
