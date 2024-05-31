@@ -1,0 +1,71 @@
+#!/usr/bin/env bash 
+
+set -euo pipefail
+
+# Check if VERSION argument was supplied
+if [ "$#" -lt 1 ]; then
+    echo "1 parameters expected, $# found"
+    echo "Usage: package.sh <VERSION>"
+    exit 1
+fi
+
+PLUGIN_SLUG=$(basename "$PWD")
+PLUGIN_FILE="$PLUGIN_SLUG.php"
+VERSION=$1
+PACKAGE_FILE="$PWD/../$PLUGIN_SLUG-$VERSION.zip"
+
+# Check if we're inside plugin directory
+if [ ! -e "$PLUGIN_FILE" ]; then
+  echo "Plugin entry file not found. Please run this command from inside the $PLUGIN_SLUG directory."
+  exit 1
+fi
+
+# Check if there are uncommitted changes
+if [ -n "$(git status --porcelain)" ]; then
+  echo "There are uncommitted changes. Please commit those changes before initiating a release."
+  exit 1
+fi
+
+# Check if there is an existing file for this release already
+rm -f "$PACKAGE_FILE"
+
+# Build (optimized) client-side assets
+npm run build
+
+# Update version numbers in code
+sed -i "s/^Version: .*$/Version: $VERSION/g" "$PLUGIN_FILE"
+sed -i "s/define('\(.*_VERSION\)', '.*');/define('\1', '$VERSION');/g" "$PLUGIN_FILE"
+sed -i "s/^Stable tag: .*$/Stable tag: $VERSION/g" "readme.txt"
+
+# Copy over changelog from CHANGELOG.md to readme.txt
+# Ref: https://git.sr.ht/~dvko/dotfiles/tree/master/item/bin/wp-update-changelog
+wp-update-changelog
+
+# Move up one directory level because we need plugin directory in ZIP file
+cd ..
+
+# Create archive (excl. development files)
+zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
+	-x "$PLUGIN_SLUG/.*" \
+	-x "$PLUGIN_SLUG/vendor/*" \
+	-x "$PLUGIN_SLUG/node_modules/*" \
+	-x "$PLUGIN_SLUG/tests/*" \
+	-x "$PLUGIN_SLUG/webpack.config*.js" \
+  -x "$PLUGIN_SLUG/*.json" \
+	-x "$PLUGIN_SLUG/*.lock" \
+	-x "$PLUGIN_SLUG/phpcs.xml" \
+	-x "$PLUGIN_SLUG/*.sh" \
+	-x "$PLUGIN_SLUG/assets/src/*" \
+	-x "$PLUGIN_SLUG/code-snippets/*"
+
+cd "$PLUGIN_SLUG"
+
+SIZE=$(ls -lh "$PACKAGE_FILE" | cut -d' ' -f5)
+echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
+
+# Create tag in Git and push to remote
+git add . -A
+git commit -m "v$VERSION"
+git tag "$VERSION"
+git push origin main
+git push origin "tags/$VERSION"
