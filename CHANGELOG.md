@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.3.9 May 31, 2024
+
+- Fix Webpack issue with tracking script.
+
+
 #### 1.3.8 - May 29, 2024
 
 - Add setting to exclude views from IP addresses.
