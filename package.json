@@ -1,9 +1,8 @@
 {
 	"name": "koko-analytics",
-	"type": "module",
 	"description": "Privacy-friendly analytics for your WordPress site",
 	"scripts": {
-		"test": "node --experimental-vm-modules --experimental-default-type=module node_modules/jest/bin/jest.js",
+		"test": "node node_modules/jest/bin/jest.js",
 		"build": "webpack --mode=production",
 		"watch": "webpack --mode=development --watch",
 		"download-referrer-blocklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist",
