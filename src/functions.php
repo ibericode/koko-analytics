@@ -71,6 +71,11 @@ function extract_event_data(): array
 
 function collect_request()
 {
+    // ignore requests from bots, crawlers and link previews
+    if (empty($_SERVER['HTTP_USER_AGENT']) || preg_match("/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i", $_SERVER['HTTP_USER_AGENT'])) {
+        return;
+    }
+
     if (isset($_GET['e'])) {
         $data = extract_event_data();
     } else {

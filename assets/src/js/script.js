@@ -29,7 +29,7 @@ function trackPageview (postId) {
     (doc.visibilityState == 'prerender') ||
 
     // do not track if user agent looks like a bot
-    ((/bot|crawl|spider|seo|lighthouse|preview/i).test(nav.userAgent))
+    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(nav.userAgent))
   ) {
     return
   }
