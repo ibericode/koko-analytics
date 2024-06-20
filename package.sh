@@ -64,8 +64,8 @@ SIZE=$(ls -lh "$PACKAGE_FILE" | cut -d' ' -f5)
 echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 
 # Create tag in Git and push to remote
-# git add . -A
-# git commit -m "v$VERSION"
-# git tag "$VERSION"
-# git push origin main
-# git push origin "tags/$VERSION"
+git add . -A
+git commit -m "v$VERSION"
+git tag "$VERSION"
+git push origin main
+git push origin "tags/$VERSION"

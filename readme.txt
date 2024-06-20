@@ -29,7 +29,7 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **No personal data** or anything visitor specific is tracked.
 - **No cookies**: There is an option to not use any cookies.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-- **Lightweight**: Adds less than 950 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
+- **Lightweight**: Adds less than 850 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
 - **GDPR**: Compliant by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.

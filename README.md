@@ -17,7 +17,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **No personal information** or anything visitor specific is tracked.
 - **No cookies** (optional).
 - **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- **Lightweight**: Adds less than 900 bytes of data to your pages.
+- **Lightweight**: Adds less than 850 bytes of data to your pages.
 - **Plug and play**: After activating the plugin, stats are recorded right away.
 - **Cached**: Fully compatible with pages served from cache.
 - **Open-source**: GPLv3 licensed.
