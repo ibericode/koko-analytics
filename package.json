@@ -29,7 +29,6 @@
 	"devDependencies": {
 		"copy-webpack-plugin": "^11.0.0",
 		"eslint": "^8.28.0",
-		"eslint-plugin-jest": "^27.1.6",
 		"webpack": "^5.91.0",
 		"webpack-cli": "^5.1.4"
 	}
