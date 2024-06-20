@@ -1,6 +1,13 @@
 # Changelog
 
-#### 1.3.9 May 31, 2024
+#### 1.3.10 - Jun 20, 2024
+
+- Registration for [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) is open again. Purchase a license if you need custom event tracking or would just like to support the plugin.
+- Ignore requests from Facebook link previews and requests without a `User-Agent` HTTP header.
+- Update referrer blocklist.
+
+
+#### 1.3.9 - May 31, 2024
 
 - Fix Webpack issue with tracking script.
 
