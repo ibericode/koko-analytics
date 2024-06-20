@@ -150,5 +150,13 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             <p><?php printf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'); ?></p>
         </div>
 
+        <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
+        <div class="ka-margin-l">
+            <h2>Koko Analytics Pro</h2>
+            <p>We developed Koko Analytics Pro to add certain advanced features to Koko Analytics, like custom event tracking and periodic email reports.</p>
+            <p><a href="https://www.kokoanalytics.com/pricing/">Purchase a Koko Analytics Pro license</a> to help us continue developing and supporting Koko Analytics.</p>
+        </div>
+        <?php } ?>
+
     </div>
 </div>

@@ -170,7 +170,14 @@ class Admin
             return $links;
         }
 
+        // add links to documentation
         $links[] = '<a href="https://www.kokoanalytics.com/kb/">' . esc_html__('Documentation', 'koko-analytics') . '</a>';
+
+        // add link to Pro version, unless already running it
+        if (! \defined('KOKO_ANALYTICS_PRO_VERSION')) {
+            $links[] = '<a href="https://www.kokoanalytics.com/pricing/">' . esc_html__('Koko Analytics Pro', 'koko-analytics') . '</a>';
+        }
+
         return $links;
     }
 

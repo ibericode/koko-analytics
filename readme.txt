@@ -37,11 +37,13 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
+- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
 
 ### Contributing
 
 You can contribute to Koko Analytics in many different ways. For example:
 
+- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
 - [Review the plugin here on WordPress.org](https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post)
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
@@ -109,6 +111,8 @@ Example use with arguments:
 [koko_analytics_counter days="30" metric="pageviews" global="true"]
 `
 
+### How can I help fund Koko Analytics?
+You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
 
 
 == Screenshots ==
