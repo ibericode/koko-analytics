@@ -166,7 +166,7 @@ function get_settings(): array
     );
     $settings         = (array) get_option('koko_analytics_settings', array());
     $settings         = array_merge($default_settings, $settings);
-    return $settings;
+    return apply_filters('koko_analytics_settings', $settings);
 }
 
 function get_most_viewed_posts(array $args = array()): array

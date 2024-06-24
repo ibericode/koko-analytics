@@ -100,11 +100,11 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                 <p class="description"><?php esc_html_e('Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.', 'koko-analytics'); ?></p>
             </div>
 
-            <?php do_action('koko_analytics_show_settings_rows', $settings); ?>
-
             <div class="ka-margin-m">
                 <?php submit_button(null, 'primary', 'submit', false); ?>
             </div>
+
+            <?php do_action('koko_analytics_extra_settings_rows', $settings); ?>
         </form>
 
         <?php do_action('koko_analytics_show_settings_sections'); ?>
