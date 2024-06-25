@@ -10,9 +10,9 @@ namespace KokoAnalytics;
 
 class Rest
 {
-    public function init()
+    public function __construct()
     {
-        add_action('rest_api_init', array( $this, 'register_routes' ));
+        add_action('rest_api_init', array($this, 'register_routes'), 10, 0);
     }
 
     public function register_routes()
@@ -25,13 +25,13 @@ class Rest
             '/stats',
             array(
                 'methods'             => 'GET',
-                'callback'            => array( $this, 'get_stats' ),
+                'callback'            => array($this, 'get_stats'),
                 'args'                => array(
                     'start_date' => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                     'end_date'   => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                     'monthly' => array(
                         'validate_callback' => 'absint',
@@ -48,13 +48,13 @@ class Rest
             '/totals',
             array(
                 'methods'             => 'GET',
-                'callback'            => array( $this, 'get_totals' ),
+                'callback'            => array($this, 'get_totals'),
                 'args'                => array(
                     'start_date' => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                     'end_date'   => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                 ),
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -68,13 +68,13 @@ class Rest
             '/posts',
             array(
                 'methods'             => 'GET',
-                'callback'            => array( $this, 'get_posts' ),
+                'callback'            => array($this, 'get_posts'),
                 'args'                => array(
                     'start_date' => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                     'end_date'   => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                 ),
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -88,13 +88,13 @@ class Rest
             '/referrers',
             array(
                 'methods'             => 'GET',
-                'callback'            => array( $this, 'get_referrers' ),
+                'callback'            => array($this, 'get_referrers'),
                 'args'                => array(
                     'start_date' => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                     'end_date'   => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                 ),
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -108,10 +108,10 @@ class Rest
             '/realtime',
             array(
                 'methods'             => 'GET',
-                'callback'            => array( $this, 'get_realtime_pageview_count' ),
+                'callback'            => array($this, 'get_realtime_pageview_count'),
                 'args'                => array(
                     'since' => array(
-                        'validate_callback' => array( $this, 'validate_date_param' ),
+                        'validate_callback' => array($this, 'validate_date_param'),
                     ),
                 ),
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -138,7 +138,7 @@ class Rest
 
         // instruct browsers to cache the response for 7 days
         if ($send_cache_headers) {
-            $result->set_headers(array( 'Cache-Control' => 'max-age=604800' ));
+            $result->set_headers(['Cache-Control' => 'max-age=604800']);
         }
         return $result;
     }
@@ -150,10 +150,6 @@ class Rest
 
     /**
      * Returns a daily tally of visitors and pageviews between two dates
-     *
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response
      */
     public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
@@ -169,10 +165,6 @@ class Rest
 
     /**
      * Returns the total number of visitos and pageviews between two dates.
-     *
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response
      */
     public function get_totals(\WP_REST_Request $request): \WP_REST_Response
     {
@@ -187,10 +179,6 @@ class Rest
 
     /**
      * Returns the total number of pageviews and visitors per post, ordered by most pageviews first.
-     *
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response
      */
     public function get_posts(\WP_REST_Request $request): \WP_REST_Response
     {
@@ -206,10 +194,6 @@ class Rest
 
     /**
      * Returns the total number of visitors and pageviews per referrer URL, ordered by most pageviews first.
-     *
-     * @param \WP_REST_Request $request
-     *
-     * @return \WP_REST_Response
      */
     public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
@@ -225,9 +209,6 @@ class Rest
 
     /**
      * Returns the total number of recorded pageviews in the last hour
-     *
-     * @param \WP_REST_Request $request
-     *
      * @return int|mixed
      */
     public function get_realtime_pageview_count(\WP_REST_Request $request)

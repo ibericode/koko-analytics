@@ -10,10 +10,10 @@ namespace KokoAnalytics;
 
 class Pruner
 {
-    public function init()
+    public function __construct()
     {
-        add_action('koko_analytics_prune_data', array( $this, 'run' ));
-        add_action('admin_init', array( $this, 'maybe_schedule' ));
+        add_action('koko_analytics_prune_data', array($this, 'run'), 10, 0);
+        add_action('admin_init', array($this, 'maybe_schedule'), 10, 0);
     }
 
     public function maybe_schedule()

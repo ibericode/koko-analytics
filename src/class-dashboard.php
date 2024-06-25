@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Dashboard
 {
-    public function add_hooks()
+    public function __construct()
     {
         add_action('init', array($this, 'maybe_show_dashboard'), 10, 0);
     }

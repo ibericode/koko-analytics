@@ -12,18 +12,16 @@ use Exception;
 
 class Aggregator
 {
-    /**
-     * Indicator to prevent running running two aggregations simultaneously
-     */
-    protected $running = false;
-
-    public function init(): void
+    public function __construct()
     {
-        add_action('koko_analytics_aggregate_stats', array( $this, 'aggregate' ));
-        add_filter('cron_schedules', array( $this, 'add_interval' ));
-        add_action('init', array( $this, 'maybe_setup_scheduled_event' ));
+        add_action('koko_analytics_aggregate_stats', array($this, 'aggregate'), 10, 0);
+        add_filter('cron_schedules', array($this, 'add_interval'), 10, 1);
+        add_action('init', array($this, 'maybe_setup_scheduled_event'), 10, 0);
     }
 
+    /**
+     * @param array $intervals
+     */
     public function add_interval($intervals): array
     {
         $intervals['koko_analytics_stats_aggregate_interval'] = array(
@@ -56,11 +54,6 @@ class Aggregator
      */
     public function aggregate(): void
     {
-        if ($this->running) {
-            return;
-        }
-
-        $this->running = true;
         update_option('koko_analytics_last_aggregation_at', time(), true);
 
         // init pageview aggregator
@@ -118,7 +111,5 @@ class Aggregator
         // tell aggregators to write their results to the database
         $pageview_aggregator->finish();
         do_action('koko_analytics_aggregate_finish');
-
-        $this->running = false;
     }
 }

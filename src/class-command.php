@@ -18,6 +18,9 @@ class Command
      * ## EXAMPLES
      *
      *     wp koko-analytics aggregate
+     *
+     * @param array $args
+     * @param array $assoc_args
      */
     public function aggregate($args, $assoc_args)
     {

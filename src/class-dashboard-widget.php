@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Dashboard_Widget
 {
-    public function init(): void
+    public function __construct()
     {
         add_action('wp_dashboard_setup', array($this, 'register_dashboard_widget'), 10, 0);
     }

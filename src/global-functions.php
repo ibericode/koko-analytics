@@ -13,7 +13,7 @@
  *
  * @since 1.0.25
  */
-function koko_analyics_tracking_script()
+function koko_analyics_tracking_script(): void
 {
     $script_loader = new KokoAnalytics\Script_Loader();
     $script_loader->maybe_enqueue_script(true);

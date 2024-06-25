@@ -98,7 +98,7 @@ class Migrations
      */
     protected function run_migration(string $file)
     {
-        if (! file_exists($file)) {
+        if (! \file_exists($file)) {
             throw new Exception("Migration file $file does not exist.");
         }
 

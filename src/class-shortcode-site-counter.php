@@ -20,7 +20,7 @@ class ShortCode_Site_Counter
 {
     const SHORTCODE = 'koko_analytics_counter';
 
-    public function init()
+    public function __construct()
     {
         add_shortcode(self::SHORTCODE, array($this, 'content'));
     }

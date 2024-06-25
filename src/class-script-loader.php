@@ -12,10 +12,10 @@ use WP_User;
 
 class Script_Loader
 {
-    public function init()
+    public function __construct()
     {
-        add_action('wp_enqueue_scripts', array( $this, 'maybe_enqueue_script' ));
-        add_action('amp_print_analytics', array( $this, 'print_amp_analytics_tag' ));
+        add_action('wp_enqueue_scripts', array($this, 'maybe_enqueue_script'), 10, 0);
+        add_action('amp_print_analytics', array($this, 'print_amp_analytics_tag'), 10, 0);
     }
 
     /**
@@ -151,6 +151,10 @@ class Script_Loader
         echo sprintf('<amp-analytics><script type="application/json">%s</script></amp-analytics>', json_encode($config));
     }
 
+    /**
+     * @param string $tag
+     * @param string $handle
+     */
     public function add_async_attribute($tag, $handle)
     {
         if ($handle !== 'koko-analytics' || stripos($tag, 'defer') !== false) {

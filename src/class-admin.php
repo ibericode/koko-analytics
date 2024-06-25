@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Admin
 {
-    public function init(): void
+    public function __construct()
     {
         global $pagenow;
 

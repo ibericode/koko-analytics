@@ -21,17 +21,19 @@ class Plugin
     public function __construct(Aggregator $aggregator)
     {
         $this->aggregator = $aggregator;
+
+        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array($this, 'on_activation'));
+        add_filter('pre_update_option_active_plugins', array($this, 'filter_active_plugins'), 10, 1);
+        add_action('init', array($this, 'maybe_run_db_migrations', 10, 0));
     }
 
-    public function init(): void
-    {
-        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array( $this, 'on_activation' ));
-        add_filter('pre_update_option_active_plugins', array( $this, 'filter_active_plugins' ));
-        add_action('init', array( $this, 'maybe_run_db_migrations' ));
-    }
-
-    // move koko analytics to top of active plugins
-    // this improves performance of collecting data (if not using optimized endpoint)
+    /**
+     * This method moves Koko Analytics to the front of the list of currently active plugins.
+     * This improves performance if not using the optimized endpoint.
+     *
+     * @param array $plugins
+     * @return array
+     */
     public function filter_active_plugins($plugins)
     {
         if (empty($plugins)) {

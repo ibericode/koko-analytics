@@ -44,38 +44,20 @@ require __DIR__ . '/autoload.php';
 if (\defined('DOING_AJAX') && DOING_AJAX) {
     maybe_collect_request();
 } elseif (is_admin()) {
-    $admin = new Admin();
-    $admin->init();
-
-    $dashboard_widget = new Dashboard_Widget();
-    $dashboard_widget->init();
+    new Admin();
+    new Dashboard_Widget();
 } else {
-    $loader = new Script_Loader();
-    $loader->init();
-
+    new Script_Loader();
     add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40);
 }
 
-$dashboard = new Dashboard();
-$dashboard->add_hooks();
-
-$aggregator = new Aggregator();
-$aggregator->init();
-
-$plugin = new Plugin($aggregator);
-$plugin->init();
-
-$rest = new Rest();
-$rest->init();
-
-$shortcode = new Shortcode_Most_Viewed_Posts();
-$shortcode->init();
-
-$site_counter_shortcode = new ShortCode_Site_Counter();
-$site_counter_shortcode->init();
-
-$pruner = new Pruner();
-$pruner->init();
+new Dashboard;
+$aggregator = new Aggregator;
+new Plugin($aggregator);
+new Rest;
+new Shortcode_Most_Viewed_Posts;
+new ShortCode_Site_Counter;
+new Pruner;
 
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');

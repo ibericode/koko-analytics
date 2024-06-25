@@ -12,7 +12,7 @@ class Shortcode_Most_Viewed_Posts
 {
     private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
-    public function init()
+    public function __construct()
     {
         add_shortcode(self::SHORTCODE, array( $this, 'content' ));
     }
