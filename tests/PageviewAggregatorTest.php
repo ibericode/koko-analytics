@@ -71,6 +71,9 @@ final class PageviewAggregatorTest extends TestCase
 			'https://search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten' => 'https://search.yahoo.com/search?p=danny+van+kooten',
 			'https://r.search.yahoo.com/search;_ylt=AwrJ62D7vO9hhigARMpXNyoA;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3BhZ2luYXRpb24-?p=danny+van+kooten' => 'https://search.yahoo.com/search?p=danny+van+kooten',
 			'https://r.search.yahoo.com/_ylt=AwrJ3s8QPIlhnGgADxAYAopQ;_ylu=c2VjA3NyBHNsawNpbWcEb2lkA2U2ZTY3ZmExZDUzNDAwYmU5MjAzYTYxN2U1ZTI5YTQ2BGdwb3MDMTcEaXQDYmluZw--/RV=2/RE=1636412560/RO=11/RU=http%3a%2f%2fvankootenarchitectuur.nl%2fverbouwing-kerkzaal-taborkerk%2f' => 'https://search.yahoo.com/search',
+            'https://out.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
+            'https://new.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
+            'https://old.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
 		];
 
 		foreach ($tests as $input => $output) {
