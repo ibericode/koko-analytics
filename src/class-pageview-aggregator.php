@@ -245,6 +245,7 @@ class Pageview_Aggregator
             '/yandex\.ru\/clck.*/' => 'yandex.ru',
             '/^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
             '/^https?:\/\/(out|new|old)\.reddit\.com(.*)/' => 'https://reddit.com$2',
+            '/^https?:\/\/(?:[a-z0-9]+\.?)*\.sendib(?:m|t)[0-9].com(?:.*)/' => 'https://www.brevo.com',
         );
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
