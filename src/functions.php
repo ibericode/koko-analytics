@@ -8,6 +8,7 @@
 
 namespace KokoAnalytics;
 
+use WP_Admin_Bar;
 use WP_Query;
 
 function maybe_collect_request()
@@ -230,7 +231,7 @@ function get_most_viewed_posts(array $args = array()): array
     return $r->posts;
 }
 
-function admin_bar_menu($wp_admin_bar)
+function admin_bar_menu(WP_Admin_Bar $wp_admin_bar)
 {
     // only show on frontend
     if (is_admin()) {

@@ -48,16 +48,16 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
     new Dashboard_Widget();
 } else {
     new Script_Loader();
-    add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40);
+    add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
 }
 
-new Dashboard;
-$aggregator = new Aggregator;
+new Dashboard();
+$aggregator = new Aggregator();
 new Plugin($aggregator);
-new Rest;
-new Shortcode_Most_Viewed_Posts;
-new ShortCode_Site_Counter;
-new Pruner;
+new Rest();
+new Shortcode_Most_Viewed_Posts();
+new ShortCode_Site_Counter();
+new Pruner();
 
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
