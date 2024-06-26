@@ -24,7 +24,7 @@ class Plugin
 
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array($this, 'on_activation'));
         add_filter('pre_update_option_active_plugins', array($this, 'filter_active_plugins'), 10, 1);
-        add_action('init', array($this, 'maybe_run_db_migrations', 10, 0));
+        add_action('init', array($this, 'maybe_run_db_migrations'), 10, 0);
     }
 
     /**
