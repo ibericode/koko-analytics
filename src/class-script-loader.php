@@ -98,11 +98,7 @@ class Script_Loader
     private function get_cookie_path(): string
     {
         $home_url = home_url();
-        // 8 characters for protocol
-        // 1 or more characters for domain name
-        // = 9 char offset
-        $pos = strpos($home_url, '/', 9);
-        return $pos !== false ? substr($home_url, $pos) : '/';
+        return parse_url($home_url, PHP_URL_PATH) ?? '/';
     }
 
     public function print_js_object()
