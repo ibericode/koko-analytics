@@ -107,6 +107,7 @@ class Script_Loader
         $script_config = array(
             // the URL of the tracking endpoint
             'url'   => $this->get_tracker_url(),
+            'site_url' => get_home_url(),
 
             // ID of the current post (or -1 in case of non-singular type)
             'post_id'       => (int) $this->get_post_id(),

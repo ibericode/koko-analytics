@@ -22,7 +22,7 @@ function request(url) {
 }
 
 function trackPageview (postId) {
-  let {use_cookie, cookie_path} = win[ka]
+  let {use_cookie, cookie_path, site_url} = win[ka]
 
   if (
     // do not track if this is a prerender request
@@ -41,7 +41,7 @@ function trackPageview (postId) {
   let referrer = doc.referrer
 
   // check if referred by same-site (so definitely a returning visitor)
-  if (!use_cookie && referrer.indexOf(loc.origin) == 0) {
+  if (!use_cookie && referrer.indexOf(site_url) == 0) {
     isNewVisitor = 0
 
     // check if referred by same page (so not a unique pageview)
