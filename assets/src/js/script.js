@@ -41,7 +41,7 @@ function trackPageview (postId) {
   let referrer = doc.referrer
 
   // check if referred by same-site (so definitely a returning visitor)
-  if (referrer.indexOf(loc.origin) == 0) {
+  if (!use_cookie && referrer.indexOf(loc.origin) == 0) {
     isNewVisitor = 0
 
     // check if referred by same page (so not a unique pageview)
