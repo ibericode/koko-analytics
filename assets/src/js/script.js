@@ -5,25 +5,33 @@
  */
 
 // Map variables to global identifiers so that minifier can mangle them to even shorter names
-const doc = document
-const win = window
-const nav = navigator
-const enc = encodeURIComponent
-const loc = win.location
-const ka = "koko_analytics"
+var doc = document;
+var win = window;
+var nav = navigator;
+var enc = encodeURIComponent;
+var loc = win.location;
+var ka = "koko_analytics";
 
 function getPagesViewed() {
-  let m = doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/)
+  var m = doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/);
   return m ? m.pop().split('a') : [];
 }
 
 function request(url) {
-  return nav.sendBeacon(win[ka].url + (win[ka].url.indexOf('?') > -1 ? '&' : '?') + url)
+  url = win[ka].url + (win[ka].url.indexOf('?') > -1 ? '&' : '?') + url;
+
+  // first, try navigator.sendBeacon
+  if (typeof nav.sendBeacon == "function") {
+    nav.sendBeacon(url);
+  }
+
+  // otherwise, fallback to window.fetch
+  win.fetch(url, {
+    method: "POST",
+  });
 }
 
-function trackPageview (postId) {
-  let {use_cookie, cookie_path, site_url} = win[ka]
-
+win[ka].trackPageview = function(postId) {
   if (
     // do not track if this is a prerender request
     (doc.visibilityState == 'prerender') ||
@@ -31,32 +39,32 @@ function trackPageview (postId) {
     // do not track if user agent looks like a bot
     ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(nav.userAgent))
   ) {
-    return
+    return;
   }
 
-  const pagesViewed = getPagesViewed()
-  postId += ""
-  let isNewVisitor = pagesViewed.length ? 0 : 1;
-  let isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0
-  let referrer = doc.referrer
+  var pagesViewed = getPagesViewed();
+  postId += ""; // convert to string
+  var isNewVisitor = pagesViewed.length ? 0 : 1;
+  var isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0;
+  var referrer = doc.referrer;
 
   // check if referred by same-site (so definitely a returning visitor)
-  if (!use_cookie && referrer.indexOf(site_url) == 0) {
+  if (!win[ka].use_cookie && referrer.indexOf(win[ka].site_url) == 0) {
     isNewVisitor = 0
 
     // check if referred by same page (so not a unique pageview)
-    if (referrer == loc.href) {
-      isUniquePageview = 0
-    }
+    if (referrer == loc.href) isUniquePageview = 0
 
     // don't store referrer if from same-site
     referrer = ''
   }
 
-  request(`p=${postId}&nv=${isNewVisitor}&up=${isUniquePageview}&r=${enc(referrer)}`)
-  if (isUniquePageview) pagesViewed.push(postId)
-  if (use_cookie) doc.cookie = `_${ka}_pages_viewed=${pagesViewed.join('a')};SameSite=lax;path=${cookie_path};max-age=21600`
+  request("p="+postId+"&nv="+isNewVisitor+"&up="+isUniquePageview+"&r="+enc(referrer));
+  if (isUniquePageview) pagesViewed.push(postId);
+  if (win[ka].use_cookie) doc.cookie = "_"+ka+"_pages_viewed="+pagesViewed.join('a')+";SameSite=lax;path="+win[ka].cookie_path+";max-age=21600";
+
 }
 
-win[ka].trackPageview = trackPageview;
-win.addEventListener('load', () =>  trackPageview(win[ka].post_id))
+win.addEventListener('load', function() {
+  win[ka].trackPageview(win[ka].post_id);
+});
