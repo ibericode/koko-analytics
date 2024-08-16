@@ -1,5 +1,15 @@
 # Changelog
 
+#### 1.3.11 - Aug 16, 2024
+
+- Only use referrer detection for determining returning visitors if cookie is disabled.
+- Add referrer aggregation rule for Brevo email campaign links.
+- Add referrer aggregation rule for Reddit links.
+- Add filter hook for easily adding or modifying Koko Analytics settings.
+- Add action hook for adding settings to Koko Analytics.
+- Explicitly get rid of all ES6 code in tracking script.
+
+
 #### 1.3.10 - Jun 20, 2024
 
 - Registration for [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) is open again. Purchase a license if you need custom event tracking or would just like to support the plugin.
