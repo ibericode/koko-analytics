@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.3.12 - Aug 18, 2024
+
+- Fix double pageview counts introduced in version 1.3.11.
+- Fix same-site showing up as referrer
+
+
 #### 1.3.11 - Aug 16, 2024
 
 - Only use referrer detection for determining returning visitors if cookie is disabled.

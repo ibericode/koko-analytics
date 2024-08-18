@@ -23,12 +23,12 @@ function request(url) {
   // first, try navigator.sendBeacon
   if (typeof nav.sendBeacon == "function") {
     nav.sendBeacon(url);
+  } else {
+    // otherwise, fallback to window.fetch
+    win.fetch(url, {
+      method: "POST",
+    });
   }
-
-  // otherwise, fallback to window.fetch
-  win.fetch(url, {
-    method: "POST",
-  });
 }
 
 win[ka].trackPageview = function(postId) {
@@ -48,15 +48,17 @@ win[ka].trackPageview = function(postId) {
   var isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0;
   var referrer = doc.referrer;
 
-  // check if referred by same-site (so definitely a returning visitor)
-  if (!win[ka].use_cookie && referrer.indexOf(win[ka].site_url) == 0) {
-    isNewVisitor = 0
-
-    // check if referred by same page (so not a unique pageview)
-    if (referrer == loc.href) isUniquePageview = 0
-
+  if (referrer.indexOf(win[ka].site_url) == 0) {
     // don't store referrer if from same-site
     referrer = ''
+
+    // not new visitor if coming from same-site
+    if (!win[ka].use_cookie) {
+      isNewVisitor = 0
+
+      // check if referred by same page (so not a unique pageview)
+      if (referrer == loc.href) isUniquePageview = 0
+    }
   }
 
   request("p="+postId+"&nv="+isNewVisitor+"&up="+isUniquePageview+"&r="+enc(referrer));
