@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.3.11
+Stable tag: 1.3.12
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -124,6 +124,12 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.3.12 - Aug 18, 2024
+
+- Fix double pageview counts introduced in version 1.3.11.
+- Fix same-site showing up as referrer
+
 
 #### 1.3.11 - Aug 16, 2024
 
