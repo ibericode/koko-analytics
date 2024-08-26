@@ -290,7 +290,7 @@ function using_custom_endpoint(): bool
     return (bool) get_option('koko_analytics_use_custom_endpoint', false);
 }
 
-function fmt_large_number(float $number): string
+function fmt_large_number($number): string
 {
     if ($number < 10000.0) {
         return $number;

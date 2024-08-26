@@ -47,6 +47,18 @@ class Stats
 			", array_merge($args_a, $args_b));
         $result = $wpdb->get_row($sql);
 
+        // ensure we always return a valid object containing the keys we need
+        if (!$result) {
+            return (object) [
+                'pageviews' => 0,
+                'pageviews_change' => 0,
+                'pageviews_change_rel' => 0,
+                'visitors' => 0,
+                'visitors_change' => 0,
+                'visitors_change_rel' => 0,
+            ];
+        }
+
         // sometimes there are pageviews, but no counted visitors
         // this happens when the cookie was valid over a period of 2 calendar days
         // we can make this less obviously wrong by always specifying there was at least 1 visitors
