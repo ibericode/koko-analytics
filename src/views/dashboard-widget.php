@@ -31,18 +31,6 @@
     </div>
 </div>
 
-<style>
-    .ka-ul li {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-    .ka-ul span {
-        min-width: 24px;
-        display: inline-block;
-    }
-</style>
-
 <?php if ($number_of_top_items > 0 && (count($posts) > 0 || count($referrers) > 0)) { ?>
 <div id="ka-dashboard-widget-top-pages">
     <div style="display: flex; flex-flow: row wrap; margin-top: 2em;">
@@ -79,7 +67,7 @@
 </div>
 <?php } ?>
 
-<p style="margin-top: 2em;">
+<p>
     <a href="<?php echo esc_attr(admin_url('index.php?page=koko-analytics')); ?>">
         <?php echo esc_html__('View all statistics', 'koko-analytics'); ?>
     </a>
