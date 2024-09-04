@@ -19,6 +19,33 @@ class Script_Loader
     }
 
     /**
+     * Return's client IP for current request, even if behind a reverse proxy
+     */
+    private function get_client_ip(): string
+    {
+        $ips = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+
+        // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
+        // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+        if (! is_array($ips)) {
+            $ips = explode(',', $ips);
+            $ips = array_map('trim', $ips);
+        }
+
+        // Always add REMOTE_ADDR to list of ips
+        $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';
+
+        // return first valid IP address from list
+        foreach ($ips as $ip) {
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                return $ip;
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * @param bool $echo Whether to use the default WP script enqueue method or print the script tag directly
      */
     public function maybe_enqueue_script(bool $echo = false)
@@ -40,7 +67,7 @@ class Script_Loader
 
         // Do not load script if excluded by IP address
         if (count($settings['exclude_ip_addresses']) > 0) {
-            $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+            $ip_address = $this->get_client_ip();
             if ($ip_address !== '' && in_array($ip_address, $settings['exclude_ip_addresses'], true)) {
                 return;
             }
