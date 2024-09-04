@@ -37,7 +37,11 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                 <select id="ka-exclude-user-roles" multiple="" name="koko_analytics_settings[exclude_user_roles][]" style="min-height: <?php echo count($user_roles) * 30; ?>px; min-width: 240px;">
                     <?php
                     foreach ($user_roles as $key => $value) {
-                        echo sprintf('<option value="%s" %s>%s</option>', esc_attr($key), selected(in_array($key, $settings['exclude_user_roles']), true, false), esc_html($value));
+                        $key = esc_attr($key);
+                        $value = esc_html($value);
+                        $selected = (in_array($key, $settings['exclude_user_roles']) ? 'selected' : '');
+
+                        echo "<option value=\"{$key}\" {$selected}>{$value}</option>";
                     }
                     ?>
                 </select>
@@ -88,7 +92,8 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                 <select id="ka-default-date-period" name="koko_analytics_settings[default_view]">
                     <?php
                     foreach ($date_presets as $key => $label) {
-                        echo sprintf('<option value="%s" %s>%s</option>', esc_attr($key), selected($key === $settings['default_view'], true, false), esc_html($label));
+                        $selected = ($key === $settings['default_view'] ? 'selected' : '');
+                        echo "<option value=\"{$key}\" {$selected}>{$label}</option>";
                     }
                     ?>
                 </select>

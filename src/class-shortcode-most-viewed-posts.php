@@ -41,17 +41,19 @@ class Shortcode_Most_Viewed_Posts
         foreach ($posts as $p) {
             $post_title   = get_the_title($p);
             $title        = $post_title !== '' ? $post_title : esc_html__('(no title)', 'koko-analytics');
-            $aria_current = '';
+            $permalink = get_the_permalink($p);
 
+            $aria_current = '';
             if (get_queried_object_id() === $p->ID) {
                 $aria_current = ' aria-current="page"';
             }
 
             $html .= '<li>';
-            $html .= sprintf('<a href="%s" %s>%s</a>', get_the_permalink($p), $aria_current, $title);
+            $html .= "<a href=\"{$permalink})}\" {$aria_current}>{$title}</a>";
 
             if ($args['show_date']) {
-                $html .= sprintf(PHP_EOL . ' <span class="post-date">%s</span>', get_the_date('', $p));
+                $date = get_the_date('', $p);
+                $html .= " <span class=\"post-date\">{$date}</span>";
             }
             $html .= '</li>';
         }

@@ -99,7 +99,8 @@ class Widget_Most_Viewed_Posts extends WP_Widget
             <select class="widefat" id="<?php echo $this->get_field_id('post_type'); ?>" name="<?php echo $this->get_field_name('post_type'); ?>">
                 <?php
                 foreach ($post_types as $post_type) {
-                    echo sprintf('<option value="%s" %s>%s</option>', $post_type->name, selected($settings['post_type'], $post_type->name, false), $post_type->label);
+                    $selected = selected($settings['post_type'], $post_type->name, false);
+                    echo "<option value=\"{$post_type->name}\" {$selected}>{$post_type->label}</option>";
                 }
                 ?>
             </select>
