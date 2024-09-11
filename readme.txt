@@ -37,7 +37,14 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
-- **Event Tracking**: You can set up custom event tracking through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+
+### Pro features
+
+The following features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing):
+
+- **Event Tracking**: Built-in events like outbound link clicks, form submissions plus the ability to [track any type of custom event](https://www.kokoanalytics.com/kb/tracking-events/).
+- **Email reports**: Daily, weekly or monthly [email reports](https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/).
+
 
 ### Contributing
 
