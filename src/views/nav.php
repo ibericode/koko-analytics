@@ -11,7 +11,7 @@
                 <?php echo esc_html__('Switch to admin view', 'koko-analytics'); ?>
             </a>
         <?php } else { ?>
-            <a href="<?php echo add_query_arg(['koko-analytics-dashboard' => 1], home_url()) ?>" class="ka-admin-nav--link">
+            <a href="<?php echo esc_attr(add_query_arg(['koko-analytics-dashboard' => 1], home_url())); ?>" class="ka-admin-nav--link">
                 <?php echo esc_html__('Switch to standalone view', 'koko-analytics'); ?>
             </a>
         <?php } ?>

@@ -9,7 +9,7 @@
  * @var array $date_presets
  */
 $tab          = 'settings';
-$public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), home_url());
+$public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_url());
 ?>
 <link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
 <div class="wrap" id="koko-analytics-admin">
@@ -30,7 +30,7 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
             </div>
         <?php } ?>
 
-        <form method="POST" action="<?php echo add_query_arg(array('koko_analytics_action' => 'save_settings')); ?>">
+        <form method="POST" action="<?php echo esc_html(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
             <?php wp_nonce_field('koko_analytics_save_settings'); ?>
             <div class="ka-margin-m">
                 <label for="ka-exclude-user-roles" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these user roles', 'koko-analytics'); ?></label>
@@ -84,7 +84,7 @@ $public_dashboard_url = add_query_arg(array('koko-analytics-dashboard' => 1), ho
                     <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No'); ?></label>
                 </fieldset>
                 <p class="description">
-                    <?php echo sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), $public_dashboard_url); ?>
+                    <?php echo sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), esc_attr($public_dashboard_url)); ?>
                 </p>
             </div>
             <div class="ka-margin-m">
