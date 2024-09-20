@@ -98,10 +98,11 @@ class Dashboard
     private function get_usage_tip(): string
     {
         $tips = [
-            esc_html__('Tip: use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
-            esc_html__('Tip: you can set a default date range in the plugin settings.', 'koko-analytics'),
-            sprintf(__('Tip: did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
-            sprintf(__('Tip: Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/'),
+            esc_html__('Use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
+            esc_html__('You can set a default date range in the plugin settings.', 'koko-analytics'),
+            sprintf(__('Did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'),
+            sprintf(__('Use <a href="%1s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/'),
+            sprintf(__('Use <a href="%1s">Koko Analytics Pro</a> to receive periodic email reports of your statistics.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/'),
         ];
         return $tips[array_rand($tips)];
     }
