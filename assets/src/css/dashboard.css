@@ -51,9 +51,10 @@ h1.ka-logo,
   margin-left: auto;
 }
 .ka-admin-container {
-  max-width: 620px;
+  max-width: 720px;
   font-size: 14px;
 }
+.ka-admin-container p { font-size: 14px; }
 .ka-admin-nav--link {
   display: inline-block;
   text-decoration: none;
