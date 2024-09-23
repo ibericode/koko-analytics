@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.3.14 - Sep 23, 2024
+
+- Explicitly call `sprintf` from global namespace to benefit from upcoming sprintf related performance improvements in PHP 8.4.
+- Demo settings from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) on plugin settings page.
+
+
 #### 1.3.13 - Sep 17, 2024
 
 - Ensure `Stats::get_totals` always returns a valid object.
