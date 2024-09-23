@@ -209,6 +209,6 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             </ul>
             <p style="margin-bottom: 0;"><a href="https://www.kokoanalytics.com/pricing/">Purchase a Koko Analytics Pro license</a> to benefit from these features while simultaneously helping us continue developing and supporting Koko Analytics.</p>
         </div>
-        <?php } ?>
+         <?php } ?>
     </div>
 </div>
