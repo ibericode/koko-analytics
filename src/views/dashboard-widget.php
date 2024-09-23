@@ -17,7 +17,7 @@
 <div id="ka-dashboard-widget-realtime">
     <h3><?php echo esc_html__('Realtime', 'koko-analytics'); ?></h3>
     <p>
-        <?php echo sprintf(esc_html__('Your site had a total of %s pageviews today, %s of which  were in the last hour.', 'koko-analytics'), '<strong>' . $totals->pageviews . '</strong>', '<strong>' . $realtime . '</strong>'); ?>
+        <?php echo \sprintf(esc_html__('Your site had a total of %s pageviews today, %s of which  were in the last hour.', 'koko-analytics'), '<strong>' . $totals->pageviews . '</strong>', '<strong>' . $realtime . '</strong>'); ?>
     </p>
 </div>
 

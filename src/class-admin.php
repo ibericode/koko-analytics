@@ -107,7 +107,7 @@ class Admin
 
         if (false === $is_buffer_dir_writable) {
             echo '<div class="notice notice-warning inline is-dismissible"><p>';
-            echo wp_kses(sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), array('code' => array()));
+            echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), array('code' => array()));
             echo '</p></div>';
         }
 
@@ -137,7 +137,7 @@ class Admin
         add_filter('update_footer', '__return_empty_string');
 
         /* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
-        return sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
+        return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
     }
 
 
@@ -151,7 +151,9 @@ class Admin
      */
     public function add_plugin_settings_link($links): array
     {
-        $settings_link = sprintf('<a href="%s">%s</a>', admin_url('index.php?page=koko-analytics&tab=settings'), esc_html__('Settings', 'koko-analytics'));
+        $href = admin_url('index.php?page=koko-analytics&tab=settings');
+        $label = esc_html__('Settings', 'koko-analytics');
+        $settings_link = "<a href=\"{$href}\">{$label}</a>";
         array_unshift($links, $settings_link);
         return $links;
     }

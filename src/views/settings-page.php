@@ -11,9 +11,9 @@
 $tab          = 'settings';
 $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_url());
 ?>
-<link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/dashboard.css?v=' . KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_FILE)); ?>">
-<div class="wrap" id="koko-analytics-admin">
+<link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 
+<div class="wrap" id="koko-analytics-admin">
     <?php require __DIR__ . '/nav.php'; ?>
 
     <div class="ka-admin-container">
@@ -56,7 +56,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 <label for="ka-exclude-ip-addresses" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these IP addresses', 'koko-analytics'); ?></label>
                 <?php
                 echo '<textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="widefat" rows="6">';
-                echo join(PHP_EOL, $settings['exclude_ip_addresses']);
+                echo esc_textarea(join(PHP_EOL, $settings['exclude_ip_addresses']));
                 echo '</textarea>';
                 ?>
                 <p class="description">
@@ -85,7 +85,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No'); ?></label>
                 </fieldset>
                 <p class="description">
-                    <?php echo sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), esc_attr($public_dashboard_url)); ?>
+                    <?php echo wp_kses(sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), esc_attr($public_dashboard_url)), [ 'a' => [ 'href' => [] ] ]); ?>
                 </p>
             </div>
             <div class="ka-margin-m">
@@ -178,8 +178,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <p>
                 <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
                 <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
-                <span style="<?php echo $seconds_since_last_aggregation > 300 ? 'color: red;' : ''; ?>">
-                    <?php printf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation); ?>
+                <span <?php echo $seconds_since_last_aggregation > 300 ? 'style="color: red;"' : ''; ?>>
+                    <?php echo esc_html(sprintf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation)); ?>
                 </span>
             </p>
             <div class="ka-margin-m">
@@ -194,7 +194,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
         <div class="ka-margin-l">
             <h2><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
-            <p><?php printf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'); ?></p>
+            <p><?php echo wp_kses(sprintf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'), [ 'a' => [ 'href' => [] ] ]); ?></p>
         </div>
 
          <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
