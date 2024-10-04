@@ -9,8 +9,8 @@ Author: ibericode
 Author URI: https://www.ibericode.com/
 Author Email: support@kokoanalytics.com
 Text Domain: koko-analytics
-License: GPL-3.0
-License URI: https://www.gnu.org/licenses/gpl-3.0.txt
+License: GPL-3.0-or-later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Koko Analytics - website analytics plugin for WordPress
 
