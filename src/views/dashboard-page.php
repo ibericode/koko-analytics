@@ -115,8 +115,8 @@ use function KokoAnalytics\fmt_large_number;
             <div class='ka-topx--head ka-topx--row'>
                 <div class='ka-topx--rank'>#</div>
                 <div><?php echo esc_html__('Pages', 'koko-analytics'); ?></div>
-                <div class='ka-topx--amount' title="<?php echo esc_html__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php echo esc_html__('Visitors', 'koko-analytics'); ?></div>
-                    <div class='ka-topx--amount' title="<?php echo esc_html__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></div>
+                <div class='ka-topx--amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php echo esc_html__('Visitors', 'koko-analytics'); ?></div>
+                    <div class='ka-topx--amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></div>
             </div>
             <div id="ka-top-posts" class='ka-topx--body'></div>
             <div class="ka-topx--placeholder"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></div>
