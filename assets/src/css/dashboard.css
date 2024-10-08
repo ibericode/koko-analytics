@@ -182,57 +182,29 @@ h1.ka-logo,
 }
 
 /** Topx components */
-.ka-topx {
-  grid-column: span 6;
-}
-
-
 @media (min-width: 840px) {
-  .ka-topx {
+  .ka-box{
     grid-column: span 3;
   }
 }
-.ka-topx--row {
-  display: grid;
-  grid-gap: 12px;
-  grid-template-columns: min-content 8fr 2fr 2fr;
-  border-top: 1px dashed #eee;
-  padding: 6px 12px;
-  text-align: left
+.ka-table {
+  table-layout: fixed;
+  width: 100%;
 }
-.ka-topx--placeholder {
-  padding: 6px 12px;
+.ka-table th {
+  text-align: left;
 }
-.ka-topx--head > div:nth-child(5),
-.ka-topx--row > div:nth-child(5) {
-  display: none;
+.ka-table .amount {
+  text-align: right;
 }
-.with-4th-col .ka-topx--head > div:nth-child(5),
-.with-4th-col .ka-topx--row > div:nth-child(5) {
-  display: block;
+.ka-table td,
+.ka-table th {
+  padding: 6px 8px;
 }
-.with-4th-col .ka-topx--row {
-  grid-template-columns: min-content 9fr 1fr 1fr 1fr;
+.ka-table .rank {
+  max-width: 20px;
 }
-.ka-topx--head {
-  font-weight: bold;
-  font-size: 1.1em;
-  padding: 6px 12px;
-  border: 0
-}
-.ka-topx--rank {
-  color: #757575;
-  font-size: .9em
-}
-.ka-topx--amount {
-  text-align: right
-}
-.ka-topx--col,
-.ka-topx--url {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap
-}
+
 
 /* Pagination component */
 .ka-pagination {

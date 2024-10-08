@@ -23,9 +23,10 @@ use function KokoAnalytics\fmt_large_number;
 
     <div style="display: flex; gap: 12px; ">
         <div class="ka-datepicker">
-            <div class='ka-datepicker--label' aria-expanded="false" aria-controls="ka-datepicker-dropdown">
+            <div class='ka-datepicker--label' tabindex="0" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
                 <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
             </div>
+
             <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
                 <div class="ka-datepicker--quicknav">
                     <span class="ka-datepicker--quicknav-prev" title=<?php echo esc_html__('Previous', 'koko-analytics'); ?>></span>
@@ -56,6 +57,9 @@ use function KokoAnalytics\fmt_large_number;
                             <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
                                    value="<?php echo $dateEnd->format('Y-m-d'); ?>">
                         </div>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <button type="submit" class="button button-secondary">Submit</button>
                     </div>
                 </div>
             </div>
@@ -111,36 +115,90 @@ use function KokoAnalytics\fmt_large_number;
     <div class="ka-box ka-margin-s ka-chart"><div id="ka-chart"></div></div>
 
     <div class="ka-dashboard-components">
-        <div class='ka-topx ka-box ka-fade top-posts'>
-            <div class='ka-topx--head ka-topx--row'>
-                <div class='ka-topx--rank'>#</div>
-                <div><?php echo esc_html__('Pages', 'koko-analytics'); ?></div>
-                <div class='ka-topx--amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php echo esc_html__('Visitors', 'koko-analytics'); ?></div>
-                    <div class='ka-topx--amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></div>
-            </div>
-            <div id="ka-top-posts" class='ka-topx--body'></div>
-            <div class="ka-topx--placeholder"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></div>
-            <div class='ka-pagination'>
-                <span class='ka-pagination--prev disabled'><?php echo esc_html__('Previous', 'koko-analytics'); ?></span>
-                <span class='ka-pagination--next'><?php echo esc_html__('Next', 'koko-analytics'); ?></span>
-            </div>
+
+        <div class="ka-box">
+            <table class="ka-table ka-fade ka-top-posts">
+                <thead>
+                    <tr>
+                        <th class="ka-topx--rank" width="12">#</th>
+                        <th><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
+                        <th class='amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th class='amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($posts as $i => $p) { ?>
+                        <tr>
+                            <td class="rank"><?php echo $i + 1; ?></td>
+                            <td><a href=""><?php echo $p->post_title; ?></a></td>
+                            <td class='amount'><?php echo $p->visitors; ?></td>
+                            <td class='amount'><?php echo $p->pageviews; ?></td>
+                        </tr>
+                    <?php } ?>
+                    <?php if (empty($posts)) { ?>
+                        <tr>
+                            <td colspan="4" class="ka-topx--placeholder">
+                                <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+                <?php /**
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div class='ka-pagination'>
+                                <a class='ka-pagination--prev disabled' href="#"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                                <a class='ka-pagination--next' href="#"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                */ ?>
+            </table>
         </div>
 
-        <div class='ka-topx ka-box ka-fade top-referrers'>
-            <div class='ka-topx--head ka-topx--row'>
-                <div class='ka-topx--rank'>#</div>
-                <div><?php echo esc_html__('Referrers', 'koko-analytics'); ?></div>
-                <div class='ka-topx--amount'><?php echo esc_html__('Visitors', 'koko-analytics'); ?></div>
-                <div class='ka-topx--amount'><?php echo esc_html__('Pageviews', 'koko-analytics'); ?></div>
-            </div>
-            <div id="ka-top-referrers" class='ka-topx--body'></div>
-            <div class="ka-topx--placeholder"><?php echo esc_html__('There is nothing here. Yet!', 'koko-analytics'); ?></div>
-            <div class='ka-pagination'>
-                <span class='ka-pagination--prev disabled'><?php echo esc_html__('Previous', 'koko-analytics'); ?></span>
-                <span class='ka-pagination--next'><?php echo esc_html__('Next', 'koko-analytics'); ?></span>
-            </div>
+        <div class="ka-box">
+            <table class="ka-table ka-fade ka-top-posts">
+                <thead>
+                    <tr>
+                        <th class="ka-topx--rank" width="12">#</th>
+                        <th><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
+                        <th class='amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th class='amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($referrers as $i => $r) { ?>
+                        <tr>
+                            <td class="rank"><?php echo $i + 1; ?></td>
+                            <td><a href="<?php echo esc_attr($r->url); ?>"><?php echo esc_html($r->url); ?></a></td>
+                            <td class='amount'><?php echo $r->visitors; ?></td>
+                            <td class='amount'><?php echo $r->pageviews; ?></td>
+                        </tr>
+                    <?php } ?>
+                    <?php if (empty($referrers)) { ?>
+                        <tr>
+                            <td colspan="4" class="ka-topx--placeholder">
+                                <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+                <?php /**
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div class='ka-pagination'>
+                                <a class='ka-pagination--prev disabled' href="#"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                                <a class='ka-pagination--next' href="#"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                */ ?>
+            </table>
         </div>
-
         <?php do_action('koko_analytics_show_dashboard_components'); ?>
     </div>
 

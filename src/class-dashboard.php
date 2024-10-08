@@ -41,11 +41,16 @@ class Dashboard
         $dates = new Dates();
         $stats = new Stats();
         $dateRange = $dates->get_range($settings['default_view']);
+        $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
+        $dateFormat = get_option('date_format');
+
         $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
         $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
-        $dateFormat = get_option('date_format');
         $preset     = !isset($_GET['start_date']) && !isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
+
         $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
+        $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page);
+        $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page);
         $realtime = get_realtime_pageview_count('-1 hour');
 
         require __DIR__ . '/views/dashboard-page.php';
@@ -73,8 +78,6 @@ class Dashboard
             ),
             'data' => array(
                 'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy),
-                'posts' => $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
-                'referrers' => $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page),
             )
         ), $dateStart, $dateEnd);
     }
