@@ -50,7 +50,7 @@ class Plugin
     public function on_activation(): void
     {
         // make sure koko analytics loads first to prevent unnecessary work on stat collection requests
-        update_option('activate_plugins', get_option('active_plugins'));
+        update_option('active_plugins', get_option('active_plugins'));
 
         // add capabilities to administrator role (if it exists)
         $role = get_role('administrator');
