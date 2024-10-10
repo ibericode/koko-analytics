@@ -213,13 +213,16 @@ h1.ka-logo,
   font-weight: normal;
   border-top: 1px dashed #eee;
   padding: 6px 12px;
+  display: flex;
+}
+.ka-pagination a {
+  text-decoration: none;
 }
 .ka-pagination--prev:before,
 .ka-pagination--next:after {
   font-size: 12px;
   vertical-align: top;
   line-height: 16px;
-
 }
 .ka-pagination--prev:before {
   content: "◀";
@@ -230,18 +233,9 @@ h1.ka-logo,
   margin-left: 6px;
 }
 .ka-pagination--next {
-  float: right;
+  margin-left: auto;
 }
-.ka-pagination--prev.disabled,
-.ka-pagination--next.disabled {
-  opacity: .4
-}
-.ka-pagination--prev.disabled:hover,
-.ka-pagination--prev.disabled:focus,
-.ka-pagination--next.disabled:hover,
-.ka-pagination--next.disabled:focus {
-  cursor: initial
-}
+
 
 /** Totals Component */
 .ka-totals {

@@ -139,8 +139,8 @@ use function KokoAnalytics\fmt_large_number;
                 <tbody>
                     <?php foreach ($posts as $i => $p) { ?>
                         <tr>
-                            <td class="rank"><?php echo $i + 1; ?></td>
-                            <td><a href=""><?php echo $p->post_title; ?></a></td>
+                            <td class="rank"><?php echo  $posts_offset + $i + 1; ?></td>
+                            <td><a href="<?php echo esc_attr($p->post_permalink); ?>"><?php echo $p->post_title; ?></a></td>
                             <td class='amount'><?php echo $p->visitors; ?></td>
                             <td class='amount'><?php echo $p->pageviews; ?></td>
                         </tr>
@@ -153,23 +153,22 @@ use function KokoAnalytics\fmt_large_number;
                         </tr>
                     <?php } ?>
                 </tbody>
-                <?php /**
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            <div class='ka-pagination'>
-                                <a class='ka-pagination--prev disabled' href="#"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
-                                <a class='ka-pagination--next' href="#"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-                */ ?>
             </table>
+
+            <?php if ($posts_offset >= $posts_limit || $posts_offset + $posts_limit < $posts_count) { ?>
+           <div class='ka-pagination'>
+                <?php if ($posts_offset >= $posts_limit) { ?>
+                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts[offset]' => $posts_offset - $posts_limit])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                <?php } ?>
+                <?php if ($posts_offset + $posts_limit < $posts_count) { ?>
+                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts[offset]' => $posts_offset + $posts_limit])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                <?php } ?>
+            </div>
+            <?php } ?>
         </div>
 
         <div class="ka-box">
-            <table class="ka-table ka-fade ka-top-posts">
+            <table class="ka-table ka-fade ka-top-referrers">
                 <thead>
                     <tr>
                         <th class="ka-topx--rank" width="12">#</th>
@@ -181,7 +180,7 @@ use function KokoAnalytics\fmt_large_number;
                 <tbody>
                     <?php foreach ($referrers as $i => $r) { ?>
                         <tr>
-                            <td class="rank"><?php echo $i + 1; ?></td>
+                            <td class="rank"><?php echo $referrers_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr($r->url); ?>"><?php echo esc_html($r->url); ?></a></td>
                             <td class='amount'><?php echo $r->visitors; ?></td>
                             <td class='amount'><?php echo $r->pageviews; ?></td>
@@ -195,19 +194,17 @@ use function KokoAnalytics\fmt_large_number;
                         </tr>
                     <?php } ?>
                 </tbody>
-                <?php /**
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            <div class='ka-pagination'>
-                                <a class='ka-pagination--prev disabled' href="#"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
-                                <a class='ka-pagination--next' href="#"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-                */ ?>
             </table>
+            <?php if ($referrers_offset >= $referrers_limit || $referrers_offset + $referrers_limit < $referrers_count) { ?>
+           <div class='ka-pagination'>
+                <?php if ($referrers_offset >= $referrers_limit) { ?>
+                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['referrers[offset]' => $referrers_offset - $referrers_limit])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                <?php } ?>
+                <?php if ($referrers_offset + $referrers_limit < $referrers_count) { ?>
+                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['referrers[offset]' => $referrers_offset + $referrers_limit])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                <?php } ?>
+            </div>
+            <?php } ?>
         </div>
         <?php do_action('koko_analytics_show_dashboard_components'); ?>
     </div>

@@ -157,6 +157,19 @@ class Stats
         }, $results);
     }
 
+    public function count_posts(string $start_date, string $end_date): int
+    {
+        global $wpdb;
+        $sql = $wpdb->prepare(
+            "
+                SELECT COUNT(DISTINCT(s.id))
+                FROM {$wpdb->prefix}koko_analytics_post_stats s
+                WHERE s.date >= %s AND s.date <= %s",
+            array($start_date, $end_date)
+        );
+        return (int) $wpdb->get_var($sql);
+    }
+
     public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
         global $wpdb;
@@ -173,5 +186,19 @@ class Stats
             array($start_date, $end_date, $offset, $limit)
         );
         return $wpdb->get_results($sql);
+    }
+
+    public function count_referrers(string $start_date, string $end_date): int
+    {
+        global $wpdb;
+        $sql = $wpdb->prepare(
+            "
+                SELECT COUNT(DISTINCT(s.id))
+                FROM {$wpdb->prefix}koko_analytics_referrer_stats s
+                WHERE s.date >= %s
+                  AND s.date <= %s",
+            array($start_date, $end_date)
+        );
+        return (int) $wpdb->get_var($sql);
     }
 }
