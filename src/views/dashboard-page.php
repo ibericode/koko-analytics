@@ -33,36 +33,46 @@ use function KokoAnalytics\fmt_large_number;
                     <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
                     <span class="ka-datepicker--quicknav-next" title=<?php echo esc_html__('Next', 'koko-analytics'); ?>></span>
                 </div>
-                <div class="ka-datepicker--dropdown-content">
-                    <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
-                    <select id="ka-date-presets">
-                        <option value="custom" <?php echo $preset === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
-                        <?php foreach ($this->get_date_presets() as $key => $label) {
-                            $range = $dates->get_range($key); ?>
-                            <option value="<?php echo $key; ?>"
-                                    data-start-date="<?php echo $range[0]->format('Y-m-d'); ?>"
-                                    data-end-date="<?php echo $range[1]->format('Y-m-d'); ?>"
-                                    <?php echo ( $key === $preset ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option>
-                        <?php } ?>
-                    </select>
-                    <div style="display: flex; margin-top: 12px;">
-                        <div>
-                            <label for='ka-date-start'><?php echo esc_html__('Start date', 'koko-analytics'); ?></label>
-                            <input id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
-                                   value="<?php echo $dateStart->format('Y-m-d'); ?>">
-                            <span>&nbsp;&mdash;&nbsp;</span>
+                <form method="get" action="">
+                    <?php if (!empty($_GET['page'])) { ?>
+                        <input type="hidden" name="page" value="<?php echo esc_attr($_GET['page']); ?>">
+                    <?php } ?>
+                    <?php if (!empty($_GET['koko-analytics-dashboard'])) { ?>
+                    <input type="hidden" name="koko-analytics-dashboard" value="<?php echo esc_attr($_GET['koko-analytics-dashboard']); ?>">
+                    <?php } ?>
+
+
+                    <div class="ka-datepicker--dropdown-content">
+                        <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
+                        <select id="ka-date-presets">
+                            <option value="custom" <?php echo $preset === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
+                            <?php foreach ($this->get_date_presets() as $key => $label) {
+                                $range = $dates->get_range($key); ?>
+                                <option value="<?php echo $key; ?>"
+                                        data-start-date="<?php echo $range[0]->format('Y-m-d'); ?>"
+                                        data-end-date="<?php echo $range[1]->format('Y-m-d'); ?>"
+                                        <?php echo ( $key === $preset ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option>
+                            <?php } ?>
+                        </select>
+                        <div style="display: flex; margin-top: 12px;">
+                            <div>
+                                <label for='ka-date-start'><?php echo esc_html__('Start date', 'koko-analytics'); ?></label>
+                                <input name="start_date" id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                       value="<?php echo $dateStart->format('Y-m-d'); ?>">
+                                <span>&nbsp;&mdash;&nbsp;</span>
+                            </div>
+                            <div>
+                                <label for='ka-date-end'><?php echo esc_html__('End date', 'koko-analytics'); ?></label>
+                                <input name="end_date" id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                       value="<?php echo $dateEnd->format('Y-m-d'); ?>">
+                            </div>
                         </div>
-                        <div>
-                            <label for='ka-date-end'><?php echo esc_html__('End date', 'koko-analytics'); ?></label>
-                            <input id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
-                                   value="<?php echo $dateEnd->format('Y-m-d'); ?>">
+                        <div style="margin-top: 12px;">
+                            <button type="submit" class="button button-secondary">Submit</button>
                         </div>
-                    </div>
-                    <div style="margin-top: 12px;">
-                        <button type="submit" class="button button-secondary">Submit</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div class="ka-page-filter">

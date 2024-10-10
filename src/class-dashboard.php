@@ -48,9 +48,14 @@ class Dashboard
         $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
         $preset     = !isset($_GET['start_date']) && !isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
 
+        $posts_offset = isset($_GET['posts']['offset']) ? absint($_GET['posts']['offset']) : 0;
+        $referrers_offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
+        $posts_limit = isset($_GET['posts']['limit']) ? absint($_GET['posts']['limit']) : $items_per_page;
+        $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
+
         $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
-        $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page);
-        $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), 0, $items_per_page);
+        $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $posts_offset, $posts_limit);
+        $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $referrers_offset, $referrers_limit);
         $realtime = get_realtime_pageview_count('-1 hour');
 
         require __DIR__ . '/views/dashboard-page.php';
