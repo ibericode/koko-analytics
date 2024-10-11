@@ -75,10 +75,12 @@ use function KokoAnalytics\fmt_large_number;
             </form>
         </div>
 
-        <div class="ka-page-filter">
+        <div class="ka-page-filter" <?php if ($page !== 0) { echo 'style="display: block;"'; } ?>>
             <span><?php esc_html_e('Page', 'koko-analytics'); ?> = </span>
-            <span style="font-weight: bold;"></span>
-            <span class="ka-page-filter--close" aria-label="clear filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>">✕</span>
+            <span style="font-weight: bold;">
+                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
+            </span>
+            <a class="ka-page-filter--close" aria-label="Clear page filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
         </div>
 
         <?php require __DIR__ . '/nav.php'; ?>
@@ -124,7 +126,7 @@ use function KokoAnalytics\fmt_large_number;
 
     <div class="ka-box ka-margin-s ka-chart"><div id="ka-chart"></div></div>
 
-    <div class="ka-dashboard-components">
+    <div class="ka-dashboard-components <?php if ($page !== 0) { echo 'page-filter-active'; } ?>" >
 
         <div class="ka-box">
             <table class="ka-table ka-fade ka-top-posts">
@@ -140,7 +142,7 @@ use function KokoAnalytics\fmt_large_number;
                     <?php foreach ($posts as $i => $p) { ?>
                         <tr>
                             <td class="rank"><?php echo  $posts_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr($p->post_permalink); ?>"><?php echo $p->post_title; ?></a></td>
+                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo $p->post_title; ?></a></td>
                             <td class='amount'><?php echo $p->visitors; ?></td>
                             <td class='amount'><?php echo $p->pageviews; ?></td>
                         </tr>

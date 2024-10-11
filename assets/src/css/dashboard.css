@@ -177,7 +177,7 @@ h1.ka-logo,
 .ka-page-filter--close:focus {
   opacity: 1;
 }
-.page-filter-active .ka-dashboard-components {
+.ka-dashboard-components.page-filter-active  {
   opacity: 0.4;
 }
 

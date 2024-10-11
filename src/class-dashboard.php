@@ -46,6 +46,7 @@ class Dashboard
 
         // parse query params
         // TODO: Handle parse failures for dates
+        $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
         $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
         $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
         $preset     = !isset($_GET['start_date']) && !isset($_GET['end_date']) ? $settings['default_view'] : 'custom';
@@ -54,7 +55,7 @@ class Dashboard
         $posts_limit = isset($_GET['posts']['limit']) ? absint($_GET['posts']['limit']) : $items_per_page;
         $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
 
-        $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
+        $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), $page);
         $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $posts_offset, $posts_limit);
         $posts_count = $stats->count_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
         $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $referrers_offset, $referrers_limit);
@@ -69,6 +70,10 @@ class Dashboard
         $stats = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
         $groupChartBy = 'day';
+
+        // TODO: Do not read from $_GET here but take a function argument
+        $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
+
 
         if ($dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 364) {
             $groupChartBy = 'month';
@@ -85,7 +90,7 @@ class Dashboard
                 'Pageviews' => __('Pageviews', 'koko-analytics'),
             ),
             'data' => array(
-                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy),
+                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page),
             )
         ), $dateStart, $dateEnd);
     }
