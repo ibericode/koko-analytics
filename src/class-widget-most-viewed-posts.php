@@ -52,7 +52,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget
 
         echo $args['before_widget'];
         if ($title) {
-            echo $args['before_title'] . $title . $args['after_title'];
+            echo $args['before_title'], $title, $args['after_title'];
         }
 
         $shortcode = new Shortcode_Most_Viewed_Posts();
