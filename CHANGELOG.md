@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.3.15 - Oct 15, 2024
+
+- Fix `href` attribute on hyperlinks in most viewed posts widget/shortcode/function template.
+
+
 #### 1.3.14 - Sep 23, 2024
 
 - Explicitly call `sprintf` from global namespace to benefit from upcoming sprintf related performance improvements in PHP 8.4.
