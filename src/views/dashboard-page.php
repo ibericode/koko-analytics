@@ -29,9 +29,9 @@ use function KokoAnalytics\fmt_large_number;
 
             <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
                 <div class="ka-datepicker--quicknav">
-                    <span class="ka-datepicker--quicknav-prev" title=<?php echo esc_html__('Previous', 'koko-analytics'); ?>></span>
+                    <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')])); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
                     <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
-                    <span class="ka-datepicker--quicknav-next" title=<?php echo esc_html__('Next', 'koko-analytics'); ?>></span>
+                    <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')])); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
                 </div>
                 <form method="get" action="">
                     <?php if (!empty($_GET['page'])) { ?>

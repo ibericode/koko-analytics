@@ -62,7 +62,27 @@ class Dashboard
         $referrers_count = $stats->count_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'));
         $realtime = get_realtime_pageview_count('-1 hour');
 
+        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
+        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
+
         require __DIR__ . '/views/dashboard-page.php';
+    }
+
+    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, $dir = 1): array {
+        if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
+            // cycling full months
+            $periodStart = $dir > 0 ? $dateStart->modify('first day of next month') : $dateStart->modify('first day of previous month');
+            $periodEnd = $dir > 0 ? $dateEnd->modify('last day of next month') : $dateEnd->modify('last day of previous month');
+        } else {
+            $dateStart->setTime(0, 0, 0);
+            $dateEnd->setTime(23, 59, 59);
+            $diffInDays = ($dateEnd->getTimestamp() - $dateStart->getTimestamp()) / 86400;
+            $modifier = $dir > 0 ? "+" : "-";
+            $periodStart = $dateStart->modify("{$modifier}{$diffInDays} days");
+            $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
+        }
+
+        return [ $periodStart, $periodEnd ];
     }
 
     private function get_script_data(\DateTimeInterface $dateStart, \DateTimeInterface $dateEnd): array

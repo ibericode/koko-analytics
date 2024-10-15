@@ -340,6 +340,13 @@ h1.ka-logo,
   height: 20px;
   line-height: 1;
   vertical-align: middle;
+  font-size: 0;
+}
+.ka-datepicker--quicknav-prev:hover,
+.ka-datepicker--quicknav-prev:focus,
+.ka-datepicker--quicknav-next:hover,
+.ka-datepicker--quicknav-next:focus {
+  color: white;
 }
 .ka-datepicker--quicknav-prev:before,
 .ka-datepicker--quicknav-next:after {

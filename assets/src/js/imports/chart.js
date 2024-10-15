@@ -1,6 +1,6 @@
 import { eventListenersModule, attributesModule, init, h } from "snabbdom"
 import { magnitude, formatLargeNumber } from './numbers.js'
-import { format, parseISO8601 } from './dates.js'
+import { format } from './dates.js'
 const {i18n} = window.koko_analytics;
 const patch = init([eventListenersModule, attributesModule])
 const tooltip = createTooltip()

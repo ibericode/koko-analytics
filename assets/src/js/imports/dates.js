@@ -1,15 +1,4 @@
 /**
- * @param {Date} a
- * @returns {boolean}
- */
-export function isLastDayOfMonth(a) {
-  let b = new Date(a);
-  b.setDate(b.getDate() + 1);
-  return a.getMonth() !== b.getMonth()
-}
-
-
-/**
  * Parse a ISO8601 date string (YYYY-MM-DD) into a Date object.
  *
  * @param v {string}
@@ -41,26 +30,6 @@ export function parseISO8601 (v) {
 }
 
 /**
- * Pad a number with zeroes if it's below 10
- *
- * @param {int} d
- * @returns {string}
- */
-function pad(d) {
-  return d < 10 ? '0' + d : d;
-}
-
-/**
- * Returns a string representing the given Date object in YYYY-MM-DD format
- *
- * @param {Date} d
- * @returns {string}
- */
-export function toISO8601(d) {
-   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
-/**
  * @param {string|Date} d
  * @param {object?} options
  * @returns {string}
@@ -70,7 +39,7 @@ export function format(d, options) {
   options = options ? options : { day: 'numeric', month: 'short', year: 'numeric' };
   try {
     return (new Intl.DateTimeFormat(undefined, options)).format(d);
-  } catch (e) {
+  } catch {
     // ignore error
   }
 
