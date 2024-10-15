@@ -44,14 +44,13 @@ use function KokoAnalytics\fmt_large_number;
 
                     <div class="ka-datepicker--dropdown-content">
                         <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
-                        <select id="ka-date-presets">
-                            <option value="custom" <?php echo $preset === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
+                        <select id="ka-date-presets" name="view">
+                            <option value="custom" <?php echo $range === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
                             <?php foreach ($this->get_date_presets() as $key => $label) {
-                                $range = $dates->get_range($key); ?>
+                                ?>
                                 <option value="<?php echo $key; ?>"
-                                        data-start-date="<?php echo $range[0]->format('Y-m-d'); ?>"
-                                        data-end-date="<?php echo $range[1]->format('Y-m-d'); ?>"
-                                        <?php echo ( $key === $preset ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option>
+                                    <?php echo ( $key === $range ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?>
+                                </option>
                             <?php } ?>
                         </select>
                         <div style="display: flex; margin-top: 12px;">

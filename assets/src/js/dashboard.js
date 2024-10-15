@@ -4,12 +4,17 @@ var datePresetSelect = document.querySelector('#ka-date-presets');
 var dateStartInput = document.querySelector('#ka-date-start');
 var dateEndInput = document.querySelector('#ka-date-end');
 datePresetSelect.addEventListener('change', function() {
-  var data = this.selectedOptions[0].dataset;
-  dateStartInput.value = data.startDate;
-  dateEndInput.value = data.endDate;
+  dateStartInput.disabled = true;
+  dateEndInput.disabled = true;
   this.form.submit();
 });
 
+dateStartInput.addEventListener('change', function() {
+  datePresetSelect.value = 'custom';
+});
+dateStartInput.addEventListener('change', function() {
+  datePresetSelect.value = 'custom';
+});
 // fill chart
 import Chart from './imports/chart.js'
 let { startDate, endDate, data } = window.koko_analytics

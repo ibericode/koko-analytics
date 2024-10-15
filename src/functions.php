@@ -309,7 +309,7 @@ function test_custom_endpoint(): void
     $endpoint_installer->verify();
 }
 
-function create_local_datetime($timestr): \DateTimeImmutable
+function create_local_datetime($timestr): ?\DateTimeImmutable
 {
     $offset = (float) get_option('gmt_offset', 0.0);
     if ($offset >= 0.00) {
@@ -321,5 +321,10 @@ function create_local_datetime($timestr): \DateTimeImmutable
         $now_local = $now_local->modify($offset . ' hours');
     }
 
-    return $now_local->modify($timestr);
+    $dt_local = $now_local->modify($timestr);
+    if (! $dt_local) {
+        return null;
+    }
+
+    return $dt_local;
 }
