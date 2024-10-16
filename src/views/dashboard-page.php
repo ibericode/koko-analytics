@@ -67,7 +67,7 @@ use function KokoAnalytics\fmt_large_number;
                             </div>
                         </div>
                         <div style="margin-top: 12px;">
-                            <button type="submit" class="button button-secondary">Submit</button>
+                            <button type="submit" class="button button-secondary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ use function KokoAnalytics\fmt_large_number;
             <span style="font-weight: bold;">
                 <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
             </span>
-            <a class="ka-page-filter--close" aria-label="Clear page filter" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
+            <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
         </div>
 
         <?php require __DIR__ . '/nav.php'; ?>
