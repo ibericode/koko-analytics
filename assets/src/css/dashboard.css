@@ -182,24 +182,35 @@ h1.ka-logo,
 }
 
 /** Topx components */
-@media (min-width: 840px) {
-  .ka-box{
-    grid-column: span 3;
-  }
-}
 .ka-table {
   table-layout: fixed;
   width: 100%;
+  border-spacing: 0;
 }
 .ka-table th {
   text-align: left;
+  background: #2e363f;
+  color: white;
+}
+.ka-table th:first-of-type {
+  border-radius: 4px 0 0 0;
+}
+.ka-table th:last-of-type {
+        border-radius: 0 4px 0 0;
 }
 .ka-table .amount {
   text-align: right;
 }
+
+.ka-table td {
+  border-top: 1px solid #efefef;
+}
 .ka-table td,
 .ka-table th {
   padding: 6px 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .ka-table .rank {
   max-width: 20px;
@@ -381,6 +392,12 @@ h1.ka-logo,
   background: #fff;
   border-radius: 6px;
   border: 1px solid #ddd;
+  grid-column: span 6;
+}
+@media (min-width: 840px) {
+  .ka-box{
+    grid-column: span 3;
+  }
 }
 .ka-box:empty {
   display: none;
