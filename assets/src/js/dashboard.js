@@ -9,12 +9,13 @@ datePresetSelect.addEventListener('change', function() {
   this.form.submit();
 });
 
-dateStartInput.addEventListener('change', function() {
-  datePresetSelect.value = 'custom';
-});
-dateStartInput.addEventListener('change', function() {
-  datePresetSelect.value = 'custom';
-});
+// set <select> value for date preset/view to custom whenever date input is used
+function setPresetToCustom() {
+    datePresetSelect.value = 'custom';
+}
+dateStartInput.addEventListener('change', setPresetToCustom);
+dateStartInput.addEventListener('change', setPresetToCustom);
+
 // fill chart
 import Chart from './imports/chart.js'
 let { startDate, endDate, data } = window.koko_analytics
@@ -25,9 +26,7 @@ Chart(document.querySelector('#ka-chart'), data.chart, startDate, endDate, page)
 document.addEventListener('keydown', evt => {
     if (evt.key === 'ArrowLeft') {
       document.querySelector('.ka-datepicker--quicknav-prev').click();
-    }
-
-    if (evt.key === 'ArrowRight') {
+    } else if (evt.key === 'ArrowRight') {
       document.querySelector('.ka-datepicker--quicknav-next').click();
     }
   })

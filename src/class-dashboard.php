@@ -42,6 +42,7 @@ class Dashboard
         $stats = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
         $dateFormat = get_option('date_format');
+        $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers']);
 
         // parse query params
         $range = isset($_GET['view']) ? $_GET['view'] : $settings['default_view'];
@@ -77,13 +78,11 @@ class Dashboard
         if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
             // cycling full months
             $diffInMonths = 1 + ($dateEnd->format('Y') - $dateStart->format('Y')) * 12 + $dateEnd->format('m') - $dateStart->format('m');
-            $diffInMonths = max(1, $diffInMonths);
             $periodStart = $dateStart->setDate($dateStart->format('Y'), $dateStart->format('m') + ($dir * $diffInMonths), 1);
-            $periodEnd = $dateEnd->setDate($dateStart->format('Y'), $dateEnd->format('m') + ($dir * $diffInMonths), $dateEnd->format('d'));
+            $periodEnd = $dateEnd->setDate($dateStart->format('Y'), $dateEnd->format('m') + ($dir * $diffInMonths), 5);
+            $periodEnd = $periodEnd->setDate((int) $periodEnd->format('Y'), (int) $periodEnd->format('m'), (int) $periodEnd->format('t'));
         } else {
-            $dateStart->setTime(0, 0, 0);
-            $dateEnd->setTime(23, 59, 59);
-            $diffInDays = 1 + (int) round(($dateEnd->getTimestamp() - $dateStart->getTimestamp()) / 86400);
+            $diffInDays = 1 + ($dateEnd->format('Y') - $dateStart->format('Y')) * 365 + ($dateEnd->format('z') - $dateStart->format('z')) ;
             $periodStart = $dateStart->modify("{$modifier}{$diffInDays} days");
             $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
         }
@@ -99,7 +98,6 @@ class Dashboard
 
         // TODO: Do not read from $_GET here but take a function argument
         $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
-
 
         if ($dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 364) {
             $groupChartBy = 'month';
