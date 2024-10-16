@@ -49,7 +49,7 @@ class Shortcode_Most_Viewed_Posts
             }
 
             $html .= '<li>';
-            $html .= "<a href=\"{$permalink})}\" {$aria_current}>{$title}</a>";
+            $html .= "<a href=\"{$permalink}\" {$aria_current}>{$title}</a>";
 
             if ($args['show_date']) {
                 $date = get_the_date('', $p);
