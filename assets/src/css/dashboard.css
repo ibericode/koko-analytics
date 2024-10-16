@@ -243,12 +243,14 @@ h1.ka-logo,
   color: white;
   padding: 24px;
   margin: 12px 0;
-  display: flex;
-  flex-flow: row wrap;
-  gap: 48px;
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
+}
+.ka-totals tbody {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 48px;
 }
 .ka-totals--label {
   color: #EEE;

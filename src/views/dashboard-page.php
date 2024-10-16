@@ -85,43 +85,45 @@ use function KokoAnalytics\fmt_large_number;
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
 
-    <div id="ka-totals" class='ka-totals m'>
-        <div class="ka-fade <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
-            <div class='ka-totals--heading'><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></div>
-            <div class='ka-totals--amount'>
+    <table id="ka-totals" class='ka-totals m'>
+        <tbody>
+        <tr class="ka-fade <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
+            <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
+            <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo fmt_large_number($totals->visitors); ?></span>
                 <span class="ka-totals--change">
                     <?php echo $totals->visitors_change_rel !== null ? sprintf('%+.0f%%', $totals->visitors_change_rel * 100) : ''; ?>
                 </span>
-            </div>
-            <div class='ka-totals--subtext'>
+            </td>
+            <td class='ka-totals--subtext'>
                 <span><?php echo fmt_large_number(abs($totals->visitors_change)); ?></span>
                 <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span>
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
-            </div>
-        </div>
-        <div class="ka-fade <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
-            <div class='ka-totals--heading'><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></div>
-            <div class='ka-totals--amount'>
+            </td>
+        </tr>
+        <tr class="ka-fade <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
+            <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
+            <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo fmt_large_number($totals->pageviews); ?></span>
                 <span class="ka-totals--change">
                     <?php echo $totals->pageviews_change_rel !== null ? sprintf('%+.0f%%', $totals->pageviews_change_rel * 100) : ''; ?>
                 </span>
-            </div>
-            <div class='ka-totals--subtext'>
+            </td>
+            <td class='ka-totals--subtext'>
                 <span><?php echo fmt_large_number(abs($totals->pageviews_change)); ?></span>
                 <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span>
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
-            </div>
-        </div>
-        <div id="ka-realtime" class='ka-fade'>
-            <div class='ka-totals--heading'><?php echo esc_html__('Realtime pageviews', 'koko-analytics'); ?></div>
-            <div class='ka-totals--amount'><?php echo fmt_large_number($realtime); ?></div>
-            <div class='ka-totals--subtext'>
+            </td>
+        </tr>
+        <tr id="ka-realtime" class='ka-fade'>
+            <th><?php echo esc_html__('Realtime pageviews', 'koko-analytics'); ?></th>
+            <td class='ka-totals--amount'><?php echo fmt_large_number($realtime); ?></td>
+            <td class='ka-totals--subtext'>
                 <?php echo esc_html__('pageviews in the last hour', 'koko-analytics'); ?>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
     <div class="ka-box ka-margin-s ka-chart"><div id="ka-chart"></div></div>
 
