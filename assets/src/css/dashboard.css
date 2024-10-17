@@ -1,3 +1,4 @@
+/* standalone specific styles */
 body.ka-dashboard {
   background: #f1f1f1;
   color: #3c434a;
@@ -29,6 +30,31 @@ body.ka-dashboard {
 }
 .ka-dashboard input {
   padding: 0 8px;
+}
+.ka-dashboard .button,
+.ka-dashboard .button-secondary {
+  color: #2271b1;
+  border-color: #2271b1;
+  background: #f6f7f7;
+  vertical-align: top;
+}
+.ka-dashboard .button,
+.ka-dashboard .button-primary,
+.ka-dashboard .button-secondary {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 2.15384615;
+  min-height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 h1.ka-logo,
@@ -100,7 +126,7 @@ h1.ka-logo,
   padding: 24px;
 }
 .ka-chart--tooltip {
-  position: absolute;
+  position: fixed;
   z-index: 9991; /* above wp admin menu */
 }
 .ka-chart--tooltip-box {
@@ -346,8 +372,8 @@ h1.ka-logo,
   font-weight: bold;
   font-size: 1.1em;
 }
-.ka-datepicker--quicknav-prev,
-.ka-datepicker--quicknav-next {
+a.ka-datepicker--quicknav-prev,
+a.ka-datepicker--quicknav-next {
   color: white;
   cursor: pointer;
   height: 20px;
@@ -403,7 +429,7 @@ h1.ka-logo,
   display: none;
 }
 .ka-fade {
-  animation: koko-fadein .4s
+  animation: koko-fadein .6s
 }
 .ka-ul li {
   text-overflow: ellipsis;

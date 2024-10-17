@@ -66,6 +66,9 @@ class Dashboard
         $referrers_count = $stats->count_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'));
         $realtime = get_realtime_pageview_count('-1 hour');
 
+        $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 36 ? 'month' : 'day';
+        $chart_data =  $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page);
+
         $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
         $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
 
@@ -88,35 +91,6 @@ class Dashboard
         }
 
         return [ $periodStart, $periodEnd ];
-    }
-
-    private function get_script_data(\DateTimeInterface $dateStart, \DateTimeInterface $dateEnd): array
-    {
-        $stats = new Stats();
-        $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $groupChartBy = 'day';
-
-        // TODO: Do not read from $_GET here but take a function argument
-        $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
-
-        if ($dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 364) {
-            $groupChartBy = 'month';
-        }
-
-        return apply_filters('koko_analytics_dashboard_script_data', array(
-            'root'             => rest_url(),
-            'nonce'            => wp_create_nonce('wp_rest'),
-            'items_per_page'   => $items_per_page,
-            'startDate' => $_GET['start_date'] ?? $dateStart->format('Y-m-d'),
-            'endDate' => $_GET['end_date'] ?? $dateEnd->format('Y-m-d'),
-            'i18n' => array(
-                'Visitors' => __('Visitors', 'koko-analytics'),
-                'Pageviews' => __('Pageviews', 'koko-analytics'),
-            ),
-            'data' => array(
-                'chart' => $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page),
-            )
-        ), $dateStart, $dateEnd);
     }
 
     public function get_date_presets(): array
@@ -158,5 +132,76 @@ class Dashboard
         </div>
         <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
         <?php
+    }
+
+    private function chart(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd): void {
+        $tick_width = 100.0 / (float) count($data);
+        $y_max = 0;
+        foreach ($data as $i => $tick) {
+            $y_max = max($y_max, $tick->pageviews);
+        }
+        $y_max_nice = $this->get_magnitude($y_max);
+        $height_modifier = 250 / $y_max_nice;
+        $dateFormat = get_option('date_format');
+        $margin = 0.1;
+        ?>
+<div style="position: relative;">
+    <svg width="100%" height="280" id="ka-chart-2">
+      <g class="axes-y" transform="translate(40, 6)" text-anchor="end">
+        <g transform="translate(8, 0)">
+            <line stroke="#eee" x1="0" x2="100%" y1="250" y2="250"></line>
+            <line stroke="#eee" x1="0" x2="100%" y1="125" y2="125"></line>
+            <line stroke="#eee" x1="0" x2="100%" y1="0" y2="0"></line>
+        </g>
+        <text y="250" fill="#757575" x="0" dy="0.33em">0</text>
+        <text y="125" fill="#757575" x="0" dy="0.33em"><?php echo fmt_large_number($y_max_nice / 2); ?></text>
+        <text y="0" fill="#757575" x="0" dy="0.33em"><?php echo fmt_large_number($y_max_nice); ?></text>
+      </g>
+      <g class="axes-x" text-anchor="start" transform="translate(0, 256)">
+        <text fill="#757575" x="28" y="10" dy="1em" text-anchor="start"><?php echo $dateStart->format($dateFormat); ?></text>
+        <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?php echo $dateEnd->format($dateFormat); ?></text>
+      </g>
+       <g class="bars" transform="translate(0, 6)">
+        <?php foreach ($data as $i => $tick) {
+            echo '<g data-date="', $tick->date, '" data-pageviews="', fmt_large_number($tick->pageviews), '" data-visitors="', fmt_large_number($tick->visitors),'">'; // for hover tooltip
+            echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', 250 - $tick->pageviews* $height_modifier,'"></rect>';
+            echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', 250-$tick->visitors* $height_modifier ,'"></rect>';
+            echo '<line stroke="#ddd" y1="250" y2="256"></line>';
+            echo '</g>';
+        } ?>
+       </g>
+    </svg>
+    <div class="ka-chart--tooltip" style="display: none;">
+        <div class="ka-chart--tooltip-box">
+          <div class="ka-chart--tooltip-heading"></div>
+          <div style="display: flex">
+            <div class="ka-chart--tooltip-content ka--visitors">
+              <div class="ka-chart--tooltip-amount"></div>
+              <div><?php esc_html_e('Visitors', 'koko-analytics'); ?></div>
+            </div>
+            <div class="ka-chart--tooltip-content ka--pageviews">
+              <div class="ka-chart--tooltip-amount"></div>
+              <div><?php esc_html_e('Pageviews', 'koko-analytics'); ?></div>
+            </div>
+          </div>
+        </div>
+        <div class="ka-chart--tooltip-arrow"></div>
+    </div>
+</div>
+        <?php
+    }
+
+    private function get_magnitude(int $n) {
+        if ($n < 10) {
+            return 10;
+        }
+
+        if ($n > 100_000) {
+            return ceil($n / 10000.0) * 10000;
+        }
+
+        $e = floor(log10($n));
+        $pow = pow(10, $e);
+        return ceil($n / $pow) * $pow;
     }
 }

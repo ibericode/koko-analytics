@@ -122,6 +122,7 @@ export default function(root, data, startDate, endDate, page, height) {
     const tickWidth = r(innerWidth / dataset.length);
     const barPadding = dataset.length * 7 < innerWidth ? 2 : 0;
     const barWidth = tickWidth - barPadding * 2
+    console.log(innerWidth, innerHeight);
 
     const getX = v => r(v * tickWidth)
     const getY = yMaxNice <= 0 ? (() => innerHeight) : (v =>innerHeight - (v * heightModifier))

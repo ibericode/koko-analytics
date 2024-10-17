@@ -15,9 +15,7 @@ $tab = 'dashboard';
 
 use function KokoAnalytics\fmt_large_number;
 ?>
-<script src="<?php echo plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
 <?php do_action('koko_analytics_dashboard_print_assets'); ?>
-<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 <div class="wrap">
     <?php $this->maybe_show_adblocker_notice(); ?>
 
@@ -33,14 +31,12 @@ use function KokoAnalytics\fmt_large_number;
                     <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
                     <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
                 </div>
-                <form method="get" action="">
-                    <?php if (!empty($_GET['page'])) { ?>
-                        <input type="hidden" name="page" value="<?php echo esc_attr($_GET['page']); ?>">
-                    <?php } ?>
-                    <?php if (!empty($_GET['koko-analytics-dashboard'])) { ?>
-                    <input type="hidden" name="koko-analytics-dashboard" value="<?php echo esc_attr($_GET['koko-analytics-dashboard']); ?>">
-                    <?php } ?>
-
+                <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
+                    <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
+                        if (!empty($_GET[$key])) {
+                            echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
+                        }
+                    } ?>
 
                     <div class="ka-datepicker--dropdown-content">
                         <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
@@ -79,7 +75,7 @@ use function KokoAnalytics\fmt_large_number;
             <span style="font-weight: bold;">
                 <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
             </span>
-            <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
+            <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
         </div>
 
         <?php require __DIR__ . '/nav.php'; ?>
@@ -87,7 +83,7 @@ use function KokoAnalytics\fmt_large_number;
 
     <table id="ka-totals" class='ka-totals m'>
         <tbody>
-        <tr class="ka-fade <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
+        <tr class=" <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo fmt_large_number($totals->visitors); ?></span>
@@ -101,7 +97,7 @@ use function KokoAnalytics\fmt_large_number;
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
             </td>
         </tr>
-        <tr class="ka-fade <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
+        <tr class=" <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo fmt_large_number($totals->pageviews); ?></span>
@@ -115,7 +111,7 @@ use function KokoAnalytics\fmt_large_number;
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
             </td>
         </tr>
-        <tr id="ka-realtime" class='ka-fade'>
+        <tr id="ka-realtime">
             <th><?php echo esc_html__('Realtime pageviews', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'><?php echo fmt_large_number($realtime); ?></td>
             <td class='ka-totals--subtext'>
@@ -125,12 +121,14 @@ use function KokoAnalytics\fmt_large_number;
         </tbody>
     </table>
 
-    <div class="ka-box ka-margin-s ka-chart"><div id="ka-chart"></div></div>
+    <?php /* CHART COMPONENT */ ?>
+    <div class="ka-box ka-margin-s ka-chart">
+        <?php echo $this->chart($chart_data, $dateStart, $dateEnd); ?>
+    </div>
 
     <div class="ka-dashboard-components <?php if ($page !== 0) { echo 'page-filter-active'; } ?>" >
-
         <div class="ka-box">
-            <table class="ka-table ka-fade ka-top-posts">
+            <table class="ka-table  ka-top-posts">
                 <thead>
                     <tr>
                         <th class="ka-topx--rank" width="12">#</th>
@@ -171,7 +169,7 @@ use function KokoAnalytics\fmt_large_number;
         </div>
 
         <div class="ka-box">
-            <table class="ka-table ka-fade ka-top-referrers">
+            <table class="ka-table  ka-top-referrers">
                 <thead>
                     <tr>
                         <th class="ka-topx--rank" width="12">#</th>
@@ -216,7 +214,3 @@ use function KokoAnalytics\fmt_large_number;
         <p><?php echo $this->get_usage_tip(); ?></p>
     </div>
 </div>
-
-<script>
-var koko_analytics = <?php echo json_encode($this->get_script_data($dateStart, $dateEnd)); ?>;
-</script>

@@ -19,6 +19,7 @@ class Admin
         add_action('koko_analytics_install_optimized_endpoint', array($this, 'install_optimized_endpoint'), 10, 0);
         add_action('koko_analytics_save_settings', array($this, 'save_settings'), 10, 0);
         add_action('koko_analytics_reset_statistics', array($this, 'reset_statistics'), 10, 0);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
@@ -239,5 +240,14 @@ class Admin
         $success = $installer->install();
         wp_safe_redirect(add_query_arg(array('endpoint-installed' => (int) $success), wp_get_referer()));
         exit;
+    }
+
+    public function enqueue_scripts($hook_suffix): void {
+        if ($hook_suffix !== 'dashboard_page_koko-analytics') {
+            return;
+        }
+
+        wp_enqueue_style('koko-analytics-dashboard', plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION);
+        wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, [ 'strategy' => 'defer' ]);
     }
 }
