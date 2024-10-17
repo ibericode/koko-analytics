@@ -1,11 +1,12 @@
-const el = document.getElementById('koko-analytics-dashboard-widget-mount')
+import {Chart} from './imports/chart.js';
 
+var el = document.getElementById('ka-chart-2')
 function maybeRender() {
   if (!el.clientWidth) {
     return;
   }
 
-
+  Chart();
 }
 
 el.parentElement.style.display = '';

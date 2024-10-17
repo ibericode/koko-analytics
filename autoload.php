@@ -8,6 +8,7 @@ spl_autoload_register(function($class) {
         'KokoAnalytics\\Admin' => __DIR__ . '/src/class-admin.php',
         'KokoAnalytics\\Aggregator' => __DIR__ . '/src/class-aggregator.php',
         'KokoAnalytics\\Command' => __DIR__ . '/src/class-command.php',
+        'KokoAnalytics\\Chart_View' => __DIR__ . '/src/class-chart-view.php',
         'KokoAnalytics\\Dashboard' => __DIR__ . '/src/class-dashboard.php',
         'KokoAnalytics\\Dashboard_Widget' => __DIR__ . '/src/class-dashboard-widget.php',
         'KokoAnalytics\\Dates' => __DIR__ . '/src/class-dates.php',

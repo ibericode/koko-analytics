@@ -1,4 +1,8 @@
-<?php defined('ABSPATH') or exit;
+<?php
+
+use KokoAnalytics\Chart_View;
+
+ defined('ABSPATH') or exit;
 $tab = 'dashboard';
 
 /**
@@ -123,7 +127,7 @@ use function KokoAnalytics\fmt_large_number;
 
     <?php /* CHART COMPONENT */ ?>
     <div class="ka-box ka-margin-s ka-chart">
-        <?php echo $this->chart($chart_data, $dateStart, $dateEnd); ?>
+        <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
 
     <div class="ka-dashboard-components <?php if ($page !== 0) { echo 'page-filter-active'; } ?>" >
