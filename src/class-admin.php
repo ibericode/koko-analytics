@@ -242,7 +242,8 @@ class Admin
         exit;
     }
 
-    public function enqueue_scripts($hook_suffix): void {
+    public function enqueue_scripts($hook_suffix): void
+    {
         if ($hook_suffix !== 'dashboard_page_koko-analytics') {
             return;
         }

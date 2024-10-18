@@ -75,7 +75,8 @@ class Dashboard
         require __DIR__ . '/views/dashboard-page.php';
     }
 
-    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, $dir = 1): array {
+    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, $dir = 1): array
+    {
         $modifier = $dir > 0 ? "+" : "-";
 
         if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
@@ -133,6 +134,4 @@ class Dashboard
         <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
         <?php
     }
-
-
 }

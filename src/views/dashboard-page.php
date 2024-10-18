@@ -75,7 +75,9 @@ use function KokoAnalytics\get_referrer_url_label;
             </form>
         </div>
 
-        <div class="ka-page-filter" <?php if ($page !== 0) { echo 'style="display: block;"'; } ?>>
+        <div class="ka-page-filter" <?php if ($page !== 0) {
+            echo 'style="display: block;"';
+                                    } ?>>
             <span><?php esc_html_e('Page', 'koko-analytics'); ?> = </span>
             <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
             <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
@@ -129,7 +131,9 @@ use function KokoAnalytics\get_referrer_url_label;
         <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
 
-    <div class="ka-dashboard-components <?php if ($page !== 0) { echo 'page-filter-active'; } ?>" >
+    <div class="ka-dashboard-components <?php if ($page !== 0) {
+        echo 'page-filter-active';
+                                        } ?>" >
 
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-box">

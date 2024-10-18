@@ -10,7 +10,8 @@ namespace KokoAnalytics;
 
 class Chart_View
 {
-   public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd) {
+    public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd)
+    {
         $tick_width = 100.0 / (float) count($data);
         $y_max = 0;
         foreach ($data as $i => $tick) {
@@ -40,8 +41,8 @@ class Chart_View
        <g class="bars" transform="translate(0, 6)">
         <?php foreach ($data as $i => $tick) {
             echo '<g data-date="', (new \DateTimeImmutable($tick->date))->format($dateFormat), '" data-pageviews="', fmt_large_number($tick->pageviews), '" data-visitors="', fmt_large_number($tick->visitors),'">'; // for hover tooltip
-            echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', 250 - $tick->pageviews* $height_modifier,'"></rect>';
-            echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', 250-$tick->visitors* $height_modifier ,'"></rect>';
+            echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', 250 - $tick->pageviews * $height_modifier,'"></rect>';
+            echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', 250 - $tick->visitors * $height_modifier ,'"></rect>';
             echo '<line stroke="#ddd" y1="250" y2="256"></line>';
             echo '</g>';
         } ?>
@@ -64,10 +65,11 @@ class Chart_View
         <div class="ka-chart--tooltip-arrow"></div>
     </div>
 </div>
-        <?php
+         <?php
     }
 
-    private function get_magnitude(int $n) {
+    private function get_magnitude(int $n)
+    {
         if ($n < 10) {
             return 10;
         }
