@@ -1,5 +1,16 @@
 # Changelog
 
+#### 1.4.0 - In development
+
+- Move all HTML generation to server so it is easier to maintain and extend, reducing the admin bundle size to less than 1 KB gzipped.
+- All dashboard state can now be managed through URL query parameters, allowing you to bookmark or share your favorite views.
+- Use actual `<table>` elements for dashboard tables, to aid users that rely on screen readers.
+- Add filter hook `koko_analytics_referrer_url_href` to modify link `href` attribute for referrer URL's in dashboard.
+- Add filter hook `koko_analytics_referrer_url_label` to modify link labels for referrer URL's in dashboard.
+
+If you spot anything off or miss something from earlier versions, don't hesitate to get in touch so I can work out any kinks that this rather hefty change may have introduced.
+
+
 #### 1.3.15 - Oct 15, 2024
 
 - Fix `href` attribute on hyperlinks in most viewed posts widget/shortcode/function template.

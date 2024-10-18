@@ -328,3 +328,23 @@ function create_local_datetime($timestr): ?\DateTimeImmutable
 
     return $dt_local;
 }
+
+function get_referrer_url_href(string $url): string {
+    if (strpos($url, '://t.co/') !== false) {
+        return 'https://twitter.com/search?q=' + urlencode($url);
+    } else if(strpos($url, 'android-app://') === 0) {
+        return str_replace($url, 'android-app://', 'https://play.google.com/store/apps/details?id=');
+    }
+
+    return apply_filters('koko_analytics_referrer_url_href', $url);
+}
+
+function get_referrer_url_label(string $url): string {
+    $url = preg_replace('/^https?:\/\/(www\.)?(.+?)\/?$/', '$2', $url);
+
+    if(strpos($url, 'android-app://') === 0) {
+        return str_replace($url, 'android-app://', 'Android app: ');
+    }
+
+    return apply_filters('koko_analytics_referrer_url_label', $url);
+}

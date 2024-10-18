@@ -207,7 +207,7 @@ h1.ka-logo,
   opacity: 0.4;
 }
 
-/** Topx components */
+/** Tabular components */
 .ka-table {
   table-layout: fixed;
   width: 100%;
@@ -222,24 +222,25 @@ h1.ka-logo,
   border-radius: 4px 0 0 0;
 }
 .ka-table th:last-of-type {
-        border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
 }
-.ka-table .amount {
-  text-align: right;
-}
-
+.ka-table th,
 .ka-table td {
   border-top: 1px solid #efefef;
 }
 .ka-table td,
 .ka-table th {
+  text-align: right;
   padding: 6px 8px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
-.ka-table .rank {
-  max-width: 20px;
+
+.ka-table td[colspan],
+.ka-table td:nth-child(2),
+.ka-table th:nth-child(2) {
+  text-align: left;
 }
 
 
@@ -427,9 +428,6 @@ a.ka-datepicker--quicknav-next {
 }
 .ka-box:empty {
   display: none;
-}
-.ka-fade {
-  animation: koko-fadein .6s
 }
 .ka-ul li {
   text-overflow: ellipsis;

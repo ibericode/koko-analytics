@@ -2,7 +2,7 @@
 
 use KokoAnalytics\Chart_View;
 
- defined('ABSPATH') or exit;
+defined('ABSPATH') or exit;
 $tab = 'dashboard';
 
 /**
@@ -18,8 +18,9 @@ $tab = 'dashboard';
  */
 
 use function KokoAnalytics\fmt_large_number;
+use function KokoAnalytics\get_referrer_url_href;
+use function KokoAnalytics\get_referrer_url_label;
 ?>
-<?php do_action('koko_analytics_dashboard_print_assets'); ?>
 <div class="wrap">
     <?php $this->maybe_show_adblocker_notice(); ?>
 
@@ -76,9 +77,7 @@ use function KokoAnalytics\fmt_large_number;
 
         <div class="ka-page-filter" <?php if ($page !== 0) { echo 'style="display: block;"'; } ?>>
             <span><?php esc_html_e('Page', 'koko-analytics'); ?> = </span>
-            <span style="font-weight: bold;">
-                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
-            </span>
+            <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
             <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
         </div>
 
@@ -87,7 +86,7 @@ use function KokoAnalytics\fmt_large_number;
 
     <table id="ka-totals" class='ka-totals m'>
         <tbody>
-        <tr class=" <?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
+        <tr class="<?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo fmt_large_number($totals->visitors); ?></span>
@@ -101,7 +100,7 @@ use function KokoAnalytics\fmt_large_number;
                 <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
             </td>
         </tr>
-        <tr class=" <?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
+        <tr class="<?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo fmt_large_number($totals->pageviews); ?></span>
@@ -131,28 +130,30 @@ use function KokoAnalytics\fmt_large_number;
     </div>
 
     <div class="ka-dashboard-components <?php if ($page !== 0) { echo 'page-filter-active'; } ?>" >
-        <div class="ka-box">
-            <table class="ka-table  ka-top-posts">
+
+        <?php /* TOP PAGES */ ?>
+        <div id="top-pages" class="ka-box">
+            <table class="ka-table ka-top-posts">
                 <thead>
                     <tr>
-                        <th class="ka-topx--rank" width="12">#</th>
+                        <th width="12">#</th>
                         <th><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                        <th class='amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                        <th class='amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($posts as $i => $p) { ?>
                         <tr>
-                            <td class="rank"><?php echo  $posts_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo $p->post_title; ?></a></td>
-                            <td class='amount'><?php echo $p->visitors; ?></td>
-                            <td class='amount'><?php echo $p->pageviews; ?></td>
+                            <td><?php echo  $posts_offset + $i + 1; ?></td>
+                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo esc_html($p->post_title); ?></a></td>
+                            <td><?php echo $p->visitors; ?></td>
+                            <td><?php echo $p->pageviews; ?></td>
                         </tr>
                     <?php } ?>
                     <?php if (empty($posts)) { ?>
                         <tr>
-                            <td colspan="4" class="ka-topx--placeholder">
+                            <td colspan="4">
                                 <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
                             </td>
                         </tr>
@@ -172,28 +173,29 @@ use function KokoAnalytics\fmt_large_number;
             <?php } ?>
         </div>
 
-        <div class="ka-box">
-            <table class="ka-table  ka-top-referrers">
+        <?php /* TOP REFERRERS */ ?>
+        <div id="top-referrers" class="ka-box">
+            <table class="ka-table ka-top-referrers">
                 <thead>
                     <tr>
-                        <th class="ka-topx--rank" width="12">#</th>
+                        <th width="12">#</th>
                         <th><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                        <th class='amount' title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                        <th class='amount' title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($referrers as $i => $r) { ?>
                         <tr>
-                            <td class="rank"><?php echo $referrers_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr($r->url); ?>"><?php echo esc_html($r->url); ?></a></td>
-                            <td class='amount'><?php echo $r->visitors; ?></td>
-                            <td class='amount'><?php echo $r->pageviews; ?></td>
+                            <td><?php echo $referrers_offset + $i + 1; ?></td>
+                            <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo esc_html(get_referrer_url_label($r->url)); ?></a></td>
+                            <td><?php echo $r->visitors; ?></td>
+                            <td><?php echo $r->pageviews; ?></td>
                         </tr>
                     <?php } ?>
                     <?php if (empty($referrers)) { ?>
                         <tr>
-                            <td colspan="4" class="ka-topx--placeholder">
+                            <td colspan="4">
                                 <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
                             </td>
                         </tr>
@@ -211,7 +213,8 @@ use function KokoAnalytics\fmt_large_number;
             </div>
             <?php } ?>
         </div>
-        <?php do_action('koko_analytics_show_dashboard_components'); ?>
+        <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
+        <?php do_action('koko_analytics_after_dashboard_components', $dateStart, $dateEnd); ?>
     </div>
 
     <div class="ka-margin-s" style="text-align: right">
