@@ -38,7 +38,7 @@ use function KokoAnalytics\get_referrer_url_label;
                 </div>
                 <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
                     <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
-                        if (!empty($_GET[$key])) {
+                        if (isset($_GET[$key])) {
                             echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
                         }
                     } ?>
