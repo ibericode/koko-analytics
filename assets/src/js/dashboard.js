@@ -29,10 +29,3 @@ document.addEventListener('keydown', evt => {
   }
 })
 
-// save scroll position when navigating away
-var scrollX = parseInt(sessionStorage.getItem("scrollX"))
-var scrollY = parseInt(sessionStorage.getItem("scrollY"))
-if (scrollX !== 0 || scrollY !== 0) {
-  window.scrollTo(scrollX, scrollY);
-}
-
