@@ -225,3 +225,11 @@ use function KokoAnalytics\get_referrer_url_label;
         <p><?php echo $this->get_usage_tip(); ?></p>
     </div>
 </div>
+
+<script>
+// restore scroll position on page load
+window.addEventListener('beforeunload', function() {
+  sessionStorage.setItem("scrollX", window.scrollX);
+  sessionStorage.setItem("scrollY", window.scrollY);
+})
+</script>

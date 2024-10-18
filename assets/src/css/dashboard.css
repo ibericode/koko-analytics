@@ -448,3 +448,6 @@ a.ka-datepicker--quicknav-next {
   }
 }
 
+@view-transition {
+ navigation: auto;
+}
