@@ -28,7 +28,7 @@ use KokoAnalytics\Chart_View;
        <?php echo esc_html__('Showing site visits over last 14 days', 'koko-analytics'); ?>
     </h3>
     <div id="ka-chart-2">
-        <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
+        <?php new Chart_View($chart_data, $dateStart, $dateEnd, 200); ?>
     </div>
 </div>
 

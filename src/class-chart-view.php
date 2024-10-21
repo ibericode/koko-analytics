@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Chart_View
 {
-    public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd)
+    public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd, int $height = 280)
     {
         $tick_width = 100.0 / (float) count($data);
         $y_max = 0;
@@ -18,32 +18,33 @@ class Chart_View
             $y_max = max($y_max, $tick->pageviews);
         }
         $y_max_nice = $this->get_magnitude($y_max);
-        $height_modifier = 250 / $y_max_nice;
+        $padding_top = 6;
+        $padding_bottom = 24;
+        $padding_left = 4 + max(5, strlen(fmt_large_number($y_max_nice)) * 8);
+        $inner_height = $height - $padding_top - $padding_bottom;
+        $height_modifier = $inner_height / $y_max_nice;
         $dateFormat = get_option('date_format');
         $margin = 0.1;
         ?>
-<div style="position: relative;">
-    <svg width="100%" height="280" id="ka-chart-2">
-      <g class="axes-y" transform="translate(40, 6)" text-anchor="end">
-        <g transform="translate(8, 0)">
-            <line stroke="#eee" x1="0" x2="100%" y1="250" y2="250"></line>
-            <line stroke="#eee" x1="0" x2="100%" y1="125" y2="125"></line>
-            <line stroke="#eee" x1="0" x2="100%" y1="0" y2="0"></line>
-        </g>
-        <text y="250" fill="#757575" x="0" dy="0.33em">0</text>
-        <text y="125" fill="#757575" x="0" dy="0.33em"><?php echo fmt_large_number($y_max_nice / 2); ?></text>
-        <text y="0" fill="#757575" x="0" dy="0.33em"><?php echo fmt_large_number($y_max_nice); ?></text>
+    <svg width="100%" height="<?php echo $height; ?>" id="ka-chart-2">
+      <g class="axes-y" transform="translate(<?php echo $padding_left; ?>, <?php echo $padding_top; ?>)" text-anchor="end" data-padding="<?php echo $padding_left; ?>">
+        <text x="0" y="<?php echo $inner_height; ?>" fill="#757575" dy="0.3em" >0</text>
+        <text x="0" y="<?php echo $inner_height / 2; ?>" fill="#757575" dy="0.3em"><?php echo fmt_large_number($y_max_nice / 2); ?></text>
+        <text x="0" y="0" fill="#757575" dy="0.3em"><?php echo fmt_large_number($y_max_nice); ?></text>
+        <line stroke="#eee" x1="8" x2="100%" y1="<?php echo $inner_height; ?>" y2="<?php echo $inner_height; ?>"></line>
+        <line stroke="#eee" x1="8" x2="100%" y1="<?php echo $inner_height / 2; ?>" y2="<?php echo $inner_height / 2; ?>"></line>
+        <line stroke="#eee" x1="8" x2="100%" y1="0" y2="0"></line>
       </g>
-      <g class="axes-x" text-anchor="start" transform="translate(0, 256)">
-        <text fill="#757575" x="28" y="10" dy="1em" text-anchor="start"><?php echo $dateStart->format($dateFormat); ?></text>
+      <g class="axes-x" text-anchor="start" transform="translate(0, <?php echo $inner_height + $padding_top; ?>)">
+        <text fill="#757575" x="<?php echo $padding_left; ?>" y="10" dy="1em" text-anchor="start"><?php echo $dateStart->format($dateFormat); ?></text>
         <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?php echo $dateEnd->format($dateFormat); ?></text>
       </g>
-       <g class="bars" transform="translate(0, 6)">
-        <?php foreach ($data as $i => $tick) {
+       <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)">
+        <?php foreach ($data as $tick) {
             echo '<g data-date="', (new \DateTimeImmutable($tick->date))->format($dateFormat), '" data-pageviews="', fmt_large_number($tick->pageviews), '" data-visitors="', fmt_large_number($tick->visitors),'">'; // for hover tooltip
-            echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', 250 - $tick->pageviews * $height_modifier,'"></rect>';
-            echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', 250 - $tick->visitors * $height_modifier ,'"></rect>';
-            echo '<line stroke="#ddd" y1="250" y2="256"></line>';
+            echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', $inner_height - $tick->pageviews * $height_modifier,'"></rect>';
+            echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', $inner_height - $tick->visitors * $height_modifier ,'"></rect>';
+            echo '<line stroke="#ddd" y1="', $inner_height, '" y2="', $inner_height + 6,'"></line>';
             echo '</g>';
         } ?>
        </g>
@@ -63,9 +64,7 @@ class Chart_View
           </div>
         </div>
         <div class="ka-chart--tooltip-arrow"></div>
-    </div>
-</div>
-         <?php
+    </div><?php
     }
 
     private function get_magnitude(int $n)

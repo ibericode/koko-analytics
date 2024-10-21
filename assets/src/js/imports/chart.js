@@ -2,7 +2,7 @@ var chart = document.querySelector('#ka-chart-2');
 var tooltip = document.querySelector('.ka-chart--tooltip');
 if (chart) {
   var bars = chart.querySelectorAll('.bars g');
-  var leftOffset, tickWidth, barWidth;
+  var barWidth;
 
   chart.addEventListener('mouseover', function(e) {
     if (e.target.tagName !== 'rect') {
@@ -26,11 +26,16 @@ if (chart) {
 export function Chart() {
   if (!chart) return;
 
-  leftOffset = 44; // TODO: Grab dynamically based on char count from y-axes?
-  tickWidth = (chart.clientWidth - leftOffset) / bars.length;
+  var yTicks = chart.querySelectorAll('.axes-y text');
+  var leftOffset = 0;
+  for (var i = 0; i < yTicks.length; i++) {
+    leftOffset = Math.max(leftOffset, 4 + Math.max(5, yTicks[i].textContent.length * 8));
+  }
+  leftOffset += 4;
+  var tickWidth = (chart.clientWidth - leftOffset) / bars.length;
   barWidth = tickWidth - 2;
 
-  for (var i = 0; i < bars.length; i++) {
+  for (i = 0; i < bars.length; i++) {
     var x = i * tickWidth + leftOffset + 1;
 
     // pageviews <rect>
