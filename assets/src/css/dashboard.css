@@ -247,7 +247,7 @@ h1.ka-logo,
   color: #757575;
   cursor: pointer;
   font-weight: normal;
-  border-top: 1px dashed #eee;
+  border-top: 1px solid #eee;
   padding: 6px 12px;
   display: flex;
 }
