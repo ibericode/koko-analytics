@@ -14,7 +14,6 @@ class Admin
     {
         global $pagenow;
 
-        add_action('init', array($this, 'maybe_run_actions'), 10, 0);
         add_action('admin_menu', array($this, 'register_menu'), 10, 0);
         add_action('koko_analytics_install_optimized_endpoint', array($this, 'install_optimized_endpoint'), 10, 0);
         add_action('koko_analytics_save_settings', array($this, 'save_settings'), 10, 0);
@@ -32,25 +31,6 @@ class Admin
     public function register_menu(): void
     {
         add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', array($this, 'show_page'));
-    }
-
-    public function maybe_run_actions(): void
-    {
-        if (isset($_GET['koko_analytics_action'])) {
-            $action = $_GET['koko_analytics_action'];
-        } elseif (isset($_POST['koko_analytics_action'])) {
-            $action = $_POST['koko_analytics_action'];
-        } else {
-            return;
-        }
-
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
-        do_action('koko_analytics_' . $action);
-        wp_safe_redirect(remove_query_arg('koko_analytics_action'));
-        exit;
     }
 
     private function get_available_roles(): array

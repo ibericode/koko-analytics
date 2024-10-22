@@ -83,6 +83,8 @@ use function KokoAnalytics\get_referrer_url_label;
             <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
         </div>
 
+        <?php do_action('koko_analytics_after_datepicker', $dateStart, $dateEnd); ?>
+
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
 

@@ -12,7 +12,7 @@ class Dashboard
 {
     public function __construct()
     {
-        add_action('init', array($this, 'maybe_show_dashboard'), 10, 0);
+        add_action('wp', array($this, 'maybe_show_dashboard'), 10, 0);
     }
 
     public function maybe_show_dashboard(): void

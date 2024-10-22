@@ -25,6 +25,7 @@ class Plugin
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, array($this, 'on_activation'));
         add_filter('pre_update_option_active_plugins', array($this, 'filter_active_plugins'), 10, 1);
         add_action('init', array($this, 'maybe_run_db_migrations'), 10, 0);
+        add_action('init', array($this, 'maybe_run_actions'), 10, 0);
     }
 
     /**
@@ -65,6 +66,25 @@ class Plugin
         // create optimized endpoint file
         $endpoint_installer = new Endpoint_Installer();
         $endpoint_installer->install();
+    }
+
+    public function maybe_run_actions(): void
+    {
+        if (isset($_GET['koko_analytics_action'])) {
+            $action = $_GET['koko_analytics_action'];
+        } elseif (isset($_POST['koko_analytics_action'])) {
+            $action = $_POST['koko_analytics_action'];
+        } else {
+            return;
+        }
+
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        do_action('koko_analytics_' . $action);
+        wp_safe_redirect(remove_query_arg('koko_analytics_action'));
+        exit;
     }
 
     public function maybe_run_db_migrations(): void
