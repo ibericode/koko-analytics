@@ -32,9 +32,14 @@ use function KokoAnalytics\get_referrer_url_label;
 
             <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
                 <div class="ka-datepicker--quicknav">
+                    <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
+                    <?php if ($dateStart > new \DateTimeImmutable('2000-01-01')) { ?>
                     <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
+                    <?php } ?>
                     <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
+                    <?php if ($dateEnd < new \DateTimeImmutable('2100-01-01')) { ?>
                     <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
+                    <?php } ?>
                 </div>
                 <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
                     <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
