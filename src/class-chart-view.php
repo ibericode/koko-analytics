@@ -22,7 +22,7 @@ class Chart_View
         $padding_bottom = 24;
         $padding_left = 4 + max(5, strlen(fmt_large_number($y_max_nice)) * 8);
         $inner_height = $height - $padding_top - $padding_bottom;
-        $height_modifier = $inner_height / $y_max_nice;
+        $height_modifier = $y_max_nice > 0 ? $inner_height / $y_max_nice : 1;
         $dateFormat = (string) get_option('date_format', 'Y-m-d');
         $margin = 0.1;
         ?>
