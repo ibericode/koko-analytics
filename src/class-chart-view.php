@@ -12,7 +12,7 @@ class Chart_View
 {
     public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd, int $height = 280)
     {
-        $tick_width = 100.0 / (float) count($data);
+        $tick_width = count($data) > 0 ? 100.0 / count($data) : 100.0;
         $y_max = 0;
         foreach ($data as $i => $tick) {
             $y_max = max($y_max, $tick->pageviews);
