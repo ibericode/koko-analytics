@@ -244,18 +244,9 @@ h1.ka-logo,
 
 /* Pagination component */
 .ka-pagination {
-  color: #757575;
-  cursor: pointer;
-  font-weight: normal;
+  display: flex;
   border-top: 1px solid #eee;
   padding: 6px 12px;
-  display: flex;
-}
-.ka-pagination--prev:before,
-.ka-pagination--next:after {
-  font-size: 12px;
-  vertical-align: top;
-  line-height: 16px;
 }
 .ka-pagination--next {
   margin-left: auto;
