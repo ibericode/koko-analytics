@@ -122,7 +122,6 @@ h1.ka-logo,
 .ka-chart {
   overflow: visible;
   min-height: 200px;
-  padding: 24px;
 }
 .ka-chart--tooltip {
   position: absolute;
@@ -252,22 +251,11 @@ h1.ka-logo,
   padding: 6px 12px;
   display: flex;
 }
-.ka-pagination a {
-  text-decoration: none;
-}
 .ka-pagination--prev:before,
 .ka-pagination--next:after {
   font-size: 12px;
   vertical-align: top;
   line-height: 16px;
-}
-.ka-pagination--prev:before {
-  content: "◀";
-  margin-right: 6px;
-}
-.ka-pagination--next:after {
-  content: "▶";
-  margin-left: 6px;
 }
 .ka-pagination--next {
   margin-left: auto;

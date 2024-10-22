@@ -127,7 +127,7 @@ use function KokoAnalytics\get_referrer_url_label;
     </table>
 
     <?php /* CHART COMPONENT */ ?>
-    <div class="ka-box ka-margin-s">
+    <div class="ka-box ka-margin-s" style="padding: 24px;">
         <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
 
@@ -168,10 +168,10 @@ use function KokoAnalytics\get_referrer_url_label;
             <?php if ($posts_offset >= $posts_limit || $posts_offset + $posts_limit < $posts_count) { ?>
            <div class='ka-pagination'>
                 <?php if ($posts_offset >= $posts_limit) { ?>
-                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset - $posts_limit ]])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset - $posts_limit, 'limit' => $posts_limit ]])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
                 <?php } ?>
                 <?php if ($posts_offset + $posts_limit < $posts_count) { ?>
-                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset + $posts_limit ]])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset + $posts_limit, 'limit' => $posts_limit ]])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
                 <?php } ?>
             </div>
             <?php } ?>
@@ -209,10 +209,10 @@ use function KokoAnalytics\get_referrer_url_label;
             <?php if ($referrers_offset >= $referrers_limit || $referrers_offset + $referrers_limit < $referrers_count) { ?>
            <div class='ka-pagination'>
                 <?php if ($referrers_offset >= $referrers_limit) { ?>
-                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset - $referrers_limit ]])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
+                <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset - $referrers_limit, 'limit' => $referrers_limit ]])); ?>"><?php echo esc_html__('Previous', 'koko-analytics'); ?></a>
                 <?php } ?>
                 <?php if ($referrers_offset + $referrers_limit < $referrers_count) { ?>
-                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset + $referrers_limit ]])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
+                <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset + $referrers_limit, 'limit' => $referrers_limit ]])); ?>"><?php echo esc_html__('Next', 'koko-analytics'); ?></a>
                 <?php } ?>
             </div>
             <?php } ?>
