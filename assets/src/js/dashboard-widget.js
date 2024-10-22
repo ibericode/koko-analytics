@@ -1,6 +1,6 @@
 import {Chart} from './imports/chart.js';
 
-var el = document.getElementById('ka-chart-2')
+var el = document.getElementById('ka-chart')
 function maybeRender() {
   if (!el.clientWidth) {
     return;

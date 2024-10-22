@@ -120,13 +120,12 @@ h1.ka-logo,
 
 /** Chart */
 .ka-chart {
-  position: relative;
   overflow: visible;
-  min-height: 244px;
+  min-height: 200px;
   padding: 24px;
 }
 .ka-chart--tooltip {
-  position: fixed;
+  position: absolute;
   z-index: 9991; /* above wp admin menu */
 }
 .ka-chart--tooltip-box {

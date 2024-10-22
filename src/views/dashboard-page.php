@@ -127,7 +127,7 @@ use function KokoAnalytics\get_referrer_url_label;
     </table>
 
     <?php /* CHART COMPONENT */ ?>
-    <div class="ka-box ka-margin-s ka-chart">
+    <div class="ka-box ka-margin-s">
         <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
 
