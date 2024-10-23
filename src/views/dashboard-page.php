@@ -24,72 +24,71 @@ use function KokoAnalytics\get_referrer_url_label;
 <div class="wrap">
     <?php $this->maybe_show_adblocker_notice(); ?>
 
-    <div style="display: flex; gap: 12px; ">
-        <div class="ka-datepicker">
-            <div class='ka-datepicker--label' tabindex="0" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
-                <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
-            </div>
-
-            <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
-                <div class="ka-datepicker--quicknav">
-                    <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
-                    <?php if ($dateStart > new \DateTimeImmutable('2000-01-01')) { ?>
-                    <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
-                    <?php } ?>
-                    <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
-                    <?php if ($dateEnd < new \DateTimeImmutable('2100-01-01')) { ?>
-                    <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
-                    <?php } ?>
+    <div class="ka-dashboard-nav">
+        <div class="ka-dashboard-nav--left">
+            <div class="ka-datepicker">
+                <div class='ka-datepicker--label' tabindex="0" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
+                    <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
                 </div>
-                <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
-                    <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
-                        if (isset($_GET[$key])) {
-                            echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
-                        }
-                    } ?>
 
-                    <div class="ka-datepicker--dropdown-content">
-                        <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
-                        <select id="ka-date-presets" name="view">
-                            <option value="custom" <?php echo $range === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
-                            <?php foreach ($this->get_date_presets() as $key => $label) {
-                                ?>
-                                <option value="<?php echo $key; ?>"
-                                    <?php echo ( $key === $range ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                        <div style="display: flex; margin-top: 12px;">
-                            <div>
-                                <label for='ka-date-start'><?php echo esc_html__('Start date', 'koko-analytics'); ?></label>
-                                <input name="start_date" id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
-                                       value="<?php echo $dateStart->format('Y-m-d'); ?>">
-                                <span>&nbsp;&mdash;&nbsp;</span>
+                <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
+                    <div class="ka-datepicker--quicknav">
+                        <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
+                        <?php if ($dateStart > new \DateTimeImmutable('2000-01-01')) { ?>
+                        <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
+                        <?php } ?>
+                        <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
+                        <?php if ($dateEnd < new \DateTimeImmutable('2100-01-01')) { ?>
+                        <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
+                        <?php } ?>
+                    </div>
+                    <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
+                        <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
+                            if (isset($_GET[$key])) {
+                                echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
+                            }
+                        } ?>
+
+                        <div class="ka-datepicker--dropdown-content">
+                            <label for="ka-date-presets"><?php echo esc_html__('Date range', 'koko-analytics'); ?></label>
+                            <select id="ka-date-presets" name="view">
+                                <option value="custom" <?php echo $range === 'custom' ? 'selected' : ''; ?> disabled><?php echo esc_html__('Custom', 'koko-analytics'); ?></option>
+                                <?php foreach ($this->get_date_presets() as $key => $label) {
+                                    ?>
+                                    <option value="<?php echo $key; ?>"
+                                        <?php echo ( $key === $range ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <div style="display: flex; margin-top: 12px;">
+                                <div>
+                                    <label for='ka-date-start'><?php echo esc_html__('Start date', 'koko-analytics'); ?></label>
+                                    <input name="start_date" id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                           value="<?php echo $dateStart->format('Y-m-d'); ?>">
+                                    <span>&nbsp;&mdash;&nbsp;</span>
+                                </div>
+                                <div>
+                                    <label for='ka-date-end'><?php echo esc_html__('End date', 'koko-analytics'); ?></label>
+                                    <input name="end_date" id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                           value="<?php echo $dateEnd->format('Y-m-d'); ?>">
+                                </div>
                             </div>
-                            <div>
-                                <label for='ka-date-end'><?php echo esc_html__('End date', 'koko-analytics'); ?></label>
-                                <input name="end_date" id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
-                                       value="<?php echo $dateEnd->format('Y-m-d'); ?>">
+                            <div style="margin-top: 12px;">
+                                <button type="submit" class="button button-secondary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
                             </div>
-                        </div>
-                        <div style="margin-top: 12px;">
-                            <button type="submit" class="button button-secondary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <div class="ka-page-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
+                <?php esc_html_e('Page', 'koko-analytics'); ?> =
+                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
+                <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
+            </div>
+
+            <?php do_action('koko_analytics_after_datepicker', $dateStart, $dateEnd); ?>
         </div>
-
-        <div class="ka-page-filter" <?php if ($page !== 0) {
-            echo 'style="display: block;"';
-                                    } ?>>
-            <span><?php esc_html_e('Page', 'koko-analytics'); ?> = </span>
-            <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
-            <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
-        </div>
-
-        <?php do_action('koko_analytics_after_datepicker', $dateStart, $dateEnd); ?>
-
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
 
