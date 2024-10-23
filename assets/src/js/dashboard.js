@@ -21,7 +21,7 @@ import {Chart} from './imports/chart.js';
 Chart();
 
 // click "prev date range" or "next date range" when using arrow keys
-document.addEventListener('keydown', evt => {
+document.addEventListener('keydown', function (evt) {
   if (evt.key === 'ArrowLeft') {
     document.querySelector('.ka-datepicker--quicknav-prev').click();
   } else if (evt.key === 'ArrowRight') {
