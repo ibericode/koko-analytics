@@ -235,14 +235,16 @@ use function KokoAnalytics\get_referrer_url_label;
 
 <script>
 // save scroll position when navigating away
-document.addEventListener('click', function() {
-  sessionStorage.setItem("scrollX", window.pageXOffset);
-  sessionStorage.setItem("scrollY", window.pageYOffset);
-})
+function storeScrollPosition() {
+    sessionStorage.setItem("scrollX", window.pageXOffset);
+    sessionStorage.setItem("scrollY", window.pageYOffset);
+}
+document.addEventListener('click', storeScrollPosition);
+window.addEventListener('beforeunload', storeScrollPosition);
 
 // restore scroll position on page load
-var scrollX = parseInt(sessionStorage.getItem("scrollX"))
-var scrollY = parseInt(sessionStorage.getItem("scrollY"))
+var scrollX = parseInt(sessionStorage.getItem("scrollX"));
+var scrollY = parseInt(sessionStorage.getItem("scrollY"));
 if (scrollX != 0 || scrollY != 0) {
   window.scroll(scrollX, scrollY);
 }
