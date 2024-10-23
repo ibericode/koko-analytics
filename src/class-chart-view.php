@@ -36,7 +36,7 @@ class Chart_View
                 <line stroke="#eee" x1="8" x2="100%" y1="<?php echo $inner_height / 2; ?>" y2="<?php echo $inner_height / 2; ?>"></line>
                 <line stroke="#eee" x1="8" x2="100%" y1="0" y2="0"></line>
               </g>
-              <g class="axes-x" text-anchor="start" transform="translate(0, <?php echo $inner_height + $padding_top; ?>)">
+              <g class="axes-x" text-anchor="start" transform="translate(0, <?php echo $inner_height + 4; ?>)">
                 <text fill="#757575" x="<?php echo $padding_left; ?>" y="10" dy="1em" text-anchor="start"><?php echo $dateStart->format($dateFormat); ?></text>
                 <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?php echo $dateEnd->format($dateFormat); ?></text>
               </g>

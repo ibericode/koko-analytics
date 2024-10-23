@@ -22,10 +22,17 @@ Chart();
 
 // click "prev date range" or "next date range" when using arrow keys
 document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'ArrowLeft') {
+  if (evt.defaultPrevented) {
+    return; // Do nothing if the event was already processed
+  }
+
+  switch (evt.key) {
+  case 'ArrowLeft':
     document.querySelector('.ka-datepicker--quicknav-prev').click();
-  } else if (evt.key === 'ArrowRight') {
+    break;
+  case 'ArrowRight':
     document.querySelector('.ka-datepicker--quicknav-next').click();
+    break;
   }
 })
 
