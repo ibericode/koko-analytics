@@ -89,6 +89,7 @@ use function KokoAnalytics\get_referrer_url_label;
 
             <?php do_action('koko_analytics_after_datepicker', $dateStart, $dateEnd); ?>
         </div>
+
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
 

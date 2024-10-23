@@ -14,7 +14,10 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 <link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 
 <div class="wrap" id="koko-analytics-admin">
+
+    <div class="ka-dashboard-nav">
     <?php require __DIR__ . '/nav.php'; ?>
+    </div>
 
     <div class="ka-admin-container">
         <h1 class="ka-logo"><?php echo esc_html__('Koko Analytics Settings', 'koko-analytics'); ?></h1>

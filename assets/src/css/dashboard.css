@@ -72,7 +72,13 @@ h1.ka-logo,
   float: left;
   visibility: visible;
 }
+.ka-admin-container {
+  max-width: 720px;
+  font-size: 14px;
+}
+.ka-admin-container p { font-size: 14px; }
 
+/* dashboard & admin nav */
 .ka-dashboard-nav {
   display: flex;
   gap: 12px;
@@ -87,33 +93,21 @@ h1.ka-logo,
   .ka-dashboard-nav {
     flex-direction: row;
   }
-  .ka-dashboard-nav nav {
+  .ka-admin-nav {
     margin-left: auto;
   }
 }
-.ka-dashboard-nav ul {
+.ka-admin-nav ul {
   list-style: none;
   margin: 0;
 }
 .ka-dashboard-nav li {
-    line-height: 34px;
+  line-height: 34px;
   display: inline-block;
+  margin: 0 0 0 6px;
 }
-.ka-admin-container {
-  max-width: 720px;
-  font-size: 14px;
-}
-.ka-admin-container p { font-size: 14px; }
-.ka-admin-nav--link {
-  display: inline-block;
-  text-decoration: none;
-  margin: 0 6px;
-}
-.ka-admin-nav--link.current {
+.ka-admin-nav a.current {
   color: black;
-}
-.ka-admin-nav--link.last {
-  margin-right: 0;
 }
 
 .ka-settings--label {
