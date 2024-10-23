@@ -26,6 +26,11 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
+# Update referrer blocklist
+curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist
+git add data/referrer-blocklist || true
+git commit -m "update referrer blocklist from https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt" || true
+
 # Build (optimized) client-side assets
 npm run build
 
