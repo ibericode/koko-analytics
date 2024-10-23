@@ -31,7 +31,7 @@ class Plugin
     {
         // add capabilities to administrator role (if it exists)
         $role = get_role('administrator');
-        if ($role instanceof \WP_User) {
+        if ($role) {
             $role->add_cap('view_koko_analytics');
             $role->add_cap('manage_koko_analytics');
         }
