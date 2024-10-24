@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.3.15
+Stable tag: 1.4.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -131,6 +131,19 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.4.0 - Oct 24, 2024
+
+- All HTML for the dashboard is now server-side generated, drastically reducing the amount of JavaScript and generally making the code base easier to maintain and/or extend.
+- All dashboard state can now be managed through URL query parameters, allowing you to bookmark or share your favorite views.
+- Use actual `<table>` elements for dashboard tables, for improved screen reader support.
+- Add filter hook `koko_analytics_referrer_url_href` to modify link `href` attribute for referrer URL's in dashboard.
+- Add filter hook `koko_analytics_referrer_url_label` to modify link labels for referrer URL's in dashboard.
+- Fix admin user not getting `view_koko_analytics` capability upon plugin activation.
+- Prevent empty referrer URL from being stored.
+- Group various Yandex referrer URL's into a single entry.
+- Minor memory usage improvements in autoloader implementation.
+
 
 #### 1.3.15 - Oct 15, 2024
 
