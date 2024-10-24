@@ -226,6 +226,9 @@ h1.ka-logo,
 .ka-table th:first-of-type {
   border-radius: 4px 0 0 0;
 }
+.ka-table th:nth-child(2) {
+  min-width: 60%;
+}
 .ka-table th:last-of-type {
   border-radius: 0 4px 0 0;
 }
@@ -237,14 +240,20 @@ h1.ka-logo,
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  width: 100px;
 }
-
+/* rank column */
+.ka-table th:first-child,
+.ka-table td:first-child {
+  width: 12px;
+}
+/* page title / referrer url / event param column */
 .ka-table td[colspan],
 .ka-table td:nth-child(2),
 .ka-table th:nth-child(2) {
   text-align: left;
+  width: auto;
 }
-
 
 /* Pagination component */
 .ka-pagination {
