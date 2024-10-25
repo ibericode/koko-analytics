@@ -13,21 +13,33 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 ## Features
 
+- **Plug and play**: After activating the plugin, stats are recorded right away.
+- **GDPR and CCPA Compliant** by design.
 - **No external services**.
 - **No personal information** or anything visitor specific is tracked.
 - **No cookies** (optional).
 - **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
 - **Lightweight**: Adds less than 850 bytes of data to your pages.
-- **Plug and play**: After activating the plugin, stats are recorded right away.
+- **Storage**: A year worth of data takes up less than 5MB of database storage.
 - **Cached**: Fully compatible with pages served from cache.
 - **Open-source**: GPLv3 licensed.
 - **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian, Korean and Russian.
-
 
 <figure>
   <img src="https://raw.githubusercontent.com/ibericode/koko-analytics/main/assets/src/img/screenshot-1-830x447.png" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" width="830" height="447" />
   <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="https://www.kokoanalytics.com/?koko-analytics-dashboard">view a live demo here</a>.</figcaption>
 </figure>
+
+### Koko Analytics Pro
+
+Koko Analytics is a freemium plugin. The core features listed above are available for free. Certain advanced features are bundled in an add-on plugin called Koko Analytics Pro:
+
+- Outbound link tracking
+- Track form submissions
+- Export dashboard view to CSV
+- Periodic email reports
+
+You can [purchase Koko Analytics Pro from our site](https://www.kokoanalytics.com/pricing/).
 
 
 ## Installation
