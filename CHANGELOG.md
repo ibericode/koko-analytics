@@ -1,5 +1,12 @@
 # Changelog
 
+
+#### 1.4.2 - Oct 25, 2025
+
+- Fix fatal error "invalid string operand" when referrer URL contains `t.co` shortlink.
+- Fix potential issue with `preg_match` returning incorrect type in function `get_referrer_url_label`
+
+
 #### 1.4.1 - Oct 25, 2025
 
 - Limit width of visitors and pageviews column in tables.
