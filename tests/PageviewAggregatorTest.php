@@ -31,6 +31,7 @@ final class PageviewAggregatorTest extends TestCase
         $a = new \KokoAnalytics\Pageview_Aggregator();
         $tests = [
             '' => '',
+            'https://www.kokoanalytics.com' => 'https://www.kokoanalytics.com',
             'https://wordpress.org/plugins/koko-analytics/' => 'https://wordpress.org/plugins/koko-analytics/',
             'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
             'https://www.pinterest.com' => 'https://pinterest.com',
@@ -86,6 +87,25 @@ final class PageviewAggregatorTest extends TestCase
 
         foreach ($tests as $input => $output) {
             $this->assertEquals($output, $a->normalize_url($input));
+        }
+    }
+
+    public function test_is_valid_url(): void {
+        $a = new \KokoAnalytics\Pageview_Aggregator();
+
+        foreach ([
+            'https://www.kokoanalytics.com',
+            'android-app://com.google.android.googlequicksearchbox',
+        ] as $url) {
+            $this->assertTrue($a->is_valid_url($url));
+        }
+
+         foreach ([
+            '',
+            'Hello world',
+            '<script>alert(1)</script>',
+        ] as $url) {
+            $this->assertFalse($a->is_valid_url($url));
         }
     }
 }

@@ -276,12 +276,12 @@ class Pageview_Aggregator
         return $normalized_url;
     }
 
-    public function is_valid_url(string $url)
+    public function is_valid_url(string $url): bool
     {
         if ($url === '' || strlen($url) < 4) {
             return false;
         }
 
-        return filter_var($url, FILTER_VALIDATE_URL);
+        return (bool) filter_var($url, FILTER_VALIDATE_URL);
     }
 }
