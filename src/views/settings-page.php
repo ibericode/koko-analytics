@@ -201,16 +201,18 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
         </div>
 
          <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
-        <div class="ka-margin-l" style="background: white; border: 1px solid #ddd; padding: 1em;">
-            <h2 style="margin-top: 0;">Upgrade to Koko Analytics Pro</h2>
-            <p>Koko Analytics Pro adds several advanced features:</p>
+        <div class="ka-margin-l ka-pro-cta">
+            <h2>Upgrade to Koko Analytics Pro</h2>
+            <p>You are currently using the free version of Koko Analytics. There is a paid add-on called <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a> which adds several powerful features:</p>
             <ul class="ul-square">
                 <li>Track outbound link clicks</li>
                 <li>Track form submissions</li>
                 <li><a href="https://www.kokoanalytics.com/kb/tracking-events/">Custom event tracking</a></li>
                 <li><a href="https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/">Periodic email report of your most important statistics</a></li>
+                <li>Export dashboard view to CSV</li>
             </ul>
-            <p style="margin-bottom: 0;"><a href="https://www.kokoanalytics.com/pricing/">Purchase a Koko Analytics Pro license</a> to benefit from these features while simultaneously helping us continue developing and supporting Koko Analytics.</p>
+            <p><a class="button" href="https://www.kokoanalytics.com/pricing/">View pricing</a></p>
+            <p>By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.</p>
         </div>
          <?php } ?>
     </div>

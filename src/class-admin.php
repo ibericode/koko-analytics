@@ -119,7 +119,7 @@ class Admin
         add_filter('update_footer', '__return_empty_string');
 
         /* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
-        return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please <a href="%1$s">review the plugin on WordPress.org</a> or <a href="%2$s">write about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
+        return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please consider <a href="%1$s">purchasing Koko Analytics Pro</a>, <a href="%2$s">reviewing the plugin on WordPress.org</a> or <a href="%3$s">writing about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://www.kokoanalytics.com/pricing/', 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
     }
 
 
@@ -159,7 +159,7 @@ class Admin
 
         // add link to Pro version, unless already running it
         if (! \defined('KOKO_ANALYTICS_PRO_VERSION')) {
-            $links[] = '<a href="https://www.kokoanalytics.com/pricing/">' . esc_html__('Koko Analytics Pro', 'koko-analytics') . '</a>';
+            $links[] = '<a href="https://www.kokoanalytics.com/pricing/">' . esc_html__('Purchase Koko Analytics Pro', 'koko-analytics') . '</a>';
         }
 
         return $links;
