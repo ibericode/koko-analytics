@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -131,6 +131,13 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+
+#### 1.4.2 - Oct 25, 2025
+
+- Fix fatal error "invalid string operand" when referrer URL contains `t.co` shortlink.
+- Fix potential issue with `preg_match` returning incorrect type in function `get_referrer_url_label`
+
 
 #### 1.4.1 - Oct 25, 2025
 
