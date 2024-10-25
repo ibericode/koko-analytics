@@ -199,7 +199,7 @@ use function KokoAnalytics\get_referrer_url_label;
                     <?php foreach ($referrers as $i => $r) { ?>
                         <tr>
                             <td><?php echo $referrers_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo esc_html(get_referrer_url_label($r->url)); ?></a></td>
+                            <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo get_referrer_url_label(esc_html($r->url)); ?></a></td>
                             <td><?php echo $r->visitors; ?></td>
                             <td><?php echo $r->pageviews; ?></td>
                         </tr>

@@ -342,6 +342,7 @@ function get_referrer_url_href(string $url): string
 
 function get_referrer_url_label(string $url): string
 {
+    // strip protocol and www. prefix
     $url = preg_replace('/^https?:\/\/(www\.)?(.+?)\/?$/', '$2', $url);
 
     if (strpos($url, 'android-app://') === 0) {

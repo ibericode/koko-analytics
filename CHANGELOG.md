@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.4.1 - Oct 25, 2025
+
+- Limit width of visitors and pageviews column in tables.
+- Fix `preg_replace` from returning an invalid type when an error occurs and the log the actual error that occurred.
+
+
 #### 1.4.0 - Oct 24, 2024
 
 - All HTML for the dashboard is now server-side generated, drastically reducing the amount of JavaScript and generally making the code base easier to maintain and/or extend.
