@@ -258,7 +258,7 @@ class Pageview_Aggregator
             '/^https?:\/\/(?:[a-z-]+)?\.?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
             '/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://www.linkedin.com',
             '/^https?:\/\/(?:www\.)?pinterest\.com/' => 'https://pinterest.com',
-            '/(?:www|m)\.baidu\.com.*/' => 'www.baidu.com',
+            '/^https?:\/\/(?:www|m)\.baidu\.com.*/' => 'https://www.baidu.com',
             '/^https?:\/\/yandex\.ru\/clck.*/' => 'https://yandex.ru',
             '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
             '/^https?:\/\/(?:[a-z-]+)?\.?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
