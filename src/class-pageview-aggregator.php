@@ -17,7 +17,7 @@ class Pageview_Aggregator
     protected $post_stats     = array();
     protected $referrer_stats = array();
 
-    public function line(string $type, array $params)
+    public function line(string $type, array $params): void
     {
         // bail if this record doesn't contain data for a pageview
         if ($type !== 'p') {
@@ -79,7 +79,7 @@ class Pageview_Aggregator
         }
     }
 
-    public function finish()
+    public function finish(): void
     {
         global $wpdb;
 
@@ -157,7 +157,7 @@ class Pageview_Aggregator
         $this->post_stats     = array();
     }
 
-    private function update_realtime_pageview_count(int $pageviews)
+    private function update_realtime_pageview_count(int $pageviews): void
     {
         $counts       = (array) get_option('koko_analytics_realtime_pageview_count', array());
         $one_hour_ago = strtotime('-60 minutes');
@@ -174,7 +174,7 @@ class Pageview_Aggregator
         update_option('koko_analytics_realtime_pageview_count', $counts, false);
     }
 
-    private function ignore_referrer_url(string $url)
+    private function ignore_referrer_url(string $url): bool
     {
         // read blocklist into array
         static $blocklist = null;
@@ -195,10 +195,10 @@ class Pageview_Aggregator
 
         // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
         // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-traffic-using-regex.php
-        return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
+        return (bool) apply_filters('koko_analytics_ignore_referrer_url', false, $url);
     }
 
-    public function clean_url(string $url)
+    public function clean_url(string $url): string
     {
         if ($url === '') {
             return $url;
@@ -237,7 +237,7 @@ class Pageview_Aggregator
         return $url;
     }
 
-    public function normalize_url(string $url)
+    public function normalize_url(string $url): string
     {
         if ($url === '') {
             return $url;
@@ -267,7 +267,13 @@ class Pageview_Aggregator
         );
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
-        return preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);
+        $normalized_url = (string) preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);
+        if (preg_last_error() !== PREG_NO_ERROR) {
+            error_log("Koko Analytics: preg_replace error in Pageview_Aggregator::normalize_url: " . preg_last_error_msg());
+            return $url;
+        }
+
+        return $normalized_url;
     }
 
     public function is_valid_url(string $url)
