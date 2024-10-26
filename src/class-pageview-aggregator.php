@@ -57,24 +57,22 @@ class Pageview_Aggregator
         }
 
         // increment referrals
-        if ($referrer_url !== '') {
+        if ($referrer_url !== '' && $this->is_valid_url($referrer_url)) {
             $referrer_url = $this->clean_url($referrer_url);
             $referrer_url = $this->normalize_url($referrer_url);
 
-            if ($this->is_valid_url($referrer_url)) {
-                // add to map
-                if (! isset($this->referrer_stats[ $referrer_url ])) {
-                    $this->referrer_stats[ $referrer_url ] = array(
-                        'pageviews' => 0,
-                        'visitors'  => 0,
-                    );
-                }
+            // add to map
+            if (! isset($this->referrer_stats[ $referrer_url ])) {
+                $this->referrer_stats[ $referrer_url ] = array(
+                    'pageviews' => 0,
+                    'visitors'  => 0,
+                );
+            }
 
-                // increment stats
-                $this->referrer_stats[ $referrer_url ]['pageviews'] += 1;
-                if ($new_visitor) {
-                    $this->referrer_stats[ $referrer_url ]['visitors'] += 1;
-                }
+            // increment stats
+            $this->referrer_stats[ $referrer_url ]['pageviews'] += 1;
+            if ($new_visitor) {
+                $this->referrer_stats[ $referrer_url ]['visitors'] += 1;
             }
         }
     }
