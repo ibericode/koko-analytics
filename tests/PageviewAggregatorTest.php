@@ -11,6 +11,12 @@ final class PageviewAggregatorTest extends TestCase
         $a = new \KokoAnalytics\Pageview_Aggregator();
 
         $tests = [
+            // empty string should remain untouched
+            '' => '',
+
+            // URL's longer than 255 char should be limited to first 255 chars
+            'https://website.com/lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-donec-lacinia-tortor-faucibus-interdum-accumsan-augue-lacus-malesuada-neque-sed-vulputate-lectus-dolor-nec-lectus-donec-sed-lorem-maximus-iaculis-nisi-eu-aliquam-tellus-fusce-ultrices-tortor' => 'https://website.com/lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit-donec-lacinia-tortor-faucibus-interdum-accumsan-augue-lacus-malesuada-neque-sed-vulputate-lectus-dolor-nec-lectus-donec-sed-lorem-maximus-iaculis-nisi-eu-aliquam-tellus-fusce-ultri',
+
             'https://wordpress.org' => 'https://wordpress.org',
             'https://wordpress.org/' => 'https://wordpress.org',
             'https://wordpress.org/?utm_source=duckduckgo' => 'https://wordpress.org',
@@ -31,6 +37,7 @@ final class PageviewAggregatorTest extends TestCase
         $a = new \KokoAnalytics\Pageview_Aggregator();
         $tests = [
             '' => '',
+            'www.kokoanalytics.com' => 'http://www.kokoanalytics.com',
             'https://www.kokoanalytics.com' => 'https://www.kokoanalytics.com',
             'https://wordpress.org/plugins/koko-analytics/' => 'https://wordpress.org/plugins/koko-analytics/',
             'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
