@@ -273,7 +273,7 @@ class Pageview_Aggregator
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
         $normalized_url = (string) preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);
         if (preg_last_error() !== PREG_NO_ERROR) {
-            error_log("Koko Analytics: preg_replace error in Pageview_Aggregator::normalize_url: " . preg_last_error_msg());
+            error_log("Koko Analytics: preg_replace error in Pageview_Aggregator::normalize_url('$url'): " . preg_last_error_msg());
             return $url;
         }
 
