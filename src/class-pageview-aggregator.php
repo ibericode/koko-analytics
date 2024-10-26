@@ -226,7 +226,13 @@ class Pageview_Aggregator
             $url = rtrim($new_url, '?');
         }
 
-      // trim trailing slash if URL has no path component
+        // limit URL to 255 chars
+        // TODO: Maybe limit to just host and TLD?
+        if (strlen($url) > 255) {
+            $url = substr($url, 0, 255);
+        }
+
+        // trim trailing slash if URL has no path component
         $path = parse_url($url, PHP_URL_PATH);
         if ($path === '' || $path === '/') {
             return rtrim($url, '/');
@@ -276,9 +282,11 @@ class Pageview_Aggregator
 
     public function is_valid_url(string $url): bool
     {
-        if ($url === '' || strlen($url) < 4) {
+        // shortest possible valid url: '://a.co'
+        if ($url === '' || strlen($url) < 7 || strpos($url, '://') === false) {
             return false;
         }
+
 
         return (bool) filter_var($url, FILTER_VALIDATE_URL);
     }
