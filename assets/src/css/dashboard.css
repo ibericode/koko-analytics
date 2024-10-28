@@ -88,8 +88,10 @@ h1.ka-logo,
 .ka-dashboard-nav--left {
   display: flex;
   gap: 12px;
+  flex-flow: row wrap;
 }
 @media (min-width: 840px) {
+
   .ka-dashboard-nav {
     flex-direction: row;
   }
@@ -226,7 +228,7 @@ h1.ka-logo,
   border-top: 1px solid #efefef;
   text-align: right;
   padding: 6px 8px;
-  width: 100px;
+  width: 60px;
 }
 .ka-table th {
   background: #2e363f;
