@@ -185,8 +185,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <?php echo esc_html(sprintf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation)); ?>
                 </span>
             </p>
-            <div class="ka-margin-m">
-                <p><?php esc_html_e('Use the button below to erase all of your current analytics data. You may have to clear your browser\'s cache afterwards for the effect to be evident.', 'koko-analytics'); ?></p>
+            <div>
+                <p><?php esc_html_e('Use the button below to erase all of your current analytics data.', 'koko-analytics'); ?></p>
                 <form method="POST" action="" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to reset all of your statistics? This can not be undone.', 'koko-analytics'); ?>')">
                     <?php wp_nonce_field('koko_analytics_reset_statistics'); ?>
                     <input type="hidden" name="koko_analytics_action" value="reset_statistics" />
