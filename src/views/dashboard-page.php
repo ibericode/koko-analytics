@@ -138,9 +138,7 @@ use function KokoAnalytics\get_referrer_url_label;
         <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
 
-    <div class="ka-dashboard-components <?php if ($page !== 0) {
-        echo 'page-filter-active';
-                                        } ?>" >
+    <div class="ka-dashboard-components <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>" >
 
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-box">
@@ -155,7 +153,7 @@ use function KokoAnalytics\get_referrer_url_label;
                 </thead>
                 <tbody>
                     <?php foreach ($posts as $i => $p) { ?>
-                        <tr>
+                        <tr <?php echo $page == $p->id ? 'class="page-filter-active"' : ''; ?>>
                             <td><?php echo  $posts_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo esc_html($p->post_title); ?></a></td>
                             <td><?php echo $p->visitors; ?></td>

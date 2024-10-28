@@ -208,8 +208,11 @@ h1.ka-logo,
 .ka-page-filter--close:focus {
   opacity: 1;
 }
-.ka-dashboard-components.page-filter-active  {
-  opacity: 0.4;
+.page-filter-active tr  {
+  opacity: 0.5;
+}
+.page-filter-active tr.page-filter-active  {
+  opacity: 1;
 }
 
 /** Tabular components */
@@ -218,23 +221,24 @@ h1.ka-logo,
   width: 100%;
   border-spacing: 0;
 }
-.ka-table th {
-  text-align: left;
-  background: #2e363f;
-  color: white;
-}
-.ka-table th:first-of-type {
-  border-radius: 4px 0 0 0;
-}
-.ka-table th:last-of-type {
-  border-radius: 0 4px 0 0;
-}
 .ka-table td,
 .ka-table th {
   border-top: 1px solid #efefef;
   text-align: right;
   padding: 6px 8px;
   width: 100px;
+}
+.ka-table th {
+  background: #2e363f;
+  border-color: #2e363f;
+  color: white;
+}
+/* fix borders for table header */
+.ka-table th:first-of-type {
+  border-radius: 4px 0 0 0;
+}
+.ka-table th:last-of-type {
+  border-radius: 0 4px 0 0;
 }
 /* rank column */
 .ka-table th:first-child,
