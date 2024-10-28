@@ -226,9 +226,6 @@ h1.ka-logo,
 .ka-table th:first-of-type {
   border-radius: 4px 0 0 0;
 }
-.ka-table th:nth-child(2) {
-  min-width: 60%;
-}
 .ka-table th:last-of-type {
   border-radius: 0 4px 0 0;
 }
@@ -237,9 +234,6 @@ h1.ka-logo,
   border-top: 1px solid #efefef;
   text-align: right;
   padding: 6px 8px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   width: 100px;
 }
 /* rank column */
@@ -253,6 +247,9 @@ h1.ka-logo,
 .ka-table th:nth-child(2) {
   text-align: left;
   width: auto;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /* Pagination component */
