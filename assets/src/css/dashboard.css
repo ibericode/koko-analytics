@@ -245,7 +245,7 @@ h1.ka-logo,
 /* rank column */
 .ka-table th:first-child,
 .ka-table td:first-child {
-  width: 12px;
+  width: 18px;
 }
 /* page title / referrer url / event param column */
 .ka-table td[colspan],
