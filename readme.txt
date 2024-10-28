@@ -126,9 +126,10 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 == Screenshots ==
 
 1. Koko Analytics' dashboard to view your website statistics.
-2. The settings page where you can exclude certain user roles from being counted.
+2. The dashboard widget to quickly show your site visits over the last 2 weeks.
 3. A widget to show your most viewed posts (or any other post type) for a given period.
-4. The dashboard widget to quickly show your site visits over the last 2 weeks.
+4. The settings page where you can exclude certain user roles from being counted.
+5. Screenshot of settings page showing some features from Koko Analytics Pro.
 
 
 == Changelog ==
