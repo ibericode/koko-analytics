@@ -44,6 +44,7 @@ The following features are available through [Koko Analytics Pro](https://www.ko
 
 - **Event Tracking**: Built-in events like outbound link clicks, form submissions plus the ability to [track any type of custom event](https://www.kokoanalytics.com/kb/tracking-events/).
 - **Email reports**: Daily, weekly or monthly [email reports](https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/).
+- **Export to CSV**: Exports the current dashboard view to CSV.
 
 
 ### Contributing
