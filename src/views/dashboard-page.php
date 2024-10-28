@@ -156,7 +156,7 @@ use function KokoAnalytics\get_referrer_url_label;
                         <tr <?php echo $page == $p->id ? 'class="page-filter-active"' : ''; ?>>
                             <td><?php echo  $posts_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo esc_html($p->post_title); ?></a></td>
-                            <td><?php echo $p->visitors; ?></td>
+                            <td><?php echo max(1, $p->visitors); ?></td>
                             <td><?php echo $p->pageviews; ?></td>
                         </tr>
                     <?php } ?>
@@ -198,7 +198,7 @@ use function KokoAnalytics\get_referrer_url_label;
                         <tr>
                             <td><?php echo $referrers_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo get_referrer_url_label(esc_html($r->url)); ?></a></td>
-                            <td><?php echo $r->visitors; ?></td>
+                            <td><?php echo max(1, $r->visitors); ?></td>
                             <td><?php echo $r->pageviews; ?></td>
                         </tr>
                     <?php } ?>
