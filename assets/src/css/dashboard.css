@@ -91,7 +91,6 @@ h1.ka-logo,
   flex-flow: row wrap;
 }
 @media (min-width: 840px) {
-
   .ka-dashboard-nav {
     flex-direction: row;
   }
@@ -102,6 +101,7 @@ h1.ka-logo,
 .ka-admin-nav ul {
   list-style: none;
   margin: 0;
+  padding: 0;
 }
 .ka-dashboard-nav li {
   line-height: 34px;
