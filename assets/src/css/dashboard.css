@@ -429,6 +429,7 @@ a.ka-datepicker--quicknav-next {
 .ka-ul span {
   min-width: 24px;
   display: inline-block;
+  text-align: right;
 }
 .ka-margin-s {
   margin: 1em 0;
