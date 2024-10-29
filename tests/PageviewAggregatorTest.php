@@ -39,6 +39,7 @@ final class PageviewAggregatorTest extends TestCase
             '' => '',
             'www.kokoanalytics.com' => 'http://www.kokoanalytics.com',
             'https://www.kokoanalytics.com' => 'https://www.kokoanalytics.com',
+            'https://dentalclinicwhatever.com' => 'https://dentalclinicwhatever.com',
             'https://wordpress.org/plugins/koko-analytics/' => 'https://wordpress.org/plugins/koko-analytics/',
             'https://pinterest.com/pin/foobar' => 'https://pinterest.com/pin/foobar',
             'https://www.pinterest.com' => 'https://pinterest.com',
