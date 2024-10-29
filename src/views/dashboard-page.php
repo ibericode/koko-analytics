@@ -92,7 +92,6 @@ use function KokoAnalytics\get_referrer_url_label;
 
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
-
     <table id="ka-totals" class='ka-totals m'>
         <tbody>
         <tr class="<?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
@@ -100,13 +99,13 @@ use function KokoAnalytics\get_referrer_url_label;
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo fmt_large_number($totals->visitors); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo $totals->visitors_change_rel !== null ? sprintf('%+.0f%%', $totals->visitors_change_rel * 100) : ''; ?>
+                    <?php echo $totals->visitors_change_rel ? sprintf('%+.0f%%', $totals->visitors_change_rel * 100) : ''; ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <span><?php echo fmt_large_number(abs($totals->visitors_change)); ?></span>
-                <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span>
-                <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
+                <?php if ($totals->visitors_change != 0) { ?><span><?php echo fmt_large_number(abs($totals->visitors_change)); ?></span><?php } ?>
+                <?php if ($totals->visitors_change > 0) { ?> <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php } ?>
+                <?php if ($totals->visitors_change < 0) { ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php } ?>
             </td>
         </tr>
         <tr class="<?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
@@ -114,13 +113,13 @@ use function KokoAnalytics\get_referrer_url_label;
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo fmt_large_number($totals->pageviews); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo $totals->pageviews_change_rel !== null ? sprintf('%+.0f%%', $totals->pageviews_change_rel * 100) : ''; ?>
+                    <?php echo $totals->pageviews_change_rel ? sprintf('%+.0f%%', $totals->pageviews_change_rel * 100) : ''; ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <span><?php echo fmt_large_number(abs($totals->pageviews_change)); ?></span>
-                <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span>
-                <span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span>
+                <?php if ($totals->pageviews_change != 0) { ?><span><?php echo fmt_large_number(abs($totals->pageviews_change)); ?></span><?php } ?>
+                <?php if ($totals->pageviews_change > 0) { ?><span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php } ?>
+                <?php if ($totals->pageviews_change < 0) { ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php } ?>
             </td>
         </tr>
         <tr id="ka-realtime">

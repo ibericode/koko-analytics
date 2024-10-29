@@ -315,17 +315,7 @@ h1.ka-logo,
 .ka-totals--subtext {
   color: #DDD;
 }
-.ka-totals--subtext-down {
-  display: none;
-}
-.ka-up .ka-totals--subtext-up,
-.ka-down .ka-totals--subtext-down {
-  display: inline;
-}
-.ka-down .ka-totals--subtext-up,
-.ka-up .ka-totals--subtext-down {
-  display: none;
-}
+
 
 /** Datepicker component */
 .ka-datepicker--label {

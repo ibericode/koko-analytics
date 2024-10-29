@@ -14,11 +14,6 @@ class Stats
     {
         global $wpdb;
 
-        // if end date is a future date, cap it at today so that relative differences to previous period are fair
-        $today = create_local_datetime('now')->format('Y-m-d');
-        if ($end_date > $today) {
-            $end_date = $today;
-        }
         $previous_start_date = gmdate('Y-m-d', strtotime($start_date) - (strtotime($end_date . ' 23:59:59') - strtotime($start_date)));
 
         $table = $wpdb->prefix . 'koko_analytics_site_stats';
@@ -37,6 +32,7 @@ class Stats
 
         $sql                = $wpdb->prepare("SELECT
 			        cur.*,
+                    prev.visitors AS prev_visitors,
 			        cur.visitors - prev.visitors AS visitors_change,
 			        cur.pageviews - prev.pageviews AS pageviews_change,
 			        cur.visitors / prev.visitors - 1 AS visitors_change_rel,
