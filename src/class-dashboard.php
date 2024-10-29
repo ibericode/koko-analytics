@@ -110,19 +110,6 @@ class Dashboard
         ];
     }
 
-    private function get_usage_tip(): string
-    {
-        $allowed_html = [ 'a' => [ 'href' => [] ] ];
-        $tips = [
-            esc_html__('Use the arrow keys on your keyboard to cycle through date ranges.', 'koko-analytics'),
-            esc_html__('You can set a default date range in the plugin settings.', 'koko-analytics'),
-            wp_kses(\sprintf(__('Did you know there is a widget, shortcode and template function to <a href="%1s">show a list of the most viewed posts</a> on your site?', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/showing-most-viewed-posts-on-your-wordpress-site/'), $allowed_html),
-            wp_kses(\sprintf(__('Use <a href="%s">Koko Analytics Pro</a> to set up custom event tracking.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/'), $allowed_html),
-            wp_kses(\sprintf(__('Use <a href="%s">Koko Analytics Pro</a> to receive periodic email reports of your statistics.', 'koko-analytics'), 'https://www.kokoanalytics.com/pricing/'), $allowed_html),
-        ];
-        return $tips[array_rand($tips)];
-    }
-
     private function maybe_show_adblocker_notice(): void
     {
         ?>

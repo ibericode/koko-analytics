@@ -225,10 +225,6 @@ use function KokoAnalytics\get_referrer_url_label;
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
         <?php do_action('koko_analytics_after_dashboard_components', $dateStart, $dateEnd); ?>
     </div>
-
-    <div class="ka-margin-s" style="text-align: right">
-        <p><?php echo $this->get_usage_tip(); ?></p>
-    </div>
 </div>
 
 <script>
