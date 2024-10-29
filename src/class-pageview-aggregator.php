@@ -281,7 +281,7 @@ class Pageview_Aggregator
             '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
             '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
             '/^https?:\/\/(out|new|old)\.reddit\.com(.*)/' => 'https://reddit.com$2',
-            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9].com.*/' => 'https://www.brevo.com',
+            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://www.brevo.com',
         );
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
