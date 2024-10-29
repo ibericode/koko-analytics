@@ -75,7 +75,7 @@ class Chart_View
             return 10;
         }
 
-        if ($n > 100_000) {
+        if ($n > 100000) {
             return ceil($n / 10000.0) * 10000;
         }
 
