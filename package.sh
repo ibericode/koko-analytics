@@ -61,6 +61,8 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
 	-x "$PLUGIN_SLUG/phpcs.xml" \
 	-x "$PLUGIN_SLUG/*.sh" \
 	-x "$PLUGIN_SLUG/assets/src/*" \
+	-x "$PLUGIN_SLUG/assets/dist/img/screenshot-*" \
+	-x "$PLUGIN_SLUG/assets/dist/img/banner-*" \
 	-x "$PLUGIN_SLUG/code-snippets/*"
 
 cd "$PLUGIN_SLUG"
