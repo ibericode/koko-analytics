@@ -1,13 +1,24 @@
 # Changelog
 
 
-#### 1.4.2 - Oct 25, 2025
+#### 1.4.3 - Oct 29, 2024
+
+- Fix "backtrack limit exhausted" triggering for certain referrer URL's without a subdomain part.
+- Fix totals component always showing "more than" for relative visitor and pageviews change.
+- Gracefully handle missing referrer blocklist file. This fixes an issue when security software on the server flags the blocklist file as suspicious (due to it containing a list of known malware domains) and deleting it.
+- Increase width of first table column so rank isn't showing ellipsis.
+- Remove light grey border on table header row.
+- Right align numbers in dashboard widget. Thanks [Terence Eden](https://shkspr.mobi/blog/), who also did a wonderful post on [liberating your website statistics from Jetpack](https://shkspr.mobi/blog/2024/10/liberate-your-daily-statistics-from-jetpack/)!
+- Improved validation of referrer URL's and request parameters at data collection endpoint.
+
+
+#### 1.4.2 - Oct 25, 2024
 
 - Fix fatal error "invalid string operand" when referrer URL contains `t.co` shortlink.
 - Fix potential issue with `preg_match` returning incorrect type in function `get_referrer_url_label`
 
 
-#### 1.4.1 - Oct 25, 2025
+#### 1.4.1 - Oct 25, 2024
 
 - Limit width of visitors and pageviews column in tables.
 - Fix `preg_replace` from returning an invalid type when an error occurs and the log the actual error that occurred.
