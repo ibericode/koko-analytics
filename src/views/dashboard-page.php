@@ -145,9 +145,11 @@ use function KokoAnalytics\get_referrer_url_label;
     </table>
 
     <?php /* CHART COMPONENT */ ?>
+    <?php if (count($chart_data) > 1) { ?>
     <div class="ka-box ka-margin-s" style="padding: 24px;">
         <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
     </div>
+    <?php } ?>
 
     <div class="ka-dashboard-components <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>" >
 
