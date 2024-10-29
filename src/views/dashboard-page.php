@@ -103,9 +103,15 @@ use function KokoAnalytics\get_referrer_url_label;
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <?php if ($totals->visitors_change != 0) { ?><span><?php echo fmt_large_number(abs($totals->visitors_change)); ?></span><?php } ?>
-                <?php if ($totals->visitors_change > 0) { ?> <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php } ?>
-                <?php if ($totals->visitors_change < 0) { ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php } ?>
+                <?php if ($totals->visitors_change != 0) {
+                    ?><span><?php echo fmt_large_number(abs($totals->visitors_change)); ?></span><?php
+                } ?>
+                <?php if ($totals->visitors_change > 0) {
+                    ?> <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
+                } ?>
+                <?php if ($totals->visitors_change < 0) {
+                    ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php
+                } ?>
             </td>
         </tr>
         <tr class="<?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
@@ -117,9 +123,15 @@ use function KokoAnalytics\get_referrer_url_label;
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <?php if ($totals->pageviews_change != 0) { ?><span><?php echo fmt_large_number(abs($totals->pageviews_change)); ?></span><?php } ?>
-                <?php if ($totals->pageviews_change > 0) { ?><span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php } ?>
-                <?php if ($totals->pageviews_change < 0) { ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php } ?>
+                <?php if ($totals->pageviews_change != 0) {
+                    ?><span><?php echo fmt_large_number(abs($totals->pageviews_change)); ?></span><?php
+                } ?>
+                <?php if ($totals->pageviews_change > 0) {
+                    ?><span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
+                } ?>
+                <?php if ($totals->pageviews_change < 0) {
+                    ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php
+                } ?>
             </td>
         </tr>
         <tr id="ka-realtime">
