@@ -268,20 +268,20 @@ class Pageview_Aggregator
         }
 
         static $aggregations = array(
-            '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox(\/.+)?$/' => 'https://www.google.com',
+            '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox.*/' => 'https://www.google.com',
             '/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
-            '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,3}(?:\.[a-z]{2,3})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
+            '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
             '/^android-app:\/\/com\.facebook\.(.+)/' => 'https://facebook.com',
-            '/^https?:\/\/(?:[a-z-]+\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
-            '/^https?:\/\/(?:[a-z-]+\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
+            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
+            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
             '/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://www.linkedin.com',
             '/^https?:\/\/(?:www\.)?pinterest\.com/' => 'https://pinterest.com',
             '/^https?:\/\/(?:www|m)\.baidu\.com.*/' => 'https://www.baidu.com',
             '/^https?:\/\/yandex\.ru\/clck.*/' => 'https://yandex.ru',
             '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
-            '/^https?:\/\/(?:[a-z-]+\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
+            '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
             '/^https?:\/\/(out|new|old)\.reddit\.com(.*)/' => 'https://reddit.com$2',
-            '/^https?:\/\/(?:[a-z0-9]+\.?)*\.sendib(?:m|t)[0-9].com(?:.*)/' => 'https://www.brevo.com',
+            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9].com.*/' => 'https://www.brevo.com',
         );
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
