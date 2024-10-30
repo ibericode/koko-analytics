@@ -356,3 +356,29 @@ function get_referrer_url_label(string $url): string
 
     return apply_filters('koko_analytics_referrer_url_label', $url);
 }
+
+/**
+ * Return's client IP for current request, even if behind a reverse proxy
+ */
+function get_client_ip(): string
+{
+    $ips = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+
+    // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
+    // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+    if (! is_array($ips)) {
+        $ips = array_map('trim', explode(',', $ips));
+    }
+
+    // Always add REMOTE_ADDR to list of ips
+    $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';
+
+    // return first valid IP address from list
+    foreach ($ips as $ip) {
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
+    }
+
+    return '';
+}
