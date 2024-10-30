@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\fmt_large_number;
+use function KokoAnalytics\get_client_ip;
 
 final class FunctionsTest extends TestCase
 {
@@ -45,5 +46,21 @@ final class FunctionsTest extends TestCase
       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3']), ['p', 1, 2, 3, '']);
       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => '']), ['p', 1, 2, 3, '']);
       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com']), ['p', 1, 2, 3, 'https://www.kokoanalytics.com']);
+    }
+
+    public function testGetClientIp(): void {
+        $this->assertEquals(get_client_ip(), '');
+
+        $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+        $this->assertEquals(get_client_ip(), '1.1.1.1');
+
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '2.2.2.2';
+        $this->assertEquals(get_client_ip(), '2.2.2.2');
+
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '3.3.3.3, 2.2.2.2';
+        $this->assertEquals(get_client_ip(), '3.3.3.3');
+
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = 'not-an-ip';
+        $this->assertEquals(get_client_ip(), '1.1.1.1');
     }
 }
