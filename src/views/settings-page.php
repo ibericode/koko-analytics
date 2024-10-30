@@ -212,6 +212,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 $response = wp_remote_get('https://www.kokoanalytics.com/wp-json/wp/v2/posts?per_page=5');
                 if ($response && wp_remote_retrieve_response_code($response) == 200) {
                     $body = wp_remote_retrieve_body($response);
+
+                    // in case response is 200 but can't be decoded as JSON, use an empty array instead
                     $posts = json_decode($body) ?? array();
                 } else {
                     // store empty array to prevent doing an HTTP request on every page load
