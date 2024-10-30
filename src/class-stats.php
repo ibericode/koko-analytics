@@ -129,8 +129,8 @@ class Stats
                 LIMIT %d, %d",
             array($start_date, $end_date, $offset, $limit)
         );
-        $results = $wpdb->get_results($sql);
 
+        $results = $wpdb->get_results($sql);
         return array_map(function ($row) {
             // special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
             if ($row->id == 0) {
@@ -138,13 +138,8 @@ class Stats
                 $row->post_title     = get_bloginfo('name');
             } else {
                 $post = get_post($row->id);
-                if ($post) {
-                    $row->post_title = isset($post->post_title) ? $post->post_title : $post->post_name;
-                    $row->post_permalink = get_permalink($post);
-                } else {
-                    $row->post_title = '(deleted post)';
-                    $row->post_permalink = '';
-                }
+                $row->post_title = get_page_title($post);
+                $row->post_permalink = $post ? get_permalink($post) : '';
             }
 
             $row->pageviews = (int) $row->pageviews;

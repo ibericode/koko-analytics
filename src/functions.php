@@ -330,6 +330,32 @@ function create_local_datetime($timestr): ?\DateTimeImmutable
     return $dt_local;
 }
 
+/**
+ *  @param int|WP_Post $post
+ */
+function get_page_title($post): string {
+    $post = get_post($post);
+    if (!$post) {
+        return '(deleted post)';
+    }
+
+    $title = $post->post_title;
+
+    // if post has no title, use path + query part from permalink
+    if ($title === '') {
+        $permalink = get_permalink($post);
+        $url_parts = parse_url($permalink);
+        $title = $url_parts['path'];
+
+        if ($url_parts['query'] !== '') {
+            $title .= '?';
+            $title .= $url_parts['query'];
+        }
+    }
+
+    return $title;
+}
+
 function get_referrer_url_href(string $url): string
 {
     if (strpos($url, '://t.co/') !== false) {
@@ -382,3 +408,4 @@ function get_client_ip(): string
 
     return '';
 }
+

@@ -18,6 +18,7 @@ $tab = 'dashboard';
  */
 
 use function KokoAnalytics\fmt_large_number;
+use function KokoAnalytics\get_page_title;
 use function KokoAnalytics\get_referrer_url_href;
 use function KokoAnalytics\get_referrer_url_label;
 ?>
@@ -83,7 +84,7 @@ use function KokoAnalytics\get_referrer_url_label;
 
             <div class="ka-page-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
                 <?php esc_html_e('Page', 'koko-analytics'); ?> =
-                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_the_title($page)); ?></a>
+                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_page_title($page)); ?></a>
                 <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
             </div>
 
