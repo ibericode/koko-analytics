@@ -232,7 +232,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             </div>
             <?php } ?>
 
-             <?php if (true || ! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
+             <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
             <div class="ka-pro-cta ka-margin-m">
                 <h2>Upgrade to Koko Analytics Pro</h2>
                 <p>You are currently using the free version of Koko Analytics. There is a paid add-on called <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a> which adds several powerful features:</p>
