@@ -72,11 +72,22 @@ h1.ka-logo,
   float: left;
   visibility: visible;
 }
-.ka-admin-container {
-  max-width: 720px;
+.ka-admin-wrap {
+  display: flex; flex-flow: row wrap; gap: 2em;
+}
+.ka-admin-main {
+  max-width: 920px;
   font-size: 14px;
 }
-.ka-admin-container p { font-size: 14px; }
+.ka-admin-main p { font-size: 14px; }
+
+.ka-admin-sidebar > div {
+  margin-top: 4em;
+}
+@media(min-width: 1600px) {
+  .ka-admin-sidebar { max-width: 480px; padding-left: 2em; border-left: 1px solid #ddd; }
+  .ka-admin-sidebar > div { border-bottom: 1px solid #ddd; padding-bottom: 2em; margin-top: 2em; }
+}
 
 /* dashboard & admin nav */
 .ka-dashboard-nav {

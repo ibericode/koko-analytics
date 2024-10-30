@@ -122,8 +122,6 @@ class Admin
         return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please consider <a href="%1$s">purchasing Koko Analytics Pro</a>, <a href="%2$s">reviewing the plugin on WordPress.org</a> or <a href="%3$s">writing about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://www.kokoanalytics.com/pricing/', 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
     }
 
-
-
     /**
      * Add the settings link to the Plugins overview
      *
