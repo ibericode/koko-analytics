@@ -4,7 +4,6 @@
 #### 1.4.3 - Oct 29, 2024
 
 - Fix "backtrack limit exhausted" triggering for certain referrer URL's without a subdomain part.
-- Fix totals component always showing "more than" for relative visitor and pageviews change.
 - Gracefully handle missing referrer blocklist file. This fixes an issue when security software on the server flags the blocklist file as suspicious (due to it containing a list of known malware domains) and deleting it.
 - Increase width of first table column so rank isn't showing ellipsis.
 - Remove light grey border on table header row.
