@@ -35,6 +35,10 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 </div>
             <?php } ?>
 
+            <?php if (class_exists('Jetpack')) { ?>
+                <div class="notice notice-info is-dismissible"><p>We noticed you have JetPack enabled. Do you want to <a href="<?php echo add_query_arg(['tab' => 'jetpack_importer']); ?>">import your historical statistics from JetPack stats into Koko Analytics</a>?</p></div>
+            <?php } ?>
+
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
                 <?php wp_nonce_field('koko_analytics_save_settings'); ?>
                 <div class="ka-margin-m">

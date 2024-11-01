@@ -1,5 +1,9 @@
 # Changelog
 
+#### In development
+
+- Add JetPack Stats importer tool. Go to the settings page (with JetPack still enabled) to access it.
+
 
 #### 1.4.3 - Oct 29, 2024
 
