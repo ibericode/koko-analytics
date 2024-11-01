@@ -13,6 +13,7 @@ spl_autoload_register(function($class) {
         'KokoAnalytics\\Dashboard_Widget' => '/src/class-dashboard-widget.php',
         'KokoAnalytics\\Dates' => '/src/class-dates.php',
         'KokoAnalytics\\Endpoint_Installer' => '/src/class-endpoint-installer.php',
+        'KokoAnalytics\\Jetpack_Importer' => '/src/class-jetpack-importer.php',
         'KokoAnalytics\\Migrations' => '/src/class-migrations.php',
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
         'KokoAnalytics\\Plugin' => '/src/class-plugin.php',
