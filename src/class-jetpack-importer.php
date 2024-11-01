@@ -76,7 +76,7 @@ class Jetpack_Importer {
         $date_start = new \DateTimeImmutable($params['date-start']);
         $date_end = new \DateTimeImmutable($params['date-end']);
         $chunk_size = 30;
-        $chunk_end = $date_start->modify('+30 days');
+        $chunk_end = $date_start->modify("+{$chunk_size} days");
         if ($chunk_end > $date_end) {
             $chunk_end = $date_end;
             $chunk_size = $date_end->diff($date_start)->days;
@@ -87,60 +87,98 @@ class Jetpack_Importer {
         exit;
     }
 
-    public function import_chunk() {
+    public function import_chunk() : void
+    {
         $params = get_option('koko_analytics_jetpack_import_params');
         $chunk_end = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
         $date_end = new \DateTimeImmutable($params['date-end']);
         $chunk_end = new \DateTimeImmutable($chunk_end);
-        $chunk_start = $chunk_end->modify('-30 days');
-        $next_chunk_end = $chunk_end->modify('+30 days');
+        $chunk_start = $chunk_end->modify("-{$chunk_size} days");
+
+        // calculate next chunk end date
+        $next_chunk_end = $chunk_end->modify("+{$chunk_size} days");
         if ($next_chunk_end > $date_end) {
             $next_chunk_end = $date_end;
-
+            $chunk_size = $next_chunk_end->diff($chunk_end)->days;
         }
 
-        // TODO: Fetch day of data from Jetpack
-        $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
+        if (! $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size)) {
+            delete_option('koko_analytics_jetpack_import_params');
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            exit;
+        }
 
         // If we're done, redirect to success page
         if ($next_chunk_end == $chunk_end) {
             delete_option('koko_analytics_jetpack_import_params');
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer_done'));
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=1'));
             exit;
         }
 
         $url = add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $next_chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]);
 
+        // we could do a wp_safe_redirect() here
+        // but instead we send some HTML to the client and perform a client-side redirect just so the user knows we're still alive and working
+        // TODO: Calculate number of steps / progress
+        // TODO: Calculate est. time left? (Assume 1-2seconds per chunk)
         ?>
+        <style>body { background: #f0f0f1; color: #3c434a; font-family: sans-serif; font-size: 16px; line-height: 1.5; padding: 32px; }</style>
         <meta http-equiv="refresh" content="2; url=<?php echo esc_attr($url); ?>">
-        <p>Importing stats between <?php echo $chunk_start->format('Y-m-d'); ?> and <?php echo $chunk_end->format('Y-m-d'); ?> Please wait while the importer is running.</p>
-        <p>This page will automatically redirect a couple of times until done.</p>
+        <h1>Liberating your data... Please wait.</h1>
+        <p>Importing stats between <strong><?php echo $chunk_start->format('Y-m-d'); ?></strong> and <strong><?php echo $chunk_end->format('Y-m-d'); ?></strong>.</p>
+        <p>Please do not close this browser tab while the importer is running.</p>
         <?php
         exit;
     }
 
     public function perform_chunk_import(string $api_key, string $blog_uri, \DateTimeImmutable $date_end, int $chunk_size): bool
     {
-        $url = "https://stats.wordpress.com/csv.php?api_key=$api_key&blog_uri=$blog_uri&end={$date_end->format('Y-m-d')}&table=postviews&format=json&days=$chunk_size&limit=-1";
+        $blog_uri = urlencode($blog_uri);
+        $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$date_end->format('Y-m-d')}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
-
-        if (!$response || wp_remote_retrieve_response_code($response) != 200) {
+        if (!$response || wp_remote_retrieve_response_code($response) >= 400) {
             return false;
         }
 
         $body = wp_remote_retrieve_body($response);
-        $data = json_decode($body);
-        if (! is_array($data)) {
+
+        try {
+            $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            error_log("Koko Analytics - JetPack Importer: received non-JSON response from WordPress.com API: " . wp_remote_retrieve_body($response));
             return false;
         }
 
+        // API returns `null` for no data between two given dates
+        // Let's turn it into an array instead
+        if ($data === null) {
+            $data = [];
+        }
+
         // We now have an array of days in the following format:
-        // [ [ "date" => "2020-10-31", "postviews" => [ "post_id" => 1, "views" => 2 ] ] ]
+        // [ [ "date" => "2020-10-31", "postviews" => [ [ "post_id" => 1, "views" => 2 ] ] ] ]
+        global $wpdb;
 
-        // TODO: Update local database with data from array above
+        foreach ($data as $item) {
+            $site_views = 0;
 
-        dd($data);
+            // update post stats for this date one-by-one
+            // TODO: We could make this more efficient by executing a single bulk query
+            foreach ($item->postviews as $postviews) {
+                $site_views += $postviews->views;
+
+                $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats (date, id, visitors, pageviews) VALUES (%s, %d, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $postviews->post_id, $postviews->views, $postviews->views]);
+                $wpdb->query($query);
+            }
+
+            // update site stats
+            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats (date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $site_views, $site_views]);
+            $wpdb->query($query);
+        }
+
+        // TODO: log database errors? Or bail entire import?
+
         return true;
     }
 
