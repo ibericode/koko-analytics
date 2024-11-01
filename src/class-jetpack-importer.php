@@ -2,8 +2,10 @@
 
 namespace KokoAnalytics;
 
-class Jetpack_Importer {
-    public function __construct() {
+class Jetpack_Importer
+{
+    public function __construct()
+    {
         add_action('koko_analytics_show_jetpack_importer_page', [$this, 'show_page']);
         add_action('koko_analytics_start_jetpack_import', [$this, 'start_import']);
         add_action('koko_analytics_jetpack_import_chunk', [$this, 'import_chunk']);
@@ -71,13 +73,14 @@ class Jetpack_Importer {
         <?php
     }
 
-    public function start_import(): void {
+    public function start_import(): void
+    {
         // save params
         $params = [
             'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
             'wpcom-blog-uri' => trim($_POST['wpcom-blog-uri'] ?? ''),
             'date-start' => trim($_POST['date-start'] ?? ''),
-            'date-end' =>trim($_POST['date-end'] ?? ''),
+            'date-end' => trim($_POST['date-end'] ?? ''),
         ];
 
         // all params are required
@@ -115,7 +118,7 @@ class Jetpack_Importer {
         exit;
     }
 
-    public function import_chunk() : void
+    public function import_chunk(): void
     {
         $params = get_option('koko_analytics_jetpack_import_params');
         $chunk_end = trim($_GET['chunk_end']);
@@ -203,9 +206,8 @@ class Jetpack_Importer {
                 $wpdb->query($query);
 
                 if ($wpdb->last_error !== '') {
-                   error_log("Koko Analytics - JetPack Importer: database error trying to update site_stats: " . $wpdb->last_error);
+                    error_log("Koko Analytics - JetPack Importer: database error trying to update site_stats: " . $wpdb->last_error);
                 }
-
             }
 
             // update site stats
@@ -218,6 +220,4 @@ class Jetpack_Importer {
 
         return true;
     }
-
-
 }

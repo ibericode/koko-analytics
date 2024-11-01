@@ -333,7 +333,8 @@ function create_local_datetime($timestr): ?\DateTimeImmutable
 /**
  *  @param int|WP_Post $post
  */
-function get_page_title($post): string {
+function get_page_title($post): string
+{
     $post = get_post($post);
     if (!$post) {
         return '(deleted post)';
@@ -408,4 +409,3 @@ function get_client_ip(): string
 
     return '';
 }
-
