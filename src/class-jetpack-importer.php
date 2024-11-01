@@ -68,7 +68,7 @@ class Jetpack_Importer
                     <button type="submit" class="button">Import analytics data</button>
                 </p>
             </form>
-            <p><strong>Warning:</strong> this will overwrite any data already present for any of the specified dates. Make sure to choose an end date for which Koko Analytics was not already activated.</p>
+            <p><strong>Warning:</strong> this will add to any data already present for any of the specified dates. The import process can not be reverted unless you reinstate a back-up of your database.</p>
         </div>
         <?php
     }
