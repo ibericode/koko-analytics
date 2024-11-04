@@ -35,8 +35,9 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
-- **Tested**: Ready for PHP 8.3, but compatible down to PHP 7.3.
+- **Tested**: Ready for PHP 8.4, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
+- **Jetpack Stats importer**: You can import historical analytics data from Jetpack Stats into Koko Analytics.
 
 ### Pro features
 
