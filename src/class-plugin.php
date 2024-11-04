@@ -23,8 +23,8 @@ class Plugin
         $this->aggregator = $aggregator;
 
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'on_activation']);
-        add_action('init', [$this, 'maybe_run_db_migrations'], 10, 0);
-        add_action('init', [$this, 'maybe_run_actions'], 10, 0);
+        add_action('init', [$this, 'maybe_run_db_migrations'], 5, 0);
+        add_action('init', [$this, 'maybe_run_actions'], 20, 0);
     }
 
     public function on_activation(): void

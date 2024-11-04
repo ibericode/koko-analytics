@@ -13,6 +13,10 @@ class Jetpack_Importer
 
     public function show_page(): void
     {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         ?>
         <div class="wrap" style="max-width: 820px;">
 
@@ -84,6 +88,11 @@ class Jetpack_Importer
 
     public function start_import(): void
     {
+        // authorize user
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         // verify nonce
         check_admin_referer('koko_analytics_start_jetpack_import');
 
@@ -133,10 +142,21 @@ class Jetpack_Importer
 
     public function import_chunk(): void
     {
+        // authorize
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         // verify nonce
         check_admin_referer('koko_analytics_jetpack_import_chunk');
 
+        // get params
         $params = get_option('koko_analytics_jetpack_import_params');
+        if (!$params) {
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            exit;
+        }
+
         $chunk_end = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
         $date_end = new \DateTimeImmutable($params['date-end']);
