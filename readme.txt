@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -134,11 +134,19 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
+#### 1.4.4 - Nov 4, 2024
+
+- Add Jetpack Stats importer to import your historical analytics data into Koko Analytics. Go to the settings page (with Jetpack still enabled) to access it.
+- Fix settings page showing proxy IP instead of client IP if using reverse proxy.
+- Fix use of PHP 7.4 only feature in thousands separator in source code.
+- Auto-reload dashboard every minute if browser tab is active.
+- Do not show chart for just a single day of data.
+- Handle posts without title a little better by showing URL path instead.
+
 
 #### 1.4.3 - Oct 29, 2024
 
 - Fix "backtrack limit exhausted" triggering for certain referrer URL's without a subdomain part.
-- Fix totals component always showing "more than" for relative visitor and pageviews change.
 - Gracefully handle missing referrer blocklist file. This fixes an issue when security software on the server flags the blocklist file as suspicious (due to it containing a list of known malware domains) and deleting it.
 - Increase width of first table column so rank isn't showing ellipsis.
 - Remove light grey border on table header row.
