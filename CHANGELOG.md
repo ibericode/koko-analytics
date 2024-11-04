@@ -1,8 +1,13 @@
 # Changelog
 
-#### In development
+#### 1.4.4 - Nov 4, 2024
 
-- Add JetPack Stats importer tool. Go to the settings page (with JetPack still enabled) to access it.
+- Add Jetpack Stats importer to import your historical analytics data into Koko Analytics. Go to the settings page (with Jetpack still enabled) to access it.
+- Fix settings page showing proxy IP instead of client IP if using reverse proxy.
+- Fix use of PHP 7.4 only feature in thousands separator in source code.
+- Auto-reload dashboard every minute if browser tab is active.
+- Do not show chart for just a single day of data.
+- Handle posts without title a little better by showing URL path instead.
 
 
 #### 1.4.3 - Oct 29, 2024

@@ -36,7 +36,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <?php } ?>
 
             <?php if (class_exists('Jetpack')) { ?>
-                <div class="notice notice-info is-dismissible"><p>We noticed you have JetPack enabled. Do you want to <a href="<?php echo add_query_arg(['tab' => 'jetpack_importer']); ?>">import your historical statistics from JetPack stats into Koko Analytics</a>?</p></div>
+                <div class="notice notice-info is-dismissible"><p><?php printf(__('We noticed you have JetPack enabled. Do you want to <a href="%1$s">import your historical statistics data from JetPack stats into Koko Analytics</a>?', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p></div>
             <?php } ?>
 
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
@@ -205,8 +205,17 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
         <div class="ka-admin-sidebar">
 
             <div>
+                <h2><?php esc_html_e('Coming from Jetpack Stats?', 'koko-analytics'); ?></h2>
+                <p><?php printf(__('You can now <a href="%1$s">import your historical stats data into Koko Analytics</a>.', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p>
+            </div>
+
+            <div>
                 <h2><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
-                <p><?php echo wp_kses(sprintf(__('Have a look at our <a href="%1s">knowledge base</a> for help with configuring and using Koko Analytics.', 'koko-analytics'), 'https://www.kokoanalytics.com/kb/'), [ 'a' => [ 'href' => [] ] ]); ?></p>
+                <ul class="ul-square">
+                    <li>Have a look at our <a href="https://www.kokoanalytics.com/kb/">knowledge base</a> for help with configuring and using Koko Analytics.</li>
+                    <li>Go through our <a href="https://github.com/ibericode/koko-analytics/tree/main/code-snippets">repository of sample code snippets</a> for inspiration on modifying the default Koko Analytics behavior.</li>
+                    <li>Vote on <a href="https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop">new features you would like to have in Koko Analytics</a>.</li>
+                </ul>
             </div>
 
             <?php
@@ -229,7 +238,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             if (count($posts) > 0) { ?>
             <div>
-                <h2><?php esc_html_e('Koko Analytics related news', 'koko-analytics'); ?></h2>
+                <h2><?php esc_html_e('Koko Analytics news', 'koko-analytics'); ?></h2>
                 <ul class="ul-square" style="margin-left: 1em; margin-bottom: 0;">
                     <?php foreach ($posts as $p) { ?>
                         <li><a href="<?php echo esc_attr($p->link); ?>"><?php echo esc_html($p->title->rendered); ?></a></li>

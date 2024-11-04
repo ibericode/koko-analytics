@@ -25,7 +25,7 @@ class Jetpack_Importer
             <?php } ?>
 
             <h1>Import analytics from JetPack Stats</h1>
-            <p>To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key in the field below.</p>
+            <p>To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.</p>
 
             <form method="post" onsubmit="return confirm('Are you sure you want to import statistics between ' + this['date-start'].value + ' and ' +this['date-end'].value + '? This will overwrite any existing data in your Koko Analytics database tables.');" action="<?php echo esc_attr(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
 
@@ -53,6 +53,8 @@ class Jetpack_Importer
                         <th><label for="date-start">Start date</label></th>
                         <td>
                             <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
+                             <p class="description">The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.</p>
+
                         </td>
                     </tr>
 
@@ -60,6 +62,8 @@ class Jetpack_Importer
                         <th><label for="date-end">End date</label></th>
                         <td>
                             <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
+                            <p class="description">The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.</p>
+
                         </td>
                     </tr>
                 </table>
@@ -68,13 +72,22 @@ class Jetpack_Importer
                     <button type="submit" class="button">Import analytics data</button>
                 </p>
             </form>
-            <p><strong>Warning:</strong> this will add to any data already present for any of the specified dates. The import process can not be reverted unless you reinstate a back-up of your database.</p>
+
+            <div class="ka-margin-m">
+                <h3>Things to know before running the import</h3>
+                <p>Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.</p>
+                <p>It's also important to know that JetPack doesn't provide data for the distinct number of visitors, so the data imported will only import the total number of pageviews for each post and therefore differ slightly from data collected by Koko Analytics itself.</p>
+            </div>
         </div>
         <?php
     }
 
     public function start_import(): void
     {
+        // verify nonce
+        check_admin_referer('koko_analytics_start_jetpack_import');
+
+
         // save params
         $params = [
             'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
@@ -120,6 +133,9 @@ class Jetpack_Importer
 
     public function import_chunk(): void
     {
+        // verify nonce
+        check_admin_referer('koko_analytics_jetpack_import_chunk');
+
         $params = get_option('koko_analytics_jetpack_import_params');
         $chunk_end = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
@@ -150,7 +166,7 @@ class Jetpack_Importer
         $url = add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $next_chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]);
 
         $chunk_start = $chunk_end->modify("-{$chunk_size} days");
-        $chunks_left = (int) ceil($chunk_end->diff($date_start)->days / $chunk_size);
+        $chunks_left = ceil($chunk_end->diff($date_start)->days / $chunk_size);
 
         // we could do a wp_safe_redirect() here
         // but instead we send some HTML to the client and perform a client-side redirect just so the user knows we're still alive and working
@@ -171,7 +187,10 @@ class Jetpack_Importer
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$date_end->format('Y-m-d')}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
         if (!$response || wp_remote_retrieve_response_code($response) >= 400) {
-            error_log("Koko Analytics - JetPack Importer: received error response from WordPress.com API: " . wp_remote_retrieve_body($response));
+            $status = wp_remote_retrieve_response_code($response);
+            $message = wp_remote_retrieve_response_message($response);
+            $body = wp_remote_retrieve_body($response);
+            error_log("Koko Analytics - JetPack Importer: received error response from WordPress.com API: {$status} {$message}\n\n{$body}\n");
             return false;
         }
 

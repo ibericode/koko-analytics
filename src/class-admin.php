@@ -27,7 +27,8 @@ class Admin
             add_filter('plugin_row_meta', array($this, 'add_plugin_meta_links'), 10, 2);
         }
 
-        // if Jetpack is active, construct Jetpack Importer
+        // Construct Jetpack Importer
+        // TODO: Maybe only do this if JetPack is active?
         new Jetpack_Importer();
     }
 
