@@ -11,10 +11,7 @@
 $tab          = 'settings';
 $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_url());
 ?>
-<link rel="stylesheet" href="<?php echo esc_attr(plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
-
 <div class="wrap" id="koko-analytics-admin">
-
     <div class="ka-dashboard-nav">
     <?php require __DIR__ . '/nav.php'; ?>
     </div>
@@ -182,15 +179,55 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <div class="ka-margin-l">
                 <h2><?php esc_html_e('Data', 'koko-analytics'); ?></h2>
-                <p><?php esc_html_e('Database size:', 'koko-analytics'); ?> <?php echo esc_html($database_size); ?> MB</p>
-                <p>
+                <p><?php esc_html_e('Database size:', 'koko-analytics'); ?> <?php echo esc_html($database_size); ?> MB<br />
                     <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
                     <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
                     <span <?php echo $seconds_since_last_aggregation > 300 ? 'style="color: red;"' : ''; ?>>
                         <?php echo esc_html(sprintf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation)); ?>
                     </span>
                 </p>
-                <div>
+                <div class="ka-margin-m">
+                    <h3 id="import-data"><?php esc_html_e('Import data', 'koko-analytics'); ?></h3>
+
+                    <?php if (isset($_GET['import-error'])) { ?>
+                        <?php if ($_GET['import-error'] == UPLOAD_ERR_INI_SIZE) { ?>
+                            <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics'); ?></p></div>
+                        <?php } else if ($_GET['import-error'] == UPLOAD_ERR_NO_FILE) { ?>
+                            <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Import file can not be empty', 'koko-analytics'); ?></p></div>
+                        <?php } else { ?>
+                            <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Something went wrong trying to process your import file.', 'koko-analytics'); ?></p></div>
+                        <?php } ?>
+                    <?php } ?>
+
+                    <?php if (isset($_GET['import-success'])) { ?>
+                        <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Database was successfully imported from the given file.', 'koko-analytics'); ?></p></div>
+
+                    <?php } ?>
+
+                    <p><?php esc_html_e('You can import a dataset from an earlier export into Koko Analytics using the form below.', 'koko-analytics'); ?></p>
+
+                    <form method="POST" action="" enctype="multipart/form-data" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import the given dataset? This will replace your current data.', 'koko-analytics'); ?>')">
+                        <?php wp_nonce_field('koko_analytics_import_data'); ?>
+                        <input type="hidden" name="koko_analytics_action" value="import_data" />
+                        <div>
+                            <input type="file" name="import-file" id="import-file" accept=".sql,application/sql,text/sql,text/plain" required>
+                        </div>
+                        <div class="ka-margin-s">
+                            <input type="submit" value="<?php esc_attr_e('Import', 'koko-analytics'); ?>" class="button button-secondary" />
+                        </div>
+                    </form>
+                </div>
+                <div class="ka-margin-m">
+                    <h3><?php esc_html_e('Export data', 'koko-analytics'); ?></h3>
+                    <p><?php esc_html_e('Export your current dataset to SQL using the form below.', 'koko-analytics'); ?></p>
+                    <form method="POST" action="">
+                        <?php wp_nonce_field('koko_analytics_export_data'); ?>
+                        <input type="hidden" name="koko_analytics_action" value="export_data" />
+                        <input type="submit" value="<?php esc_attr_e('Export', 'koko-analytics'); ?>" class="button button-secondary" />
+                    </form>
+                </div>
+                <div class="ka-margin-m">
+                    <h3><?php esc_html_e('Reset data', 'koko-analytics'); ?></h3>
                     <p><?php esc_html_e('Use the button below to erase all of your current analytics data.', 'koko-analytics'); ?></p>
                     <form method="POST" action="" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to reset all of your statistics? This can not be undone.', 'koko-analytics'); ?>')">
                         <?php wp_nonce_field('koko_analytics_reset_statistics'); ?>
@@ -198,6 +235,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                         <input type="submit" value="<?php esc_attr_e('Reset Statistics', 'koko-analytics'); ?>" class="button button-secondary" />
                     </form>
                 </div>
+
             </div>
 
         </div><?php // end container ?>

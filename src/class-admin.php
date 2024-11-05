@@ -18,6 +18,8 @@ class Admin
         add_action('koko_analytics_install_optimized_endpoint', array($this, 'install_optimized_endpoint'), 10, 0);
         add_action('koko_analytics_save_settings', array($this, 'save_settings'), 10, 0);
         add_action('koko_analytics_reset_statistics', array($this, 'reset_statistics'), 10, 0);
+        add_action('koko_analytics_export_data', array($this, 'export_data'), 10, 0);
+        add_action('koko_analytics_import_data', array($this, 'import_data'), 10, 0);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
         // Hooks for plugins overview page
@@ -184,7 +186,12 @@ class Admin
 
     public function reset_statistics(): void
     {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         check_admin_referer('koko_analytics_reset_statistics');
+
         /** @var \WPDB $wpdb */
         global $wpdb;
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;");
@@ -194,9 +201,67 @@ class Admin
         delete_option('koko_analytics_realtime_pageview_count');
     }
 
+    public function export_data(): void
+    {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        check_admin_referer('koko_analytics_export_data');
+
+        (new Data_Exporter)->run();
+    }
+
+    public function import_data(): void
+    {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        check_admin_referer('koko_analytics_import_data');
+        $settings_page = admin_url('/index.php?page=koko-analytics&tab=settings');
+
+        if (empty($_FILES['import-file']) || $_FILES['import-file']['error'] !== UPLOAD_ERR_OK) {
+            wp_safe_redirect(add_query_arg(['import-error' => $_FILES['import-file']['error']], $settings_page));
+            exit;
+        }
+
+        // don't accept MySQL blobs over 16 MB
+        if ($_FILES['import-file']['size'] > 16000000) {
+            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_INI_SIZE], $settings_page));
+            exit;
+        }
+
+        // read SQL from upload file
+        $sql = file_get_contents($_FILES['import-file']['tmp_name']);
+        if ($sql === '') {
+            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_NO_FILE], $settings_page));
+            exit;
+        }
+
+        // verify file looks like a Koko Analytics export file
+        if (!str_starts_with($sql, 'INSERT INTO ') && !str_starts_with($sql, 'TRUNCATE ') ) {
+            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_EXTENSION], $settings_page));
+            exit;
+        }
+
+        // good to go, let's run the SQL
+        (new Data_Importer)->run($sql);
+
+        // unlink tmp file
+        unlink($_FILES['import-file']['tmp_name']);
+        wp_safe_redirect(add_query_arg(['import-success' => 1], $settings_page));
+        exit;
+    }
+
     public function save_settings(): void
     {
+         if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         check_admin_referer('koko_analytics_save_settings');
+
         $posted                        = $_POST['koko_analytics_settings'];
         $settings                            = get_settings();
 
