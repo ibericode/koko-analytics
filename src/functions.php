@@ -304,10 +304,10 @@ function fmt_large_number($number): string
     }
 
     global $wp_locale;
-    if ( isset( $wp_locale ) ) {
-        $formatted = number_format( $number, 1, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+    if (isset($wp_locale)) {
+        $formatted = number_format($number, 1, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep']);
     } else {
-        $formatted = number_format( $number, 1);
+        $formatted = number_format($number, 1);
     }
 
     return rtrim(rtrim($formatted, '0'), ',.')  . 'K';

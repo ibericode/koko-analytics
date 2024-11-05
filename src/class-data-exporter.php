@@ -6,7 +6,8 @@ class Data_Exporter
 {
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $wpdb;
         $this->db = $wpdb;
     }

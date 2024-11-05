@@ -192,7 +192,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <?php if (isset($_GET['import-error'])) { ?>
                         <?php if ($_GET['import-error'] == UPLOAD_ERR_INI_SIZE) { ?>
                             <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics'); ?></p></div>
-                        <?php } else if ($_GET['import-error'] == UPLOAD_ERR_NO_FILE) { ?>
+                        <?php } elseif ($_GET['import-error'] == UPLOAD_ERR_NO_FILE) { ?>
                             <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Import file can not be empty', 'koko-analytics'); ?></p></div>
                         <?php } else { ?>
                             <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Something went wrong trying to process your import file.', 'koko-analytics'); ?></p></div>

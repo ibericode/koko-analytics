@@ -209,7 +209,7 @@ class Admin
 
         check_admin_referer('koko_analytics_export_data');
 
-        (new Data_Exporter)->run();
+        (new Data_Exporter())->run();
     }
 
     public function import_data(): void
@@ -240,13 +240,13 @@ class Admin
         }
 
         // verify file looks like a Koko Analytics export file
-        if (!str_starts_with($sql, 'INSERT INTO ') && !str_starts_with($sql, 'TRUNCATE ') ) {
+        if (!str_starts_with($sql, 'INSERT INTO ') && !str_starts_with($sql, 'TRUNCATE ')) {
             wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_EXTENSION], $settings_page));
             exit;
         }
 
         // good to go, let's run the SQL
-        (new Data_Importer)->run($sql);
+        (new Data_Importer())->run($sql);
 
         // unlink tmp file
         unlink($_FILES['import-file']['tmp_name']);
@@ -256,7 +256,7 @@ class Admin
 
     public function save_settings(): void
     {
-         if (!current_user_can('manage_koko_analytics')) {
+        if (!current_user_can('manage_koko_analytics')) {
             return;
         }
 
