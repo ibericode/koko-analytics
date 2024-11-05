@@ -293,6 +293,7 @@ function using_custom_endpoint(): bool
 
 function fmt_large_number($number): string
 {
+
     if ($number < 10000.0) {
         return $number;
     }
@@ -301,7 +302,15 @@ function fmt_large_number($number): string
     if ($number > 100.0) {
         $number = round($number);
     }
-    return rtrim(rtrim(number_format($number, 1), '0'), '.')  . 'K';
+
+    global $wp_locale;
+    if ( isset( $wp_locale ) ) {
+        $formatted = number_format( $number, 1, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+    } else {
+        $formatted = number_format( $number, 1);
+    }
+
+    return rtrim(rtrim($formatted, '0'), ',.')  . 'K';
 }
 
 function test_custom_endpoint(): void

@@ -12,17 +12,23 @@ final class FunctionsTest extends TestCase
 {
     public function testFmtLargeNumber(): void
     {
-        $this->assertEquals('170', fmt_large_number(170));
+        $this->assertEquals('0', fmt_large_number(0));
+        $this->assertEquals('1', fmt_large_number(1));
+        $this->assertEquals('100', fmt_large_number(100));
+        $this->assertEquals('123', fmt_large_number(123));
         $this->assertEquals('1000', fmt_large_number(1000));
+        $this->assertEquals('1234', fmt_large_number(1234));
         $this->assertEquals('1700', fmt_large_number(1700));
         $this->assertEquals('10K', fmt_large_number(10000));
+        $this->assertEquals('12.3K', fmt_large_number(12340));
         $this->assertEquals('17K', fmt_large_number(17000));
         $this->assertEquals('100K', fmt_large_number(100000));
+        $this->assertEquals('123K', fmt_large_number(123000));
         $this->assertEquals('170K', fmt_large_number(170000));
-        $this->assertEquals('176K', fmt_large_number(175500));
-        $this->assertEquals('17.6K', fmt_large_number(17550));
-        $this->assertEquals('1755', fmt_large_number(1755));
-        $this->assertEquals('175', fmt_large_number(175));
+        $this->assertEquals('171K', fmt_large_number(170500));
+        $this->assertEquals('1,000K', fmt_large_number(1000000));
+        $this->assertEquals('1,765K', fmt_large_number(1765499));
+        $this->assertEquals('1,766K', fmt_large_number(1765500));
     }
 
     public function testExtractData(): void {

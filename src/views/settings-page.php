@@ -201,7 +201,6 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
                     <?php if (isset($_GET['import-success'])) { ?>
                         <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Database was successfully imported from the given file.', 'koko-analytics'); ?></p></div>
-
                     <?php } ?>
 
                     <p><?php esc_html_e('You can import a dataset from an earlier export into Koko Analytics using the form below.', 'koko-analytics'); ?></p>
@@ -235,9 +234,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                         <input type="submit" value="<?php esc_attr_e('Reset Statistics', 'koko-analytics'); ?>" class="button button-secondary" />
                     </form>
                 </div>
-
-            </div>
-
+            </div><?php // end data section div ?>
         </div><?php // end container ?>
 
         <div class="ka-admin-sidebar">
