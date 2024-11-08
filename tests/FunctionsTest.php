@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 use function KokoAnalytics\extract_pageview_data;
+use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\fmt_large_number;
 use function KokoAnalytics\get_client_ip;
 
@@ -31,7 +32,8 @@ final class FunctionsTest extends TestCase
         $this->assertEquals('1,766K', fmt_large_number(1765500));
     }
 
-    public function testExtractData(): void {
+    public function testExtractPageviewData(): void
+    {
        // incomplete params
        $this->assertEquals(extract_pageview_data([]), []);
        $this->assertEquals(extract_pageview_data(['p' => '1']), []);
@@ -54,7 +56,33 @@ final class FunctionsTest extends TestCase
       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com']), ['p', 1, 2, 3, 'https://www.kokoanalytics.com']);
     }
 
-    public function testGetClientIp(): void {
+    public function testExtractEventData(): void
+    {
+       // incomplete
+       $this->assertEquals(extract_event_data([]), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event']), []);
+       $this->assertEquals(extract_event_data(['p' => 'Param']), []);
+       $this->assertEquals(extract_event_data(['u' => '1']), []);
+       $this->assertEquals(extract_event_data(['v' => '1']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'v' => '1']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'u' => '1']), []);
+       $this->assertEquals(extract_event_data(['p' => 'Param', 'v' => '1']), []);
+       $this->assertEquals(extract_event_data(['p' => 'Param', 'u' => '1']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '1']), []);
+
+       // complete but invalid
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => 'nan']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => '100']), []);
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => 'nan']), []);
+       $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'u' => '1', 'v' => '100']), []);
+
+       // complete and valid
+       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']), ['e', 'Event', 'Param', 1, 100]);
+    }
+
+    public function testGetClientIp(): void
+    {
         $this->assertEquals(get_client_ip(), '');
 
         $_SERVER['REMOTE_ADDR'] = '1.1.1.1';

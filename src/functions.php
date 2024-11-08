@@ -15,7 +15,7 @@ function maybe_collect_request()
 {
     // since we call this function (early) on every AJAX request, detect our specific request here
     // this allows us to short-circuit a bunch of unrelated AJAX stuff and gain a lot of performance
-    if (!isset($_GET['action']) || $_GET['action'] !== 'koko_analytics_collect' || !defined('DOING_AJAX') || !DOING_AJAX) {
+    if (!isset($_GET['action']) || $_GET['action'] !== 'koko_analytics_collect' || !\defined('DOING_AJAX') || !DOING_AJAX) {
         return;
     }
 
@@ -25,11 +25,7 @@ function maybe_collect_request()
 function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing
-    if (
-        !isset($raw['p'])
-        || !isset($raw['nv'])
-        || !isset($raw['up'])
-    ) {
+    if (!isset($raw['p'], $raw['nv'], $raw['up'])) {
         return [];
     }
 
@@ -52,23 +48,32 @@ function extract_pageview_data(array $raw): array
     ];
 }
 
-function extract_event_data(): array
+function extract_event_data(array $raw): array
 {
-    if (!isset($_GET['e']) || !isset($_GET['p']) || !isset($_GET['u']) || !isset($_GET['v'])) {
-        return array();
+    if (!isset($raw['e'], $raw['p'], $raw['u'], $raw['v'])) {
+        return [];
     }
 
-    if (false === filter_var($_GET['u'], FILTER_VALIDATE_INT) || false === filter_var($_GET['v'], FILTER_VALIDATE_INT)) {
-        return array();
+    $unique_event = \filter_var($raw['u'], FILTER_VALIDATE_INT);
+    $value = \filter_var($raw['v'], FILTER_VALIDATE_INT);
+    if ($unique_event === false || $value === false) {
+        return [];
     }
 
-    return array(
-        'e',                  // type indicator
-        trim($_GET['e']),     // 0: event name
-        trim($_GET['p']),     // 1: event parameter
-        (int) $_GET['u'],     // 2: is unique?
-        (int) $_GET['v'],     // 3: event value
-    );
+    $event_name = \trim($raw['e']);
+    $event_param = \trim($raw['p']);
+
+    if (strlen($event_name) === 0) {
+        return [];
+    }
+
+    return [
+        'e',                   // type indicator
+        $event_name,           // 0: event name
+        $event_param,          // 1: event parameter
+        $unique_event,         // 2: is unique?
+        $value,                // 3: event value
+    ];
 }
 
 function collect_request()
@@ -79,7 +84,7 @@ function collect_request()
     }
 
     if (isset($_GET['e'])) {
-        $data = extract_event_data();
+        $data = extract_event_data($_GET);
     } else {
         $data = extract_pageview_data($_GET);
     }
@@ -403,7 +408,7 @@ function get_client_ip(): string
     // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
     if (! is_array($ips)) {
-        $ips = array_map('trim', explode(',', $ips));
+        $ips = \array_map('trim', \explode(',', $ips));
     }
 
     // Always add REMOTE_ADDR to list of ips
@@ -411,7 +416,7 @@ function get_client_ip(): string
 
     // return first valid IP address from list
     foreach ($ips as $ip) {
-        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+        if (\filter_var($ip, FILTER_VALIDATE_IP)) {
             return $ip;
         }
     }
