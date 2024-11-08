@@ -155,7 +155,7 @@ class Script_Loader
      */
     public function add_async_attribute($tag, $handle)
     {
-        if ($handle !== 'koko-analytics' || stripos($tag, 'defer') !== false) {
+        if ($handle !== 'koko-analytics' || strpos($tag, ' defer') !== false) {
             return $tag;
         }
 
