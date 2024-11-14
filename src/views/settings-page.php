@@ -22,18 +22,18 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <?php if (isset($_GET['settings-updated'])) { ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><strong><?php echo esc_html__('Settings saved.'); ?></strong></p>
+                    <p><strong><?php echo esc_html__('Settings saved.', 'koko-analytics'); ?></strong></p>
                 </div>
             <?php } ?>
 
             <?php if (isset($_GET['endpoint-installed'])) { ?>
                 <div class="notice notice-<?php echo $_GET['endpoint-installed'] ? 'success' : 'warning'; ?> is-dismissible">
-                    <p><?php echo $_GET['endpoint-installed'] ? esc_html__('Successfully installed optimized endpoint.') : esc_html__('Unable to install optimized endpoint. Please create the file manually and then try again.', 'koko-analytics'); ?></p>
+                    <p><?php echo $_GET['endpoint-installed'] ? esc_html__('Successfully installed optimized endpoint.', 'koko-analytics') : esc_html__('Unable to install optimized endpoint. Please create the file manually and then try again.', 'koko-analytics'); ?></p>
                 </div>
             <?php } ?>
 
             <?php if (class_exists('Jetpack')) { ?>
-                <div class="notice notice-info is-dismissible"><p><?php printf(__('We noticed you have JetPack enabled. Do you want to <a href="%1$s">import your historical statistics data from JetPack stats into Koko Analytics</a>?', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p></div>
+                <div class="notice notice-info is-dismissible"><p><?php printf(__('We noticed you have Jetpack enabled. Do you want to <a href="%1$s">import your historical statistics data from JetPack stats into Koko Analytics</a>?', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p></div>
             <?php } ?>
 
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
@@ -76,8 +76,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 <div class="ka-margin-m">
                     <fieldset>
                         <legend class="ka-settings--label"><?php esc_html_e('Use cookie to determine unique visitors and pageviews?', 'koko-analytics'); ?></legend>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="1" <?php checked($settings['use_cookie'], 1); ?>><?php esc_html_e('Yes'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="0" <?php checked($settings['use_cookie'], 0); ?>> <?php esc_html_e('No'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="1" <?php checked($settings['use_cookie'], 1); ?>><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="0" <?php checked($settings['use_cookie'], 0); ?>> <?php esc_html_e('No', 'koko-analytics'); ?></label>
                     </fieldset>
                     <p class="description">
                         <?php esc_html_e('Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics'); ?>
@@ -86,8 +86,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 <div class="ka-margin-m">
                     <fieldset>
                         <legend class="ka-settings--label"><?php esc_html_e('Should your dashboard be publicly accessible?', 'koko-analytics'); ?></legend>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="1" <?php checked($settings['is_dashboard_public'], 1); ?>><?php esc_html_e('Yes'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="1" <?php checked($settings['is_dashboard_public'], 1); ?>><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No', 'koko-analytics'); ?></label>
                     </fieldset>
                     <p class="description">
                         <?php echo wp_kses(sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), esc_attr($public_dashboard_url)), [ 'a' => [ 'href' => [] ] ]); ?>
@@ -115,8 +115,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 <div class="ka-margin-m">
                     <fieldset>
                         <legend class="ka-settings--label">Track all outbound link clicks?</legend>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No', 'koko-analytics'); ?></label>
                     </fieldset>
                     <p class="description">
                         Select "yes" if you want Koko Analytics to count all clicks on links to external websites. <br>This feature is only available in <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>.
@@ -126,8 +126,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 <div class="ka-margin-m">
                     <fieldset>
                         <legend class="ka-settings--label">Track form submissions?</legend>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
+                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No', 'koko-analytics'); ?></label>
                     </fieldset>
                     <p class="description">
                         Select "yes" if you want Koko Analytics to count all form submissions. <br>This feature is only available in <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>.
