@@ -1,5 +1,12 @@
 # Changelog
 
+#### 1.4.5 - Nov 14, 2024
+
+- Use localized number formatting for all numbers troughout the dashboard.
+- Add feature to export and import data. Can only be used for sites with matching post ID's.
+- Highlight weekends in chart by using a slightly darker color for the visitors part of the bar.
+
+
 #### 1.4.4 - Nov 4, 2024
 
 - Add Jetpack Stats importer to import your historical analytics data into Koko Analytics. Go to the settings page (with Jetpack still enabled) to access it.
