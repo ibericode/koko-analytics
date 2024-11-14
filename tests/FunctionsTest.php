@@ -82,6 +82,9 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(percent_format_i18n(0), '');
         $this->assertEquals(percent_format_i18n(0.00), '');
         $this->assertEquals(percent_format_i18n(1.00), '+100%');
+        $this->assertEquals(percent_format_i18n(-1.00), '-100%');
+        $this->assertEquals(percent_format_i18n(0.55), '+55%');
+        $this->assertEquals(percent_format_i18n(-0.55), '-55%');
 
     }
 }

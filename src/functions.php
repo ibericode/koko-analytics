@@ -407,7 +407,7 @@ function percent_format_i18n($pct) {
         return '';
     }
 
-    $prefix = $pct > 0 ? '+' : '-';
+    $prefix = $pct > 0 ? '+' : '';
     $formatted = \number_format_i18n($pct * 100, 0);
     return $prefix . $formatted . '%';
 }
