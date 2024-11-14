@@ -17,10 +17,10 @@ $tab = 'dashboard';
  * @var \KokoAnalytics\Stats $stats
  */
 
-use function KokoAnalytics\number_fmt;
 use function KokoAnalytics\get_page_title;
 use function KokoAnalytics\get_referrer_url_href;
 use function KokoAnalytics\get_referrer_url_label;
+use function KokoAnalytics\percent_format_i18n;
 ?>
 <div class="wrap">
     <?php $this->maybe_show_adblocker_notice(); ?>
@@ -98,14 +98,14 @@ use function KokoAnalytics\get_referrer_url_label;
         <tr class="<?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
-                <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_fmt($totals->visitors); ?></span>
+                <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo $totals->visitors_change_rel ? sprintf('%+.0f%%', $totals->visitors_change_rel * 100) : ''; ?>
+                    <?php echo percent_format_i18n($totals->visitors_change_rel); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
                 <?php if ($totals->visitors_change != 0) {
-                    ?><span><?php echo number_fmt(abs($totals->visitors_change)); ?></span><?php
+                    ?><span><?php echo number_format_i18n(abs($totals->visitors_change)); ?></span><?php
                 } ?>
                 <?php if ($totals->visitors_change > 0) {
                     ?> <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
@@ -118,14 +118,14 @@ use function KokoAnalytics\get_referrer_url_label;
         <tr class="<?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
-                <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_fmt($totals->pageviews); ?></span>
+                <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo $totals->pageviews_change_rel ? sprintf('%+.0f%%', $totals->pageviews_change_rel * 100) : ''; ?>
+                    <?php echo percent_format_i18n($totals->pageviews_change_rel); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
                 <?php if ($totals->pageviews_change != 0) {
-                    ?><span><?php echo number_fmt(abs($totals->pageviews_change)); ?></span><?php
+                    ?><span><?php echo number_format_i18n(abs($totals->pageviews_change)); ?></span><?php
                 } ?>
                 <?php if ($totals->pageviews_change > 0) {
                     ?><span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
@@ -137,7 +137,7 @@ use function KokoAnalytics\get_referrer_url_label;
         </tr>
         <tr id="ka-realtime">
             <th><?php echo esc_html__('Realtime pageviews', 'koko-analytics'); ?></th>
-            <td class='ka-totals--amount'><?php echo number_fmt($realtime); ?></td>
+            <td class='ka-totals--amount'><?php echo number_format_i18n($realtime); ?></td>
             <td class='ka-totals--subtext'>
                 <?php echo esc_html__('pageviews in the last hour', 'koko-analytics'); ?>
             </td>
@@ -170,8 +170,8 @@ use function KokoAnalytics\get_referrer_url_label;
                         <tr <?php echo $page == $p->id ? 'class="page-filter-active"' : ''; ?>>
                             <td><?php echo  $posts_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo esc_html($p->post_title); ?></a></td>
-                            <td><?php echo number_fmt(max(1, $p->visitors)); ?></td>
-                            <td><?php echo number_fmt($p->pageviews); ?></td>
+                            <td><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
+                            <td><?php echo number_format_i18n($p->pageviews); ?></td>
                         </tr>
                     <?php } ?>
                     <?php if (empty($posts)) { ?>
@@ -212,8 +212,8 @@ use function KokoAnalytics\get_referrer_url_label;
                         <tr>
                             <td><?php echo $referrers_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo get_referrer_url_label(esc_html($r->url)); ?></a></td>
-                            <td><?php echo number_fmt(max(1, $r->visitors)); ?></td>
-                            <td><?php echo number_fmt($r->pageviews); ?></td>
+                            <td><?php echo number_format_i18n(max(1, $r->visitors)); ?></td>
+                            <td><?php echo number_format_i18n($r->pageviews); ?></td>
                         </tr>
                     <?php } ?>
                     <?php if (empty($referrers)) { ?>

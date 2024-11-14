@@ -296,28 +296,6 @@ function using_custom_endpoint(): bool
     return (bool) get_option('koko_analytics_use_custom_endpoint', false);
 }
 
-function number_fmt($number): string
-{
-
-    if ($number < 10000.0) {
-        return $number;
-    }
-
-    $number /= 1000.0;
-    if ($number > 100.0) {
-        $number = round($number);
-    }
-
-    global $wp_locale;
-    if (isset($wp_locale)) {
-        $formatted = number_format($number, 1, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep']);
-    } else {
-        $formatted = number_format($number, 1);
-    }
-
-    return rtrim(rtrim($formatted, '0'), ',.')  . 'K';
-}
-
 function test_custom_endpoint(): void
 {
     $endpoint_installer = new Endpoint_Installer();
@@ -422,4 +400,14 @@ function get_client_ip(): string
     }
 
     return '';
+}
+
+function percent_format_i18n($pct) {
+    if ($pct == 0) {
+        return '';
+    }
+
+    $prefix = $pct > 0 ? '+' : '-';
+    $formatted = \number_format_i18n($pct * 100, 0);
+    return $prefix . $formatted . '%';
 }

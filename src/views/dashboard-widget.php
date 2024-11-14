@@ -12,7 +12,6 @@
 */
 
 use KokoAnalytics\Chart_View;
-use function KokoAnalytics\number_fmt;
 
 ?>
 <link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
@@ -21,7 +20,7 @@ use function KokoAnalytics\number_fmt;
 <div id="ka-dashboard-widget-realtime">
     <h3><?php echo esc_html__('Realtime', 'koko-analytics'); ?></h3>
     <p>
-        <?php echo \sprintf(esc_html__('Your site had a total of %s pageviews today, %s of which  were in the last hour.', 'koko-analytics'), '<strong>' . number_fmt($totals->pageviews) . '</strong>', '<strong>' . number_fmt($realtime) . '</strong>'); ?>
+        <?php echo sprintf(esc_html__('Your site had a total of %s pageviews today, %s of which  were in the last hour.', 'koko-analytics'), '<strong>' . number_format_i18n($totals->pageviews) . '</strong>', '<strong>' . number_format_i18n($realtime) . '</strong>'); ?>
     </p>
 </div>
 
@@ -43,7 +42,7 @@ use function KokoAnalytics\number_fmt;
             <ul class="ka-ul">
                 <?php foreach ($posts as $post) { ?>
                 <li>
-                    <span><?php echo number_fmt($post->pageviews); ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
+                    <span><?php echo number_format_i18n($post->pageviews); ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
                 </li>
                 <?php } ?>
             </ul>
@@ -57,7 +56,7 @@ use function KokoAnalytics\number_fmt;
             <ul class="ka-ul">
                 <?php foreach ($referrers as $referrer) {  ?>
                     <li>
-                        <span><?php echo number_fmt($referrer->pageviews); ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
+                        <span><?php echo number_format_i18n($referrer->pageviews); ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
                     </li>
                 <?php } ?>
             </ul>

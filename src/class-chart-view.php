@@ -20,7 +20,7 @@ class Chart_View
         $y_max_nice = $this->get_magnitude($y_max);
         $padding_top = 6;
         $padding_bottom = 24;
-        $padding_left = 4 + max(5, strlen(number_fmt($y_max_nice)) * 8);
+        $padding_left = 4 + max(5, strlen(number_format_i18n($y_max_nice)) * 8);
         $inner_height = $height - $padding_top - $padding_bottom;
         $height_modifier = $y_max_nice > 0 ? $inner_height / $y_max_nice : 1;
         $dateFormat = (string) get_option('date_format', 'Y-m-d');
@@ -30,8 +30,8 @@ class Chart_View
             <svg width="100%" height="<?php echo $height; ?>" id="ka-chart">
               <g class="axes-y" transform="translate(<?php echo $padding_left; ?>, <?php echo $padding_top; ?>)" text-anchor="end" data-padding="<?php echo $padding_left; ?>">
                 <text x="0" y="<?php echo $inner_height; ?>" fill="#757575" dy="0.3em" >0</text>
-                <text x="0" y="<?php echo $inner_height / 2; ?>" fill="#757575" dy="0.3em"><?php echo number_fmt($y_max_nice / 2); ?></text>
-                <text x="0" y="0" fill="#757575" dy="0.3em"><?php echo number_fmt($y_max_nice); ?></text>
+                <text x="0" y="<?php echo $inner_height / 2; ?>" fill="#757575" dy="0.3em"><?php echo number_format_i18n($y_max_nice / 2); ?></text>
+                <text x="0" y="0" fill="#757575" dy="0.3em"><?php echo number_format_i18n($y_max_nice); ?></text>
                 <line stroke="#eee" x1="8" x2="100%" y1="<?php echo $inner_height; ?>" y2="<?php echo $inner_height; ?>"></line>
                 <line stroke="#eee" x1="8" x2="100%" y1="<?php echo $inner_height / 2; ?>" y2="<?php echo $inner_height / 2; ?>"></line>
                 <line stroke="#eee" x1="8" x2="100%" y1="0" y2="0"></line>
@@ -45,7 +45,7 @@ class Chart_View
                     $dt = (new \DateTimeImmutable($tick->date));
                     $is_weekend = (int) $dt->format('N') >= 6;
                     $class_attr = $is_weekend ? 'class="weekend" ' : '';
-                    echo '<g ', $class_attr, 'data-date="', $dt->format($dateFormat), '" data-pageviews="', number_fmt($tick->pageviews), '" data-visitors="', number_fmt($tick->visitors),'">'; // for hover tooltip
+                    echo '<g ', $class_attr, 'data-date="', $dt->format($dateFormat), '" data-pageviews="', \number_format_i18n($tick->pageviews), '" data-visitors="', \number_format_i18n($tick->visitors),'">'; // for hover tooltip
                     echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', $inner_height - $tick->pageviews * $height_modifier,'"></rect>';
                     echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', $inner_height - $tick->visitors * $height_modifier ,'"></rect>';
                     echo '<line stroke="#ddd" y1="', $inner_height, '" y2="', $inner_height + 6,'"></line>';

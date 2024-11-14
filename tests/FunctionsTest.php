@@ -6,32 +6,11 @@ use PHPUnit\Framework\TestCase;
 
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
-use function KokoAnalytics\number_fmt;
 use function KokoAnalytics\get_client_ip;
+use function KokoAnalytics\percent_format_i18n;
 
 final class FunctionsTest extends TestCase
 {
-    public function testFmtLargeNumber(): void
-    {
-        $this->assertEquals('0', number_fmt(0));
-        $this->assertEquals('1', number_fmt(1));
-        $this->assertEquals('100', number_fmt(100));
-        $this->assertEquals('123', number_fmt(123));
-        $this->assertEquals('1000', number_fmt(1000));
-        $this->assertEquals('1234', number_fmt(1234));
-        $this->assertEquals('1700', number_fmt(1700));
-        $this->assertEquals('10K', number_fmt(10000));
-        $this->assertEquals('12.3K', number_fmt(12340));
-        $this->assertEquals('17K', number_fmt(17000));
-        $this->assertEquals('100K', number_fmt(100000));
-        $this->assertEquals('123K', number_fmt(123000));
-        $this->assertEquals('170K', number_fmt(170000));
-        $this->assertEquals('171K', number_fmt(170500));
-        $this->assertEquals('1,000K', number_fmt(1000000));
-        $this->assertEquals('1,765K', number_fmt(1765499));
-        $this->assertEquals('1,766K', number_fmt(1765500));
-    }
-
     public function testExtractPageviewData(): void
     {
        // incomplete params
@@ -96,5 +75,13 @@ final class FunctionsTest extends TestCase
 
         $_SERVER['HTTP_X_FORWARDED_FOR'] = 'not-an-ip';
         $this->assertEquals(get_client_ip(), '1.1.1.1');
+    }
+
+    public function testPercentFormatI18n(): void
+    {
+        $this->assertEquals(percent_format_i18n(0), '');
+        $this->assertEquals(percent_format_i18n(0.00), '');
+        $this->assertEquals(percent_format_i18n(1.00), '+100%');
+
     }
 }
