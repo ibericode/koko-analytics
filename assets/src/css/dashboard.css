@@ -184,9 +184,16 @@ h1.ka-logo,
   border-top-color: #72aee6;
   fill: #72aee6;
 }
+.weekend .ka--pageviews {
+  fill: #4695de;
+}
+
 .ka--visitors {
   border-top-color: #2271b1;
   fill: #2271b1;
+}
+.weekend .ka--visitors {
+  fill: #1d6096;
 }
 
 /** Dashboard */

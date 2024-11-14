@@ -42,7 +42,10 @@ class Chart_View
               </g>
                <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)" style="display: none;">
                 <?php foreach ($data as $tick) {
-                    echo '<g data-date="', (new \DateTimeImmutable($tick->date))->format($dateFormat), '" data-pageviews="', number_fmt($tick->pageviews), '" data-visitors="', number_fmt($tick->visitors),'">'; // for hover tooltip
+                    $dt = (new \DateTimeImmutable($tick->date));
+                    $is_weekend = (int) $dt->format('N') >= 6;
+                    $class_attr = $is_weekend ? 'class="weekend" ' : '';
+                    echo '<g ', $class_attr, 'data-date="', $dt->format($dateFormat), '" data-pageviews="', number_fmt($tick->pageviews), '" data-visitors="', number_fmt($tick->visitors),'">'; // for hover tooltip
                     echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', $inner_height - $tick->pageviews * $height_modifier,'"></rect>';
                     echo '<rect class="ka--visitors" height="', $tick->visitors * $height_modifier, '" y="', $inner_height - $tick->visitors * $height_modifier ,'"></rect>';
                     echo '<line stroke="#ddd" y1="', $inner_height, '" y2="', $inner_height + 6,'"></line>';
