@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -134,6 +134,13 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.4.5 - Nov 14, 2024
+
+- Use localized number formatting for all numbers troughout the dashboard.
+- Add feature to export and import data. Can only be used for sites with matching post ID's.
+- Highlight weekends in chart by using a slightly darker color for the visitors part of the bar.
+
 
 #### 1.4.4 - Nov 4, 2024
 
