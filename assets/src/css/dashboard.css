@@ -242,7 +242,9 @@ h1.ka-logo,
   border-top: 1px solid #efefef;
   text-align: right;
   padding: 6px 8px;
-  width: 60px;
+  width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ka-table th {
   background: #2e363f;
