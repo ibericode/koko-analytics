@@ -2,7 +2,7 @@
 /**
  * @var \KokoAnalytics\Admin $this
  * @var array $settings
- * @var string $database_size
+ * @var int $database_size
  * @var array $using_custom_endpoint
  * @var \KokoAnalytics\Endpoint_Installer $endpoint_installer
  * @var array $user_roles
@@ -179,7 +179,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <div class="ka-margin-l">
                 <h2><?php esc_html_e('Data', 'koko-analytics'); ?></h2>
-                <p><?php esc_html_e('Database size:', 'koko-analytics'); ?> <?php echo esc_html($database_size); ?> MB<br />
+                <p><?php esc_html_e('Database size:', 'koko-analytics'); ?> <?php echo esc_html(size_format($database_size)); ?><br />
                     <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
                     <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
                     <span <?php echo $seconds_since_last_aggregation > 300 ? 'style="color: red;"' : ''; ?>>

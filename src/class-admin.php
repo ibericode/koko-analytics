@@ -169,19 +169,22 @@ class Admin
         return $links;
     }
 
-    public function get_database_size(): string
+    /**
+     * @return int Total size of all Koko Analytics database tables in bytes
+     */
+    public function get_database_size(): int
     {
         /** @var \WPDB $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
             '
-			SELECT ROUND(SUM((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024), 2)
+			SELECT SUM(DATA_LENGTH + INDEX_LENGTH)
 			FROM information_schema.TABLES
 			WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s',
             DB_NAME,
             $wpdb->prefix . 'koko_analytics_%'
         );
-        return $wpdb->get_var($sql) ?? '??';
+        return (int) $wpdb->get_var($sql);
     }
 
     public function reset_statistics(): void
