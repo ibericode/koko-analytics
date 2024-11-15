@@ -29,7 +29,7 @@ use function KokoAnalytics\percent_format_i18n;
         <div class="ka-dashboard-nav--left">
             <div class="ka-datepicker">
                 <div class='ka-datepicker--label' tabindex="0" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
-                    <?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?>
+                    <?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?>
                 </div>
 
                 <div id="ka-datepicker-dropdown" class="ka-datepicker--dropdown" style="display: none;">
@@ -38,7 +38,7 @@ use function KokoAnalytics\percent_format_i18n;
                         <?php if ($dateStart > new \DateTimeImmutable('2000-01-01')) { ?>
                         <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
                         <?php } ?>
-                        <span class="ka-datepicker--quicknav-heading"><?php echo $dateStart->format($dateFormat); ?> — <?php echo $dateEnd->format($dateFormat); ?></span>
+                        <span class="ka-datepicker--quicknav-heading"><?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?></span>
                         <?php if ($dateEnd < new \DateTimeImmutable('2100-01-01')) { ?>
                         <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
                         <?php } ?>
