@@ -172,8 +172,8 @@ use function KokoAnalytics\percent_format_i18n;
                     <tr>
                         <th>#</th>
                         <th><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="ka-th-visitors"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="ka-th-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -214,8 +214,8 @@ use function KokoAnalytics\percent_format_i18n;
                     <tr>
                         <th>#</th>
                         <th><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="ka-th-visitors"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                        <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="ka-th-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
