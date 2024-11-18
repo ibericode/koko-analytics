@@ -71,11 +71,22 @@ class Plugin
             return;
         }
 
+        // check if migrations not already running
+        if (get_transient('koko_analytics_migrations_running')) {
+            return;
+        }
+
+        // set transient to prevent migrations from running simultaneously
+        set_transient('koko_analytics_migrations_running', true, 120);
+
         // run upgrade migrations (if any)
         $migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
         $migrations = new Migrations($from_version, $to_version, $migrations_dir);
         $migrations->run();
         update_option('koko_analytics_version', $to_version, true);
+
+        // delete transient once done
+        delete_transient('koko_analytics_migrations_running');
 
         // make sure scheduled event is set up correctly
         $this->aggregator->setup_scheduled_event();
