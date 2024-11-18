@@ -78,8 +78,8 @@ use function KokoAnalytics\percent_format_i18n;
                                 <button type="submit" class="button button-secondary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 
             <div class="ka-page-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
@@ -99,7 +99,7 @@ use function KokoAnalytics\percent_format_i18n;
         <?php
         /* Total visitors */
         $diff = $totals->visitors - $totals_previous->visitors;
-        $change = $totals_previous->visitors === 0 ? 0 : $totals->visitors / $totals_previous->visitors - 1;
+        $change = $totals_previous->visitors == 0 ? 0 : ($totals->visitors / $totals_previous->visitors) - 1;
         ?>
         <tr class="<?php echo $diff > 0 ? 'ka-up' : ''; ?> <?php echo $diff < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
@@ -124,7 +124,7 @@ use function KokoAnalytics\percent_format_i18n;
         <?php
         /* Total pageviews */
         $diff = $totals->pageviews - $totals_previous->pageviews;
-        $change = $totals_previous->pageviews === 0 ? 0 : $totals->pageviews / $totals_previous->pageviews - 1;
+        $change = $totals_previous->pageviews == 0 ? 0 : ($totals->pageviews / $totals_previous->pageviews) - 1;
         ?>
         <tr class="<?php echo $diff > 0 ? 'ka-up' : ''; ?> <?php echo $diff < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
