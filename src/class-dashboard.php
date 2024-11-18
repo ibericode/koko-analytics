@@ -53,6 +53,8 @@ class Dashboard
         $dateStart = $dateStart ?? $dateRange[0];
         $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
         $dateEnd = $dateEnd ?? $dateRange[1];
+        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
+        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
 
         $posts_offset = isset($_GET['posts']['offset']) ? absint($_GET['posts']['offset']) : 0;
         $referrers_offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
@@ -60,6 +62,8 @@ class Dashboard
         $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
 
         $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), $page);
+        $totals_previous = $stats->get_totals($prevDates[0]->format('Y-m-d'), $prevDates[1]->format('Y-m-d'), $page);
+
         $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $posts_offset, $posts_limit);
         $posts_count = $stats->count_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
         $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $referrers_offset, $referrers_limit);

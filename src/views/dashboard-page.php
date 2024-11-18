@@ -95,42 +95,53 @@ use function KokoAnalytics\percent_format_i18n;
     </div>
     <table id="ka-totals" class='ka-totals m'>
         <tbody>
-        <tr class="<?php echo $totals->visitors_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->visitors_change < 0 ? 'ka-down' : ''; ?>">
+
+        <?php
+        /* Total visitors */
+        $diff = $totals->visitors - $totals_previous->visitors;
+        $change = $totals_previous->visitors === 0 ? 0 : $totals->visitors / $totals_previous->visitors - 1;
+        ?>
+        <tr class="<?php echo $diff > 0 ? 'ka-up' : ''; ?> <?php echo $diff < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total visitors', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo percent_format_i18n($totals->visitors_change_rel); ?>
+                    <?php echo percent_format_i18n($change); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <?php if ($totals->visitors_change != 0) {
-                    ?><span><?php echo number_format_i18n(abs($totals->visitors_change)); ?></span><?php
+                <?php if ($diff != 0) {
+                    ?><span><?php echo number_format_i18n(abs($diff)); ?></span><?php
                 } ?>
-                <?php if ($totals->visitors_change > 0) {
+                <?php if ($diff > 0) {
                     ?> <span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
                 } ?>
-                <?php if ($totals->visitors_change < 0) {
+                <?php if ($diff < 0) {
                     ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php
                 } ?>
             </td>
         </tr>
-        <tr class="<?php echo $totals->pageviews_change > 0 ? 'ka-up' : ''; ?> <?php echo $totals->pageviews_change < 0 ? 'ka-down' : ''; ?>">
+        <?php
+        /* Total pageviews */
+        $diff = $totals->pageviews - $totals_previous->pageviews;
+        $change = $totals_previous->pageviews === 0 ? 0 : $totals->pageviews / $totals_previous->pageviews - 1;
+        ?>
+        <tr class="<?php echo $diff > 0 ? 'ka-up' : ''; ?> <?php echo $diff < 0 ? 'ka-down' : ''; ?>">
             <th><?php echo esc_html__('Total pageviews', 'koko-analytics'); ?></th>
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo percent_format_i18n($totals->pageviews_change_rel); ?>
+                    <?php echo percent_format_i18n($change); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
-                <?php if ($totals->pageviews_change != 0) {
-                    ?><span><?php echo number_format_i18n(abs($totals->pageviews_change)); ?></span><?php
+                <?php if ($diff != 0) {
+                    ?><span><?php echo number_format_i18n(abs($diff)); ?></span><?php
                 } ?>
-                <?php if ($totals->pageviews_change > 0) {
+                <?php if ($diff > 0) {
                     ?><span class="ka-totals--subtext-up"><?php echo esc_html__('more than previous period', 'koko-analytics'); ?></span><?php
                 } ?>
-                <?php if ($totals->pageviews_change < 0) {
+                <?php if ($diff < 0) {
                     ?><span class="ka-totals--subtext-down"><?php echo esc_html__('less than previous period', 'koko-analytics'); ?></span><?php
                 } ?>
             </td>
