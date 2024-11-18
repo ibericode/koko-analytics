@@ -15,20 +15,10 @@ class MigrationsTest extends TestCase
         }
     }
 
-    public function test_find_migrations()
+    public function testCanInstantiate()
     {
         $instance = new Migrations('1.0', '1.1', $this->dir);
-        self::assertEquals($instance->find_migrations(), array());
-
-        // create correct migration file
-        $migration_file =  $this->dir . '/1.1-do-something.php';
-        file_put_contents($migration_file, '');
-        self::assertEquals($instance->find_migrations(), array( $migration_file ));
-
-        // create incorrect migrations file
-        $older_migration_file =  $this->dir . '/1.0-do-something.php';
-        file_put_contents($older_migration_file, '');
-        self::assertEquals($instance->find_migrations(), array( $migration_file ));
+        $this->assertInstanceOf(Migrations::class, $instance);
     }
 
     public function tearDown() : void

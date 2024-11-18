@@ -12,3 +12,5 @@ function add_filter($a, $b, $c = 10, $d = 1) {}
 function add_shortcode($a, $b) {}
 function number_format_i18n($number, $decimals = 0) { return $number; }
 function register_activation_hook($a, $b) {}
+function update_option($a, $b, $c = false) {}
+function get_option($a, $b, $c = false) {}
