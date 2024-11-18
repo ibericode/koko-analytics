@@ -12,96 +12,81 @@ use Exception;
 
 class Migrations
 {
-    /**
-     * @var string
-     */
+    protected $option_name;
     protected $version_from;
-
-    /**
-     * @var string
-     */
     protected $version_to;
-
-    /**
-     * @var string
-     */
+    protected $current_version;
     protected $migrations_dir;
 
-    /**
-     * @param string $from
-     * @param string $to
-     * @param string $migrations_dir
-     */
-    public function __construct(string $from, string $to, string $migrations_dir)
+    public function __construct(string $option_name, string $version_to, string $migrations_dir)
     {
-        $this->version_from   = $from;
-        $this->version_to     = $to;
+        $this->option_name = $option_name;
+        $this->version_from = get_option($this->option_name, '0.0.0');
+        $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
+        $this->hook();
     }
 
-    /**
-     * Run the various upgrade routines, all the way up to the latest version
-     * @throws Exception
-     * @return bool
-     */
-    public function run(): bool
+    public function hook(): void
     {
-        $migrations = $this->find_migrations();
+        add_action('init', [$this, 'maybe_run'], 5, 0);
+    }
 
-        foreach ($migrations as $migration_file) {
-            $this->run_migration($migration_file);
+    public function maybe_run(): void
+    {
+        if (\version_compare($this->version_from, $this->version_to, '>=')) {
+            return;
         }
 
-        return count($migrations) > 0;
+        // check if migrations not already running
+        if (get_transient('koko_analytics_migrations_running')) {
+            return;
+        }
+
+        set_transient('koko_analytics_migrations_running', true, 120);
+        $this->run();
+        delete_transient('koko_analytics_migrations_running');
     }
 
     /**
-     * @return array
+     * Run the various migration files, all the way up to the latest version
      */
-    public function find_migrations(): array
+    protected function run(): void
     {
         $files = glob(rtrim($this->migrations_dir, '/') . '/*.php');
-
-        // return empty array when glob returns non-array value.
         if (! is_array($files)) {
-            return array();
+            return;
         }
 
-        $migrations = array();
         foreach ($files as $file) {
-            $migration = basename($file);
-            $parts     = explode('-', $migration);
-            $version   = $parts[0];
-
-            // check if migration file is not for an even higher version
-            if (version_compare($version, $this->version_to, '>')) {
-                continue;
-            }
-
-            // check if we ran migration file before.
-            if (version_compare($this->version_from, $version, '>=')) {
-                continue;
-            }
-
-            // schedule migration file for running
-            $migrations[] = $file;
+            $this->handle_file($file);
         }
-
-        return $migrations;
     }
 
     /**
-     * Include a migration file and runs it.
-     *
-     * @param string $file
-     * @throws Exception
+     * @var string Absolute path to migration file
      */
-    protected function run_migration(string $file)
+    protected function handle_file(string $file): void
     {
-        if (! \file_exists($file)) {
-            throw new Exception("Migration file $file does not exist.");
+        $migration = basename($file);
+        $parts     = explode('-', $migration);
+        $migraton_version   = $parts[0];
+
+        // check if migration file is not for an even higher version
+        if (version_compare($migraton_version, $this->version_to, '>')) {
+            return;
         }
 
+        // check if we ran migration file before.
+        if (version_compare($this->version_from, $migraton_version, '>=')) {
+            return;
+        }
+
+        // run migration file
         include $file;
+
+        // update option so later runs start after this migration
+        $this->version_from = $migraton_version;
+        update_option($this->option_name, $migraton_version, true);
     }
 }

@@ -23,7 +23,6 @@ class Plugin
         $this->aggregator = $aggregator;
 
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'on_activation']);
-        add_action('init', [$this, 'maybe_run_db_migrations'], 5, 0);
         add_action('init', [$this, 'maybe_run_actions'], 20, 0);
     }
 
@@ -61,34 +60,5 @@ class Plugin
         do_action('koko_analytics_' . $action);
         wp_safe_redirect(remove_query_arg('koko_analytics_action'));
         exit;
-    }
-
-    public function maybe_run_db_migrations(): void
-    {
-        $from_version = get_option('koko_analytics_version', '0.0.0');
-        $to_version   = KOKO_ANALYTICS_VERSION;
-        if (\version_compare($from_version, $to_version, '>=')) {
-            return;
-        }
-
-        // check if migrations not already running
-        if (get_transient('koko_analytics_migrations_running')) {
-            return;
-        }
-
-        // set transient to prevent migrations from running simultaneously
-        set_transient('koko_analytics_migrations_running', true, 120);
-
-        // run upgrade migrations (if any)
-        $migrations_dir = KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/';
-        $migrations = new Migrations($from_version, $to_version, $migrations_dir);
-        $migrations->run();
-        update_option('koko_analytics_version', $to_version, true);
-
-        // delete transient once done
-        delete_transient('koko_analytics_migrations_running');
-
-        // make sure scheduled event is set up correctly
-        $this->aggregator->setup_scheduled_event();
     }
 }

@@ -15,3 +15,9 @@ $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_stats MODIFY vi
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_stats MODIFY pageviews MEDIUMINT UNSIGNED NOT NULL");
 
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_urls MODIFY id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT");
+
+$role = get_role('administrator');
+if ($role) {
+    $role->add_cap('view_koko_analytics');
+    $role->add_cap('manage_koko_analytics');
+}
