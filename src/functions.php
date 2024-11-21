@@ -39,6 +39,9 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
+    // limit referrer URL to 255 chars
+    $referrer_url = \substr($referrer_url, 0, 255);
+
     return [
         'p',                // type indicator
         $post_id,
@@ -63,9 +66,13 @@ function extract_event_data(array $raw): array
     $event_name = \trim($raw['e']);
     $event_param = \trim($raw['p']);
 
-    if (strlen($event_name) === 0) {
+    if (\strlen($event_name) === 0) {
         return [];
     }
+
+    // limit event name and parameter lengths
+    $event_name = \substr($event_name, 0, 100);
+    $event_param = \substr($event_param, 0, 185);
 
     return [
         'e',                   // type indicator
@@ -117,7 +124,7 @@ function collect_request()
             $posts_viewed[] = (int) $_GET['p'];
         }
         $cookie = \join(',', $posts_viewed);
-        \setcookie('_koko_analytics_pages_viewed', $cookie, time() + 6 * 3600, '/');
+        \setcookie('_koko_analytics_pages_viewed', $cookie, \time() + 6 * 3600, '/');
     }
 
     exit;
