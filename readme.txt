@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.5
+Stable tag: 1.5.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -134,6 +134,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.5.0 - Nov 27, 2024
+
+- Impose a maximum referrer URL length on data ingestion.
+- Replace column header for visitors and pageviews with icon on small screens.
+- Speed up `koko_analytics_counter` shortcode by having `Stats::get_total` not automatically pull in previous period.
+- Migrations runner now updates the local database version after each individual step.
+- Migrations runner now has a simple lock mechanism to ensure it runs atomically.
+- Output database size in localized format.
+- Output dates in localized format through `wp_date()`. Thanks to [Dominik Schilling](https://dominikschilling.de/).
+- Add missing text domain on settings page. Thanks to [Dominik Schilling](https://dominikschilling.de/).
+
 
 #### 1.4.5 - Nov 14, 2024
 
