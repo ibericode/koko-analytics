@@ -409,7 +409,7 @@ function get_client_ip(): string
     return '';
 }
 
-function percent_format_i18n($pct)
+function percent_format_i18n($pct): string
 {
     if ($pct == 0) {
         return '';
