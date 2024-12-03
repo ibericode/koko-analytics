@@ -24,26 +24,12 @@ class Script_Loader
     public function maybe_enqueue_script(bool $echo = false)
     {
         $load_script = apply_filters('koko_analytics_load_tracking_script', true);
-        if (false === $load_script) {
+        if (! $load_script) {
             return;
         }
 
-        // Do not load script if excluding current user by role
-        $settings = get_settings();
-        if (count($settings['exclude_user_roles']) > 0) {
-            $user = wp_get_current_user();
-
-            if ($user instanceof WP_User && $user->exists() && $this->user_has_roles($user, $settings['exclude_user_roles'])) {
-                return;
-            }
-        }
-
-        // Do not load script if excluded by IP address
-        if (count($settings['exclude_ip_addresses']) > 0) {
-            $ip_address = get_client_ip();
-            if ($ip_address !== '' && in_array($ip_address, $settings['exclude_ip_addresses'], true)) {
-                return;
-            }
+        if (is_request_excluded()) {
+            return;
         }
 
         // TODO: Handle "term" requests so we track both terms and post types.
@@ -160,16 +146,5 @@ class Script_Loader
         }
 
         return str_replace(' src=', ' defer src=', $tag);
-    }
-
-    public function user_has_roles(WP_User $user, array $roles): bool
-    {
-        foreach ($user->roles as $user_role) {
-            if (in_array($user_role, $roles, true)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

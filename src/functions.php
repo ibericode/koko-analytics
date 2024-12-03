@@ -90,6 +90,12 @@ function collect_request()
         return;
     }
 
+    // if WordPress environment is loaded, check if request is excluded
+    // TODO: come up with a way to check for excluded request without WordPress
+    if (\defined('ABSPATH') && is_request_excluded()) {
+        return;
+    }
+
     if (isset($_GET['e'])) {
         $data = extract_event_data($_GET);
     } else {
@@ -418,4 +424,39 @@ function percent_format_i18n($pct): string
     $prefix = $pct > 0 ? '+' : '';
     $formatted = \number_format_i18n($pct * 100, 0);
     return $prefix . $formatted . '%';
+}
+
+function is_request_excluded(): bool
+{
+    $settings = get_settings();
+
+    // check if exclude by logged-in user role
+    if (count($settings['exclude_user_roles']) > 0) {
+        $user = wp_get_current_user();
+
+        if ($user instanceof \WP_User && $user->exists() && user_has_roles($user, $settings['exclude_user_roles'])) {
+            return true;
+        }
+    }
+
+    // check if excluded by IP address
+    if (count($settings['exclude_ip_addresses']) > 0) {
+        $ip_address = get_client_ip();
+        if ($ip_address !== '' && in_array($ip_address, $settings['exclude_ip_addresses'], true)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function user_has_roles(\WP_User $user, array $roles): bool
+{
+    foreach ($user->roles as $user_role) {
+        if (in_array($user_role, $roles, true)) {
+            return true;
+        }
+    }
+
+    return false;
 }
