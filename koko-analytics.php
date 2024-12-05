@@ -42,7 +42,7 @@ namespace KokoAnalytics;
 require __DIR__ . '/autoload.php';
 
 if (\defined('DOING_AJAX') && DOING_AJAX) {
-    maybe_collect_request();
+    add_action('init', '\KokoAnalytics\maybe_collect_request', 1, 0);
 } elseif (is_admin()) {
     new Admin();
     new Dashboard_Widget();
