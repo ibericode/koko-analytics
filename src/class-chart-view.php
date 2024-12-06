@@ -42,7 +42,7 @@ class Chart_View
               </g>
                <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)" style="display: none;">
                 <?php foreach ($data as $tick) {
-                    $dt = (new \DateTimeImmutable($tick->date));
+                    $dt = (new \DateTimeImmutable($tick->date, wp_timezone()));
                     $is_weekend = (int) $dt->format('N') >= 6;
                     $class_attr = $is_weekend ? 'class="weekend" ' : '';
                     // data attributes are for the hover tooltip, which is handled in JS
