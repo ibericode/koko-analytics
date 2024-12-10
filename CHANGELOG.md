@@ -1,5 +1,13 @@
 # Changelog
 
+
+#### 1.5.1 - Dec 10, 2024
+
+- Fix date in chart tooltip using default PHP timezone, explicitly use site timezone instead.
+- Check for excluded request (by IP address or user role) in unoptimized endpoint.
+- Prevent PHP notice on dashboard if page URL does not have query component.
+
+
 #### 1.5.0 - Nov 27, 2024
 
 - Impose a maximum referrer URL length on data ingestion.
