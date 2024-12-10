@@ -38,9 +38,11 @@ class Plugin
         // schedule action for aggregating stats
         $this->aggregator->setup_scheduled_event();
 
-        // create optimized endpoint file
+        // (maybe) create optimized endpoint file
         $endpoint_installer = new Endpoint_Installer();
-        $endpoint_installer->install();
+        if ($endpoint_installer->is_eligibile()) {
+            $endpoint_installer->install();
+        }
     }
 
     public function maybe_run_actions(): void

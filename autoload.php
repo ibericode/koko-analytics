@@ -2,6 +2,7 @@
 
 require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
+require __DIR__ . '/src/collect-functions.php';
 
 spl_autoload_register(function($class) {
     static $classmap = [
