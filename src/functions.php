@@ -338,7 +338,7 @@ function get_page_title($post): string
         $url_parts = parse_url($permalink);
         $title = $url_parts['path'];
 
-        if (empty($url_parts['query'])) {
+        if (!empty($url_parts['query'])) {
             $title .= '?';
             $title .= $url_parts['query'];
         }
