@@ -128,7 +128,8 @@ class Rest
             return false;
         }
 
-        $now = create_local_datetime('now')->format('Y-m-d');
+        $end_date = create_local_datetime($end_date);
+        $now = create_local_datetime('now');
         return $end_date < $now;
     }
 

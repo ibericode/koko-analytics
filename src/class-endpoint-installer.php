@@ -17,6 +17,7 @@ class Endpoint_Installer
 
     public function get_file_contents(): string
     {
+        $timezone = wp_timezone_string();
         $buffer_filename    = get_buffer_filename();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/functions.php';
         return <<<EOT

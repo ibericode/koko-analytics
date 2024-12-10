@@ -315,24 +315,9 @@ function test_custom_endpoint(): void
     $endpoint_installer->verify();
 }
 
-function create_local_datetime($timestr): ?\DateTimeImmutable
+function create_local_datetime(string $timestr): \DateTimeImmutable
 {
-    $offset = (float) get_option('gmt_offset', 0.0);
-    if ($offset >= 0.00) {
-        $offset = "+$offset";
-    }
-
-    $now_local = (new \DateTimeImmutable('now'));
-    if ($offset > 0.00 || $offset < 0.00) {
-        $now_local = $now_local->modify($offset . ' hours');
-    }
-
-    $dt_local = $now_local->modify($timestr);
-    if (! $dt_local) {
-        return null;
-    }
-
-    return $dt_local;
+    return new \DateTimeImmutable($timestr, wp_timezone());
 }
 
 /**

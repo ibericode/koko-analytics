@@ -49,10 +49,16 @@ class Dashboard
         $dateRange = $dates->get_range($range);
 
         $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
-        $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
-        $dateStart = $dateStart ?? $dateRange[0];
-        $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
-        $dateEnd = $dateEnd ?? $dateRange[1];
+        try {
+            $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
+        } catch (\Exception $e) {
+            $dateStart = $dateRange[0];
+        }
+        try {
+            $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
+        } catch (\Exception $e) {
+            $dateEnd = $dateRange[1];
+        }
         $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
         $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
 
