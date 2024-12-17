@@ -26,14 +26,7 @@ function get_settings(): array
     return apply_filters('koko_analytics_settings', $settings);
 }
 
-/**
- * $args['number'] int Number of posts
- * $args['day'] int Number of days
- * @args['post_type'] string|array List of post types to include
- *
- *
- */
-function get_most_viewed_posts(array $args = array()): array
+function get_most_viewed_post_ids(array $args)
 {
     global $wpdb;
     $cache_key = md5(serialize($args));
@@ -44,8 +37,11 @@ function get_most_viewed_posts(array $args = array()): array
             'number'    => 5,
             'post_type' => 'post',
             'days'    => 30,
+            'paged' => 0,
         ), $args);
 
+        $args['paged'] = abs((int) $args['paged']);
+        $args['number'] = abs((int) $args['number']);
         $args['days']      = abs((int) $args['days']);
         $args['post_type'] = is_array($args['post_type']) ? $args['post_type'] : explode(',', $args['post_type']);
         $args['post_type'] = array_map('trim', $args['post_type']);
@@ -62,8 +58,9 @@ function get_most_viewed_posts(array $args = array()): array
         );
         $post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
         $sql_params             = array_merge($sql_params, $args['post_type']);
-        $sql_params[]           = $args['number'];
-        $sql                    = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT 0, %d", $sql_params);
+        $sql_params[] = $args['number'] * $args['paged'];
+        $sql_params[] = $args['number'];
+        $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE s.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT %d, %d", $sql_params);
         $results                = $wpdb->get_results($sql);
         if (empty($results)) {
             return array();
@@ -75,22 +72,34 @@ function get_most_viewed_posts(array $args = array()): array
         wp_cache_set($cache_key, $post_ids, 'koko-analytics', 3600);
     }
 
-    $r        = new WP_Query(
-        array(
-            'posts_per_page'      => -1,
-            'post__in'            => $post_ids,
-            // indicates that we want to use the order of our $post_ids array
-            'orderby'             => 'post__in',
+    return $post_ids;
+}
 
-            // By default, WP_Query only returns "post" types
-            // Without this argument, this function would not return any page types
-            'post_type' => 'any',
-            // Prevent sticky post from always being included
-            'ignore_sticky_posts' => true,
-            // Excludes SQL_CALC_FOUND_ROWS from the query (tiny performance gain)
-            'no_found_rows'       => true,
-        )
+/**
+ * $args['number'] int Number of posts
+ * $args['day'] int Number of days
+ * @args['post_type'] string|array List of post types to include
+ * @args['paged'] int Number of current page *
+ */
+function get_most_viewed_posts(array $args = array()): array
+{
+    global $wpdb;
+    $post_ids = get_most_viewed_post_ids($args);
+    $query_args = array(
+        'posts_per_page' => -1,
+        'post__in' => $post_ids,
+        // indicates that we want to use the order of our $post_ids array
+        'orderby' => 'post__in',
+
+        // By default, WP_Query only returns "post" types
+        // Without this argument, this function would not return any page types
+        'post_type' => 'any',
+        // Prevent sticky post from always being included
+        'ignore_sticky_posts' => true,
+        // Excludes SQL_CALC_FOUND_ROWS from the query (tiny performance gain)
+        'no_found_rows'       => true,
     );
+    $r = new WP_Query($query_args);
     return $r->posts;
 }
 
