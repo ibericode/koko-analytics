@@ -51,6 +51,7 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
     add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
 }
 
+new QueryLoopBlock();
 new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
 new Dashboard();
 $aggregator = new Aggregator();

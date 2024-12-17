@@ -21,6 +21,7 @@ spl_autoload_register(function($class) {
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
         'KokoAnalytics\\Plugin' => '/src/class-plugin.php',
         'KokoAnalytics\\Pruner' => '/src/class-pruner.php',
+        'KokoAnalytics\\QueryLoopBlock' => '/src/class-query-loop-block.php',
         'KokoAnalytics\\Rest' => '/src/class-rest.php',
         'KokoAnalytics\\Script_Loader' => '/src/class-script-loader.php',
         'KokoAnalytics\\ShortCode_Site_Counter' => '/src/class-shortcode-site-counter.php',

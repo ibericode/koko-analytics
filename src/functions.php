@@ -26,6 +26,13 @@ function get_settings(): array
     return apply_filters('koko_analytics_settings', $settings);
 }
 
+/**
+ * $args['number'] int Number of posts
+ * $args['day'] int Number of days
+ * @args['post_type'] string|array List of post types to include
+ *
+ *
+ */
 function get_most_viewed_posts(array $args = array()): array
 {
     global $wpdb;
