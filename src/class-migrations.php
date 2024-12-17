@@ -58,9 +58,13 @@ class Migrations
             return;
         }
 
+        // run each migration file
         foreach ($files as $file) {
             $this->handle_file($file);
         }
+
+        // update database version to current code version
+        update_option($this->option_name, $this->version_to, true);
     }
 
     /**
