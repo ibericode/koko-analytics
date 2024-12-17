@@ -1,5 +1,9 @@
 # Changelog
 
+#### 1.5.2 - Dec 17, 2024
+
+- Improve logic for running pending database migrations.
+
 
 #### 1.5.1 - Dec 10, 2024
 
