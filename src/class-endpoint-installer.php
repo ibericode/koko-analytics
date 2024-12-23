@@ -17,7 +17,6 @@ class Endpoint_Installer
 
     public function get_file_contents(): string
     {
-        $timezone = wp_timezone_string();
         $buffer_filename    = get_buffer_filename();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
         return <<<EOT
@@ -32,7 +31,6 @@ class Endpoint_Installer
 
 // path to pageviews.php file in uploads directory
 define('KOKO_ANALYTICS_BUFFER_FILE', '$buffer_filename');
-define('KOKO_ANALYTICS_TIMEZONE', '$timezone');
 
 // path to functions.php file in Koko Analytics plugin directory
 require '$functions_filename';
