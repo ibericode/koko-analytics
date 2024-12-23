@@ -2,7 +2,8 @@
 
 namespace KokoAnalytics;
 
-class QueryLoopBlock {
+class QueryLoopBlock
+{
     public function __construct()
     {
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);

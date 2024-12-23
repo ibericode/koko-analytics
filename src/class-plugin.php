@@ -24,9 +24,6 @@ class Plugin
 
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'on_activation']);
         add_action('init', [$this, 'maybe_run_actions'], 20, 0);
-
-
-
     }
 
     public function on_activation(): void

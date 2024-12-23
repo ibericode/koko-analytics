@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package koko-analytics
  * @license GPL-3.0+
