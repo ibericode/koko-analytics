@@ -24,6 +24,9 @@ class Plugin
 
         register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'on_activation']);
         add_action('init', [$this, 'maybe_run_actions'], 20, 0);
+
+
+
     }
 
     public function on_activation(): void
@@ -38,9 +41,11 @@ class Plugin
         // schedule action for aggregating stats
         $this->aggregator->setup_scheduled_event();
 
-        // create optimized endpoint file
+        // (maybe) create optimized endpoint file
         $endpoint_installer = new Endpoint_Installer();
-        $endpoint_installer->install();
+        if ($endpoint_installer->is_eligibile()) {
+            $endpoint_installer->install();
+        }
     }
 
     public function maybe_run_actions(): void
