@@ -27,21 +27,24 @@ class Dates
                 ];
             case 'this_week':
                 $offset = (int) get_option('start_of_week', 0);
+                $last_sunday = (int) $now->format('w') === 0 ? $now : $now->modify('last sunday');
                 return [
-                    ($now->modify('last sunday, midnight'))->modify("+$offset days"),
+                    ($last_sunday->modify('midnight'))->modify("+$offset days"),
                     ($now->modify('next sunday, midnight, -1 second'))->modify("+$offset days")
                 ];
             case 'last_week':
                 $offset = (int) get_option('start_of_week', 0);
+                $last_sunday = (int) $now->format('w') === 0 ? $now : $now->modify('last sunday');
                 return [
-                    ($now->modify('last sunday, midnight, -7 days'))->modify("+$offset days"),
-                    ($now->modify('last sunday, midnight, -1 second'))->modify("+$offset days"),
+                    ($last_sunday->modify('midnight, -7 days'))->modify("+$offset days"),
+                    ($last_sunday->modify('midnight, -1 second'))->modify("+$offset days"),
                 ];
             case 'last_14_days':
                 return [
                     $now->modify('-14 days'),
                     $now->modify('tomorrow midnight, -1 second')
                 ];
+            default:
             case 'last_28_days':
                 return [
                     $now->modify('-28 days'),
@@ -67,8 +70,6 @@ class Dates
                     $now->setDate($now->format('Y') - 1, 1, 1),
                     $now->setDate($now->format('Y') - 1, 12, 31),
                 ];
-            default:
-                return $this->get_range('last_28_days');
         }
     }
 }
