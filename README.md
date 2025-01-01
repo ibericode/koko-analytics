@@ -1,4 +1,4 @@
-Koko Analytics
+Koko Analytics for WordPress
 ===========
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/ibericode/koko-analytics/master/LICENSE)
 [![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)](https://wordpress.org/plugins/koko-analytics/advanced/)
@@ -10,6 +10,10 @@ Koko Analytics
 It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
 
 You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
+
+> [!TIP]
+> We're working on a [standalone version of Koko Analytics](https://github.com/koko-analytics/koko-analytics) that you can self-host to track any site, not just WordPress sites.
+
 
 ## Features
 
@@ -32,7 +36,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 ### Koko Analytics Pro
 
-Koko Analytics is a freemium plugin. The core features listed above are available for free. Certain advanced features are bundled in an add-on plugin called Koko Analytics Pro:
+Koko Analytics is a freemium WordPress plugin. The core features listed above are available for free. Certain advanced features are bundled in an add-on plugin called Koko Analytics Pro:
 
 - Outbound link tracking
 - Track form submissions
