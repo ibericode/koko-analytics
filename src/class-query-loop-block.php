@@ -12,7 +12,7 @@ class QueryLoopBlock
 
     public function admin_enqueue_scripts($hook_suffix)
     {
-        if ($hook_suffix !== 'edit.php' && $hook_suffix !== 'post-new.php') {
+        if ($hook_suffix !== 'post-new.php' && $hook_suffix !== 'post.php') {
             return;
         }
 
