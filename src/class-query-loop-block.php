@@ -10,8 +10,12 @@ class QueryLoopBlock
         add_filter('pre_render_block', [$this, 'pre_render_block'], 10, 3);
     }
 
-    public function admin_enqueue_scripts()
+    public function admin_enqueue_scripts($hook_suffix)
     {
+        if ($hook_suffix !== 'edit.php' && $hook_suffix !== 'post-new.php') {
+            return;
+        }
+
         wp_enqueue_script('koko-analytics-query-loop-block', plugins_url('assets/dist/js/query-loop-block.js', KOKO_ANALYTICS_PLUGIN_FILE), [ 'wp-blocks' ]);
     }
 
