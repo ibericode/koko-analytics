@@ -12,7 +12,7 @@ class QueryLoopBlock
 
     public function admin_enqueue_scripts()
     {
-        wp_enqueue_script('koko-analytics-query-loop-block', plugins_url('assets/dist/js/query-loop-block.js', KOKO_ANALYTICS_PLUGIN_FILE));
+        wp_enqueue_script('koko-analytics-query-loop-block', plugins_url('assets/dist/js/query-loop-block.js', KOKO_ANALYTICS_PLUGIN_FILE), [ 'wp-blocks' ]);
     }
 
     public function pre_render_block($prerender, array $block, $parent)

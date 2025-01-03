@@ -120,6 +120,12 @@ class Stats
         );
 
         $results = $wpdb->get_results($sql);
+
+        // this prevents n+1 queries in the array_map callback below
+        // because get_posts primes wp_cache entries for each post object
+        $ids = wp_list_pluck($results, 'id');
+        get_posts(['include' => $ids ]);
+
         return array_map(function ($row) {
             // special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
             if ($row->id == 0) {
