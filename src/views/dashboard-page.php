@@ -116,7 +116,7 @@ use function KokoAnalytics\percent_format_i18n;
                     echo ' ';
                 }
                 if ($diff > 0) {
-                   echo esc_html__('more than previous period', 'koko-analytics');
+                    echo esc_html__('more than previous period', 'koko-analytics');
                 }
                 if ($diff < 0) {
                     echo esc_html__('less than previous period', 'koko-analytics');
@@ -143,7 +143,7 @@ use function KokoAnalytics\percent_format_i18n;
                     echo ' ';
                 }
                 if ($diff > 0) {
-                   echo esc_html__('more than previous period', 'koko-analytics');
+                    echo esc_html__('more than previous period', 'koko-analytics');
                 }
                 if ($diff < 0) {
                     echo esc_html__('less than previous period', 'koko-analytics');
