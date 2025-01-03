@@ -31,10 +31,9 @@ class QueryLoopBlock
     public function query_loop_block_query_vars($vars)
     {
         // TODO: Add UI for specifying number of days
-        // TODO: Performance
         $post_ids = get_most_viewed_post_ids([
             'post_type' => $vars['post_type'],
-            'number' => 1000, // to support blocks with pagination
+            'number' => 100, // to support blocks with pagination
             'days' => 30,
         ]);
 
