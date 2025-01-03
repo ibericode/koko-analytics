@@ -120,8 +120,13 @@ Example use with arguments:
 [koko_analytics_counter days="30" metric="pageviews" global="true"]
 `
 
+### Why are category and tag archives not tracked?
+
+Koko Analytics is currently only able to track things that have an internal post ID, which is every (custom) post type. This is so that Koko Analytics does not have to store pathnames, which would take up a lot of storage space or an additional pre-processing step to normalize the data.
+
 ### How can I help fund Koko Analytics?
 You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
+
 
 
 == Screenshots ==
