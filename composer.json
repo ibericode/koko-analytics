@@ -26,6 +26,7 @@
   },
   "scripts": {
     "test": "php vendor/bin/phpunit --bootstrap tests/bootstrap.php  tests/",
+    "check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './var/cache/*' -print0 | xargs -0 -n1 php -l",
     "lint": "vendor/bin/phpcs -n -s",
     "fmt": "vendor/bin/phpcbf"
   }
