@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/functions.php';
-$n = 1_000_000;
+$n = 1000000;
 $url = 'https://a.com/one/';
 
 $time = bench(function() use($n, $url) {
