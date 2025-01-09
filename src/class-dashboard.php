@@ -138,6 +138,6 @@ class Dashboard
             return;
         }
 
-        new Notice_Pro;
+        new Notice_Pro();
     }
 }

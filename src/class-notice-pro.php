@@ -2,8 +2,8 @@
 
 namespace KokoAnalytics;
 
-class Notice_Pro {
-
+class Notice_Pro
+{
     public function __construct()
     {
         $this->maybe_show();
@@ -35,8 +35,12 @@ class Notice_Pro {
 
     public function maybe_show()
     {
-        if (!current_user_can('manage_koko_analytics')) return;
-        if (defined('KOKO_ANALYTICS_PRO_VERSION')) return;
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+        if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
+            return;
+        }
 
         if (isset($_GET['ka-notice-pro-dismiss'])) {
             $this->update_setting('dismissed', true);
