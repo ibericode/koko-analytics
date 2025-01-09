@@ -1,5 +1,13 @@
 # Changelog
 
+#### 1.5.3 - Jan 09, 2025
+
+- Add integration with Query Loop Block.
+- Fix date range when viewing "this week" or "last week" on a Sunday.
+- Remove non-functional settings example from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) from settings page.
+- Add one-time notice after at least 30 days of usage asking for a contribution.
+
+
 #### 1.5.2 - Dec 17, 2024
 
 - Improve logic for running pending database migrations.
