@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -144,6 +144,14 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+#### 1.5.3 - Jan 09, 2025
+
+- Add integration with Query Loop Block.
+- Fix date range when viewing "this week" or "last week" on a Sunday.
+- Remove non-functional settings example from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) from settings page.
+- Add one-time notice after at least 30 days of usage asking for a contribution.
+
 
 #### 1.5.2 - Dec 17, 2024
 
