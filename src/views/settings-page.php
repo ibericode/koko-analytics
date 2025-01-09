@@ -111,44 +111,6 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <p class="description"><?php esc_html_e('Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.', 'koko-analytics'); ?></p>
                 </div>
 
-                <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
-                <div class="ka-margin-m">
-                    <fieldset>
-                        <legend class="ka-settings--label">Track all outbound link clicks?</legend>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No', 'koko-analytics'); ?></label>
-                    </fieldset>
-                    <p class="description">
-                        Select "yes" if you want Koko Analytics to count all clicks on links to external websites. <br>This feature is only available in <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>.
-                   </p>
-                </div>
-
-                <div class="ka-margin-m">
-                    <fieldset>
-                        <legend class="ka-settings--label">Track form submissions?</legend>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" disabled checked> <?php esc_html_e('No', 'koko-analytics'); ?></label>
-                    </fieldset>
-                    <p class="description">
-                        Select "yes" if you want Koko Analytics to count all form submissions. <br>This feature is only available in <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>.
-                   </p>
-                </div>
-
-                <div class="ka-margin-m">
-                    <fieldset>
-                        <legend class="ka-settings--label">Send periodic email reports?</legend>
-                        <ul>
-                        <li><label class="ka-setings--cb-label"><input type="checkbox" disabled>Daily</label></li>
-                        <li><label class="ka-setings--cb-label"><input type="checkbox" disabled>Weekly</label></li>
-                        <li><label class="ka-setings--cb-label"><input type="checkbox" disabled>Monthly</label></li>
-                        </ul>
-                    </fieldset>
-                    <p class="description">
-                        Select the timeframes for which you want to receive an email report summarising your most important statistics. <br>This feature is only available in <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>.
-                   </p>
-                </div>
-                <?php } // end if not Koko Analytics Pro ?>
-
                 <div class="ka-margin-m">
                     <?php submit_button(null, 'primary', 'submit', false); ?>
                 </div>
@@ -239,6 +201,24 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
         <div class="ka-admin-sidebar">
 
+            <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
+            <div>
+                <div class="ka-pro-cta ka-margin-m">
+                    <h2>Upgrade to Koko Analytics Pro</h2>
+                    <p>You are currently using the free version of Koko Analytics. There is a paid add-on called <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a> which adds several powerful features:</p>
+                    <ul class="ul-square">
+                        <li>Track outbound link clicks</li>
+                        <li>Track form submissions</li>
+                        <li><a href="https://www.kokoanalytics.com/kb/tracking-events/">Custom event tracking</a></li>
+                        <li><a href="https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/">Periodic email report of your most important statistics</a></li>
+                        <li>Export dashboard view to CSV</li>
+                    </ul>
+                    <p><a class="button" href="https://www.kokoanalytics.com/pricing/">View pricing</a></p>
+                    <p>By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.</p>
+                </div>
+            </div>
+            <?php } // end if defined KOKO_ANALYTICS_PRO ?>
+
             <div>
                 <h2><?php esc_html_e('Coming from Jetpack Stats?', 'koko-analytics'); ?></h2>
                 <p><?php printf(__('You can now <a href="%1$s">import your historical stats data into Koko Analytics</a>.', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p>
@@ -274,29 +254,13 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             if (count($posts) > 0) { ?>
             <div>
                 <h2><?php esc_html_e('Koko Analytics news', 'koko-analytics'); ?></h2>
-                <ul class="ul-square" style="margin-left: 1em; margin-bottom: 0;">
+                <ul class="ul-square" style="margin-left: 1em; margin-bottom: 1em;">
                     <?php foreach ($posts as $p) { ?>
                         <li><a href="<?php echo esc_attr($p->link); ?>"><?php echo esc_html($p->title->rendered); ?></a></li>
                     <?php } ?>
                 </ul>
             </div>
             <?php } ?>
-
-             <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
-            <div class="ka-pro-cta ka-margin-m">
-                <h2>Upgrade to Koko Analytics Pro</h2>
-                <p>You are currently using the free version of Koko Analytics. There is a paid add-on called <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a> which adds several powerful features:</p>
-                <ul class="ul-square">
-                    <li>Track outbound link clicks</li>
-                    <li>Track form submissions</li>
-                    <li><a href="https://www.kokoanalytics.com/kb/tracking-events/">Custom event tracking</a></li>
-                    <li><a href="https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/">Periodic email report of your most important statistics</a></li>
-                    <li>Export dashboard view to CSV</li>
-                </ul>
-                <p><a class="button" href="https://www.kokoanalytics.com/pricing/">View pricing</a></p>
-                <p>By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.</p>
-            </div>
-             <?php } ?>
         </div>
     </div><?php // end flex wrap ?>
 </div>

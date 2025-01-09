@@ -13,14 +13,14 @@ Privacy-friendly and efficient analytics for your WordPress site
 
 == Description ==
 
-Koko Analytics is a privacy-friendly, simple and lightweight analytics plugin for WordPress. It does not use any external services, so data about your visitors is never shared with any third-party.
-No visitor specific data is collected, only aggregated counts.
+Koko Analytics is a privacy-friendly website analytics plugin for WordPress. It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
 
-Stop sharing visitor data with third-party companies who also happen to sell ads.
+Stop sharing visitor data with third-party companies who also happen to sell ads. Stop slowing down your website with large tracking scripts. Liberate your website analytics!
 
-Stop unnecessarily slowing down your website.
+[Koko Analytics](https://www.kokoanalytics.com/) lets you focus on the important metrics, while respecting the privacy of your visitors.
 
-Koko Analytics lets you focus on the important metrics, while respecting the privacy of your visitors.
+You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
+
 
 ### Features
 
@@ -30,7 +30,7 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **No cookies**: There is an option to not use any cookies.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
 - **Lightweight**: Adds less than 850 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
-- **GDPR**: Compliant by design.
+- **GDPR Compliant** by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
 - **Cached**: Fully compatible with pages served from any kind of cache.
@@ -39,7 +39,8 @@ Koko Analytics lets you focus on the important metrics, while respecting the pri
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
 - **Jetpack Stats importer**: You can import historical analytics data from Jetpack Stats into Koko Analytics.
 
-### Pro features
+
+### Koko Analytics Pro
 
 The following features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing):
 
@@ -50,7 +51,7 @@ The following features are available through [Koko Analytics Pro](https://www.ko
 
 ### Contributing
 
-You can contribute to Koko Analytics in many different ways. For example:
+You can help with Koko Analytics in many different ways. For example:
 
 - [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
@@ -58,6 +59,10 @@ You can contribute to Koko Analytics in many different ways. For example:
 - [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
 - [Vote on feature suggestions in our idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas?discussions_q=is%3Aopen+sort%3Atop+created%3A%3E%3D2022-10-25+category%3AIdeas)
 
+
+### About the plugin author
+
+Koko Analytics is developed by [Danny van Kooten](https://www.dannyvankooten.com/) from his home office in Nijmegen, The Netherlands.
 
 == Installation ==
 

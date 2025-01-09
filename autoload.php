@@ -18,6 +18,7 @@ spl_autoload_register(function($class) {
         'KokoAnalytics\\Endpoint_Installer' => '/src/class-endpoint-installer.php',
         'KokoAnalytics\\Jetpack_Importer' => '/src/class-jetpack-importer.php',
         'KokoAnalytics\\Migrations' => '/src/class-migrations.php',
+        'KokoAnalytics\\Notice_Pro' => '/src/class-notice-pro.php',
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
         'KokoAnalytics\\Plugin' => '/src/class-plugin.php',
         'KokoAnalytics\\Pruner' => '/src/class-pruner.php',

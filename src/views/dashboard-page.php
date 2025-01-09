@@ -23,6 +23,7 @@ use function KokoAnalytics\get_referrer_url_label;
 use function KokoAnalytics\percent_format_i18n;
 ?>
 <div class="wrap">
+    <?php $this->maybe_show_pro_notice(); ?>
     <?php $this->maybe_show_adblocker_notice(); ?>
 
     <div class="ka-dashboard-nav">

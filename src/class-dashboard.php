@@ -131,4 +131,13 @@ class Dashboard
         <script src="<?php echo plugins_url('/assets/dist/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
         <?php
     }
+
+    private function maybe_show_pro_notice(): void
+    {
+        if (! current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        new Notice_Pro;
+    }
 }
