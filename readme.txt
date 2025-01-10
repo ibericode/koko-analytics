@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.3
@@ -144,6 +144,13 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.5.5 - Jan 10, 2025
+
+Don't use `upgrader_process_complete` for checking pending database migration. This can't be used because this specific hook runs using the old version of the plugin...
+
+Reverting this change from version 1.5.2 fixes an issue with the optimized endpoint file referencing an unexisting function.
+
 
 #### 1.5.4 - Jan 10, 2025
 
