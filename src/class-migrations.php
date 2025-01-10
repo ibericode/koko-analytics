@@ -24,14 +24,6 @@ class Migrations
         $this->version_from = get_option($this->option_name, '0.0.0');
         $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
-        $this->hook();
-    }
-
-    public function hook(): void
-    {
-        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'maybe_run']);
-        add_action('upgrader_process_complete', [$this, 'maybe_run'], 5, 0);
-        add_action('admin_init', [$this, 'maybe_run_postinstall'], 10, 0);
     }
 
     public function maybe_run(): void
@@ -48,16 +40,6 @@ class Migrations
         set_transient('koko_analytics_migrations_running', true, 120);
         $this->run();
         delete_transient('koko_analytics_migrations_running');
-    }
-
-    public function maybe_run_postinstall(): void
-    {
-        global $pagenow;
-
-        // run any pending migrations when loading Koko Analytics dashboard or settings page
-        if ($pagenow === 'index.php' && ($_GET['page'] ?? '') === 'koko-analytics') {
-            $this->maybe_run();
-        }
     }
 
     /**
