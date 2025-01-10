@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.5.4 - Jan 10, 2025
+
+- Fix optimized enpoint file referencing no-longer existing file on some installations.
+
+
 #### 1.5.3 - Jan 09, 2025
 
 - Add integration with Query Loop Block.

@@ -17,7 +17,7 @@ function get_settings(): array
         'use_cookie' => 1,
         'exclude_user_roles' => array(),
         'exclude_ip_addresses' => array(),
-        'prune_data_after_months' => 5 * 12, // 5 years
+        'prune_data_after_months' => 10 * 12, // 10 years
         'default_view' => 'last_28_days',
         'is_dashboard_public' => 0,
     );
