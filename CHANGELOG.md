@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.5.5 - Jan 10, 2025
+
+Don't use `upgrader_process_complete` for checking pending database migration. This can't be used because this specific hook runs using the old version of the plugin...
+
+Reverting this change from version 1.5.2 fixes an issue with the optimized endpoint file referencing an unexisting function.
+
+
 #### 1.5.4 - Jan 10, 2025
 
 - Fix optimized enpoint file referencing no-longer existing file on some installations.
