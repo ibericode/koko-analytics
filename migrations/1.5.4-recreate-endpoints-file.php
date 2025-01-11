@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') or exit;
+
 // Unlink the custom endpoint file to ensure we get the latest logic for determining whether to use this
 if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
     unlink(ABSPATH . '/koko-analytics-collect.php');

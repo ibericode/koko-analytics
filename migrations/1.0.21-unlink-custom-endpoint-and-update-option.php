@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') or exit;
+
 // What we should have done in version 1.0.20
 
 // Unlink the custom endpoint file to ensure we get the latest logic for determining whether to use this
