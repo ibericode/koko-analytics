@@ -22,16 +22,16 @@ class ShortCode_Site_Counter
 
     public function __construct()
     {
-        add_shortcode(self::SHORTCODE, array($this, 'content'));
+        add_shortcode(self::SHORTCODE, [$this, 'content']);
     }
 
     public function content($args)
     {
-        $default_args = array(
+        $default_args = [
             'days' => 365 * 10,
             'metric' => 'visitors',
             'global' => false,
-        );
+        ];
         $args = shortcode_atts($default_args, $args, self::SHORTCODE);
         $args['days'] = abs((int) $args['days']);
 

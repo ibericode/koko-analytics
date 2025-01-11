@@ -10,12 +10,12 @@ namespace KokoAnalytics;
 
 class Pageview_Aggregator
 {
-    protected $site_stats     = array(
+    protected $site_stats     = [
         'visitors' => 0,
         'pageviews' => 0,
-    );
-    protected $post_stats     = array();
-    protected $referrer_stats = array();
+    ];
+    protected $post_stats     = [];
+    protected $referrer_stats = [];
 
     public function line(string $type, array $params): void
     {
@@ -43,10 +43,10 @@ class Pageview_Aggregator
         // update page stats (if received)
         if ($post_id >= 0) {
             if (! isset($this->post_stats[ $post_id ])) {
-                $this->post_stats[ $post_id ] = array(
+                $this->post_stats[ $post_id ] = [
                     'visitors'  => 0,
                     'pageviews' => 0,
-                );
+                ];
             }
 
             $this->post_stats[ $post_id ]['pageviews'] += 1;
@@ -63,10 +63,10 @@ class Pageview_Aggregator
 
             // add to map
             if (! isset($this->referrer_stats[ $referrer_url ])) {
-                $this->referrer_stats[ $referrer_url ] = array(
+                $this->referrer_stats[ $referrer_url ] = [
                     'pageviews' => 0,
                     'visitors'  => 0,
-                );
+                ];
             }
 
             // increment stats
@@ -90,12 +90,12 @@ class Pageview_Aggregator
         $date = create_local_datetime('now')->format('Y-m-d');
 
         // insert site stats
-        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", array( $date, $this->site_stats['visitors'], $this->site_stats['pageviews'] ));
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $this->site_stats['visitors'], $this->site_stats['pageviews'] ]);
         $wpdb->query($sql);
 
         // insert post stats
         if (count($this->post_stats) > 0) {
-            $values = array();
+            $values = [];
             foreach ($this->post_stats as $post_id => $s) {
                 array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
             }
@@ -115,7 +115,7 @@ class Pageview_Aggregator
             }
 
             // build query for new referrer urls
-            $new_referrer_urls = array();
+            $new_referrer_urls = [];
             foreach ($this->referrer_stats as $url => $r) {
                 if (! isset($r['id'])) {
                     $new_referrer_urls[] = $url;
@@ -135,7 +135,7 @@ class Pageview_Aggregator
             }
 
             // insert referrer stats
-            $values = array();
+            $values = [];
             foreach ($this->referrer_stats as $referrer_url => $r) {
                 array_push($values, $date, $r['id'], $r['visitors'], $r['pageviews']);
             }
@@ -147,17 +147,17 @@ class Pageview_Aggregator
         $this->update_realtime_pageview_count($this->site_stats['pageviews']);
 
         // reset properties in case aggregation runs again in current request lifecycle
-        $this->site_stats = array(
+        $this->site_stats = [
             'visitors' => 0,
             'pageviews' => 0,
-        );
-        $this->referrer_stats = array();
-        $this->post_stats     = array();
+        ];
+        $this->referrer_stats = [];
+        $this->post_stats     = [];
     }
 
     private function update_realtime_pageview_count(int $pageviews): void
     {
-        $counts       = (array) get_option('koko_analytics_realtime_pageview_count', array());
+        $counts       = (array) get_option('koko_analytics_realtime_pageview_count', []);
         $one_hour_ago = strtotime('-60 minutes');
 
         foreach ($counts as $timestamp => $count) {
@@ -178,7 +178,7 @@ class Pageview_Aggregator
 
         // run custom blocklist first
         // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php
-        $custom_blocklist = apply_filters('koko_analytics_referrer_blocklist', array());
+        $custom_blocklist = apply_filters('koko_analytics_referrer_blocklist', []);
         foreach ($custom_blocklist as $blocklisted_domain) {
             if (false !== strpos($url, $blocklisted_domain)) {
                 return true;
@@ -227,11 +227,11 @@ class Pageview_Aggregator
         if ($pos !== false) {
             $query_str = substr($url, $pos + 1);
 
-            $params = array();
+            $params = [];
             parse_str($query_str, $params);
 
             // strip all but the following query parameters from the URL
-            $allowed_params = array( 'page_id', 'p', 'cat', 'product' );
+            $allowed_params = [ 'page_id', 'p', 'cat', 'product' ];
             $new_params     = array_intersect_key($params, array_flip($allowed_params));
             $new_query_str  = http_build_query($new_params);
             $new_url        = substr($url, 0, $pos + 1) . $new_query_str;
@@ -267,7 +267,7 @@ class Pageview_Aggregator
             $url = 'http://' . $url;
         }
 
-        static $aggregations = array(
+        static $aggregations = [
             '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox.*/' => 'https://www.google.com',
             '/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
             '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
@@ -282,7 +282,7 @@ class Pageview_Aggregator
             '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
             '/^https?:\/\/(out|new|old)\.reddit\.com(.*)/' => 'https://reddit.com$2',
             '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://www.brevo.com',
-        );
+        ];
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
         $normalized_url = (string) preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);

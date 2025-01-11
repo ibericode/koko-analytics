@@ -14,19 +14,19 @@ class Admin
     {
         global $pagenow;
 
-        add_action('admin_menu', array($this, 'register_menu'), 10, 0);
-        add_action('koko_analytics_install_optimized_endpoint', array($this, 'install_optimized_endpoint'), 10, 0);
-        add_action('koko_analytics_save_settings', array($this, 'save_settings'), 10, 0);
-        add_action('koko_analytics_reset_statistics', array($this, 'reset_statistics'), 10, 0);
-        add_action('koko_analytics_export_data', array($this, 'export_data'), 10, 0);
-        add_action('koko_analytics_import_data', array($this, 'import_data'), 10, 0);
+        add_action('admin_menu', [$this, 'register_menu'], 10, 0);
+        add_action('koko_analytics_install_optimized_endpoint', [$this, 'install_optimized_endpoint'], 10, 0);
+        add_action('koko_analytics_save_settings', [$this, 'save_settings'], 10, 0);
+        add_action('koko_analytics_reset_statistics', [$this, 'reset_statistics'], 10, 0);
+        add_action('koko_analytics_export_data', [$this, 'export_data'], 10, 0);
+        add_action('koko_analytics_import_data', [$this, 'import_data'], 10, 0);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
             $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
-            add_filter('plugin_action_links_' . $plugin_basename, array($this, 'add_plugin_settings_link'), 10, 1);
-            add_filter('plugin_row_meta', array($this, 'add_plugin_meta_links'), 10, 2);
+            add_filter('plugin_action_links_' . $plugin_basename, [$this, 'add_plugin_settings_link'], 10, 1);
+            add_filter('plugin_row_meta', [$this, 'add_plugin_meta_links'], 10, 2);
         }
 
         // Construct Jetpack Importer
@@ -36,12 +36,12 @@ class Admin
 
     public function register_menu(): void
     {
-        add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', array($this, 'show_page'));
+        add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', [$this, 'show_page']);
     }
 
     private function get_available_roles(): array
     {
-        $roles = array();
+        $roles = [];
         foreach (wp_roles()->roles as $key => $role) {
             $roles[$key] = $role['name'];
         }
@@ -66,13 +66,13 @@ class Admin
 
     public function show_page(): void
     {
-        add_action('koko_analytics_show_settings_page', array($this, 'show_settings_page'));
-        add_action('koko_analytics_show_dashboard_page', array($this, 'show_dashboard_page'));
+        add_action('koko_analytics_show_settings_page', [$this, 'show_settings_page']);
+        add_action('koko_analytics_show_dashboard_page', [$this, 'show_dashboard_page']);
 
         $tab = $_GET['tab'] ?? 'dashboard';
         do_action("koko_analytics_show_{$tab}_page");
 
-        add_action('admin_footer_text', array($this, 'footer_text'));
+        add_action('admin_footer_text', [$this, 'footer_text']);
     }
 
     public function show_dashboard_page(): void
@@ -95,7 +95,7 @@ class Admin
 
         if (false === $is_buffer_dir_writable) {
             echo '<div class="notice notice-warning inline is-dismissible"><p>';
-            echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), array('code' => array()));
+            echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), ['code' => []]);
             echo '</p></div>';
         }
 
@@ -125,7 +125,7 @@ class Admin
         add_filter('update_footer', '__return_empty_string');
 
         /* translators: %1$s links to the WordPress.org plugin review page, %2$s links to the admin page for creating a new post */
-        return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please consider <a href="%1$s">purchasing Koko Analytics Pro</a>, <a href="%2$s">reviewing the plugin on WordPress.org</a> or <a href="%3$s">writing about it on your blog</a> to help out.', 'koko-analytics'), array('a' => array('href' => array()))), 'https://www.kokoanalytics.com/pricing/', 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
+        return \sprintf(wp_kses(__('If you enjoy using Koko Analytics, please consider <a href="%1$s">purchasing Koko Analytics Pro</a>, <a href="%2$s">reviewing the plugin on WordPress.org</a> or <a href="%3$s">writing about it on your blog</a> to help out.', 'koko-analytics'), ['a' => ['href' => []]]), 'https://www.kokoanalytics.com/pricing/', 'https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform', admin_url('post-new.php'));
     }
 
     /**
@@ -271,7 +271,7 @@ class Admin
         $settings['exclude_ip_addresses']    = array_filter(array_map('trim', explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($posted['exclude_ip_addresses'])))), function ($value) {
             return $value !== '';
         });
-        $settings['exclude_user_roles']      = $posted['exclude_user_roles'] ?? array();
+        $settings['exclude_user_roles']      = $posted['exclude_user_roles'] ?? [];
         $settings['prune_data_after_months'] = abs((int) $posted['prune_data_after_months']);
         $settings['use_cookie']              = (int) $posted['use_cookie'];
         $settings['is_dashboard_public']     = (int) $posted['is_dashboard_public'];
@@ -279,7 +279,7 @@ class Admin
 
         $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $posted);
         update_option('koko_analytics_settings', $settings, true);
-        wp_safe_redirect(add_query_arg(array('settings-updated' => true), wp_get_referer()));
+        wp_safe_redirect(add_query_arg(['settings-updated' => true], wp_get_referer()));
         exit;
     }
 
@@ -288,7 +288,7 @@ class Admin
     {
         $installer = new Endpoint_Installer();
         $success = $installer->install();
-        wp_safe_redirect(add_query_arg(array('endpoint-installed' => (int) $success), wp_get_referer()));
+        wp_safe_redirect(add_query_arg(['endpoint-installed' => (int) $success], wp_get_referer()));
         exit;
     }
 

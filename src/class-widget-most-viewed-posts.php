@@ -14,24 +14,24 @@ class Widget_Most_Viewed_Posts extends WP_Widget
 {
     public function __construct()
     {
-        $widget_ops = array(
+        $widget_ops = [
             'classname'                   => 'widget_recent_entries',
             'description'                 => esc_html__('Your site&#8217;s most viewed posts, as counted by Koko Analytics.', 'koko-analytics'),
             'customize_selective_refresh' => true,
-        );
+        ];
         parent::__construct('koko-analytics-most-viewed-posts', 'Koko Analytics: ' . esc_html__('Most viewed posts', 'koko-analytics'), $widget_ops);
         $this->alt_option_name = 'widget_koko_analytics_most_viewed_posts';
     }
 
     private function get_default_settings()
     {
-        return array(
+        return [
             'title'     => esc_html__('Most viewed posts', 'koko-analytics'),
             'number'    => 5,
             'post_type' => 'post',
             'show_date' => false,
             'days'    => 30,
-        );
+        ];
     }
 
     /**
@@ -87,7 +87,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget
     public function form($settings)
     {
         $settings   = array_merge($this->get_default_settings(), $settings);
-        $post_types = get_post_types(array( 'public' => true ), 'objects');
+        $post_types = get_post_types([ 'public' => true ], 'objects');
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>" style="display: block;"><?php echo esc_html__('Title:', 'koko-analytics'); ?></label>

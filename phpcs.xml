@@ -7,6 +7,7 @@
     <file>migrations/</file>
     <file>koko-analytics.php</file>
     <exclude-pattern>*\.(html|css|js)</exclude-pattern>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
     <rule ref="PSR12">
         <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />

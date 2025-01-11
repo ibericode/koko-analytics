@@ -14,8 +14,8 @@ class Script_Loader
 {
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', array($this, 'maybe_enqueue_script'), 10, 0);
-        add_action('amp_print_analytics', array($this, 'print_amp_analytics_tag'), 10, 0);
+        add_action('wp_enqueue_scripts', [$this, 'maybe_enqueue_script'], 10, 0);
+        add_action('amp_print_analytics', [$this, 'print_amp_analytics_tag'], 10, 0);
     }
 
     /**
@@ -33,18 +33,18 @@ class Script_Loader
         }
 
         // TODO: Handle "term" requests so we track both terms and post types.
-        add_filter('script_loader_tag', array( $this, 'add_async_attribute' ), 20, 2);
+        add_filter('script_loader_tag', [ $this, 'add_async_attribute' ], 20, 2);
 
         if (false === $echo) {
             // Print configuration object early on in the HTML so scripts can modify it
             if (did_action('wp_head')) {
                 $this->print_js_object();
             } else {
-                add_action('wp_head', array( $this, 'print_js_object' ), 1);
+                add_action('wp_head', [ $this, 'print_js_object' ], 1);
             }
 
             // Enqueue the actual tracking script (in footer, if possible)
-            wp_enqueue_script('koko-analytics', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), array(), KOKO_ANALYTICS_VERSION, true);
+            wp_enqueue_script('koko-analytics', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, true);
         } else {
             $this->print_js_object();
             echo '<script defer src="', plugins_url('assets/dist/js/script.js?ver=' . KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_FILE), '"></script>';
@@ -90,7 +90,7 @@ class Script_Loader
     public function print_js_object()
     {
         $settings      = get_settings();
-        $script_config = array(
+        $script_config = [
             // the URL of the tracking endpoint
             'url'   => $this->get_tracker_url(),
             'site_url' => get_home_url(),
@@ -103,7 +103,7 @@ class Script_Loader
 
             // path to store the cookie in (will be subdirectory if website root is in subdirectory)
             'cookie_path' => $this->get_cookie_path(),
-        );
+        ];
         echo '<script>window.koko_analytics = ', json_encode($script_config), ';</script>';
     }
 
@@ -112,25 +112,25 @@ class Script_Loader
         $settings     = get_settings();
         $post_id      = $this->get_post_id();
         $tracker_url  = $this->get_tracker_url();
-        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : array();
-        $data         = array(
+        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
+        $data         = [
             'sc' => $settings['use_cookie'], // inform tracker endpoint to set cookie server-side
-            'nv' => $posts_viewed === array() ? 1 : 0,
+            'nv' => $posts_viewed === [] ? 1 : 0,
             'up' => ! in_array($post_id, $posts_viewed) ? 1 : 0,
             'p' => $post_id,
-        );
+        ];
         $url          = add_query_arg($data, $tracker_url);
-        $config       = array(
-            'requests' => array(
+        $config       = [
+            'requests' => [
                 'pageview' => $url,
-            ),
-            'triggers' => array(
-                'trackPageview' => array(
+            ],
+            'triggers' => [
+                'trackPageview' => [
                     'on' => 'visible',
                     'request' => 'pageview',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         echo '<amp-analytics><script type="application/json">', json_encode($config), '</script></amp-analytics>';
     }

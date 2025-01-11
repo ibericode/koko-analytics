@@ -22,7 +22,7 @@ class Stats
 
         $table = $wpdb->prefix . 'koko_analytics_site_stats s';
         $where = 's.date >= %s AND s.date <= %s';
-        $args = array($start_date, $end_date);
+        $args = [$start_date, $end_date];
 
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats s';
@@ -78,10 +78,10 @@ class Stats
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
             $join_on = 's.date = d.date AND s.id = %d';
-            $args = array($date_format, $page, $start_date, $end_date);
+            $args = [$date_format, $page, $start_date, $end_date];
         } else {
             $table = $wpdb->prefix . 'koko_analytics_site_stats';
-            $args = array($date_format, $start_date, $end_date);
+            $args = [$date_format, $start_date, $end_date];
             $join_on = 's.date = d.date';
         }
 
@@ -116,7 +116,7 @@ class Stats
                 GROUP BY s.id
                 ORDER BY pageviews DESC, s.id ASC
                 LIMIT %d, %d",
-            array($start_date, $end_date, $offset, $limit)
+            [$start_date, $end_date, $offset, $limit]
         );
 
         $results = $wpdb->get_results($sql);
@@ -151,7 +151,7 @@ class Stats
                 SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 WHERE s.date >= %s AND s.date <= %s",
-            array($start_date, $end_date)
+            [$start_date, $end_date]
         );
         return (int) $wpdb->get_var($sql);
     }
@@ -169,7 +169,7 @@ class Stats
                 GROUP BY s.id
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
-            array($start_date, $end_date, $offset, $limit)
+            [$start_date, $end_date, $offset, $limit]
         );
         return $wpdb->get_results($sql);
     }
@@ -183,7 +183,7 @@ class Stats
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                 WHERE s.date >= %s
                   AND s.date <= %s",
-            array($start_date, $end_date)
+            [$start_date, $end_date]
         );
         return (int) $wpdb->get_var($sql);
     }

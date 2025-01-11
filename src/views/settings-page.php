@@ -242,11 +242,11 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     $body = wp_remote_retrieve_body($response);
 
                     // in case response is 200 but can't be decoded as JSON, use an empty array instead
-                    $posts = json_decode($body) ?? array();
+                    $posts = json_decode($body) ?? [];
                 } else {
                     // store empty array to prevent doing an HTTP request on every page load
                     // we'll try again in 8 hours
-                    $posts = array();
+                    $posts = [];
                 }
                 set_transient('koko_analytics_remote_posts', $posts, HOUR_IN_SECONDS * 8);
             }

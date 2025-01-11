@@ -31,7 +31,7 @@ function koko_analyics_tracking_script(): void
  * @return array
  * @since 1.1
  */
-function koko_analytics_get_most_viewed_posts(array $args = array()): array
+function koko_analytics_get_most_viewed_posts(array $args = []): array
 {
     return KokoAnalytics\get_most_viewed_posts($args);
 }
@@ -67,12 +67,12 @@ function koko_analytics_get_realtime_pageview_count($since = '-5 minutes'): int
  */
 function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = ''): bool
 {
-    $data = array(
+    $data = [
         'p',
         $post_id,
         (int) $new_visitor,
         (int) $unique_pageview,
         $referrer_url,
-    );
+    ];
     return KokoAnalytics\collect_in_file($data);
 }

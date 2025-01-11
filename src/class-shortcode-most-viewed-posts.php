@@ -14,17 +14,17 @@ class Shortcode_Most_Viewed_Posts
 
     public function __construct()
     {
-        add_shortcode(self::SHORTCODE, array( $this, 'content' ));
+        add_shortcode(self::SHORTCODE, [ $this, 'content' ]);
     }
 
     public function content($args): string
     {
-        $allowed_args = array(
+        $allowed_args = [
             'number'    => 5,
             'show_date' => false,
             'days'    => 30,
             'post_type' => 'post',
-        );
+        ];
         $args         = shortcode_atts($allowed_args, $args, self::SHORTCODE);
         if ($args['show_date'] === "false") {
             $args['show_date'] = false;

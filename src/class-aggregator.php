@@ -14,9 +14,9 @@ class Aggregator
 {
     public function __construct()
     {
-        add_action('koko_analytics_aggregate_stats', array($this, 'aggregate'), 10, 0);
-        add_filter('cron_schedules', array($this, 'add_interval'), 10, 1);
-        add_action('init', array($this, 'maybe_setup_scheduled_event'), 10, 0);
+        add_action('koko_analytics_aggregate_stats', [$this, 'aggregate'], 10, 0);
+        add_filter('cron_schedules', [$this, 'add_interval'], 10, 1);
+        add_action('init', [$this, 'maybe_setup_scheduled_event'], 10, 0);
     }
 
     /**
@@ -24,10 +24,10 @@ class Aggregator
      */
     public function add_interval($intervals): array
     {
-        $intervals['koko_analytics_stats_aggregate_interval'] = array(
+        $intervals['koko_analytics_stats_aggregate_interval'] = [
             'interval' => 60, // 60 seconds
             'display'  => esc_html__('Every minute', 'koko-analytics'),
-        );
+        ];
         return $intervals;
     }
 

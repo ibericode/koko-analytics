@@ -13,15 +13,15 @@ use WP_Query;
 
 function get_settings(): array
 {
-    $default_settings = array(
+    $default_settings = [
         'use_cookie' => 1,
-        'exclude_user_roles' => array(),
-        'exclude_ip_addresses' => array(),
+        'exclude_user_roles' => [],
+        'exclude_ip_addresses' => [],
         'prune_data_after_months' => 10 * 12, // 10 years
         'default_view' => 'last_28_days',
         'is_dashboard_public' => 0,
-    );
-    $settings         = (array) get_option('koko_analytics_settings', array());
+    ];
+    $settings         = (array) get_option('koko_analytics_settings', []);
     $settings         = array_merge($default_settings, $settings);
     return apply_filters('koko_analytics_settings', $settings);
 }
@@ -33,12 +33,12 @@ function get_most_viewed_post_ids(array $args)
     $post_ids = wp_cache_get($cache_key, 'koko-analytics');
 
     if (!$post_ids) {
-        $args = array_merge(array(
+        $args = array_merge([
             'number'    => 5,
             'post_type' => 'post',
             'days'    => 30,
             'paged' => 0,
-        ), $args);
+        ], $args);
 
         $args['paged'] = abs((int) $args['paged']);
         $args['number'] = abs((int) $args['number']);
@@ -51,11 +51,11 @@ function get_most_viewed_post_ids(array $args)
         $end_date = create_local_datetime('tomorrow midnight')->format('Y-m-d');
 
         // build query
-        $sql_params             = array(
+        $sql_params             = [
             get_option('page_on_front', 0),
             $start_date,
             $end_date,
-        );
+        ];
         $post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
         $sql_params             = array_merge($sql_params, $args['post_type']);
         $sql_params[] = $args['number'] * $args['paged'];
@@ -63,7 +63,7 @@ function get_most_viewed_post_ids(array $args)
         $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE s.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT %d, %d", $sql_params);
         $results                = $wpdb->get_results($sql);
         if (empty($results)) {
-            return array();
+            return [];
         }
 
         $post_ids = array_map(function ($r) {
@@ -81,11 +81,11 @@ function get_most_viewed_post_ids(array $args)
  * @args['post_type'] string|array List of post types to include
  * @args['paged'] int Number of current page *
  */
-function get_most_viewed_posts(array $args = array()): array
+function get_most_viewed_posts(array $args = []): array
 {
     global $wpdb;
     $post_ids = get_most_viewed_post_ids($args);
-    $query_args = array(
+    $query_args = [
         'posts_per_page' => -1,
         'post__in' => $post_ids,
         // indicates that we want to use the order of our $post_ids array
@@ -98,7 +98,7 @@ function get_most_viewed_posts(array $args = array()): array
         'ignore_sticky_posts' => true,
         // Excludes SQL_CALC_FOUND_ROWS from the query (tiny performance gain)
         'no_found_rows'       => true,
-    );
+    ];
     $r = new WP_Query($query_args);
     return $r->posts;
 }
@@ -116,12 +116,12 @@ function admin_bar_menu(WP_Admin_Bar $wp_admin_bar)
     }
 
     $wp_admin_bar->add_node(
-        array(
+        [
             'parent' => 'site-name',
             'id' => 'koko-analytics',
             'title' => esc_html__('Analytics', 'koko-analytics'),
             'href' => admin_url('/index.php?page=koko-analytics'),
-        )
+        ]
     );
 }
 
@@ -143,7 +143,7 @@ function get_realtime_pageview_count($since = '-5 minutes'): int
         // $since is relative time string
         $since = strtotime($since);
     }
-    $counts = (array) get_option('koko_analytics_realtime_pageview_count', array());
+    $counts = (array) get_option('koko_analytics_realtime_pageview_count', []);
     $sum    = 0;
     foreach ($counts as $timestamp => $pageviews) {
         if ($timestamp > $since) {

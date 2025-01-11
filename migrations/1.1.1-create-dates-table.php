@@ -15,7 +15,7 @@ $wpdb->query(
 
 $date   = new \DateTime('2000-01-01');
 $end    = new \DateTime('2100-01-01');
-$values = array();
+$values = [];
 while ($date < $end) {
     $values[] = $date->format('Y-m-d');
     $date->modify('+1 day');
@@ -23,7 +23,7 @@ while ($date < $end) {
     if (count($values) === 365) {
         $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_dates(date) VALUES {$placeholders}", $values));
-        $values = array();
+        $values = [];
     }
 }
 

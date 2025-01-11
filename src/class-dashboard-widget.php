@@ -12,7 +12,7 @@ class Dashboard_Widget
 {
     public function __construct()
     {
-        add_action('wp_dashboard_setup', array($this, 'register_dashboard_widget'), 10, 0);
+        add_action('wp_dashboard_setup', [$this, 'register_dashboard_widget'], 10, 0);
     }
 
     public function register_dashboard_widget(): void
@@ -22,7 +22,7 @@ class Dashboard_Widget
             return;
         }
 
-        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', array($this, 'dashboard_widget'), 'dashboard', 'side', 'high');
+        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', [$this, 'dashboard_widget'], 'dashboard', 'side', 'high');
     }
 
     public function dashboard_widget(): void
