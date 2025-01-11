@@ -38,7 +38,9 @@ namespace KokoAnalytics;
 defined('ABSPATH') or exit;
 
 // don't run if PHP version is lower than 7.4
-if (PHP_VERSION_ID < 704000) return;
+if (PHP_VERSION_ID < 704000) {
+    return;
+}
 
 \define('KOKO_ANALYTICS_VERSION', '1.5.5');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
