@@ -7,7 +7,7 @@ Tested up to: 6.7
 Stable tag: 1.5.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP: 7.3
+Requires PHP: 7.4
 
 Privacy-friendly and efficient analytics for your WordPress site
 

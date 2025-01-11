@@ -53,7 +53,7 @@ You can [purchase Koko Analytics Pro from our site](https://www.kokoanalytics.co
 Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
 
 - WordPress 6.0 or higher.
-- PHP 7.3 or higher.
+- PHP 7.4 or higher.
 
 ### Installing latest stable release
 
