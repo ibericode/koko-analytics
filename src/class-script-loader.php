@@ -40,7 +40,7 @@ class Script_Loader
             if (did_action('wp_head')) {
                 $this->print_js_object();
             } else {
-                add_action('wp_head', [ $this, 'print_js_object' ], 1);
+                add_action('wp_head', [ $this, 'print_js_object' ], 1, 0);
             }
 
             // Enqueue the actual tracking script (in footer, if possible)
@@ -96,7 +96,7 @@ class Script_Loader
             'site_url' => get_home_url(),
 
             // ID of the current post (or -1 in case of non-singular type)
-            'post_id'       => (int) $this->get_post_id(),
+            'post_id'       => $this->get_post_id(),
 
             // wether to set a cookie
             'use_cookie'    => (int) $settings['use_cookie'],

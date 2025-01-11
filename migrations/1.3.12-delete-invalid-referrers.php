@@ -2,6 +2,7 @@
 
 defined('ABSPATH') or exit;
 
+/** @var \wpdb $wpdb */
 global $wpdb;
 
 $site_url = get_site_url();

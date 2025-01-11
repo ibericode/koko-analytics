@@ -30,7 +30,7 @@ class Pruner
 
     public function run()
     {
-        /** @var \WPDB $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $settings = get_settings();

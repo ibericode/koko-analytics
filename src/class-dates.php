@@ -62,13 +62,13 @@ class Dates
                 ];
             case 'this_year':
                 return [
-                    $now->setDate($now->format('Y'), 1, 1),
-                    $now->setDate($now->format('Y'), 12, 31),
+                    $now->setDate((int) $now->format('Y'), 1, 1),
+                    $now->setDate((int) $now->format('Y'), 12, 31),
                 ];
             case 'last_year':
                 return [
-                    $now->setDate($now->format('Y') - 1, 1, 1),
-                    $now->setDate($now->format('Y') - 1, 12, 31),
+                    $now->setDate((int) $now->format('Y') - 1, 1, 1),
+                    $now->setDate((int) $now->format('Y') - 1, 12, 31),
                 ];
         }
     }

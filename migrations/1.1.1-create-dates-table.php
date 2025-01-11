@@ -2,6 +2,7 @@
 
 defined('ABSPATH') or exit;
 
+/** @var \wpdb $wpdb */
 global $wpdb;
 
 $wpdb->query(

@@ -12,15 +12,16 @@ use WP_Widget;
 
 class Widget_Most_Viewed_Posts extends WP_Widget
 {
+    public $alt_option_name = 'widget_koko_analytics_most_viewed_posts';
+
     public function __construct()
     {
         $widget_ops = [
             'classname'                   => 'widget_recent_entries',
-            'description'                 => esc_html__('Your site&#8217;s most viewed posts, as counted by Koko Analytics.', 'koko-analytics'),
+            // 'description'                 => esc_html__('Your site&#8217;s most viewed posts, as counted by Koko Analytics.', 'koko-analytics'),
             'customize_selective_refresh' => true,
         ];
         parent::__construct('koko-analytics-most-viewed-posts', 'Koko Analytics: ' . esc_html__('Most viewed posts', 'koko-analytics'), $widget_ops);
-        $this->alt_option_name = 'widget_koko_analytics_most_viewed_posts';
     }
 
     private function get_default_settings()
@@ -38,15 +39,15 @@ class Widget_Most_Viewed_Posts extends WP_Widget
      * Outputs the content for the current widget instance.
      *
      * @param array $args     Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
-     * @param array $settings Settings for the current Recent Posts widget instance.
+     * @param array $instance Settings for the current Recent Posts widget instance.
      */
-    public function widget($args, $settings)
+    public function widget($args, $instance)
     {
         if (! isset($args['widget_id'])) {
             $args['widget_id'] = $this->id;
         }
 
-        $settings = array_merge($this->get_default_settings(), $settings);
+        $settings = array_merge($this->get_default_settings(), $instance);
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters('widget_title', $settings['title'], $settings, $this->id_base);
 
@@ -84,9 +85,9 @@ class Widget_Most_Viewed_Posts extends WP_Widget
      *
      * @param array $settings Current settings.
      */
-    public function form($settings)
+    public function form($instance)
     {
-        $settings   = array_merge($this->get_default_settings(), $settings);
+        $settings   = array_merge($this->get_default_settings(), $instance);
         $post_types = get_post_types([ 'public' => true ], 'objects');
         ?>
         <p>
@@ -121,5 +122,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget
             <label for="<?php echo $this->get_field_id('show_date'); ?>"><?php echo esc_html__('Display post date?', 'koko-analytics'); ?></label>
         </p>
         <?php
+
+        return '';
     }
 }

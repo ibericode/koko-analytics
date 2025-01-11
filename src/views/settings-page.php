@@ -112,7 +112,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 </div>
 
                 <div class="ka-margin-m">
-                    <?php submit_button(null, 'primary', 'submit', false); ?>
+                    <?php submit_button('', 'primary', 'submit', false); ?>
                 </div>
 
                 <?php do_action('koko_analytics_extra_settings_rows', $settings); ?>

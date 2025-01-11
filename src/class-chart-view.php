@@ -85,6 +85,6 @@ class Chart_View
 
         $e = floor(log10($n));
         $pow = pow(10, $e);
-        return (int) ceil($n / $pow) * $pow;
+        return (int) (ceil($n / $pow) * $pow);
     }
 }

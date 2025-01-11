@@ -34,20 +34,18 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-// prevent direct file access
-defined('ABSPATH') or exit;
-
-// don't run if PHP version is lower than 7.4
-if (PHP_VERSION_ID < 704000) {
-    return;
-}
-
 \define('KOKO_ANALYTICS_VERSION', '1.5.5');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 // Load the Koko Analytics autoloader
 require __DIR__ . '/autoload.php';
+
+// don't run if PHP version is lower than 7.4
+// prevent direct file access
+if (PHP_VERSION_ID < 704000 || ! \defined('ABSPATH')) {
+    return;
+}
 
 // Maybe run any pending database migrations
 $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');

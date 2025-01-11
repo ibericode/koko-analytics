@@ -66,13 +66,13 @@ class Admin
 
     public function show_page(): void
     {
-        add_action('koko_analytics_show_settings_page', [$this, 'show_settings_page']);
-        add_action('koko_analytics_show_dashboard_page', [$this, 'show_dashboard_page']);
+        add_action('koko_analytics_show_settings_page', [$this, 'show_settings_page'], 10, 0);
+        add_action('koko_analytics_show_dashboard_page', [$this, 'show_dashboard_page'], 10, 0);
 
         $tab = $_GET['tab'] ?? 'dashboard';
         do_action("koko_analytics_show_{$tab}_page");
 
-        add_action('admin_footer_text', [$this, 'footer_text']);
+        add_filter('admin_footer_text', [$this, 'footer_text'], 10, 1);
     }
 
     public function show_dashboard_page(): void
@@ -119,7 +119,7 @@ class Admin
         require __DIR__ . '/views/settings-page.php';
     }
 
-    public function footer_text(): string
+    public function footer_text($text): string
     {
         // ensure upgrade text isn't showing
         add_filter('update_footer', '__return_empty_string');
@@ -174,15 +174,14 @@ class Admin
      */
     public function get_database_size(): int
     {
-        /** @var \WPDB $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
             '
 			SELECT SUM(DATA_LENGTH + INDEX_LENGTH)
 			FROM information_schema.TABLES
 			WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s',
-            DB_NAME,
-            $wpdb->prefix . 'koko_analytics_%'
+            [DB_NAME, $wpdb->prefix . 'koko_analytics_%']
         );
         return (int) $wpdb->get_var($sql);
     }
@@ -195,7 +194,7 @@ class Admin
 
         check_admin_referer('koko_analytics_reset_statistics');
 
-        /** @var \WPDB $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_site_stats;");
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_post_stats;");

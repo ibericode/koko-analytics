@@ -11,10 +11,7 @@ namespace KokoAnalytics;
 class Stats
 {
     /**
-     * @return object {
-     *  @type int visitors
-     *  @type int pageviews
-     * }
+     * @return object{ visitors: int, pageviews: int }
      */
     public function get_totals(string $start_date, string $end_date, int $page = 0, $include_previous = true): object
     {

@@ -62,7 +62,7 @@ class Migrations
     }
 
     /**
-     * @var string Absolute path to migration file
+     * @param string Absolute path to migration file
      */
     protected function handle_file(string $file): void
     {

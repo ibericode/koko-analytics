@@ -10,6 +10,7 @@ namespace KokoAnalytics;
 
 use WP_Admin_Bar;
 use WP_Query;
+use WP_Post;
 
 function get_settings(): array
 {
@@ -236,9 +237,7 @@ function get_client_ip(): string
 
     // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
-    if (! is_array($ips)) {
-        $ips = \array_map('trim', \explode(',', $ips));
-    }
+    $ips = \array_map('trim', \explode(',', $ips));
 
     // Always add REMOTE_ADDR to list of ips
     $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';

@@ -91,12 +91,12 @@ class Dashboard
 
         if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
             // cycling full months
-            $diffInMonths = 1 + ($dateEnd->format('Y') - $dateStart->format('Y')) * 12 + $dateEnd->format('m') - $dateStart->format('m');
-            $periodStart = $dateStart->setDate($dateStart->format('Y'), $dateStart->format('m') + ($dir * $diffInMonths), 1);
-            $periodEnd = $dateEnd->setDate($dateStart->format('Y'), $dateEnd->format('m') + ($dir * $diffInMonths), 5);
+            $diffInMonths = 1 + ((int) $dateEnd->format('Y') - (int) $dateStart->format('Y')) * 12 + (int) $dateEnd->format('m') - (int) $dateStart->format('m');
+            $periodStart = $dateStart->setDate((int) $dateStart->format('Y'), (int) $dateStart->format('m') + ($dir * $diffInMonths), 1);
+            $periodEnd = $dateEnd->setDate((int) $dateStart->format('Y'), (int) $dateEnd->format('m') + ($dir * $diffInMonths), 5);
             $periodEnd = $periodEnd->setDate((int) $periodEnd->format('Y'), (int) $periodEnd->format('m'), (int) $periodEnd->format('t'));
         } else {
-            $diffInDays = 1 + ($dateEnd->format('Y') - $dateStart->format('Y')) * 365 + ($dateEnd->format('z') - $dateStart->format('z')) ;
+            $diffInDays = 1 + ((int) $dateEnd->format('Y') - (int) $dateStart->format('Y')) * 365 + ((int) $dateEnd->format('z') - (int) $dateStart->format('z')) ;
             $periodStart = $dateStart->modify("{$modifier}{$diffInDays} days");
             $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
         }
