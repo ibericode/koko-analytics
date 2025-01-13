@@ -7,6 +7,7 @@
     <file>migrations/</file>
     <file>koko-analytics.php</file>
     <file>uninstall.php</file>
+    <file>autoload.php</file>
     <exclude-pattern>*\.(html|css|js)</exclude-pattern>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
     <rule ref="PSR12">

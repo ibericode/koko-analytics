@@ -4,7 +4,7 @@ require __DIR__ . '/src/functions.php';
 require __DIR__ . '/src/global-functions.php';
 require __DIR__ . '/src/collect-functions.php';
 
-spl_autoload_register(function($class) {
+spl_autoload_register(function ($class) {
     static $classmap = [
         'KokoAnalytics\\Admin' => '/src/class-admin.php',
         'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
