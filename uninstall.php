@@ -9,7 +9,9 @@
  */
 
 // if uninstall.php is not called by WordPress, die
-if (!defined('WP_UNINSTALL_PLUGIN')) die;
+if (!defined('WP_UNINSTALL_PLUGIN')) {
+    die;
+}
 
 // delete wp-options
 delete_option("koko_analytics_settings");
