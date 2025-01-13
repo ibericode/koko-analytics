@@ -43,13 +43,13 @@ require __DIR__ . '/autoload.php';
 
 // don't run if PHP version is lower than 7.4
 // prevent direct file access
-if (PHP_VERSION_ID < 704000 || ! \defined('ABSPATH')) {
+if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
     return;
 }
 
 // Maybe run any pending database migrations
 $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
-$migrations->maybe_run();
+add_action('init', [$migrations, 'maybe_run']);
 
 // Initialize rest of plugin
 if (\defined('DOING_AJAX') && DOING_AJAX) {
