@@ -1,12 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
+namespace KokoAnalytics\Tests;
 
 use KokoAnalytics\Dashboard;
 use PHPUnit\Framework\TestCase;
+use DateTimeImmutable;
 
 final class DashboardTest extends TestCase
 {
-    public function testCanInstantiate() : void
+    public function testCanInstantiate(): void
     {
         $i = new Dashboard();
         self::assertTrue($i instanceof Dashboard);

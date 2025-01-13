@@ -4,6 +4,7 @@
     <arg name="colors"/>
     <file>code-snippets/</file>
     <file>src/</file>
+    <file>tests/</file>
     <file>migrations/</file>
     <file>koko-analytics.php</file>
     <file>uninstall.php</file>

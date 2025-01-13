@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace KokoAnalytics\Tests;
+
 use PHPUnit\Framework\TestCase;
 
 use function KokoAnalytics\extract_pageview_data;
@@ -14,50 +16,50 @@ final class FunctionsTest extends TestCase
     public function testExtractPageviewData(): void
     {
        // incomplete params
-       $this->assertEquals(extract_pageview_data([]), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1']), []);
-       $this->assertEquals(extract_pageview_data(['nv' => '2']), []);
-       $this->assertEquals(extract_pageview_data(['up' => '3']), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2']), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1', 'up' => '3']), []);
-       $this->assertEquals(extract_pageview_data(['nv' => '2', 'up' => '3']), []);
+        $this->assertEquals(extract_pageview_data([]), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1']), []);
+        $this->assertEquals(extract_pageview_data(['nv' => '2']), []);
+        $this->assertEquals(extract_pageview_data(['up' => '3']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'up' => '3']), []);
+        $this->assertEquals(extract_pageview_data(['nv' => '2', 'up' => '3']), []);
 
        // complete but invalid
-       $this->assertEquals(extract_pageview_data(['p' => '', 'nv' => '', 'up' => '']), []);
-       $this->assertEquals(extract_pageview_data(['p' => 'x', 'nv' => '2', 'up' => '3']), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => 'x', 'up' => '3']), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => 'x']), []);
-       $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '', 'nv' => '', 'up' => '']), []);
+        $this->assertEquals(extract_pageview_data(['p' => 'x', 'nv' => '2', 'up' => '3']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => 'x', 'up' => '3']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => 'x']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
 
        // complete and valid
-      $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3']), ['p', 1, 2, 3, '']);
-      $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => '']), ['p', 1, 2, 3, '']);
-      $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com']), ['p', 1, 2, 3, 'https://www.kokoanalytics.com']);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3']), ['p', 1, 2, 3, '']);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => '']), ['p', 1, 2, 3, '']);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com']), ['p', 1, 2, 3, 'https://www.kokoanalytics.com']);
     }
 
     public function testExtractEventData(): void
     {
        // incomplete
-       $this->assertEquals(extract_event_data([]), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event']), []);
-       $this->assertEquals(extract_event_data(['p' => 'Param']), []);
-       $this->assertEquals(extract_event_data(['u' => '1']), []);
-       $this->assertEquals(extract_event_data(['v' => '1']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'v' => '1']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'u' => '1']), []);
-       $this->assertEquals(extract_event_data(['p' => 'Param', 'v' => '1']), []);
-       $this->assertEquals(extract_event_data(['p' => 'Param', 'u' => '1']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '1']), []);
+        $this->assertEquals(extract_event_data([]), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event']), []);
+        $this->assertEquals(extract_event_data(['p' => 'Param']), []);
+        $this->assertEquals(extract_event_data(['u' => '1']), []);
+        $this->assertEquals(extract_event_data(['v' => '1']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'v' => '1']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'u' => '1']), []);
+        $this->assertEquals(extract_event_data(['p' => 'Param', 'v' => '1']), []);
+        $this->assertEquals(extract_event_data(['p' => 'Param', 'u' => '1']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '1']), []);
 
        // complete but invalid
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => 'nan']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => '100']), []);
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => 'nan']), []);
-       $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'u' => '1', 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => 'nan']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => 'nan']), []);
+        $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'u' => '1', 'v' => '100']), []);
 
        // complete and valid
-       $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']), ['e', 'Event', 'Param', 1, 100]);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']), ['e', 'Event', 'Param', 1, 100]);
     }
 
     public function testGetClientIp(): void
@@ -85,6 +87,5 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(percent_format_i18n(-1.00), '-100%');
         $this->assertEquals(percent_format_i18n(0.55), '+55%');
         $this->assertEquals(percent_format_i18n(-0.55), '-55%');
-
     }
 }

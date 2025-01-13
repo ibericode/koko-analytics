@@ -1,14 +1,17 @@
 <?php
 
+// phpcs:disable PSR1.Files.SideEffects
+
 require __DIR__ . '/../../../../wp-load.php';
 
-function bench(Closure $fn, $iterations = 3) {
-	$time_start = microtime(true);
-	for ($i = 0; $i < $iterations; $i++) {
-		$fn();
-	}
-	$time_end = microtime(true);
-	return ($time_end - $time_start) / $iterations;
+function bench(Closure $fn, $iterations = 3)
+{
+    $time_start = microtime(true);
+    for ($i = 0; $i < $iterations; $i++) {
+        $fn();
+    }
+    $time_end = microtime(true);
+    return ($time_end - $time_start) / $iterations;
 }
 
 @set_time_limit(0);
@@ -37,49 +40,49 @@ $wpdb->query("CREATE TABLE {$wpdb->prefix}bench_combined_stats (
 
 // inserting
 $time = bench(function () use ($wpdb, $days, $pages, $referrers) {
-	for ($d = 0; $d < $days; $d++) {
-		$date = date("Y-m-d", strtotime(sprintf('%d days ago', $days + $d)));
-		$placeholders = [];
-		$values = [];
+    for ($d = 0; $d < $days; $d++) {
+        $date = date("Y-m-d", strtotime(sprintf('%d days ago', $days + $d)));
+        $placeholders = [];
+        $values = [];
 
-		for ($i = 0; $i < $pages; $i++) {
-			$placeholders[] = '(%s, %d, %s, %d, %d)';
-			array_push($values, 'post', $i, $date, 10, 20);
-		}
+        for ($i = 0; $i < $pages; $i++) {
+            $placeholders[] = '(%s, %d, %s, %d, %d)';
+            array_push($values, 'post', $i, $date, 10, 20);
+        }
 
-		for ($i = 0; $i < $referrers; $i++) {
-			$placeholders[] = '(%s, %d, %s, %d, %d)';
-			array_push($values, 'referrer', $i, $date, 10, 20);
-		}
+        for ($i = 0; $i < $referrers; $i++) {
+            $placeholders[] = '(%s, %d, %s, %d, %d)';
+            array_push($values, 'referrer', $i, $date, 10, 20);
+        }
 
-		$placeholders = join(',', $placeholders);
-		$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_combined_stats(type, id, date, visitors, pageviews) VALUES {$placeholders}", $values);
-		$wpdb->query($sql);
-	}
+        $placeholders = join(',', $placeholders);
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_combined_stats(type, id, date, visitors, pageviews) VALUES {$placeholders}", $values);
+        $wpdb->query($sql);
+    }
 }, 1);
 printf("Inserting rows took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}bench_combined_stats WHERE id = 0 AND type = 'post' AND date >= %s AND date <= %s", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}bench_combined_stats WHERE id = 0 AND type = 'post' AND date >= %s AND date <= %s", [$date_start, $date_end]));
 });
 printf("Selecting site stats for this month took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_combined_stats WHERE type = 'post' AND id > 0 AND date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_combined_stats WHERE type = 'post' AND id > 0 AND date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
 });
 printf("Selecting page stats for this month took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_combined_stats WHERE type = 'referral' AND date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_combined_stats WHERE type = 'referral' AND date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
 });
 printf("Selecting referral stats for this month took: %.4f seconds" . PHP_EOL, $time);
 
@@ -111,61 +114,59 @@ $wpdb->query("CREATE TABLE {$wpdb->prefix}bench_referrer_stats(
 	) ENGINE=INNODB CHARACTER SET={$wpdb->charset} COLLATE={$wpdb->collate}");
 
 // inserting
-$time = bench(function() use($wpdb, $days, $pages, $referrers) {
-	for ($d = 0; $d < $days; $d++) {
-		$date = date("Y-m-d", strtotime(sprintf('%d days ago', $days + $d)));
+$time = bench(function () use ($wpdb, $days, $pages, $referrers) {
+    for ($d = 0; $d < $days; $d++) {
+        $date = date("Y-m-d", strtotime(sprintf('%d days ago', $days + $d)));
 
-		// insert site stats
-		$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d)", [$date, 10, 20]));
+        // insert site stats
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d)", [$date, 10, 20]));
 
-		// insert pageviews for 100 posts
-		$placeholders = [];
-		$values = [];
-		for ($i = 1; $i < $pages; $i++) {
-			$placeholders[] = '(%d, %s, %d, %d)';
-			array_push($values, $i, $date, 10, 20);
-		}
+        // insert pageviews for 100 posts
+        $placeholders = [];
+        $values = [];
+        for ($i = 1; $i < $pages; $i++) {
+            $placeholders[] = '(%d, %s, %d, %d)';
+            array_push($values, $i, $date, 10, 20);
+        }
 
-		$placeholders = join(',', $placeholders);
-		$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_post_stats(id, date, visitors, pageviews) VALUES {$placeholders}", $values);
-		$wpdb->query($sql);
+        $placeholders = join(',', $placeholders);
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_post_stats(id, date, visitors, pageviews) VALUES {$placeholders}", $values);
+        $wpdb->query($sql);
 
-		// insert some referrals
-		$placeholders = [];
-		$values = [];
-		for ($i = 0; $i < $referrers; $i++) {
-			$placeholders[] = '(%d, %s, %d, %d)';
-			array_push($values, $i, $date, 10, 20);
-		}
-		$placeholders = join(',', $placeholders);
-		$sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_referrer_stats(id, date, visitors, pageviews) VALUES {$placeholders}", $values);
-		$wpdb->query($sql);
-	}
+        // insert some referrals
+        $placeholders = [];
+        $values = [];
+        for ($i = 0; $i < $referrers; $i++) {
+            $placeholders[] = '(%d, %s, %d, %d)';
+            array_push($values, $i, $date, 10, 20);
+        }
+        $placeholders = join(',', $placeholders);
+        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}bench_referrer_stats(id, date, visitors, pageviews) VALUES {$placeholders}", $values);
+        $wpdb->query($sql);
+    }
 }, 1);
 printf("Inserting rows took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}bench_site_stats WHERE date >= %s AND date <= %s", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}bench_site_stats WHERE date >= %s AND date <= %s", [$date_start, $date_end]));
 });
 printf("Selecting site stats for this month took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_post_stats WHERE date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_post_stats WHERE date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
 });
 printf("Selecting page stats for this month took: %.4f seconds" . PHP_EOL, $time);
 
 // selecting
-$time = bench(function() use ($wpdb) {
-	$date_start = date("Y-m-d");
-	$date_end = date("Y-m-d", strtotime('-30 days ago'));
-	$wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_referrer_stats WHERE date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
+$time = bench(function () use ($wpdb) {
+    $date_start = date("Y-m-d");
+    $date_end = date("Y-m-d", strtotime('-30 days ago'));
+    $wpdb->get_results($wpdb->prepare("SELECT id, SUM(visitors) AS visitors, SUM(pageviews) as pageviews FROM {$wpdb->prefix}bench_referrer_stats WHERE date >= %s AND date <= %s GROUP BY id ORDER BY pageviews DESC", [$date_start, $date_end]));
 });
 printf("Selecting referral stats for this month took: %.4f seconds" . PHP_EOL, $time);
-
-
