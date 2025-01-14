@@ -254,6 +254,12 @@ h1.ka-logo,
   border-color: #2e363f;
   color: white;
 }
+@media (min-width: 1200px) {
+  .ka-table td,
+  .ka-table th {
+    width: 120px;
+  }
+}
 /* fix borders for table header */
 .ka-table th:first-of-type {
   border-radius: 4px 0 0 0;
@@ -277,8 +283,9 @@ h1.ka-logo,
   white-space: nowrap;
 }
 
+
 /* on small screens, replace pageview & visitor column headers with an icon */
-@media (max-width: 820px) {
+@media (max-width: 800px) {
   .ka-table th.ka-th-visitors,
   .ka-table th.ka-th-pageviews {
     font-size: 0;
@@ -453,7 +460,7 @@ a.ka-datepicker--quicknav-next {
   border: 1px solid #ddd;
   grid-column: span 6;
 }
-@media (min-width: 840px) {
+@media (min-width: 1200px) {
   .ka-box{
     grid-column: span 3;
   }
