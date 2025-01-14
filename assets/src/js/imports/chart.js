@@ -1,6 +1,7 @@
 var chart = document.querySelector('#ka-chart');
 if (chart) {
   var tooltip = document.querySelector('.ka-chart--tooltip');
+  var arrow = document.querySelector('.ka-chart--tooltip-arrow');
   var bars = chart.querySelectorAll('.bars g');
   var barWidth;
 
@@ -21,12 +22,26 @@ if (chart) {
     // set tooltip position relative to top-left of document
     tooltip.style.display = 'block';
     var scrollY = window.pageYOffset !== undefined ? window.pageYOffset : window.scrollTop
-    var scrollX = window.pageXOffset !== undefined ? window.pageXOffset : window.scrollLeft
+    var scrollX = 0; //window.pageXOffset !== undefined ? window.pageXOffset : window.scrollLeft
     var styles = e.target.parentElement.getBoundingClientRect() // <g> element
-    var left = Math.round(styles.left + scrollX - 0.5 * tooltip.clientWidth + 0.5 * barWidth) + 'px';
-    var top = Math.round(styles.top + scrollY - tooltip.clientHeight) + 'px';
-    tooltip.style.left = left;
-    tooltip.style.top = top;
+    var left = Math.round(styles.left + scrollX - 0.5 * tooltip.clientWidth + 0.5 * barWidth);
+    var top = Math.round(styles.top + scrollY - tooltip.clientHeight);
+    var offCenter = 0;
+
+    // if tooltip goes off the screen, position it a bit off center
+    if (left < 6) {
+      offCenter = -left + 6;
+    } else if (left + tooltip.clientWidth > document.body.clientWidth - 6) {
+      offCenter = document.body.clientWidth - (left + tooltip.clientWidth) + 6;
+    }
+
+    // shift tooltip to the right (or left)
+    left += offCenter;
+
+    // shift arrow to the left (or right)
+    arrow.style.marginLeft = offCenter === 0 ? 'auto' : ((0.5 * tooltip.clientWidth) - 6 - offCenter) + 'px';
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
   })
 }
 
