@@ -20,6 +20,7 @@ if (chart) {
     tooltip.querySelector('.ka--pageviews').children[0].textContent = data.pageviews;
 
     // set tooltip position relative to top-left of document
+    var availWidth = document.body.clientWidth;
     tooltip.style.display = 'block';
     var scrollY = window.pageYOffset !== undefined ? window.pageYOffset : window.scrollTop
     var scrollX = 0; //window.pageXOffset !== undefined ? window.pageXOffset : window.scrollLeft
@@ -29,10 +30,10 @@ if (chart) {
     var offCenter = 0;
 
     // if tooltip goes off the screen, position it a bit off center
-    if (left < 6) {
-      offCenter = -left + 6;
-    } else if (left + tooltip.clientWidth > document.body.clientWidth - 6) {
-      offCenter = document.body.clientWidth - (left + tooltip.clientWidth) + 6;
+    if (left < 12) {
+      offCenter = -left + 12;
+    } else if (left + tooltip.clientWidth > availWidth - 12) {
+      offCenter = availWidth - (left + tooltip.clientWidth) - 12;
     }
 
     // shift tooltip to the right (or left)

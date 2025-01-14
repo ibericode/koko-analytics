@@ -1,5 +1,3 @@
-html, body { height: 100%; overflow-y: scroll; }
-
 /* standalone specific styles */
 body.ka-dashboard {
   background: #f1f1f1;
@@ -7,6 +5,9 @@ body.ka-dashboard {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 14px;
   line-height: 1.5;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 12px;
 }
 .ka-dashboard a {
   color: #3858e9;
