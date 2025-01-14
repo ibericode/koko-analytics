@@ -43,6 +43,9 @@ if (chart) {
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
   })
+  document.addEventListener('scroll', function() {
+    tooltip.style.display = 'none';
+  });
 }
 
 export function Chart() {
