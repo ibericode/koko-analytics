@@ -25,8 +25,8 @@
     "squizlabs/php_codesniffer": "^3.11"
   },
   "scripts": {
-    "test": "php vendor/bin/phpunit --bootstrap tests/bootstrap.php  tests/",
-    "check-syntax": "./bin/check-php-syntax",
+    "test": "vendor/bin/phpunit",
+    "check-syntax": "bin/check-php-syntax",
     "lint": "vendor/bin/phpcs -n -s",
     "fmt": "vendor/bin/phpcbf"
   }

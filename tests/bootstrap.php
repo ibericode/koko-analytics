@@ -2,9 +2,7 @@
 
 // phpcs:disable PSR1.Files.SideEffects
 
-require __DIR__ . '/../autoload.php';
-
-define('KOKO_ANALYTICS_PLUGIN_FILE', '../koko-analytics.php');
+require dirname(__DIR__) . '/koko-analytics.php';
 
 function apply_filters($a, $b, $prio = 10, $args = 2)
 {
@@ -21,7 +19,7 @@ function add_shortcode($a, $b)
 }
 function number_format_i18n($number, $decimals = 0)
 {
-    return $number;
+    return number_format($number, $decimals);
 }
 function register_activation_hook($a, $b)
 {
@@ -29,6 +27,7 @@ function register_activation_hook($a, $b)
 function update_option($a, $b, $c = false)
 {
 }
-function get_option($a, $b, $c = false)
+function get_option($a, $b = null)
 {
+    return $b;
 }
