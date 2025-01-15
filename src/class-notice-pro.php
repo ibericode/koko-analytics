@@ -26,14 +26,14 @@ class Notice_Pro
         return $settings['notice_pro'][$key];
     }
 
-    private function update_setting(string $key, $value)
+    private function update_setting(string $key, $value): void
     {
         $settings = $this->get_settings();
         $settings['notice_pro'][$key] = $value;
         update_option('koko_analytics_settings', $settings, true);
     }
 
-    public function maybe_show()
+    public function maybe_show(): void
     {
         if (!current_user_can('manage_koko_analytics')) {
             return;
@@ -47,9 +47,9 @@ class Notice_Pro
             return;
         }
 
-        $date_installed = $this->get_setting('date_installed');
+        $date_installed = $this->get_setting('timestamp_installed');
         if ($date_installed === null) {
-            $this->update_setting('date_installed', time());
+            $this->update_setting('timestamp_installed', time());
             return;
         }
 
@@ -62,7 +62,6 @@ class Notice_Pro
             return;
         }
 
-        // SHOW NOTICE
         ?>
         <style>
             .ka-notice {background: #fff8c5; border: 1px solid #d4a72c66; padding: 0 1em; margin: 1em 0; font-size: 14px;}
