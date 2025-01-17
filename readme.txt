@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.5.5
+Stable tag: 1.6.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -144,6 +144,22 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.6.0 - Jan 17, 2025
+
+- Bump minimal required PHP version to 7.4 or higher.
+- Fix issue with date generation for "this_week" and "last_week" presets.
+- Modify chart tooltip position so it's never causing horizontal overflow.
+- Hide chart tooltip on scroll.
+- Expand column width of pageviews and visitors column on large screens with ample space.
+- Fix undefined array key notice introduced in version 1.5.5.
+- Make all strings from Jetpack Importer feature translatable. Thanks to [Alex Lion](https://alexclassroom.com/).
+- Fix REST API routes returning a HTTP 500 error if called without a `start_date` parameter.
+
+PS. We've started the works on a [standalone version of Koko Analytics](https://github.com/koko-analytics/koko-analytics/) that allows you to track non-WordPress sites.
+
+You can read some more about it on Danny's personal blog: https://www.dannyvankooten.com/blog/2025/building-privacy-friendly-website-analytics/
+
 
 ### 1.5.5 - Jan 10, 2025
 
