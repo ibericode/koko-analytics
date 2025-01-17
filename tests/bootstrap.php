@@ -21,7 +21,10 @@ function number_format_i18n($number, $decimals = 0)
 {
     return number_format($number, $decimals);
 }
-function register_activation_hook($a, $b)
+function register_activation_hook($file, $callback)
+{
+}
+function register_deactivation_hook($file, $callback)
 {
 }
 function update_option($a, $b, $c = false)
