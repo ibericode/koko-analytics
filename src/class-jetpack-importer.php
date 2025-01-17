@@ -21,66 +21,66 @@ class Jetpack_Importer
         <div class="wrap" style="max-width: 820px;">
 
             <?php if (isset($_GET['success']) && $_GET['success'] == 0) { ?>
-                <div class="notice notice-error is-dismissible"><p>Sorry, something went wrong in trying to retrieve your stats from WordPress.com. Please check whether your API key and blog URL are correct.</p></div>
+                <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Sorry, something went wrong in trying to retrieve your stats from WordPress.com. Please check whether your API key and blog URL are correct.', 'koko-analytics'); ?></p></div>
             <?php } ?>
 
             <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
-                <div class="notice notice-success is-dismissible"><p>Big success! Your stats are now imported into Koko Analytics.</p></div>
+                <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?></p></div>
             <?php } ?>
 
-            <h1>Import analytics from JetPack Stats</h1>
-            <p>To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.</p>
+            <h1><?php esc_html_e('Import analytics from JetPack Stats', 'koko-analytics'); ?></h1>
+            <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
 
-            <form method="post" onsubmit="return confirm('Are you sure you want to import statistics between ' + this['date-start'].value + ' and ' +this['date-end'].value + '? This will overwrite any existing data in your Koko Analytics database tables.');" action="<?php echo esc_attr(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
+            <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
 
                 <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
                 <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
 
                 <table class="form-table">
                     <tr>
-                        <th><label for="wpcom-api-key">WordPress.com API key</label></th>
+                        <th><label for="wpcom-api-key"><?php esc_html_e('WordPress.com API key', 'koko-analytics'); ?></label></th>
                         <td>
                             <input id="wpcom-api-key" type="text" class="regular-text" name="wpcom-api-key" required>
-                            <p class="description">You can <a href="https://apikey.wordpress.com/">find your WordPress.com API key here</a>.</p>
+                            <p class="description"><?php printf(esc_html__('You can %1$sfind your WordPress.com API key here%2$s.', 'koko-analytics'), '<a href="https://apikey.wordpress.com/" target="_blank">', '</a>'); ?></p>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><label for="wpcom-blog-uri">Blog URL</label></th>
+                        <th><label for="wpcom-blog-uri"><?php esc_html_e('Blog URL', 'koko-analytics'); ?></label></th>
                         <td>
                             <input id="wpcom-blog-uri" type="text" class="regular-text" name="wpcom-blog-uri" value="<?php echo esc_attr(get_site_url()); ?>" required>
-                            <p class="description">The full URL to the root directory of your blog. Including the full path.</p>
+                            <p class="description"><?php esc_html_e('The full URL to the root directory of your blog. Including the full path.', 'koko-analytics'); ?></p>
                         </td>
                     </tr>
 
                     <tr>
-                        <th><label for="date-start">Start date</label></th>
+                        <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
                         <td>
                             <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
-                             <p class="description">The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.</p>
+                             <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
 
                         </td>
                     </tr>
 
                     <tr>
-                        <th><label for="date-end">End date</label></th>
+                        <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
                         <td>
                             <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
-                            <p class="description">The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.</p>
+                            <p class="description"><?php esc_html_e('The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.', 'koko-analytics'); ?></p>
 
                         </td>
                     </tr>
                 </table>
 
                 <p>
-                    <button type="submit" class="button">Import analytics data</button>
+                    <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
                 </p>
             </form>
 
             <div class="ka-margin-m">
-                <h3>Things to know before running the import</h3>
-                <p>Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.</p>
-                <p>It's also important to know that JetPack doesn't provide data for the distinct number of visitors, so the data imported will only import the total number of pageviews for each post and therefore differ slightly from data collected by Koko Analytics itself.</p>
+                <h3><?php esc_html_e('Things to know before running the import', 'koko-analytics'); ?></h3>
+                <p><?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?></p>
+                <p><?php esc_html_e('It\'s also important to know that JetPack doesn\'t provide data for the distinct number of visitors, so the data imported will only import the total number of pageviews for each post and therefore differ slightly from data collected by Koko Analytics itself.', 'koko-analytics'); ?></p>
             </div>
         </div>
         <?php
@@ -193,10 +193,16 @@ class Jetpack_Importer
         ?>
         <style>body { background: #f0f0f1; color: #3c434a; font-family: sans-serif; font-size: 16px; line-height: 1.5; padding: 32px; }</style>
         <meta http-equiv="refresh" content="1; url=<?php echo esc_attr($url); ?>">
-        <h1>Liberating your data... Please wait.</h1>
-        <p>Importing stats between <strong><?php echo $chunk_start->format('Y-m-d'); ?></strong> and <strong><?php echo $chunk_end->format('Y-m-d'); ?></strong>.</p>
-        <p>Please do not close this browser tab while the importer is running.</p>
-        <p>Estimated time left: <?php echo round($chunks_left * 1.5); ?> seconds.</p>
+        <h1><?php esc_html_e('Liberating your data... Please wait.', 'koko-analytics'); ?></h1>
+        <p>
+            <?php printf(
+                __('Importing stats between %1$s and %2$s.', 'koko-analytics'),
+                '<strong>' . $chunk_start->format('Y-m-d') . '</strong>',
+                '<strong>' . $chunk_end->format('Y-m-d') . '</strong>'
+            );?>
+        </p>
+        <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
+    <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
         <?php
         exit;
     }

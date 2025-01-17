@@ -18,11 +18,11 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
     <div class="ka-admin-wrap">
         <div class="ka-admin-main">
-            <h1 class="ka-logo"><?php echo esc_html__('Koko Analytics Settings', 'koko-analytics'); ?></h1>
+            <h1 class="ka-logo"><?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
             <?php if (isset($_GET['settings-updated'])) { ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><strong><?php echo esc_html__('Settings saved.', 'koko-analytics'); ?></strong></p>
+                    <p><strong><?php esc_html_e('Settings saved.', 'koko-analytics'); ?></strong></p>
                 </div>
             <?php } ?>
 
@@ -132,7 +132,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                             <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint">
                             <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="button button-secondary">
                         </form>
-                        <p><?php printf(__('To use one, create the file %1s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
+                        <p><?php printf(esc_html__('To use one, create the file %s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
                         <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($endpoint_installer->get_file_contents()); ?></textarea>
                         <p><?php esc_html_e('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics'); ?></p>
                     <?php } ?>
@@ -145,7 +145,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <?php $seconds_since_last_aggregation = (time() - (int) get_option('koko_analytics_last_aggregation_at', 0)); ?>
                     <?php esc_html_e('Last aggregation:', 'koko-analytics'); ?>
                     <span <?php echo $seconds_since_last_aggregation > 300 ? 'style="color: red;"' : ''; ?>>
-                        <?php echo esc_html(sprintf(__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation)); ?>
+                        <?php printf(esc_html__('%d seconds ago', 'koko-analytics'), $seconds_since_last_aggregation); ?>
                     </span>
                 </p>
                 <div class="ka-margin-m">
@@ -204,17 +204,17 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
             <div>
                 <div class="ka-pro-cta ka-margin-m">
-                    <h2>Upgrade to Koko Analytics Pro</h2>
-                    <p>You are currently using the free version of Koko Analytics. There is a paid add-on called <a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a> which adds several powerful features:</p>
+                    <h2><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
+                    <p><?php printf(esc_html__('You are currently using the free version of Koko Analytics. There is a paid add-on called %1$sKoko Analytics Pro%2$s which adds several powerful features:', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/" target="_blank">', '</a>'); ?></p>
                     <ul class="ul-square">
-                        <li>Track outbound link clicks</li>
-                        <li>Track form submissions</li>
-                        <li><a href="https://www.kokoanalytics.com/kb/tracking-events/">Custom event tracking</a></li>
-                        <li><a href="https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/">Periodic email report of your most important statistics</a></li>
-                        <li>Export dashboard view to CSV</li>
+                        <li><?php esc_html_e('Track outbound link clicks', 'koko-analytics'); ?></li>
+                        <li><?php esc_html_e('Track form submissions', 'koko-analytics'); ?></li>
+                        <li><a href="https://www.kokoanalytics.com/kb/tracking-events/" target="_blank"><?php esc_html_e('Custom event tracking', 'koko-analytics'); ?></a></li>
+                        <li><a href="https://www.kokoanalytics.com/2024/08/21/setting-up-email-reports-with-koko-analytics-pro/" target="_blank"><?php esc_html_e('Periodic email report of your most important statistics', 'koko-analytics'); ?></a></li>
+                        <li><?php esc_html_e('Export dashboard view to CSV', 'koko-analytics'); ?></li>
                     </ul>
-                    <p><a class="button" href="https://www.kokoanalytics.com/pricing/">View pricing</a></p>
-                    <p>By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.</p>
+                    <p><a class="button" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('View pricing', 'koko-analytics'); ?></a></p>
+                    <p><?php esc_html_e('By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.', 'koko-analytics'); ?></p>
                 </div>
             </div>
             <?php } // end if defined KOKO_ANALYTICS_PRO ?>
@@ -227,9 +227,9 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <div>
                 <h2><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
                 <ul class="ul-square">
-                    <li>Have a look at our <a href="https://www.kokoanalytics.com/kb/">knowledge base</a> for help with configuring and using Koko Analytics.</li>
-                    <li>Go through our <a href="https://github.com/ibericode/koko-analytics/tree/main/code-snippets">repository of sample code snippets</a> for inspiration on modifying the default Koko Analytics behavior.</li>
-                    <li>Vote on <a href="https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop">new features you would like to have in Koko Analytics</a>.</li>
+                    <li><?php printf(esc_html__('Have a look at our %1$sknowledge base%2$s for help with configuring and using Koko Analytics.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/kb/" target="_blank">', '</a>'); ?></li>
+                    <li><?php printf(esc_html__('Go through our %1$srepository of sample code snippets%2$s for inspiration on modifying the default Koko Analytics behavior.', 'koko-analytics'), '<a href="https://github.com/ibericode/koko-analytics/tree/main/code-snippets" target="_blank">', '</a>'); ?></li>
+                    <li><?php printf(esc_html__('Vote on %1$snew features you would like to have in Koko Analytics%2$s.', 'koko-analytics'), '<a href="https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop" target="_blank">', '</a>'); ?></li>
                 </ul>
             </div>
 
