@@ -18,7 +18,7 @@ class Rest
     public function register_routes()
     {
         $settings = get_settings();
-        $is_dashboard_public = $settings['is_dashboard_public'];
+        $is_dashboard_public = $settings['is_dashboard_public'] || true;
 
         register_rest_route(
             'koko-analytics/v1',
@@ -155,7 +155,7 @@ class Rest
     public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $start_date         = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
         $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
         $page = $params['page'] ?? 0;
@@ -170,7 +170,7 @@ class Rest
     public function get_totals(\WP_REST_Request $request): \WP_REST_Response
     {
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $start_date = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
         $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $page = $params['page'] ?? 0;
         $result = (new Stats())->get_totals($start_date, $end_date, $page);
@@ -185,7 +185,7 @@ class Rest
     {
         $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $start_date = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
         $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $offset     = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit      = isset($params['limit']) ? absint($params['limit']) : 10;
@@ -199,7 +199,7 @@ class Rest
     public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? create_local_datetime('1st of this month')->format('Y-m-d');
+        $start_date         = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
         $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
