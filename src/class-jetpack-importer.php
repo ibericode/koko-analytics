@@ -96,7 +96,6 @@ class Jetpack_Importer
         // verify nonce
         check_admin_referer('koko_analytics_start_jetpack_import');
 
-
         // save params
         $params = [
             'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
@@ -107,7 +106,7 @@ class Jetpack_Importer
 
         // all params are required
         if ($params['wpcom-api-key'] === '' || $params['wpcom-blog-uri'] === '' || $params['date-start'] === '' || $params['date-end'] === '') {
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0&error-details=missing-params'));
             exit;
         }
 
@@ -119,7 +118,7 @@ class Jetpack_Importer
                 throw new \Exception("End date must be after start date");
             }
         } catch (\Exception $e) {
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0&error-details=invalid-date-params'));
             exit;
         }
 
@@ -128,12 +127,7 @@ class Jetpack_Importer
 
         // work backwards from end date, so most recent stats first
         $chunk_end = $date_end;
-        $chunk_size = 30;
-        $chunk_start = $date_end->modify("-{$chunk_size} days");
-        if ($chunk_start < $date_start) {
-            $chunk_start = $date_start;
-            $chunk_size = $date_end->diff($date_start)->days;
-        }
+        $chunk_size = \min(30, $date_end->diff($date_start)->days);
 
         // redirect to first chunk
         wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]));
@@ -153,7 +147,7 @@ class Jetpack_Importer
         // get params
         $params = get_option('koko_analytics_jetpack_import_params');
         if (!$params) {
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0&error-details=no-params'));
             exit;
         }
 
@@ -172,7 +166,7 @@ class Jetpack_Importer
         // import this chunk
         if (! $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size)) {
             delete_option('koko_analytics_jetpack_import_params');
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0'));
+            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=0&error-details=chunk-request-error'));
             exit;
         }
 
@@ -209,10 +203,12 @@ class Jetpack_Importer
 
     public function perform_chunk_import(string $api_key, string $blog_uri, \DateTimeImmutable $date_end, int $chunk_size): bool
     {
+        $api_key = urlencode($api_key);
         $blog_uri = urlencode($blog_uri);
-        $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$date_end->format('Y-m-d')}&table=postviews&format=json&days={$chunk_size}&limit=-1";
+        $end = urlencode($date_end->format('Y-m-d'));
+        $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
-        if (!$response || wp_remote_retrieve_response_code($response) >= 400) {
+        if (!$response || is_wp_error($response) || wp_remote_retrieve_response_code($response) >= 400) {
             $status = wp_remote_retrieve_response_code($response);
             $message = wp_remote_retrieve_response_message($response);
             $body = wp_remote_retrieve_body($response);
