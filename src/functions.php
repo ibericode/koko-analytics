@@ -8,6 +8,7 @@
 
 namespace KokoAnalytics;
 
+use ParagonIE\Sodium\Core\Curve25519\Ge\P2;
 use WP_Admin_Bar;
 use WP_Query;
 use WP_Post;
@@ -133,17 +134,20 @@ function widgets_init()
 }
 
 /**
- * @param int|string $since Either an integer timestamp (in seconds since Unix epoch) or a relative time string that strtotime understands.
+ * @param int|string|null $since Either an integer timestamp (in seconds since Unix epoch) or a relative time string that strtotime understands.
  * @return int
  */
-function get_realtime_pageview_count($since = '-5 minutes'): int
+function get_realtime_pageview_count($since = null): int
 {
-    if (is_numeric($since)) {
+    if (is_numeric($since) || is_int($since)) {
         $since = (int) $since;
-    } else {
+    } elseif (is_string($since)) {
         // $since is relative time string
         $since = strtotime($since);
+    } else {
+        $since = strtotime('-5 minutes');
     }
+
     $counts = (array) get_option('koko_analytics_realtime_pageview_count', []);
     $sum    = 0;
     foreach ($counts as $timestamp => $pageviews) {

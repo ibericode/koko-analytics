@@ -215,7 +215,6 @@ class Rest
     public function get_realtime_pageview_count(\WP_REST_Request $request)
     {
         $params = $request->get_query_params();
-        $since  = isset($params['since']) ? strtotime($params['since']) : null;
-        return get_realtime_pageview_count($since);
+        return get_realtime_pageview_count($params['since'] ?? null);
     }
 }
