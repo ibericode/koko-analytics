@@ -13,19 +13,18 @@ class Pruner
     public function __construct()
     {
         add_action('koko_analytics_prune_data', [$this, 'run'], 10, 0);
-        add_action('admin_init', [$this, 'maybe_schedule'], 10, 0);
+        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'add_scheduled_event']);
+        register_deactivation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'clear_scheduled_event']);
     }
 
-    public function maybe_schedule()
+    public function add_scheduled_event(): void
     {
-        // only run on POST requests
-        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-            return;
-        }
+        wp_schedule_event(time() + DAY_IN_SECONDS, 'daily', 'koko_analytics_prune_data');
+    }
 
-        if (! wp_next_scheduled('koko_analytics_prune_data')) {
-            wp_schedule_event(time() + DAY_IN_SECONDS, 'daily', 'koko_analytics_prune_data');
-        }
+    public function clear_scheduled_event(): void
+    {
+        wp_clear_scheduled_hook('koko_analytics_prune_data');
     }
 
     public function run()
