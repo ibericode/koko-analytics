@@ -19,7 +19,9 @@ class Pruner
 
     public function add_scheduled_event(): void
     {
-        wp_schedule_event(time() + DAY_IN_SECONDS, 'daily', 'koko_analytics_prune_data');
+        if (! wp_next_scheduled('koko_analytics_prune_data')) {
+            wp_schedule_event(time() + DAY_IN_SECONDS, 'daily', 'koko_analytics_prune_data');
+        }
     }
 
     public function clear_scheduled_event(): void
