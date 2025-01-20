@@ -40,7 +40,7 @@ class Jetpack_Importer
             <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
 
                 <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
-                <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
+            <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
 
                 <table class="form-table">
                     <tr>
@@ -92,6 +92,13 @@ class Jetpack_Importer
         <?php
     }
 
+    private function redirect_with_error(string $redirect_url, string $error_message): void
+    {
+        $redirect_url = add_query_arg([ 'error' => urlencode($error_message)], $redirect_url);
+        wp_safe_redirect($redirect_url);
+        exit;
+    }
+
     public function start_import(): void
     {
         // authorize user
@@ -112,8 +119,7 @@ class Jetpack_Importer
 
         // all params are required
         if ($params['wpcom-api-key'] === '' || $params['wpcom-blog-uri'] === '' || $params['date-start'] === '' || $params['date-end'] === '') {
-            $error_message = __('A required field was missing', 'koko-analytics');
-            wp_safe_redirect(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer&error=' . urlencode($error_message)));
+            $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('A required field was missing', 'koko-analytics'));
             exit;
         }
 
@@ -125,8 +131,7 @@ class Jetpack_Importer
                 throw new \Exception("End date must be after start date");
             }
         } catch (\Exception $e) {
-            $error_message = __('Invalid date fields', 'koko-analytics');
-            wp_safe_redirect(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer&error=' . urlencode($error_message)));
+            $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
             exit;
         }
 
@@ -156,7 +161,7 @@ class Jetpack_Importer
         $params = get_option('koko_analytics_jetpack_import_params');
         if (!$params) {
             $error_message = __('Missing parameters.', 'koko-analytics');
-            wp_safe_redirect(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer&error=' . urlencode($error_message)));
+            $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $error_message);
             exit;
         }
 
@@ -176,8 +181,11 @@ class Jetpack_Importer
         try {
             $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
         } catch (\Exception $e) {
+            // clean-up after ourselves
             delete_option('koko_analytics_jetpack_import_params');
-            wp_safe_redirect(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer&error=' . urlencode($e->getMessage())));
+
+            // redirect to form page
+            $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $e->getMessage());
             exit;
         }
 
