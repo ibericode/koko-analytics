@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.6.1 - Jan 20, 2025
+
+- Show error details in Jetpack Importer when API returns an error response (instead of only writing to error log).
+- Register scheduled event for pruning data on plugin activation directly.
+- Allow calling `get_realtime_pageview_count()` function with `null` parameter.
+
+
 ### 1.6.0 - Jan 17, 2025
 
 - Bump minimal required PHP version to 7.4 or higher.
