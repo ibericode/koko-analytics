@@ -40,7 +40,7 @@ class Jetpack_Importer
             <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
 
                 <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
-            <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
+                <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
 
                 <table class="form-table">
                     <tr>

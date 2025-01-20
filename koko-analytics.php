@@ -64,8 +64,8 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
 
 new QueryLoopBlock();
 new Dashboard();
-$aggregator = new Aggregator();
-new Plugin($aggregator);
+new Aggregator();
+new Plugin();
 new Rest();
 new Shortcode_Most_Viewed_Posts();
 new ShortCode_Site_Counter();
