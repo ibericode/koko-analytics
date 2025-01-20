@@ -220,14 +220,18 @@ class Jetpack_Importer
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
 
-        if (!$response || is_wp_error($response) || wp_remote_retrieve_response_code($response) >= 400) {
+        if (is_wp_error($response)) {
+            $code = $response->get_error_code();
+            $message = $response->get_error_message();
+            throw new \Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
+        }
+
+        if (wp_remote_retrieve_response_code($response) >= 400) {
             $status = wp_remote_retrieve_response_code($response);
             $message = wp_remote_retrieve_response_message($response);
             $body = wp_remote_retrieve_body($response);
             error_log("Koko Analytics - JetPack Importer: received error response from WordPress.com API: {$status} {$message}\n\n{$body}\n");
-
-
-            throw new \Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . "\n\n{$status} {$message}\n\n{$body}\n");
+            throw new \Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status} {$message}\n\n{$body}");
         }
 
         $body = wp_remote_retrieve_body($response);
