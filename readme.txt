@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -144,6 +144,13 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.6.1 - Jan 20, 2025
+
+- Show error details in Jetpack Importer when API returns an error response (instead of only writing to error log).
+- Register scheduled event for pruning data on plugin activation directly.
+- Allow calling `get_realtime_pageview_count()` function with `null` parameter.
+
 
 ### 1.6.0 - Jan 17, 2025
 
@@ -783,7 +790,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Styling improvements for the dashboard page.
 
 
-#### 1.0.0 - Nov 4, 2019
-
-Initial release.
+#### 1.0.0 - ...
 
