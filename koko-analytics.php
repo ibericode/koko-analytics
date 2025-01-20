@@ -49,11 +49,11 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 
 // Maybe run any pending database migrations
 $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
-add_action('init', [$migrations, 'maybe_run']);
+add_action('init', [$migrations, 'maybe_run'], 10, 0);
 
 // Initialize rest of plugin
 if (\defined('DOING_AJAX') && DOING_AJAX) {
-    add_action('init', '\KokoAnalytics\maybe_collect_request', 1, 0);
+    add_action('init', 'KokoAnalytics\maybe_collect_request', 1, 0);
 } elseif (is_admin()) {
     new Admin();
     new Dashboard_Widget();
