@@ -34,11 +34,17 @@ class Plugin
 
     public function maybe_run_actions(): void
     {
+        $actions = [];
+
         if (isset($_GET['koko_analytics_action'])) {
-            $action = $_GET['koko_analytics_action'];
-        } elseif (isset($_POST['koko_analytics_action'])) {
-            $action = $_POST['koko_analytics_action'];
-        } else {
+            $actions[] = trim($_GET['koko_analytics_action']);
+        }
+
+        if (isset($_POST['koko_analytics_action'])) {
+            $actions[] = trim($_POST['koko_analytics_action']);
+        }
+
+        if (empty($actions)) {
             return;
         }
 
@@ -46,7 +52,11 @@ class Plugin
             return;
         }
 
-        do_action('koko_analytics_' . $action);
+        // fire all supplied action hooks
+        foreach ($actions as $action) {
+            do_action("koko_analytics_{$action}");
+        }
+
         wp_safe_redirect(remove_query_arg('koko_analytics_action'));
         exit;
     }
