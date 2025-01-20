@@ -220,27 +220,24 @@ class Jetpack_Importer
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
 
-        if (is_wp_error($response)) {
+        if ($response instanceof \WP_Error) {
             $code = $response->get_error_code();
             $message = $response->get_error_message();
             throw new \Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
         }
 
-        if (wp_remote_retrieve_response_code($response) >= 400) {
-            $status = wp_remote_retrieve_response_code($response);
+        $status_code = wp_remote_retrieve_response_code($response);
+        if ($status_code >= 400) {
             $message = wp_remote_retrieve_response_message($response);
             $body = wp_remote_retrieve_body($response);
-            error_log("Koko Analytics - JetPack Importer: received error response from WordPress.com API: {$status} {$message}\n\n{$body}\n");
-            throw new \Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status} {$message}\n\n{$body}");
+            throw new \Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status_code} {$message}\n\n{$body}");
         }
 
         $body = wp_remote_retrieve_body($response);
         try {
             $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $e) {
-            error_log("Koko Analytics - JetPack Importer: received non-JSON response from WordPress.com API: " . wp_remote_retrieve_body($response));
-            $lines = explode("\n", $body);
-            throw new \Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $lines[0]);
+            throw new \Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $body);
         }
 
         // API returns `null` for no data between two given dates
@@ -267,7 +264,7 @@ class Jetpack_Importer
                 $wpdb->query($query);
 
                 if ($wpdb->last_error !== '') {
-                    error_log("Koko Analytics - JetPack Importer: database error trying to update site_stats: " . $wpdb->last_error);
+                    throw new \Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
                 }
             }
 
@@ -275,7 +272,7 @@ class Jetpack_Importer
             $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $site_views, $site_views]);
             $wpdb->query($query);
             if ($wpdb->last_error !== '') {
-                error_log("Koko Analytics - JetPack Importer: database error trying to update site_stats: " . $wpdb->last_error);
+                throw new \Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
             }
         }
     }
