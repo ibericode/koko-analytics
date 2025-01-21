@@ -230,7 +230,7 @@ class Jetpack_Importer
         );?>
         </p>
         <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
-    <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
+        <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
             <?php
             exit;
     }
@@ -281,21 +281,28 @@ class Jetpack_Importer
         foreach ($data as $item) {
             $site_views = 0;
 
-            // update post stats for this date one-by-one
-            // TODO: We could make this more efficient by executing a single bulk query
+            // if there were no stats for this date, simply skip
+            if (count($item->postviews) === 0) {
+                continue;
+            }
+
+            // update post stats for this date in a single bulk query
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($item->postviews)), ',');
+            $values = [];
             foreach ($item->postviews as $postviews) {
                 $site_views += $postviews->views;
+                array_push($values, $item->date, $postviews->post_id, $postviews->views, $postviews->views);
+            }
 
-                $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES(%s, %d, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $postviews->post_id, $postviews->views, $postviews->views]);
-                $wpdb->query($query);
+            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+            $wpdb->query($query);
 
-                if ($wpdb->last_error !== '') {
-                    throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
-                }
+            if ($wpdb->last_error !== '') {
+                throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
             }
 
             // update site stats
-            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $site_views, $site_views]);
+            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$item->date, $site_views, $site_views]);
             $wpdb->query($query);
             if ($wpdb->last_error !== '') {
                 throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
