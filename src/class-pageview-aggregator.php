@@ -15,7 +15,7 @@ class Pageview_Aggregator
     protected array $site_stats     = [];
     protected array $post_stats     = [];
     protected array $referrer_stats = [];
-    protected int $realtime = 0;
+    protected array $realtime = [];
 
     public function line(string $type, array $params): void
     {
@@ -32,10 +32,9 @@ class Pageview_Aggregator
             return;
         }
 
-        // convert timestamp to local datetime
+        // convert unix timestamp to local datetime
         $dt = new DateTime('', wp_timezone());
         $dt->setTimestamp($timestamp);
-
         $date_key = $dt->format('Y-m-d');
 
         if (!isset($this->site_stats[$date_key])) {
@@ -86,7 +85,9 @@ class Pageview_Aggregator
 
         // increment realtime if this pageview is recent enough
         if ($timestamp > \time() - 60 * 60) {
-            $this->realtime++;
+            $key = (string) (floor($timestamp / 60) * 60);
+            $this->realtime[$key] ??= 0;
+            $this->realtime[$key]++;
         }
     }
 
@@ -144,7 +145,7 @@ class Pageview_Aggregator
 
             // insert referrer stats
             $values = [];
-            foreach ($stats as $referrer_url => $r) {
+            foreach ($stats as $r) {
                 array_push($values, $date, $r['id'], $r['visitors'], $r['pageviews']);
             }
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
@@ -153,29 +154,34 @@ class Pageview_Aggregator
         }
 
         // insert realtime count
-        $this->update_realtime_pageview_count($this->realtime);
+        $this->update_realtime_pageview_count();
 
         // reset properties in case aggregation runs again in current request lifecycle
         $this->site_stats = [];
         $this->referrer_stats = [];
         $this->post_stats     = [];
-        $this->realtime = 0;
+        $this->realtime = [];
     }
 
-    private function update_realtime_pageview_count(int $pageviews): void
+    private function update_realtime_pageview_count(): void
     {
         $counts       = (array) get_option('koko_analytics_realtime_pageview_count', []);
-        $one_hour_ago = strtotime('-60 minutes');
 
-        foreach ($counts as $timestamp => $count) {
+        // remove all data older than 60 minutes
+        $one_hour_ago = \time() - 60 * 60;
+        foreach ($counts as $timestamp => $v) {
             // delete all data older than one hour
             if ((int) $timestamp < $one_hour_ago) {
                 unset($counts[ $timestamp ]);
             }
         }
 
-        // add pageviews for this minute
-        $counts[ (string) time() ] = $pageviews;
+        // add latest counts (keyed by the minute)
+        foreach ($this->realtime as $timestamp_minute => $count) {
+            $counts[$timestamp_minute] ??= 0;
+            $counts[$timestamp_minute] += $count;
+        }
+
         update_option('koko_analytics_realtime_pageview_count', $counts, false);
     }
 

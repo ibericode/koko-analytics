@@ -134,7 +134,7 @@ class Jetpack_Importer
             if ($date_end < $date_start) {
                 throw new Exception("End date must be after start date");
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
             exit;
         }
@@ -171,7 +171,6 @@ class Jetpack_Importer
 
         $chunk_end = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
-        $date_end = new DateTimeImmutable($params['date-end']);
         $date_start = new DateTimeImmutable($params['date-start']);
         $chunk_end = new DateTimeImmutable($chunk_end);
 
@@ -248,7 +247,7 @@ class Jetpack_Importer
         $body = wp_remote_retrieve_body($response);
         try {
             $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $body);
         }
 
