@@ -230,7 +230,7 @@ class Jetpack_Importer
         $blog_uri = urlencode($blog_uri);
         $end = urlencode($date_end->format('Y-m-d'));
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
-        $response = wp_remote_get($url);
+        $response = wp_remote_get($url, [ 'timeout' => 30 ]);
 
         if ($response instanceof WP_Error) {
             $code = $response->get_error_code();
