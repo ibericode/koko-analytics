@@ -77,7 +77,7 @@ class Pageview_Aggregator
         }
     }
 
-    public function finish(): void
+    public function finish(string $date): void
     {
         global $wpdb;
 
@@ -85,9 +85,6 @@ class Pageview_Aggregator
         if ($this->site_stats['pageviews'] === 0) {
             return;
         }
-
-        // store as local date using the timezone specified in WP settings
-        $date = create_local_datetime('now')->format('Y-m-d');
 
         // insert site stats
         $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $this->site_stats['visitors'], $this->site_stats['pageviews'] ]);

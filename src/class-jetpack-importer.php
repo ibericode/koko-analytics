@@ -2,6 +2,10 @@
 
 namespace KokoAnalytics;
 
+use WP_Error;
+use Exception;
+use DateTimeImmutable;
+
 class Jetpack_Importer
 {
     public function __construct()
@@ -125,12 +129,12 @@ class Jetpack_Importer
 
         // first chunk is 30 days after date-start
         try {
-            $date_start = new \DateTimeImmutable($params['date-start']);
-            $date_end = new \DateTimeImmutable($params['date-end']);
+            $date_start = new DateTimeImmutable($params['date-start']);
+            $date_end = new DateTimeImmutable($params['date-end']);
             if ($date_end < $date_start) {
-                throw new \Exception("End date must be after start date");
+                throw new Exception("End date must be after start date");
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
             exit;
         }
@@ -167,9 +171,9 @@ class Jetpack_Importer
 
         $chunk_end = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
-        $date_end = new \DateTimeImmutable($params['date-end']);
-        $date_start = new \DateTimeImmutable($params['date-start']);
-        $chunk_end = new \DateTimeImmutable($chunk_end);
+        $date_end = new DateTimeImmutable($params['date-end']);
+        $date_start = new DateTimeImmutable($params['date-start']);
+        $chunk_end = new DateTimeImmutable($chunk_end);
 
         // calculate next chunk end date and actual size of current chunk
         $next_chunk_end = $chunk_end->modify("-{$chunk_size} days");
@@ -180,7 +184,7 @@ class Jetpack_Importer
         // import this chunk
         try {
             $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // clean-up after ourselves
             delete_option('koko_analytics_jetpack_import_params');
 
@@ -220,7 +224,7 @@ class Jetpack_Importer
             exit;
     }
 
-    public function perform_chunk_import(string $api_key, string $blog_uri, \DateTimeImmutable $date_end, int $chunk_size): void
+    public function perform_chunk_import(string $api_key, string $blog_uri, DateTimeImmutable $date_end, int $chunk_size): void
     {
         $api_key = urlencode($api_key);
         $blog_uri = urlencode($blog_uri);
@@ -228,24 +232,24 @@ class Jetpack_Importer
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_get($url);
 
-        if ($response instanceof \WP_Error) {
+        if ($response instanceof WP_Error) {
             $code = $response->get_error_code();
             $message = $response->get_error_message();
-            throw new \Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
+            throw new Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
         }
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code >= 400) {
             $message = wp_remote_retrieve_response_message($response);
             $body = wp_remote_retrieve_body($response);
-            throw new \Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status_code} {$message}\n\n{$body}");
+            throw new Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status_code} {$message}\n\n{$body}");
         }
 
         $body = wp_remote_retrieve_body($response);
         try {
             $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
-        } catch (\Exception $e) {
-            throw new \Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $body);
+        } catch (Exception $e) {
+            throw new Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $body);
         }
 
         // API returns `null` for no data between two given dates
@@ -272,7 +276,7 @@ class Jetpack_Importer
                 $wpdb->query($query);
 
                 if ($wpdb->last_error !== '') {
-                    throw new \Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+                    throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
                 }
             }
 
@@ -280,7 +284,7 @@ class Jetpack_Importer
             $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews);", [$item->date, $site_views, $site_views]);
             $wpdb->query($query);
             if ($wpdb->last_error !== '') {
-                throw new \Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+                throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
             }
         }
     }

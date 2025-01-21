@@ -136,19 +136,50 @@ function collect_request()
     exit;
 }
 
-function get_buffer_filename(): string
+function get_timezone(): string
 {
+    if (defined('KOKO_ANALYTICS_TIMEZONE')) {
+        return KOKO_ANALYTICS_TIMEZONE;
+    }
+
+    if (function_exists('wp_timezone_string')) {
+        return wp_timezone_string();
+    }
+
+    return 'UTC';
+}
+
+function get_upload_dir(): string
+{
+    if (\defined('KOKO_ANALYTICS_UPLOAD_DIR')) {
+        return KOKO_ANALYTICS_UPLOAD_DIR;
+    }
+
     if (\defined('KOKO_ANALYTICS_BUFFER_FILE')) {
-        return KOKO_ANALYTICS_BUFFER_FILE;
+        return dirname(KOKO_ANALYTICS_BUFFER_FILE) . '/koko-analytics';
     }
 
     $uploads = wp_upload_dir(null, false);
-    return \rtrim($uploads['basedir'], '/') . '/pageviews.php';
+    return \rtrim($uploads['basedir']) . '/koko-analytics';
+}
+
+
+function get_buffer_filename(): string
+{
+    $timezone = get_timezone();
+    $dt = new \DateTimeImmutable('now', new \DateTimeZone($timezone));
+    $upload_dir = get_upload_dir();
+    $buffer_filename = "buffer-{$dt->format('Y-m-d')}.php";
+    return "{$upload_dir}/$buffer_filename";
 }
 
 function collect_in_file(array $data): bool
 {
     $filename = get_buffer_filename();
+    $directory = \dirname($filename);
+    if (! \is_dir($directory)) {
+        \mkdir($directory, 0755, true);
+    }
 
     // if file does not yet exist, add PHP header to prevent direct file access
     if (!\is_file($filename)) {
@@ -170,6 +201,10 @@ function test_collect_in_file(): bool
         return is_writable($filename);
     }
 
-    $dir = dirname($filename);
-    return is_writable($dir);
+    $directory = dirname($filename);
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);
+    }
+
+    return is_writable($directory);
 }
