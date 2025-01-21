@@ -80,6 +80,15 @@ class Jetpack_Importer
 
                         </td>
                     </tr>
+
+                    <tr>
+                        <th><label for="chunk-size"><?php esc_html_e('Chunk size', 'koko-analytics'); ?></label></th>
+                        <td>
+                            <input id="chunk-size" name="chunk-size" type="number" value="30" min="1" max="90" required>
+                            <p class="description"><?php esc_html_e('The number of days to pull in at once. If your website has a lot of different posts or pages, it may be worth setting this to a lower value.', 'koko-analytics'); ?></p>
+
+                        </td>
+                    </tr>
                 </table>
 
                 <p>
@@ -115,10 +124,10 @@ class Jetpack_Importer
 
         // save params
         $params = [
-        'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
-        'wpcom-blog-uri' => trim($_POST['wpcom-blog-uri'] ?? ''),
-        'date-start' => trim($_POST['date-start'] ?? ''),
-        'date-end' => trim($_POST['date-end'] ?? ''),
+            'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
+            'wpcom-blog-uri' => trim($_POST['wpcom-blog-uri'] ?? ''),
+            'date-start' => trim($_POST['date-start'] ?? ''),
+            'date-end' => trim($_POST['date-end'] ?? ''),
         ];
 
         // all params are required
@@ -144,7 +153,10 @@ class Jetpack_Importer
 
         // work backwards from end date, so most recent stats first
         $chunk_end = $date_end;
-        $chunk_size = \max(1, \min(30, $date_end->diff($date_start)->days));
+
+        // determine size of each chunk to pull in and clamp it between 1 and supplied chunk size
+        $max_chunk_size = isset($_GET['chunk-size']) ? (int) $_GET['chunk-size'] : 30;
+        $chunk_size = \max(1, \min($max_chunk_size, $date_end->diff($date_start)->days));
 
         // redirect to first chunk
         wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]));
