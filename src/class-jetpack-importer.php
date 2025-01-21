@@ -144,7 +144,7 @@ class Jetpack_Importer
 
         // work backwards from end date, so most recent stats first
         $chunk_end = $date_end;
-        $chunk_size = \min(30, $date_end->diff($date_start)->days);
+        $chunk_size = \max(1, \min(30, $date_end->diff($date_start)->days));
 
         // redirect to first chunk
         wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]));
@@ -177,7 +177,7 @@ class Jetpack_Importer
         // calculate next chunk end date and actual size of current chunk
         $next_chunk_end = $chunk_end->modify("-{$chunk_size} days");
         if ($next_chunk_end < $date_start) {
-            $chunk_size = $chunk_end->diff($date_start)->days;
+            $chunk_size = max(1, $chunk_end->diff($date_start)->days);
         }
 
         // import this chunk
@@ -225,11 +225,15 @@ class Jetpack_Importer
 
     public function perform_chunk_import(string $api_key, string $blog_uri, DateTimeImmutable $date_end, int $chunk_size): void
     {
+        @set_time_limit(90);
+
         $api_key = urlencode($api_key);
         $blog_uri = urlencode($blog_uri);
         $end = urlencode($date_end->format('Y-m-d'));
         $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
-        $response = wp_remote_get($url, [ 'timeout' => 30 ]);
+        $response = wp_remote_post($url, [
+            'timeout' => 90,
+        ]);
 
         if ($response instanceof WP_Error) {
             $code = $response->get_error_code();
@@ -262,7 +266,6 @@ class Jetpack_Importer
 
         /** @var wpdb $wpdb */
         global $wpdb;
-
         foreach ($data as $item) {
             $site_views = 0;
 

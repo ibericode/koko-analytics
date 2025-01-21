@@ -66,6 +66,8 @@ class Admin
         // some host run WP Cron only once per 15 minutes, so that is probably the lower bound of this check
         $next_scheduled = wp_next_scheduled('koko_analytics_aggregate_stats');
         if ($next_scheduled === false) {
+            // if the event does not appear in scheduled event list at all
+            // schedule it now
             wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
             return true;
         }
