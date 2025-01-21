@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.2
+Stable tag: 1.6.2-trunk
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
