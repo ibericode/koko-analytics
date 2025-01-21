@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.2-trunk
+Stable tag: 1.6.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -145,14 +145,17 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
-### 1.6.2 - Jan 21, 2025
+### 1.6.3 - Jan 21, 2025
 
 - Schedule missing `koko_analytics_aggregate_stats` event.
 - Ensure pageview counts are always added to the correct day, even if WP Cron stalls for more than 24 hours.
 - Improved correctness of the realtime visitor count in case of WP Cron stalls.
 - Move the temporary buffer file to its own directory inside the uploads directory.
-- Bump HTTP request timeout for Jetpack importer up from 5 seconds to 90 seconds.
-- Fix division by zero if importing a single day of data with Jetpack Importer.
+- Fix syntax error on PHP 7.4 introduced in version 1.6.2
+- Jetpack Importer: Fix division by zero if importing a single day of data
+- Jetpack Importer: Bump HTTP request timeout for Jetpack importer up from 5 seconds to 90 seconds.
+- Jetpack Importer: Allow choosing a custom chunk size, which can be useful for sites with a large amount of posts or pages.
+- Do not delete database tables on plugin uninstall by default.
 
 
 ### 1.6.1 - Jan 20, 2025
@@ -783,12 +786,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Improved labels for chart x-axes.
 - Consistent ordering of posts and referrers tables.
 - Remove trailing `?` character from referrer URL's after query parameters are stripped.
-- Fix retrieving post title when post type is excluded from search.
-
-
-#### 1.0.1 - Nov 14, 2019
-
-- Add dashboard widget showing site visits over last 14 days.
-- Add widget for showing most viewed posts, pages or any other post type over a given period.
-- Add ...
+- Fix ...
 
