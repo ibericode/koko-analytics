@@ -17,8 +17,8 @@ class Aggregator
         add_filter('cron_schedules', [$this, 'add_interval'], 10, 1);
         add_action('koko_analytics_aggregate_stats', [$this, 'aggregate'], 10, 0);
         add_action('koko_analytics_save_settings', [$this, 'setup_scheduled_event'], 10, 0);
-        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'setup_scheduled_event'], 10, 0);
-        register_deactivation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'clear_scheduled_event'], 10, 0);
+        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'setup_scheduled_event']);
+        register_deactivation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'clear_scheduled_event']);
     }
 
     /**
