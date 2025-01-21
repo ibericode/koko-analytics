@@ -31,10 +31,23 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => 'x']), []);
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
 
-       // complete and valid
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3']), ['p', 1, 2, 3, '']);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => '']), ['p', 1, 2, 3, '']);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com']), ['p', 1, 2, 3, 'https://www.kokoanalytics.com']);
+        // complete and valid
+        foreach (
+            [
+            [['p' => '1', 'nv' => '2', 'up' => '3'], ['p', null, 1, 2, 3, '']],
+            [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => ''], ['p', null, 1, 2, 3, '']],
+            [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com'], ['p', null, 1, 2, 3, 'https://www.kokoanalytics.com']],
+
+            ] as [$input, $expected]
+        ) {
+            $actual = extract_pageview_data($input);
+            $this->assertEquals($expected[0], $actual[0]);  // type indicator
+            $this->assertIsInt($actual[1]); // timestamp
+            $this->assertEquals($expected[2], $actual[2]);  // post id
+            $this->assertEquals($expected[3], $actual[3]);
+            $this->assertEquals($expected[4], $actual[4]);
+            $this->assertEquals($expected[5], $actual[5]);
+        }
     }
 
     public function testExtractEventData(): void
@@ -59,7 +72,13 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'u' => '1', 'v' => '100']), []);
 
        // complete and valid
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']), ['e', 'Event', 'Param', 1, 100]);
+        $actual = extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']);
+        $expected = ['e', 'Event', 'Param', 1, 100];
+        $this->assertEquals($expected[0], $actual[0]);
+        $this->assertEquals($expected[1], $actual[1]);
+        $this->assertEquals($expected[2], $actual[2]);
+        $this->assertEquals($expected[3], $actual[3]);
+        $this->assertEquals($expected[4], $actual[4]);
     }
 
     public function testGetClientIp(): void

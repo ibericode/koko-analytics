@@ -43,7 +43,7 @@ function extract_pageview_data(array $raw): array
     $referrer_url = \substr($referrer_url, 0, 255);
 
     return [
-        'p',                // type indicator
+        'p',                 // type indicator
         \time(),             // unix timestamp
         $post_id,
         $new_visitor,
