@@ -145,7 +145,7 @@ function get_upload_dir(): string
     }
 
     if (\defined('KOKO_ANALYTICS_BUFFER_FILE')) {
-        return dirname(KOKO_ANALYTICS_BUFFER_FILE) . '/koko-analytics';
+        return \dirname(KOKO_ANALYTICS_BUFFER_FILE) . '/koko-analytics';
     }
 
     $uploads = wp_upload_dir(null, false);
@@ -170,7 +170,8 @@ function collect_in_file(array $data): bool
 
     // if file does not yet exist, add PHP header to prevent direct file access
     if (!\is_file($filename)) {
-        $content = '<?php exit; ?>' . PHP_EOL;
+        $content = '<?php exit; ?>';
+        $content .= PHP_EOL;
     } else {
         $content = '';
     }
@@ -185,14 +186,14 @@ function collect_in_file(array $data): bool
 function test_collect_in_file(): bool
 {
     $filename = get_buffer_filename();
-    if (file_exists($filename)) {
-        return is_writable($filename);
+    if (\is_file($filename)) {
+        return \is_writable($filename);
     }
 
-    $directory = dirname($filename);
-    if (!is_dir($directory)) {
-        mkdir($directory, 0755, true);
+    $directory = \dirname($filename);
+    if (! \is_dir($directory)) {
+        \mkdir($directory, 0755, true);
     }
 
-    return is_writable($directory);
+    return \is_writable($directory);
 }
