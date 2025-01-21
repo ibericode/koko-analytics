@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.1-trunk
+Stable tag: 1.6.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -145,6 +145,16 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
+### 1.6.2 - Jan 21, 2025
+
+- Schedule missing `koko_analytics_aggregate_stats` event.
+- Ensure pageview counts are always added to the correct day, even if WP Cron stalls for more than 24 hours.
+- Improved correctness of the realtime visitor count in case of WP Cron stalls.
+- Move the temporary buffer file to its own directory inside the uploads directory.
+- Bump HTTP request timeout for Jetpack importer up from 5 seconds to 90 seconds.
+- Fix division by zero if importing a single day of data with Jetpack Importer.
+
+
 ### 1.6.1 - Jan 20, 2025
 
 - Show error details in Jetpack Importer when API returns an error response (instead of only writing to error log).
@@ -177,7 +187,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.5.4 - Jan 10, 2025
 
-- Fix optimized enpoint file referencing no-longer existing file on some installations.
+- Fix optimized endpoint file referencing no-longer existing file on some installations.
 
 
 #### 1.5.3 - Jan 09, 2025
@@ -780,15 +790,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Add dashboard widget showing site visits over last 14 days.
 - Add widget for showing most viewed posts, pages or any other post type over a given period.
-- Add `[koko_analytics_most_viewed_posts]` shortcode.
-- Add pagination to tables showing top posts and top referrers.
-- Add settings link to plugin row on plugins overview page in WP admin.
-- Use ASCII for storing textual data. Fixes an issue with error message "specified key is too long" on some MySQL installations when the charset is `utf8mb4`.
-- Remove all data when uninstalling the plugin. Thanks to [Santiago Degetau](https://profiles.wordpress.org/tausworks/).
-- Improved memory usage when handling huge bursts of traffic.
-- Load tracking script asynchronously.
-- Styling improvements for the dashboard page.
-
-
-#### 1.0.0 - ...
+- Add ...
 
