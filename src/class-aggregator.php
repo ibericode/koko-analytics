@@ -46,12 +46,6 @@ class Aggregator
         wp_clear_scheduled_hook('koko_analytics_aggregate_stats');
     }
 
-    private function get_buffer_files(): array
-    {
-        $upload_dir = get_upload_dir();
-        return glob("{$upload_dir}/buffer-*.php");
-    }
-
     /**
      * Reads the buffer file into memory and moves data into the MySQL database (in bulk)
      *
@@ -61,65 +55,62 @@ class Aggregator
     {
         update_option('koko_analytics_last_aggregation_at', \time(), true);
 
-        $buffer_files = $this->get_buffer_files();
-        if (empty($buffer_files)) {
+        $buffer_file = get_buffer_filename();
+
+        // if buffer file does not exist, nothing happened since last aggregation
+        if (! \is_file($buffer_file)) {
             return;
         }
 
         // init pageview aggregator
         $pageview_aggregator = new Pageview_Aggregator();
 
-        foreach ($buffer_files as $buffer_file) {
-            // parse date from filename
-            $date = preg_match("/buffer-(.*)\.php/", basename($buffer_file), $matches);
-            $date = $matches[1];
-
-            // rename file to temporary location so nothing new is written to it while we process it
-            $tmp_filename = $buffer_file . '.busy';
-            $renamed = \rename($buffer_file, $tmp_filename);
-            if ($renamed !== true) {
-                if (WP_DEBUG) {
-                    throw new Exception('Error renaming buffer file.');
-                }
-                return;
+        // rename file to temporary location so nothing new is written to it while we process it
+        $tmp_filename = \dirname($buffer_file) . '/events-buffer.' . \time() . '.php';
+        $renamed = \rename($buffer_file, $tmp_filename);
+        if ($renamed !== true) {
+            if (WP_DEBUG) {
+                throw new Exception('Error renaming buffer file.');
             }
-
-            // open file for reading
-            $file_handle = \fopen($tmp_filename, 'r');
-            if (! $file_handle) {
-                if (WP_DEBUG) {
-                    throw new Exception('Error opening buffer file for reading.');
-                }
-                return;
-            }
-
-            // read and ignore first line (the PHP header that prevents direct file access)
-            \fgets($file_handle, 1024);
-
-            while (($line = \fgets($file_handle, 1024)) !== false) {
-                $line = \trim($line);
-                if ($line === '' || $line === '<?php exit; ?>') {
-                    continue;
-                }
-
-                $params = \explode(',', $line);
-                $type   = \array_shift($params);
-
-                // core aggregator
-                $pageview_aggregator->line($type, $params);
-
-                // add-on aggregators
-                do_action('koko_analytics_aggregate_line', $type, $params);
-            }
-
-            // close file & remove it from filesystem
-            \fclose($file_handle);
-            \unlink($tmp_filename);
-
-            // tell aggregators to write their results to the database
-            $pageview_aggregator->finish($date);
-            do_action('koko_analytics_aggregate_finish', $date);
+            return;
         }
+
+        // open file for reading
+        $file_handle = \fopen($tmp_filename, 'r');
+        if (! $file_handle) {
+            if (WP_DEBUG) {
+                throw new Exception('Error opening buffer file for reading.');
+            }
+            return;
+        }
+
+        // read and ignore first line (the PHP header that prevents direct file access)
+        \fgets($file_handle, 1024);
+
+        while (($line = \fgets($file_handle, 1024)) !== false) {
+            $line = \trim($line);
+            if ($line === '' || $line === '<?php exit; ?>') {
+                continue;
+            }
+
+            $params = \unserialize($line);
+            $type   = \array_shift($params);
+
+            // core aggregator
+            $pageview_aggregator->line($type, $params);
+
+            // add-on aggregators
+            do_action('koko_analytics_aggregate_line', $type, $params);
+        }
+
+        // close file & remove it from filesystem
+        \fclose($file_handle);
+        \unlink($tmp_filename);
+
+        // tell aggregators to write their results to the database
+        $pageview_aggregator->finish();
+        do_action('koko_analytics_aggregate_finish');
+
 
         // ensure scheduled event is ready to go again
         $this->setup_scheduled_event();

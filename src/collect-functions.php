@@ -44,6 +44,7 @@ function extract_pageview_data(array $raw): array
 
     return [
         'p',                // type indicator
+        \time(),             // unix timestamp
         $post_id,
         $new_visitor,
         $unique_pageview,
@@ -76,10 +77,11 @@ function extract_event_data(array $raw): array
 
     return [
         'e',                   // type indicator
-        $event_name,           // 0: event name
-        $event_param,          // 1: event parameter
-        $unique_event,         // 2: is unique?
-        $value,                // 3: event value
+        $event_name,           // event name
+        $event_param,          // event parameter
+        $unique_event,         // is unique?
+        $value,                // event value,
+        \time(),               // unix timestamp
     ];
 }
 
@@ -136,19 +138,6 @@ function collect_request()
     exit;
 }
 
-function get_timezone(): string
-{
-    if (defined('KOKO_ANALYTICS_TIMEZONE')) {
-        return KOKO_ANALYTICS_TIMEZONE;
-    }
-
-    if (function_exists('wp_timezone_string')) {
-        return wp_timezone_string();
-    }
-
-    return 'UTC';
-}
-
 function get_upload_dir(): string
 {
     if (\defined('KOKO_ANALYTICS_UPLOAD_DIR')) {
@@ -166,10 +155,8 @@ function get_upload_dir(): string
 
 function get_buffer_filename(): string
 {
-    $timezone = get_timezone();
-    $dt = new \DateTimeImmutable('now', new \DateTimeZone($timezone));
     $upload_dir = get_upload_dir();
-    $buffer_filename = "buffer-{$dt->format('Y-m-d')}.php";
+    $buffer_filename = "events-buffer.php";
     return "{$upload_dir}/$buffer_filename";
 }
 
@@ -188,9 +175,10 @@ function collect_in_file(array $data): bool
         $content = '';
     }
 
-    // append data to file
-    $line     = \join(',', $data) . PHP_EOL;
-    $content .= $line;
+    // append serialized data to file
+    $content .= \serialize($data);
+    $content .= PHP_EOL;
+
     return (bool) \file_put_contents($filename, $content, FILE_APPEND);
 }
 

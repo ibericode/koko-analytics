@@ -8,14 +8,14 @@
 
 namespace KokoAnalytics;
 
+use DateTime;
+
 class Pageview_Aggregator
 {
-    protected $site_stats     = [
-        'visitors' => 0,
-        'pageviews' => 0,
-    ];
-    protected $post_stats     = [];
-    protected $referrer_stats = [];
+    protected array $site_stats     = [];
+    protected array $post_stats     = [];
+    protected array $referrer_stats = [];
+    protected int $realtime = 0;
 
     public function line(string $type, array $params): void
     {
@@ -24,35 +24,43 @@ class Pageview_Aggregator
             return;
         }
 
-        $post_id         = (int) $params[0];
-        $new_visitor     = (int) $params[1];
-        $unique_pageview = (int) $params[2];
-        $referrer_url    = trim((string) $params[3]);
+        // unpack line
+        [$timestamp, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
 
         // Ignore entire line (request) if referrer URL is on blocklist
         if ($referrer_url !== '' && $this->ignore_referrer_url($referrer_url)) {
             return;
         }
 
+        // convert timestamp to local datetime
+        $dt = new DateTime('', wp_timezone());
+        $dt->setTimestamp($timestamp);
+
+        $date_key = $dt->format('Y-m-d');
+
+        if (!isset($this->site_stats[$date_key])) {
+            $this->site_stats[$date_key] = [ 'visitors' => 0, 'pageviews' => 0 ];
+        }
+
         // update site stats
-        $this->site_stats['pageviews'] += 1;
+        $this->site_stats[$date_key]['pageviews'] += 1;
         if ($new_visitor) {
-            $this->site_stats['visitors'] += 1;
+            $this->site_stats[$date_key]['visitors'] += 1;
         }
 
         // update page stats (if received)
         if ($post_id >= 0) {
-            if (! isset($this->post_stats[ $post_id ])) {
-                $this->post_stats[ $post_id ] = [
-                    'visitors'  => 0,
-                    'pageviews' => 0,
-                ];
+            if (!isset($this->post_stats[$date_key])) {
+                $this->post_stats[$date_key] = [];
+            }
+            if (! isset($this->post_stats[$date_key][$post_id])) {
+                $this->post_stats[$date_key][$post_id] = [ 'visitors' => 0, 'pageviews' => 0 ];
             }
 
-            $this->post_stats[ $post_id ]['pageviews'] += 1;
+            $this->post_stats[$date_key][$post_id]['pageviews'] += 1;
 
             if ($unique_pageview) {
-                $this->post_stats[ $post_id ]['visitors'] += 1;
+                $this->post_stats[$date_key][$post_id]['visitors'] += 1;
             }
         }
 
@@ -61,59 +69,62 @@ class Pageview_Aggregator
             $referrer_url = $this->clean_url($referrer_url);
             $referrer_url = $this->normalize_url($referrer_url);
 
-            // add to map
-            if (! isset($this->referrer_stats[ $referrer_url ])) {
-                $this->referrer_stats[ $referrer_url ] = [
-                    'pageviews' => 0,
-                    'visitors'  => 0,
-                ];
+            if (!isset($this->referrer_stats[$date_key])) {
+                $this->referrer_stats[$date_key] = [];
+            }
+
+            if (! isset($this->referrer_stats[$date_key][$referrer_url])) {
+                $this->referrer_stats[$date_key][$referrer_url] = [ 'visitors' => 0, 'pageviews' => 0 ];
             }
 
             // increment stats
-            $this->referrer_stats[ $referrer_url ]['pageviews'] += 1;
+            $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
             if ($new_visitor) {
-                $this->referrer_stats[ $referrer_url ]['visitors'] += 1;
+                $this->referrer_stats[$date_key][$referrer_url]['visitors'] += 1;
             }
+        }
+
+        // increment realtime if this pageview is recent enough
+        if ($timestamp > \time() - 60 * 60) {
+            $this->realtime++;
         }
     }
 
-    public function finish(string $date): void
+    public function finish(): void
     {
         global $wpdb;
 
-        // bail if nothing happened
-        if ($this->site_stats['pageviews'] === 0) {
-            return;
+        // insert site stats
+        foreach ($this->site_stats as $date => $stats) {
+            $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $stats['visitors'], $stats['pageviews'] ]);
+            $wpdb->query($sql);
         }
 
-        // insert site stats
-        $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $this->site_stats['visitors'], $this->site_stats['pageviews'] ]);
-        $wpdb->query($sql);
-
         // insert post stats
-        if (count($this->post_stats) > 0) {
+        foreach ($this->post_stats as $date => $stats) {
             $values = [];
-            foreach ($this->post_stats as $post_id => $s) {
+            foreach ($stats as $post_id => $s) {
                 array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($this->post_stats)), ',');
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
             $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
 
-        if (count($this->referrer_stats) > 0) {
+        // insert referrer stats
+        foreach ($this->referrer_stats as $date => $stats) {
             // retrieve ID's for known referrer urls
-            $referrer_urls = array_keys($this->referrer_stats);
+            $referrer_urls = array_keys($stats);
             $placeholders  = rtrim(str_repeat('%s,', count($referrer_urls)), ',');
             $sql           = $wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls r WHERE r.url IN({$placeholders})", $referrer_urls);
             $results       = $wpdb->get_results($sql);
             foreach ($results as $r) {
-                $this->referrer_stats[ $r->url ]['id'] = $r->id;
+                $stats[ $r->url ]['id'] = $r->id;
             }
 
             // build query for new referrer urls
             $new_referrer_urls = [];
-            foreach ($this->referrer_stats as $url => $r) {
+            foreach ($stats as $url => $r) {
                 if (! isset($r['id'])) {
                     $new_referrer_urls[] = $url;
                 }
@@ -127,29 +138,28 @@ class Pageview_Aggregator
                 $wpdb->query($sql);
                 $last_insert_id = $wpdb->insert_id;
                 foreach (array_reverse($values) as $url) {
-                    $this->referrer_stats[ $url ]['id'] = $last_insert_id--;
+                    $stats[ $url ]['id'] = $last_insert_id--;
                 }
             }
 
             // insert referrer stats
             $values = [];
-            foreach ($this->referrer_stats as $referrer_url => $r) {
+            foreach ($stats as $referrer_url => $r) {
                 array_push($values, $date, $r['id'], $r['visitors'], $r['pageviews']);
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($this->referrer_stats)), ',');
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
             $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
 
-        $this->update_realtime_pageview_count($this->site_stats['pageviews']);
+        // insert realtime count
+        $this->update_realtime_pageview_count($this->realtime);
 
         // reset properties in case aggregation runs again in current request lifecycle
-        $this->site_stats = [
-            'visitors' => 0,
-            'pageviews' => 0,
-        ];
+        $this->site_stats = [];
         $this->referrer_stats = [];
         $this->post_stats     = [];
+        $this->realtime = 0;
     }
 
     private function update_realtime_pageview_count(int $pageviews): void
