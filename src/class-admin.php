@@ -62,7 +62,7 @@ class Admin
         }
 
         // detect issues with WP Cron event not running
-        // it should run every minute, so if it didn't run in 20 minutes there is most likely something wrong
+        // it should run every minute, so if it didn't run in 40 minutes there is most likely something wrong
         // some host run WP Cron only once per 15 minutes, so that is probably the lower bound of this check
         $next_scheduled = wp_next_scheduled('koko_analytics_aggregate_stats');
         if ($next_scheduled === false) {
@@ -70,7 +70,7 @@ class Admin
             return true;
         }
 
-        return $next_scheduled !== false && $next_scheduled > (time() - 20 * 60);
+        return $next_scheduled !== false && $next_scheduled > (time() - 40 * 60);
     }
 
     public function show_page(): void
