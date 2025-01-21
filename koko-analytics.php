@@ -51,21 +51,24 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
 add_action('init', [$migrations, 'maybe_run'], 10, 0);
 
-// Initialize rest of plugin
+new Aggregator();
+new Plugin();
+
 if (\defined('DOING_AJAX') && DOING_AJAX) {
+    // ajax only
     add_action('init', 'KokoAnalytics\maybe_collect_request', 1, 0);
 } elseif (is_admin()) {
+    // wp-admin only
     new Admin();
     new Dashboard_Widget();
 } else {
+    // frontend only
     new Script_Loader();
     add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
 }
 
 new QueryLoopBlock();
 new Dashboard();
-new Aggregator();
-new Plugin();
 new Rest();
 new Shortcode_Most_Viewed_Posts();
 new ShortCode_Site_Counter();

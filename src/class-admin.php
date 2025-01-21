@@ -48,6 +48,10 @@ class Admin
         return $roles;
     }
 
+    /**
+     * Checks to see if the cron event is correctly scheduled and running periodically
+     * If the cron event is somehow not scheduled, this will schedule it again.
+     */
     private function is_cron_event_working(): bool
     {
         // Always return true on localhost / dev-ish environments
@@ -61,6 +65,11 @@ class Admin
         // it should run every minute, so if it didn't run in 20 minutes there is most likely something wrong
         // some host run WP Cron only once per 15 minutes, so that is probably the lower bound of this check
         $next_scheduled = wp_next_scheduled('koko_analytics_aggregate_stats');
+        if ($next_scheduled === false) {
+            wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
+            return true;
+        }
+
         return $next_scheduled !== false && $next_scheduled > (time() - 20 * 60);
     }
 
@@ -80,6 +89,7 @@ class Admin
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');
 
+        // check if cron event is scheduled properly
         if (false === $this->is_cron_event_working()) {
             echo '<div class="notice notice-warning inline koko-analytics-cron-warning is-dismissible"><p>';
             echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
