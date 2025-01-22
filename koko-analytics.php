@@ -48,10 +48,14 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 }
 
 // Maybe run any pending database migrations
+require __DIR__ . '/src/class-migrations.php';
 $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
 add_action('init', [$migrations, 'maybe_run'], 10, 0);
 
+require __DIR__ . '/src/class-aggregator.php';
 new Aggregator();
+
+require __DIR__ . '/src/class-plugin.php';
 new Plugin();
 
 if (\defined('DOING_AJAX') && DOING_AJAX) {
@@ -63,20 +67,36 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
     new Dashboard_Widget();
 } else {
     // frontend only
+    require __DIR__ . '/src/class-script-loader.php';
     new Script_Loader();
     add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
 }
 
+require __DIR__ . '/src/class-query-loop-block.php';
 new QueryLoopBlock();
+
+require __DIR__ . '/src/class-dashboard.php';
 new Dashboard();
+
+require __DIR__ . '/src/class-rest.php';
 new Rest();
+
+require __DIR__ . '/src/class-shortcode-most-viewed-posts.php';
 new Shortcode_Most_Viewed_Posts();
+
+require __DIR__ . '/src/class-shortcode-site-counter.php';
 new ShortCode_Site_Counter();
+
+require __DIR__ . '/src/class-pruner.php';
 new Pruner();
 
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
 }
 
-add_action('widgets_init', 'KokoAnalytics\widgets_init');
+add_action('widgets_init', function () {
+    require KOKO_ANALYTICS_PLUGIN_DIR . '/src/class-widget-most-viewed-posts.php';
+    register_widget(Widget_Most_Viewed_Posts::class);
+});
+
 add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');
