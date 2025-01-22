@@ -9,26 +9,44 @@ define('ABSPATH', dirname(__DIR__, 1));
 define('HOUR_IN_SECONDS', 3600);
 
 $options = [];
+$hooks = [];
 
 function is_admin()
 {
     return false;
 }
 
-function apply_filters($a, $b, $prio = 10, $args = 2)
-{
-    return $b;
-}
-
 function add_action($hook, $callback, $c = 10, $d = 1)
 {
-    if ($hook === 'init') {
-        $callback();
+    global $hooks;
+    $hooks[$hook] ??= [];
+    $hooks[$hook][] = $callback;
+}
+
+function do_action($hook, ...$args)
+{
+    global $hooks;
+    $actions = $hooks[$hook] ?? [];
+    foreach ($actions as $a) {
+        $a();
     }
 }
 
 function add_filter($hook, $callback, $c = 10, $d = 1)
 {
+    add_action($hook, $callback, $c, $d);
+}
+
+function apply_filters($hook, $value, $prio = 10, $args = 2)
+{
+    global $hooks;
+
+    $filters = $hooks[$hook] ?? [];
+    foreach ($filters as $cb) {
+        $value = $cb($value);
+    }
+
+    return $value;
 }
 
 function add_shortcode($a, $b)
