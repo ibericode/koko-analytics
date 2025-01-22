@@ -44,3 +44,6 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Run benchmark
+        run: php tests/benchmarks/plugin.php
+
