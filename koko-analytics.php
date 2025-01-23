@@ -56,19 +56,21 @@ $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, K
 add_action('init', [$migrations, 'maybe_run'], 10, 0);
 $times[] = ['Migrations', microtime(true)];
 
-require __DIR__ . '/src/class-aggregator.php';
-new Aggregator();
+// aggregator
+add_filter('cron_schedules', function ($schedules) {
+    $schedules['koko_analytics_stats_aggregate_interval'] = [
+        'interval' => 60, // 60 seconds
+        'display'  => esc_html__('Every minute', 'koko-analytics'),
+    ];
+    return $schedules;
+}, 10, 1);
+add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
 $times[] = ['Aggregator', microtime(true)];
-
-require __DIR__ . '/src/class-plugin.php';
-new Plugin();
-$times[] = ['Plugin', microtime(true)];
 
 if (\defined('DOING_AJAX') && DOING_AJAX) {
     // ajax only
     add_action('init', 'KokoAnalytics\maybe_collect_request', 1, 0);
 } elseif (is_admin()) {
-    // wp-admin only
     new Admin();
     new Dashboard_Widget();
 }
@@ -80,8 +82,8 @@ add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
 $times[] = ['Script_Loader', microtime(true)];
 
 // query loop block
-require __DIR__ . '/src/class-query-loop-block.php';
-new QueryLoopBlock();
+add_action('admin_enqueue_scripts', [QueryLoopBlock::class, 'admin_enqueue_scripts']);
+add_filter('pre_render_block', [QueryLoopBlock::class, 'pre_render_block'], 10, 3);
 $times[] = ['QueryLoopBlock', microtime(true)];
 
 // init REST API endpoint
@@ -89,8 +91,7 @@ add_action('rest_api_init', [Rest::class, 'register_routes'], 10, 0);
 $times[] = ['Rest', microtime(true)];
 
 // pruner
-require __DIR__ . '/src/class-pruner.php';
-new Pruner();
+add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
 $times[] = ['Pruner', microtime(true)];
 
 if (\class_exists('WP_CLI')) {
@@ -100,10 +101,39 @@ if (\class_exists('WP_CLI')) {
 
 // register shortcodes
 add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
-$times[] = ['Shortcode_Most_Viewed_Posts', microtime(true)];
-
 add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
-$times[] = ['ShortCode_Site_Counter', microtime(true)];
+$times[] = ['Shortcodes', microtime(true)];
+
+
+// run koko_analytics_action=[a-z] hooks
+add_action('init', function () {
+    $actions = [];
+
+    if (isset($_GET['koko_analytics_action'])) {
+        $actions[] = trim($_GET['koko_analytics_action']);
+    }
+
+    if (isset($_POST['koko_analytics_action'])) {
+        $actions[] = trim($_POST['koko_analytics_action']);
+    }
+
+    if (empty($actions)) {
+        return;
+    }
+
+    if (!current_user_can('manage_koko_analytics')) {
+        return;
+    }
+
+    // fire all supplied action hooks
+    foreach ($actions as $action) {
+        do_action("koko_analytics_{$action}");
+    }
+
+    wp_safe_redirect(remove_query_arg('koko_analytics_action'));
+    exit;
+}, 10, 0);
+$times[] = ['Actions', microtime(true)];
 
 // maybe show standalone dashboard
 add_action('wp', function () {
@@ -128,16 +158,31 @@ add_action('widgets_init', function () {
 
 add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');
 
-// $times = array_map(function ($t) {
-//     $t[1] = round($t[1] * 1000, 4);
-//     return $t;
-// }, $times);
+register_activation_hook(__FILE__, function () {
+    Aggregator::setup_scheduled_event();
+    Pruner::setup_scheduled_event();
+    Plugin::setup_capabilities();
+    Plugin::install_optimized_endpoint();
+});
 
-// for ($i = count($times) - 1; $i > 0; $i--) {
-//     $times[$i][1] = $times[$i][1] - $times[$i-1][1];
+register_deactivation_hook(__FILE__, function () {
+    Aggregator::clear_scheduled_event();
+    Pruner::clear_scheduled_event();
+    Plugin::remove_optimized_endpoint();
+});
+
+// if (php_sapi_name() === 'cli') {
+//     $times = array_map(function ($t) {
+//         $t[1] = round($t[1] * 1000, 4);
+//         return $t;
+//     }, $times);
+
+//     for ($i = count($times) - 1; $i > 0; $i--) {
+//         $times[$i][1] = $times[$i][1] - $times[$i-1][1];
+//     }
+//     usort($times, function ($a, $b) {
+//         return $a[1] === $b[1] ? 0 : ($a[1] > $b[1] ? -1 : 1);
+//     });
+
+//     dump($times);
 // }
-// usort($times, function ($a, $b) {
-//     return $a[1] === $b[1] ? 0 : ($a[1] > $b[1] ? -1 : 1);
-// });
-
-// dump($times);

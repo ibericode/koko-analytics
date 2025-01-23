@@ -12,11 +12,10 @@ class Plugin
 {
     public function __construct()
     {
-        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'on_activation']);
         add_action('init', [$this, 'maybe_run_actions'], 20, 0);
     }
 
-    public function on_activation(): void
+    public static function setup_capabilities(): void
     {
         // add capabilities to administrator role (if it exists)
         $role = get_role('administrator');
@@ -24,7 +23,10 @@ class Plugin
             $role->add_cap('view_koko_analytics');
             $role->add_cap('manage_koko_analytics');
         }
+    }
 
+    public static function install_optimized_endpoint(): void
+    {
         // (maybe) create optimized endpoint file
         $endpoint_installer = new Endpoint_Installer();
         if ($endpoint_installer->is_eligibile()) {
@@ -32,32 +34,15 @@ class Plugin
         }
     }
 
+    public static function remove_optimized_endpoint(): void
+    {
+        // delete custom endpoint file
+        if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
+            unlink(ABSPATH . '/koko-analytics-collect.php');
+        }
+    }
+
     public function maybe_run_actions(): void
     {
-        $actions = [];
-
-        if (isset($_GET['koko_analytics_action'])) {
-            $actions[] = trim($_GET['koko_analytics_action']);
-        }
-
-        if (isset($_POST['koko_analytics_action'])) {
-            $actions[] = trim($_POST['koko_analytics_action']);
-        }
-
-        if (empty($actions)) {
-            return;
-        }
-
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
-        // fire all supplied action hooks
-        foreach ($actions as $action) {
-            do_action("koko_analytics_{$action}");
-        }
-
-        wp_safe_redirect(remove_query_arg('koko_analytics_action'));
-        exit;
     }
 }

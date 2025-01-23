@@ -7,6 +7,7 @@ require __DIR__ . '/src/collect-functions.php';
 spl_autoload_register(function ($class) {
     static $classmap = [
         'KokoAnalytics\\Admin' => '/src/class-admin.php',
+        'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
         'KokoAnalytics\\Command' => '/src/class-command.php',
         'KokoAnalytics\\Chart_View' => '/src/class-chart-view.php',
         'KokoAnalytics\\Dashboard_Widget' => '/src/class-dashboard-widget.php',
@@ -17,12 +18,15 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Jetpack_Importer' => '/src/class-jetpack-importer.php',
         'KokoAnalytics\\Notice_Pro' => '/src/class-notice-pro.php',
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
+        'KokoAnalytics\\Plugin' => '/src/class-plugin.php',
+        'KokoAnalytics\\Pruner' => '/src/class-pruner.php',
         'KokoAnalytics\\Rest' => '/src/class-rest.php',
         'KokoAnalytics\\Script_Loader' => '/src/class-script-loader.php',
         'KokoAnalytics\\Stats' => '/src/class-stats.php',
         'KokoAnalytics\\Shortcode_Most_Viewed_Posts' => '/src/class-shortcode-most-viewed-posts.php',
         'KokoAnalytics\\Shortcode_Site_Counter' => '/src/class-shortcode-site-counter.php',
         'KokoAnalytics\\Stats' => '/src/class-stats.php',
+        'KokoAnalytics\\Query_Loop_Block' => '/src/class-query-loop-block.php',
     ];
 
     if (isset($classmap[$class])) {
