@@ -16,16 +16,11 @@
 
 namespace KokoAnalytics;
 
-class ShortCode_Site_Counter
+class Shortcode_Site_Counter
 {
     private const SHORTCODE = 'koko_analytics_counter';
 
-    public function __construct()
-    {
-        add_shortcode(self::SHORTCODE, [$this, 'content']);
-    }
-
-    public function content($args)
+    public static function content($args)
     {
         $default_args = [
             'days' => 365 * 10,

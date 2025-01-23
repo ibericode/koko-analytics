@@ -10,25 +10,6 @@ namespace KokoAnalytics;
 
 class Dashboard
 {
-    public function __construct()
-    {
-        add_action('wp', [$this, 'maybe_show_dashboard'], 10, 0);
-    }
-
-    public function maybe_show_dashboard(): void
-    {
-        if (!isset($_GET['koko-analytics-dashboard'])) {
-            return;
-        }
-
-        $settings = get_settings();
-        if (!$settings['is_dashboard_public'] && !current_user_can('view_koko_analytics')) {
-            return;
-        }
-
-        $this->show_standalone_dashboard_page();
-    }
-
     public function show_standalone_dashboard_page(): void
     {
         require __DIR__ . '/views/standalone.php';

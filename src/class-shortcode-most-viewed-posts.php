@@ -12,12 +12,12 @@ class Shortcode_Most_Viewed_Posts
 {
     private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
-    public function __construct()
+    public function __invoke()
     {
-        add_shortcode(self::SHORTCODE, [ $this, 'content' ]);
+        return 'hi';
     }
 
-    public function content($args): string
+    public static function content($args): string
     {
         $allowed_args = [
             'number'    => 5,
