@@ -2,7 +2,7 @@
 
 namespace KokoAnalytics;
 
-class QueryLoopBlock
+class Query_Loop_Block
 {
     public static function admin_enqueue_scripts($hook_suffix)
     {

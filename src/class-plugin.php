@@ -10,11 +10,6 @@ namespace KokoAnalytics;
 
 class Plugin
 {
-    public function __construct()
-    {
-        add_action('init', [$this, 'maybe_run_actions'], 20, 0);
-    }
-
     public static function setup_capabilities(): void
     {
         // add capabilities to administrator role (if it exists)
@@ -40,9 +35,5 @@ class Plugin
         if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
             unlink(ABSPATH . '/koko-analytics-collect.php');
         }
-    }
-
-    public function maybe_run_actions(): void
-    {
     }
 }

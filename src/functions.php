@@ -104,7 +104,7 @@ function get_most_viewed_posts(array $args = []): array
     return $r->posts;
 }
 
-function admin_bar_menu(WP_Admin_Bar $wp_admin_bar)
+function admin_bar_menu(WP_Admin_Bar $wp_admin_bar): void
 {
     // only show on frontend
     if (is_admin()) {

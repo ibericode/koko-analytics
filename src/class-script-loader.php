@@ -15,7 +15,7 @@ class Script_Loader
     /**
      * @param bool $echo Whether to use the default WP script enqueue method or print the script tag directly
      */
-    public static function maybe_enqueue_script(bool $echo = false)
+    public static function maybe_enqueue_script(bool $echo = false): void
     {
         $load_script = apply_filters('koko_analytics_load_tracking_script', true);
         if (! $load_script) {

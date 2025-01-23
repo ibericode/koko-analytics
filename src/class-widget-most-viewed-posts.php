@@ -14,6 +14,11 @@ class Widget_Most_Viewed_Posts extends WP_Widget
 {
     public $alt_option_name = 'widget_koko_analytics_most_viewed_posts';
 
+    public static function register(): void
+    {
+        register_widget(Widget_Most_Viewed_Posts::class);
+    }
+
     public function __construct()
     {
         $widget_ops = [

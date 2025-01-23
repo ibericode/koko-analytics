@@ -47,14 +47,11 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
     return;
 }
 
-$times = [];
-$times[] = ['start', microtime(true)];
-
 // Maybe run any pending database migrations
-require __DIR__ . '/src/class-migrations.php';
-$migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
-add_action('init', [$migrations, 'maybe_run'], 10, 0);
-$times[] = ['Migrations', microtime(true)];
+add_action('init', function () {
+    $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
+    $migrations->maybe_run();
+}, 10, 0);
 
 // aggregator
 add_filter('cron_schedules', function ($schedules) {
@@ -65,75 +62,36 @@ add_filter('cron_schedules', function ($schedules) {
     return $schedules;
 }, 10, 1);
 add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
-$times[] = ['Aggregator', microtime(true)];
 
-if (\defined('DOING_AJAX') && DOING_AJAX) {
-    // ajax only
-    add_action('init', 'KokoAnalytics\maybe_collect_request', 1, 0);
-} elseif (is_admin()) {
-    new Admin();
-    new Dashboard_Widget();
-}
+// ajax collection endpoint (only used in case optimized endpoint is not installed)
+add_action('init', 'KokoAnalytics\maybe_collect_request', 0, 0);
 
 // script loader
 add_action('wp_enqueue_scripts', [Script_Loader::class, 'maybe_enqueue_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
 add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
-$times[] = ['Script_Loader', microtime(true)];
 
 // query loop block
-add_action('admin_enqueue_scripts', [QueryLoopBlock::class, 'admin_enqueue_scripts']);
-add_filter('pre_render_block', [QueryLoopBlock::class, 'pre_render_block'], 10, 3);
-$times[] = ['QueryLoopBlock', microtime(true)];
+add_action('admin_enqueue_scripts', [Query_Loop_Block::class, 'admin_enqueue_scripts']);
+add_filter('pre_render_block', [Query_Loop_Block::class, 'pre_render_block'], 10, 3);
 
 // init REST API endpoint
 add_action('rest_api_init', [Rest::class, 'register_routes'], 10, 0);
-$times[] = ['Rest', microtime(true)];
 
 // pruner
 add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
-$times[] = ['Pruner', microtime(true)];
 
+// WP CLI command
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
-    $times[] = ['Command', microtime(true)];
 }
 
 // register shortcodes
 add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
 add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
-$times[] = ['Shortcodes', microtime(true)];
-
 
 // run koko_analytics_action=[a-z] hooks
-add_action('init', function () {
-    $actions = [];
-
-    if (isset($_GET['koko_analytics_action'])) {
-        $actions[] = trim($_GET['koko_analytics_action']);
-    }
-
-    if (isset($_POST['koko_analytics_action'])) {
-        $actions[] = trim($_POST['koko_analytics_action']);
-    }
-
-    if (empty($actions)) {
-        return;
-    }
-
-    if (!current_user_can('manage_koko_analytics')) {
-        return;
-    }
-
-    // fire all supplied action hooks
-    foreach ($actions as $action) {
-        do_action("koko_analytics_{$action}");
-    }
-
-    wp_safe_redirect(remove_query_arg('koko_analytics_action'));
-    exit;
-}, 10, 0);
-$times[] = ['Actions', microtime(true)];
+add_action('init', [Actions::class, 'run'], 10, 0);
 
 // maybe show standalone dashboard
 add_action('wp', function () {
@@ -148,16 +106,17 @@ add_action('wp', function () {
 
     (new Dashboard())->show_standalone_dashboard_page();
 });
-$times[] = ['Dashboard', microtime(true)];
 
 // register most viewed posts widget
-add_action('widgets_init', function () {
-    require KOKO_ANALYTICS_PLUGIN_DIR . '/src/class-widget-most-viewed-posts.php';
-    register_widget(Widget_Most_Viewed_Posts::class);
-});
-
+add_action('widgets_init', [Widget_Most_Viewed_Posts::class, 'register']);
 add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');
 
+if (\is_admin()) {
+    new Admin();
+    new Dashboard_Widget();
+}
+
+// on plugin activation
 register_activation_hook(__FILE__, function () {
     Aggregator::setup_scheduled_event();
     Pruner::setup_scheduled_event();
@@ -165,24 +124,9 @@ register_activation_hook(__FILE__, function () {
     Plugin::install_optimized_endpoint();
 });
 
+// on plugin deactivation
 register_deactivation_hook(__FILE__, function () {
     Aggregator::clear_scheduled_event();
     Pruner::clear_scheduled_event();
     Plugin::remove_optimized_endpoint();
 });
-
-// if (php_sapi_name() === 'cli') {
-//     $times = array_map(function ($t) {
-//         $t[1] = round($t[1] * 1000, 4);
-//         return $t;
-//     }, $times);
-
-//     for ($i = count($times) - 1; $i > 0; $i--) {
-//         $times[$i][1] = $times[$i][1] - $times[$i-1][1];
-//     }
-//     usort($times, function ($a, $b) {
-//         return $a[1] === $b[1] ? 0 : ($a[1] > $b[1] ? -1 : 1);
-//     });
-
-//     dump($times);
-// }

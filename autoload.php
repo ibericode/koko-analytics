@@ -6,6 +6,7 @@ require __DIR__ . '/src/collect-functions.php';
 
 spl_autoload_register(function ($class) {
     static $classmap = [
+        'KokoAnalytics\\Actions' => '/src/class-actions.php',
         'KokoAnalytics\\Admin' => '/src/class-admin.php',
         'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
         'KokoAnalytics\\Command' => '/src/class-command.php',
@@ -16,6 +17,7 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Data_Importer' => '/src/class-data-importer.php',
         'KokoAnalytics\\Endpoint_Installer' => '/src/class-endpoint-installer.php',
         'KokoAnalytics\\Jetpack_Importer' => '/src/class-jetpack-importer.php',
+        'KokoAnalytics\\Migrations' => '/src/class-migrations.php',
         'KokoAnalytics\\Notice_Pro' => '/src/class-notice-pro.php',
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
         'KokoAnalytics\\Plugin' => '/src/class-plugin.php',
@@ -27,6 +29,7 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Shortcode_Site_Counter' => '/src/class-shortcode-site-counter.php',
         'KokoAnalytics\\Stats' => '/src/class-stats.php',
         'KokoAnalytics\\Query_Loop_Block' => '/src/class-query-loop-block.php',
+        'KokoAnalytics\\Widget_Most_Viewed_Posts' => '/src/class-widget-most-viewed-posts.php',
     ];
 
     if (isset($classmap[$class])) {
