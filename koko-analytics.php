@@ -71,14 +71,15 @@ if (\defined('DOING_AJAX') && DOING_AJAX) {
     // wp-admin only
     new Admin();
     new Dashboard_Widget();
-} else {
-    // frontend only
-    require __DIR__ . '/src/class-script-loader.php';
-    new Script_Loader();
-    add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
-    $times[] = ['Script_Loader', microtime(true)];
 }
 
+// script loader
+add_action('wp_enqueue_scripts', [Script_Loader::class, 'maybe_enqueue_script'], 10, 0);
+add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
+add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
+$times[] = ['Script_Loader', microtime(true)];
+
+// query loop block
 require __DIR__ . '/src/class-query-loop-block.php';
 new QueryLoopBlock();
 $times[] = ['QueryLoopBlock', microtime(true)];
@@ -87,6 +88,7 @@ $times[] = ['QueryLoopBlock', microtime(true)];
 add_action('rest_api_init', [Rest::class, 'register_routes'], 10, 0);
 $times[] = ['Rest', microtime(true)];
 
+// pruner
 require __DIR__ . '/src/class-pruner.php';
 new Pruner();
 $times[] = ['Pruner', microtime(true)];
@@ -95,8 +97,6 @@ if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
     $times[] = ['Command', microtime(true)];
 }
-
-
 
 // register shortcodes
 add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
@@ -136,5 +136,8 @@ add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_end
 // for ($i = count($times) - 1; $i > 0; $i--) {
 //     $times[$i][1] = $times[$i][1] - $times[$i-1][1];
 // }
+// usort($times, function ($a, $b) {
+//     return $a[1] === $b[1] ? 0 : ($a[1] > $b[1] ? -1 : 1);
+// });
 
 // dump($times);

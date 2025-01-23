@@ -18,11 +18,11 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Notice_Pro' => '/src/class-notice-pro.php',
         'KokoAnalytics\\Pageview_Aggregator' => '/src/class-pageview-aggregator.php',
         'KokoAnalytics\\Rest' => '/src/class-rest.php',
+        'KokoAnalytics\\Script_Loader' => '/src/class-script-loader.php',
         'KokoAnalytics\\Stats' => '/src/class-stats.php',
         'KokoAnalytics\\Shortcode_Most_Viewed_Posts' => '/src/class-shortcode-most-viewed-posts.php',
         'KokoAnalytics\\Shortcode_Site_Counter' => '/src/class-shortcode-site-counter.php',
         'KokoAnalytics\\Stats' => '/src/class-stats.php',
-        'KokoAnalytics\\Widget_Most_Viewed_Posts' => '/src/class-widget-most-viewed-posts.php',
     ];
 
     if (isset($classmap[$class])) {
