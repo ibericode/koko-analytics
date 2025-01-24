@@ -8,6 +8,8 @@ spl_autoload_register(function ($class) {
     static $classmap = [
         'KokoAnalytics\\Actions' => '/src/class-actions.php',
         'KokoAnalytics\\Admin' => '/src/class-admin.php',
+        'KokoAnalytics\\Admin_Actions' => '/src/class-admin-actions.php',
+        'KokoAnalytics\\Admin_Page' => '/src/class-admin-page.php',
         'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
         'KokoAnalytics\\Command' => '/src/class-command.php',
         'KokoAnalytics\\Chart_View' => '/src/class-chart-view.php',

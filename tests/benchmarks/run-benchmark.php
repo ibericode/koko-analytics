@@ -30,7 +30,9 @@ function bench(int $n = 100, bool $opcache = true): void
         throw new Exception("Error making HTTP request. Is the HTTP server running?");
     }
 
-    for ($i = 0; $i < $n; $i++) {
+    // run for 5 seconds
+    $time_until = time() + 5;
+    while (time() < $time_until) {
         $body = file_get_contents($url);
         $data = json_decode($body);
         $memories[] = $data->memory;
