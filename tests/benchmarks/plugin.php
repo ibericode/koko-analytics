@@ -1,5 +1,12 @@
 <?php
 
+// phpcs:disable PSR1.Files.SideEffects
+
+if (isset($_GET['disable-opcache']) && (int) $_GET['disable-opcache'] === 1) {
+    ini_set('opcache.enable', 0);
+    ini_set('opcache.enable_cli', 0);
+}
+
 require dirname(__DIR__) . '/mocks.php';
 
 // make sure we're not running through all migrations
@@ -15,9 +22,10 @@ do_action('setup_theme');
 do_action('after_setup_theme');
 do_action('init');
 do_action('wp_loaded');
+do_action('parse_request');
 
-$time = round((microtime(true) - $time_start) * 1000, 2);
+$time = (microtime(true) - $time_start) * 1000.0;
 $memory_used = (memory_get_usage() - $memory) >> 10;
 
-echo "Memory: $memory_used KB\n";
-echo "Time: $time ms\n";
+header("Content-Type: application/json");
+echo json_encode(['memory' => $memory_used, 'time' => $time]);
