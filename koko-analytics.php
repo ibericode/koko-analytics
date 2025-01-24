@@ -49,6 +49,10 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 
 // Maybe run any pending database migrations
 add_action('init', function () {
+    if (\version_compare(get_option('koko_analytics_version', '0.0.0'), KOKO_ANALYTICS_VERSION, '>=')) {
+        return;
+    }
+
     $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
     $migrations->maybe_run();
 }, 10, 0);
