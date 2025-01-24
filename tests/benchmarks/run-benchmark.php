@@ -41,7 +41,8 @@ function bench(int $n = 100, bool $opcache = true): void
     echo "min: $time_min\tmean: $time_mean\tmax: $time_max\n";
 }
 
-$ph = popen("php -S localhost:8080 -q &>/dev/null", "r");
+$root = __DIR__;
+$ph = popen("php -S localhost:8080 -q -t {$root} &>/dev/null", "r");
 if ($ph === false) {
     echo "Error starting HTTP server\n";
     exit(1);
