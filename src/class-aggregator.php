@@ -12,46 +12,12 @@ use Exception;
 
 class Aggregator
 {
-    public function __construct()
-    {
-        add_filter('cron_schedules', [$this, 'add_interval'], 10, 1);
-        add_action('koko_analytics_aggregate_stats', [$this, 'aggregate'], 10, 0);
-        add_action('koko_analytics_save_settings', [$this, 'setup_scheduled_event'], 10, 0);
-
-        register_activation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'setup_scheduled_event']);
-        register_deactivation_hook(KOKO_ANALYTICS_PLUGIN_FILE, [$this, 'clear_scheduled_event']);
-    }
-
-    /**
-     * @param array $intervals
-     */
-    public function add_interval($intervals): array
-    {
-        $intervals['koko_analytics_stats_aggregate_interval'] = [
-            'interval' => 60, // 60 seconds
-            'display'  => esc_html__('Every minute', 'koko-analytics'),
-        ];
-        return $intervals;
-    }
-
-    public function setup_scheduled_event(): void
-    {
-        if (! wp_next_scheduled('koko_analytics_aggregate_stats')) {
-            wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
-        }
-    }
-
-    public function clear_scheduled_event(): void
-    {
-        wp_clear_scheduled_hook('koko_analytics_aggregate_stats');
-    }
-
     /**
      * Reads the buffer file into memory and moves data into the MySQL database (in bulk)
      *
      * @throws Exception
      */
-    public function aggregate(): void
+    public static function run(): void
     {
         update_option('koko_analytics_last_aggregation_at', \time(), true);
 
@@ -110,9 +76,17 @@ class Aggregator
         // tell aggregators to write their results to the database
         $pageview_aggregator->finish();
         do_action('koko_analytics_aggregate_finish');
+    }
 
+    public static function setup_scheduled_event(): void
+    {
+        if (! wp_next_scheduled('koko_analytics_aggregate_stats')) {
+            wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
+        }
+    }
 
-        // ensure scheduled event is ready to go again
-        $this->setup_scheduled_event();
+    public static function clear_scheduled_event(): void
+    {
+        wp_clear_scheduled_hook('koko_analytics_aggregate_stats');
     }
 }

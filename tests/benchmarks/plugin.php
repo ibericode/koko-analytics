@@ -2,6 +2,7 @@
 
 // phpcs:disable PSR1.Files.SideEffects
 
+// if query parameter is set, disable opcache until end of request
 if (isset($_GET['disable-opcache']) && (int) $_GET['disable-opcache'] === 1) {
     ini_set('opcache.enable', 0);
     ini_set('opcache.enable_cli', 0);
@@ -15,6 +16,7 @@ update_option('koko_analytics_version', '999.1.1');
 $memory = memory_get_usage();
 $time_start = microtime(true);
 
+// require main plugin file
 require dirname(__DIR__, 2) . '/koko-analytics.php';
 
 do_action('plugins_loaded');

@@ -10,28 +10,24 @@ namespace KokoAnalytics;
 
 class Rest
 {
-    public function __construct()
-    {
-        add_action('rest_api_init', [$this, 'register_routes'], 10, 0);
-    }
-
-    public function register_routes()
+    public static function register_routes()
     {
         $settings = get_settings();
         $is_dashboard_public = $settings['is_dashboard_public'] || true;
+        $instance = new Rest();
 
         register_rest_route(
             'koko-analytics/v1',
             '/stats',
             [
                 'methods'             => 'GET',
-                'callback'            => [$this, 'get_stats'],
+                'callback'            => [$instance, 'get_stats'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                     'monthly' => [
                         'validate_callback' => 'absint',
@@ -48,13 +44,13 @@ class Rest
             '/totals',
             [
                 'methods'             => 'GET',
-                'callback'            => [$this, 'get_totals'],
+                'callback'            => [$instance, 'get_totals'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                 ],
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -68,13 +64,13 @@ class Rest
             '/posts',
             [
                 'methods'             => 'GET',
-                'callback'            => [$this, 'get_posts'],
+                'callback'            => [$instance, 'get_posts'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                 ],
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -88,13 +84,13 @@ class Rest
             '/referrers',
             [
                 'methods'             => 'GET',
-                'callback'            => [$this, 'get_referrers'],
+                'callback'            => [$instance, 'get_referrers'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                 ],
                 'permission_callback' => function () use ($is_dashboard_public) {
@@ -108,10 +104,10 @@ class Rest
             '/realtime',
             [
                 'methods'             => 'GET',
-                'callback'            => [$this, 'get_realtime_pageview_count'],
+                'callback'            => [$instance, 'get_realtime_pageview_count'],
                 'args'                => [
                     'since' => [
-                        'validate_callback' => [$this, 'validate_date_param'],
+                        'validate_callback' => [$instance, 'validate_date_param'],
                     ],
                 ],
                 'permission_callback' => function () use ($is_dashboard_public) {

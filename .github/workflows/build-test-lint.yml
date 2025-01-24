@@ -46,4 +46,7 @@ jobs:
 
       - name: Run benchmark
         run: php tests/benchmarks/run-benchmark.php
+<<<<<<< HEAD
 
+=======
+>>>>>>> optimize-runtime

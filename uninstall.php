@@ -19,8 +19,3 @@ delete_option("koko_analytics_version");
 delete_option("koko_analytics_use_custom_endpoint");
 delete_option("koko_analytics_realtime_pageview_count");
 delete_option('koko_analytics_jetpack_import_params');
-
-// delete custom endpoint file
-if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
-    unlink(ABSPATH . '/koko-analytics-collect.php');
-}

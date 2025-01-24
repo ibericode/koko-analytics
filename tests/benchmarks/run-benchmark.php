@@ -4,9 +4,9 @@
 
 function analyze(array $values): array
 {
-    $sum = 0;
-    $min = PHP_INT_MAX;
-    $max = PHP_INT_MIN;
+    $sum = 0.0;
+    $min = PHP_FLOAT_MAX;
+    $max = PHP_FLOAT_MIN;
     foreach ($values as $v) {
         $sum += $v;
         $min =  min($min, $v);
@@ -44,8 +44,8 @@ function bench(int $n = 100, bool $opcache = true): void
 }
 
 $root = __DIR__;
-$ph = popen("php -S localhost:8080 -q -t {$root} &>/dev/null", "r");
-if ($ph === false) {
+$ph = popen("php -S localhost:8080 -q -t {$root} &2>/dev/null", "r");
+if (!$ph) {
     echo "Error starting HTTP server\n";
     exit(1);
 }

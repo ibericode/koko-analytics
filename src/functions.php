@@ -8,7 +8,6 @@
 
 namespace KokoAnalytics;
 
-use ParagonIE\Sodium\Core\Curve25519\Ge\P2;
 use WP_Admin_Bar;
 use WP_Query;
 use WP_Post;
@@ -105,7 +104,7 @@ function get_most_viewed_posts(array $args = []): array
     return $r->posts;
 }
 
-function admin_bar_menu(WP_Admin_Bar $wp_admin_bar)
+function admin_bar_menu(WP_Admin_Bar $wp_admin_bar): void
 {
     // only show on frontend
     if (is_admin()) {
@@ -125,12 +124,6 @@ function admin_bar_menu(WP_Admin_Bar $wp_admin_bar)
             'href' => admin_url('/index.php?page=koko-analytics'),
         ]
     );
-}
-
-function widgets_init()
-{
-    require KOKO_ANALYTICS_PLUGIN_DIR . '/src/class-widget-most-viewed-posts.php';
-    register_widget('KokoAnalytics\Widget_Most_Viewed_Posts');
 }
 
 /**
