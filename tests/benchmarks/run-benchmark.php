@@ -23,6 +23,8 @@ function bench(int $n = 100, bool $opcache = true): void
     $times = [];
     $url = $opcache ? 'http://localhost:8080/plugin.php' : 'http://localhost:8080/plugin.php?disable-opcache=1';
 
+    // make a single request to test whether HTTP server is up
+    // but also to warm the opcache
     $body = file_get_contents($url);
     if ($body === false) {
         throw new Exception("Error making HTTP request. Is the HTTP server running?");
