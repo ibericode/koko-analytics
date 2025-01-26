@@ -13,7 +13,7 @@ class Rest
     public static function register_routes()
     {
         $settings = get_settings();
-        $is_dashboard_public = $settings['is_dashboard_public'] || true;
+        $is_dashboard_public = $settings['is_dashboard_public'];
         $instance = new Rest();
 
         register_rest_route(
