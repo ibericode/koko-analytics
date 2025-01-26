@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -144,6 +144,11 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.6.4 - Jan 25, 2025
+
+- Fix dashboard data always publicly accessible through REST API endpoints.
+
 
 ### 1.6.3 - Jan 21, 2025
 
@@ -784,7 +789,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Improved animations when dashboard data updates.
 - Improved column type constraints for storing data.
 - Improved labels for chart x-axes.
-- Consistent ordering of posts and referrers tables.
-- Remove trailing `?` character from referrer URL's after query parameters are stripped.
-- Fix ...
+- Consistent ordering of posts and ...
 
