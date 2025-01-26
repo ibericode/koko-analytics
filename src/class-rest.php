@@ -18,7 +18,7 @@ class Rest
     public function register_routes()
     {
         $settings = get_settings();
-        $is_dashboard_public = $settings['is_dashboard_public'] || true;
+        $is_dashboard_public = $settings['is_dashboard_public'];
 
         register_rest_route(
             'koko-analytics/v1',
