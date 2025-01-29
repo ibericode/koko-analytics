@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
-use function KokoAnalytics\percent_format_i18n;
 
 final class FunctionsTest extends TestCase
 {
