@@ -73,7 +73,7 @@ add_action('init', 'KokoAnalytics\maybe_collect_request', 0, 0);
 // script loader
 add_action('wp_enqueue_scripts', [Script_Loader::class, 'maybe_enqueue_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
-add_action('admin_bar_menu', 'KokoAnalytics\admin_bar_menu', 40, 1);
+add_action('admin_bar_menu', [Admin_Bar::class, 'register'], 40, 1);
 
 // query loop block
 add_action('admin_enqueue_scripts', [Query_Loop_Block::class, 'admin_enqueue_scripts']);
@@ -109,10 +109,10 @@ add_action('wp', function () {
     }
 
     (new Dashboard())->show_standalone_dashboard_page();
-});
+}, 10, 0);
 
 // register most viewed posts widget
-add_action('widgets_init', [Widget_Most_Viewed_Posts::class, 'register']);
+add_action('widgets_init', [Widget_Most_Viewed_Posts::class, 'register'], 10, 0);
 add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');
 
 if (\is_admin()) {

@@ -2,8 +2,13 @@
 
 use KokoAnalytics\Chart_View;
 
+use function KokoAnalytics\get_page_title;
+use function KokoAnalytics\get_referrer_url_href;
+use function KokoAnalytics\get_referrer_url_label;
+use function KokoAnalytics\percent_format_i18n;
+
 defined('ABSPATH') or exit;
-$tab = 'dashboard';
+
 
 /**
  * @var \KokoAnalytics\Dashboard $this
@@ -17,10 +22,9 @@ $tab = 'dashboard';
  * @var \KokoAnalytics\Stats $stats
  */
 
-use function KokoAnalytics\get_page_title;
-use function KokoAnalytics\get_referrer_url_href;
-use function KokoAnalytics\get_referrer_url_label;
-use function KokoAnalytics\percent_format_i18n;
+$tab = 'dashboard';
+
+require __DIR__ . '/../template-functions.php';
 ?>
 <div class="wrap">
     <?php $this->maybe_show_pro_notice(); ?>

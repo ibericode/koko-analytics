@@ -10,6 +10,7 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Admin' => '/src/class-admin.php',
         'KokoAnalytics\\Admin_Actions' => '/src/class-admin-actions.php',
         'KokoAnalytics\\Admin_Page' => '/src/class-admin-page.php',
+        'KokoAnalytics\\Admin_Bar' => '/src/class-admin-bar.php',
         'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
         'KokoAnalytics\\Command' => '/src/class-command.php',
         'KokoAnalytics\\Chart_View' => '/src/class-chart-view.php',
