@@ -10,22 +10,17 @@ namespace KokoAnalytics;
 
 class Dashboard_Widget
 {
-    public function __construct()
-    {
-        add_action('wp_dashboard_setup', [$this, 'register_dashboard_widget'], 10, 0);
-    }
-
-    public function register_dashboard_widget(): void
+    public static function register_dashboard_widget(): void
     {
         // only show if user can view stats
         if (!current_user_can('view_koko_analytics')) {
             return;
         }
 
-        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', [$this, 'dashboard_widget'], 'dashboard', 'side', 'high');
+        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', [self::class, 'dashboard_widget'], 'dashboard', 'side', 'high');
     }
 
-    public function dashboard_widget(): void
+    public static function dashboard_widget(): void
     {
         $number_of_top_items = (int) apply_filters('koko_analytics_dashboard_widget_number_of_top_items', 5);
         $stats = new Stats();

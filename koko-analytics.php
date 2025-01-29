@@ -117,7 +117,8 @@ add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_end
 
 if (\is_admin()) {
     new Admin();
-    new Dashboard_Widget();
+
+    add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }
 
 // on plugin activation
