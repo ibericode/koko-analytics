@@ -5,3 +5,4 @@
 require __DIR__ . '/mocks.php';
 
 require dirname(__DIR__) . '/koko-analytics.php';
+require dirname(__DIR__) . '/src/template-functions.php';

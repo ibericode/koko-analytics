@@ -32,8 +32,7 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
 
         // complete and valid
-        foreach (
-            [
+        foreach ([
             [['p' => '1', 'nv' => '2', 'up' => '3'], ['p', null, 1, 2, 3, '']],
             [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => ''], ['p', null, 1, 2, 3, '']],
             [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com'], ['p', null, 1, 2, 3, 'https://www.kokoanalytics.com']],
@@ -96,15 +95,5 @@ final class FunctionsTest extends TestCase
 
         $_SERVER['HTTP_X_FORWARDED_FOR'] = 'not-an-ip';
         $this->assertEquals(get_client_ip(), '1.1.1.1');
-    }
-
-    public function testPercentFormatI18n(): void
-    {
-        $this->assertEquals(percent_format_i18n(0), '');
-        $this->assertEquals(percent_format_i18n(0.00), '');
-        $this->assertEquals(percent_format_i18n(1.00), '+100%');
-        $this->assertEquals(percent_format_i18n(-1.00), '-100%');
-        $this->assertEquals(percent_format_i18n(0.55), '+55%');
-        $this->assertEquals(percent_format_i18n(-0.55), '-55%');
     }
 }
