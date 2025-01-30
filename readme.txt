@@ -33,6 +33,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **GDPR Compliant** by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
+- **REST API**: You can access your data from anywhere via REST API endpoints.
 - **Cached**: Fully compatible with pages served from any kind of cache.
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.4, but compatible down to PHP 7.3.

@@ -25,6 +25,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
 - **Lightweight**: Adds less than 850 bytes of data to your pages.
 - **Storage**: A year worth of data takes up less than 5MB of database storage.
+- **REST API**: You can access your data from anywhere via REST API endpoints.
 - **Cached**: Fully compatible with pages served from cache.
 - **Open-source**: GPLv3 licensed.
 - **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian, Korean and Russian.
