@@ -34,6 +34,11 @@ class Admin
         add_action('koko_analytics_show_jetpack_importer_page', [Jetpack_Importer::class, 'show_page'], 10, 0);
         add_action('koko_analytics_start_jetpack_import', [Jetpack_Importer::class, 'start_import'], 10, 0);
         add_action('koko_analytics_jetpack_import_chunk', [Jetpack_Importer::class, 'import_chunk'], 10, 0);
+
+        // actions for burst importer
+        add_action('koko_analytics_show_burst_importer_page', [Burst_Importer::class, 'show_page'], 10, 0);
+        add_action('koko_analytics_start_burst_import', [Burst_Importer::class, 'start_import'], 10, 0);
+        add_action('koko_analytics_burst_import_chunk', [Burst_Importer::class, 'import_chunk'], 10, 0);
     }
 
     public function register_menu(): void

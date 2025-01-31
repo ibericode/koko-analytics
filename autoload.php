@@ -12,6 +12,7 @@ spl_autoload_register(function ($class) {
         'KokoAnalytics\\Admin_Page' => '/src/class-admin-page.php',
         'KokoAnalytics\\Admin_Bar' => '/src/class-admin-bar.php',
         'KokoAnalytics\\Aggregator' => '/src/class-aggregator.php',
+        'KokoAnalytics\\Burst_Importer' => '/src/class-burst-importer.php',
         'KokoAnalytics\\Command' => '/src/class-command.php',
         'KokoAnalytics\\Chart_View' => '/src/class-chart-view.php',
         'KokoAnalytics\\Dashboard_Widget' => '/src/class-dashboard-widget.php',
