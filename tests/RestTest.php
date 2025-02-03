@@ -21,4 +21,15 @@ final class RestTest extends TestCase
         self::assertTrue($rest->validate_date_param('2000-01-01', null, null));
         self::assertFalse($rest->validate_date_param('foobar', null, null));
     }
+
+    public function test_sanitize_bool_param()
+    {
+        $rest = new Rest();
+        self::assertTrue($rest->sanitize_bool_param('true', null, null));
+        self::assertTrue($rest->sanitize_bool_param('yes', null, null));
+        self::assertTrue($rest->sanitize_bool_param('1', null, null));
+        self::assertFalse($rest->sanitize_bool_param('0', null, null));
+        self::assertFalse($rest->sanitize_bool_param('no', null, null));
+        self::assertFalse($rest->sanitize_bool_param('false', null, null));
+    }
 }

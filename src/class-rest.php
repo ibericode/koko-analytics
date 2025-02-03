@@ -34,9 +34,6 @@ class Rest
                     ],
                 ],
                 'permission_callback' => function () use ($is_dashboard_public) {
-                    // REMOVE ME
-                    return true;
-
                     return $is_dashboard_public ? true : current_user_can('view_koko_analytics');
                 },
             ]
@@ -150,7 +147,7 @@ class Rest
 
     public function sanitize_bool_param($value, $request, $param): bool
     {
-        return ! in_array($value, [ 'no', 'false', '0']);
+        return ! in_array($value, ['no', 'false', '0']);
     }
 
     /**
