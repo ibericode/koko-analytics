@@ -31,7 +31,7 @@ class Jetpack_Importer
                 <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?></p></div>
         <?php } ?>
 
-            <h1><?php esc_html_e('Import analytics from JetPack Stats', 'koko-analytics'); ?></h1>
+            <h1><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></h1>
             <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
 
             <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">

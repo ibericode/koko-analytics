@@ -220,8 +220,13 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <?php } // end if defined KOKO_ANALYTICS_PRO ?>
 
             <div>
-                <h2><?php esc_html_e('Coming from Jetpack Stats?', 'koko-analytics'); ?></h2>
-                <p><?php printf(__('You can now <a href="%1$s">import your historical stats data into Koko Analytics</a>.', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p>
+                <h2><?php esc_html_e('Coming from another statistics plugin?', 'koko-analytics'); ?></h2>
+                <p><?php esc_html_e('Use the import tool to import your historical data from other plugins into Koko Analytics', 'koko-analytics'); ?>
+
+                <ul class="ul-square">
+                    <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'jetpack_importer'])); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
+                    <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'burst_importer'])); ?>"><?php esc_html_e('Import from Burst Statistics', 'koko-analytics'); ?></a></li>
+                </ul>
             </div>
 
             <div>
