@@ -109,7 +109,7 @@ class Burst_Importer
         }
 
         // redirect to first chunk
-        wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'burst_import_chunk', 'date-start' => $date_start, 'date-end' => $date_end, '_wpnonce' => wp_create_nonce('koko_analytics_burst_import_chunk')]));
+        wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'burst_import_chunk', 'date-start' => $date_start->format('Y-m-d'), 'date-end' => $date_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_burst_import_chunk')]));
         exit;
     }
 
@@ -173,10 +173,68 @@ class Burst_Importer
         /** @var wpdb $wpdb */
         global $wpdb;
 
-        // 30 days
+        // TODO: Limit to slugs from query set?
+        $urls_to_id = $wpdb->get_results("SELECT post_name, ID FROM {$wpdb->posts} WHERE post_status = 'publish'", OBJECT_K);
 
+        $data = $wpdb->get_results($wpdb->prepare("SELECT date, visitors, pageviews, SUBSTRING_INDEX(SUBSTRING_INDEX(page_url, '/', -2), '/', 1) AS post_name FROM wp_burst_summary s WHERE s.date >= %s AND s.date <= %s", [
+            $date_start->format('Y-m-d'),
+            $date_end->format('Y-m-d')
+        ]));
 
+        $site_stats = [];
+        $post_stats = [];
 
-        // TODO: Perform import
+        foreach ($data as $item) {
+            if ($item->post_name === 'burst_day_total') {
+                $site_stats[] = [$item->date, $item->visitors, $item->pageviews];
+            } else {
+                if ($item->post_name === '') {
+                    $post_id = 0;
+                } elseif (isset($urls_to_id[$item->post_name])) {
+                    $post_id = $urls_to_id[$item->post_name]->ID;
+                } else {
+                    // if not a page, post, custom post type or the homepage, skip
+                    continue;
+                }
+                $post_stats[] = [$item->date, $post_id, $item->visitors, $item->pageviews];
+            }
+        }
+
+        self::insert_site_stats($site_stats);
+        self::insert_post_stats($post_stats);
+    }
+
+    public static function insert_site_stats($stats): void
+    {
+        global $wpdb;
+
+        // update site stats
+        $values = [];
+        $placeholders = rtrim(str_repeat('(%s,%d,%d),', count($stats)), ',');
+        foreach ($stats as $s) {
+            array_push($values, ...$s);
+        }
+
+        $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+        $wpdb->query($query);
+        if ($wpdb->last_error !== '') {
+            throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+        }
+    }
+
+    public static function insert_post_stats($stats): void
+    {
+        global $wpdb;
+        $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
+        $values = [];
+        foreach ($stats as $s) {
+            array_push($values, ...$s);
+        }
+
+        $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+        $wpdb->query($query);
+        if ($wpdb->last_error !== '') {
+            throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+        }
     }
 }
