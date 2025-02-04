@@ -87,7 +87,7 @@ add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
 
 // WP CLI command
 if (\class_exists('WP_CLI')) {
-    \WP_CLI::add_command('koko-analytics', 'KokoAnalytics\Command');
+    \WP_CLI::add_command('koko-analytics', Command::class);
 }
 
 // register shortcodes
