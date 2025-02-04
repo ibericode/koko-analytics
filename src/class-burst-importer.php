@@ -212,6 +212,9 @@ class Burst_Importer
     public static function insert_site_stats($stats): void
     {
         global $wpdb;
+        if (count($stats) === 0) {
+            return;
+        }
 
         // update site stats
         $values = [];
@@ -230,6 +233,10 @@ class Burst_Importer
     public static function insert_post_stats($stats): void
     {
         global $wpdb;
+        if (count($stats) === 0) {
+            return;
+        }
+
         $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
         $values = [];
         foreach ($stats as $s) {
