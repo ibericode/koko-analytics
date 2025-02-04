@@ -176,7 +176,7 @@ class Burst_Importer
         // TODO: Limit to slugs from query set?
         $urls_to_id = $wpdb->get_results("SELECT post_name, ID FROM {$wpdb->posts} WHERE post_status = 'publish'", OBJECT_K);
 
-        $data = $wpdb->get_results($wpdb->prepare("SELECT date, visitors, pageviews, page_url, SUBSTRING_INDEX(SUBSTRING_INDEX(page_url, '/', -2), '/', 1) AS post_name FROM wp_burst_summary s WHERE s.date >= %s AND s.date <= %s", [
+        $data = $wpdb->get_results($wpdb->prepare("SELECT date, visitors, pageviews, page_url, SUBSTRING_INDEX(SUBSTRING_INDEX(page_url, '/', -2), '/', 1) AS post_name FROM {$wpdb->prefix}burst_summary s WHERE s.date >= %s AND s.date <= %s", [
             $date_start->format('Y-m-d'),
             $date_end->format('Y-m-d')
         ]));
