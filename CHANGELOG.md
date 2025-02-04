@@ -1,5 +1,17 @@
 # Changelog
 
+### 1.6.5 - In development
+
+- Add importer for data from Burst Statistics.
+- Allow passing "false" and "no" to `monthly` query parameter in REST endpoint.
+- Optimize PHP execution time for plugin bootstrapping code by aggresively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
+
+
+### 1.6.4 - Jan 25, 2025
+
+- Fix dashboard data always publicly accessible through REST API endpoints.
+
+
 ### 1.6.3 - Jan 21, 2025
 
 - Schedule missing `koko_analytics_aggregate_stats` event.
