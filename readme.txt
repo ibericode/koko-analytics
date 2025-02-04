@@ -146,6 +146,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
+### 1.6.5 - In development
+
+- Add importer for data from Burst Statistics.
+- Allow passing "false" and "no" to `monthly` query parameter in REST endpoint.
+- Optimize PHP execution time for plugin bootstrapping code by aggresively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
+
+
+### 1.6.4 - Jan 25, 2025
+
+- Fix dashboard data always publicly accessible through REST API endpoints.
+
+
 ### 1.6.3 - Jan 21, 2025
 
 - Schedule missing `koko_analytics_aggregate_stats` event.
@@ -777,15 +789,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Add icons to datepickers to quickly cycle through selected date periods.
 - Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether a user role can view or manage statistics.
-- Add setting to automatically delete data older than X months.
-- Add menu item to WP Admin Bar.
-- Update URL when date range changes so page can be refreshed or shared.
-- Update browser history with chosen date ranges.
-- Show total size of Koko Analytics' database tables on settings page.
-- Improved animations when dashboard data updates.
-- Improved column type constraints for storing data.
-- Improved labels for chart x-axes.
-- Consistent ordering of posts and referrers tables.
-- Remove trailing `?` character from referrer URL's after query parameters are stripped.
-- Fix ...
+- Add setting to automatically delete data older than ...
 
