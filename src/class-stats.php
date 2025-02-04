@@ -13,8 +13,9 @@ class Stats
     /**
      * @return object{ visitors: int, pageviews: int }
      */
-    public function get_totals(string $start_date, string $end_date, int $page = 0, $include_previous = true): object
+    public function get_totals(string $start_date, string $end_date, int $page = 0, $unused = null): object
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
 
         $table = $wpdb->prefix . 'koko_analytics_site_stats s';
@@ -65,12 +66,9 @@ class Stats
      */
     public function get_stats(string $start_date, string $end_date, string $group, int $page = 0): array
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
-        if ($group === 'month') {
-            $date_format = '%Y-%m';
-        } else {
-            $date_format = '%Y-%m-%d';
-        }
+        $date_format = $group === 'month' ? '%Y-%m' : '%Y-%m-%d';
 
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
@@ -83,8 +81,7 @@ class Stats
         }
 
         $sql = $wpdb->prepare(
-            "
-                SELECT DATE_FORMAT(d.date, %s) AS _date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
+            "SELECT DATE_FORMAT(d.date, %s) AS _date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_dates d
                     LEFT JOIN {$table} s ON {$join_on}
                 WHERE d.date >= %s AND d.date <= %s
@@ -104,10 +101,10 @@ class Stats
 
     public function get_posts(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "
-                SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+            "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.id
@@ -142,10 +139,10 @@ class Stats
 
     public function count_posts(string $start_date, string $end_date): int
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "
-                SELECT COUNT(DISTINCT(s.id))
+            "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
@@ -155,14 +152,13 @@ class Stats
 
     public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "
-                SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
+            "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                     JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
-                WHERE s.date >= %s
-                  AND s.date <= %s
+                WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.id
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
@@ -173,13 +169,12 @@ class Stats
 
     public function count_referrers(string $start_date, string $end_date): int
     {
+        /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "
-                SELECT COUNT(DISTINCT(s.id))
+            "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
-                WHERE s.date >= %s
-                  AND s.date <= %s",
+                WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
         );
         return (int) $wpdb->get_var($sql);
