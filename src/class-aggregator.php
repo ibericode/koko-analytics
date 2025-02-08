@@ -37,6 +37,8 @@ class Aggregator
         if ($renamed !== true) {
             if (WP_DEBUG) {
                 throw new Exception('Error renaming buffer file.');
+            } else {
+                error_log('Koko Analytics: error renaming buffer file');
             }
             return;
         }
@@ -46,14 +48,16 @@ class Aggregator
         if (! $file_handle) {
             if (WP_DEBUG) {
                 throw new Exception('Error opening buffer file for reading.');
+            } else {
+                error_log('Koko Analytics: error opening buffer file for reading');
             }
             return;
         }
 
         // read and ignore first line (the PHP header that prevents direct file access)
-        \fgets($file_handle, 1024);
+        \fgets($file_handle);
 
-        while (($line = \fgets($file_handle, 1024)) !== false) {
+        while (($line = \fgets($file_handle)) !== false) {
             $line = \trim($line);
             if ($line === '' || $line === '<?php exit; ?>') {
                 continue;
