@@ -93,6 +93,14 @@ class Pageview_Aggregator
 
     public function finish(): void
     {
+        $this->commit_site_stats();
+        $this->commit_post_stats();
+        $this->commit_referrer_stats();
+        $this->update_realtime_pageview_count();
+    }
+
+    private function commit_site_stats(): void
+    {
         global $wpdb;
 
         // insert site stats
@@ -100,6 +108,13 @@ class Pageview_Aggregator
             $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $stats['visitors'], $stats['pageviews'] ]);
             $wpdb->query($sql);
         }
+
+        $this->site_stats = [];
+    }
+
+    private function commit_post_stats(): void
+    {
+        global $wpdb;
 
         // insert post stats
         foreach ($this->post_stats as $date => $stats) {
@@ -111,6 +126,13 @@ class Pageview_Aggregator
             $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
+
+        $this->post_stats     = [];
+    }
+
+    private function commit_referrer_stats(): void
+    {
+        global $wpdb;
 
         // insert referrer stats
         foreach ($this->referrer_stats as $date => $stats) {
@@ -153,14 +175,7 @@ class Pageview_Aggregator
             $wpdb->query($sql);
         }
 
-        // insert realtime count
-        $this->update_realtime_pageview_count();
-
-        // reset properties in case aggregation runs again in current request lifecycle
-        $this->site_stats = [];
         $this->referrer_stats = [];
-        $this->post_stats     = [];
-        $this->realtime = [];
     }
 
     private function update_realtime_pageview_count(): void
@@ -183,6 +198,8 @@ class Pageview_Aggregator
         }
 
         update_option('koko_analytics_realtime_pageview_count', $counts, false);
+
+        $this->realtime = [];
     }
 
     private function ignore_referrer_url(string $url): bool
