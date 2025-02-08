@@ -63,7 +63,10 @@ class Aggregator
                 continue;
             }
 
-            $params = \unserialize($line);
+            $params = \unserialize($line, ['allowed_classes' => false]);
+            if (! \is_array($params)) {
+                error_log('Koko Analytics: unserialize error encountered while processing line in buffer file');
+            }
             $type   = \array_shift($params);
 
             // core aggregator
