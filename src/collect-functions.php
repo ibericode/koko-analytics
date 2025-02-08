@@ -147,7 +147,7 @@ function get_upload_dir(): string
     }
 
     $uploads = wp_upload_dir(null, false);
-    return \rtrim($uploads['basedir']) . '/koko-analytics';
+    return \rtrim($uploads['basedir'], '/') . '/koko-analytics';
 }
 
 
