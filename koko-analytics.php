@@ -113,7 +113,7 @@ add_action('wp', function () {
 
 // register most viewed posts widget
 add_action('widgets_init', [Widget_Most_Viewed_Posts::class, 'register'], 10, 0);
-add_action('koko_analytics_test_custom_endpoint', 'KokoAnalytics\test_custom_endpoint');
+add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'verify'], 10, 0);
 
 if (\is_admin()) {
     new Admin();

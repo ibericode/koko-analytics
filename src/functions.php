@@ -137,12 +137,6 @@ function using_custom_endpoint(): bool
     return (bool) get_option('koko_analytics_use_custom_endpoint', false);
 }
 
-function test_custom_endpoint(): void
-{
-    $endpoint_installer = new Endpoint_Installer();
-    $endpoint_installer->verify();
-}
-
 function create_local_datetime(string $timestr): \DateTimeImmutable
 {
     return new \DateTimeImmutable($timestr, wp_timezone());
