@@ -72,14 +72,9 @@ EOT;
             wp_schedule_event(time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint');
         }
 
-        /* Check if path to uploads dir changed */
         $file_name = $this->get_file_name();
-        if (file_exists($file_name)) {
-            $content = file_get_contents($file_name);
-            if (strpos($content, get_upload_dir()) === false) {
-                unlink(ABSPATH . '/koko-analytics-collect.php');
-            }
-        }
+
+        // TODO: Verify contents? Or trust 200 OK response?
 
         /* Attempt to put the file into place if it does not exist already */
         if (! file_exists($file_name)) {
