@@ -142,6 +142,7 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 3. A widget to show your most viewed posts (or any other post type) for a given period.
 4. The settings page where you can exclude certain user roles from being counted.
 5. Screenshot of settings page showing some features from Koko Analytics Pro.
+6. Koko Analytics Pro can show your pageviews over a configurable time period right in your posts overview.
 
 
 == Changelog ==
@@ -149,8 +150,8 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 ### 1.6.5 - Feb 10, 2025
 
 - Add importer for data from Burst Statistics.
-- Allow passing "false" and "no" to `monthly` query parameter in REST endpoint.
-- Optimize PHP execution time for plugin bootstrapping code by aggresively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
+- Allow passing "false" and "no" to `monthly` query parameter in REST endpoints.
+- Optimize PHP execution time for plugin bootstrapping code by aggressively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
 - Minor code improvements to classes responsible for aggregating data from buffer file into permanent storage.
 
 
