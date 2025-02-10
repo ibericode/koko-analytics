@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.5-dev
+Stable tag: 1.6.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -146,11 +146,12 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
-### 1.6.5 - In development
+### 1.6.5 - Feb 10, 2025
 
 - Add importer for data from Burst Statistics.
 - Allow passing "false" and "no" to `monthly` query parameter in REST endpoint.
 - Optimize PHP execution time for plugin bootstrapping code by aggresively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
+- Minor code improvements to classes responsible for aggregating data from buffer file into permanent storage.
 
 
 ### 1.6.4 - Jan 25, 2025
@@ -788,6 +789,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 #### 1.0.2 - Nov 22, 2019
 
 - Add icons to datepickers to quickly cycle through selected date periods.
-- Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether a user role can view or manage statistics.
-- Add setting to automatically delete data older than ...
+- Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether ...
 
