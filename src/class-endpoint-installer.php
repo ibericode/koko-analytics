@@ -37,6 +37,7 @@ require '$functions_filename';
 
 // function call to collect the request data
 KokoAnalytics\collect_request();
+
 EOT;
     }
 
