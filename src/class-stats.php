@@ -60,11 +60,11 @@ class Stats
      *
      * @param string $start_date
      * @param string $end_date
-     * @param string $group
+     * @param string $group `day` or `month`
      * @param int $page
      * @return array
      */
-    public function get_stats(string $start_date, string $end_date, string $group, int $page = 0): array
+    public function get_stats(string $start_date, string $end_date, string $group = 'day', int $page = 0): array
     {
         /** @var wpdb $wpdb */
         global $wpdb;
