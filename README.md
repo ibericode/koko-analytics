@@ -43,6 +43,7 @@ Koko Analytics is a freemium WordPress plugin. The core features listed above ar
 - [Email Reports](https://www.kokoanalytics.com/features/email-reports/): Receive a daily, weekly or monthly email summary of your website's most important statistics.
 - [CSV Export](https://www.kokoanalytics.com/features/csv-export/): The ability to export your dashboard data to CSV for advanced analysis.
 - [Pageviews Column](https://www.kokoanalytics.com/features/pageviews-column/): Shows the number of pageviews over a configurable time period right in your WP Admin posts and pages overview.
+- [Admin Bar](https://www.kokoanalytics.com/features/admin-bar/): Shows daily pageviews for a specific page in your WordPress Admin Bar.
 
 You can [purchase Koko Analytics Pro here](https://www.kokoanalytics.com/pricing/).
 
