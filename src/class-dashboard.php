@@ -25,12 +25,18 @@ class Dashboard
         $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers']);
 
         // parse query params
-        $range = isset($_GET['view']) ? $_GET['view'] : $settings['default_view'];
+        if (isset($_GET['start_date']) || isset($_GET['end_date'])) {
+            $range = 'custom';
+        } elseif (isset($_GET['view'])) {
+            $range = trim($_GET['view']);
+        } else {
+            $range = $settings['default_view'];
+        }
         $now = create_local_datetime('now');
         $week_starts_on = (int) get_option('start_of_week', 0);
         $dateRange = $this->get_dates_for_range($now, $range, $week_starts_on);
-
         $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
+
         try {
             $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
         } catch (\Exception $e) {

@@ -48,8 +48,8 @@ require __DIR__ . '/../template-functions.php';
                         <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
                         <?php } ?>
                     </div>
-                    <form method="get" action="<?php echo esc_attr($dashboard_url); ?>">
-                        <?php foreach (['page', 'koko-analytics-dashboard'] as $key) {
+                    <form method="get">
+                        <?php foreach (['page', 'p', 'koko-analytics-dashboard'] as $key) {
                             if (isset($_GET[$key])) {
                                 echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
                             }
