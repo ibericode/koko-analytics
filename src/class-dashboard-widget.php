@@ -25,8 +25,10 @@ class Dashboard_Widget
         $number_of_top_items = (int) apply_filters('koko_analytics_dashboard_widget_number_of_top_items', 5);
         $stats = new Stats();
         $dateToday = create_local_datetime('today, midnight')->format('Y-m-d');
-        $realtime = get_realtime_pageview_count('-1 hour');
         $totals = $stats->get_totals($dateToday, $dateToday);
+
+        // get realtime pageviews, but limit it to number of total pageviews today in case viewing shortly after midnight
+        $realtime = min($totals->pageviews, get_realtime_pageview_count('-1 hour'));
 
         $dateStart = create_local_datetime('-14 days');
         $dateEnd = create_local_datetime('now');
