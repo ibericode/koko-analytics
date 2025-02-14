@@ -1,11 +1,9 @@
 <?php
 
 use KokoAnalytics\Chart_View;
+use KokoAnalytics\Fmt;
 
 use function KokoAnalytics\get_page_title;
-use function KokoAnalytics\get_referrer_url_href;
-use function KokoAnalytics\get_referrer_url_label;
-use function KokoAnalytics\percent_format_i18n;
 
 defined('ABSPATH') or exit;
 
@@ -111,7 +109,7 @@ require __DIR__ . '/../template-functions.php';
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo percent_format_i18n($change); ?>
+                    <?php echo Fmt::percent($change); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
@@ -138,7 +136,7 @@ require __DIR__ . '/../template-functions.php';
             <td class='ka-totals--amount'>
                 <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
                 <span class="ka-totals--change">
-                    <?php echo percent_format_i18n($change); ?>
+                    <?php echo Fmt::percent($change); ?>
                 </span>
             </td>
             <td class='ka-totals--subtext'>
@@ -231,7 +229,7 @@ require __DIR__ . '/../template-functions.php';
                     <?php foreach ($referrers as $i => $r) { ?>
                         <tr>
                             <td><?php echo $referrers_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(get_referrer_url_href($r->url)); ?>"><?php echo get_referrer_url_label(esc_html($r->url)); ?></a></td>
+                            <td><a href="<?php echo esc_attr(Fmt::referrer_url_href($r->url)); ?>"><?php echo Fmt::referrer_url_label(esc_html($r->url)); ?></a></td>
                             <td><?php echo number_format_i18n(max(1, $r->visitors)); ?></td>
                             <td><?php echo number_format_i18n($r->pageviews); ?></td>
                         </tr>
