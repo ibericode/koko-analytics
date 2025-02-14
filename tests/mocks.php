@@ -147,6 +147,10 @@ function is_wp_error($thing)
     return false;
 }
 
+function _deprecated_function($function, $version, $replacement)
+{
+}
+
 class wpdb_mock
 {
     public $prefix = '';
