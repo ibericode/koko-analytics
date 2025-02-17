@@ -61,4 +61,3 @@ __('Number of days to use for pageviews column', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-posts-table.php#86
 __('Pageviews', 'koko-analytics');
-
