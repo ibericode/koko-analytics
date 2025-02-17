@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+wp-i18n-export koko-analytics-pro ../koko-analytics-pro/includes > src/external-strings.php
+git add src/external-strings.php || true
+git commit -m "Update external strings from Koko Analytics Pro"
