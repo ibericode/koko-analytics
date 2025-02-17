@@ -48,7 +48,7 @@ win[ka].trackPageview = function(postId) {
   var isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0;
   var referrer = doc.referrer;
 
-  if (referrer.indexOf(win[ka].site_url) == 0) {
+  if (doc.referrer.indexOf(win[ka].site_url) == 0) {
     // don't store referrer if from same-site
     referrer = ''
 
@@ -57,7 +57,7 @@ win[ka].trackPageview = function(postId) {
       isNewVisitor = 0
 
       // check if referred by same page (so not a unique pageview)
-      if (referrer == loc.href) isUniquePageview = 0
+      if (doc.referrer == loc.href) isUniquePageview = 0
     }
   }
 
