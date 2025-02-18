@@ -38,7 +38,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.4, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
-- **Jetpack Stats importer**: You can import historical analytics data from Jetpack Stats into Koko Analytics.
+- **Import data from other plugins**: You can import historical analytics data from Jetpack Stats or Burst Statistics into Koko Analytics.
 
 
 ### Koko Analytics Pro
