@@ -47,16 +47,18 @@ class Dashboard
         } catch (\Exception $e) {
             $dateEnd = $dateRange[1];
         }
-        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
-        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
 
         $posts_offset = isset($_GET['posts']['offset']) ? absint($_GET['posts']['offset']) : 0;
         $referrers_offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
         $posts_limit = isset($_GET['posts']['limit']) ? absint($_GET['posts']['limit']) : $items_per_page;
         $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
 
+        // calculate next and previous dates for datepicker component and comparison
+        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
+        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
+
         $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), $page);
-        $totals_previous = $stats->get_totals($prevDates[0]->format('Y-m-d'), $prevDates[1]->format('Y-m-d'), $page);
+        $totals_previous = $stats->get_totals($prevDates[0]->format('Y-m-d'), $prevDates[2]->format('Y-m-d'), $page);
 
         $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $posts_offset, $posts_limit);
         $posts_count = $stats->count_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
@@ -67,14 +69,12 @@ class Dashboard
         $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 36 ? 'month' : 'day';
         $chart_data =  $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page);
 
-        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
-        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
-
         require __DIR__ . '/views/dashboard-page.php';
     }
 
-    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, $dir = 1): array
+    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, int $dir = 1): array
     {
+        $now = new \DateTimeImmutable('now', wp_timezone());
         $modifier = $dir > 0 ? "+" : "-";
 
         if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
@@ -89,7 +89,15 @@ class Dashboard
             $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
         }
 
-        return [ $periodStart, $periodEnd ];
+        if ($dateEnd > $now) {
+            // limit end date to difference between now and start date, counting from start date
+            $days_diff = $now->diff($dateStart)->days;
+            $compareEnd = $periodStart->modify("+{$days_diff} days");
+        } else {
+            $compareEnd = $periodEnd;
+        }
+
+        return [ $periodStart, $periodEnd, $compareEnd ];
     }
 
     public function get_date_presets(): array
