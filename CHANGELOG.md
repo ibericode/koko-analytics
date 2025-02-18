@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.6.6 - Feb 18, 2025
+
+- Fix same-page referrer detection when not using cookie.
+- Preserve page filter when using datepicker to change date period.
+- Limit realtime pageviews in dashboard widget to today's pageviews when viewed shortly after midnight.
+
+
 ### 1.6.5 - Feb 10, 2025
 
 - Add importer for data from Burst Statistics.
