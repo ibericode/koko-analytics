@@ -25,8 +25,19 @@ class Chart_View
         $inner_height = $height - $padding_top - $padding_bottom;
         $height_modifier = $y_max_nice > 0 ? $inner_height / $y_max_nice : 1;
         $dateFormat = (string) get_option('date_format', 'Y-m-d');
+        $daysDiff = abs($dateEnd->diff($dateStart)->days);
         ?>
         <div class="ka-chart">
+            <?php if ($daysDiff > 7) { ?>
+            <div class="ka-chart-group-by">
+                <?php esc_html_e('Group by', 'koko-analytics'); ?>
+                <a href="<?php echo esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
+                <a href="<?php echo esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
+                <?php if ($daysDiff > 31) {
+                    ?><a href="<?php echo esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a><?php
+                } ?>
+            </div>
+            <?php } ?>
             <svg width="100%" height="<?php echo $height; ?>" id="ka-chart">
               <g class="axes-y" transform="translate(<?php echo $padding_left; ?>, <?php echo $padding_top; ?>)" text-anchor="end" data-padding="<?php echo $padding_left; ?>">
                 <text x="0" y="<?php echo $inner_height; ?>" fill="#757575" dy="0.3em" >0</text>

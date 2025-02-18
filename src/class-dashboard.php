@@ -66,7 +66,12 @@ class Dashboard
         $referrers_count = $stats->count_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'));
         $realtime = get_realtime_pageview_count('-1 hour');
 
-        $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 36 ? 'month' : 'day';
+        if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month'])) {
+            $groupChartBy = $_GET['group'];
+        } else {
+            $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
+        }
+
         $chart_data =  $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page);
 
         require __DIR__ . '/views/dashboard-page.php';

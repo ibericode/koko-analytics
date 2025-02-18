@@ -60,7 +60,7 @@ class Stats
      *
      * @param string $start_date
      * @param string $end_date
-     * @param string $group `day` or `month`
+     * @param string $group `day`, `week` or `month`
      * @param int $page
      * @return array
      */
@@ -68,31 +68,35 @@ class Stats
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        $date_format = $group === 'month' ? '%Y-%m' : '%Y-%m-%d';
+
+        $week_starts_on = (int) get_option('start_of_week', 0);
+        $available_groupings = [
+            'day' => '%Y-%m-%d',
+            'week' => $week_starts_on === 1 ? '%Y-%u' : '%Y-%U',
+            'month' => '%Y-%m',
+        ];
+        $date_format = $available_groupings[$group];
 
         if ($page > 0) {
             $table = $wpdb->prefix . 'koko_analytics_post_stats';
             $join_on = 's.date = d.date AND s.id = %d';
-            $args = [$date_format, $page, $start_date, $end_date];
+            $args = [$page, $start_date, $end_date, $date_format];
         } else {
             $table = $wpdb->prefix . 'koko_analytics_site_stats';
-            $args = [$date_format, $start_date, $end_date];
+            $args = [$start_date, $end_date, $date_format];
             $join_on = 's.date = d.date';
         }
 
         $sql = $wpdb->prepare(
-            "SELECT DATE_FORMAT(d.date, %s) AS _date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
+            "SELECT d.date, COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_dates d
                     LEFT JOIN {$table} s ON {$join_on}
                 WHERE d.date >= %s AND d.date <= %s
-                GROUP BY _date",
+                GROUP BY DATE_FORMAT(d.date, %s)",
             $args
         );
         $result = $wpdb->get_results($sql);
-        return array_map(function ($row) {
-            $row->date = $row->_date;
-            unset($row->_date);
-
+        return \array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
             return $row;

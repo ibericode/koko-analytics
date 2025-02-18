@@ -194,6 +194,8 @@ h1.ka-logo,
 .weekend .ka--visitors {
   fill: #195585;
 }
+.ka-chart-group-by { font-size: 12px; color: #757575; text-align: right; margin-top: -1em;  }
+.ka-chart-group-by a { color: #757575; }
 
 /** Dashboard */
 .dashboard_page_koko-analytics {
