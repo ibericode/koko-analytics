@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.5
+Stable tag: 1.6.6
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -151,11 +151,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 == Changelog ==
 
+### 1.6.6 - Feb 18, 2025
+
+- Fix same-page referrer detection when not using cookie.
+- Preserve page filter when using datepicker to change date period.
+- Limit realtime pageviews in dashboard widget to today's pageviews when viewed shortly after midnight.
+
+
 ### 1.6.5 - Feb 10, 2025
 
 - Add importer for data from Burst Statistics.
 - Allow passing "false" and "no" to `monthly` query parameter in REST endpoints.
-- Optimize PHP execution time for plugin bootstrapping code by aggressively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with opcache or 1.44 ms to 0.54 ms without opcache for general requests.
+- Optimize PHP execution time for plugin bootstrapping code by aggressively lazy loading code that only runs on very specific requests. From 0.05 ms to 0.03 ms (!) with OPcache or 1.44 ms to 0.54 ms without OPcache for general requests.
 - Minor code improvements to classes responsible for aggregating data from buffer file into permanent storage.
 
 
@@ -787,12 +794,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Handle network request errors on admin pages.
 - Return HTTP 500 error when unable to write to buffer file.
 - Simplify adding post title to post type statistics.
-- Extend browser support to include older browsers.
-- Handle filesystem errors in aggregation process.
-
-
-#### 1.0.2 - Nov 22, 2019
-
-- Add icons to datepickers to quickly cycle through selected date periods.
-- Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether ...
+- ...
 
