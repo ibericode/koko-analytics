@@ -12,11 +12,6 @@ class Shortcode_Most_Viewed_Posts
 {
     private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
-    public function __invoke()
-    {
-        return 'hi';
-    }
-
     public static function content($args): string
     {
         $allowed_args = [
@@ -40,8 +35,8 @@ class Shortcode_Most_Viewed_Posts
         $html = '<ul>';
         foreach ($posts as $p) {
             $post_title   = get_the_title($p);
-            $title        = $post_title !== '' ? $post_title : esc_html__('(no title)', 'koko-analytics');
-            $permalink = get_the_permalink($p);
+            $title        = $post_title !== '' ? esc_html($post_title) : esc_html__('(no title)', 'koko-analytics');
+            $permalink = esc_attr(get_the_permalink($p));
 
             $aria_current = '';
             if (get_queried_object_id() === $p->ID) {
@@ -52,7 +47,7 @@ class Shortcode_Most_Viewed_Posts
             $html .= "<a href=\"{$permalink}\" {$aria_current}>{$title}</a>";
 
             if ($args['show_date']) {
-                $date = get_the_date('', $p);
+                $date = esc_html(get_the_date('', $p));
                 $html .= " <span class=\"post-date\">{$date}</span>";
             }
             $html .= '</li>';
