@@ -32,7 +32,6 @@ function get_most_viewed_post_ids(array $args)
     global $wpdb;
     $cache_key = md5(serialize($args));
     $post_ids = wp_cache_get($cache_key, 'koko-analytics');
-
     if (!$post_ids) {
         $args = array_merge([
             'number'    => 5,
@@ -56,12 +55,21 @@ function get_most_viewed_post_ids(array $args)
             get_option('page_on_front', 0),
             $start_date,
             $end_date,
+            ...$args['post_type'],
+            $args['number'] * $args['paged'],
+            $args['number'],
         ];
-        $post_types_placeholder = join(', ', array_fill(0, count($args['post_type']), '%s'));
-        $sql_params             = array_merge($sql_params, $args['post_type']);
-        $sql_params[] = $args['number'] * $args['paged'];
-        $sql_params[] = $args['number'];
-        $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->posts} p ON s.id = p.id WHERE s.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ($post_types_placeholder) AND p.post_status = 'publish' GROUP BY p.id ORDER BY pageviews DESC LIMIT %d, %d", $sql_params);
+
+        $post_types_placeholder = rtrim(str_repeat('%s,', count($args['post_type'])), ',');
+
+        $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews
+            FROM {$wpdb->prefix}koko_analytics_post_stats s
+            JOIN {$wpdb->posts} p ON s.id = p.id
+            WHERE s.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ({$post_types_placeholder}) AND p.post_status = 'publish'
+            GROUP BY p.id
+            ORDER BY SUM(pageviews) DESC
+            LIMIT %d, %d", $sql_params);
+
         $results                = $wpdb->get_results($sql);
         if (empty($results)) {
             return [];
@@ -85,6 +93,10 @@ function get_most_viewed_post_ids(array $args)
 function get_most_viewed_posts($args = []): array
 {
     $post_ids = get_most_viewed_post_ids($args);
+    if (count($post_ids) === 0) {
+        return [];
+    }
+
     $query_args = [
         'posts_per_page' => -1,
         'post__in' => $post_ids,
