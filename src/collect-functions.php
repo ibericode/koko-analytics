@@ -142,6 +142,7 @@ function get_upload_dir(): string
         return KOKO_ANALYTICS_UPLOAD_DIR;
     }
 
+    // For backwards compatibility with optimize endpoints installed before the above constant was defined
     if (\defined('KOKO_ANALYTICS_BUFFER_FILE')) {
         return \dirname(KOKO_ANALYTICS_BUFFER_FILE) . '/koko-analytics';
     }
@@ -154,7 +155,8 @@ function get_upload_dir(): string
 function get_buffer_filename(): string
 {
     $upload_dir = get_upload_dir();
-    return "{$upload_dir}/events-buffer.php";
+    $filename = "events-buffer.php";
+    return "{$upload_dir}/{$filename}";
 }
 
 function collect_in_file(array $data): bool

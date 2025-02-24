@@ -14,4 +14,11 @@ final class AggregatorTest extends TestCase
         $i = new Aggregator();
         self::assertTrue($i instanceof Aggregator);
     }
+
+    public function testGenerateTmpFilename(): void
+    {
+        self::assertNotEquals('dir/file.php', Aggregator::generate_tmp_filename('dir/file.php'));
+        self::assertStringEndsWith('.php', Aggregator::generate_tmp_filename('dir/file.php'));
+        self::assertStringStartsWith('dir/file', Aggregator::generate_tmp_filename('dir/file.php'));
+    }
 }
