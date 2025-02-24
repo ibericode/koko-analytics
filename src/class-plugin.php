@@ -57,6 +57,7 @@ class Plugin
             '<IfModule authz_core_module>',
             'Require all denied',
             '</IfModule>',
+            '',
         ];
         file_put_contents("$directory/.htaccess", join(PHP_EOL, $lines));
     }
