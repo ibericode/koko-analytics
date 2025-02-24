@@ -121,6 +121,11 @@ if (\is_admin()) {
     add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }
 
+// on plugin update (but using old code)
+add_filter('upgrader_process_complete', function () {
+    do_action('koko_analytics_aggregate_stats');
+});
+
 // on plugin activation
 register_activation_hook(__FILE__, function () {
     Aggregator::setup_scheduled_event();
