@@ -160,7 +160,7 @@ function get_buffer_filename(): string
     $filenames = \scandir($upload_dir);
     if (\is_array($filenames)) {
         foreach ($filenames as $filename) {
-            if (! \str_starts_with($filename, ".") && ! \str_ends_with($filename, ".busy")) {
+            if (\str_starts_with($filename, "buffer-") && ! \str_ends_with($filename, ".busy")) {
                 return "{$upload_dir}/{$filename}";
             }
         }
