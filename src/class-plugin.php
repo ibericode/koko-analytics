@@ -32,8 +32,8 @@ class Plugin
     public static function remove_optimized_endpoint(): void
     {
         // delete custom endpoint file
-        if (file_exists(ABSPATH . '/koko-analytics-collect.php')) {
-            unlink(ABSPATH . '/koko-analytics-collect.php');
+        if (file_exists(rtrim(ABSPATH, '/') . '/koko-analytics-collect.php')) {
+            unlink(rtrim(ABSPATH, '/') . '/koko-analytics-collect.php');
         }
     }
 
