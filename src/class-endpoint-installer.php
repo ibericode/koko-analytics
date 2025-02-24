@@ -18,7 +18,18 @@ class Endpoint_Installer
     public function get_file_contents(): string
     {
         $upload_dir = get_upload_dir();
+
+        // make path relative to ABSPATH again
+        if (str_starts_with($upload_dir, ABSPATH)) {
+            $upload_dir = ltrim(substr($upload_dir, strlen(ABSPATH)), '/');
+        }
+
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
+
+        // make path relative to ABSPATH again
+        if (str_starts_with($functions_filename, ABSPATH)) {
+            $functions_filename = ltrim(substr($functions_filename, strlen(ABSPATH)), '/');
+        }
 
         return <<<EOT
 <?php
