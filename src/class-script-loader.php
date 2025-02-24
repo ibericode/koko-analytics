@@ -66,7 +66,7 @@ class Script_Loader
 
     private static function get_tracker_url(): string
     {
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
+        if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
         }
 
@@ -78,7 +78,7 @@ class Script_Loader
     private static function get_cookie_path(): string
     {
         $home_url = home_url();
-        return parse_url($home_url, PHP_URL_PATH) ?? '/';
+        return \parse_url($home_url, PHP_URL_PATH) ?? '/';
     }
 
     public static function print_js_object()

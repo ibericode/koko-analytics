@@ -141,11 +141,12 @@ function get_realtime_pageview_count($since = null): int
 
 function using_custom_endpoint(): bool
 {
-    if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
+    if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
         return (bool) KOKO_ANALYTICS_CUSTOM_ENDPOINT;
     }
 
-    return (bool) get_option('koko_analytics_use_custom_endpoint', false);
+    /** @see Endpoint_Installer::get_file_name() */
+    return \file_exists(\rtrim(ABSPATH, '/') . '/koko-analytics-collect.php') && (bool) get_option('koko_analytics_use_custom_endpoint', false);
 }
 
 function create_local_datetime(string $timestr): \DateTimeImmutable
