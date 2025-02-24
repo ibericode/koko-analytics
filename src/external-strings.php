@@ -53,6 +53,9 @@ __('Event name', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/events-section.php#67
 __('Add event', 'koko-analytics');
 
+// ../koko-analytics-pro/includes/class-dashboard.php#17
+__('Download as CSV', 'koko-analytics');
+
 // ../koko-analytics-pro/includes/class-admin-bar.php#57
 __('Pageviews', 'koko-analytics');
 
