@@ -19,6 +19,7 @@ class Endpoint_Installer
     {
         $upload_dir = get_upload_dir();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
+
         return <<<EOT
 <?php
 /**

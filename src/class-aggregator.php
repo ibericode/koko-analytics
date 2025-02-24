@@ -12,13 +12,6 @@ use Exception;
 
 class Aggregator
 {
-    public static function generate_tmp_filename(string $file): string
-    {
-        [$file_name, $file_extension] = \explode('.', \basename($file));
-        $time = \time();
-        return \dirname($file) . "/{$file_name}-{$time}.{$file_extension}";
-    }
-
     /**
      * Reads the buffer file into memory and moves data into the MySQL database (in bulk)
      *
@@ -39,7 +32,7 @@ class Aggregator
         $pageview_aggregator = new Pageview_Aggregator();
 
         // rename file to temporary location so nothing new is written to it while we process it
-        $tmp_filename = self::generate_tmp_filename($buffer_file);
+        $tmp_filename = $buffer_file . '.busy';
         $renamed = \rename($buffer_file, $tmp_filename);
         if ($renamed !== true) {
             if (WP_DEBUG) {
