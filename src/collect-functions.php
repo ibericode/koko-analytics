@@ -167,7 +167,7 @@ function get_buffer_filename(): string
     }
 
     // if no such file exists, generate a new random filename
-    $filename = "buffer-" . \bin2hex(\random_bytes(32)) . ".csv";
+    $filename = "buffer-" . \bin2hex(\random_bytes(16)) . ".csv";
     return "{$upload_dir}/{$filename}";
 }
 
