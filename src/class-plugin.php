@@ -58,6 +58,6 @@ class Plugin
             'Require all denied',
             '</IfModule>',
         ];
-        file_put_contents("$directory/index.html", join(PHP_EOL, $lines));
+        file_put_contents("$directory/.htaccess", join(PHP_EOL, $lines));
     }
 }
