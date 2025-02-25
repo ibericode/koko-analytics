@@ -1,5 +1,17 @@
 # Changelog
 
+
+### 1.7.0 - Feb 25, 2025
+
+- Compatibility with sites hosted on WP Engine (which does not allow writing files with the PHP extension to the WP Uploads directory).
+- Use relative paths in optimized endpoint file, so that the site itself can be moved around freely on the filesystem.
+- Run aggregator on `upgrader_process_complete` hook so that we can change aggregation logic without losing any data.
+- Only use optimized endpoint if the file still exists and is verified to be working. This allows removing the file to immediately switch to the default AJAX endpoint.
+- Fix a bug in the most viewed posts widget/shortcode that shows all posts instead of an empty result set.
+- Add group by option to chart.
+- Better align periods for comparisons.
+
+
 ### 1.6.6 - Feb 18, 2025
 
 - Fix same-page referrer detection when not using cookie.
