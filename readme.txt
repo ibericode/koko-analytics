@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.7-dev
+Stable tag: 1.7.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -150,6 +150,18 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+
+### 1.7.0 - Feb 25, 2025
+
+- Compatibility with sites hosted on WP Engine (which does not allow writing files with the PHP extension to the WP Uploads directory).
+- Use relative paths in optimized endpoint file, so that the site itself can be moved around freely on the filesystem.
+- Run aggregator on `upgrader_process_complete` hook so that we can change aggregation logic without losing any data.
+- Only use optimized endpoint if the file still exists and is verified to be working. This allows removing the file to immediately switch to the default AJAX endpoint.
+- Fix a bug in the most viewed posts widget/shortcode that shows all posts instead of an empty result set.
+- Add group by option to chart.
+- Better align periods for comparisons.
+
 
 ### 1.6.6 - Feb 18, 2025
 
@@ -773,26 +785,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.4 - Dec 13, 2019
 
-- Fix referrer URL's not being saved correctly.
-- Fix unique pageview detection
-- Fix pretty number with only trailing zeroes.
-- Fix bar chart not stacking properly.
-- Improved display of Twitter or Android app referrers.
-- Improved chart tooltip.
-- Improved styling for small mobile screens.
-- Trim trailing slashes from referrer URL's.
-- Escape all strings coming from translation files.
-- Filter out common bots by checking user agent in tracking script.
-
-
-#### 1.0.3 - Dec 6, 2019
-
-- Fix link to settings page from plugins overview page.
-- Fix REST API URL's when not using pretty permalinks.
-- Add support for tracking AMP-powered pages.
-- Add setting to disable cookie usage.
-- Handle network request errors on admin pages.
-- Return HTTP 500 error when unable to write to buffer file.
-- Simplify adding post title to post type statistics.
-- ...
+- Fix referrer URL's not being ...
 

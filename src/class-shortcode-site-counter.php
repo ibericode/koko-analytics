@@ -41,7 +41,7 @@ class Shortcode_Site_Counter
             $stats = new Stats();
             $totals = $stats->get_totals($start_date, $end_date, $id);
             $count = $args['metric'] === 'pageviews' ? $totals->pageviews : $totals->visitors;
-            set_transient($cache_key, $count, 5*60);
+            set_transient($cache_key, $count, 5 * 60);
         }
 
         return '<span class="koko-analytics-counter">' . $count . '</span>';
