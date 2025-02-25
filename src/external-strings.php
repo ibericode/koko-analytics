@@ -59,8 +59,8 @@ __('Download as CSV', 'koko-analytics');
 // ../koko-analytics-pro/includes/class-admin-bar.php#57
 __('Pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-posts-table.php#78
+// ../koko-analytics-pro/includes/class-posts-table.php#90
 __('Number of days to use for pageviews column', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-posts-table.php#86
+// ../koko-analytics-pro/includes/class-posts-table.php#98
 __('Pageviews', 'koko-analytics');
