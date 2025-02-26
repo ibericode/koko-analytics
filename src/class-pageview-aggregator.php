@@ -326,12 +326,6 @@ class Pageview_Aggregator
 
     public function is_valid_url(string $url): bool
     {
-        // shortest possible valid url: '://a.co'
-        if ($url === '' || strlen($url) < 7 || strpos($url, '://') === false) {
-            return false;
-        }
-
-
-        return (bool) filter_var($url, FILTER_VALIDATE_URL);
+        return \strlen($url) >= 7 && \filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 }
