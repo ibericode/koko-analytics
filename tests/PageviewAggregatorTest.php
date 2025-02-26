@@ -91,6 +91,7 @@ final class PageviewAggregatorTest extends TestCase
             'https://out.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
             'https://new.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
             'https://old.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
+            'https://www.reddit.com/r/foobar' => 'https://reddit.com/r/foobar',
             'https://6gg78.r.ah.d.sendibm4.com/mk/cl/f/sugrxasd218e287' => 'https://www.brevo.com',
             'https://6gg78.r.ah.d.sendibt1.com/mk/cl/f/sugrxasd218e287' => 'https://www.brevo.com',
         ];
@@ -104,8 +105,7 @@ final class PageviewAggregatorTest extends TestCase
     {
         $a = new \KokoAnalytics\Pageview_Aggregator();
 
-        foreach (
-            [
+        foreach ([
             'https://www.kokoanalytics.com',
             'android-app://com.google.android.googlequicksearchbox',
             ] as $url
@@ -113,8 +113,7 @@ final class PageviewAggregatorTest extends TestCase
             $this->assertTrue($a->is_valid_url($url));
         }
 
-        foreach (
-            [
+        foreach ([
              '',
              'Hello world',
              '<script>alert(1)</script>',
