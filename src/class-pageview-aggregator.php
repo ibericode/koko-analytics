@@ -310,7 +310,7 @@ class Pageview_Aggregator
             '/^https?:\/\/yandex\.ru\/clck.*/' => 'https://yandex.ru',
             '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
             '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
-            '/^https?:\/\/(out|new|old|www)\.reddit\.com(.*)/' => 'https://reddit.com$2',
+            '/^https?:\/\/(out|new|old|www|m)\.reddit\.com(.*)/' => 'https://reddit.com$2',
             '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://www.brevo.com',
         ];
 
