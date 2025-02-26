@@ -58,8 +58,8 @@ class Chart_View
                     $class_attr = $is_weekend ? 'class="weekend" ' : '';
                     // data attributes are for the hover tooltip, which is handled in JS
                     echo '<g ', $class_attr, 'data-date="', \wp_date($dateFormat, $dt->getTimestamp()), '" data-pageviews="', \number_format_i18n($tick->pageviews), '" data-visitors="', \number_format_i18n($tick->visitors),'">';
-                    echo '<rect class="ka--pageviews" height="', $tick->pageviews * $height_modifier,'" y="', ($inner_height - $tick->pageviews * $height_modifier),'"></rect>';
-                    echo '<rect class="ka--visitors" height="', ($tick->visitors * $height_modifier), '" y="', ($inner_height - $tick->visitors * $height_modifier), '"></rect>';
+                    echo '<rect class="ka--pageviews" width="0" height="', $tick->pageviews * $height_modifier,'" y="', ($inner_height - $tick->pageviews * $height_modifier),'"></rect>';
+                    echo '<rect class="ka--visitors" width="0" height="', ($tick->visitors * $height_modifier), '" y="', ($inner_height - $tick->visitors * $height_modifier), '"></rect>';
                     echo '<line stroke="#ddd" y1="', $inner_height, '" y2="', ($inner_height + 6),'"></line>';
                     echo '</g>';
                 } ?>

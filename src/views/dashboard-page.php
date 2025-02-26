@@ -31,7 +31,7 @@ require __DIR__ . '/../template-functions.php';
     <div class="ka-dashboard-nav">
         <div class="ka-dashboard-nav--left">
             <div class="ka-datepicker">
-                <div class='ka-datepicker--label' tabindex="0" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
+                <div class='ka-datepicker--label' tabindex="0" role="button" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
                     <?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?>
                 </div>
 
@@ -57,23 +57,20 @@ require __DIR__ . '/../template-functions.php';
                             <label for="ka-date-presets"><?php esc_html_e('Date range', 'koko-analytics'); ?></label>
                             <select id="ka-date-presets" name="view">
                                 <option value="custom" <?php echo $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom', 'koko-analytics'); ?></option>
-                                <?php foreach ($this->get_date_presets() as $key => $label) {
-                                    ?>
-                                    <option value="<?php echo $key; ?>"
-                                        <?php echo ( $key === $range ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?>
-                                    </option>
-                                <?php } ?>
+                                <?php foreach ($this->get_date_presets() as $key => $label) :
+                                    ?><option value="<?php echo $key; ?>"<?php echo ( $key === $range ) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option><?php
+                                endforeach; ?>
                             </select>
                             <div style="display: flex; margin-top: 12px;">
                                 <div>
                                     <label for='ka-date-start'><?php esc_html_e('Start date', 'koko-analytics'); ?></label>
-                                    <input name="start_date" id='ka-date-start' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                    <input name="start_date" id='ka-date-start' type="date" size="10" min="2000-01-01" max="2100-01-01"
                                            value="<?php echo $dateStart->format('Y-m-d'); ?>">
                                     <span>&nbsp;&mdash;&nbsp;</span>
                                 </div>
                                 <div>
                                     <label for='ka-date-end'><?php esc_html_e('End date', 'koko-analytics'); ?></label>
-                                    <input name="end_date" id='ka-date-end' type="date" size="10" placeholder="YYYY-MM-DD" min="2000-01-01" max="2100-01-01"
+                                    <input name="end_date" id='ka-date-end' type="date" size="10" min="2000-01-01" max="2100-01-01"
                                            value="<?php echo $dateEnd->format('Y-m-d'); ?>">
                                 </div>
                             </div>
