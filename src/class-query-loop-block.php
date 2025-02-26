@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use WP_Query;
+
 class Query_Loop_Block
 {
     public static function admin_enqueue_scripts($hook_suffix)
@@ -37,6 +39,12 @@ class Query_Loop_Block
             'days' => 30,
         ]);
 
+        // WP_Query checks for post__in argument using ! empty, so we pass a dummy array here in case we didn't find any posts with stats over last N days
+        if (count($post_ids) === 0) {
+            $post_ids = [ 0 ];
+        }
+
+        $vars['ignore_sticky_posts'] = true;
         $vars['orderby'] = 'post__in';
         $vars['post__in'] = $post_ids;
         return $vars;
