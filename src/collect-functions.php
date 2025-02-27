@@ -157,11 +157,13 @@ function get_buffer_filename(): string
     $upload_dir = get_upload_dir();
 
     // return first file in directory that matches these conditions
-    $filenames = \scandir($upload_dir);
-    if (\is_array($filenames)) {
-        foreach ($filenames as $filename) {
-            if (\str_starts_with($filename, "buffer-") && ! \str_ends_with($filename, ".busy")) {
-                return "{$upload_dir}/{$filename}";
+    if (\is_dir($upload_dir)) {
+        $filenames = \scandir($upload_dir);
+        if (\is_array($filenames)) {
+            foreach ($filenames as $filename) {
+                if (\str_starts_with($filename, "buffer-") && ! \str_ends_with($filename, ".busy")) {
+                    return "{$upload_dir}/{$filename}";
+                }
             }
         }
     }
