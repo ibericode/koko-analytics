@@ -61,7 +61,9 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
 	-x "$PLUGIN_SLUG/tests/*" \
 	-x "$PLUGIN_SLUG/webpack.config.js" \
 	-x "$PLUGIN_SLUG/eslint.config.mjs" \
-  -x "$PLUGIN_SLUG/*.json" \
+  -x "$PLUGIN_SLUG/package.json" \
+  -x "$PLUGIN_SLUG/package-lock.json" \
+  -x "$PLUGIN_SLUG/composer.json" \
 	-x "$PLUGIN_SLUG/*.lock" \
 	-x "$PLUGIN_SLUG/phpcs.xml" \
 	-x "$PLUGIN_SLUG/phpunit.xml.dist" \
