@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -150,6 +150,16 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+
+### 1.7.1 - Mar 10, 2025
+
+- Fix chart bars being out of order for some databases in case of gaps in data.
+- Include `manifest.json` file in plugin package.
+- Check if uploads directory exists before calling `scandir`.
+- Fix Query Loop Block from showing all posts in case of no stats.
+- Address some W3C validation warnings for the dashboard HTML.
+- Aggregate Reddit subdomains into a single referrer entry.
 
 
 ### 1.7.0 - Feb 25, 2025
@@ -771,19 +781,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Ignore all user agents containing the word `seo`
 - Ignore requests if page is loaded inside an iframe.
 - Only read `document.cookie` if cookie use is actually enabled.
-- In chart, use separate bars instead of stacked bars.
-
-
-#### 1.0.5 - Dec 30, 2019
-
-- Add "today" option to date periods preset menu.
-- Hide chart component when viewing just a single day of data.
-- Automatically refresh data in dashboard every minute.
-- Use human readable number format on chart's y-axes.
-- Show chart elements even if outside of chart container.
-
-
-#### 1.0.4 - Dec 13, 2019
-
-- Fix referrer URL's not being ...
+- In chart, ...
 
