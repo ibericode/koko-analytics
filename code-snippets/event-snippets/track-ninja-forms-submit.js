@@ -6,7 +6,7 @@ var mySubmitController = Marionette.Object.extend( {
     this.listenTo( Backbone.Radio.channel( 'forms' ), 'submit:response', this.actionSubmit );
   },
   actionSubmit: function( response ) {
-      koko_analytics.trackEvent('Form submit', 'Page: ' + location.pathname + '; Form: ' + response.data.settings.title);
+      window.koko_analytics.trackEvent('Form submit', 'Page: ' + location.pathname + '; Form: ' + response.data.settings.title);
   },
 });
 

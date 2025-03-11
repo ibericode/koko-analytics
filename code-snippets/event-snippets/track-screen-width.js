@@ -13,5 +13,5 @@ window.addEventListener('load', function() {
         }
     }
 
-    koko_analytics.trackEvent('Screen width', bucket(screen.width));
+    window.koko_analytics.trackEvent('Screen width', bucket(screen.width));
 });

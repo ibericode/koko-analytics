@@ -8,5 +8,5 @@ document.addEventListener('click', function (evt) {
         return;
     }
 
-    koko_analytics.trackEvent('Outbound click', href);
+    window.koko_analytics.trackEvent('Outbound click', href);
 });

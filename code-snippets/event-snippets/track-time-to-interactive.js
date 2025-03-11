@@ -15,6 +15,6 @@ window.addEventListener('load', function() {
 
     let timings = performance.getEntriesByType('navigation');
     if (timings.length) {
-        koko_analytics.trackEvent('Time to interactive', bucket(parseInt(timings[0].domInteractive)));
+        window.koko_analytics.trackEvent('Time to interactive', bucket(parseInt(timings[0].domInteractive)));
     }
 });
