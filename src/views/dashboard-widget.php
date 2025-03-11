@@ -28,7 +28,7 @@ use KokoAnalytics\Chart_View;
     <h3>
        <?php esc_html_e('Showing site visits over last 14 days', 'koko-analytics'); ?>
     </h3>
-    <?php new Chart_View($chart_data, $dateStart, $dateEnd, 200); ?>
+    <?php new Chart_View($chart_data, $dateStart, $dateEnd, 200, false); ?>
 </div>
 
 <?php if ($number_of_top_items > 0 && (count($posts) > 0 || count($referrers) > 0)) { ?>
