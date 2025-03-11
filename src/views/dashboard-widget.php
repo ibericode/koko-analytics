@@ -12,6 +12,7 @@
 */
 
 use KokoAnalytics\Chart_View;
+use KokoAnalytics\Fmt;
 
 ?>
 <link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
@@ -56,7 +57,7 @@ use KokoAnalytics\Chart_View;
             <ul class="ka-ul">
                 <?php foreach ($referrers as $referrer) {  ?>
                     <li>
-                        <span><?php echo number_format_i18n($referrer->pageviews); ?></span> <a href="<?php echo esc_attr($referrer->url); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
+                        <span><?php echo number_format_i18n($referrer->pageviews); ?></span> <a href="<?php echo esc_attr(Fmt::referrer_url_href($referrer->url)); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
                     </li>
                 <?php } ?>
             </ul>
