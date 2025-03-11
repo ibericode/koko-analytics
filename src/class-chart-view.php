@@ -26,6 +26,7 @@ class Chart_View
         $height_modifier = $y_max_nice > 0 ? $inner_height / $y_max_nice : 1;
         $dateFormat = (string) get_option('date_format', 'Y-m-d');
         $daysDiff = abs($dateEnd->diff($dateStart)->days);
+        $timezone = wp_timezone();
         ?>
         <div class="ka-chart">
             <?php if ($showGroupOptions && $daysDiff > 7) { ?>
@@ -53,7 +54,7 @@ class Chart_View
               </g>
                <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)" style="display: none;">
                 <?php foreach ($data as $tick) {
-                    $dt = (new \DateTimeImmutable($tick->date, wp_timezone()));
+                    $dt = (new \DateTimeImmutable($tick->date, $timezone));
                     $is_weekend = (int) $dt->format('N') >= 6;
                     $class_attr = $is_weekend ? 'class="weekend" ' : '';
                     // data attributes are for the hover tooltip, which is handled in JS

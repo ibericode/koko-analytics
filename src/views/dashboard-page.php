@@ -95,7 +95,6 @@ require __DIR__ . '/../template-functions.php';
     </div>
     <table id="ka-totals" class='ka-totals m'>
         <tbody>
-
         <?php
         /* Total visitors */
         $diff = $totals->visitors - $totals_previous->visitors;
