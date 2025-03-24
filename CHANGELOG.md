@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.7.2 - Mar 24, 2025
+
+- Hide chart group options on dashboard widget chart.
+- Run referrer URL's in dashboard widget through href normalizer.
+- Very minor performance optimisation for generating chart HTML.
+
 
 ### 1.7.1 - Mar 10, 2025
 
