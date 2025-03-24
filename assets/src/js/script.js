@@ -19,16 +19,7 @@ function getPagesViewed() {
 
 function request(url) {
   url = win[ka].url + (win[ka].url.indexOf('?') > -1 ? '&' : '?') + url;
-
-  // first, try navigator.sendBeacon
-  if (typeof nav.sendBeacon == "function") {
-    nav.sendBeacon(url);
-  } else {
-    // otherwise, fallback to window.fetch
-    win.fetch(url, {
-      method: "POST",
-    });
-  }
+  nav.sendBeacon ? nav.sendBeacon(url) : win.fetch(url, { method: 'POST' });
 }
 
 win[ka].trackPageview = function(postId) {
