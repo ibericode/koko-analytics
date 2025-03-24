@@ -46,6 +46,10 @@ sed -i "s/^Stable tag:.*$/Stable tag: $VERSION/g" "readme.txt"
 # Ref: https://git.sr.ht/~dvko/dotfiles/tree/master/item/bin/wp-update-changelog
 wp-update-changelog
 
+# Update git
+git add . -A
+git commit -m "v$VERSION"
+
 # Move up one directory level because we need plugin directory in ZIP file
 cd ..
 
@@ -81,8 +85,6 @@ echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 # Create tag in Git and push to remote
 if [[ "$*" == *"--release"* ]]
 then
-  git add . -A
-	git commit -m "v$VERSION"
 	git tag "$VERSION"
 	git push origin main
 	git push origin "tags/$VERSION"
