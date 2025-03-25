@@ -70,11 +70,6 @@ class Migrations
         $parts     = explode('-', $migration);
         $migraton_version   = $parts[0];
 
-        // check if migration file is not for an even higher version
-        if (version_compare($migraton_version, $this->version_to, '>')) {
-            return;
-        }
-
         // check if we ran migration file before.
         if (version_compare($this->version_from, $migraton_version, '>=')) {
             return;
