@@ -22,7 +22,7 @@ function request(url) {
   nav.sendBeacon ? nav.sendBeacon(url) : win.fetch(url, { method: 'POST' });
 }
 
-win[ka].trackPageview = function(postId) {
+win[ka].trackPageview = function(p) {
   if (
     // do not track if this is a prerender request
     (doc.visibilityState == 'prerender') ||
@@ -34,9 +34,9 @@ win[ka].trackPageview = function(postId) {
   }
 
   var pagesViewed = getPagesViewed();
-  postId += ""; // convert to string
+  p += ""; // convert to string
   var isNewVisitor = pagesViewed.length ? 0 : 1;
-  var isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0;
+  var isUniquePageview = pagesViewed.indexOf(p) == -1 ? 1 : 0;
   var referrer = doc.referrer;
 
   if (doc.referrer.indexOf(win[ka].site_url) == 0) {
@@ -52,8 +52,8 @@ win[ka].trackPageview = function(postId) {
     }
   }
 
-  request("p="+postId+"&nv="+isNewVisitor+"&up="+isUniquePageview+"&r="+enc(referrer));
-  if (isUniquePageview) pagesViewed.push(postId);
+  request("p="+enc(p)+"&nv="+isNewVisitor+"&up="+isUniquePageview+"&r="+enc(referrer));
+  if (isUniquePageview) pagesViewed.push(p);
   if (win[ka].use_cookie) doc.cookie = "_"+ka+"_pages_viewed="+pagesViewed.join('a')+";SameSite=lax;path="+win[ka].cookie_path+";max-age=21600";
 
 }

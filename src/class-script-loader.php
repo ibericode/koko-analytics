@@ -26,7 +26,6 @@ class Script_Loader
             return;
         }
 
-        // TODO: Handle "term" requests so we track both terms and post types.
         add_filter('script_loader_tag', [ Script_Loader::class , 'add_async_attribute' ], 20, 2);
 
         if (false === $echo) {
@@ -47,21 +46,22 @@ class Script_Loader
 
     /**
      * Returns the internal ID of the page or post that is being shown.
-     * If page is not a singular object, the function returns 1 if it is the front page (from Settings) or -1 if something else (eg category archive).
+     * If page is not a singular object, the function returns 0 if it is the front page (from Settings) or -1 if something else (eg category archive).
      *
      * @return int
      */
-    private static function get_post_id(): int
+    private static function get_post_id(): string
     {
         if (is_singular()) {
-            return get_queried_object_id();
+            return (string) get_queried_object_id();
         }
 
         if (is_front_page()) {
-            return 0;
+            return (string) 0;
         }
 
-        return -1;
+        // TODO: Should we normalize this? Maybe we should strip UTM query parameters?
+        return $_SERVER['REQUEST_URI'];
     }
 
     private static function get_tracker_url(): string
@@ -89,8 +89,8 @@ class Script_Loader
             'url'   => self::get_tracker_url(),
             'site_url' => get_home_url(),
 
-            // ID of the current post (or -1 in case of non-singular type)
-            'post_id'       => self::get_post_id(),
+            // ID of the current post (if singular post type), path name otherwise
+            'post_id'       => (string) self::get_post_id(),
 
             // wether to set a cookie
             'use_cookie'    => (int) $settings['use_cookie'],
