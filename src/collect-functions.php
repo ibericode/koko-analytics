@@ -28,12 +28,12 @@ function extract_pageview_data(array $raw): array
     }
 
     // grab and validate parameters
-    $post_id = \filter_var($raw['p'], FILTER_VALIDATE_INT);
+    $post_id = \substr(\trim($raw['p']), 0, 255);
     $new_visitor = \filter_var($raw['nv'], FILTER_VALIDATE_INT);
     $unique_pageview = \filter_var($raw['up'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
 
-    if ($post_id === false || $new_visitor === false || $unique_pageview === false || $referrer_url === false) {
+    if ($post_id === '' || (int) $post_id < 0 || $new_visitor === false || $unique_pageview === false || $referrer_url === false) {
         return [];
     }
 
