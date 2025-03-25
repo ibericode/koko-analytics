@@ -47,21 +47,21 @@ class Pageview_Aggregator
             $this->site_stats[$date_key]['visitors'] += 1;
         }
 
-        // update page stats (if received)
-        if ($post_id >= 0) {
-            if (!isset($this->post_stats[$date_key])) {
-                $this->post_stats[$date_key] = [];
-            }
-            if (! isset($this->post_stats[$date_key][$post_id])) {
-                $this->post_stats[$date_key][$post_id] = [ 'visitors' => 0, 'pageviews' => 0 ];
-            }
-
-            $this->post_stats[$date_key][$post_id]['pageviews'] += 1;
-
-            if ($unique_pageview) {
-                $this->post_stats[$date_key][$post_id]['visitors'] += 1;
-            }
+        // update page stats
+        $post_id = (string) $post_id;
+        if (!isset($this->post_stats[$date_key])) {
+            $this->post_stats[$date_key] = [];
         }
+        if (! isset($this->post_stats[$date_key][$post_id])) {
+            $this->post_stats[$date_key][$post_id] = [ 'visitors' => 0, 'pageviews' => 0 ];
+        }
+
+        $this->post_stats[$date_key][$post_id]['pageviews'] += 1;
+
+        if ($unique_pageview) {
+            $this->post_stats[$date_key][$post_id]['visitors'] += 1;
+        }
+
 
         // increment referrals
         if ($referrer_url !== '' && $this->is_valid_url($referrer_url)) {
@@ -116,14 +116,37 @@ class Pageview_Aggregator
     {
         global $wpdb;
 
+        // insert pathnames
+        $pathnames = [];
+
+        // TODO: Maybe strip duplicates here
+        foreach ($this->post_stats as $date => $stats) {
+            foreach ($stats as $post_id_or_pathname => $s) {
+                if (!is_numeric($post_id_or_pathname)) {
+                    $pathnames[] = $post_id_or_pathname;
+                }
+            }
+        }
+        if (count($pathnames) > 0) {
+            $placeholders = \rtrim(\str_repeat('(%s),', \count($pathnames)), ',');
+            $query = "INSERT IGNORE INTO {$wpdb->prefix}koko_analytics_paths (path) VALUES {$placeholders}";
+            $wpdb->query($wpdb->prepare($query, $pathnames));
+
+            // select pathname ID's
+            $placeholders = \rtrim(\str_repeat('%s,', \count($pathnames)), ',');
+            $pathnames_map = $wpdb->get_results($wpdb->prepare("SELECT path, id FROM {$wpdb->prefix}koko_analytics_paths WHERE path IN ({$placeholders})", $pathnames), OBJECT_K);
+        }
+
         // insert post stats
         foreach ($this->post_stats as $date => $stats) {
             $values = [];
-            foreach ($stats as $post_id => $s) {
-                array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
+            foreach ($stats as $post_id_or_pathname => $s) {
+                $is_post = is_numeric($post_id_or_pathname);
+                $post_or_path_id = $is_post ? $post_id_or_pathname : $pathnames_map[$post_id_or_pathname]->id;
+                array_push($values, $date, $is_post ? 'post' : 'path', $post_or_path_id, $s['visitors'], $s['pageviews']);
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
-            $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+            $placeholders = rtrim(str_repeat('(%s,%s,%d,%d,%d),', count($stats)), ',');
+            $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, type, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
 
