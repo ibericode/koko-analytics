@@ -77,6 +77,9 @@ class Stats
         ];
         $date_format = $available_groupings[$group];
 
+
+        // TODO: Make this $page filter work with rows of type `path`
+
         if ($page > 0) {
             $join_table = $wpdb->prefix . 'koko_analytics_post_stats';
             $join_on = 's.date = d.date AND s.id = %d';
@@ -109,10 +112,11 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+            "SELECT s.id, s.type, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews, p.path
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
+                LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.id AND s.type = 'path'
                 WHERE s.date >= %s AND s.date <= %s
-                GROUP BY s.id
+                GROUP BY s.id, s.type
                 ORDER BY pageviews DESC, s.id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
@@ -125,15 +129,21 @@ class Stats
         $ids = wp_list_pluck($results, 'id');
         get_posts(['include' => $ids ]);
 
+        // TODO: Modify the below to work with rows of type `path` (which do not need a call to get_permalink)
+
         return array_map(function ($row) {
             // special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
             if ($row->id == 0) {
                 $row->post_permalink = home_url();
                 $row->post_title     = get_bloginfo('name');
-            } else {
+            } else if ($row->type === 'post') {
                 $post = get_post($row->id);
                 $row->post_title = get_page_title($post);
                 $row->post_permalink = $post ? get_permalink($post) : '';
+            } else {
+                // row type is path
+                $row->post_title = $row->path;
+                $row->post_permalink = $row->path;
             }
 
             $row->pageviews = (int) $row->pageviews;

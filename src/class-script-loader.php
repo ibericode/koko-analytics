@@ -57,11 +57,10 @@ class Script_Loader
         }
 
         if (is_front_page()) {
-            return (string) 0;
+            return "0";
         }
 
-        // TODO: Should we normalize this? Maybe we should strip UTM query parameters?
-        return $_SERVER['REQUEST_URI'];
+        return "-1";
     }
 
     private static function get_tracker_url(): string
@@ -83,11 +82,14 @@ class Script_Loader
 
     public static function print_js_object()
     {
+        global $wp;
         $settings      = get_settings();
         $script_config = [
             // the URL of the tracking endpoint
             'url'   => self::get_tracker_url(),
             'site_url' => get_home_url(),
+
+            'path' => '/' . ltrim(add_query_arg($wp->query_vars, $wp->request), '/'),
 
             // ID of the current post (if singular post type), path name otherwise
             'post_id'       => (string) self::get_post_id(),
