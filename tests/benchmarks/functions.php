@@ -10,5 +10,7 @@ function bench(Closure $fn, $iterations = 1000)
         $fn();
     }
     $time_end = microtime(true);
+
+    // in microseconds
     return round(($time_end - $time_start) * 1000 * 1000, 2);
 }

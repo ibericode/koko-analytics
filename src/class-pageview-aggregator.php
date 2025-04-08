@@ -284,7 +284,7 @@ class Pageview_Aggregator
             parse_str($query_str, $params);
 
             // strip all but the following query parameters from the URL
-            $allowed_params = [ 'page_id', 'p', 'cat', 'product' ];
+            $allowed_params = [ 'page_id', 'p', 'cat', 'tag', 'product' ];
             $new_params     = array_intersect_key($params, array_flip($allowed_params));
             $new_query_str  = http_build_query($new_params);
             $new_url        = substr($url, 0, $pos + 1) . $new_query_str;

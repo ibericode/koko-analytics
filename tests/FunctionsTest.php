@@ -25,15 +25,14 @@ final class FunctionsTest extends TestCase
 
        // complete but invalid
         $this->assertEquals(extract_pageview_data(['p' => '', 'nv' => '', 'up' => '']), []);
-        $this->assertEquals(extract_pageview_data(['p' => 'x', 'nv' => '2', 'up' => '3']), []);
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => 'x', 'up' => '3']), []);
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => 'x']), []);
         $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
 
         // complete and valid
-        foreach (
-            [
+        foreach ([
             [['p' => '1', 'nv' => '2', 'up' => '3'], ['p', null, 1, 2, 3, '']],
+            [['p' => '/', 'nv' => '2', 'up' => '3'], ['p', null, '/', 2, 3, '']],
             [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => ''], ['p', null, 1, 2, 3, '']],
             [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com'], ['p', null, 1, 2, 3, 'https://www.kokoanalytics.com']],
 

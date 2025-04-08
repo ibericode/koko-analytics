@@ -151,6 +151,11 @@ function _deprecated_function($function, $version, $replacement)
 {
 }
 
+function home_url(string $path = '/')
+{
+    return 'http://localhost:8080' . $path;
+}
+
 class wpdb_mock
 {
     public $prefix = '';

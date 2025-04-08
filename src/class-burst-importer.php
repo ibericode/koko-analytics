@@ -22,7 +22,7 @@ class Burst_Importer
 
          // grab start date
         global $wpdb;
-        $date_start = $wpdb->get_var("SELECT MIN(date) FROM {$wpdb->prefix}burst_summary;");
+        $date_start = $wpdb->get_var("SELECT MIN(date) FROM {$wpdb->prefix}burst_summary");
         $date_end = $wpdb->get_var("SELECT MAX(date) FROM {$wpdb->prefix}burst_summary");
 
         ?>

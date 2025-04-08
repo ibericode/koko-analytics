@@ -63,6 +63,30 @@ class Script_Loader
         return "-1";
     }
 
+    public static function get_canonical_path(): string
+    {
+        global $wp;
+
+        $base_path = parse_url(home_url('/'), PHP_URL_PATH);
+        $request_path = $_SERVER['REQUEST_URI'];
+
+        if (str_starts_with($request_path, $base_path)) {
+            $request_path = substr($request_path, strlen($base_path));
+        }
+
+        $question_mark_pos = strpos($request_path, '?');
+        if ($question_mark_pos !== false) {
+            $query_string = parse_url($request_path, PHP_URL_QUERY);
+            $params = [];
+            parse_str($query_string, $params);
+            $new_params     = array_intersect_key($params, array_flip($wp->public_query_vars));
+            $new_query_str  = http_build_query($new_params);
+            $request_path        = rtrim(substr($request_path, 0, $question_mark_pos + 1) . $new_query_str, '?');
+        }
+
+        return '/' . ltrim($request_path, '/');
+    }
+
     private static function get_tracker_url(): string
     {
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
@@ -89,7 +113,7 @@ class Script_Loader
             'url'   => self::get_tracker_url(),
             'site_url' => get_home_url(),
 
-            'path' => '/' . ltrim(add_query_arg($wp->query_vars, $wp->request), '/'),
+            'path' => self::get_canonical_path(),
 
             // ID of the current post (if singular post type), path name otherwise
             'post_id'       => (string) self::get_post_id(),
