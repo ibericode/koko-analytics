@@ -28,7 +28,7 @@ class Pruner
         global $wpdb;
 
         $settings = get_settings();
-        if ($settings['prune_data_after_months'] === 0) {
+        if ($settings['prune_data_after_months'] <= 0) {
             return;
         }
 

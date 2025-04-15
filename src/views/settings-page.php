@@ -38,6 +38,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
                 <?php wp_nonce_field('koko_analytics_save_settings'); ?>
+                <?php wp_referer_field(); ?>
+
                 <div class="ka-margin-m">
                     <label for="ka-exclude-user-roles" class="ka-settings--label"><?php esc_html_e('Exclude pageviews from these user roles', 'koko-analytics'); ?></label>
                     <select id="ka-exclude-user-roles" multiple="" name="koko_analytics_settings[exclude_user_roles][]" style="min-height: <?php echo count($user_roles) * 30; ?>px; min-width: 240px;">
