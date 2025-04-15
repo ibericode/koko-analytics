@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.7.3 - Apr 15, 2025
+
+- Explicitly add referrer to settings page form.
+- Fix WP CLI command calling old method. Thanks [Oscar Arzola](https://github.com/arzola)!
+
+
 ### 1.7.2 - Mar 24, 2025
 
 - Hide chart group options on dashboard widget chart.
