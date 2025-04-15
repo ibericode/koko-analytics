@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -151,6 +151,12 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.7.3 - Apr 15, 2025
+
+- Explicitly add referrer to settings page form.
+- Fix WP CLI command calling old method. Thanks [Oscar Arzola](https://github.com/arzola)!
+
 
 ### 1.7.2 - Mar 24, 2025
 
@@ -781,8 +787,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Fixes "Invalid time" error when re-opening the dashboard in Safari.
 
 
-#### 1.0.6 - Jan 20, 2020
-
-- Remember view period when navigating away from analytics dashboard.
-- Add filter hook to prevent loading the tracking ...
+#### ...
 

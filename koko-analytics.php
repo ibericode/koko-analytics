@@ -3,7 +3,7 @@
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-Version: 1.7.2
+Version: 1.7.3
 Description: Privacy-friendly analytics for your WordPress site.
 Author: ibericode
 Author URI: https://www.ibericode.com/
@@ -34,7 +34,7 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-\define('KOKO_ANALYTICS_VERSION', '1.7.2');
+\define('KOKO_ANALYTICS_VERSION', '1.7.3');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
