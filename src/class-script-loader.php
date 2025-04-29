@@ -98,7 +98,8 @@ class Script_Loader
             // path to store the cookie in (will be subdirectory if website root is in subdirectory)
             'cookie_path' => self::get_cookie_path(),
         ];
-        echo '<script>window.koko_analytics = ', json_encode($script_config), ';</script>';
+        $data = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
+        wp_print_inline_script_tag($data);
     }
 
     public static function print_amp_analytics_tag()
