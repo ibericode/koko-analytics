@@ -90,7 +90,7 @@ EOT;
         // TODO: Verify contents? Or trust 200 OK response?
 
         /* Attempt to put the file into place if it does not exist already */
-        if (! file_exists($file_name)) {
+        if (! is_file($file_name)) {
             $success = file_put_contents($file_name, $this->get_file_contents());
             if (false === $success) {
                 return false;

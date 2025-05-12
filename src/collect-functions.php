@@ -96,12 +96,7 @@ function collect_request()
         return;
     }
 
-    if (isset($_GET['e'])) {
-        $data = extract_event_data($_GET);
-    } else {
-        $data = extract_pageview_data($_GET);
-    }
-
+    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET);
     if (!empty($data)) {
         $success = isset($_GET['test']) ? test_collect_in_file() : collect_in_file($data);
 
