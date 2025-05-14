@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, privacy, counter
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -151,6 +151,13 @@ You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to
 
 
 == Changelog ==
+
+### 1.7.4 - May 14, 2025
+
+- Use `wp_print_inline_script` function for printing inline script tags.
+- Use `is_file` over `file_exists` for checking whether optimized endpoint file exists.
+- Only remove optimized endpoint file if it fails verification if it was created by the plugin itself.
+
 
 ### 1.7.3 - Apr 15, 2025
 
@@ -781,11 +788,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Show number of pageviews in the last hour.
 - Show day of week to chart tooltip.
 - Use Paul Heckbert's loose labels (nice numbers) algorithm for labels on y-axes.
-- All colors now have a contrast ratio that is (at least) WCAAG AA compliant.
-- Revert multiple bar chart change (because of user feedback), use inner bar instead.
-- Minor performance optimisations for viewing dashboard page.
-- Fixes "Invalid time" error when re-opening the dashboard in Safari.
-
-
-#### ...
+- All colors now ...
 
