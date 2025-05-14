@@ -87,12 +87,10 @@ EOT;
 
         $file_name = $this->get_file_name();
 
-        // TODO: Verify contents? Or trust 200 OK response?
-
         /* Attempt to put the file into place if it does not exist already */
         if (! is_file($file_name)) {
-            $success = file_put_contents($file_name, $this->get_file_contents());
-            if (false === $success) {
+            $created = file_put_contents($file_name, $this->get_file_contents());
+            if (! $created) {
                 return false;
             }
         }
@@ -100,7 +98,9 @@ EOT;
         /* Send an HTTP request to the custom endpoint to see if it's working properly */
         $works = self::verify();
         if (! $works) {
-            unlink($file_name);
+            if (isset($created) && $created) {
+                unlink($file_name);
+            }
             return false;
         }
 
