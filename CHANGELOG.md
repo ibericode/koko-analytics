@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.7.4 - May 14, 2025
+
+- Use `wp_print_inline_script` function for printing inline script tags.
+- Use `is_file` over `file_exists` for checking whether optimized endpoint file exists.
+- Only remove optimized endpoint file if it fails verification if it was created by the plugin itself.
+
+
 ### 1.7.3 - Apr 15, 2025
 
 - Explicitly add referrer to settings page form.
