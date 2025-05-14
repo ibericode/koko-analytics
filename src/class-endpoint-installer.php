@@ -70,11 +70,10 @@ EOT;
 
         $status  = wp_remote_retrieve_response_code($response);
         $headers = wp_remote_retrieve_headers($response);
-        if ($status !== 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
-            return false;
-        }
 
-        return true;
+        return $status == 200
+            && isset($headers['Content-Type'])
+            && str_contains($headers['Content-Type'], 'text/plain');
     }
 
     public function install(): bool
