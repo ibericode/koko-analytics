@@ -53,30 +53,46 @@ KokoAnalytics\collect_request();
 EOT;
     }
 
-    public static function verify(): bool
+    /**
+     * @return string|bool
+     */
+    public static function verify()
     {
-        $works = self::verify_internal();
-        update_option('koko_analytics_use_custom_endpoint', $works, true);
-        return $works;
+        $verification_result = self::verify_internal();
+        update_option('koko_analytics_use_custom_endpoint', $verification_result === true, true);
+        return $verification_result;
     }
 
-    private static function verify_internal(): bool
+    /**
+     * @return string|bool
+     */
+    private static function verify_internal()
     {
         $tracker_url = site_url('/koko-analytics-collect.php?nv=1&p=0&up=1&test=1');
         $response    = wp_remote_get($tracker_url);
         if (is_wp_error($response)) {
-            return false;
+            return __('Error requesting endpoint: ', 'koko-analytics') . join(', ', $response->get_error_messages());
         }
 
         $status  = wp_remote_retrieve_response_code($response);
         $headers = wp_remote_retrieve_headers($response);
 
-        return $status == 200
+        // verify whether we get an expected response
+        if (
+            $status == 200
             && isset($headers['Content-Type'])
-            && str_contains($headers['Content-Type'], 'text/plain');
+            && str_contains($headers['Content-Type'], 'text/plain')
+        ) {
+            return true;
+        }
+
+        return __('Endpoint did not return the expected response', 'koko-analytics');
     }
 
-    public function install(): bool
+    /**
+     * @return string|bool
+     */
+    public function install()
     {
         /* If we made it this far we ideally want to use the custom endpoint file */
         /* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
@@ -90,21 +106,18 @@ EOT;
         if (! is_file($file_name)) {
             $created = file_put_contents($file_name, $this->get_file_contents());
             if (! $created) {
-                return false;
+                return __('Error creating file', 'koko-analytics');
             }
         }
 
         /* Send an HTTP request to the custom endpoint to see if it's working properly */
-        $works = self::verify();
-        if (! $works) {
-            if (isset($created) && $created) {
-                unlink($file_name);
-            }
-            return false;
+        $verification_result = self::verify();
+        if ($verification_result !== true && isset($created) && $created) {
+            unlink($file_name);
         }
 
         /* All looks good! Custom endpoint file exists and returns the correct response */
-        return true;
+        return $verification_result;
     }
 
     public function is_eligibile(): bool

@@ -27,10 +27,19 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <?php } ?>
 
             <?php if (isset($_GET['endpoint-installed'])) { ?>
-                <div class="notice notice-<?php echo $_GET['endpoint-installed'] ? 'success' : 'warning'; ?> is-dismissible">
-                    <p><?php echo $_GET['endpoint-installed'] ? esc_html__('Successfully installed optimized endpoint.', 'koko-analytics') : esc_html__('Unable to install optimized endpoint. Please create the file manually and then try again.', 'koko-analytics'); ?></p>
+                <?php if ((int) $_GET['endpoint-installed']) { ?>
+                    <div class="notice notice-success is-dismissible">
+                        <p><?php esc_html_e('Successfully installed optimized endpoint.', 'koko-analytics'); ?></p>
+                    </div>
+                <?php } else { ?>
+                <div class="notice notice-warning is-dismissible">
+                    <p>
+                        <?php esc_html_e('Unable to install optimized endpoint: ', 'koko-analytics'); ?>
+                        <?php echo esc_html($_GET['endpoint-installed']); ?>
+                    </p>
                 </div>
-            <?php } ?>
+                <?php } ?>
+            <?php } // end if endpoint-installed ?>
 
             <?php if (class_exists('Jetpack')) { ?>
                 <div class="notice notice-info is-dismissible"><p><?php printf(__('We noticed you have Jetpack enabled. Do you want to <a href="%1$s">import your historical statistics data from JetPack stats into Koko Analytics</a>?', 'koko-analytics'), esc_attr(add_query_arg(['tab' => 'jetpack_importer']))); ?></p></div>

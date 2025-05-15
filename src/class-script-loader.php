@@ -66,6 +66,7 @@ class Script_Loader
 
     private static function get_tracker_url(): string
     {
+        // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
         }

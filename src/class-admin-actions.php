@@ -13,8 +13,8 @@ class Admin_Actions
     public static function install_optimized_endpoint(): void
     {
         $installer = new Endpoint_Installer();
-        $success = $installer->install();
-        wp_safe_redirect(add_query_arg(['endpoint-installed' => (int) $success], wp_get_referer()));
+        $result = $installer->install();
+        wp_safe_redirect(add_query_arg(['endpoint-installed' => $result], wp_get_referer()));
         exit;
     }
 
