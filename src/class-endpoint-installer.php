@@ -69,7 +69,9 @@ EOT;
     private static function verify_internal()
     {
         $tracker_url = site_url('/koko-analytics-collect.php?nv=1&p=0&up=1&test=1');
-        $response    = wp_remote_get($tracker_url);
+        $response    = wp_remote_get($tracker_url, [
+            'timeout' => 10,
+        ]);
         if (is_wp_error($response)) {
             return __('Error requesting endpoint: ', 'koko-analytics') . join(', ', $response->get_error_messages());
         }
@@ -78,15 +80,16 @@ EOT;
         $headers = wp_remote_retrieve_headers($response);
 
         // verify whether we get an expected response
-        if (
-            $status == 200
+        if ($status == 200
             && isset($headers['Content-Type'])
             && str_contains($headers['Content-Type'], 'text/plain')
         ) {
             return true;
         }
 
-        return __('Endpoint did not return the expected response', 'koko-analytics');
+        error_log(sprintf("Koko Analaytics: Error verifying optimized endpoint because it did not return the expected HTTP response.\nHTTP code: %s\nHTTP headers: %s\nHTTP body: %s", $status, var_export($headers, true), wp_remote_retrieve_body($response)));
+
+        return __('Endpoint did not return the expected response.', 'koko-analytics');
     }
 
     /**
