@@ -47,8 +47,8 @@ sed -i "s/^Stable tag:.*$/Stable tag: $VERSION/g" "readme.txt"
 wp-update-changelog
 
 # Update git
-git add . -A
-git commit -m "v$VERSION"
+git add . -A || true
+git commit -m "v$VERSION" || true
 
 # Move up one directory level because we need plugin directory in ZIP file
 cd ..
