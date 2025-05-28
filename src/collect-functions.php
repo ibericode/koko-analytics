@@ -92,8 +92,13 @@ function collect_request()
 
     // if WordPress environment is loaded, check if request is excluded
     // TODO: come up with a way to check for excluded request without WordPress
-    if (\defined('ABSPATH') && function_exists('is_request_excluded') && is_request_excluded()) {
+    if (\function_exists('is_request_excluded') && is_request_excluded()) {
         return;
+    }
+
+    // if WP environment is loaded and URL says to disable custom endpoint, do it
+    if (isset($_GET['disable-custom-endpoint']) && \function_exists('update_option')) {
+        update_option('koko_analytics_use_custom_endpoint', false, true);
     }
 
     $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET);

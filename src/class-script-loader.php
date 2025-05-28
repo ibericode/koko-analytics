@@ -64,16 +64,23 @@ class Script_Loader
         return -1;
     }
 
-    private static function get_tracker_url(): string
+    private static function get_tracker_urls(): array
     {
+        $urls = [];
+
         // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
-            return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
+            // custom custom endpoint
+            $urls[] = site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
+        } elseif (using_custom_endpoint()) {
+            // default custom endpoint
+            $urls[] = site_url('/koko-analytics-collect.php');
         }
 
-        // We should use site_url() here because we place the file in ABSPATH and other plugins may be filtering home_url (eg multilingual plugin)
-        // In any case: what we use here should match what we test when creating the optimized endpoint file.
-        return using_custom_endpoint() ? site_url('/koko-analytics-collect.php') : admin_url('admin-ajax.php?action=koko_analytics_collect');
+        // default URL (which includes WordPress)
+        $urls[] = admin_url('admin-ajax.php?action=koko_analytics_collect');
+
+        return $urls;
     }
 
     private static function get_cookie_path(): string
@@ -87,7 +94,9 @@ class Script_Loader
         $settings      = get_settings();
         $script_config = [
             // the URL of the tracking endpoint
-            'url'   => self::get_tracker_url(),
+            'urls'   => self::get_tracker_urls(),
+
+            // root URL of site
             'site_url' => get_home_url(),
 
             // ID of the current post (or -1 in case of non-singular type)
