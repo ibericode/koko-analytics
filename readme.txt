@@ -1,30 +1,31 @@
-=== Koko Analytics ===
+=== Koko Analytics - Privacy-Friendly Statistics for WordPress ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
-Tags: analytics, statistics, stats, privacy, counter
+Tags: statistics, analytics, stats
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.7.5-dev
+Stable tag: 1.7.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Privacy-friendly and efficient analytics for your WordPress site
+Koko Analytics is an easy-to-use, open source, lightweight and privacy-friendly website statistics plugin for WordPress.
 
 == Description ==
 
-Koko Analytics is a privacy-friendly website analytics plugin for WordPress. It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
+Koko Analytics is a self-hosted, privacy-friendly and efficient website statistics plugin for WordPress. It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
 
-Stop sharing visitor data with third-party companies who also happen to sell ads. Stop slowing down your website with large tracking scripts. Liberate your website analytics!
+Stop sharing visitor data with third-party companies who also happen to sell ads. Stop slowing down your website with large tracking scripts. Liberate and own your data!
 
-[Koko Analytics](https://www.kokoanalytics.com/) lets you focus on the important metrics, while respecting the privacy of your visitors.
+Koko Analytics lets you focus on the important statistics while completely respecting the privacy of your visitors.
 
 You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
 
+> This plugin is free and does not require an account with a third-party service. It runs completely on your own server.
 
 ### Features
 
-- **Plug and play**: After installing and activating the plugin, stats will automatically be collected.
+- **Plug and play**: After installing and activating the plugin, statistics will automatically be collected.
 - **No external services**: Any data never leaves your server.
 - **No personal data** or anything visitor specific is tracked.
 - **No cookies**: There is an option to not use any cookies.
@@ -38,7 +39,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **Open-Source**: The plugin code is [open-sourced](https://github.com/ibericode/koko-analytics) under the GPL-3.0-or-later license.
 - **Tested**: Ready for PHP 8.4, but compatible down to PHP 7.3.
 - **AMP**: Tracks AMP powered pages too ([official AMP plugin](https://wordpress.org/plugins/amp/) only).
-- **Import data from other plugins**: You can import historical analytics data from Jetpack Stats or Burst Statistics into Koko Analytics.
+- **Import data from other plugins**: You can import historical data from Jetpack Stats or Burst Statistics.
 
 
 ### Koko Analytics Pro
@@ -57,7 +58,7 @@ You can [purchase Koko Analytics Pro here](https://www.kokoanalytics.com/pricing
 
 ### Contributing
 
-You can help with Koko Analytics in many different ways. For example:
+You can help this project in various ways. For example:
 
 - [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
 - Write about the plugin on your blog or share it on social media.
@@ -80,7 +81,7 @@ You can install Koko Analytics in multiple ways:
 
 After installing and then activating the plugin, statistics will be collected right away.
 
-You can view your analytics dashboard by going to **WP Admin > Dashboard > Analytics**.
+You can view your dashboard by going to **WP Admin > Dashboard > Analytics**.
 
 
 == Frequently Asked Questions ==
