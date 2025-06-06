@@ -216,7 +216,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <div>
                 <div class="ka-pro-cta ka-margin-m">
                     <h2><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
-                    <p><?php printf(esc_html__('You are currently using the free version of Koko Analytics. There is a paid add-on called %1$sKoko Analytics Pro%2$s which adds several powerful features:', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/" target="_blank">', '</a>'); ?></p>
+                    <p><?php esc_html_e('You are currently using the free version of Koko Analytics. There is a premium version of this plugin which adds several powerful features.', 'koko-analytics'); ?></p>
+                    <h4><?php esc_html_e('Premium features', ' koko-analytics'); ?></h4>
                     <ul class="ul-square">
                         <li><a href="https://www.kokoanalytics.com/features/custom-event-tracking/"><?php esc_html_e('Event Tracking', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Email Reports', 'koko-analytics'); ?></a></li>
@@ -224,8 +225,9 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                         <li><a href="https://www.kokoanalytics.com/features/csv-export/"><?php esc_html_e('CSV Export', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/admin-bar/"><?php esc_html_e('Admin Bar', 'koko-analytics'); ?></a></li>
                     </ul>
-                    <p><a class="button" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('View pricing', 'koko-analytics'); ?></a></p>
-                    <p><?php esc_html_e('By purchasing Koko Analytics Pro you get immediate access to these features while simultaneously supporting further development and maintenance of this free plugin.', 'koko-analytics'); ?></p>
+                    <p><?php esc_html_e('You can unlock all these benefits for a small yearly fee.', 'koko-analytics'); ?>
+                    <a class="" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Take a look at Koko Analytics Pro now.', 'koko-analytics'); ?></a></p>
+
                 </div>
             </div>
             <?php } // end if defined KOKO_ANALYTICS_PRO ?>

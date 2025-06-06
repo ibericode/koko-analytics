@@ -520,10 +520,9 @@ a.ka-datepicker--quicknav-next {
 
 /* upgrade to pro */
 .ka-pro-cta {
-  background: white;
   border: 1px solid #ddd;
+  background: #fcf8e3;
   padding: 2em;
-  background-size: 32px 32px;
 }
 .ka-pro-cta h2:before {
   content: "";
@@ -538,6 +537,7 @@ a.ka-datepicker--quicknav-next {
 }
 .ka-pro-cta > *:first-child { margin-top: 0; }
 .ka-pro-cta > *:last-child { margin-bottom: 0; }
+
 
 @view-transition {
  navigation: auto;
