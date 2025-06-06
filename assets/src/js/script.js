@@ -19,7 +19,7 @@ function getPagesViewed() {
 
 function request(params, u) {
   u = u !== undefined ? u : 0;
-  var url = win[ka].urls[u];
+  var url = win[ka].urls ? win[ka].urls[u] : win[ka].url;
   url += (url.indexOf('?') > -1 ? '&' : '?') + params;
 
   win.fetch(url, { method: 'POST', cache: 'no-store', priority: 'low' })
