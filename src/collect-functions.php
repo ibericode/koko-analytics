@@ -44,8 +44,8 @@ function extract_pageview_data(array $raw, $new_visitor, $unique_pageview): arra
         'p',                 // type indicator
         \time(),             // unix timestamp
         $post_id,
-        $new_visitor,
-        $unique_pageview,
+        $new_visitor ? 1 : 0,
+        $unique_pageview ? 1 : 0,
         $referrer_url,
     ];
 }
@@ -211,33 +211,28 @@ function get_site_timezone(): \DateTimeZone
     return new \DateTimeZone('UTC');
 }
 
-function get_request_ip_address()
+/**
+ * Return's client IP for current request, even if behind a reverse proxy
+ */
+function get_client_ip(): string
 {
-    if (isset($_SERVER['X-Forwarded-For'])) {
-        $ip_address = $_SERVER['X-Forwarded-For'];
-    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-        $ip_address = $_SERVER['REMOTE_ADDR'];
+    $ips = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+
+    // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
+    // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+    $ips = \array_map('trim', \explode(',', $ips));
+
+    // Always add REMOTE_ADDR to list of ips
+    $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';
+
+    // return first valid IP address from list
+    foreach ($ips as $ip) {
+        if (\filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
     }
 
-    if (isset($ip_address)) {
-        if (! is_array($ip_address)) {
-            $ip_address = explode(',', $ip_address);
-        }
-
-        // use first IP in list
-        $ip_address = trim($ip_address[0]);
-
-        // if IP address is not valid, simply return null
-        if (! filter_var($ip_address, FILTER_VALIDATE_IP)) {
-            return null;
-        }
-
-        return $ip_address;
-    }
-
-    return null;
+    return '';
 }
 
 
@@ -259,7 +254,7 @@ function determine_uniqueness_fingerprint(int $page_id): array
 {
     $seed_value = file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $ip_address = get_request_ip_address();
+    $ip_address = get_client_ip();
     $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
 
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";

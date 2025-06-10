@@ -181,32 +181,6 @@ function get_page_title($post): string
     return $title;
 }
 
-
-
-/**
- * Return's client IP for current request, even if behind a reverse proxy
- */
-function get_client_ip(): string
-{
-    $ips = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
-
-    // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
-    // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
-    $ips = \array_map('trim', \explode(',', $ips));
-
-    // Always add REMOTE_ADDR to list of ips
-    $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';
-
-    // return first valid IP address from list
-    foreach ($ips as $ip) {
-        if (\filter_var($ip, FILTER_VALIDATE_IP)) {
-            return $ip;
-        }
-    }
-
-    return '';
-}
-
 function is_request_excluded(): bool
 {
     $settings = get_settings();

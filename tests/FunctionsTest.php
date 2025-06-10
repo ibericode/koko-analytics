@@ -15,31 +15,21 @@ final class FunctionsTest extends TestCase
     public function testExtractPageviewData(): void
     {
        // incomplete params
-        $this->assertEquals(extract_pageview_data([]), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1']), []);
-        $this->assertEquals(extract_pageview_data(['nv' => '2']), []);
-        $this->assertEquals(extract_pageview_data(['up' => '3']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'up' => '3']), []);
-        $this->assertEquals(extract_pageview_data(['nv' => '2', 'up' => '3']), []);
+        $this->assertEquals(extract_pageview_data([], false, false), []);
+        $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com'], false, false), []);
 
        // complete but invalid
-        $this->assertEquals(extract_pageview_data(['p' => '', 'nv' => '', 'up' => '']), []);
-        $this->assertEquals(extract_pageview_data(['p' => 'x', 'nv' => '2', 'up' => '3']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => 'x', 'up' => '3']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => 'x']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'not an url']), []);
+        $this->assertEquals(extract_pageview_data(['p' => ''], false, false), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'r' => 'not an url'], false, false), []);
 
         // complete and valid
         foreach (
             [
-            [['p' => '1', 'nv' => '2', 'up' => '3'], ['p', null, 1, 2, 3, '']],
-            [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => ''], ['p', null, 1, 2, 3, '']],
-            [['p' => '1', 'nv' => '2', 'up' => '3', 'r' => 'https://www.kokoanalytics.com'], ['p', null, 1, 2, 3, 'https://www.kokoanalytics.com']],
+            [['p' => '1'], ['p', null, 1, 0, 0, '']],
 
             ] as [$input, $expected]
         ) {
-            $actual = extract_pageview_data($input);
+            $actual = extract_pageview_data($input, false, false);
             $this->assertEquals($expected[0], $actual[0]);  // type indicator
             $this->assertIsInt($actual[1]); // timestamp
             $this->assertEquals($expected[2], $actual[2]);  // post id
