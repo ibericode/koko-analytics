@@ -17,6 +17,22 @@ class Fingerprinter
         if (! is_file($seed_file)) {
             file_put_contents($seed_file, bin2hex(random_bytes(16)));
         }
+
+        // create empty index.html to prevent directory listing
+        file_put_contents("$sessions_dir/index.html", '');
+
+        // create .htaccess in case we're using apache
+        $lines = [
+            '<IfModule !authz_core_module>',
+            'Order deny,allow',
+            'Deny from all',
+            '</IfModule>',
+            '<IfModule authz_core_module>',
+            'Require all denied',
+            '</IfModule>',
+            '',
+        ];
+        file_put_contents("$sessions_dir/.htaccess", join(PHP_EOL, $lines));
     }
 
     public static function run_daily_maintenance(): void
