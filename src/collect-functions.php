@@ -20,20 +20,24 @@ function maybe_collect_request(): void
     collect_request();
 }
 
-function extract_pageview_data(array $raw): array
+// TODO:
+// - Clean-up session directory every midnight
+// - Rotate daily seed at midnight
+// - Update AMP code
+// - Convert cookie to HTTP only
+
+function extract_pageview_data(array $raw, $new_visitor, $unique_pageview): array
 {
     // do nothing if a required parameter is missing
-    if (!isset($raw['p'], $raw['nv'], $raw['up'])) {
+    if (!isset($raw['p'])) {
         return [];
     }
 
     // grab and validate parameters
     $post_id = \filter_var($raw['p'], FILTER_VALIDATE_INT);
-    $new_visitor = \filter_var($raw['nv'], FILTER_VALIDATE_INT);
-    $unique_pageview = \filter_var($raw['up'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
 
-    if ($post_id === false || $new_visitor === false || $unique_pageview === false || $referrer_url === false) {
+    if ($post_id === false || $referrer_url === false) {
         return [];
     }
 
@@ -101,9 +105,41 @@ function collect_request()
         update_option('koko_analytics_use_custom_endpoint', false, true);
     }
 
-    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET);
+    switch ($_GET['m'] ?? 'none') {
+        case 'cookie': {
+            if (isset($_COOKIE['_koko_analytics_pages_viewed']) && \strlen($_COOKIE['_koko_analytics_pages_viewed']) === 32) {
+                $visitor_id = $_COOKIE['_koko_analytics_pages_viewed'];
+            } else {
+                $visitor_id = bin2hex(random_bytes(16));
+                \setcookie('_koko_analytics_pages_viewed', $visitor_id, \time() + 6 * 3600, '/');
+            }
+        }
+        break;
+
+        case 'fingerprint':
+            $seed_value = file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
+            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $ip_address = get_request_ip_address();
+            $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
+            break;
+
+        default:
+            // in case of not using any tracking method, simply use a random ID
+            $visitor_id = bin2hex(random_bytes(16));
+            break;
+    }
+
+    $page_id = (int) $_GET['p'];
+    [$new_visitor, $unique_pageview] = detect_uniqueness($visitor_id, $page_id);
+
+    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET, $new_visitor, $unique_pageview);
     if (!empty($data)) {
-        $success = isset($_GET['test']) ? test_collect_in_file() : collect_in_file($data);
+        // store data in buffer file
+        $success = collect_in_file($data);
+
+        // update session file
+        $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+        file_put_contents($session_file, "$page_id" . PHP_EOL, FILE_APPEND);
 
         // set OK headers & prevent caching
         if (!$success) {
@@ -189,17 +225,42 @@ function collect_in_file(array $data): bool
     return (bool) \file_put_contents($filename, $content, FILE_APPEND);
 }
 
-function test_collect_in_file(): bool
+function detect_uniqueness(string $visitor_id, int $page_id): array
 {
-    $filename = get_buffer_filename();
-    if (\is_file($filename)) {
-        return \is_writable($filename);
+    $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+    if (! \is_file($session_file)) {
+        return [true, true];
     }
 
-    $directory = \dirname($filename);
-    if (! \is_dir($directory)) {
-        \mkdir($directory, 0755, true);
+    $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    return [false, ! \in_array($page_id, $pages_viewed)];
+}
+
+function get_request_ip_address()
+{
+    if (isset($_SERVER['X-Forwarded-For'])) {
+        $ip_address = $_SERVER['X-Forwarded-For'];
+    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+        $ip_address = $_SERVER['REMOTE_ADDR'];
     }
 
-    return \is_writable($directory);
+    if (isset($ip_address)) {
+        if (! is_array($ip_address)) {
+            $ip_address = explode(',', $ip_address);
+        }
+
+        // use first IP in list
+        $ip_address = trim($ip_address[0]);
+
+        // if IP address is not valid, simply return null
+        if (! filter_var($ip_address, FILTER_VALIDATE_IP)) {
+            return null;
+        }
+
+        return $ip_address;
+    }
+
+    return null;
 }

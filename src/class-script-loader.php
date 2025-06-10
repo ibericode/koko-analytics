@@ -102,8 +102,8 @@ class Script_Loader
             // ID of the current post (or -1 in case of non-singular type)
             'post_id'       => self::get_post_id(),
 
+            'method' => $settings['tracking_method'],
             'use_cookie' => $settings['tracking_method'] === 'cookie',
-            'cookie_path' => self::get_cookie_path(),
         ];
         $data = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
         wp_print_inline_script_tag($data);

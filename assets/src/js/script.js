@@ -8,14 +8,7 @@
 var doc = document;
 var win = window;
 var nav = navigator;
-var enc = encodeURIComponent;
-var loc = win.location;
 var ka = "koko_analytics";
-
-function getPagesViewed() {
-  var m = doc.cookie.match(/_koko_analytics_pages_viewed=([^;]+)/);
-  return m ? m.pop().split('a') : [];
-}
 
 function request(params, u) {
   u = u !== undefined ? u : 0;
@@ -43,29 +36,13 @@ win[ka].trackPageview = function(postId) {
     return;
   }
 
-  var pagesViewed = getPagesViewed();
-  postId += ""; // convert to string
-  var isNewVisitor = pagesViewed.length ? 0 : 1;
-  var isUniquePageview = pagesViewed.indexOf(postId) == -1 ? 1 : 0;
-  var referrer = doc.referrer;
+  // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
+  var m = win[ka].use_cookie ? 'cookie' : win[ka].method;
 
-  if (doc.referrer.indexOf(win[ka].site_url) == 0) {
-    // don't store referrer if from same-site
-    referrer = ''
+  // don't store referrer if from same-site
+  var referrer = doc.referrer.indexOf(win[ka].site_url) == 0 ? '' : doc.referrer;
 
-    // not new visitor if coming from same-site
-    if (!win[ka].use_cookie) {
-      isNewVisitor = 0
-
-      // check if referred by same page (so not a unique pageview)
-      if (doc.referrer == loc.href) isUniquePageview = 0
-    }
-  }
-
-  request("p="+postId+"&nv="+isNewVisitor+"&up="+isUniquePageview+"&r="+enc(referrer));
-  if (isUniquePageview) pagesViewed.push(postId);
-  if (win[ka].use_cookie) doc.cookie = "_"+ka+"_pages_viewed="+pagesViewed.join('a')+";SameSite=lax;path="+win[ka].cookie_path+";max-age=21600";
-
+  request("m="+m+"&p="+postId+"&r="+encodeURIComponent(referrer));
 }
 
 win.addEventListener('load', function() {
