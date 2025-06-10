@@ -83,12 +83,6 @@ class Script_Loader
         return $urls;
     }
 
-    private static function get_cookie_path(): string
-    {
-        $home_url = home_url();
-        return \parse_url($home_url, PHP_URL_PATH) ?? '/';
-    }
-
     public static function print_js_object()
     {
         $settings      = get_settings();
