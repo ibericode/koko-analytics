@@ -104,10 +104,9 @@ function collect_request()
     $page_id = (int) $_GET['p'];
 
     switch ($_GET['m'] ?? 'n') {
-        case 'c': {
+        case 'c':
             [$new_visitor, $unique_pageview] = determine_uniqueness_cookie($page_id);
-        }
-        break;
+            break;
 
         case 'f':
             [$new_visitor, $unique_pageview] = determine_uniqueness_fingerprint($page_id);
