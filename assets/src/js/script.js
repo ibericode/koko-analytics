@@ -10,17 +10,18 @@ var win = window;
 var nav = navigator;
 var ka = "koko_analytics";
 
-function request(params, u) {
-  u = u !== undefined ? u : 0;
-  var url = win[ka].urls ? win[ka].urls[u] : win[ka].url;
+function request(params) {
+  if (!win[ka].urls) return;
+
+  var url = win[ka].urls[0];
   url += (url.indexOf('?') > -1 ? '&' : '?') + params;
 
   win.fetch(url, { method: 'POST', cache: 'no-store', priority: 'low' })
     .then(function(response) {
-      // verify response
-      // if failed, try next url from config array
-      if ((!response.ok || response.headers.get('Content-Type').indexOf('text/plain') === -1) && win[ka].urls.length > u+1) {
-        request(params + "&disable-custom-endpoint=1", u+1);
+      // verify response: if failed, try next url from config array
+      if ((!response.ok || response.headers.get('Content-Type').indexOf('text/plain') === -1)) {
+        win[ka].urls.shift();
+        request(params + "&disable-custom-endpoint=1");
       }
     });
 }
