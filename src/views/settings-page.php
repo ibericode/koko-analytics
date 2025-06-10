@@ -74,7 +74,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                             </li>
                         </ul>
 
-                        <p class="description">For some more information about how each of these methods work, read this article on <a href="https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods">cookie vs. cookieless tracking</a>.</p>
+                        <p class="description"><?php echo sprintf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods'); ?></p>
                     </fieldset>
                 </div>
 
