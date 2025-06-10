@@ -99,6 +99,9 @@ class Admin_Actions
         $posted                        = $_POST['koko_analytics_settings'];
         $settings                            = get_settings();
 
+        // get rid of deprecated setting keys
+        unset($settings['use_cookie']);
+
         $settings['exclude_ip_addresses']    = array_filter(array_map('trim', explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($posted['exclude_ip_addresses'])))), function ($value) {
             return $value !== '';
         });
