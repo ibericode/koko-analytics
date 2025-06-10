@@ -85,6 +85,9 @@ add_action('rest_api_init', [Rest::class, 'register_routes'], 10, 0);
 // pruner
 add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
 
+// fingerprinting
+add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run_daily_maintenance'], 10, 0);
+
 // WP CLI command
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', Command::class);
@@ -129,6 +132,7 @@ add_filter('upgrader_process_complete', function () {
 register_activation_hook(__FILE__, function () {
     Aggregator::setup_scheduled_event();
     Pruner::setup_scheduled_event();
+    Fingerprinter::setup_scheduled_event();
     Plugin::setup_capabilities();
     Plugin::install_optimized_endpoint();
     Plugin::create_and_protect_uploads_dir();
@@ -138,5 +142,6 @@ register_activation_hook(__FILE__, function () {
 register_deactivation_hook(__FILE__, function () {
     Aggregator::clear_scheduled_event();
     Pruner::clear_scheduled_event();
+    Fingerprinter::clear_scheduled_event();
     Plugin::remove_optimized_endpoint();
 });

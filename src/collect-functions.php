@@ -11,6 +11,8 @@
 
 namespace KokoAnalytics;
 
+use DateTimeImmutable;
+
 function maybe_collect_request(): void
 {
     if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
@@ -19,12 +21,6 @@ function maybe_collect_request(): void
 
     collect_request();
 }
-
-// TODO:
-// - Clean-up session directory every midnight
-// - Rotate daily seed at midnight
-// - Update AMP code
-// - Convert cookie to HTTP only
 
 function extract_pageview_data(array $raw, $new_visitor, $unique_pageview): array
 {
@@ -105,41 +101,28 @@ function collect_request()
         update_option('koko_analytics_use_custom_endpoint', false, true);
     }
 
-    switch ($_GET['m'] ?? 'none') {
-        case 'cookie': {
-            if (isset($_COOKIE['_koko_analytics_pages_viewed']) && \strlen($_COOKIE['_koko_analytics_pages_viewed']) === 32) {
-                $visitor_id = $_COOKIE['_koko_analytics_pages_viewed'];
-            } else {
-                $visitor_id = bin2hex(random_bytes(16));
-                \setcookie('_koko_analytics_pages_viewed', $visitor_id, \time() + 6 * 3600, '/');
-            }
+    $page_id = (int) $_GET['p'];
+
+    switch ($_GET['m'] ?? 'n') {
+        case 'c': {
+            [$new_visitor, $unique_pageview] = determine_uniqueness_cookie($page_id);
         }
         break;
 
-        case 'fingerprint':
-            $seed_value = file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
-            $user_agent = $_SERVER['HTTP_USER_AGENT'];
-            $ip_address = get_request_ip_address();
-            $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
+        case 'f':
+            [$new_visitor, $unique_pageview] = determine_uniqueness_fingerprint($page_id);
             break;
 
         default:
-            // in case of not using any tracking method, simply use a random ID
-            $visitor_id = bin2hex(random_bytes(16));
+            // not using any tracking method
+            [$new_visitor, $unique_pageview] = [false, false];
             break;
     }
-
-    $page_id = (int) $_GET['p'];
-    [$new_visitor, $unique_pageview] = detect_uniqueness($visitor_id, $page_id);
 
     $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET, $new_visitor, $unique_pageview);
     if (!empty($data)) {
         // store data in buffer file
         $success = collect_in_file($data);
-
-        // update session file
-        $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
-        file_put_contents($session_file, "$page_id" . PHP_EOL, FILE_APPEND);
 
         // set OK headers & prevent caching
         if (!$success) {
@@ -158,16 +141,6 @@ function collect_request()
 
     // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
     \header('Tk: N');
-
-    // set cookie server-side if requested (eg for AMP requests)
-    if (isset($_GET['p'], $_GET['nv'], $_GET['sc']) && (int) $_GET['sc'] === 1) {
-        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [''];
-        if ((int) $_GET['nv']) {
-            $posts_viewed[] = (int) $_GET['p'];
-        }
-        $cookie = \join(',', $posts_viewed);
-        \setcookie('_koko_analytics_pages_viewed', $cookie, \time() + 6 * 3600, '/');
-    }
 
     exit;
 }
@@ -225,15 +198,17 @@ function collect_in_file(array $data): bool
     return (bool) \file_put_contents($filename, $content, FILE_APPEND);
 }
 
-function detect_uniqueness(string $visitor_id, int $page_id): array
+function get_site_timezone(): \DateTimeZone
 {
-    $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
-    if (! \is_file($session_file)) {
-        return [true, true];
+    if (defined('KOKO_ANALYTICS_TIMEZONE')) {
+        return new \DateTimeZone(KOKO_ANALYTICS_TIMEZONE);
     }
 
-    $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    return [false, ! \in_array($page_id, $pages_viewed)];
+    if (function_exists('wp_timezone')) {
+        return wp_timezone();
+    }
+
+    return new \DateTimeZone('UTC');
 }
 
 function get_request_ip_address()
@@ -263,4 +238,42 @@ function get_request_ip_address()
     }
 
     return null;
+}
+
+
+function determine_uniqueness_cookie(int $page_id): array
+{
+    $pages_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
+    $new_visitor = ! isset($_COOKIE['_koko_analytics_pages_viewed']);
+    $unique_pageview = !in_array($page_id, $pages_viewed);
+
+    if ($new_visitor || $unique_pageview) {
+        $pages_viewed[] = $page_id;
+        \setcookie('_koko_analytics_pages_viewed', \join(',', $pages_viewed), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
+    }
+
+    return [$new_visitor, $unique_pageview];
+}
+
+function determine_uniqueness_fingerprint(int $page_id): array
+{
+    $seed_value = file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $ip_address = get_request_ip_address();
+    $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
+
+    $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+    if (! \is_file($session_file)) {
+        file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+        return [true, true];
+    }
+
+    $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $unique_pageview = ! \in_array($page_id, $pages_viewed);
+
+    if ($unique_pageview) {
+        file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+    }
+
+    return [false, $unique_pageview];
 }

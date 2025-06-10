@@ -23,7 +23,7 @@ class Endpoint_Installer
         if (str_starts_with($upload_dir, ABSPATH)) {
             $upload_dir = ltrim(substr($upload_dir, strlen(ABSPATH)), '/');
         }
-
+        $wp_timezone_string = wp_timezone_string();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
 
         // make path relative to ABSPATH again
@@ -43,6 +43,7 @@ class Endpoint_Installer
 
 // path to pageviews.php file in uploads directory
 define('KOKO_ANALYTICS_UPLOAD_DIR', '$upload_dir');
+define('KOKO_ANALYTICS_TIMEZONE', '$wp_timezone_string');
 
 // path to functions.php file in Koko Analytics plugin directory
 require '$functions_filename';

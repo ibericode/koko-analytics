@@ -37,7 +37,7 @@ win[ka].trackPageview = function(postId) {
   }
 
   // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
-  var m = win[ka].use_cookie ? 'cookie' : win[ka].method;
+  var m = win[ka].use_cookie ? 'c' : win[ka].method[0];
 
   // don't store referrer if from same-site
   var referrer = doc.referrer.indexOf(win[ka].site_url) == 0 ? '' : doc.referrer;

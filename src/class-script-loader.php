@@ -102,7 +102,12 @@ class Script_Loader
             // ID of the current post (or -1 in case of non-singular type)
             'post_id'       => self::get_post_id(),
 
+            // tracking method to use (passed to endpoint)
             'method' => $settings['tracking_method'],
+
+            // for backwards compatibility with older versions
+            // some users set this value from other client-side scripts, ie cookie consent banners
+            // if true, takes priority of the method property defined above
             'use_cookie' => $settings['tracking_method'] === 'cookie',
         ];
         $data = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
@@ -114,11 +119,8 @@ class Script_Loader
         $settings     = get_settings();
         $post_id      = self::get_post_id();
         $tracker_url  = self::get_tracker_url();
-        $posts_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
         $data         = [
-            'sc' => $settings['tracking_method'] === 'cookie', // inform tracker endpoint to set cookie server-side
-            'nv' => $posts_viewed === [] ? 1 : 0,
-            'up' => ! in_array($post_id, $posts_viewed) ? 1 : 0,
+            'm' => $settings['tracking_method'][0],
             'p' => $post_id,
         ];
         $url          = add_query_arg($data, $tracker_url);

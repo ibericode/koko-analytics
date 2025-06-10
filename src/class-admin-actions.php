@@ -110,6 +110,13 @@ class Admin_Actions
 
         $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $posted);
         update_option('koko_analytics_settings', $settings, true);
+
+        // maybe create sessions directory & initial seed file
+        if ($settings['tracking_method'] === 'fingerprint') {
+            Fingerprinter::create_storage_dir();
+            Fingerprinter::setup_scheduled_event();
+        }
+
         wp_safe_redirect(add_query_arg(['settings-updated' => true], wp_get_referer()));
         exit;
     }
