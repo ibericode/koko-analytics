@@ -16,6 +16,7 @@ function get_settings(): array
 {
     $default_settings = [
         'use_cookie' => 1,
+        'tracking_method' => 'cookie',
         'exclude_user_roles' => [],
         'exclude_ip_addresses' => [],
         'prune_data_after_months' => 10 * 12, // 10 years

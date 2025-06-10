@@ -104,9 +104,9 @@ class Admin_Actions
         });
         $settings['exclude_user_roles']      = $posted['exclude_user_roles'] ?? [];
         $settings['prune_data_after_months'] = abs((int) $posted['prune_data_after_months']);
-        $settings['use_cookie']              = (int) $posted['use_cookie'];
         $settings['is_dashboard_public']     = (int) $posted['is_dashboard_public'];
         $settings['default_view']            = trim($posted['default_view']);
+        $settings['tracking_method'] = in_array($posted['tracking_method'], ['cookie', 'fingerprint', 'none']) ? $posted['tracking_method'] : 'cookie';
 
         $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $posted);
         update_option('koko_analytics_settings', $settings, true);

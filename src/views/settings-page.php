@@ -86,14 +86,34 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
                 <div class="ka-margin-m">
                     <fieldset>
-                        <legend class="ka-settings--label"><?php esc_html_e('Use cookie to determine unique visitors and pageviews?', 'koko-analytics'); ?></legend>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="1" <?php checked($settings['use_cookie'], 1); ?>><?php esc_html_e('Yes', 'koko-analytics'); ?></label>
-                        <label class="ka-setings--cb-label"><input type="radio" name="koko_analytics_settings[use_cookie]" value="0" <?php checked($settings['use_cookie'], 0); ?>> <?php esc_html_e('No', 'koko-analytics'); ?></label>
+                        <legend class="ka-settings--label"><?php esc_html_e('Which method should the plugin use to detect returning visitors and unique pageviews?', 'koko-analytics'); ?></legend>
+
+                        <ul>
+                            <li>
+                                <label class="ka-setings--cb-label">
+                                    <input type="radio" name="koko_analytics_settings[tracking_method]" value="cookie" <?php checked($settings['tracking_method'], 'cookie'); ?>>
+                                    <strong><?php esc_html_e('Cookie', 'koko-analytics'); ?>: </strong> <?php esc_html_e('the most reliable and privacy-friendly, but may require a cookie policy and/or consent.', 'koko-analytics'); ?>
+                                </label>
+
+                            </li>
+                            <li>
+                                <label class="ka-setings--cb-label">
+                                <input type="radio" name="koko_analytics_settings[tracking_method]" value="fingerprint" <?php checked($settings['tracking_method'], 'fingerprint'); ?>>
+                                <strong><?php esc_html_e('Fingerprint', 'koko-analytics'); ?>: </strong> <?php esc_html_e('uses a one-way hash of your visitor\'s IP address, user agent and a rotating daily seed value to store some data about visited pages on your server.', 'koko-analytics'); ?>
+                            </label>
+                            </li>
+                            <li><label class="ka-setings--cb-label">
+                                <input type="radio" name="koko_analytics_settings[tracking_method]" value="none" <?php checked($settings['tracking_method'], 'none'); ?>>
+                                <strong><?php esc_html_e('None', 'koko-analytics'); ?>: </strong> <?php esc_html_e('if you don\'t care about unique pageviews.', 'koko-analytics'); ?>
+                            </label>
+                            </li>
+                        </ul>
                     </fieldset>
-                    <p class="description">
-                        <?php esc_html_e('Set to "no" if you do not want to use a cookie. Without the use of a cookie, Koko Analytics can not reliably detect returning visitors.', 'koko-analytics'); ?>
+
+
                     </p>
                 </div>
+
                 <div class="ka-margin-m">
                     <fieldset>
                         <legend class="ka-settings--label"><?php esc_html_e('Should your dashboard be publicly accessible?', 'koko-analytics'); ?></legend>
