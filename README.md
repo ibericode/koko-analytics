@@ -5,7 +5,7 @@ Koko Analytics for WordPress
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
 ![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
-[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight (< 850 bytes) and privacy-friendly website analytics plugin for WordPress.
+[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight and privacy-friendly website analytics plugin for WordPress.
 
 It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
 
@@ -23,7 +23,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **No personal information** or anything visitor specific is tracked.
 - **No cookies** (optional).
 - **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- **Lightweight**: Adds less than 850 bytes of data to your pages.
+- **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages.
 - **Storage**: A year worth of data takes up less than 5MB of database storage.
 - **REST API**: You can access your data from anywhere via REST API endpoints.
 - **Cached**: Fully compatible with pages served from cache.

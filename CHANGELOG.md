@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.8.0 - In development
+
+- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
+- If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
+- Simplified client-side tracking script so it's now smaller than 500 bytes.
+- Excluded IP addresses now work properly with the optimized endpoint.
+
+
 ### 1.7.4 - May 14, 2025
 
 - Use `wp_print_inline_script` function for printing inline script tags.

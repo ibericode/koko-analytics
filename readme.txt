@@ -30,7 +30,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **No personal data** or anything visitor specific is tracked.
 - **No cookies**: There is an option to not use any cookies.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-- **Lightweight**: Adds less than 850 bytes of data to your pages. A year worth of data will take up less than 10 MB of storage.
+- **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages. In your database, a full year worth of data will take up less than 10 MB of storage.
 - **GDPR Compliant** by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
@@ -89,24 +89,22 @@ You can view your dashboard by going to **WP Admin > Dashboard > Analytics**.
 #### Does this respect my visitor's privacy?
 Yes, absolutely. Koko Analytics only stores aggregated counts. Nothing visitor specific is tracked.
 
-#### Does this use any external services?
-No external servives are used. All data lives on your server alone.
+#### Does this require any external services?
+No.
 
 ### Does Koko Analytics set any cookies?
-By default yes, but you can disable it.
+By default yes, but you can disable the use of cookies entirely from the plugin's settings page by choosing a different tracking method.
 
-Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of `6 hours`. This cookie is used to reliably detect unique pageviews and returning visitors without having to store any personal information on your server.
-
-You can disable the use of cookies from the plugin's settings page.
+If using cookie-based tracking, Koko Analytics sets a single cookie named `_koko_analytics_pages_viewed` with a lifetime of at most `24 hours`. This cookie is used to accurately detect unique pageviews and returning visitors without having to store any personal information on your server.
 
 [https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/](https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/)
 
-### Will this slow down my website?
+### Will Koko Analytics slow down my website?
 No, the plugin is built in such a way that it never slows down your website for your visitors.
 
-- It only adds a single script of less than 800 bytes to your pages.
-- All heavy lifting (like aggregating the statistics) is done in a background process.
-- Everything lives on your server, so the plugin doesn't add any additional DNS look-ups and can benefit from your server's cache policy.
+- It only adds a single JavaScript file of less than 500 bytes to your pages.
+- All heavy lifting (like aggregating the statistics) is done in a separate background process.
+- Everything happens on your server, so the plugin doesn't require any additional DNS look-ups and can benefit from your server's cache policy.
 
 [https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/](https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/)
 
@@ -117,7 +115,6 @@ Yes, see [github.com/ibericode/koko-analytics](https://github.com/ibericode/koko
 Have a look at the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/).
 
 ### How to show number of visits to a page?
-
 You can use the `[koko_analytics_counter]` shortcode to show the number of visitors to the current page.
 
 It takes 3 optional arguments:
@@ -133,11 +130,10 @@ Example use with arguments:
 `
 
 ### Why are category and tag archives not tracked?
-
-Koko Analytics is currently only able to track things that have an internal post ID, which is every (custom) post type. This is so that Koko Analytics does not have to store pathnames, which would take up a lot of storage space or an additional pre-processing step to normalize the data.
+Koko Analytics is currently only able to track posts, pages and other post types. This is so that Koko Analytics does not have to store URL's or post titles, which would take up a lot of storage space.
 
 ### How can I help fund Koko Analytics?
-You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin.
+You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin while also unlocking some very useful features.
 
 
 
