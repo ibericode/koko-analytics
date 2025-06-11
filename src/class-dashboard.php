@@ -79,7 +79,7 @@ class Dashboard
         require __DIR__ . '/views/dashboard-page.php';
     }
 
-    private function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, int $dir = 1): array
+    public function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, int $dir = 1): array
     {
         $now = new \DateTimeImmutable('now', wp_timezone());
         $modifier = $dir > 0 ? "+" : "-";
@@ -103,6 +103,7 @@ class Dashboard
         } else {
             $compareEnd = $periodEnd;
         }
+
 
         return [ $periodStart, $periodEnd, $compareEnd ];
     }

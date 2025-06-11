@@ -151,6 +151,11 @@ function _deprecated_function($function, $version, $replacement)
 {
 }
 
+function wp_timezone(): DateTimeZone
+{
+    return new DateTimeZone('UTC');
+}
+
 class wpdb_mock
 {
     public $prefix = '';
