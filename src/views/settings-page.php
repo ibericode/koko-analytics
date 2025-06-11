@@ -57,14 +57,14 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                             <li>
                                 <label class="ka-setings--cb-label">
                                     <input type="radio" name="koko_analytics_settings[tracking_method]" value="cookie" <?php checked($settings['tracking_method'], 'cookie'); ?>>
-                                    <strong><?php esc_html_e('Cookie', 'koko-analytics'); ?>: </strong> <?php esc_html_e('the most reliable and privacy-friendly, but may require a cookie policy and/or consent.', 'koko-analytics'); ?>
+                                    <strong><?php esc_html_e('Cookie', 'koko-analytics'); ?>: </strong> <?php esc_html_e('most accurate and privacy-friendly, but may require a cookie policy and/or consent.', 'koko-analytics'); ?>
                                 </label>
 
                             </li>
                             <li>
                                 <label class="ka-setings--cb-label">
                                 <input type="radio" name="koko_analytics_settings[tracking_method]" value="fingerprint" <?php checked($settings['tracking_method'], 'fingerprint'); ?>>
-                                <strong><?php esc_html_e('Cookieless', 'koko-analytics'); ?>: </strong> <?php esc_html_e('slightly less reliable and private, but does not require a cookie policy or consent.', 'koko-analytics'); ?>
+                                <strong><?php esc_html_e('Cookieless', 'koko-analytics'); ?>: </strong> <?php esc_html_e('slightly less accurate and private, but does not require a cookie policy or consent.', 'koko-analytics'); ?>
                             </label>
                             </li>
                             <li><label class="ka-setings--cb-label">
