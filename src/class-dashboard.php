@@ -53,6 +53,8 @@ class Dashboard
         $posts_limit = isset($_GET['posts']['limit']) ? absint($_GET['posts']['limit']) : $items_per_page;
         $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
 
+        [$total_start_date, $total_end_date] = $stats->get_total_date_range();
+
         // calculate next and previous dates for datepicker component and comparison
         $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
         $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
@@ -118,6 +120,7 @@ class Dashboard
             'last_month' => __('Last month', 'koko-analytics'),
             'this_year' => __('This year', 'koko-analytics'),
             'last_year' => __('Last year', 'koko-analytics'),
+            'all_time' => __('All time', 'koko-analytics'),
         ];
     }
 
@@ -198,6 +201,8 @@ class Dashboard
                     $now->setDate((int) $now->format('Y') - 1, 1, 1),
                     $now->setDate((int) $now->format('Y') - 1, 12, 31),
                 ];
+            case 'all_time':
+                return (new Stats())->get_total_date_range();
         }
     }
 

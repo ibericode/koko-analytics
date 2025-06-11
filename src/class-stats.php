@@ -10,6 +10,18 @@ namespace KokoAnalytics;
 
 class Stats
 {
+    public function get_total_date_range(): array
+    {
+        global $wpdb;
+        $result = $wpdb->get_row("select MIN(date) AS start, MAX(date) AS end FROM {$wpdb->prefix}koko_analytics_site_stats WHERE date IS NOT NULL;");
+        if (!$result) {
+            $today = new \DateTimeImmutable('now', wp_timezone());
+            return [$today, $today];
+        }
+
+        return [new \DateTimeImmutable($result->start, wp_timezone()), new \DateTimeImmutable($result->end, wp_timezone())];
+    }
+
     /**
      * @return object{ visitors: int, pageviews: int }
      */
