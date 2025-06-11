@@ -11,10 +11,17 @@ var nav = navigator;
 var ka = "koko_analytics";
 
 function request(params) {
-  if (!win[ka].urls) return;
+  if (!win[ka].urls.length) return;
 
   var url = win[ka].urls[0];
-  url += (url.indexOf('?') > -1 ? '&' : '?') + params;
+
+  // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
+  var m = win[ka].use_cookie ? 'c' : win[ka].method[0];
+
+  url += (url.indexOf('?') > -1 ? '&' : '?');
+  url += params;
+  url += "&m=";
+  url += m;
 
   win.fetch(url, { method: 'POST', cache: 'no-store', priority: 'low' })
     .then(function(response) {
@@ -37,13 +44,10 @@ win[ka].trackPageview = function(postId) {
     return;
   }
 
-  // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
-  var m = win[ka].use_cookie ? 'c' : win[ka].method[0];
-
   // don't store referrer if from same-site
   var referrer = doc.referrer.indexOf(win[ka].site_url) == 0 ? '' : doc.referrer;
 
-  request("m="+m+"&p="+postId+"&r="+encodeURIComponent(referrer));
+  request("p="+postId+"&r="+encodeURIComponent(referrer));
 }
 
 win.addEventListener('load', function() {

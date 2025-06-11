@@ -37,21 +37,7 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
-    // determine uniqueness based on specified tracking method
-    switch ($_GET['m'] ?? 'n') {
-        case 'c':
-            [$new_visitor, $unique_pageview] = determine_uniqueness_cookie($post_id);
-            break;
-
-        case 'f':
-            [$new_visitor, $unique_pageview] = determine_uniqueness_fingerprint($post_id);
-            break;
-
-        default:
-            // not using any tracking method
-            [$new_visitor, $unique_pageview] = [false, false];
-            break;
-    }
+    [$new_visitor, $unique_pageview] = determine_uniqueness($post_id);
 
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
@@ -68,20 +54,18 @@ function extract_pageview_data(array $raw): array
 
 function extract_event_data(array $raw): array
 {
-    if (!isset($raw['e'], $raw['p'], $raw['u'], $raw['v'])) {
-        return [];
-    }
-
-    $unique_event = \filter_var($raw['u'], FILTER_VALIDATE_INT);
-    $value = \filter_var($raw['v'], FILTER_VALIDATE_INT);
-    if ($unique_event === false || $value === false) {
+    if (!isset($raw['e'], $raw['p'], $raw['v'])) {
         return [];
     }
 
     $event_name = \trim($raw['e']);
     $event_param = \trim($raw['p']);
-
     if (\strlen($event_name) === 0) {
+        return [];
+    }
+
+    $value = \filter_var($raw['v'], FILTER_VALIDATE_INT);
+    if ($value === false) {
         return [];
     }
 
@@ -89,11 +73,14 @@ function extract_event_data(array $raw): array
     $event_name = \substr($event_name, 0, 100);
     $event_param = \substr($event_param, 0, 185);
 
+    $event_hash = \hash("xxh64", "{$event_name}-{$event_param}");
+    [$unused, $unique_event] = determine_uniqueness($event_hash);
+
     return [
         'e',                   // type indicator
         $event_name,           // event name
         $event_param,          // event parameter
-        $unique_event,         // is unique?
+        $unique_event ? 1 : 0, // is unique?
         $value,                // event value,
         \time(),               // unix timestamp
     ];
@@ -233,22 +220,38 @@ function get_client_ip(): string
     return '';
 }
 
+function determine_uniqueness($thing): array
+{
+    // determine uniqueness based on specified tracking method
+    switch ($_GET['m'] ?? 'n') {
+        case 'c':
+            return determine_uniqueness_cookie($thing);
+            break;
 
-function determine_uniqueness_cookie(int $page_id): array
+        case 'f':
+            return determine_uniqueness_fingerprint($thing);
+            break;
+    }
+
+    // not using any tracking method
+    return  [false, false];
+}
+
+function determine_uniqueness_cookie($thing): array
 {
     $pages_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
     $new_visitor = ! isset($_COOKIE['_koko_analytics_pages_viewed']);
-    $unique_pageview = ! \in_array($page_id, $pages_viewed);
+    $unique_pageview = ! \in_array($thing, $pages_viewed);
 
     if ($new_visitor || $unique_pageview) {
-        $pages_viewed[] = $page_id;
+        $pages_viewed[] = $thing;
         \setcookie('_koko_analytics_pages_viewed', \join(',', $pages_viewed), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
     }
 
     return [$new_visitor, $unique_pageview];
 }
 
-function determine_uniqueness_fingerprint(int $page_id): array
+function determine_uniqueness_fingerprint($thing): array
 {
     $seed_value = \file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -258,16 +261,16 @@ function determine_uniqueness_fingerprint(int $page_id): array
 
     // if session file does not exist yet; this is a new visitor (therefore also unique pageview)
     if (! \is_file($session_file)) {
-        \file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+        \file_put_contents($session_file, "{$thing}" . PHP_EOL, FILE_APPEND);
         return [true, true];
     }
 
     $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-    // check if page id is in session file
-    $unique_pageview = ! \in_array($page_id, $pages_viewed);
+    // check if page id or event hash is in session file
+    $unique_pageview = ! \in_array($thing, $pages_viewed);
     if ($unique_pageview) {
-        \file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+        \file_put_contents($session_file, "{$thing}" . PHP_EOL, FILE_APPEND);
     }
 
     return [false, $unique_pageview];
