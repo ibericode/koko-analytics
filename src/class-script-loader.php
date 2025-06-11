@@ -64,23 +64,19 @@ class Script_Loader
         return -1;
     }
 
-    private static function get_tracker_urls(): array
+    private static function get_tracker_url(): string
     {
-        $urls = [];
-
         // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             // custom custom endpoint
-            $urls[] = site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
+            return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
         } elseif (using_custom_endpoint()) {
             // default custom endpoint
-            $urls[] = site_url('/koko-analytics-collect.php');
+            return site_url('/koko-analytics-collect.php');
         }
 
         // default URL (which includes WordPress)
-        $urls[] = admin_url('admin-ajax.php?action=koko_analytics_collect');
-
-        return $urls;
+        return admin_url('admin-ajax.php?action=koko_analytics_collect');
     }
 
     public static function print_js_object()
@@ -88,7 +84,7 @@ class Script_Loader
         $settings      = get_settings();
         $script_config = [
             // the URL of the tracking endpoint
-            'urls'   => self::get_tracker_urls(),
+            'url'   => self::get_tracker_url(),
 
             // root URL of site
             'site_url' => get_home_url(),
