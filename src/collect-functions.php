@@ -37,7 +37,7 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
-    [$new_visitor, $unique_pageview] = determine_uniqueness($post_id);
+    [$new_visitor, $unique_pageview] = determine_uniqueness('pageview', $post_id);
 
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
@@ -74,7 +74,7 @@ function extract_event_data(array $raw): array
     $event_param = \substr($event_param, 0, 185);
 
     $event_hash = \hash("xxh64", "{$event_name}-{$event_param}");
-    [$unused, $unique_event] = determine_uniqueness($event_hash);
+    [$unused, $unique_event] = determine_uniqueness('', $event_hash);
 
     return [
         'e',                   // type indicator
@@ -215,16 +215,22 @@ function get_client_ip(): string
     return '';
 }
 
-function determine_uniqueness($thing): array
+/**
+ * Determines the uniqueness of $thing today
+ *
+ * @param int|string $thing
+ * @return array [bool, bool]
+ */
+function determine_uniqueness(string $type, $thing): array
 {
     // determine uniqueness based on specified tracking method
     switch ($_POST['m'] ?? 'n') {
         case 'c':
-            return determine_uniqueness_cookie($thing);
+            return determine_uniqueness_cookie($type, $thing);
             break;
 
         case 'f':
-            return determine_uniqueness_fingerprint($thing);
+            return determine_uniqueness_fingerprint($type, $thing);
             break;
     }
 
@@ -232,41 +238,42 @@ function determine_uniqueness($thing): array
     return  [false, false];
 }
 
-function determine_uniqueness_cookie($thing): array
+function determine_uniqueness_cookie(string $type, $thing): array
 {
-    $pages_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
-    $new_visitor = ! isset($_COOKIE['_koko_analytics_pages_viewed']);
-    $unique_pageview = ! \in_array($thing, $pages_viewed);
+    $things = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
+    $unique_type = $type && !in_array($type[0], $things);
+    $unique_thing =  $unique_type ? true : !in_array($thing, $things);
 
-    if ($new_visitor || $unique_pageview) {
-        $pages_viewed[] = $thing;
-        \setcookie('_koko_analytics_pages_viewed', \join(',', $pages_viewed), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
+    if ($unique_type) {
+        $things[] = $type[0];
     }
 
-    return [$new_visitor, $unique_pageview];
+    if ($unique_type || $unique_thing) {
+        $things[] = $thing;
+        \setcookie('_koko_analytics_pages_viewed', \join(',', $things), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
+    }
+
+    return [$unique_type, $unique_thing];
 }
 
-function determine_uniqueness_fingerprint($thing): array
+function determine_uniqueness_fingerprint(string $type, $thing): array
 {
     $seed_value = \file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $ip_address = get_client_ip();
     $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+    $things = \is_file($session_file) ? \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : [];
 
-    // if session file does not exist yet; this is a new visitor (therefore also unique pageview)
-    if (! \is_file($session_file)) {
-        \file_put_contents($session_file, "{$thing}" . PHP_EOL, FILE_APPEND);
-        return [true, true];
-    }
-
-    $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    // check if type indicator is in session file
+    $unique_type = $type && ! \in_array($type[0], $things);
 
     // check if page id or event hash is in session file
-    $unique_pageview = ! \in_array($thing, $pages_viewed);
-    if ($unique_pageview) {
-        \file_put_contents($session_file, "{$thing}" . PHP_EOL, FILE_APPEND);
+    $unique_thing = $unique_type ? true : ! \in_array($thing, $things);
+
+    if ($unique_type || $unique_thing) {
+        \file_put_contents($session_file, $unique_type ? "{$type[0]}\n{$thing}\n" : "{$thing}\n", FILE_APPEND);
     }
 
-    return [false, $unique_pageview];
+    return [$unique_type, $unique_thing];
 }
