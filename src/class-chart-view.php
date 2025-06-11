@@ -32,7 +32,9 @@ class Chart_View
             <?php if ($showGroupOptions && $daysDiff > 7) { ?>
             <div class="ka-chart-group-by">
                 <?php esc_html_e('Group by', 'koko-analytics'); ?>
-                <a href="<?php echo esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
+                <?php if ($daysDiff <= 365) { ?>
+                    <a href="<?php echo esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
+                <?php } ?>
                 <a href="<?php echo esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
                 <?php if ($daysDiff > 31) {
                     ?><a href="<?php echo esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a><?php
