@@ -15,12 +15,12 @@ final class FunctionsTest extends TestCase
     public function testExtractPageviewData(): void
     {
        // incomplete params
-        $this->assertEquals(extract_pageview_data([], false, false), []);
-        $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com'], false, false), []);
+        $this->assertEquals(extract_pageview_data([]), []);
+        $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com']), []);
 
        // complete but invalid
-        $this->assertEquals(extract_pageview_data(['p' => ''], false, false), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'r' => 'not an url'], false, false), []);
+        $this->assertEquals(extract_pageview_data(['p' => '']), []);
+        $this->assertEquals(extract_pageview_data(['p' => '1', 'r' => 'not an url']), []);
 
         // complete and valid
         foreach (
@@ -29,7 +29,7 @@ final class FunctionsTest extends TestCase
 
             ] as [$input, $expected]
         ) {
-            $actual = extract_pageview_data($input, false, false);
+            $actual = extract_pageview_data($input);
             $this->assertEquals($expected[0], $actual[0]);  // type indicator
             $this->assertIsInt($actual[1]); // timestamp
             $this->assertEquals($expected[2], $actual[2]);  // post id

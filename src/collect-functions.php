@@ -6,7 +6,8 @@
  * @author Danny van Kooten
  *
  * This file contains the code required for data ingestion.
- * It is meant to be included from the optimized endpoint file.
+ * It is meant to be included from the optimized endpoint file
+ * and should therefore not assume the WordPress environment is available.
  */
 
 namespace KokoAnalytics;
@@ -22,7 +23,7 @@ function maybe_collect_request(): void
     collect_request();
 }
 
-function extract_pageview_data(array $raw, $new_visitor, $unique_pageview): array
+function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing
     if (!isset($raw['p'])) {
@@ -32,9 +33,24 @@ function extract_pageview_data(array $raw, $new_visitor, $unique_pageview): arra
     // grab and validate parameters
     $post_id = \filter_var($raw['p'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
-
     if ($post_id === false || $referrer_url === false) {
         return [];
+    }
+
+    // determine uniqueness based on specified tracking method
+    switch ($_GET['m'] ?? 'n') {
+        case 'c':
+            [$new_visitor, $unique_pageview] = determine_uniqueness_cookie($post_id);
+            break;
+
+        case 'f':
+            [$new_visitor, $unique_pageview] = determine_uniqueness_fingerprint($post_id);
+            break;
+
+        default:
+            // not using any tracking method
+            [$new_visitor, $unique_pageview] = [false, false];
+            break;
     }
 
     // limit referrer URL to 255 chars
@@ -101,24 +117,7 @@ function collect_request()
         update_option('koko_analytics_use_custom_endpoint', false, true);
     }
 
-    $page_id = (int) $_GET['p'];
-
-    switch ($_GET['m'] ?? 'n') {
-        case 'c':
-            [$new_visitor, $unique_pageview] = determine_uniqueness_cookie($page_id);
-            break;
-
-        case 'f':
-            [$new_visitor, $unique_pageview] = determine_uniqueness_fingerprint($page_id);
-            break;
-
-        default:
-            // not using any tracking method
-            [$new_visitor, $unique_pageview] = [false, false];
-            break;
-    }
-
-    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET, $new_visitor, $unique_pageview);
+    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET);
     if (!empty($data)) {
         // store data in buffer file
         $success = collect_in_file($data);
@@ -237,9 +236,9 @@ function get_client_ip(): string
 
 function determine_uniqueness_cookie(int $page_id): array
 {
-    $pages_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
+    $pages_viewed = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode(',', $_COOKIE['_koko_analytics_pages_viewed']) : [];
     $new_visitor = ! isset($_COOKIE['_koko_analytics_pages_viewed']);
-    $unique_pageview = !in_array($page_id, $pages_viewed);
+    $unique_pageview = ! \in_array($page_id, $pages_viewed);
 
     if ($new_visitor || $unique_pageview) {
         $pages_viewed[] = $page_id;
@@ -251,22 +250,24 @@ function determine_uniqueness_cookie(int $page_id): array
 
 function determine_uniqueness_fingerprint(int $page_id): array
 {
-    $seed_value = file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
+    $seed_value = \file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $ip_address = get_client_ip();
     $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
-
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+
+    // if session file does not exist yet; this is a new visitor (therefore also unique pageview)
     if (! \is_file($session_file)) {
-        file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+        \file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
         return [true, true];
     }
 
     $pages_viewed = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $unique_pageview = ! \in_array($page_id, $pages_viewed);
 
+    // check if page id is in session file
+    $unique_pageview = ! \in_array($page_id, $pages_viewed);
     if ($unique_pageview) {
-        file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
+        \file_put_contents($session_file, "{$page_id}" . PHP_EOL, FILE_APPEND);
     }
 
     return [false, $unique_pageview];
