@@ -17,6 +17,7 @@ class Endpoint_Installer
 
     public function get_file_contents(): string
     {
+        $settings = get_settings();
         $upload_dir = get_upload_dir();
 
         // make path relative to ABSPATH again
@@ -25,6 +26,7 @@ class Endpoint_Installer
         }
         $wp_timezone_string = wp_timezone_string();
         $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
+        $excluded_ip_addresses_string = var_export($settings['exclude_ip_addresses'], true);
 
         // make path relative to ABSPATH again
         if (str_starts_with($functions_filename, ABSPATH)) {
@@ -48,6 +50,11 @@ define('KOKO_ANALYTICS_TIMEZONE', '$wp_timezone_string');
 // path to functions.php file in Koko Analytics plugin directory
 require '$functions_filename';
 
+// check if IP address is on list of addresses to ignore
+if (!isset(\$_GET['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded_ip_addresses_string)) {
+    exit;
+}
+
 // function call to collect the request data
 KokoAnalytics\collect_request();
 
@@ -61,16 +68,16 @@ EOT;
     {
         $file_name = $this->get_file_name();
 
-        /* Attempt to put the file into place if it does not exist already */
-        if (! is_file($file_name)) {
-            $created = file_put_contents($file_name, $this->get_file_contents());
-            if (! $created) {
-                return __('Error creating file', 'koko-analytics');
-            }
+        // attempt to overwrite file with latest contents to ensure it's up-to-date
+        file_put_contents($file_name, $this->get_file_contents());
+
+        $exists = is_file($file_name);
+        update_option('koko_analytics_use_custom_endpoint', $exists, true);
+
+        if (! $exists) {
+            return __('Error creating file', 'koko-analytics');
         }
 
-        // File was successfully created, so let's start using it from now on
-        update_option('koko_analytics_use_custom_endpoint', true, true);
         return true;
     }
 
