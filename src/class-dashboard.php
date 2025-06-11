@@ -91,7 +91,7 @@ class Dashboard
             $periodEnd = $dateEnd->setDate((int) $dateStart->format('Y'), (int) $dateEnd->format('m') + ($dir * $diffInMonths), 5);
             $periodEnd = $periodEnd->setDate((int) $periodEnd->format('Y'), (int) $periodEnd->format('m'), (int) $periodEnd->format('t'));
         } else {
-            $diffInDays = 1 + ((int) $dateEnd->format('Y') - (int) $dateStart->format('Y')) * 365 + ((int) $dateEnd->format('z') - (int) $dateStart->format('z')) ;
+            $diffInDays = $dateEnd->diff($dateStart)->days + 1;
             $periodStart = $dateStart->modify("{$modifier}{$diffInDays} days");
             $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
         }
