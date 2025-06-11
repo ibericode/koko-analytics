@@ -99,12 +99,7 @@ function collect_request()
         return;
     }
 
-    // if WP environment is loaded and URL says to disable custom endpoint, do it
-    if (isset($_GET['disable-custom-endpoint']) && \function_exists('update_option')) {
-        update_option('koko_analytics_use_custom_endpoint', false, true);
-    }
-
-    $data = isset($_GET['e']) ? extract_event_data($_GET) : extract_pageview_data($_GET);
+    $data = isset($_POST['e']) ? extract_event_data($_POST) : extract_pageview_data($_POST);
     if (!empty($data)) {
         // store data in buffer file
         $success = collect_in_file($data);
@@ -223,7 +218,7 @@ function get_client_ip(): string
 function determine_uniqueness($thing): array
 {
     // determine uniqueness based on specified tracking method
-    switch ($_GET['m'] ?? 'n') {
+    switch ($_POST['m'] ?? 'n') {
         case 'c':
             return determine_uniqueness_cookie($thing);
             break;
