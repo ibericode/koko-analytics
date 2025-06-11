@@ -235,7 +235,7 @@ function determine_uniqueness(string $type, $thing): array
     }
 
     // not using any tracking method
-    return  [false, false];
+    return  [true, true];
 }
 
 function determine_uniqueness_cookie(string $type, $thing): array

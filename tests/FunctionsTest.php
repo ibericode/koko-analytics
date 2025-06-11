@@ -23,9 +23,8 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['p' => '1', 'r' => 'not an url']), []);
 
         // complete and valid
-        foreach (
-            [
-            [['p' => '1'], ['p', null, 1, 0, 0, '']],
+        foreach ([
+            [['p' => '1'], ['p', null, 1, 1, 1, '']],
 
             ] as [$input, $expected]
         ) {
@@ -41,27 +40,20 @@ final class FunctionsTest extends TestCase
 
     public function testExtractEventData(): void
     {
-       // incomplete
+        // incomplete
         $this->assertEquals(extract_event_data([]), []);
         $this->assertEquals(extract_event_data(['e' => 'Event']), []);
         $this->assertEquals(extract_event_data(['p' => 'Param']), []);
-        $this->assertEquals(extract_event_data(['u' => '1']), []);
         $this->assertEquals(extract_event_data(['v' => '1']), []);
         $this->assertEquals(extract_event_data(['e' => 'Event', 'v' => '1']), []);
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'u' => '1']), []);
         $this->assertEquals(extract_event_data(['p' => 'Param', 'v' => '1']), []);
-        $this->assertEquals(extract_event_data(['p' => 'Param', 'u' => '1']), []);
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1']), []);
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '1']), []);
 
-       // complete but invalid
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => 'nan']), []);
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => '100']), []);
-        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => 'nan', 'v' => 'nan']), []);
-        $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'u' => '1', 'v' => '100']), []);
+        // complete but invalid
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => 'nan']), []);
+        $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'v' => '100']), []);
 
-       // complete and valid
-        $actual = extract_event_data(['e' => 'Event', 'p' => 'Param', 'u' => '1', 'v' => '100']);
+        // complete and valid
+        $actual = extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '100']);
         $expected = ['e', 'Event', 'Param', 1, 100];
         $this->assertEquals($expected[0], $actual[0]);
         $this->assertEquals($expected[1], $actual[1]);
