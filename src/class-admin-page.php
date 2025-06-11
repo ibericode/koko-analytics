@@ -57,7 +57,6 @@ class Admin_Page
         }
 
         $settings           = get_settings();
-        $endpoint_installer = new Endpoint_Installer();
         $using_custom_endpoint = using_custom_endpoint();
         $database_size      = self::get_database_size();
         $user_roles   = self::get_available_roles();

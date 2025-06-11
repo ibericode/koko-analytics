@@ -10,12 +10,12 @@ namespace KokoAnalytics;
 
 class Endpoint_Installer
 {
-    public function get_file_name(): string
+    public static function get_file_name(): string
     {
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
-    public function get_file_contents(): string
+    public static function get_file_contents(): string
     {
         $settings = get_settings();
         $upload_dir = get_upload_dir();
@@ -64,13 +64,21 @@ EOT;
     /**
      * @return string|bool
      */
-    public function install()
+    public static function install()
     {
-        $file_name = $this->get_file_name();
+        // do nothing if site is not eligible for the use of a custom endpoint (ie multisite)
+        if (!self::is_eligibile()) {
+            return;
+        }
+
+        $file_name = self::get_file_name();
 
         // attempt to overwrite file with latest contents to ensure it's up-to-date
-        file_put_contents($file_name, $this->get_file_contents());
+        file_put_contents($file_name, self::get_file_contents());
 
+        // Check if file exists
+        // Note that we're not checking whether we were able to write to the file
+        // To allow for users manually creating the file with the correct contents
         $exists = is_file($file_name);
         update_option('koko_analytics_use_custom_endpoint', $exists, true);
 
@@ -81,7 +89,15 @@ EOT;
         return true;
     }
 
-    public function is_eligibile(): bool
+    public static function uninstall(): void
+    {
+        $file_name = self::get_file_name();
+        if (is_file($file_name)) {
+            unlink($file_name);
+        }
+    }
+
+    public static function is_eligibile(): bool
     {
         /* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
         if (is_multisite()) {

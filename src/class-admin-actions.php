@@ -12,9 +12,7 @@ class Admin_Actions
 {
     public static function install_optimized_endpoint(): void
     {
-        $installer = new Endpoint_Installer();
-        $result = $installer->install();
-        wp_safe_redirect(add_query_arg(['endpoint-installed' => $result], wp_get_referer()));
+        wp_safe_redirect(add_query_arg([ 'endpoint-installed' => Endpoint_Installer::install() ], wp_get_referer()));
         exit;
     }
 
@@ -120,11 +118,8 @@ class Admin_Actions
             Fingerprinter::setup_scheduled_event();
         }
 
-        // if using custom endpoint, re-create it to ensure list of IP addresses is up-to-date
-        $endpoint_installer = new Endpoint_Installer();
-        if (using_custom_endpoint() && $endpoint_installer->is_eligibile()) {
-            $endpoint_installer->install();
-        }
+        // Re-create optimized endpoint to ensure its contents are up-to-date
+        Endpoint_Installer::install();
 
         wp_safe_redirect(add_query_arg(['settings-updated' => true], wp_get_referer()));
         exit;

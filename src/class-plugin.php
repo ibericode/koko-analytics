@@ -20,23 +20,6 @@ class Plugin
         }
     }
 
-    public static function install_optimized_endpoint(): void
-    {
-        // (maybe) create optimized endpoint file
-        $endpoint_installer = new Endpoint_Installer();
-        if ($endpoint_installer->is_eligibile()) {
-            $endpoint_installer->install();
-        }
-    }
-
-    public static function remove_optimized_endpoint(): void
-    {
-        // delete custom endpoint file
-        if (file_exists(rtrim(ABSPATH, '/') . '/koko-analytics-collect.php')) {
-            unlink(rtrim(ABSPATH, '/') . '/koko-analytics-collect.php');
-        }
-    }
-
     public static function create_and_protect_uploads_dir(): void
     {
         $filename = get_buffer_filename();

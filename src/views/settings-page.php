@@ -1,4 +1,8 @@
-<?php defined('ABSPATH') or exit;
+<?php
+
+use KokoAnalytics\Endpoint_Installer;
+
+ defined('ABSPATH') or exit;
 /**
  * @var \KokoAnalytics\Admin $this
  * @var array $settings
@@ -150,11 +154,11 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <?php do_action('koko_analytics_show_settings_sections'); ?>
 
-            <?php if ($endpoint_installer->is_eligibile()) { ?>
+            <?php if (Endpoint_Installer::is_eligibile()) { ?>
                 <div class="ka-margin-l">
                     <h2><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
                     <?php if ($using_custom_endpoint) { ?>
-                        <p><?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
+                        <p><span style="color: green;">✓</span> <?php esc_html_e('The plugin is currently using an optimized tracking endpoint. Great!', 'koko-analytics'); ?></p>
                     <?php } else { ?>
                         <p><?php esc_html_e('The plugin is currently not using an optimized tracking endpoint.', 'koko-analytics'); ?></p>
                         <form method="POST" action="">
@@ -162,8 +166,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                             <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint">
                             <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="button button-secondary">
                         </form>
-                        <p><?php printf(esc_html__('To use one, create the file %s with the following file contents: ', 'koko-analytics'), '<code>' . $endpoint_installer->get_file_name() . '</code>'); ?></p>
-                        <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html($endpoint_installer->get_file_contents()); ?></textarea>
+                        <p><?php printf(esc_html__('To use one, create the file %s with the following file contents: ', 'koko-analytics'), '<code>' . Endpoint_Installer::get_file_name() . '</code>'); ?></p>
+                        <textarea readonly="readonly" class="widefat" rows="18" onfocus="this.select();" spellcheck="false"><?php echo esc_html(Endpoint_Installer::get_file_contents()); ?></textarea>
                         <p><?php esc_html_e('Please note that this is entirely optional and only recommended for high-traffic websites.', 'koko-analytics'); ?></p>
                     <?php } ?>
                 </div>

@@ -133,8 +133,8 @@ register_activation_hook(__FILE__, function () {
     Aggregator::setup_scheduled_event();
     Pruner::setup_scheduled_event();
     Fingerprinter::setup_scheduled_event();
+    Endpoint_Installer::install();
     Plugin::setup_capabilities();
-    Plugin::install_optimized_endpoint();
     Plugin::create_and_protect_uploads_dir();
 });
 
@@ -143,5 +143,5 @@ register_deactivation_hook(__FILE__, function () {
     Aggregator::clear_scheduled_event();
     Pruner::clear_scheduled_event();
     Fingerprinter::clear_scheduled_event();
-    Plugin::remove_optimized_endpoint();
+    Endpoint_Installer::uninstall();
 });
