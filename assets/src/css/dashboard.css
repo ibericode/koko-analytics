@@ -414,6 +414,10 @@ h1.ka-logo,
   font-weight: bold;
   font-size: 1.1em;
 }
+a.ka-datepicker--quicknav-next.disabled,
+a.ka-datepicker--quicknav-prev.disabled {
+  cursor: not-allowed;
+}
 a.ka-datepicker--quicknav-prev,
 a.ka-datepicker--quicknav-next {
   color: white;

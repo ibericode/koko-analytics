@@ -40,10 +40,14 @@ require __DIR__ . '/../template-functions.php';
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
                         <?php if ($dateStart >  $total_start_date) { ?>
                         <a class="ka-datepicker--quicknav-prev" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Previous date range', 'koko-analytics'); ?></a>
+                        <?php } else { ?>
+                            <a class="ka-datepicker--quicknav-prev disabled"></a>
                         <?php } ?>
                         <span class="ka-datepicker--quicknav-heading"><?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?></span>
                         <?php if ($dateEnd < $total_end_date) { ?>
                         <a class="ka-datepicker--quicknav-next" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>"><?php esc_html_e('Next date range', 'koko-analytics'); ?></a>
+                        <?php } else { ?>
+                            <a class="ka-datepicker--quicknav-next disabled"></a>
                         <?php } ?>
                     </div>
                     <form method="get">
