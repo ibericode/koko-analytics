@@ -263,7 +263,18 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     $ip_address = get_client_ip();
     $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
-    $things = \is_file($session_file) ? \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : [];
+    $time_midnight = (new \DateTimeImmutable('today, midnight', get_site_timezone()))->getTimestamp();
+    $things = [];
+
+    // only read file if it exists and is not from before today
+    // this is to protect against a cronjob that didn't run on time
+    if (\is_file($session_file)) {
+        if (filemtime($session_file) < $time_midnight) {
+            unlink($session_file);
+        } else {
+            $things = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }
+    }
 
     // check if type indicator is in session file
     $unique_type = $type && ! \in_array($type[0], $things);
