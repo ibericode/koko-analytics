@@ -58,8 +58,8 @@ export function Chart() {
   for (i = 0; i < yTicks.length; i++) {
     leftOffset = Math.max(leftOffset, 8 + Math.max(5, yTicks[i].textContent.length * 8));
   }
-  var tickWidth = (chart.clientWidth - leftOffset) / bars.length;
-  barWidth = tickWidth - 2;
+  var tickWidth = Math.max(1, (chart.clientWidth - leftOffset) / bars.length);
+  barWidth = Math.max(1, tickWidth - 2);
 
   // update width of each bar now that we know the client width
   bars[0].parentElement.style.display = 'none';
@@ -75,6 +75,7 @@ export function Chart() {
     bars[i].children[1].setAttribute('width', barWidth);
 
     // tick <line>
+    bars[i].children[2].style.display = barWidth === 1 ? 'none' : '';
     x = i * tickWidth + leftOffset + 0.5 * tickWidth;
     bars[i].children[2].setAttribute('x1', x);
     bars[i].children[2].setAttribute('x2', x);

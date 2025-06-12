@@ -21,7 +21,7 @@ class Dashboard
         $settings   = get_settings();
         $stats = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $dateFormat = get_option('date_format');
+        $dateFormat = get_option('date_format', 'Y-m-d');
         $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers']);
 
         // parse query params
