@@ -77,15 +77,17 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
 	-x "$PLUGIN_SLUG/assets/dist/img/banner-*" \
 	-x "$PLUGIN_SLUG/code-snippets/*"
 
+# Move back into plugin directory
 cd "$PLUGIN_SLUG"
 
 SIZE=$(ls -lh "$PACKAGE_FILE" | cut -d' ' -f5)
 echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 
 # Create tag in Git and push to remote
-if [[ "$*" == *"--release"* ]]
-then
+printf "\nPush v$VERSION to GitHub (y)"
+read CONFIRM
+if [[ "$CONFIRM" == "n" ]]; then
 	git tag "$VERSION"
 	git push origin main
 	git push origin "tags/$VERSION"
-fi
+fi;
