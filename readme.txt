@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.7.4
+Stable tag: 1.8.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -133,6 +133,16 @@ Koko Analytics is currently only able to track posts, pages and other post types
 
 
 == Changelog ==
+
+### 1.8.0 - Jun 12, 2025
+
+- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
+- If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
+- Simplified client-side tracking script so it's now smaller than 500 bytes.
+- Excluded IP addresses now work properly with the optimized endpoint.
+- Added new dashboard date preset for "all time".
+- Fixed chart issue where bars would be invisible if viewing a large amount of data on a small screen.
+
 
 ### 1.7.4 - May 14, 2025
 
@@ -758,17 +768,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Fix referrer URL's table missing the AUTO_INCREMENT statement.
 - Change dropdown to number input in most viewed posts widget.
 - Show notice on dashboard page if an issue with WP Cron is detected.
-- Improved y-axes in chart when maximum value is lower than 10.
-- Use colors from admin scheme in chart tooltip.
-
-
-#### 1.0.7 - Jan 30, 2020
-
-- Aggregate certain referrers, e.g. google.com/search becomes google.com.
-- Use WordPress color scheme (from user profile) for colors in chart.
-- Show more labels on the chart's x-axes (wide screens only).
-- Show number of pageviews in the last hour.
-- Show day of week to chart tooltip.
-- Use Paul Heckbert's loose labels (nice numbers) algorithm for labels on y-axes.
-- All colors now ...
+- Improved y-axes ...
 
