@@ -1,12 +1,13 @@
 # Changelog
 
-### 1.8.0 - In development
+### 1.8.0 - Jun 12, 2025
 
 - Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
 - If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
 - Simplified client-side tracking script so it's now smaller than 500 bytes.
 - Excluded IP addresses now work properly with the optimized endpoint.
 - Added new dashboard date preset for "all time".
+- Fixed chart issue where bars would be invisible if viewing a large amount of data on a small screen.
 
 
 ### 1.7.4 - May 14, 2025

@@ -1,7 +1,7 @@
 === Koko Analytics - Privacy-Friendly Statistics for WordPress ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
-Tags: statistics, analytics, stats
+Tags: analytics, statistics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
 Stable tag: 1.7.4
@@ -9,19 +9,23 @@ License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Koko Analytics is an easy-to-use, open source, lightweight and privacy-friendly website statistics plugin for WordPress.
+Koko Analytics is a plug and play privacy-friendly analytics plugin for WordPress.
 
 == Description ==
 
-Koko Analytics is a self-hosted, privacy-friendly and efficient website statistics plugin for WordPress. It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
+= Plug & Play Privacy-Friendly Analytics for WordPress =
+
+Koko Analytics is a privacy-friendly analytics plugin for WordPress sites.
+
+It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
 
 Stop sharing visitor data with third-party companies who also happen to sell ads. Stop slowing down your website with large tracking scripts. Liberate and own your data!
 
 Koko Analytics lets you focus on the important statistics while completely respecting the privacy of your visitors.
 
-You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
+You can view a [live demo here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
 
-> This plugin is free and does not require an account with a third-party service. It runs completely on your own server.
+**Koko Analytics is a free plugin that does not require an account with a third-party service. It runs completely on your own server.**
 
 ### Features
 
@@ -30,7 +34,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **No personal data** or anything visitor specific is tracked.
 - **No cookies**: There is an option to not use any cookies.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-- **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages. In your database, a full year worth of data will take up less than 10 MB of storage.
+**Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages. In your database, a full year worth of data will take up less than 10 MB of storage.
 - **GDPR Compliant** by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.
@@ -42,7 +46,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **Import data from other plugins**: You can import historical data from Jetpack Stats or Burst Statistics.
 
 
-### Koko Analytics Pro
+### Upgrade to Koko Analytics Pro
 
 All of the features listed above are available for free. Some additional features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing):
 
@@ -55,21 +59,6 @@ All of the features listed above are available for free. Some additional feature
 
 You can [purchase Koko Analytics Pro here](https://www.kokoanalytics.com/pricing/).
 
-
-### Contributing
-
-You can help this project in various ways. For example:
-
-- [Purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/)
-- Write about the plugin on your blog or share it on social media.
-- [Review the plugin here on WordPress.org](https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post)
-- [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- [Vote on feature suggestions in our idea board](https://github.com/ibericode/koko-analytics/discussions/categories/ideas?discussions_q=is%3Aopen+sort%3Atop+created%3A%3E%3D2022-10-25+category%3AIdeas)
-
-
-### About the plugin author
-
-Koko Analytics is developed by [Danny van Kooten](https://www.dannyvankooten.com/) from his home office in Nijmegen, The Netherlands.
 
 == Installation ==
 
@@ -89,7 +78,7 @@ You can view your dashboard by going to **WP Admin > Dashboard > Analytics**.
 #### Does this respect my visitor's privacy?
 Yes, absolutely. Koko Analytics only stores aggregated counts. Nothing visitor specific is tracked.
 
-#### Does this require any external services?
+#### Does this use any external services?
 No.
 
 ### Does Koko Analytics set any cookies?
@@ -102,9 +91,9 @@ If using cookie-based tracking, Koko Analytics sets a single cookie named `_koko
 ### Will Koko Analytics slow down my website?
 No, the plugin is built in such a way that it never slows down your website for your visitors.
 
-- It only adds a single JavaScript file of less than 500 bytes to your pages.
-- All heavy lifting (like aggregating the statistics) is done in a separate background process.
-- Everything happens on your server, so the plugin doesn't require any additional DNS look-ups and can benefit from your server's cache policy.
+- It only adds a single script of less than 500 bytes to your pages.
+- All data processing is done in a separate background process.
+- Everything lives on your server, so the plugin doesn't add any additional DNS look-ups and can benefit from your server's cache policy.
 
 [https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/](https://www.kokoanalytics.com/kb/will-koko-analytics-slow-down-my-website/)
 
@@ -131,10 +120,6 @@ Example use with arguments:
 
 ### Why are category and tag archives not tracked?
 Koko Analytics is currently only able to track posts, pages and other post types. This is so that Koko Analytics does not have to store URL's or post titles, which would take up a lot of storage space.
-
-### How can I help fund Koko Analytics?
-You can [purchase Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to help fund the plugin while also unlocking some very useful features.
-
 
 
 == Screenshots ==
