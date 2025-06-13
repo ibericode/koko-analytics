@@ -260,14 +260,19 @@ function determine_uniqueness_cookie(string $type, $thing): array
 {
     $things = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode('-', $_COOKIE['_koko_analytics_pages_viewed']) : [];
     $unique_type = $type && !in_array($type[0], $things);
-    $unique_thing =  $unique_type ? true : !in_array($thing, $things);
+
+    // we need to check for the special value -1 here, which is used for things that don't have a post ID
+    $unique_thing =  $unique_type ? true : $thing !== -1 && !in_array($thing, $things);
 
     if ($unique_type) {
         $things[] = $type[0];
     }
 
     if ($unique_type || $unique_thing) {
-        $things[] = $thing;
+        if ($thing !== -1) {
+            $things[] = $thing;
+        }
+
         \setcookie('_koko_analytics_pages_viewed', \join('-', $things), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
     }
 
