@@ -73,7 +73,7 @@ function extract_event_data(array $raw): array
     $event_name = \substr($event_name, 0, 100);
     $event_param = \substr($event_param, 0, 185);
 
-    $event_hash = \hash("xxh64", "{$event_name}-{$event_param}");
+    $event_hash = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$event_name}-{$event_param}");
     [$unused, $unique_event] = determine_uniqueness('', $event_hash);
 
     return [
@@ -279,7 +279,7 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     $seed_value = \file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $ip_address = get_client_ip();
-    $visitor_id = \hash("xxh64", "{$seed_value}-{$user_agent}-{$ip_address}", false);
+    $visitor_id = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
     $time_midnight = (new \DateTimeImmutable('today, midnight', get_site_timezone()))->getTimestamp();
     $things = [];
