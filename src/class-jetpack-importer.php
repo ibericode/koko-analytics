@@ -90,6 +90,11 @@ class Jetpack_Importer
                     </tr>
                 </table>
 
+                <p style="color: indianred;">
+                    <strong><?php esc_html_e('Warning: ', 'koko-analytics'); ?></strong>
+                    <?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?>
+                </p>
+
                 <p>
                     <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
                 </p>
@@ -97,8 +102,7 @@ class Jetpack_Importer
 
             <div class="ka-margin-m">
                 <h3><?php esc_html_e('Things to know before running the import', 'koko-analytics'); ?></h3>
-                <p><?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?></p>
-                <p><?php esc_html_e('It\'s also important to know that JetPack doesn\'t provide data for the distinct number of visitors, so the data imported will only import the total number of pageviews for each post and therefore differ slightly from data collected by Koko Analytics itself.', 'koko-analytics'); ?></p>
+                <p><?php esc_html_e('JetPack doesn\'t provide data for the distinct number of visitors. The plugin can only import the total number of pageviews for each post.', 'koko-analytics'); ?></p>
             </div>
         </div>
         <?php
