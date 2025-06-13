@@ -211,14 +211,17 @@ function get_site_timezone(): \DateTimeZone
  */
 function get_client_ip(): string
 {
-    $ips = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
-
     // X-Forwarded-For sometimes contains a comma-separated list of IP addresses
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
-    $ips = \array_map('trim', \explode(',', $ips));
+    $ips = empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? [] : \array_map('trim', \explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
 
     // Always add REMOTE_ADDR to list of ips
-    $ips[] = $_SERVER['REMOTE_ADDR'] ?? '';
+    if (!empty($_SERVER['REMOTE_ADDR'])) {
+        $ips[] = $_SERVER['REMOTE_ADDR'];
+    }
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ips[] = $_SERVER['HTTP_CLIENT_IP'];
+    }
 
     // return first valid IP address from list
     foreach ($ips as $ip) {
