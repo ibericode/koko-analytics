@@ -51,7 +51,7 @@ define('KOKO_ANALYTICS_TIMEZONE', '$wp_timezone_string');
 require '$functions_filename';
 
 // check if IP address is on list of addresses to ignore
-if (!isset(\$_GET['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded_ip_addresses_string)) {
+if (!isset(\$_POST['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded_ip_addresses_string)) {
     exit;
 }
 
