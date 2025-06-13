@@ -102,7 +102,7 @@ function collect_request()
     $data = isset($_POST['e']) ? extract_event_data($_POST) : extract_pageview_data($_POST);
     if (!empty($data)) {
         // store data in buffer file
-        $success = collect_in_file($data);
+        $success = isset($_POST['test']) ? test_collect_in_file() : collect_in_file($data);
 
         // set OK headers & prevent caching
         if (!$success) {
@@ -176,6 +176,21 @@ function collect_in_file(array $data): bool
     $content .= PHP_EOL;
 
     return (bool) \file_put_contents($filename, $content, FILE_APPEND);
+}
+
+function test_collect_in_file(): bool
+{
+    $filename = get_buffer_filename();
+    if (\is_file($filename)) {
+        return \is_writable($filename);
+    }
+
+    $directory = \dirname($filename);
+    if (! \is_dir($directory)) {
+        \mkdir($directory, 0755, true);
+    }
+
+    return \is_writable($directory);
 }
 
 function get_site_timezone(): \DateTimeZone

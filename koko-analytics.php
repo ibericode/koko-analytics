@@ -88,6 +88,9 @@ add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
 // fingerprinting
 add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run_daily_maintenance'], 10, 0);
 
+// optimized endpoint
+add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
+
 // WP CLI command
 if (\class_exists('WP_CLI')) {
     \WP_CLI::add_command('koko-analytics', Command::class);

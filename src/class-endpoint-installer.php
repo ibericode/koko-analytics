@@ -71,22 +71,16 @@ EOT;
             return;
         }
 
-        $file_name = self::get_file_name();
-
-        // attempt to overwrite file with latest contents to ensure it's up-to-date
-        file_put_contents($file_name, self::get_file_contents());
-
-        // Check if file exists
-        // Note that we're not checking whether we were able to write to the file
-        // To allow for users manually creating the file with the correct contents
-        $exists = is_file($file_name);
-        update_option('koko_analytics_use_custom_endpoint', $exists, true);
-
-        if (! $exists) {
-            return __('Error creating file', 'koko-analytics');
+        /* If we made it this far we ideally want to use the custom endpoint file */
+        /* Therefore we schedule a recurring health check event to periodically re-attempt and re-test */
+        if (! wp_next_scheduled('koko_analytics_test_custom_endpoint')) {
+            wp_schedule_event(time() + HOUR_IN_SECONDS, 'hourly', 'koko_analytics_test_custom_endpoint');
         }
 
-        return true;
+        // attempt to overwrite file with latest contents to ensure it's up-to-date
+        file_put_contents(self::get_file_name(), self::get_file_contents());
+
+        return self::test();
     }
 
     public static function uninstall(): void
@@ -95,6 +89,59 @@ EOT;
         if (is_file($file_name)) {
             unlink($file_name);
         }
+
+        wp_clear_scheduled_hook('koko_analytics_test_custom_endpoint');
+    }
+
+    /**
+     * @return string|bool
+     */
+    public static function test()
+    {
+        // Check if file exists
+        // Note that we're not checking whether we were able to write to the file
+        // To allow for users manually creating the file with the correct contents
+        $exists = is_file(self::get_file_name());
+
+        // Check if endpoint returns correct HTTP response
+        $works = self::verify();
+
+        update_option('koko_analytics_use_custom_endpoint', $exists && $works, true);
+
+        if (! $exists) {
+            return __('Error creating file', 'koko-analytics');
+        }
+
+        if (! $works) {
+            return __('Error verifying HTTP response', 'koko-analytics');
+        }
+
+        return true;
+    }
+
+    /**
+     * Performs an HTTP request to the optimized endpoint to verify that it works
+     */
+    private static function verify(): bool
+    {
+        $tracker_url = site_url('/koko-analytics-collect.php?p=0&m=n&test=1');
+        $response    = wp_remote_post($tracker_url, [
+            'body' => [
+                'p' => 0,
+                'test' => 1,
+            ]
+        ]);
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        $status  = wp_remote_retrieve_response_code($response);
+        $headers = wp_remote_retrieve_headers($response);
+        if ($status !== 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function is_eligibile(): bool
