@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -133,6 +133,11 @@ Koko Analytics is currently only able to track posts, pages and other post types
 
 
 == Changelog ==
+
+### 1.8.1 - Jun 13, 2025
+
+- Fix issue with optimized endpoint not working introduced in version 1.8.0
+
 
 ### 1.8.0 - Jun 12, 2025
 
@@ -766,7 +771,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Add keyboard navigation support for quickly cycling through date periods (Ctrl + Arrow key)
 - Expand referrer aggregation logic. If you have any URL's you would like to see combined into a single domain, please [post them here](https://github.com/ibericode/koko-analytics/issues/43).
 - Fix referrer URL's table missing the AUTO_INCREMENT statement.
-- Change dropdown to number input in most viewed posts widget.
-- Show notice on dashboard page if an issue with WP Cron is detected.
-- Improved y-axes ...
+- Change dropdown to number input in most viewed posts ...
 
