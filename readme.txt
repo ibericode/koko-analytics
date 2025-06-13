@@ -32,9 +32,9 @@ You can view a [live demo here](https://www.kokoanalytics.com/?koko-analytics-da
 - **Plug and play**: After installing and activating the plugin, statistics will automatically be collected.
 - **No external services**: Any data never leaves your server.
 - **No personal data** or anything visitor specific is tracked.
-- **No cookies**: There is an option to not use any cookies.
+- **No cookies**: You can choose which tracking method to use; cookie-based, cookieless or none at all.
 - **Fast**: Handles hundreds of concurrent pageviews without breaking a sweat.
-**Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages. In your database, a full year worth of data will take up less than 10 MB of storage.
+- **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages. In your database, a full year worth of data will take up less than 10 MB of storage.
 - **GDPR Compliant** by design.
 - **Metrics**: All the essentials: total pageviews, unique pageviews and referral URL's.
 - **Referrer spam:** Built-in blocklist to filter out referrer spam.

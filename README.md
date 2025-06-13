@@ -7,13 +7,9 @@ Koko Analytics for WordPress
 
 [Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight and privacy-friendly website analytics plugin for WordPress.
 
-It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts.
+It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts are stored.
 
 You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
-
-> [!TIP]
-> We're working on a [standalone version of Koko Analytics](https://github.com/koko-analytics/koko-analytics) that you can self-host to track any site, not just WordPress sites.
-
 
 ## Features
 
@@ -21,7 +17,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 - **GDPR and CCPA Compliant** by design.
 - **No external services**.
 - **No personal information** or anything visitor specific is tracked.
-- **No cookies** (optional).
+- **No cookies**: You can choose which tracking method to use; cookie-based, cookieless or none at all.
 - **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
 - **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages.
 - **Storage**: A year worth of data takes up less than 5MB of database storage.
@@ -45,7 +41,6 @@ Koko Analytics is a freemium WordPress plugin. The core features listed above ar
 - [Pageviews Column](https://www.kokoanalytics.com/features/pageviews-column/): Shows the number of pageviews over a configurable time period right in your WP Admin posts and pages overview.
 - [Admin Bar](https://www.kokoanalytics.com/features/admin-bar/): Shows daily pageviews for a specific page in your WordPress Admin Bar.
 - [Traffic Spike Notifications](https://www.kokoanalytics.com/features/traffic-spike-notifications/): receive an email notification when your website experiences a traffic spike.
-
 
 You can [purchase Koko Analytics Pro here](https://www.kokoanalytics.com/pricing/).
 
