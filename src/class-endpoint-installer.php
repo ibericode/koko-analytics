@@ -82,7 +82,7 @@ EOT;
         // attempt to overwrite file with latest contents to ensure it's up-to-date
         file_put_contents(self::get_file_name(), self::get_file_contents());
 
-        return self::test();
+        return self::test(true);
     }
 
     public static function uninstall(): void
@@ -98,8 +98,13 @@ EOT;
     /**
      * @return string|bool
      */
-    public static function test()
+    public static function test($force_test = false)
     {
+        // No need to test if not using it
+        if (!$force_test && ! get_option('koko_analytics_use_custom_endpoint')) {
+            return;
+        }
+
         // Check if file exists
         // Note that we're not checking whether we were able to write to the file
         // To allow for users manually creating the file with the correct contents
