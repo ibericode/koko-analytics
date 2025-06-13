@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.8.2 - Jun 13, 2025
+
+- Fix cookieless tracking on PHP 8.0 and below.
+
+
 ### 1.8.1 - Jun 13, 2025
 
 - Fix issue with optimized endpoint not working introduced in version 1.8.0
