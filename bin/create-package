@@ -86,7 +86,7 @@ echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 # Create tag in Git and push to remote
 printf "\nPush v$VERSION to GitHub (y)"
 read CONFIRM
-if [[ "$CONFIRM" == "n" ]]; then
+if [[ "$CONFIRM" != "n" ]]; then
 	git tag "$VERSION"
 	git push origin main
 	git push origin "tags/$VERSION"
