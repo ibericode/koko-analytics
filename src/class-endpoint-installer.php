@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use WP_Error;
+
 class Endpoint_Installer
 {
     public static function get_file_name(): string
@@ -106,14 +108,14 @@ EOT;
         // Check if endpoint returns correct HTTP response
         $works = self::verify();
 
-        update_option('koko_analytics_use_custom_endpoint', $exists && $works, true);
+        update_option('koko_analytics_use_custom_endpoint', $exists && !is_wp_error($works), true);
 
         if (! $exists) {
-            return __('Error creating file', 'koko-analytics');
+            return __('Error creating file.', 'koko-analytics');
         }
 
-        if (! $works) {
-            return __('Error verifying HTTP response', 'koko-analytics');
+        if (is_wp_error($works)) {
+            return __('Error verifying HTTP response.', 'koko-analytics') . ' ' . join(', ', $works->get_error_messages());
         }
 
         return true;
@@ -122,23 +124,26 @@ EOT;
     /**
      * Performs an HTTP request to the optimized endpoint to verify that it works
      */
-    private static function verify(): bool
+    private static function verify()
     {
-        $tracker_url = site_url('/koko-analytics-collect.php?p=0&m=n&test=1');
+        $tracker_url = site_url('/koko-analytics-collect.php?test=1');
         $response    = wp_remote_post($tracker_url, [
             'body' => [
                 'p' => 0,
                 'test' => 1,
-            ]
+            ],
+            'timeout' => 10,
+            'sslverify' => false,
         ]);
         if (is_wp_error($response)) {
-            return false;
+            return $response;
         }
 
         $status  = wp_remote_retrieve_response_code($response);
         $headers = wp_remote_retrieve_headers($response);
-        if ($status !== 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
-            return false;
+        if ($status != 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
+            error_log(sprintf("Koko Analaytics: Error verifying optimized endpoint because it did not return the expected HTTP response.\nHTTP code: %s\nHTTP headers: %s\nHTTP body: %s", $status, var_export($headers, true), wp_remote_retrieve_body($response)));
+            return new WP_Error('response_mismatch', __('Unexpected response headers.', 'koko-analytics'));
         }
 
         return true;

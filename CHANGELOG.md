@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.8.1 - Jun 13, 2025
+
+- Fix issue with optimized endpoint not working introduced in version 1.8.0
+
+
 ### 1.8.0 - Jun 12, 2025
 
 - Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
