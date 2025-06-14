@@ -267,12 +267,11 @@ function determine_uniqueness_cookie(string $type, $thing): array
     if ($unique_type) {
         $things[] = $type[0];
     }
+    if ($unique_thing && $thing !== -1) {
+        $things[] = $thing;
+    }
 
     if ($unique_type || $unique_thing) {
-        if ($thing !== -1) {
-            $things[] = $thing;
-        }
-
         \setcookie('_koko_analytics_pages_viewed', \join('-', $things), (new DateTimeImmutable('tomorrow, midnight', get_site_timezone()))->getTimestamp(), '/', "", false, true);
     }
 
@@ -303,10 +302,18 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     $unique_type = $type && ! \in_array($type[0], $things);
 
     // check if page id or event hash is in session file
-    $unique_thing = $unique_type ? true : ! \in_array($thing, $things);
+    $unique_thing = $unique_type ? true : $thing !== -1 && ! \in_array($thing, $things);
 
-    if ($unique_type || $unique_thing) {
-        \file_put_contents($session_file, $unique_type ? "{$type[0]}\n{$thing}\n" : "{$thing}\n", FILE_APPEND);
+    // build string to append to session file
+    $append = "";
+    if ($unique_type) {
+        $append .= "{$type[0]}\n";
+    }
+    if ($unique_thing && $thing !== -1) {
+        $append .= "{$thing}\n";
+    }
+    if ($append !== '') {
+        \file_put_contents($session_file, $append, FILE_APPEND);
     }
 
     return [$unique_type, $unique_thing];
