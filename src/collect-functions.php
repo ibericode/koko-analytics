@@ -195,11 +195,11 @@ function test_collect_in_file(): bool
 
 function get_site_timezone(): \DateTimeZone
 {
-    if (defined('KOKO_ANALYTICS_TIMEZONE')) {
+    if (\defined('KOKO_ANALYTICS_TIMEZONE')) {
         return new \DateTimeZone(KOKO_ANALYTICS_TIMEZONE);
     }
 
-    if (function_exists('wp_timezone')) {
+    if (\function_exists('wp_timezone')) {
         return wp_timezone();
     }
 
@@ -215,12 +215,11 @@ function get_client_ip(): string
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
     $ips = empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? [] : \array_map('trim', \explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
 
-    // Always add REMOTE_ADDR to list of ips
-    if (!empty($_SERVER['REMOTE_ADDR'])) {
-        $ips[] = $_SERVER['REMOTE_ADDR'];
-    }
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ips[] = $_SERVER['HTTP_CLIENT_IP'];
+    // Always add REMOTE_ADDR and HTTP_CLIENT_IP to list of ip addresses, if set
+    foreach (['REMOTE_ADDR', 'HTTP_CLIENT_IP'] as $key) {
+        if (!empty($_SERVER[$key])) {
+            $ips[] = $_SERVER[$key];
+        }
     }
 
     // return first valid IP address from list
@@ -285,14 +284,14 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     $ip_address = get_client_ip();
     $visitor_id = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
-    $time_midnight = (new \DateTimeImmutable('today, midnight', get_site_timezone()))->getTimestamp();
     $things = [];
 
     // only read file if it exists and is not from before today
     // this is to protect against a cronjob that didn't run on time
     if (\is_file($session_file)) {
-        if (filemtime($session_file) < $time_midnight) {
-            unlink($session_file);
+        $time_midnight = (new \DateTimeImmutable('today, midnight', get_site_timezone()))->getTimestamp();
+        if (\filemtime($session_file) < $time_midnight) {
+            \unlink($session_file);
         } else {
             $things = \file($session_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
