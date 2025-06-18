@@ -74,7 +74,7 @@ function extract_event_data(array $raw): array
     $event_param = \substr($event_param, 0, 185);
 
     $event_hash = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$event_name}-{$event_param}");
-    [$unused, $unique_event] = determine_uniqueness('', $event_hash);
+    [$unused, $unique_event] = determine_uniqueness($raw, '', $event_hash);
 
     return [
         'e',                   // type indicator
