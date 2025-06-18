@@ -37,7 +37,7 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
-    [$new_visitor, $unique_pageview] = determine_uniqueness('pageview', $post_id);
+    [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $post_id);
 
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
@@ -99,10 +99,11 @@ function collect_request()
         return;
     }
 
-    $data = isset($_POST['e']) ? extract_event_data($_POST) : extract_pageview_data($_POST);
+    $request_params = array_merge($_GET, $_POST);
+    $data = isset($request_params['e']) ? extract_event_data($request_params) : extract_pageview_data($request_params);
     if (!empty($data)) {
         // store data in buffer file
-        $success = isset($_POST['test']) ? test_collect_in_file() : collect_in_file($data);
+        $success = isset($request_params['test']) ? test_collect_in_file() : collect_in_file($data);
 
         // set OK headers & prevent caching
         if (!$success) {
@@ -238,10 +239,10 @@ function get_client_ip(): string
  * @param int|string $thing
  * @return array [bool, bool]
  */
-function determine_uniqueness(string $type, $thing): array
+function determine_uniqueness(array $request_params, string $type, $thing): array
 {
     // determine uniqueness based on specified tracking method
-    switch ($_POST['m'] ?? 'n') {
+    switch ($request_params['m'] ?? 'n') {
         case 'c':
             return determine_uniqueness_cookie($type, $thing);
             break;
