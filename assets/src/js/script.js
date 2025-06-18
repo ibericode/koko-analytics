@@ -10,7 +10,13 @@ var ka = "koko_analytics";
 
 function request(data) {
   // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
-  data['m'] = win[ka].use_cookie ? 'c' : win[ka].method[0];
+  if (win[ka].use_cookie) {
+    data['m'] = 'c';
+  // to work with full-page html caching refusing to update the configuration object....
+  // TODO: Remove this ~Aug 2025
+  } else if (win[ka].method) {
+    data['m'] = win[ka].method[0];
+  }
 
   navigator.sendBeacon(win[ka].url, new URLSearchParams(data));
 }
