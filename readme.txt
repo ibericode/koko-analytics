@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -134,7 +134,7 @@ Koko Analytics is currently only able to track posts, pages and other post types
 
 == Changelog ==
 
-### 1.8.3 - Jun 18, 2025
+### 1.8.4 - Jun 18, 2025
 
 - Backwards compatibility with older versions of the tracking script. This is a special update for sites refusing to serve the latest version of the Koko Analytics script because of very stubborn caching plugins...
 
