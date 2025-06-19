@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.8.3 - Jun 18, 2025
+### 1.8.4 - Jun 18, 2025
 
 - Backwards compatibility with older versions of the tracking script. This is a special update for sites refusing to serve the latest version of the Koko Analytics script because of very stubborn caching plugins...
 
