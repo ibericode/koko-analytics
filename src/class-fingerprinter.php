@@ -11,7 +11,7 @@ class Fingerprinter
         $seed_file = "{$sessions_dir}/.daily_seed";
 
         if (! is_dir($sessions_dir)) {
-            \mkdir($sessions_dir, 0755, true);
+            \mkdir($sessions_dir, 0775, true);
         }
 
         if (! is_file($seed_file)) {
