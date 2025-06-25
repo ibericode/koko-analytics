@@ -17,25 +17,35 @@ class Endpoint_Installer
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
+    public static function make_relative_to_abspath(string $path): string
+    {
+        // make path relative to ABSPATH again
+        if (str_starts_with($path, ABSPATH)) {
+            $path = ltrim(substr($path, strlen(ABSPATH)), '/');
+        }
+        return $path;
+    }
+
     public static function get_file_contents(): string
     {
         $settings = get_settings();
-        $upload_dir = get_upload_dir();
-
-        // make path relative to ABSPATH again
-        if (str_starts_with($upload_dir, ABSPATH)) {
-            $upload_dir = ltrim(substr($upload_dir, strlen(ABSPATH)), '/');
-        }
+        $upload_dir = self::make_relative_to_abspath(get_upload_dir());
         $wp_timezone_string = wp_timezone_string();
-        $functions_filename = KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php';
         $excluded_ip_addresses_string = var_export($settings['exclude_ip_addresses'], true);
 
-        // make path relative to ABSPATH again
-        if (str_starts_with($functions_filename, ABSPATH)) {
-            $functions_filename = ltrim(substr($functions_filename, strlen(ABSPATH)), '/');
-        }
+        // create require statements for all necessary files
+        $files = [
+            'wp-includes/plugin.php',
+            KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php',
+        ];
+        $files = apply_filters('koko_analytics_endpoint_files', $files);
+        $files = array_map([self::class, 'make_relative_to_abspath'], $files);
+        $require_statements = array_reduce($files, function ($result, $f) {
+            $result .= "require '$f';\n";
+            return $result;
+        }, '');
 
-        $content = <<<EOT
+        return <<<EOT
 <?php
 /**
  * @package koko-analytics
@@ -49,8 +59,8 @@ class Endpoint_Installer
 define('KOKO_ANALYTICS_UPLOAD_DIR', '$upload_dir');
 define('KOKO_ANALYTICS_TIMEZONE', '$wp_timezone_string');
 
-// path to functions.php file in Koko Analytics plugin directory
-require '$functions_filename';
+// required files
+$require_statements
 
 // check if IP address is on list of addresses to ignore
 if (!isset(\$_POST['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded_ip_addresses_string)) {
@@ -61,7 +71,6 @@ if (!isset(\$_POST['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded
 KokoAnalytics\collect_request();
 
 EOT;
-        return apply_filters('koko_analytics_endpoint_file_contents', $content);
     }
 
     /**

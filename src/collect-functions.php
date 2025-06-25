@@ -51,11 +51,7 @@ function extract_pageview_data(array $raw): array
         $referrer_url,
     ];
 
-    if (function_exists('KokoAnalytics\Pro\filter_pageview_data')) {
-        $data = \KokoAnalytics\Pro\filter_pageview_data($data);
-    }
-
-    return $data;
+    return apply_filters('koko_analytics_pageview_data', $data);
 }
 
 function extract_event_data(array $raw): array
