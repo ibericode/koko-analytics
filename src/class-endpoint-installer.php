@@ -35,7 +35,7 @@ class Endpoint_Installer
             $functions_filename = ltrim(substr($functions_filename, strlen(ABSPATH)), '/');
         }
 
-        return <<<EOT
+        $content = <<<EOT
 <?php
 /**
  * @package koko-analytics
@@ -61,6 +61,7 @@ if (!isset(\$_POST['test']) && in_array(KokoAnalytics\get_client_ip(), $excluded
 KokoAnalytics\collect_request();
 
 EOT;
+        return apply_filters('koko_analytics_endpoint_file_contents', $content);
     }
 
     /**

@@ -42,7 +42,7 @@ function extract_pageview_data(array $raw): array
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
 
-    return [
+    $data = [
         'p',                 // type indicator
         \time(),             // unix timestamp
         $post_id,
@@ -50,6 +50,12 @@ function extract_pageview_data(array $raw): array
         $unique_pageview ? 1 : 0,
         $referrer_url,
     ];
+
+    if (function_exists('KokoAnalytics\Pro\filter_pageview_data')) {
+        $data = \KokoAnalytics\Pro\filter_pageview_data($data);
+    }
+
+    return $data;
 }
 
 function extract_event_data(array $raw): array
