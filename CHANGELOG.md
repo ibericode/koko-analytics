@@ -1,5 +1,14 @@
 # Changelog
 
+
+### 1.8.5 - Jul 21, 2025
+
+- Add new action hook to add table rows before the submit button on the settings page: `koko_analytics_extra_settings_rows_before_submit`
+- Rewrite optimized endpoint to allow for filter and action hooks.
+- Allow other plugins to filter pageview data in optimized endpoint.
+- Allow other plugins to add PHP files to include in optimized endpoint.
+
+
 ### 1.8.4 - Jun 18, 2025
 
 - Backwards compatibility with older versions of the tracking script. This is a special update for sites refusing to serve the latest version of the Koko Analytics script because of very stubborn caching plugins...
