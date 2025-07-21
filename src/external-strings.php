@@ -122,40 +122,40 @@ __('Tracking events', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/event-details.php#46
 __('To track an event of this type, run the following JavaScript code:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#48
-__('You can optionally attach a value to each recorded event:', 'koko-analytics');
+// ../koko-analytics-pro/includes/views/event-details.php#49
+__('You can optionally attach a numerical value to each recorded event:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#51
+// ../koko-analytics-pro/includes/views/event-details.php#52
 __('You can find more information on tracking events in our knowledge base.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#55
+// ../koko-analytics-pro/includes/views/event-details.php#56
 __('Export this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#56
+// ../koko-analytics-pro/includes/views/event-details.php#57
 __('Use the form below to export event counts in a specific time period to CSV.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#60
+// ../koko-analytics-pro/includes/views/event-details.php#61
 __('Start date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#64
+// ../koko-analytics-pro/includes/views/event-details.php#65
 __('End date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#67
+// ../koko-analytics-pro/includes/views/event-details.php#68
 __('Export to CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#73
+// ../koko-analytics-pro/includes/views/event-details.php#74
 __('Delete this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#74
+// ../koko-analytics-pro/includes/views/event-details.php#75
 __('Use the button below to delete this event type from your dashboard overview.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#75
+// ../koko-analytics-pro/includes/views/event-details.php#76
 __('Are you sure you want to delete this event?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#77
+// ../koko-analytics-pro/includes/views/event-details.php#78
 __('Delete event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#83
+// ../koko-analytics-pro/includes/views/event-details.php#84
 __('Back to settings page', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-admin-bar.php#57
