@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.4
+Stable tag: 1.8.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -133,6 +133,15 @@ Koko Analytics is currently only able to track posts, pages and other post types
 
 
 == Changelog ==
+
+
+### 1.8.5 - Jul 21, 2025
+
+- Add new action hook to add table rows before the submit button on the settings page: `koko_analytics_extra_settings_rows_before_submit`
+- Rewrite optimized endpoint to allow for filter and action hooks.
+- Allow other plugins to filter pageview data in optimized endpoint.
+- Allow other plugins to add PHP files to include in optimized endpoint.
+
 
 ### 1.8.4 - Jun 18, 2025
 
@@ -768,15 +777,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.9 - Mar 9, 2020
 
-- Use arrow keys (without Ctrl-key) for quickly cycling through date ranges.
-- Group chart by month if showing more than 2 (full) months of data.
-- Replace React by Preact to cut JS bundle size in half.
-- Normalize referrer URL's without protocol.
-- Improve total comparision with previous period.
-
-
-#### 1.0.8 - Feb 14, 2020
-
-- Add date preset for last 28 days
-- Add keyboard navigation ...
+- Use arrow keys (without Ctrl-key) for quickly ...
 
