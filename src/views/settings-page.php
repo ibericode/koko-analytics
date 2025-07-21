@@ -244,8 +244,9 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                     <p><?php esc_html_e('You are currently using the free version of Koko Analytics. There is a premium version of this plugin which adds several powerful features.', 'koko-analytics'); ?></p>
                     <h4><?php esc_html_e('Premium features', ' koko-analytics'); ?></h4>
                     <ul class="ul-square">
+                        <li><a href="https://www.kokoanalytics.com/features/geo-location/"><?php esc_html_e('Geo-location', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/custom-event-tracking/"><?php esc_html_e('Event Tracking', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Email Reports', 'koko-analytics'); ?></a></li>
+                        <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Periodic Email Reports', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/pageviews-column/"><?php esc_html_e('Pageviews Column', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/csv-export/"><?php esc_html_e('CSV Export', 'koko-analytics'); ?></a></li>
                         <li><a href="https://www.kokoanalytics.com/features/admin-bar/"><?php esc_html_e('Admin Bar', 'koko-analytics'); ?></a></li>
