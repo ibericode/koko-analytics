@@ -35,6 +35,7 @@ You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/
 
 Koko Analytics is a freemium WordPress plugin. The core features listed above are available for free. Certain advanced features are bundled in an add-on plugin called Koko Analytics Pro:
 
+- [Geo-location](https://www.kokoanalytics.com/features/geo-location/): see exactly which countries your site is visited from.
 - [Event Tracking](https://www.kokoanalytics.com/features/custom-event-tracking/): track outbound link clicks, form submissions or any other type of custom event.
 - [Email Reports](https://www.kokoanalytics.com/features/email-reports/): Receive a daily, weekly or monthly email summary of your website's most important statistics.
 - [CSV Export](https://www.kokoanalytics.com/features/csv-export/): The ability to export your dashboard data to CSV for advanced analysis.

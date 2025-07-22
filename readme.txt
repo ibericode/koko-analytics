@@ -48,8 +48,9 @@ You can view a [live demo here](https://www.kokoanalytics.com/?koko-analytics-da
 
 ### Upgrade to Koko Analytics Pro
 
-All of the features listed above are available for free. Some additional features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing):
+All of the features listed above are available for free. Some advanced features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing):
 
+- [Geo-location](https://www.kokoanalytics.com/features/geo-location/): see exactly which countries your site is visited from.
 - [Event Tracking](https://www.kokoanalytics.com/features/custom-event-tracking/): track outbound link clicks, form submissions or any other type of custom event.
 - [Email Reports](https://www.kokoanalytics.com/features/email-reports/): Receive a daily, weekly or monthly email summary of your website's most important statistics.
 - [CSV Export](https://www.kokoanalytics.com/features/csv-export/): The ability to export your dashboard data to CSV for advanced analysis.
