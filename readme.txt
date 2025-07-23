@@ -1,7 +1,7 @@
 === Koko Analytics - Privacy-Friendly Statistics for WordPress ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-post
-Tags: analytics, statistics, stats, analytics alternative
+Tags: analytics, statistics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
 Stable tag: 1.8.5
@@ -9,7 +9,7 @@ License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Koko Analytics is a plug and play privacy-friendly analytics plugin for WordPress.
+Get plug and play, privacy-friendly and GDPR/CCPA compliant statistics for WordPress with Koko Analytics.
 
 == Description ==
 
@@ -19,7 +19,7 @@ Koko Analytics is a privacy-friendly analytics plugin for WordPress sites.
 
 It does not use any external services, so no data is shared with any third-party. Nothing specific to any individual visitor is collected, only aggregated counts.
 
-Stop sharing visitor data with third-party companies who also happen to sell ads. Stop slowing down your website with large tracking scripts. Liberate and own your data!
+Stop sharing visitor data with third-party companies who also happen to sell ads (looking at you, Google Analytics). Stop slowing down your website with large tracking scripts. Liberate and own your data!
 
 Koko Analytics lets you focus on the important statistics while completely respecting the privacy of your visitors.
 
