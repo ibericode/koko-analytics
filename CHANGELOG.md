@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.8.6 - Jul 24, 2025
+
+- Mention [geo-location](https://www.kokoanalytics.com/features/geo-location/), a new premium feature, in the settings page sidebar.
+- Improved height of select and textarea elements on settings page.
+
 
 ### 1.8.5 - Jul 21, 2025
 
