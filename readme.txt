@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.5
+Stable tag: 1.8.6
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -134,6 +134,11 @@ Koko Analytics is currently only able to track posts, pages and other post types
 
 
 == Changelog ==
+
+### 1.8.6 - Jul 24, 2025
+
+- Mention [geo-location](https://www.kokoanalytics.com/features/geo-location/), a new premium feature, in the settings page sidebar.
+- Improved height of select and textarea elements on settings page.
 
 
 ### 1.8.5 - Jul 21, 2025
@@ -772,11 +777,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.10 - Mar 23, 2020
 
-- Print configuration object early on in page HTML so it is easier to override it using a cookie consent plugin.
-- Add help text explaining the use of a multi-select element.
-
-
-#### 1.0.9 - Mar 9, 2020
-
-- Use arrow keys (without Ctrl-key) for quickly ...
+- Print configuration object early on in page HTML so it is easier to override it using ...
 
