@@ -84,6 +84,7 @@ class Notice_Pro
                 </summary>
                 <p><?php printf(esc_html__('If you enjoy using this free plugin, consider %1$supgrading to Koko Analytics Pro%2$s to get access to several powerful benefits:', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/">', '</a>'); ?></p>
                 <ul class="ul-square">
+                    <li><a href="https://www.kokoanalytics.com/features/geo-location/"><?php esc_html_e('Geo-location', 'koko-analytics'); ?></a></li>
                     <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Periodic email reports', 'koko-analytics'); ?></a></li>
                     <li><a href="https://www.kokoanalytics.com/features/custom-event-tracking/"><?php esc_html_e('Custom event tracking', 'koko-analytics'); ?></a></li>
                     <li><a href="https://www.kokoanalytics.com/features/admin-bar/"><?php esc_html_e('Stats in your admin bar', 'koko-analytics'); ?></a></li>
@@ -93,7 +94,7 @@ class Notice_Pro
 
                 <p><?php printf(esc_html__('Alternatively, %1$sleaving a plugin review on WordPress.org%2$s helps us a great deal as well.', 'koko-analytics'), '<a href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform">', '</a>'); ?></p>
                 <p>
-                    <?php esc_html_e('We thank you for your consideration.', 'koko-analytics'); ?><br />
+                    <?php esc_html_e('Thank you for your consideration.', 'koko-analytics'); ?><br />
                     ~ Danny, Harish and Arne
                 </p>
                 <p><a href="https://www.kokoanalytics.com/pricing/" class="button button-primary"><?php esc_html_e('Learn more about Koko Analytics Pro', 'koko-analytics'); ?></a> &nbsp; <a href="<?php echo esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" style="color: #CC0000;"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
