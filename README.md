@@ -5,110 +5,90 @@ Koko Analytics for WordPress
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
 ![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
 
-[Koko Analytics](https://www.kokoanalytics.com/) is a simple, open-source, lightweight and privacy-friendly website analytics plugin for WordPress.
+**[Koko Analytics](https://www.kokoanalytics.com/) is a fast, privacy-friendly, open-source analytics plugin for WordPress — no cookies, no tracking, no external services.**
 
-It aims to be a simple replacement for Google Analytics that respects the privacy of your visitors. Nothing visitor specific is tracked, only aggregated counts are stored.
-
-You can view a [live demo of Koko Analytics here](https://www.kokoanalytics.com/?koko-analytics-dashboard).
-
-## Features
-
-- **Plug and play**: After activating the plugin, stats are recorded right away.
-- **GDPR and CCPA Compliant** by design.
-- **No external services**.
-- **No personal information** or anything visitor specific is tracked.
-- **No cookies**: You can choose which tracking method to use; cookie-based, cookieless or none at all.
-- **Fast**: Handles thousands of daily visitors or sudden bursts of traffic without breaking a sweat.
-- **Lightweight**: Only 500 bytes (!) of JavaScript is added to your pages.
-- **Storage**: A year worth of data takes up less than 5MB of database storage.
-- **REST API**: You can access your data from anywhere via REST API endpoints.
-- **Cached**: Fully compatible with pages served from cache.
-- **Open-source**: GPLv3 licensed.
-- **Translated**: Fully translated into English, German, Dutch, Spanish, Japanese, Croatian, Swedish, Danish, Finnish, Italian, Korean and Russian.
 
 <figure>
   <img src="https://raw.githubusercontent.com/ibericode/koko-analytics/main/assets/src/img/screenshot-1-830x447.png" alt="Screenshot of the Koko Analytics dashboard" loading="lazy" width="830" height="447" />
   <figcaption>Screenshot of the Koko Analytics dashboard. You can <a href="https://www.kokoanalytics.com/?koko-analytics-dashboard">view a live demo here</a>.</figcaption>
 </figure>
 
-### Koko Analytics Pro
+---
 
-Koko Analytics is a freemium WordPress plugin. The core features listed above are available for free. Certain advanced features are bundled in an add-on plugin called Koko Analytics Pro:
+## Why Koko Analytics?
 
-- [Geo-location](https://www.kokoanalytics.com/features/geo-location/): see exactly which countries your site is visited from.
-- [Event Tracking](https://www.kokoanalytics.com/features/custom-event-tracking/): track outbound link clicks, form submissions or any other type of custom event.
-- [Email Reports](https://www.kokoanalytics.com/features/email-reports/): Receive a daily, weekly or monthly email summary of your website's most important statistics.
-- [CSV Export](https://www.kokoanalytics.com/features/csv-export/): The ability to export your dashboard data to CSV for advanced analysis.
-- [Pageviews Column](https://www.kokoanalytics.com/features/pageviews-column/): Shows the number of pageviews over a configurable time period right in your WP Admin posts and pages overview.
-- [Admin Bar](https://www.kokoanalytics.com/features/admin-bar/): Shows daily pageviews for a specific page in your WordPress Admin Bar.
-- [Traffic Spike Notifications](https://www.kokoanalytics.com/features/traffic-spike-notifications/): receive an email notification when your website experiences a traffic spike.
+Koko Analytics is a simple replacement for Google Analytics that:
 
-You can [purchase Koko Analytics Pro here](https://www.kokoanalytics.com/pricing/).
+- Works out-of-the-box (no setup wizard or API keys)
+- Stores all data on your server
+- Tracks only aggregated counts, never personal data
+- Respects GDPR and CCPA by design
+- Loads lightning-fast with a script under 500 bytes
 
+[See All Features →](https://www.kokoanalytics.com/features/)
 
-## Installation
+---
+
+### Koko Analytics Pro (optional add-on)
+
+Upgrade for advanced insights while keeping your visitors’ privacy intact:
+
+- 🌍 [Geo-location](https://www.kokoanalytics.com/features/geo-location/)
+- 🔗 [Event Tracking](https://www.kokoanalytics.com/features/custom-event-tracking/)
+- 📨 [Email Reports](https://www.kokoanalytics.com/features/email-reports/)
+- 🛠 [CSV Export](https://www.kokoanalytics.com/features/csv-export/)
+- 📈 [Pageviews Column in WP Admin](https://www.kokoanalytics.com/features/pageviews-column/)
+- 📊 [Admin Bar stats](https://www.kokoanalytics.com/features/admin-bar/)
+- 🚨 [Traffic Spike Notifications](https://www.kokoanalytics.com/features/traffic-spike-notifications/)
+
+[Get Koko Analytics Pro →](https://www.kokoanalytics.com/pricing/)
+
+---
+
+## Quick Start
 
 ### Requirements
 
-Note that these are minimum required versions. We recommend running an [officially supported version of PHP](https://www.php.net/supported-versions).
+- WordPress 6.0+
+- PHP 7.4+ (latest recommended)
 
-- WordPress 6.0 or higher.
-- PHP 7.4 or higher.
+### Install from WordPress.org
 
-### Installing latest stable release
+1. In your WordPress dashboard, go to **Plugins → Add New**
+1. Search for “Koko Analytics”
+1. Click **Install** and **Activate** — stats start recording immediately
 
-You can download a pre-packaged version of Koko Analytics here:
+### Install from GitHub (latest development version)
 
-- [Koko Analytics on WordPress.org](https://wordpress.org/plugins/koko-analytics/)
-- From the [GitHub releases page](https://github.com/ibericode/koko-analytics/releases).
-- From your WordPress admin by searching for "Koko Analytics" in the "Add plugin" screen.
-
-After extracting this package into your `/wp-content/plugins/` directory the plugin is ready to be used right away.
-
-### Installing latest development version
-
-To run the latest development version of the plugin, take the following steps.
-
-First, clone or download the repository into your `/wp-content/plugins/` directory
-
-```
-git clone git@github.com:ibericode/koko-analytics.git
-```
-
-Create the autoloader using [Composer](https://getcomposer.org/).
-```
+```sh
+git clone git@github.com:ibericode/koko-analytics.git wp-content/plugins/koko-analytics
+cd wp-content/plugins/koko-analytics
 composer install
-```
-
-Install client-side dependencies using [NPM](https://docs.npmjs.com/cli/configuring-npm/install).
-```
 npm install
-```
-
-Build the plugin assets by issuing the following command:
-```
 npm run build
 ```
 
+---
+
 ## Usage
 
-Stats will be collected right away after you install and activate the plugin.
-You can view your stats on the **Dashboard > Analytics** page.
+Once activated, visit Dashboard → Analytics in WordPress to view your stats.
 
-## Help and documentation
+See our [Knowledge Base](https://www.kokoanalytics.com/kb/) for advanced configuration, REST API usage, and code snippets.
 
-The [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/) contains general help articles on effectively using the plugin.
-
-We also have a [repository of sample code snippets](https://github.com/ibericode/koko-analytics/tree/master/code-snippets) to help you modify or extend the plugin's default behavior.
+---
 
 ## Contributing
 
-You can contribute to Koko Analytics in many different ways. For example:
+Koko Analytics is open source and community-driven. You can:
 
-- Write about the plugin on your blog or share it on social media.
-- [Translate the plugin into your language](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/) using your WordPress.org account.
-- [Vote on features in the GitHub discussions idea board](https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop).
-- Purchase [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) for its advanced features or simply to help fund development and support costs.
+- ⭐ Star this repo
+- 🗣 [Suggest & vote on features](https://github.com/ibericode/koko-analytics/discussions)
+- 🌍 [Translate the plugin](https://translate.wordpress.org/projects/wp-plugins/koko-analytics/stable/)
+- 📝 Write about it on your blog or social media
+- 💖 [Upgrade to Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) to fund development
+
+---
 
 ## License
 
