@@ -18,7 +18,7 @@ function get_settings(): array
         'tracking_method' => 'cookie',
         'exclude_user_roles' => [],
         'exclude_ip_addresses' => [],
-        'prune_data_after_months' => 10 * 12, // 10 years
+        'prune_data_after_months' => 5 * 12, // 10 years
         'default_view' => 'last_28_days',
         'is_dashboard_public' => 0,
     ];
@@ -65,8 +65,8 @@ function get_most_viewed_post_ids(array $args)
         $post_types_placeholder = rtrim(str_repeat('%s,', count($args['post_type'])), ',');
         $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews
             FROM {$wpdb->prefix}koko_analytics_post_stats s
-            JOIN {$wpdb->posts} p ON s.id = p.id
-            WHERE s.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_type IN ({$post_types_placeholder}) AND p.post_status = 'publish'
+            JOIN {$wpdb->posts} p ON s.post_id = p.id
+            WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_status = 'publish' AND p.post_type IN ({$post_types_placeholder})
             GROUP BY p.id
             ORDER BY SUM(pageviews) DESC
             LIMIT %d, %d", $sql_params);
@@ -152,33 +152,6 @@ function using_custom_endpoint(): bool
 function create_local_datetime(string $timestr): \DateTimeImmutable
 {
     return new \DateTimeImmutable($timestr, wp_timezone());
-}
-
-/**
- *  @param int|WP_Post $post
- */
-function get_page_title($post): string
-{
-    $post = get_post($post);
-    if (!$post) {
-        return '(deleted post)';
-    }
-
-    $title = $post->post_title;
-
-    // if post has no title, use path + query part from permalink
-    if ($title === '') {
-        $permalink = get_permalink($post);
-        $url_parts = parse_url($permalink);
-        $title = $url_parts['path'];
-
-        if (!empty($url_parts['query'])) {
-            $title .= '?';
-            $title .= $url_parts['query'];
-        }
-    }
-
-    return $title;
 }
 
 function is_request_excluded(): bool

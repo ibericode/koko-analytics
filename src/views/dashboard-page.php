@@ -3,8 +3,6 @@
 use KokoAnalytics\Chart_View;
 use KokoAnalytics\Fmt;
 
-use function KokoAnalytics\get_page_title;
-
 defined('ABSPATH') or exit;
 
 

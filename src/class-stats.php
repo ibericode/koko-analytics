@@ -152,7 +152,7 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
         return (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(DISTINCT(s.id))
+            "SELECT COUNT(DISTINCT(s.path_id))
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
