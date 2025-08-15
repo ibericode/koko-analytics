@@ -10,5 +10,15 @@ function bench(Closure $fn, $iterations = 1000)
         $fn();
     }
     $time_end = microtime(true);
+
+
+    // return total time taken (in seconds)
     return round(($time_end - $time_start) * 1000 * 1000, 2);
+}
+
+function bench_assert($expected, $actual)
+{
+    if ($expected != $actual) {
+        die("Error: expected \"$expected\", got \"$actual\"");
+    }
 }

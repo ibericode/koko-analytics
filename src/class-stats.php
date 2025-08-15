@@ -126,18 +126,29 @@ class Stats
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        $sql = $wpdb->prepare(
+
+        $results = $wpdb->get_results($wpdb->prepare(
             "SELECT p.path, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
-                LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
+                JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.path_id
                 ORDER BY pageviews DESC, s.path_id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
-        );
+        ));
 
-        return $wpdb->get_results($sql);
+        return array_map(function ($row) {
+            $row->pageviews = (int) $row->pageviews;
+            $row->visitors = (int) $row->visitors;
+
+            // for backwards compatibility with versions before 2.0
+            // set post_title and post_permalink property
+            $row->post_permalink = $row->path;
+            $row->post_title = $row->path;
+
+            return $row;
+        }, $results);
     }
 
     public function count_posts(string $start_date, string $end_date): int
