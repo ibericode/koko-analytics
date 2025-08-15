@@ -40,12 +40,11 @@ class Stats
             $args[] = $page;
         }
 
-        $sql = $wpdb->prepare("
+        $result = $wpdb->get_row($wpdb->prepare("
             SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
-		    FROM {$from}
+            FROM {$from}
             WHERE {$where}
-			", $args);
-        $result = $wpdb->get_row($sql);
+            ", $args));
 
         // ensure we always return a valid object containing the keys we need
         if (!$result) {
@@ -73,10 +72,10 @@ class Stats
      * @param string $start_date
      * @param string $end_date
      * @param string $group `day`, `week` or `month`
-     * @param int $page
+     * @param string $page
      * @return array
      */
-    public function get_stats(string $start_date, string $end_date, string $group = 'day', $page = 0): array
+    public function get_stats(string $start_date, string $end_date, string $group = 'day', $page = ''): array
     {
         /** @var wpdb $wpdb */
         global $wpdb;
@@ -95,10 +94,8 @@ class Stats
 
         if ($page) {
             // join page-specific stats
-            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s ON s.date = d.date";
-            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id";
-            $where .= " AND p.path = %s";
-            $args[] = $page;
+            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id ON s.date = d.date ";
+            $args = [$page, $start_date, $end_date];
         } else {
             // join site-wide stats
             $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date";
@@ -106,15 +103,14 @@ class Stats
 
         $args[] = $date_format;
 
-        $sql = $wpdb->prepare(
+        $result = $wpdb->get_results($wpdb->prepare(
             "SELECT d.date, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews
                 FROM {$from}
                 WHERE {$where}
                 GROUP BY DATE_FORMAT(d.date, %s)
                 ORDER BY d.date ASC",
             $args
-        );
-        $result = $wpdb->get_results($sql);
+        ));
         return \array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
@@ -155,20 +151,19 @@ class Stats
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        $sql = $wpdb->prepare(
+        return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
-        );
-        return (int) $wpdb->get_var($sql);
+        ));
     }
 
     public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        $sql = $wpdb->prepare(
+        return $wpdb->get_results($wpdb->prepare(
             "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                     JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
@@ -177,20 +172,18 @@ class Stats
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
-        );
-        return $wpdb->get_results($sql);
+        ));
     }
 
     public function count_referrers(string $start_date, string $end_date): int
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        $sql = $wpdb->prepare(
+        return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                 WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
-        );
-        return (int) $wpdb->get_var($sql);
+        ));
     }
 }
