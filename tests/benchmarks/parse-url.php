@@ -4,28 +4,22 @@ require __DIR__ . '/functions.php';
 
 function normalize_with_parse_str(string $url): string
 {
-
     // remove # from URL
-    $pos = strpos($url, '#');
-    if ($pos !== false) {
+    if (($pos = strpos($url, '#')) !== false) {
         $url = substr($url, 0, $pos);
     }
 
-    // TODO: Benchmark this against explode on '&' then '=' then string concat
-
     // if URL contains query string, parse it and only keep certain parameters
-    $pos = strpos($url, '?');
-    if ($pos !== false) {
+    if (($pos = strpos($url, '?')) !== false) {
         $query_str = substr($url, $pos + 1);
+        $url = substr($url, 0, $pos + 1);
 
         $params = [];
         parse_str($query_str, $params);
-
-        $new_query_str  = http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
-        $new_url        = substr($url, 0, $pos + 1) . $new_query_str;
+        $url        .= http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
 
         // trim trailing question mark & replace url with new sanitized url
-        $url = rtrim($new_url, '?');
+        $url = rtrim($url, '?');
     }
 
     return $url;
@@ -40,8 +34,8 @@ function normalize_explode(string $url): string
 
     // if URL contains query string, parse it and only keep certain parameters
     if (($pos = strpos($url, '?')) !== false) {
-        $query_string = substr($url, $pos+1);
-        $url = substr($url, 0, $pos+1);
+        $query_string = substr($url, $pos + 1);
+        $url = substr($url, 0, $pos + 1);
         $allowed_params = [ 'page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
 
         foreach (explode('&', $query_string) as $a) {

@@ -80,29 +80,21 @@ class Script_Loader
         $url = trim($_SERVER["REQUEST_URI"]);
 
         // remove # from URL
-        $pos = strpos($url, '#');
-        if ($pos !== false) {
+        if (($pos = strpos($url, '#')) !== false) {
             $url = substr($url, 0, $pos);
         }
 
-        // TODO: Benchmark this against explode on '&' then '=' then string concat
-
         // if URL contains query string, parse it and only keep certain parameters
-        $pos = strpos($url, '?');
-        if ($pos !== false) {
+        if (($pos = strpos($url, '?')) !== false) {
             $query_str = substr($url, $pos + 1);
+            $url = substr($url, 0, $pos + 1);
 
             $params = [];
             parse_str($query_str, $params);
-
-            // strip all but the following query parameters from the URL
-            $allowed_params = [ 'page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
-            $new_params     = array_intersect_key($params, array_flip($allowed_params));
-            $new_query_str  = http_build_query($new_params);
-            $new_url        = substr($url, 0, $pos + 1) . $new_query_str;
+            $url        .= http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
 
             // trim trailing question mark & replace url with new sanitized url
-            $url = rtrim($new_url, '?');
+            $url = rtrim($url, '?');
         }
 
         return $url;
