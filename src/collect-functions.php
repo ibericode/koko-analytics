@@ -26,18 +26,19 @@ function maybe_collect_request(): void
 function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing
-    if (!isset($raw['p'])) {
+    if (!isset($raw['pa'])) {
         return [];
     }
 
     // grab and validate parameters
-    $post_id = \filter_var($raw['p'], FILTER_VALIDATE_INT);
+    $path = substr(trim($raw['pa']), 0, 2000);
+    $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
     if ($post_id === false || $referrer_url === false) {
         return [];
     }
 
-    [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $post_id);
+    [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $path);
 
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
@@ -45,6 +46,7 @@ function extract_pageview_data(array $raw): array
     $data = [
         'p',                 // type indicator
         \time(),             // unix timestamp
+        $path,
         $post_id,
         $new_visitor ? 1 : 0,
         $unique_pageview ? 1 : 0,

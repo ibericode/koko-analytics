@@ -88,7 +88,7 @@ require __DIR__ . '/../template-functions.php';
 
             <div class="ka-page-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
                 <?php esc_html_e('Page', 'koko-analytics'); ?> =
-                <a href="<?php echo esc_attr(get_the_permalink($page)); ?>"><?php echo esc_html(get_page_title($page)); ?></a>
+                <a href="<?php echo esc_attr($page); ?>"><?php echo esc_html($page); ?></a>
                 <a class="ka-page-filter--close" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
             </div>
 
@@ -185,9 +185,9 @@ require __DIR__ . '/../template-functions.php';
                 </thead>
                 <tbody>
                     <?php foreach ($posts as $i => $p) { ?>
-                        <tr <?php echo $page == $p->id ? 'class="page-filter-active"' : ''; ?>>
+                        <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?>>
                             <td><?php echo  $posts_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->id])); ?>"><?php echo esc_html($p->post_title); ?></a></td>
+                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->path); ?></a></td>
                             <td><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
                             <td><?php echo number_format_i18n($p->pageviews); ?></td>
                         </tr>

@@ -34,7 +34,7 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-\define('KOKO_ANALYTICS_VERSION', '1.8.6');
+\define('KOKO_ANALYTICS_VERSION', '2.0.0');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 

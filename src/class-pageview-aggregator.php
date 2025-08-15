@@ -25,7 +25,7 @@ class Pageview_Aggregator
         }
 
         // unpack line
-        [$timestamp, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
+        [$timestamp, $path, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
 
         // Ignore entire line (request) if referrer URL is on blocklist
         if ($referrer_url !== '' && $this->ignore_referrer_url($referrer_url)) {
@@ -47,20 +47,18 @@ class Pageview_Aggregator
             $this->site_stats[$date_key]['visitors'] += 1;
         }
 
-        // update page stats (if received)
-        if ($post_id >= 0) {
-            if (!isset($this->post_stats[$date_key])) {
-                $this->post_stats[$date_key] = [];
-            }
-            if (! isset($this->post_stats[$date_key][$post_id])) {
-                $this->post_stats[$date_key][$post_id] = [ 'visitors' => 0, 'pageviews' => 0 ];
-            }
+        // update page stats
+        if (!isset($this->post_stats[$date_key])) {
+            $this->post_stats[$date_key] = [];
+        }
+        if (! isset($this->post_stats[$date_key][$path])) {
+            $this->post_stats[$date_key][$path] = [ 'visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id ];
+        }
 
-            $this->post_stats[$date_key][$post_id]['pageviews'] += 1;
+        $this->post_stats[$date_key][$path]['pageviews'] += 1;
 
-            if ($unique_pageview) {
-                $this->post_stats[$date_key][$post_id]['visitors'] += 1;
-            }
+        if ($unique_pageview) {
+            $this->post_stats[$date_key][$path]['visitors'] += 1;
         }
 
         // increment referrals
@@ -85,7 +83,7 @@ class Pageview_Aggregator
 
         // increment realtime if this pageview is recent enough
         if ($timestamp > \time() - 60 * 60) {
-            $key = (string) (floor($timestamp / 60) * 60);
+            $key = (string) (\floor($timestamp / 60) * 60);
             $this->realtime[$key] ??= 0;
             $this->realtime[$key]++;
         }
@@ -116,18 +114,48 @@ class Pageview_Aggregator
     {
         global $wpdb;
 
-        // insert post stats
+        // insert referrer stats
         foreach ($this->post_stats as $date => $stats) {
-            $values = [];
-            foreach ($stats as $post_id => $s) {
-                array_push($values, $date, $post_id, $s['visitors'], $s['pageviews']);
+            // retrieve ID's for known referrer urls
+            $keys = array_keys($stats);
+            $placeholders  = rtrim(str_repeat('%s,', count($keys)), ',');
+            $sql           = $wpdb->prepare("SELECT id, path FROM {$wpdb->prefix}koko_analytics_paths p WHERE p.path IN({$placeholders})", $keys);
+            $results       = $wpdb->get_results($sql);
+            foreach ($results as $r) {
+                $stats[$r->path]['path_id'] = $r->id;
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
-            $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+
+            // build query for new referrer urls
+            $new_keys = [];
+            foreach ($stats as $key => $r) {
+                if (! isset($r['path_id'])) {
+                    $new_keys[] = $key;
+                }
+            }
+
+            // insert new referrer urls and set ID in map
+            if (count($new_keys) > 0) {
+                $values       = $new_keys;
+                $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
+                $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths(path) VALUES {$placeholders}", $values);
+                $wpdb->query($sql);
+                $last_insert_id = $wpdb->insert_id;
+                foreach (array_reverse($values) as $key) {
+                    $stats[$key]['path_id'] = $last_insert_id--;
+                }
+            }
+
+            // insert referrer stats
+            $values = [];
+            foreach ($stats as $r) {
+                array_push($values, $date, $r['path_id'], $r['post_id'], $r['visitors'], $r['pageviews']);
+            }
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($stats)), ',');
+            $sql          = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($sql);
         }
 
-        $this->post_stats     = [];
+        $this->post_stats = [];
     }
 
     private function commit_referrer_stats(): void
@@ -261,7 +289,7 @@ class Pageview_Aggregator
             parse_str($query_str, $params);
 
             // strip all but the following query parameters from the URL
-            $allowed_params = [ 'page_id', 'p', 'cat', 'product' ];
+            $allowed_params = [ 'page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
             $new_params     = array_intersect_key($params, array_flip($allowed_params));
             $new_query_str  = http_build_query($new_params);
             $new_url        = substr($url, 0, $pos + 1) . $new_query_str;

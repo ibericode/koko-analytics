@@ -47,9 +47,8 @@ class Script_Loader
 
     /**
      * Returns the internal ID of the page or post that is being shown.
-     * If page is not a singular object, the function returns 1 if it is the front page (from Settings) or -1 if something else (eg category archive).
      *
-     * @return int
+     * If page is not a singular object, the function returns 0 if it is the front page (from Settings)
      */
     private static function get_post_id(): int
     {
@@ -57,15 +56,12 @@ class Script_Loader
             return get_queried_object_id();
         }
 
-        if (is_front_page()) {
-            return 0;
-        }
-
-        return -1;
+        return 0;
     }
 
     private static function get_tracker_url(): string
     {
+        global $wp;
         // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             // custom custom endpoint
@@ -79,26 +75,59 @@ class Script_Loader
         return admin_url('admin-ajax.php?action=koko_analytics_collect');
     }
 
+    public static function get_request_path(): string
+    {
+        $url = trim($_SERVER["REQUEST_URI"]);
+
+        // remove # from URL
+        $pos = strpos($url, '#');
+        if ($pos !== false) {
+            $url = substr($url, 0, $pos);
+        }
+
+        // TODO: Benchmark this against explode on '&' then '=' then string concat
+
+        // if URL contains query string, parse it and only keep certain parameters
+        $pos = strpos($url, '?');
+        if ($pos !== false) {
+            $query_str = substr($url, $pos + 1);
+
+            $params = [];
+            parse_str($query_str, $params);
+
+            // strip all but the following query parameters from the URL
+            $allowed_params = [ 'page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
+            $new_params     = array_intersect_key($params, array_flip($allowed_params));
+            $new_query_str  = http_build_query($new_params);
+            $new_url        = substr($url, 0, $pos + 1) . $new_query_str;
+
+            // trim trailing question mark & replace url with new sanitized url
+            $url = rtrim($new_url, '?');
+        }
+
+        return $url;
+    }
+
     public static function print_js_object()
     {
         $settings      = get_settings();
         $script_config = [
-            // the URL of the tracking endpoint
-            'url'   => self::get_tracker_url(),
+        // the URL of the tracking endpoint
+        'url'   => self::get_tracker_url(),
 
-            // root URL of site
-            'site_url' => get_home_url(),
+        // root URL of site
+        'site_url' => get_home_url(),
 
-            // ID of the current post (or -1 in case of non-singular type)
-            'post_id'       => self::get_post_id(),
+        'post_id' => self::get_post_id(),
+        'path' => self::get_request_path(),
 
-            // tracking method to use (passed to endpoint)
-            'method' => $settings['tracking_method'],
+        // tracking method to use (passed to endpoint)
+        'method' => $settings['tracking_method'],
 
-            // for backwards compatibility with older versions
-            // some users set this value from other client-side scripts, ie cookie consent banners
-            // if true, takes priority of the method property defined above
-            'use_cookie' => $settings['tracking_method'] === 'cookie',
+        // for backwards compatibility with older versions
+        // some users set this value from other client-side scripts, ie cookie consent banners
+        // if true, takes priority of the method property defined above
+        'use_cookie' => $settings['tracking_method'] === 'cookie',
         ];
         $data = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
         wp_print_inline_script_tag($data);
@@ -107,23 +136,22 @@ class Script_Loader
     public static function print_amp_analytics_tag()
     {
         $settings     = get_settings();
-        $post_id      = self::get_post_id();
-        $tracker_url  = self::get_tracker_url();
         $data         = [
             'm' => $settings['tracking_method'][0],
-            'p' => $post_id,
+            'po' => self::get_post_id(),
+            'pa' => self::get_request_path(),
         ];
-        $url          = add_query_arg($data, $tracker_url);
+        $url          = add_query_arg($data, self::get_tracker_url());
         $config       = [
-            'requests' => [
-                'pageview' => $url,
+        'requests' => [
+            'pageview' => $url,
+        ],
+        'triggers' => [
+            'trackPageview' => [
+                'on' => 'visible',
+                'request' => 'pageview',
             ],
-            'triggers' => [
-                'trackPageview' => [
-                    'on' => 'visible',
-                    'request' => 'pageview',
-                ],
-            ],
+        ],
         ];
 
         echo '<amp-analytics><script type="application/json">', json_encode($config), '</script></amp-analytics>';

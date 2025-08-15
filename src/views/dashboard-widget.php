@@ -43,7 +43,7 @@ use KokoAnalytics\Fmt;
             <ul class="ka-ul">
                 <?php foreach ($posts as $post) { ?>
                 <li>
-                    <span><?php echo number_format_i18n($post->pageviews); ?></span> <a href="<?php echo esc_attr($post->post_permalink); ?>"><?php echo esc_html($post->post_title); ?></a>
+                    <span><?php echo number_format_i18n($post->pageviews); ?></span> <a href="<?php echo esc_attr($post->path); ?>"><?php echo esc_html($post->path); ?></a>
                 </li>
                 <?php } ?>
             </ul>

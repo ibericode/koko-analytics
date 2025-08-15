@@ -25,7 +25,7 @@ class Stats
     /**
      * @return object{ visitors: int, pageviews: int }
      */
-    public function get_totals(string $start_date, string $end_date, int $page = 0, $unused = null): object
+    public function get_totals(string $start_date, string $end_date, $page = 0, $unused = null): object
     {
         /** @var wpdb $wpdb */
         global $wpdb;
@@ -34,9 +34,9 @@ class Stats
         $where = 's.date >= %s AND s.date <= %s';
         $args = [$start_date, $end_date];
 
-        if ($page > 0) {
-            $table = $wpdb->prefix . 'koko_analytics_post_stats s';
-            $where .= ' AND s.id = %d';
+        if ($page) {
+            $table = "{$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id";
+            $where .= ' AND p.path = %s';
             $args[] = $page;
         }
 
@@ -67,7 +67,7 @@ class Stats
     }
 
     /**
-     * Get aggregated statistics (per day or per month) between the two given dates.
+     * Get aggregated statistics (per day, week or month) between the two given dates.
      * Without the $page parameter this returns the site-wide statistics.
      *
      * @param string $start_date
@@ -76,7 +76,7 @@ class Stats
      * @param int $page
      * @return array
      */
-    public function get_stats(string $start_date, string $end_date, string $group = 'day', int $page = 0): array
+    public function get_stats(string $start_date, string $end_date, string $group = 'day', $page = 0): array
     {
         /** @var wpdb $wpdb */
         global $wpdb;
@@ -89,21 +89,27 @@ class Stats
         ];
         $date_format = $available_groupings[$group];
 
-        if ($page > 0) {
-            $join_table = $wpdb->prefix . 'koko_analytics_post_stats';
-            $join_on = 's.date = d.date AND s.id = %d';
-            $args = [$page, $start_date, $end_date, $date_format];
+        $from = "{$wpdb->prefix}koko_analytics_dates d";
+        $where = "d.date >= %s AND d.date <= %s";
+        $args = [$start_date, $end_date];
+
+        if ($page) {
+            // join page-specific stats
+            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s ON s.date = d.date";
+            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id AND p.path = %s";
+            $args = [$page, $start_date, $end_date];
         } else {
-            $join_table = $wpdb->prefix . 'koko_analytics_site_stats';
-            $args = [$start_date, $end_date, $date_format];
-            $join_on = 's.date = d.date';
+            // join site-wide stats
+            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date";
+            $args = [$start_date, $end_date];
         }
+
+        $args[] = $date_format;
 
         $sql = $wpdb->prepare(
             "SELECT d.date, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews
-                FROM {$wpdb->prefix}koko_analytics_dates d
-                    LEFT JOIN {$join_table} s ON {$join_on}
-                WHERE d.date >= %s AND d.date <= %s
+                FROM {$from}
+                WHERE {$where}
                 GROUP BY DATE_FORMAT(d.date, %s)
                 ORDER BY d.date ASC",
             $args
@@ -121,37 +127,17 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
         $sql = $wpdb->prepare(
-            "SELECT s.id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+            "SELECT p.path, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
+                LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 WHERE s.date >= %s AND s.date <= %s
-                GROUP BY s.id
-                ORDER BY pageviews DESC, s.id ASC
+                GROUP BY s.path_id
+                ORDER BY pageviews DESC, s.path_id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
         );
 
-        $results = $wpdb->get_results($sql);
-
-        // this prevents n+1 queries in the array_map callback below
-        // because get_posts primes wp_cache entries for each post object
-        $ids = wp_list_pluck($results, 'id');
-        get_posts(['include' => $ids ]);
-
-        return array_map(function ($row) {
-            // special handling of records with ID 0 (indicates a view of the front page when front page is not singular)
-            if ($row->id == 0) {
-                $row->post_permalink = home_url();
-                $row->post_title     = get_bloginfo('name');
-            } else {
-                $post = get_post($row->id);
-                $row->post_title = get_page_title($post);
-                $row->post_permalink = $post ? get_permalink($post) : '';
-            }
-
-            $row->pageviews = (int) $row->pageviews;
-            $row->visitors  = (int) $row->visitors;
-            return $row;
-        }, $results);
+        return $wpdb->get_results($sql);
     }
 
     public function count_posts(string $start_date, string $end_date): int

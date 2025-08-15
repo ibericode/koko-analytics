@@ -35,7 +35,7 @@ class Dashboard
         $now = create_local_datetime('now');
         $week_starts_on = (int) get_option('start_of_week', 0);
         $dateRange = $this->get_dates_for_range($now, $range, $week_starts_on);
-        $page = isset($_GET['p']) ? absint($_GET['p']) : 0;
+        $page = isset($_GET['p']) ? trim($_GET['p']) : 0;
 
         try {
             $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
