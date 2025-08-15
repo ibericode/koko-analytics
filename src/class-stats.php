@@ -30,19 +30,19 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
 
-        $table = $wpdb->prefix . 'koko_analytics_site_stats s';
+        $from = "{$wpdb->prefix}koko_analytics_site_stats s";
         $where = 's.date >= %s AND s.date <= %s';
         $args = [$start_date, $end_date];
 
         if ($page) {
-            $table = "{$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id";
+            $from = "{$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id";
             $where .= ' AND p.path = %s';
             $args[] = $page;
         }
 
         $sql = $wpdb->prepare("
             SELECT COALESCE(SUM(visitors), 0) AS visitors, COALESCE(SUM(pageviews), 0) AS pageviews
-		    FROM {$table}
+		    FROM {$from}
             WHERE {$where}
 			", $args);
         $result = $wpdb->get_row($sql);
@@ -96,12 +96,12 @@ class Stats
         if ($page) {
             // join page-specific stats
             $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s ON s.date = d.date";
-            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id AND p.path = %s";
-            $args = [$page, $start_date, $end_date];
+            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id";
+            $where .= " AND p.path = %s";
+            $args[] = $page;
         } else {
             // join site-wide stats
             $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date";
-            $args = [$start_date, $end_date];
         }
 
         $args[] = $date_format;
