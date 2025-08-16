@@ -32,7 +32,7 @@ class Pruner
             return;
         }
 
-        $date = create_local_datetime(\sprintf('-%d months', $settings['prune_data_after_months']))->format('Y-m-d');
+        $date = (new \DateTime("-{$settings['prune_data_after_months']} months", wp_timezone()))->format('Y-m-d');
 
         // delete stats older than date above
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_site_stats WHERE date < %s", $date));
@@ -41,5 +41,8 @@ class Pruner
 
         // delete unused referrer URL's
         $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN (SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
+
+        // delete unused paths
+        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_paths WHERE id NOT IN (SELECT DISTINCT(path_id) FROM {$wpdb->prefix}koko_analytics_post_stats )");
     }
 }
