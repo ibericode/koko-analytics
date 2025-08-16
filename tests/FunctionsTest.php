@@ -23,7 +23,8 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['po' => '1', 'r' => 'not an url']), []);
 
         // complete and valid
-        foreach ([
+        foreach (
+            [
             [['pa' => '/', 'po' => '1'], ['p', null, '/', 1, 1, 1, '']],
 
             ] as [$input, $expected]

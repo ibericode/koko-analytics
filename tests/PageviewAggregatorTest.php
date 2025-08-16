@@ -9,6 +9,26 @@ use PHPUnit\Framework\TestCase;
 
 final class PageviewAggregatorTest extends TestCase
 {
+    public function test_normalize_path(): void
+    {
+        $a = new \KokoAnalytics\Pageview_Aggregator();
+        $tests = [
+            // empty string should remain untouched
+            '' => '',
+            '/' => '/',
+            '/about/' => '/about/',
+            '/koko/is/great/' => '/koko/is/great/',
+            '/?p=100' => '/?p=100',
+            '/?utm_source=source&utm_medium=medium&utm_campaign=campaign' => '/',
+            '/?utm_source=source&utm_medium=medium&p=200&utm_campaign=campaign' => '/?p=200',
+            '/?attachment_id=123' => '/?attachment_id=123',
+        ];
+
+        foreach ($tests as $input => $output) {
+            $this->assertEquals($output, $a->normalize_path($input));
+        }
+    }
+
     public function test_clean_url(): void
     {
         $a = new \KokoAnalytics\Pageview_Aggregator();
