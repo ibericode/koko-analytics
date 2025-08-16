@@ -38,6 +38,7 @@ class Data_Importer
             TRUNCATE {$this->db->prefix}koko_analytics_post_stats;
             TRUNCATE {$this->db->prefix}koko_analytics_referrer_stats;
             TRUNCATE {$this->db->prefix}koko_analytics_referrer_urls;
+            TRUNCATE {$this->db->prefix}koko_analytics_paths;
         ");
 
         // then, excute sql string

@@ -27,6 +27,7 @@ class Data_Exporter
         $out = fopen('php://output', 'w');
 
         $this->export_site_stats($out);
+        $this->export_paths($out);
         $this->export_post_stats($out);
         $this->export_referrer_urls($out);
         $this->export_referrer_stats($out);
@@ -53,6 +54,24 @@ class Data_Exporter
         unset($rows);
     }
 
+    private function export_paths($stream): void
+    {
+        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_paths;");
+        if (!$rows) {
+            return;
+        }
+
+        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_paths (id, path) VALUES ");
+        $prefix = '';
+        foreach ($rows as $i => $s) {
+            fwrite($stream, "{$prefix}({$s->id},\"{$s->path}\")");
+            $prefix = ',';
+        }
+        fwrite($stream, ";\n");
+
+        unset($rows);
+    }
+
     private function export_post_stats($stream): void
     {
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_post_stats;");
@@ -60,10 +79,11 @@ class Data_Exporter
             return;
         }
 
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_post_stats (date, id, visitors, pageviews) VALUES ");
+        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_post_stats (date, path_id, post_id, visitors, pageviews) VALUES ");
+        $prefix = '';
         foreach ($rows as $i => $s) {
-            $prefix = $i === 0 ? '' : ',';
-            fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->id},{$s->visitors},{$s->pageviews})");
+            fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->path_id},{$s->post_id},{$s->visitors},{$s->pageviews})");
+            $prefix = ',';
         }
         fwrite($stream, ";\n");
 
