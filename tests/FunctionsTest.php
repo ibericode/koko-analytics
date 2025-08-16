@@ -19,23 +19,24 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com']), []);
 
        // complete but invalid
-        $this->assertEquals(extract_pageview_data(['p' => '']), []);
-        $this->assertEquals(extract_pageview_data(['p' => '1', 'r' => 'not an url']), []);
+        $this->assertEquals(extract_pageview_data(['po' => '']), []);
+        $this->assertEquals(extract_pageview_data(['po' => '1', 'r' => 'not an url']), []);
 
         // complete and valid
-        foreach (
-            [
-            [['p' => '1'], ['p', null, 1, 1, 1, '']],
+        foreach ([
+            [['pa' => '/', 'po' => '1'], ['p', null, '/', 1, 1, 1, '']],
 
             ] as [$input, $expected]
         ) {
             $actual = extract_pageview_data($input);
+            $this->assertGreaterThan(0, count($actual));
             $this->assertEquals($expected[0], $actual[0]);  // type indicator
             $this->assertIsInt($actual[1]); // timestamp
-            $this->assertEquals($expected[2], $actual[2]);  // post id
-            $this->assertEquals($expected[3], $actual[3]);
+            $this->assertEquals($expected[2], $actual[2]);  // path
+            $this->assertEquals($expected[3], $actual[3]);  // post id
             $this->assertEquals($expected[4], $actual[4]);
             $this->assertEquals($expected[5], $actual[5]);
+            $this->assertEquals($expected[6], $actual[6]);
         }
     }
 
