@@ -108,27 +108,9 @@ class Rest
         return $is_dashboard_public || current_user_can('view_koko_analytics');
     }
 
-    private function is_request_for_completed_date_range(\WP_REST_Request $request): bool
+    private function respond($data): \WP_REST_Response
     {
-        $end_date = $request->get_param('end_date');
-        if ($end_date === null) {
-            return false;
-        }
-
-        $end_date = create_local_datetime($end_date);
-        $now = create_local_datetime('now');
-        return $end_date < $now;
-    }
-
-    private function respond($data, bool $send_cache_headers = false): \WP_REST_Response
-    {
-        $result = new \WP_REST_Response($data, 200);
-
-        // instruct browsers to cache the response for 7 days
-        if ($send_cache_headers) {
-            $result->set_headers(['Cache-Control' => 'max-age=604800']);
-        }
-        return $result;
+        return new \WP_REST_Response($data, 200);
     }
 
     public function validate_date_param($param, $one, $two): bool
@@ -152,8 +134,7 @@ class Rest
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
         $page = $params['page'] ?? 0;
         $result = (new Stats())->get_stats($start_date, $end_date, $group, $page);
-        $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
-        return $this->respond($result, $send_cache_headers);
+        return $this->respond($result);
     }
 
     /**
@@ -166,8 +147,7 @@ class Rest
         $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $page = $params['page'] ?? 0;
         $result = (new Stats())->get_totals($start_date, $end_date, $page);
-        $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
-        return $this->respond($result, $send_cache_headers);
+        return $this->respond($result);
     }
 
     /**
@@ -175,14 +155,13 @@ class Rest
      */
     public function get_posts(\WP_REST_Request $request): \WP_REST_Response
     {
-        $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
         $params     = $request->get_query_params();
         $start_date = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
         $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
         $offset     = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit      = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_posts($start_date, $end_date, $offset, $limit);
-        return $this->respond($results, $send_cache_headers);
+        return $this->respond($results);
     }
 
     /**
@@ -196,8 +175,7 @@ class Rest
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_referrers($start_date, $end_date, $offset, $limit);
-        $send_cache_headers = WP_DEBUG === false && $this->is_request_for_completed_date_range($request);
-        return $this->respond($results, $send_cache_headers);
+        return $this->respond($results);
     }
 
     /**
