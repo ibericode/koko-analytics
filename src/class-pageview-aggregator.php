@@ -48,6 +48,7 @@ class Pageview_Aggregator
         }
 
         // update page stats
+        $path = $this->normalize_path($path);
         if (!isset($this->post_stats[$date_key])) {
             $this->post_stats[$date_key] = [];
         }
@@ -259,35 +260,36 @@ class Pageview_Aggregator
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
     }
 
+    public function normalize_path(string $path): string
+    {
+        // remove # from URL
+        if (($pos = strpos($path, '#')) !== false) {
+            $path = substr($path, 0, $pos);
+        }
+
+        // if URL contains query string, parse it and only keep certain parameters
+        if (($pos = strpos($path, '?')) !== false) {
+            $query_str = substr($path, $pos + 1);
+            $path = substr($path, 0, $pos + 1);
+
+            $params = [];
+            parse_str($query_str, $params);
+            $path .= http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
+
+            // trim trailing question mark & replace url with new sanitized url
+            $path = rtrim($path, '?');
+        }
+
+        return $path;
+    }
+
     public function clean_url(string $url): string
     {
         if ($url === '') {
             return $url;
         }
 
-        // remove # from URL
-        $pos = strpos($url, '#');
-        if ($pos !== false) {
-            $url = substr($url, 0, $pos);
-        }
-
-        // if URL contains query string, parse it and only keep certain parameters
-        $pos = strpos($url, '?');
-        if ($pos !== false) {
-            $query_str = substr($url, $pos + 1);
-
-            $params = [];
-            parse_str($query_str, $params);
-
-            // strip all but the following query parameters from the URL
-            $allowed_params = [ 'page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
-            $new_params     = array_intersect_key($params, array_flip($allowed_params));
-            $new_query_str  = http_build_query($new_params);
-            $new_url        = substr($url, 0, $pos + 1) . $new_query_str;
-
-            // trim trailing question mark & replace url with new sanitized url
-            $url = rtrim($new_url, '?');
-        }
+        $url = $this->normalize_path($url);
 
         // limit URL to 255 chars
         // TODO: Maybe limit to just host and TLD?
