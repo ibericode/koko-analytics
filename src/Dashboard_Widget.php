@@ -39,6 +39,6 @@ class Dashboard_Widget
             $referrers = $stats->get_referrers($dateToday, $dateToday, 0, $number_of_top_items);
         }
 
-        require __DIR__ . '/views/dashboard-widget.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-widget.php';
     }
 }

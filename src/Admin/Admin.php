@@ -6,7 +6,9 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
+
+use KokoAnalytics\Jetpack_Importer;
 
 class Admin
 {
@@ -17,11 +19,11 @@ class Admin
         add_action('admin_menu', [$this, 'register_menu'], 10, 0);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
-        add_action('koko_analytics_install_optimized_endpoint', [Admin_Actions::class, 'install_optimized_endpoint'], 10, 0);
-        add_action('koko_analytics_save_settings', [Admin_Actions::class, 'save_settings'], 10, 0);
-        add_action('koko_analytics_reset_statistics', [Admin_Actions::class, 'reset_statistics'], 10, 0);
-        add_action('koko_analytics_export_data', [Admin_Actions::class, 'export_data'], 10, 0);
-        add_action('koko_analytics_import_data', [Admin_Actions::class, 'import_data'], 10, 0);
+        add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
+        add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
+        add_action('koko_analytics_reset_statistics', [Actions::class, 'reset_statistics'], 10, 0);
+        add_action('koko_analytics_export_data', [Actions::class, 'export_data'], 10, 0);
+        add_action('koko_analytics_import_data', [Actions::class, 'import_data'], 10, 0);
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
@@ -38,7 +40,7 @@ class Admin
 
     public function register_menu(): void
     {
-        add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', [Admin_Page::class, 'show_page']);
+        add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', [Pages::class, 'show_page']);
     }
 
 

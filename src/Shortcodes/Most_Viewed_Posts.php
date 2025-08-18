@@ -6,9 +6,11 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Shortcodes;
 
-class Shortcode_Most_Viewed_Posts
+use function KokoAnalytics\get_most_viewed_posts;
+
+class Most_Viewed_Posts
 {
     private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 

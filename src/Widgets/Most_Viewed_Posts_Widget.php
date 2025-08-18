@@ -6,17 +6,18 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Widgets;
 
 use WP_Widget;
+use KokoAnalytics\Shortcodes\Most_Viewed_Posts;
 
-class Widget_Most_Viewed_Posts extends WP_Widget
+class Most_Viewed_Posts_Widget extends WP_Widget
 {
     public $alt_option_name = 'widget_koko_analytics_most_viewed_posts';
 
     public static function register(): void
     {
-        register_widget(Widget_Most_Viewed_Posts::class);
+        register_widget(self::class);
     }
 
     public function __construct()
@@ -61,7 +62,7 @@ class Widget_Most_Viewed_Posts extends WP_Widget
             echo $args['before_title'], $title, $args['after_title'];
         }
 
-        $shortcode = new Shortcode_Most_Viewed_Posts();
+        $shortcode = new Most_Viewed_Posts();
         echo $shortcode->content($settings);
         echo $args['after_widget'];
     }

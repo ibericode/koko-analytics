@@ -34,6 +34,10 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
+use KokoAnalytics\Shortcodes\Most_Viewed_Posts;
+use KokoAnalytics\Shortcodes\Site_Counter;
+use KokoAnalytics\Widgets\Most_Viewed_Posts_Widget;
+
 \define('KOKO_ANALYTICS_VERSION', '2.0.0');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
@@ -73,7 +77,7 @@ add_action('init', 'KokoAnalytics\maybe_collect_request', 0, 0);
 // script loader
 add_action('wp_enqueue_scripts', [Script_Loader::class, 'maybe_enqueue_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
-add_action('admin_bar_menu', [Admin_Bar::class, 'register'], 40, 1);
+add_action('admin_bar_menu', [Admin\Bar::class, 'register'], 40, 1);
 
 // query loop block
 add_action('admin_enqueue_scripts', [Query_Loop_Block::class, 'admin_enqueue_scripts']);
@@ -97,8 +101,8 @@ if (\class_exists('WP_CLI')) {
 }
 
 // register shortcodes
-add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
-add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
+add_shortcode('koko_analytics_most_viewed_posts', [Most_Viewed_Posts::class, 'content']);
+add_shortcode('koko_analytics_counter', [Site_Counter::class, 'content']);
 
 // run koko_analytics_action=[a-z] hooks
 add_action('init', [Actions::class, 'run'], 10, 0);
@@ -118,10 +122,10 @@ add_action('wp', function () {
 }, 10, 0);
 
 // register most viewed posts widget
-add_action('widgets_init', [Widget_Most_Viewed_Posts::class, 'register'], 10, 0);
+add_action('widgets_init', [Most_Viewed_Posts_Widget::class, 'register'], 10, 0);
 
 if (\is_admin()) {
-    new Admin();
+    new Admin\Admin();
 
     add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }

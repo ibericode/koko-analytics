@@ -14,9 +14,12 @@
  *  global: Set to true to show count for entire site instead of the current page.
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Shortcodes;
 
-class Shortcode_Site_Counter
+use KokoAnalytics\Stats;
+use function KokoAnalytics\create_local_datetime;
+
+class Site_Counter
 {
     private const SHORTCODE = 'koko_analytics_counter';
 

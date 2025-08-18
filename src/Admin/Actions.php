@@ -6,9 +6,16 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
 
-class Admin_Actions
+use KokoAnalytics\Endpoint_Installer;
+use KokoAnalytics\Data_Exporter;
+use KokoAnalytics\Data_Importer;
+use KokoAnalytics\Fingerprinter;
+
+use function KokoAnalytics\get_settings;
+
+class Actions
 {
     public static function install_optimized_endpoint(): void
     {

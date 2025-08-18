@@ -6,9 +6,9 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
 
-class Admin_Bar
+class Bar
 {
     public static function register(\WP_Admin_Bar $wp_admin_bar): void
     {

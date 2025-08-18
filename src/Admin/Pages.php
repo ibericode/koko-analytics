@@ -6,9 +6,14 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
 
-class Admin_Page
+use KokoAnalytics\Dashboard;
+use function KokoAnalytics\get_buffer_filename;
+use function KokoAnalytics\using_custom_endpoint;
+use function KokoAnalytics\get_settings;
+
+class Pages
 {
     public static function show_page(): void
     {
@@ -62,7 +67,7 @@ class Admin_Page
         $user_roles   = self::get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
 
-        require __DIR__ . '/views/settings-page.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }
 
     public static function footer_text($text): string

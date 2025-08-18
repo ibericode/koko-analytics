@@ -20,7 +20,6 @@ defined('ABSPATH') or exit;
 
 $tab = 'dashboard';
 
-require __DIR__ . '/../template-functions.php';
 ?>
 <div class="wrap">
     <?php $this->maybe_show_pro_notice(); ?>
