@@ -4,7 +4,7 @@ Donate link: https://wordpress.org/support/plugin/koko-analytics/reviews/#new-po
 Tags: analytics, statistics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.6
+Stable tag: 2.0.0-beta1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
