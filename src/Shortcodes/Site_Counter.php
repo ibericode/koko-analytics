@@ -17,6 +17,7 @@
 namespace KokoAnalytics\Shortcodes;
 
 use KokoAnalytics\Stats;
+
 use function KokoAnalytics\create_local_datetime;
 
 class Site_Counter

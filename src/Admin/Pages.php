@@ -9,6 +9,7 @@
 namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard;
+
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\using_custom_endpoint;
 use function KokoAnalytics\get_settings;

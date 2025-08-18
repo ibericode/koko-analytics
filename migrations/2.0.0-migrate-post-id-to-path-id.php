@@ -12,6 +12,8 @@ $wpdb->show_errors = WP_DEBUG;
 // Select all rows with a post ID but no path ID
 $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
 
+// process rows one by one
+// this is slower, but the migration will continue and eventually finish over multiple requests
 foreach ($results as $row) {
     $post_id = $row->post_id;
     $post_permalink = $post_id === "0" ? home_url('/') : get_permalink($post_id);

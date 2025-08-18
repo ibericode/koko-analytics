@@ -13,7 +13,8 @@ final class PageviewAggregatorTest extends TestCase
     {
         $a = new \KokoAnalytics\Pageview_Aggregator();
 
-        foreach ([
+        foreach (
+            [
             'https://www.kokoanalytics.com',
             'android-app://com.google.android.googlequicksearchbox',
             ] as $url
@@ -21,7 +22,8 @@ final class PageviewAggregatorTest extends TestCase
             $this->assertTrue($a->is_valid_url($url));
         }
 
-        foreach ([
+        foreach (
+            [
              '',
              'Hello world',
              '<script>alert(1)</script>',
