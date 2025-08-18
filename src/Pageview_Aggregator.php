@@ -9,6 +9,7 @@
 namespace KokoAnalytics;
 
 use DateTime;
+use KokoAnalytics\Normalizers\Normalizer;
 
 class Pageview_Aggregator
 {
@@ -48,7 +49,7 @@ class Pageview_Aggregator
         }
 
         // update page stats
-        $path = $this->normalize_path($path);
+        $path = Normalizer::path($path);
         if (!isset($this->post_stats[$date_key])) {
             $this->post_stats[$date_key] = [];
         }
@@ -64,8 +65,7 @@ class Pageview_Aggregator
 
         // increment referrals
         if ($referrer_url !== '' && $this->is_valid_url($referrer_url)) {
-            $referrer_url = $this->clean_url($referrer_url);
-            $referrer_url = $this->normalize_url($referrer_url);
+            $referrer_url = Normalizer::referrer($referrer_url);
 
             if (!isset($this->referrer_stats[$date_key])) {
                 $this->referrer_stats[$date_key] = [];
@@ -237,91 +237,6 @@ class Pageview_Aggregator
         // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
         // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-traffic-using-regex.php
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
-    }
-
-    public function normalize_path(string $path): string
-    {
-        // remove # from URL
-        if (($pos = strpos($path, '#')) !== false) {
-            $path = substr($path, 0, $pos);
-        }
-
-        // if URL contains query string, parse it and only keep certain parameters
-        if (($pos = strpos($path, '?')) !== false) {
-            $query_str = substr($path, $pos + 1);
-            $path = substr($path, 0, $pos + 1);
-
-            $params = [];
-            parse_str($query_str, $params);
-            $path .= http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
-
-            // trim trailing question mark & replace url with new sanitized url
-            $path = rtrim($path, '?');
-        }
-
-        return $path;
-    }
-
-    public function clean_url(string $url): string
-    {
-        if ($url === '') {
-            return $url;
-        }
-
-        $url = $this->normalize_path($url);
-
-        // limit URL to 255 chars
-        // TODO: Maybe limit to just host and TLD?
-        if (strlen($url) > 255) {
-            $url = substr($url, 0, 255);
-        }
-
-        // trim trailing slash if URL has no path component
-        $path = parse_url($url, PHP_URL_PATH);
-        if ($path === '' || $path === '/') {
-            return rtrim($url, '/');
-        }
-
-        return $url;
-    }
-
-    public function normalize_url(string $url): string
-    {
-        if ($url === '') {
-            return $url;
-        }
-
-        // if URL has no protocol, assume HTTP
-        // we change this to HTTPS for sites that are known to support it
-        if (strpos($url, '://') === false) {
-            $url = 'http://' . $url;
-        }
-
-        static $aggregations = [
-            '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox.*/' => 'https://www.google.com',
-            '/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
-            '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
-            '/^android-app:\/\/com\.facebook\.(.+)/' => 'https://facebook.com',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://www.instagram.com',
-            '/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://www.linkedin.com',
-            '/^https?:\/\/(?:www\.)?pinterest\.com/' => 'https://pinterest.com',
-            '/^https?:\/\/(?:www|m)\.baidu\.com.*/' => 'https://www.baidu.com',
-            '/^https?:\/\/yandex\.ru\/clck.*/' => 'https://yandex.ru',
-            '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
-            '/^https?:\/\/(out|new|old|www|m)\.reddit\.com(.*)/' => 'https://reddit.com$2',
-            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://www.brevo.com',
-        ];
-
-        $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
-        $normalized_url = (string) preg_replace(array_keys($aggregations), array_values($aggregations), $url, 1);
-        if (preg_last_error() !== PREG_NO_ERROR) {
-            error_log("Koko Analytics: preg_replace error in Pageview_Aggregator::normalize_url('$url'): " . preg_last_error_msg());
-            return $url;
-        }
-
-        return $normalized_url;
     }
 
     public function is_valid_url(string $url): bool

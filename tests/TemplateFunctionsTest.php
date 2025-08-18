@@ -12,6 +12,11 @@ use function KokoAnalytics\percent_format_i18n;
 
 class TemplateFunctionsTest extends TestCase
 {
+    public function setUp(): void
+    {
+        require_once dirname(__DIR__, 1) . '/src/Resources/functions/template.php';
+    }
+
     public function testPercentFormatI18n(): void
     {
         $this->assertEquals(percent_format_i18n(0), '');

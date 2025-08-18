@@ -8,6 +8,7 @@
 
 namespace KokoAnalytics;
 
+use KokoAnalytics\Normalizers\Normalizer;
 use WP_User;
 
 class Script_Loader
@@ -62,6 +63,7 @@ class Script_Loader
     private static function get_tracker_url(): string
     {
         global $wp;
+
         // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             // custom custom endpoint
@@ -77,27 +79,8 @@ class Script_Loader
 
     public static function get_request_path(): string
     {
-        $url = trim($_SERVER["REQUEST_URI"]);
-
-        // remove # from URL
-        if (($pos = strpos($url, '#')) !== false) {
-            $url = substr($url, 0, $pos);
-        }
-
-        // if URL contains query string, parse it and only keep certain parameters
-        if (($pos = strpos($url, '?')) !== false) {
-            $query_str = substr($url, $pos + 1);
-            $url = substr($url, 0, $pos + 1);
-
-            $params = [];
-            parse_str($query_str, $params);
-            $url        .= http_build_query(array_intersect_key($params, [ 'page_id' => 1, 'p' => 1, 'tag' => 1, 'cat' => 1, 'product' => 1, 'attachment_id' => 1]));
-
-            // trim trailing question mark & replace url with new sanitized url
-            $url = rtrim($url, '?');
-        }
-
-        return $url;
+        $path = trim($_SERVER["REQUEST_URI"] ?? '');
+        return Normalizer::path($path);
     }
 
     public static function print_js_object()
