@@ -32,14 +32,7 @@ class Migrations
             return;
         }
 
-        // check if migrations not already running
-        // if (get_transient('koko_analytics_migrations_running')) {
-        //     return;
-        // }
-
-        set_transient('koko_analytics_migrations_running', true, 120);
         $this->run();
-        delete_transient('koko_analytics_migrations_running');
     }
 
     /**
