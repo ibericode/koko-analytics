@@ -21,7 +21,7 @@ foreach ($results as $row) {
 
     $url_parts = parse_url($post_permalink);
     $path = $url_parts['path'];
-    if ($url_parts['query']) {
+    if (!empty($url_parts['query'])) {
         $path .= '?' . $url_parts['query'];
     }
 
