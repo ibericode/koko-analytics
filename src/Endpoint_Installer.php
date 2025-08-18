@@ -36,7 +36,7 @@ class Endpoint_Installer
         // create require statements for all necessary files
         $files = [
             'wp-includes/plugin.php',
-            KOKO_ANALYTICS_PLUGIN_DIR . '/src/collect-functions.php',
+            KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/functions/collect.php',
         ];
         $files = apply_filters('koko_analytics_endpoint_files', $files);
         $files = array_map([self::class, 'make_relative_to_abspath'], $files);

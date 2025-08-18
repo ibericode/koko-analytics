@@ -58,17 +58,20 @@ function koko_analytics_get_realtime_pageview_count($since = '-5 minutes'): int
 /**
  * Writes a new pageview to the buffer file, to be aggregated during the next time `koko_analytics_aggregate_stats` runs.
  *
- * @param int $post_id The post ID to increment the pageviews count for.
+ * @param string $path The (normalized) path which was viewed
+ * @param int $post_id The post ID to increment the pageviews count for. 0 if not a singular post type.
  * @param bool $new_visitor Whether this is a new site visitor.
  * @param bool $unique_pageview Whether this was an unique pageview. (Ie the first time this visitor views this page today).
  * @param string $referrer_url External URL that this visitor came from, or empty string if direct traffic or coming from internal link.
  * @return bool
  * @since 1.1
  */
-function koko_analytics_track_pageview(int $post_id, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = ''): bool
+function koko_analytics_track_pageview(string $path, int $post_id = 0, bool $new_visitor = false, bool $unique_pageview = false, string $referrer_url = ''): bool
 {
     $data = [
         'p',
+        \time(),
+        $path,
         $post_id,
         (int) $new_visitor,
         (int) $unique_pageview,
