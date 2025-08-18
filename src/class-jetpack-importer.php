@@ -28,7 +28,7 @@ class Jetpack_Importer
                     <p>
                         <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
                         <?php echo ' '; ?>
-                        <?php echo esc_html($_GET['error']); ?>
+                        <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
                     </p>
                 </div>
         <?php } ?>
@@ -267,7 +267,7 @@ class Jetpack_Importer
         try {
             $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
-            throw new Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . "\n\n" . $body);
+            throw new Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . nl2br("\n\n" . $body));
         }
 
         // API returns `null` for no data between two given dates
@@ -289,15 +289,35 @@ class Jetpack_Importer
                 continue;
             }
 
+            // add "path" property to all items
+            $item->postviews = array_map(function ($postviews) {
+                $permalink = get_permalink($postviews->post_id);
+                if (!$permalink) {
+                    $postviews->path = '/deleted/';
+                } else {
+                    $postviews->path = parse_url($permalink, PHP_URL_PATH);
+                }
+                return $postviews;
+            }, $item->postviews);
+
+            // create array of just paths
+            $paths = array_map(function ($postviews) {
+                return $postviews->path;
+            }, $item->postviews);
+
+            // upsert paths into database and retrieve map with ID's
+            $path_map = Path_Repository::upsert($paths);
+
             // update post stats for this date in a single bulk query
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($item->postviews)), ',');
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($item->postviews)), ',');
             $values = [];
             foreach ($item->postviews as $postviews) {
                 $site_views += $postviews->views;
-                array_push($values, $item->date, $postviews->post_id, $postviews->views, $postviews->views);
+                $path_id = $path_map[$postviews->path];
+                array_push($values, $item->date, $path_id, $postviews->post_id, $postviews->views, $postviews->views);
             }
 
-            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
+            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
             $wpdb->query($query);
 
             if ($wpdb->last_error !== '') {

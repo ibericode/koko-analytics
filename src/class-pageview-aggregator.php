@@ -117,34 +117,13 @@ class Pageview_Aggregator
 
         // insert referrer stats
         foreach ($this->post_stats as $date => $stats) {
-            $keys = array_keys($stats);
-            $placeholders  = rtrim(str_repeat('%s,', count($keys)), ',');
-            $results       = $wpdb->get_results($wpdb->prepare("SELECT id, path FROM {$wpdb->prefix}koko_analytics_paths p WHERE p.path IN({$placeholders})", $keys));
-            foreach ($results as $r) {
-                $stats[$r->path]['path_id'] = $r->id;
-            }
-
-            $new_keys = [];
-            foreach ($stats as $key => $r) {
-                if (! isset($r['path_id'])) {
-                    $new_keys[] = $key;
-                }
-            }
-
-            if (count($new_keys) > 0) {
-                $values       = $new_keys;
-                $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
-                $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths(path) VALUES {$placeholders}", $values));
-                $last_insert_id = $wpdb->insert_id;
-                foreach (array_reverse($values) as $key) {
-                    $stats[$key]['path_id'] = $last_insert_id--;
-                }
-            }
+            $paths = array_keys($stats);
+            $path_map = Path_Repository::upsert($paths);
 
             // insert referrer stats
             $values = [];
-            foreach ($stats as $r) {
-                array_push($values, $date, $r['path_id'], $r['post_id'], $r['visitors'], $r['pageviews']);
+            foreach ($stats as $path => $r) {
+                array_push($values, $date, $path_map[$path], $r['post_id'], $r['visitors'], $r['pageviews']);
             }
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($stats)), ',');
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));

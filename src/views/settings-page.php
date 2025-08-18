@@ -260,7 +260,6 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
                 <ul class="ul-square">
                     <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'jetpack_importer'])); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
-                    <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'burst_importer'])); ?>"><?php esc_html_e('Import from Burst Statistics', 'koko-analytics'); ?></a></li>
                 </ul>
             </div>
 
