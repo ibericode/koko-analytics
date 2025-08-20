@@ -57,7 +57,7 @@ use KokoAnalytics\Fmt;
             <ul class="ka-ul">
                 <?php foreach ($referrers as $referrer) {  ?>
                     <li>
-                        <span><?php echo number_format_i18n($referrer->pageviews); ?></span> <a href="<?php echo esc_attr(Fmt::referrer_url_href($referrer->url)); ?>"><?php echo esc_html(parse_url($referrer->url, PHP_URL_HOST)); ?></a>
+                        <span><?php echo number_format_i18n($referrer->pageviews); ?></span> <?php echo Fmt::referrer_url_label(esc_html($referrer->url)); ?>
                     </li>
                 <?php } ?>
             </ul>
