@@ -42,8 +42,6 @@ class Referrer
         $url_parts = parse_url($value);
         $result = $url_parts['host'];
 
-        // if android app, reverse host and tld
-
         // strip www. prefix
         if (str_starts_with($result, 'www.')) {
             $result = substr($result, 4);
