@@ -54,6 +54,7 @@ class NormalizerTest extends TestCase
             'https://www.bing.com/search' => 'bing.com',
             'https://www.bing.com/url' => 'bing.com',
             'android-app://com.facebook.katana' => 'facebook.com',
+            'android-app://m.facebook.com' => 'facebook.com',
             'https://m.facebook.com' => 'facebook.com',
             'https://m.facebook.com/profile/whatever' => 'facebook.com',
             'https://l.facebook.com' => 'facebook.com',
@@ -92,7 +93,7 @@ class NormalizerTest extends TestCase
         ];
 
         foreach ($tests as $input => $output) {
-            $this->assertEquals($output, Normalizer::referrer($input));
+            $this->assertEquals($output, Normalizer::referrer($input), $input);
         }
     }
 }
