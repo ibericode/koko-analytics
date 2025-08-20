@@ -7,8 +7,6 @@ defined('ABSPATH') or exit;
 /** @var wpdb $wpdb */
 global $wpdb;
 
-$wpdb->show_errors = WP_DEBUG;
-
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_paths (
        id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

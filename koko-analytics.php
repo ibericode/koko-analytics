@@ -54,13 +54,7 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 // Maybe run any pending database migrations
 // We schedule this at hook priority 1000 so that most plugins will have registered their custom post types
 add_action('init', function () {
-    $version_from = isset($_GET['koko_analytics_migrate_from_version']) && current_user_can('manage_options') ? $_GET['koko_analytics_migrate_from_version'] : get_option('koko_analytics_version', '0.0.0');
-    $version_to = KOKO_ANALYTICS_VERSION;
-    if (\version_compare(get_option('koko_analytics_version', '0.0.0'), KOKO_ANALYTICS_VERSION, '>=')) {
-        return;
-    }
-
-    $migrations = new Migrations('koko_analytics_version', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
+    $migrations = new Migrations('koko_analytics_', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
     $migrations->maybe_run();
 }, 1000, 0);
 

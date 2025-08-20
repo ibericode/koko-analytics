@@ -10,6 +10,8 @@ class Referrer
             return $value;
         }
 
+        // for backwards compatibility with users using filters hooked on `koko_analytics_url_aggregations`
+        // we run the full URL through the filter before limiting it to just the host and maybe path
         static $aggregations = [
             '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox.*/' => 'https://www.google.com',
             '/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
@@ -33,9 +35,11 @@ class Referrer
             error_log("Koko Analytics: preg_replace error in Referrer::normalize('$value'): " . preg_last_error_msg());
             return $value;
         }
-
         $value = $normalized_value;
-        $result = parse_url($value, PHP_URL_HOST);
+
+        // limit resulting value to just host
+        $url_parts = parse_url($value);
+        $result = $url_parts['host'];
 
         // strip www. prefix
         if (str_starts_with($result, 'www.')) {
@@ -43,13 +47,10 @@ class Referrer
         }
 
         // add path if domain is whitelisted
-        $whitelisted_domains = ['wordpress.org', 'kokoanalytics.com', 'github.com'];
+        $whitelisted_domains = ['wordpress.org', 'kokoanalytics.com', 'github.com', 'reddit.com', 'indiehackers.com'];
         $whitelisted_domains = apply_filters('koko_analytics_whitelisted_referrer_domains', $whitelisted_domains);
-        if (in_array($result, $whitelisted_domains)) {
-            $path = parse_url($value, PHP_URL_PATH);
-            if ($path != '/') {
-                $result .= $path;
-            }
+        if (in_array($result, $whitelisted_domains) && !empty($url_parts['path']) && $url_parts['path'] !== '/') {
+            $result .= $url_parts['path'];
         }
 
         return $result;

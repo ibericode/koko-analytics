@@ -18,10 +18,11 @@ class Migrations
     protected $current_version;
     protected $migrations_dir;
 
-    public function __construct(string $option_name, string $version_to, string $migrations_dir)
+    public function __construct(string $prefix, string $version_to, string $migrations_dir)
     {
+        $option_name = str_ends_with($prefix, '_version') ? $prefix : "{$prefix}_version";
         $this->option_name = $option_name;
-        $this->version_from = get_option($this->option_name, '0.0.0');
+        $this->version_from = isset($_GET["{$prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
         $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
     }
@@ -61,15 +62,15 @@ class Migrations
     {
         $migration = basename($file);
         $parts     = explode('-', $migration);
-        $migraton_version   = $parts[0];
+        $migration_version   = $parts[0];
 
         // check if migration file is not for an even higher version
-        if (version_compare($migraton_version, $this->version_to, '>')) {
+        if (version_compare($migration_version, $this->version_to, '>')) {
             return;
         }
 
         // check if we ran migration file before.
-        if (version_compare($this->version_from, $migraton_version, '>=')) {
+        if (version_compare($this->version_from, $migration_version, '>=')) {
             return;
         }
 
@@ -78,6 +79,6 @@ class Migrations
 
         // update option so later runs start after this migration
         $this->version_from = $migraton_version;
-        update_option($this->option_name, $migraton_version, true);
+        update_option($this->option_name, $migration_version, true);
     }
 }

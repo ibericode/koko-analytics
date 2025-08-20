@@ -1,15 +1,11 @@
 <?php
 
-use KokoAnalytics\Path_Repository;
-
 defined('ABSPATH') or exit;
 
 @set_time_limit(0);
 
 /** @var wpdb $wpdb */
 global $wpdb;
-
-$wpdb->show_errors = WP_DEBUG;
 
 // Select all rows with a post ID but no path ID
 $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
