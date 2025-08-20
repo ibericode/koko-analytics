@@ -20,6 +20,7 @@ class Migrations
 
     public function __construct(string $prefix, string $version_to, string $migrations_dir)
     {
+        $prefix = rtrim($prefix, '_');
         $option_name = str_ends_with($prefix, '_version') ? $prefix : "{$prefix}_version";
         $this->option_name = $option_name;
         $this->version_from = isset($_GET["{$prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
@@ -78,7 +79,7 @@ class Migrations
         include $file;
 
         // update option so later runs start after this migration
-        $this->version_from = $migraton_version;
+        $this->version_from = $migration_version;
         update_option($this->option_name, $migration_version, true);
     }
 }

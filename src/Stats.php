@@ -19,7 +19,7 @@ class Stats
             return [$today, $today];
         }
 
-        return [new \DateTimeImmutable($result->start, wp_timezone()), new \DateTimeImmutable($result->end, wp_timezone())];
+        return [new \DateTimeImmutable($result->start ?? '-28 days', wp_timezone()), new \DateTimeImmutable($result->end ?? 'now', wp_timezone())];
     }
 
     /**
