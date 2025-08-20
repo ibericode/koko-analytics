@@ -1,5 +1,7 @@
 <?php
 
+use KokoAnalytics\Path_Repository;
+
 defined('ABSPATH') or exit;
 
 @set_time_limit(0);
@@ -33,6 +35,7 @@ foreach ($results as $row) {
     }
 
     // insert path
+    // NOTE: We can't upsert here because we need a unique path_id for every date, post_id combination
     $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths (path) VALUES (%s)", [$path]));
     $path_id = $wpdb->insert_id;
 
