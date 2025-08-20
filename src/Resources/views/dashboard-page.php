@@ -184,8 +184,8 @@ $tab = 'dashboard';
                     <?php foreach ($posts as $i => $p) { ?>
                         <?php $pct = $p->pageviews / $totals->pageviews; ?>
                         <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="position: relative;">
-                            <td><div style="height:100%;width: <?=($pct*100)?>%; position: absolute; left:0; top: 0; background-color: rgba(0,0,0, 0.04);"></div><?php echo  $posts_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->path); ?></a></td>
+                            <td><div style="height:100%;width: <?=($pct*100)?>%; position: absolute; left:0; top: 0; background-color: rgba(0,0,0, 0.04);z-index:0;"></div><?php echo  $posts_offset + $i + 1; ?></td>
+                            <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>" style="z-index:1;"><?php echo esc_html($p->path); ?></a></td>
                             <td><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
                             <td><?php echo number_format_i18n($p->pageviews); ?></td>
                         </tr>
