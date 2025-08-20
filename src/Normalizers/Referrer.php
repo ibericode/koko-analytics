@@ -10,24 +10,6 @@ class Referrer
             return $value;
         }
 
-        // if URL has no protocol, assume HTTP
-        // we change this to HTTPS for sites that are known to support it
-        if (strpos($value, '://') === false) {
-            $value = 'http://' . $value;
-        }
-
-        // discard everything after 255 chars
-        $value = substr($value, 0, 255);
-
-        // normalize path component
-        $value = Path::normalize($value);
-
-        // trim trailing slash if URL has no path component
-        $path = parse_url($value, PHP_URL_PATH);
-        if ($path === '' || $path === '/') {
-            $value = rtrim($value, '/');
-        }
-
         static $aggregations = [
             '/^android-app:\/\/com\.(www\.)?google\.android\.googlequicksearchbox.*/' => 'https://www.google.com',
             '/^android-app:\/\/com\.www\.google\.android\.gm$/' => 'https://www.google.com',
@@ -52,6 +34,24 @@ class Referrer
             return $value;
         }
 
-        return $normalized_value;
+        $value = $normalized_value;
+        $result = parse_url($value, PHP_URL_HOST);
+
+        // strip www. prefix
+        if (str_starts_with($result, 'www.')) {
+            $result = substr($result, 4);
+        }
+
+        // add path if domain is whitelisted
+        $whitelisted_domains = ['wordpress.org', 'kokoanalytics.com', 'github.com'];
+        $whitelisted_domains = apply_filters('koko_analytics_whitelisted_referrer_domains', $whitelisted_domains);
+        if (in_array($result, $whitelisted_domains)) {
+            $path = parse_url($value, PHP_URL_PATH);
+            if ($path != '/') {
+                $result .= $path;
+            }
+        }
+
+        return $result;
     }
 }

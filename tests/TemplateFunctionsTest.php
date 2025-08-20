@@ -27,13 +27,6 @@ class TemplateFunctionsTest extends TestCase
         $this->assertEquals(percent_format_i18n(-0.55), '-55%');
     }
 
-    public function testGetReferrerUrlHref(): void
-    {
-        self::assertEquals('', get_referrer_url_href(''));
-        self::assertEquals('https://www.kokoanalytics.com/', get_referrer_url_href('https://www.kokoanalytics.com/'));
-        self::assertEquals('https://play.google.com/store/apps/details?id=kokoanalytics', get_referrer_url_href('android-app://kokoanalytics'));
-    }
-
     public function testGetReferrerUrlLabel(): void
     {
         self::assertEquals('', get_referrer_url_label(''));

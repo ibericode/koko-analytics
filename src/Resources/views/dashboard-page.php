@@ -226,7 +226,7 @@ $tab = 'dashboard';
                     <?php foreach ($referrers as $i => $r) { ?>
                         <tr>
                             <td><?php echo $referrers_offset + $i + 1; ?></td>
-                            <td><a href="<?php echo esc_attr(Fmt::referrer_url_href($r->url)); ?>"><?php echo Fmt::referrer_url_label(esc_html($r->url)); ?></a></td>
+                            <td><?php echo Fmt::referrer_url_label(esc_html($r->url)); ?></td>
                             <td><?php echo number_format_i18n(max(1, $r->visitors)); ?></td>
                             <td><?php echo number_format_i18n($r->pageviews); ?></td>
                         </tr>
