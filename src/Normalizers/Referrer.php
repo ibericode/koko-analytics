@@ -40,6 +40,11 @@ class Referrer
 
         // limit resulting value to just host
         $url_parts = parse_url($value);
+
+        // check for seriously malformed url's
+        if ($url_parts === false || empty($url_parts['host'])) {
+            return '';
+        }
         $result = $url_parts['host'];
 
         // strip www. prefix

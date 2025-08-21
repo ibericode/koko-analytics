@@ -64,9 +64,8 @@ class Pageview_Aggregator
         }
 
         // increment referrals
-        if ($referrer_url !== '' && $this->is_valid_url($referrer_url)) {
-            $referrer_url = Normalizer::referrer($referrer_url);
-
+        $referrer_url = Normalizer::referrer($referrer_url);
+        if ($referrer_url !== '') {
             if (!isset($this->referrer_stats[$date_key])) {
                 $this->referrer_stats[$date_key] = [];
             }
@@ -237,10 +236,5 @@ class Pageview_Aggregator
         // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
         // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-traffic-using-regex.php
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
-    }
-
-    public function is_valid_url(string $url): bool
-    {
-        return \strlen($url) >= 7 && \filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 }
