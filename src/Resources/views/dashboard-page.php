@@ -182,7 +182,7 @@ $tab = 'dashboard';
                 </thead>
                 <tbody>
                     <?php foreach ($posts as $i => $p) { ?>
-                        <?php $pct = round(($p->pageviews / $totals->pageviews)*100, 0); ?>
+                        <?php $pct = $totals->pageviews > 0 ? round(($p->pageviews / $totals->pageviews)*100, 0) : 0; ?>
                         <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right,rgba(0, 0, 0, 0.025) <?=$pct?>%, white <?=$pct?>%);">
                             <td><?php echo  $posts_offset + $i + 1; ?></td>
                             <td><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>" style="z-index:1;"><?php echo esc_html($p->path); ?></a></td>
