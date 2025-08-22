@@ -30,14 +30,14 @@ class Chart_View
         ?>
         <div class="ka-chart">
             <?php if ($showGroupOptions && $daysDiff > 7) { ?>
-            <div class="ka-chart-group-by">
+            <div class="text-end text-muted mb-2">
                 <?php esc_html_e('Group by', 'koko-analytics'); ?>
                 <?php if ($daysDiff <= 365) { ?>
-                    <a href="<?php echo esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
+                    <a class="text-muted" href="<?php echo esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
                 <?php } ?>
-                <a href="<?php echo esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
+                <a class="text-muted" href="<?php echo esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
                 <?php if ($daysDiff > 31) {
-                    ?><a href="<?php echo esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a><?php
+                    ?><a class="text-muted" href="<?php echo esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a><?php
                 } ?>
             </div>
             <?php } /* end show group options */ ?>
