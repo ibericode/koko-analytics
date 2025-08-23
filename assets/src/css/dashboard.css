@@ -50,22 +50,22 @@
   background: #fff;
   border-radius: var(--bs-border-radius);
 }
-.ka-filter:hover {
-  background: var(--bs-tertiary-bg);
-}
+
 /* end dashboard box */
 
 /* totals bar */
 .ka-filter {
+  display: inline-block;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   font-size: 1rem;
   line-height: 1rem;
   border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
-
 }
-
+.ka-filter:hover {
+  background: var(--bs-tertiary-bg);
+}
 /* chart */
 .ka-chart {
   overflow: visible;
@@ -543,8 +543,10 @@ textarea.ka-input {
 
 /* sm */
 @media (min-width: 576px) {
-
-
+  .d-sm-flex {
+    display: flex;
+    flex-flow: row wrap;
+  }
 }
 
 /* lg */
