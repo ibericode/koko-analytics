@@ -39,13 +39,13 @@ $tab = 'dashboard';
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
                         <?php if ($dateStart >  $total_start_date) { ?>
-                        <a class="text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>">◂</a>
+                        <a class="js-quicknav-prev text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
                         <span><?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?></span>
                         <?php if ($dateEnd < $total_end_date) { ?>
-                        <a class="text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>">▸</a>
+                        <a class="js-quicknav-next text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>">▸</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white ms-2">▸</a>
                         <?php } ?>
@@ -191,7 +191,7 @@ $tab = 'dashboard';
                     <tbody>
                         <?php foreach ($posts as $i => $p) { ?>
                             <?php $pct = $totals->pageviews > 0 && $page === 0  ? round(($p->pageviews / $totals->pageviews) * 100, 0) : 0; ?>
-                            <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right,rgba(0, 0, 0, 0.05) <?=$pct?>%, white <?=$pct?>%);">
+                            <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right,rgba(104, 159, 210, 0.05) <?=$pct?>%, white <?=$pct?>%);">
                                 <td class="text-muted"><?php echo  $posts_offset + $i + 1; ?></td>
                                 <td class="text-truncate"><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>" style="z-index:1;"><?php echo esc_html($p->path); ?></a></td>
                                 <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
