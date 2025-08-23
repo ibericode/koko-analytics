@@ -22,6 +22,9 @@ class Dashboard_Widget
 
     public static function dashboard_widget(): void
     {
+        // aggregate stats whenever this page is requested
+        do_action('koko_analytics_aggregate_stats');
+
         $number_of_top_items = (int) apply_filters('koko_analytics_dashboard_widget_number_of_top_items', 5);
         $stats = new Stats();
         $dateToday = create_local_datetime('today, midnight')->format('Y-m-d');
