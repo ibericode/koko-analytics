@@ -3,7 +3,7 @@ Koko Analytics for WordPress
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/ibericode/koko-analytics/master/LICENSE)
 [![Active installs](https://img.shields.io/wordpress/plugin/installs/koko-analytics.svg)](https://wordpress.org/plugins/koko-analytics/advanced/)
 [![Rating](https://img.shields.io/wordpress/plugin/r/koko-analytics.svg)](https://wordpress.org/support/plugin/koko-analytics/reviews/)
-![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)
+[![Lighthouse performance score](https://raw.githubusercontent.com/ibericode/koko-analytics/master/assets/src/github/lighthouse_performance.svg)](https://pagespeed.web.dev/analysis/https-www-kokoanalytics-com/e8d4epi2jf?form_factor=mobile)
 
 **[Koko Analytics](https://www.kokoanalytics.com/) is a fast, privacy-friendly, open-source analytics plugin for WordPress — no cookies, no tracking, no external services.**
 
