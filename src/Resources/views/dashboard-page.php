@@ -280,8 +280,8 @@ document.addEventListener('click', storeScrollPosition);
 window.addEventListener('beforeunload', storeScrollPosition);
 
 // restore scroll position on page load
-var scrollX = parseInt(sessionStorage.getItem("scrollX"));
-var scrollY = parseInt(sessionStorage.getItem("scrollY"));
+var scrollX = parseInt(sessionStorage.getItem("scrollX") ?? 0);
+var scrollY = parseInt(sessionStorage.getItem("scrollY") ?? 0);
 if (scrollX != 0 || scrollY != 0) {
   window.scroll(scrollX, scrollY);
 }
