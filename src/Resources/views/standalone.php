@@ -17,6 +17,7 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="<?php echo plugins_url('assets/dist/img/apple-touch-icon.png', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="manifest" href="<?php echo plugins_url('assets/dist/manifest.json', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
+    <link rel="shortcut icon" href="<?php echo plugins_url('assets/dist/img/favicon.ico', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <meta name="theme-color" content="#B60205">
 </head>
 <body class="koko-analytics" style="margin: 0 0 0 20px;">

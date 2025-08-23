@@ -23,6 +23,7 @@
   --bs-border-radius: 0.375rem;
   --bs-border-radius-sm: 0.25rem;
   --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+  --bs-dark-color: #2c3338;
 }
 
 .koko-analytics {
@@ -74,20 +75,22 @@
 .ka-chart--tooltip {
   position: absolute;
   z-index: 9991; /* above wp admin menu */
+  font-size: 1rem;
 }
 .ka-chart--tooltip-box {
-  background: rgba(46, 54, 63, 0.96);
-  box-shadow: 2px 2px 12px 0 rgba(0,0,0,0.5);
+  background: var(--bs-dark-color);
+  box-shadow: var(--bs-box-shadow);
   border-radius: 4px;
-  color: #EEE;
+  color: white;
 }
 .ka-chart--tooltip-heading {
   font-weight: 600;
-  padding: 12px;
+  padding: 0.75rem;
   line-height: 1;
+  text-align: center;
 }
 .ka-chart--tooltip-content {
-  padding: 6px 12px;
+  padding: 0.5rem 1rem;
   width: 50%;
   display: block;
   flex: 1;
@@ -96,7 +99,7 @@
   border-top: 3px solid transparent;
 }
 .ka-chart--tooltip-amount {
-  color: #FFF;
+  color: white;
   font-weight: bold;
 }
 .ka-chart--tooltip-arrow {
@@ -157,6 +160,7 @@
   width: 100%;
 }
 
+
 /* end grid */
 
 /* tables */
@@ -174,8 +178,8 @@
   padding: 6px 8px;
 }
 .ka-table th {
-  background: #2e363f;
-  border-color: #2e363f;
+  background: var(--bs-dark-color);
+  border-color: var(--bs-dark-color);
   color: white;
 }
 .ka-table th:first-child {
@@ -325,7 +329,8 @@ textarea.ka-input {
 .ka-select:hover {
   color: inherit !important;
 }
-.ka-select:focus {
+.ka-select:focus,
+.koko-analytics .ka-select:focus {
   border-color: #86b7fe;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
@@ -380,7 +385,7 @@ textarea.ka-input {
 .p-0 { padding: 0 !important; }
 .p-1 { padding: 0.25rem; }
 .p-2 { padding: 0.5rem; }
-.p-3 { padding: 1rem; }
+.p-3 { padding: 1rem !important; }
 .p-4 { padding: 1.5rem; }
 .p-5 { padding: 3rem; }
 .pt-0 { padding-top: 0 !important; }
@@ -414,7 +419,7 @@ textarea.ka-input {
 .bg-dark .text-muted { color: #DDD !important; }
 
 /* background */
-.bg-dark { background: #2e363f; color: white; }
+.bg-dark { background: var(--bs-dark-color); color: white; }
 .bg-white { background: white; }
 
 .border { border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important; }
