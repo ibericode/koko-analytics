@@ -120,10 +120,6 @@ Use the `[koko_analytics_counter]` shortcode:
 Example:
 `[koko_analytics_counter days="30" metric="pageviews" global="true"]`
 
-#### Why aren’t category/tag archives tracked?
-Koko Analytics only tracks post/page views to keep storage requirements minimal.
-
-
 == Screenshots ==
 
 1. Dashboard view of your website statistics.
