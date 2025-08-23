@@ -144,7 +144,8 @@ EOT;
         $tracker_url = site_url('/koko-analytics-collect.php?test=1');
         $response    = wp_remote_post($tracker_url, [
             'body' => [
-                'p' => 0,
+                'pa' => '/',
+                'po' => 0,
                 'test' => 1,
             ],
             'timeout' => 10,
