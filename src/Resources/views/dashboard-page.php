@@ -22,7 +22,6 @@ $tab = 'dashboard';
 
 ?>
 <div class="koko-analytics" style="margin-left: -20px; padding: 1rem;">
-    <div class="">
     <?php $this->maybe_show_pro_notice(); ?>
     <?php $this->maybe_show_adblocker_notice(); ?>
 
@@ -174,7 +173,7 @@ $tab = 'dashboard';
     </div>
     <?php } ?>
 
-    <div class="ka-row ka-row-cols-1 ka-row-cols-lg-2 g-3 mb-2 <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>">
+    <div class="ka-row ka-row-cols-1 ka-row-cols-lg-2 g-3 mb-3 <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>">
 
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-col">
@@ -266,8 +265,19 @@ $tab = 'dashboard';
 
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
         <?php do_action('koko_analytics_after_dashboard_components', $dateStart, $dateEnd); ?>
+    </div><?php // end div.ka-row ?>
+
+    <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
+    <div class="p-3 rounded"  style="background: #fff3cd;">
+        <h2 class="mt-0 mb-2"><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
+        <p>
+            <?= esc_html('You are currently using the free version of Koko Analytics.', 'koko-analytics'); ?>
+            <?= esc_html('With Koko Analytics Pro you can unlock powerful benefits like geo-location, even tracking and periodic email reports.', 'koko-analytics'); ?>
+        </p>
+        <p class="mb-0">
+        <a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?></a></p>
     </div>
-</div>
+    <?php endif; ?>
 </div>
 
 <script>

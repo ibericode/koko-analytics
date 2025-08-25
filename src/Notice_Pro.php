@@ -71,33 +71,20 @@ class Notice_Pro
         }
 
         ?>
-        <style>
-            .ka-notice {background: #fff8c5; border: 1px solid #d4a72c66; padding: 0 1em; margin: 1em 0; font-size: 14px;}
-            .ka-notice summary { padding: 1em 0; cursor: pointer; }
-            .ka-notice p, .ka-notice li { font-size: 14px; }
-        </style>
-        <div class="ka-notice">
+        <div class="ka-notice rounded mb-3 p-3" style="background: #fff3cd;">
             <details>
-                <summary>
+                <summary style="cursor: pointer;">
                     <strong><?php esc_html_e('Hello!', 'koko-analytics'); ?></strong>
                     <?php esc_html_e('You have been using Koko Analytics for a while now. We are showing you this one-time notice to ask for a small favor.', 'koko-analytics'); ?>
                 </summary>
-                <p><?php printf(esc_html__('If you enjoy using this free plugin, consider %1$supgrading to Koko Analytics Pro%2$s to get access to several powerful benefits:', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/">', '</a>'); ?></p>
-                <ul class="ul-square">
-                    <li><a href="https://www.kokoanalytics.com/features/geo-location/"><?php esc_html_e('Geo-location', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Periodic email reports', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://www.kokoanalytics.com/features/custom-event-tracking/"><?php esc_html_e('Custom event tracking', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://www.kokoanalytics.com/features/admin-bar/"><?php esc_html_e('Stats in your admin bar', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://www.kokoanalytics.com/features/traffic-spike-notifications/"><?php esc_html_e('Traffic spike notifications', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://www.kokoanalytics.com/features/csv-export/"><?php esc_html_e('Export to CSV', 'koko-analytics'); ?></a></li>
+                <p><?= esc_html__('If you enjoy using this free plugin, consider helping us out by:', 'koko-analytics'); ?></p>
+                <ul class="ul-square mb-4">
+                    <li><a href="https://www.kokoanalytics.com/pricing/" class=""><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></a></li>
+                    <li><a href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform"><?=esc_html__('Review the plugin on WordPress.org', 'koko-analytics'); ?></a></li>
+                    <li><?= esc_html__('Write about Koko Analytics on your blog or on social media', 'koko-analytics'); ?></li>
                 </ul>
 
-                <p><?php printf(esc_html__('Alternatively, %1$sleaving a plugin review on WordPress.org%2$s helps us a great deal as well.', 'koko-analytics'), '<a href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform">', '</a>'); ?></p>
-                <p>
-                    <?php esc_html_e('Thank you for your consideration.', 'koko-analytics'); ?><br />
-                    ~ Danny, Harish and Arne
-                </p>
-                <p><a href="https://www.kokoanalytics.com/pricing/" class="button button-primary"><?php esc_html_e('Learn more about Koko Analytics Pro', 'koko-analytics'); ?></a> &nbsp; <a href="<?php echo esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" style="color: #CC0000;"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
+                <p class="mb-0"><a href="<?php echo esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" class="btn btn-danger btn-sm"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
             </details>
         </div>
         <?php

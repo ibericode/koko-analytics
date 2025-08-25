@@ -230,24 +230,16 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
         </div><?php // end container ?>
 
         <div class="ka-col ka-col-12 ka-col-lg-4 ka-admin-sidebar">
-
             <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) { ?>
-            <div>
-                <div class="ka-pro-cta mb-5">
-                    <h2><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
-                    <p><?php esc_html_e('You are currently using the free version of Koko Analytics. There is a premium version of this plugin which adds several powerful features.', 'koko-analytics'); ?></p>
-                    <h4><?php esc_html_e('Premium features', ' koko-analytics'); ?></h4>
-                    <ul class="ul-square">
-                        <li><a href="https://www.kokoanalytics.com/features/geo-location/"><?php esc_html_e('Geo-location', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/custom-event-tracking/"><?php esc_html_e('Event Tracking', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/email-reports/"><?php esc_html_e('Periodic Email Reports', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/pageviews-column/"><?php esc_html_e('Pageviews Column', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/csv-export/"><?php esc_html_e('CSV Export', 'koko-analytics'); ?></a></li>
-                        <li><a href="https://www.kokoanalytics.com/features/admin-bar/"><?php esc_html_e('Admin Bar', 'koko-analytics'); ?></a></li>
-                    </ul>
-                    <p><?php esc_html_e('You can unlock all these benefits for a small yearly fee.', 'koko-analytics'); ?>
-                    <a class="" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Take a look at Koko Analytics Pro now.', 'koko-analytics'); ?></a></p>
-
+            <div class="mt-3 mb-5">
+                <div class="p-3 rounded"  style="background: #fff3cd;">
+                    <h2 class="mt-0 mb-2"><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
+                    <p>
+                        <?= esc_html('You are currently using the free version of Koko Analytics.', 'koko-analytics'); ?>
+                        <?= esc_html('With Koko Analytics Pro you can unlock powerful benefits like geo-location, even tracking and periodic email reports.', 'koko-analytics'); ?>
+                    </p>
+                    <p class="mb-0">
+                    <a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?></a></p>
                 </div>
             </div>
             <?php } // end if defined KOKO_ANALYTICS_PRO ?>
