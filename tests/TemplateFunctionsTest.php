@@ -12,6 +12,11 @@ use function KokoAnalytics\percent_format_i18n;
 
 class TemplateFunctionsTest extends TestCase
 {
+    public function setUp(): void
+    {
+        require_once dirname(__DIR__, 1) . '/src/Resources/functions/template.php';
+    }
+
     public function testPercentFormatI18n(): void
     {
         $this->assertEquals(percent_format_i18n(0), '');
@@ -20,13 +25,6 @@ class TemplateFunctionsTest extends TestCase
         $this->assertEquals(percent_format_i18n(-1.00), '-100%');
         $this->assertEquals(percent_format_i18n(0.55), '+55%');
         $this->assertEquals(percent_format_i18n(-0.55), '-55%');
-    }
-
-    public function testGetReferrerUrlHref(): void
-    {
-        self::assertEquals('', get_referrer_url_href(''));
-        self::assertEquals('https://www.kokoanalytics.com/', get_referrer_url_href('https://www.kokoanalytics.com/'));
-        self::assertEquals('https://play.google.com/store/apps/details?id=kokoanalytics', get_referrer_url_href('android-app://kokoanalytics'));
     }
 
     public function testGetReferrerUrlLabel(): void

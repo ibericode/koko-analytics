@@ -28,10 +28,10 @@ document.addEventListener('keydown', function (evt) {
 
   switch (evt.key) {
   case 'ArrowLeft':
-    document.querySelector('.ka-datepicker--quicknav-prev').click();
+    document.querySelector('.js-quicknav-prev').click();
     break;
   case 'ArrowRight':
-    document.querySelector('.ka-datepicker--quicknav-next').click();
+    document.querySelector('.js-quicknav-next').click();
     break;
   }
 })

@@ -21,7 +21,7 @@ function request(data) {
   navigator.sendBeacon(win[ka].url, new URLSearchParams(data));
 }
 
-win[ka].trackPageview = function(postId) {
+win[ka].trackPageview = function() {
   if (
     // do not track if this is a prerender request
     (document.visibilityState == 'prerender') ||
@@ -34,9 +34,7 @@ win[ka].trackPageview = function(postId) {
 
   // don't store referrer if from same-site
   var referrer = document.referrer.indexOf(win[ka].site_url) == 0 ? '' : document.referrer;
-  request({ p: postId, r: referrer })
+  request({ pa: win[ka].path, po: win[ka].post_id, r: referrer })
 }
 
-win.addEventListener('load', function() {
-  win[ka].trackPageview(win[ka].post_id);
-});
+win.addEventListener('load', win[ka].trackPageview);

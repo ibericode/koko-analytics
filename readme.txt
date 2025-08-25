@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.8.6
+Stable tag: 2.0.0-beta1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -119,10 +119,6 @@ Use the `[koko_analytics_counter]` shortcode:
 
 Example:
 `[koko_analytics_counter days="30" metric="pageviews" global="true"]`
-
-#### Why aren’t category/tag archives tracked?
-Koko Analytics only tracks post/page views to keep storage requirements minimal.
-
 
 == Screenshots ==
 
