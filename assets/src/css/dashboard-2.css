@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* colors go here */
 :root {
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -614,4 +616,10 @@ textarea.ka-input {
 
 @view-transition {
  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
 }
