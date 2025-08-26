@@ -69,6 +69,7 @@ body.koko-analytics {
   background: #fff;
   border-radius: var(--bs-border-radius);
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
 }
 /* end dashboard box */
