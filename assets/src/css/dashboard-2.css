@@ -46,11 +46,28 @@
   --bs-link-color: var(--bs-link-hover-color);
 }
 
+/* uniform margin between embedded wp admin view and standalone dashboard */
+body.koko-analytics {
+  margin: 0 0 0 20px;
+}
+.ka-wrap {
+  padding: 20px 20px 20px 0;
+  margin: 0;
+}
+@media(max-width: 782px) {
+  body.koko-analytics {
+    margin-left: 10px;
+  }
+  .ka-wrap { padding: 10px 10px 10px 0; }
+}
+/* end uniform margin */
+
 /* dashboard box */
 .ka-box {
   background: #fff;
   border-radius: var(--bs-border-radius);
   width: 100%;
+  box-sizing: border-box;
 }
 /* end dashboard box */
 

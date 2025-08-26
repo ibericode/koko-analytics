@@ -20,7 +20,7 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <link rel="shortcut icon" href="<?php echo plugins_url('assets/dist/img/favicon.ico', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <meta name="theme-color" content="#B60205">
 </head>
-<body class="koko-analytics" style="margin: 0 0 0 20px;">
+<body class="koko-analytics">
     <?php $this->show(); ?>
     <script>
     if ('serviceWorker' in navigator) {

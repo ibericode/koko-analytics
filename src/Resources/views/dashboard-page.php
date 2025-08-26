@@ -21,7 +21,7 @@ defined('ABSPATH') or exit;
 $tab = 'dashboard';
 
 ?>
-<div class="koko-analytics" style="margin-left: -20px; padding: 1rem;">
+<div class="koko-analytics ka-wrap">
     <?php $this->maybe_show_pro_notice(); ?>
     <?php $this->maybe_show_adblocker_notice(); ?>
 
