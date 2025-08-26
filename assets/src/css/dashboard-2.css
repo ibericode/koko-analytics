@@ -50,6 +50,7 @@
 .ka-box, .ka-filter {
   background: #fff;
   border-radius: var(--bs-border-radius);
+  height: 100%;
 }
 
 /* end dashboard box */
@@ -160,7 +161,7 @@
   flex: 0 0 auto;
   width: 100%;
 }
-.ka-row-cols-2 > * {
+.ka-row-cols-2 .ka-col {
   flex: 0 0 auto;
   width: 50%;
 }
