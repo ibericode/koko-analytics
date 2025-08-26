@@ -8,37 +8,37 @@ __('Enable geo-location?', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/geolocation-settings.php#12
 __('Select "yes" if you want Koko Analytics to geo-locate visitors by their IP address.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-country-component.php#12
+// ../koko-analytics-pro/includes/views/dashboard-country-component.php#13
 __('Country', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-country-component.php#13
+// ../koko-analytics-pro/includes/views/dashboard-country-component.php#14
 __('Count', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-country-component.php#30
+// ../koko-analytics-pro/includes/views/dashboard-country-component.php#31
 __('There is nothing here. Yet!', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-country-component.php#40
+// ../koko-analytics-pro/includes/views/dashboard-country-component.php#41
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-country-component.php#43
+// ../koko-analytics-pro/includes/views/dashboard-country-component.php#44
 __('Next', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#14
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#15
 __('Event:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#15
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#16
 __('Unique', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#16
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#17
 __('Total', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#42
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#43
 __('There is nothing here. Yet!', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#52
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#53
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/dashboard-event-component.php#55
+// ../koko-analytics-pro/includes/views/dashboard-event-component.php#56
 __('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#6
@@ -47,16 +47,16 @@ __('Traffic Spike Notification', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#9
 __('Send email notification of traffic spikes?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#16
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#15
 __('Realtime pageview treshold', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#18
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#17
 __('The notification will be sent if there were more pageviews than the specified treshold within a single hour.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#22
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#21
 __('Send to these email addresses', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#24
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#23
 __('Enter a comma separated list of email addresses to which the notification should be sent.', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/views/email-reports-setting.php#6
@@ -122,7 +122,7 @@ __('Event name', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/events-section.php#67
 __('Add event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#27
+// ../koko-analytics-pro/includes/views/event-details.php#26
 __('Event', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/views/event-details.php#30
@@ -137,46 +137,46 @@ __('This event has been counted %1$s times for a total value of %2$s.', 'koko-an
 // ../koko-analytics-pro/includes/views/event-details.php#40
 __('This event has been counted %1$s times.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#45
+// ../koko-analytics-pro/includes/views/event-details.php#46
 __('Tracking events', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#46
+// ../koko-analytics-pro/includes/views/event-details.php#47
 __('To track an event of this type, run the following JavaScript code:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#49
+// ../koko-analytics-pro/includes/views/event-details.php#50
 __('You can optionally attach a numerical value to each recorded event:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#52
+// ../koko-analytics-pro/includes/views/event-details.php#53
 __('You can find more information on tracking events in our knowledge base.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#56
+// ../koko-analytics-pro/includes/views/event-details.php#57
 __('Export this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#57
+// ../koko-analytics-pro/includes/views/event-details.php#58
 __('Use the form below to export event counts in a specific time period to CSV.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#61
+// ../koko-analytics-pro/includes/views/event-details.php#62
 __('Start date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#65
+// ../koko-analytics-pro/includes/views/event-details.php#66
 __('End date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#68
+// ../koko-analytics-pro/includes/views/event-details.php#70
 __('Export to CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#74
+// ../koko-analytics-pro/includes/views/event-details.php#76
 __('Delete this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#75
+// ../koko-analytics-pro/includes/views/event-details.php#77
 __('Use the button below to delete this event type from your dashboard overview.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#76
+// ../koko-analytics-pro/includes/views/event-details.php#78
 __('Are you sure you want to delete this event?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#78
+// ../koko-analytics-pro/includes/views/event-details.php#80
 __('Delete event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#84
+// ../koko-analytics-pro/includes/views/event-details.php#86
 __('Back to settings page', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-admin-bar.php#55
@@ -932,7 +932,7 @@ __('Qatar', 'koko-analytics');
 // ../koko-analytics-pro/includes/class-country-codes.php#261
 __('Mozambique', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-dashboard.php#17
+// ../koko-analytics-pro/includes/class-dashboard.php#20
 __('Download as CSV', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-posts-table.php#90
