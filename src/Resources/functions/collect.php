@@ -38,7 +38,8 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
-    [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $path);
+    $hash = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", $path);
+    [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $hash);
 
     // limit referrer URL to 255 chars
     $referrer_url = \substr($referrer_url, 0, 255);
@@ -229,7 +230,7 @@ function get_client_ip(): string
 
     // return first valid IP address from list
     foreach ($ips as $ip) {
-        if (\filter_var($ip, FILTER_VALIDATE_IP)) {
+        if (\filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             return $ip;
         }
     }
@@ -263,15 +264,13 @@ function determine_uniqueness(array $request_params, string $type, $thing): arra
 function determine_uniqueness_cookie(string $type, $thing): array
 {
     $things = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode('-', $_COOKIE['_koko_analytics_pages_viewed']) : [];
-    $unique_type = $type && !in_array($type[0], $things);
-
-    // we need to check for the special value -1 here, which is used for things that don't have a post ID
-    $unique_thing =  $unique_type ? true : $thing !== -1 && !in_array($thing, $things);
+    $unique_type = $type && !\in_array($type[0], $things);
+    $unique_thing =  $unique_type || ! \in_array($thing, $things);
 
     if ($unique_type) {
         $things[] = $type[0];
     }
-    if ($unique_thing && $thing !== -1) {
+    if ($unique_thing) {
         $things[] = $thing;
     }
 
@@ -306,14 +305,14 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     $unique_type = $type && ! \in_array($type[0], $things);
 
     // check if page id or event hash is in session file
-    $unique_thing = $unique_type ? true : $thing !== -1 && ! \in_array($thing, $things);
+    $unique_thing = $unique_type || ! \in_array($thing, $things);
 
     // build string to append to session file
     $append = "";
     if ($unique_type) {
         $append .= "{$type[0]}\n";
     }
-    if ($unique_thing && $thing !== -1) {
+    if ($unique_thing) {
         $append .= "{$thing}\n";
     }
     if ($append !== '') {

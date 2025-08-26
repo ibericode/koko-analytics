@@ -82,6 +82,7 @@ body.koko-analytics {
   font-size: 1rem;
   line-height: 1rem;
   background: #fff;
+  border: 0;
   border-radius: var(--bs-border-radius);
 }
 .ka-filter:hover,
