@@ -47,15 +47,14 @@
 }
 
 /* dashboard box */
-.ka-box, .ka-filter {
+.ka-box {
   background: #fff;
   border-radius: var(--bs-border-radius);
-  height: 100%;
+  width: 100%;
 }
-
 /* end dashboard box */
 
-/* totals bar */
+/* filters (top of dashboard) */
 .ka-filter {
   display: inline-block;
   padding: 0.5rem;
@@ -63,11 +62,16 @@
   cursor: pointer;
   font-size: 1rem;
   line-height: 1rem;
+  background: #fff;
   border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+  border-radius: var(--bs-border-radius);
 }
-.ka-filter:hover {
+.ka-filter:hover,
+.ka-filter:focus  {
   background: var(--bs-tertiary-bg);
 }
+/* end filters */
+
 /* chart */
 .ka-chart {
   overflow: visible;
@@ -426,10 +430,10 @@ textarea.ka-input {
 .fw-bold {
   font-weight: 700 !important;
 }
-.bg-dark .text-muted { color: #DDD !important; }
 
 /* background */
 .bg-dark { background: var(--bs-dark-color); color: white; }
+.bg-dark .text-muted { color: #DDD !important; }
 .bg-white { background: white; }
 
 .border { border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important; }
@@ -439,12 +443,14 @@ textarea.ka-input {
 
 /* font size */
 .fs-1 { font-size: 3rem !important; }
-.fs-6 {
-  font-size: 1rem !important;
-}
+.fs-3 { font-size: 1rem !important; }
+.fs-6 { font-size: 1rem !important; }
 .lh-1 { line-height: 3rem; }
-.fs-3 { font-size: 1rem; }
-.valign-top { vertical-align: top; }
+
+.align-baseline { vertical-align: baseline !important; }
+.align-top { vertical-align: top !important; }
+.align-middle { vertical-align: middle !important; }
+.align-bottom { vertical-align: bottom !important; }
 
 /* list */
 .list-inline { list-style: none; }

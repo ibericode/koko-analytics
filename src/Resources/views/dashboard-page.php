@@ -109,7 +109,7 @@ $tab = 'dashboard';
                 <th class="d-block text-start mb-1" scope="row"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></th>
                 <td class="d-block fs-1 lh-1 mb-1">
                     <span class="" title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
-                    <span class="fs-3 valign-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
+                    <span class="fs-3 align-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
                         <?php echo Fmt::percent($change); ?>
                     </span>
                 </td>
@@ -136,7 +136,7 @@ $tab = 'dashboard';
                 <th class="d-block text-start mb-1" scope="row"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></th>
                 <td class="d-block fs-1 lh-1 mb-1">
                     <span class="" title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
-                    <span class="fs-3 valign-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
+                    <span class="fs-3 align-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
                         <?php echo Fmt::percent($change); ?>
                     </span>
                 </td>
@@ -272,10 +272,11 @@ $tab = 'dashboard';
         <h2 class="mt-0 mb-2"><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></h2>
         <p>
             <?= esc_html('You are currently using the free version of Koko Analytics.', 'koko-analytics'); ?>
-            <?= esc_html('With Koko Analytics Pro you can unlock powerful benefits like geo-location, even tracking and periodic email reports.', 'koko-analytics'); ?>
+            <?= esc_html('With Koko Analytics Pro you can unlock powerful benefits like geo-location, event tracking and periodic email reports.', 'koko-analytics'); ?>
         </p>
         <p class="mb-0">
-        <a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?></a></p>
+        <a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill align-middle ms-2" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+</svg></a></p>
     </div>
     <?php endif; ?>
 </div>
