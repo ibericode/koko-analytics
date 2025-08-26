@@ -176,7 +176,7 @@ $tab = 'dashboard';
     <div class="ka-row ka-row-cols-1 ka-row-cols-lg-2 g-3 mb-3 <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>">
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-col">
-            <div class="ka-box">
+            <div class="ka-box ka-table-responsive">
                 <table class="ka-table">
                     <thead>
                         <tr>
@@ -221,7 +221,7 @@ $tab = 'dashboard';
 
         <?php /* TOP REFERRERS */ ?>
         <div id="top-referrers" class="ka-col">
-            <div class="ka-box">
+            <div class="ka-box ka-table-responsive">
                 <table class="ka-table">
                     <thead>
                         <tr>

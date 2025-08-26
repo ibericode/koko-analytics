@@ -189,9 +189,14 @@ body.koko-analytics {
 /* end grid */
 
 /* tables */
+.ka-table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .ka-table {
   width: 100%;
   border-spacing: 0;
+  box-sizing: border-box;
 }
 
 .ka-table th,
