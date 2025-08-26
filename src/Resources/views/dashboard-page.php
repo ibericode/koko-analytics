@@ -25,8 +25,8 @@ $tab = 'dashboard';
     <?php $this->maybe_show_pro_notice(); ?>
     <?php $this->maybe_show_adblocker_notice(); ?>
 
-    <div class="mb-3 d-lg-flex">
-        <div class="d-sm-flex">
+    <div class="d-lg-flex">
+        <div class="d-flex gap-2 mb-3">
             <div class="me-2">
                 <div class="ka-filter" tabindex="0" role="button" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3 me-2" style="vertical-align: middle;" viewBox="0 0 16 16"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
@@ -86,7 +86,7 @@ $tab = 'dashboard';
                 <div class="ka-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
                     <?php esc_html_e('Page', 'koko-analytics'); ?> =
                     <a class="" href="<?php echo esc_attr($page); ?>"><?php echo esc_html($page); ?></a>
-                    <a class="text-decoration-none text-reset" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
+                    <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
                 </div>
             </div>
 
