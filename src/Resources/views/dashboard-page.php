@@ -174,7 +174,6 @@ $tab = 'dashboard';
     <?php } ?>
 
     <div class="ka-row ka-row-cols-1 ka-row-cols-lg-2 g-3 mb-3 <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>">
-
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-col">
             <div class="ka-box">
@@ -183,8 +182,8 @@ $tab = 'dashboard';
                         <tr>
                             <th class="" style="width: 3ch;" scope="col">#</th>
                             <th class="" scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                            <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end w-10ch d-none d-lg-table-cell" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end w-10ch" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                            <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end  d-none d-lg-table-cell w-fit" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -228,8 +227,8 @@ $tab = 'dashboard';
                         <tr>
                             <th scope="col" style="width: 3ch;">#</th>
                             <th scope="col"><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end w-10ch d-none d-lg-table-cell"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end w-10ch"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                            <th scope="col" title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th scope="col" title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end text-truncate w-fit ka-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
                     <tbody>

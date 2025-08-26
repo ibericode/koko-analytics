@@ -190,7 +190,6 @@ body.koko-analytics {
 
 /* tables */
 .ka-table {
-  table-layout: fixed;
   width: 100%;
   border-spacing: 0;
 }
@@ -202,7 +201,7 @@ body.koko-analytics {
   padding: 0.4rem 0.6rem;
 }
 .ka-table th {
-  background: var(--bs-dark-color);
+  background-color: var(--bs-dark-color);
   border-color: var(--bs-dark-color);
   color: white;
 }
@@ -212,9 +211,7 @@ body.koko-analytics {
 .ka-table th:last-child {
     border-top-right-radius: 6px;
 }
-.w-10ch {
-  width: 10ch;
-}
+.w-fit { width: 0; min-width: fit-content; }
 /* end tables */
 
 /* forms */
@@ -590,6 +587,23 @@ textarea.ka-input {
   }
 }
 
+@media (max-width: 576px) {
+  .ka-pageviews {
+    font-size: 0 !important;
+    color: transparent !important;
+  }
+  .ka-pageviews:after{
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+    width: 16px; height: 16px;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>');
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: center center;
+  }
+}
+
 /* lg */
 @media (min-width: 992px) {
   .ka-row-cols-lg-2 .ka-col {
@@ -614,10 +628,4 @@ textarea.ka-input {
 
 @view-transition {
  navigation: auto;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  :root {
-    scroll-behavior: smooth;
-  }
 }
