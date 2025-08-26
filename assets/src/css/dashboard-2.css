@@ -160,6 +160,10 @@
   flex: 0 0 auto;
   width: 100%;
 }
+.ka-row-cols-2 > * {
+  flex: 0 0 auto;
+  width: 50%;
+}
 /* end grid */
 
 /* tables */
@@ -418,7 +422,9 @@ textarea.ka-input {
 .text-truncate { overflow: hidden; text-overflow:ellipsis;  white-space: nowrap; }
 .text-decoration-none { text-decoration: none !important; }
 .text-reset { --bs-text-opacity: 1; color: inherit !important; }
-.fw-bold { font-weight: bold; }
+.fw-bold {
+  font-weight: 700 !important;
+}
 .bg-dark .text-muted { color: #DDD !important; }
 
 /* background */
@@ -431,7 +437,10 @@ textarea.ka-input {
 .rounded-top { border-top-left-radius: var(--bs-border-radius) !important; border-top-right-radius: var(--bs-border-radius) !important; }
 
 /* font size */
-.fs-1 { font-size: 3rem; }
+.fs-1 { font-size: 3rem !important; }
+.fs-6 {
+  font-size: 1rem !important;
+}
 .lh-1 { line-height: 3rem; }
 .fs-3 { font-size: 1rem; }
 .valign-top { vertical-align: top; }
