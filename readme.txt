@@ -129,6 +129,12 @@ Example:
 5. Settings page with Pro features.
 6. Pro feature showing pageviews in the posts overview.
 
+== Upgrade Notice ==
+
+= 2.0.0 =
+
+This release introduces path based tracking and improved dashboard styles! If your site has many different pages and/or historical data, please back-up your Koko Analytics database tables before updating.
+
 
 == Changelog ==
 
