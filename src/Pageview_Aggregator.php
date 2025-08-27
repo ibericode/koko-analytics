@@ -64,20 +64,22 @@ class Pageview_Aggregator
         }
 
         // increment referrals
-        $referrer_url = Normalizer::referrer($referrer_url);
-        if ($referrer_url !== '') {
-            if (!isset($this->referrer_stats[$date_key])) {
-                $this->referrer_stats[$date_key] = [];
-            }
+        if ($referrer_url) {
+            $referrer_url = Normalizer::referrer($referrer_url);
+            if ($referrer_url !== '') {
+                if (!isset($this->referrer_stats[$date_key])) {
+                    $this->referrer_stats[$date_key] = [];
+                }
 
-            if (! isset($this->referrer_stats[$date_key][$referrer_url])) {
-                $this->referrer_stats[$date_key][$referrer_url] = [ 'visitors' => 0, 'pageviews' => 0 ];
-            }
+                if (! isset($this->referrer_stats[$date_key][$referrer_url])) {
+                    $this->referrer_stats[$date_key][$referrer_url] = [ 'visitors' => 0, 'pageviews' => 0 ];
+                }
 
-            // increment stats
-            $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
-            if ($new_visitor) {
-                $this->referrer_stats[$date_key][$referrer_url]['visitors'] += 1;
+                // increment stats
+                $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
+                if ($new_visitor) {
+                    $this->referrer_stats[$date_key][$referrer_url]['visitors'] += 1;
+                }
             }
         }
 
