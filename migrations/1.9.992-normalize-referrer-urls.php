@@ -9,6 +9,9 @@ defined('ABSPATH') or exit;
 /** @var wpdb $wpdb */
 global $wpdb;
 
+// some of the UPDATE queries below can fail, we don't want to exit when that happens
+$wpdb->hide_errors();
+
 $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http%'");
 foreach ($results as $row) {
     $row->url = Normalizer::referrer($row->url);
