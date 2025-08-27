@@ -137,6 +137,7 @@ Example:
 - Failsafe against missing referrer URL in buffer file.
 - Fix warning about array to string conversion in wpdb class.
 - Fix warning about foreach argument being null.
+- Fix [koko_analytics_counter] shortcode not using path from post in "the loop" anymore.
 
 
 ### 2.0.3 - Aug 27, 2025
@@ -770,7 +771,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom tracking endpoint on Multisite installations because it ignores the site-specifix database prefix.
 - Show errors in aggegration process if `WP_DEBUG` is enabled.
-- Update referrer blocklist.
-- Use `wp.i18n` for managing translations in JavaScript files.
-- Bump table row ...
+- Update referrer ...
 
