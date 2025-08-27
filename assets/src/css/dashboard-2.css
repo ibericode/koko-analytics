@@ -215,7 +215,7 @@ body.koko-analytics {
 .ka-table th:last-child {
     border-top-right-radius: 6px;
 }
-.w-fit { width: 0; min-width: fit-content; }
+.w-fit { width: 40px; min-width: fit-content; }
 /* end tables */
 
 /* forms */
