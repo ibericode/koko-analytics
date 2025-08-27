@@ -203,7 +203,7 @@ class Actions
         $offset = 0;
         $limit = 1000;
         do {
-            $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' OR url LIKE 'https://' LIMIT %d OFFSET %d"), [$limit, $offset]);
+            $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' OR url LIKE 'https://%' LIMIT %d OFFSET %d"), [$limit, $offset]);
             foreach ($results as $row) {
                 $row->url = Normalizer::referrer($row->url);
 
@@ -236,5 +236,7 @@ class Actions
 
             $offset += $limit;
         } while ($results);
+
+        update_option('koko_analytics_referrers_v2', true, true);
     }
 }
