@@ -132,6 +132,13 @@ Example:
 
 == Changelog ==
 
+### 2.0.3 - Aug 27, 2025
+
+- Fix referrer migration notice re-appearing if certain records could not be migrated (due to being malformed).
+- Fix table columns being pushed off the screen due to long text not truncating.
+- Ensure post_stats primary key is properly created for new sites.
+
+
 ### 2.0.2 - Aug 27, 2025
 
 - Delay running potentially expensive database migration until after site administrator clicks a button.
@@ -766,12 +773,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 #### 1.0.13 - May 28, 2020
 
 - Update referrer blocklist.
-- Improve date parsing from URL parameters to account for negative UTC offsets. Fixes an issue with the date jumping back one day.
-- Don't attempt to install custom endpoint if it was manually installed (using the `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` constant).
-- Revert to using `home_url()` for the tracker endpoint URL.
-
-
-#### 1.0.12 - May 14, 2020
-
-- ...
+- Improve date parsing from URL parameters ...
 
