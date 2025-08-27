@@ -106,6 +106,11 @@ function site_url()
     return '';
 }
 
+function home_url($path = '')
+{
+    return '';
+}
+
 function is_multisite()
 {
     return false;
