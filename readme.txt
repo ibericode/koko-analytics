@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, analytics alternative
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -139,7 +139,7 @@ This release introduces path based tracking and improved dashboard styles! If yo
 == Changelog ==
 
 
-### 2.0.0 - Aug 27, 2025
+### 2.0.1 - Aug 27, 2025
 
 This release introduces path based tracking and improved dashboard styles. If you have many different posts/pages or are concerned about your historical data being affected, please back-up your Koko Analytics database tables before updating to this version.
 
