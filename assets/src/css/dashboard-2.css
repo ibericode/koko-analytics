@@ -196,6 +196,7 @@ body.koko-analytics {
   -webkit-overflow-scrolling: touch;
 }
 .ka-table {
+  table-layout: fixed;
   width: 100%;
   border-spacing: 0;
   box-sizing: border-box;
