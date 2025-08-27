@@ -1,5 +1,12 @@
 # Changelog
 
+### 2.0.3 - Aug 27, 2025
+
+- Fix referrer migration notice re-appearing if certain records could not be migrated (due to being malformed).
+- Fix table columns being pushed off the screen due to long text not truncating.
+- Ensure post_stats primary key is properly created for new sites.
+
+
 ### 2.0.2 - Aug 27, 2025
 
 - Delay running potentially expensive database migration until after site administrator clicks a button.
