@@ -1,7 +1,7 @@
 # Changelog
 
 
-### 2.0.0 - Aug 27, 2025
+### 2.0.1 - Aug 27, 2025
 
 This release introduces path based tracking and improved dashboard styles. If you have many different posts/pages or are concerned about your historical data being affected, please back-up your Koko Analytics database tables before updating to this version.
 

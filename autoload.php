@@ -13,8 +13,9 @@ spl_autoload_register(function ($class) {
 
     // turn FQCN into filename according to PSR-4 standard
     $file = substr($class, 14);
-    $file = str_replace('\\', '/', $file) . '.php';
-    $file = __DIR__ . "/src/{$file}";
+    $file = str_replace('\\', '/', $file);
+    $file = __DIR__ . "/src/{$file}.php'";
+
     if (is_file($file)) {
         require $file;
     }

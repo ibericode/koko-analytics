@@ -128,9 +128,11 @@ if (\is_admin()) {
 }
 
 // on plugin update (but using old code)
-add_filter('upgrader_process_complete', function () {
-    do_action('koko_analytics_aggregate_stats');
-});
+// this breaks in 2.x because of the new file structure
+// TODO: Reactivate once 2.x stabilises
+// add_filter('upgrader_process_complete', function () {
+//     do_action('koko_analytics_aggregate_stats');
+// });
 
 // on plugin activation
 register_activation_hook(__FILE__, function () {
