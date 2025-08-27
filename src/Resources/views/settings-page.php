@@ -108,7 +108,9 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                         <?php echo ' '; ?>
                         <?php esc_html_e('Enter each IP address on its own line.', 'koko-analytics'); ?>
                         <?php echo ' '; ?>
-                        <?php printf(esc_html__('Your current IP address is %s.', 'koko-analytics'), '<code>' . esc_html(\KokoAnalytics\get_client_ip()) . '</code>'); ?>
+                        <?php if (\KokoAnalytics\get_client_ip()) : ?>
+                            <?php printf(esc_html__('Your current IP address is %s.', 'koko-analytics'), '<code>' . esc_html(\KokoAnalytics\get_client_ip()) . '</code>'); ?>
+                        <?php endif; ?>
                     </p>
                 </div>
 
