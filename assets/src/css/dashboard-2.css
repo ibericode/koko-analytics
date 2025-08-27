@@ -478,8 +478,9 @@ textarea.ka-input {
 .list-inline { list-style: none; }
 .list-inline-item { display: inline-block; }
 
-/* buttons */
+.position-relative { position: relative; }
 
+/* buttons */
 .btn,
 .koko-analytics .btn {
   --bs-btn-padding-x: 0.75rem;
