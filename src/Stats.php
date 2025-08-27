@@ -140,7 +140,7 @@ class Stats
 
             // for backwards compatibility with versions before 2.0
             // set post_title and post_permalink property
-            $row->post_permalink = $row->path;
+            $row->post_permalink = home_url($row->path);
             $row->post_title = $row->path;
 
             return $row;

@@ -1,5 +1,7 @@
 <?php
 
+use KokoAnalytics\Normalizers\Normalizer;
+
 defined('ABSPATH') or exit;
 
 @set_time_limit(0);
@@ -29,6 +31,9 @@ foreach ($results as $row) {
     if (!$path) {
         continue;
     }
+
+    // normalize path
+    $path = Normalizer::path($path);
 
     // insert path
     // NOTE: We can't upsert here because we need a unique path_id for every date, post_id combination

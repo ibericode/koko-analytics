@@ -84,7 +84,7 @@ $tab = 'dashboard';
 
             <div class="ka-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
                 <?php esc_html_e('Page', 'koko-analytics'); ?> =
-                <a class="" href="<?php echo esc_attr($page); ?>"><?php echo esc_html($page); ?></a>
+                <a class="" href="<?php echo esc_attr(home_url($page)); ?>"><?php echo esc_html($page); ?></a>
                 <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
             </div>
 
