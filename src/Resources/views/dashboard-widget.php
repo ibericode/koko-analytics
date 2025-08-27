@@ -45,9 +45,9 @@ use KokoAnalytics\Fmt;
                 </h3>
                 <ul class="list-unstyled m-0">
                     <?php foreach ($posts as $post) { ?>
-                    <li>
+                    <li class="text-truncate">
                         <span class="text-muted me-2"><?php echo number_format_i18n($post->pageviews); ?></span>
-                        <span class="text-truncate"><a href="<?php echo esc_attr(home_url($post->path)); ?>"><?php echo esc_html($post->path); ?></a></span>
+                        <a href="<?php echo esc_attr(home_url($post->path)); ?>"><?php echo esc_html($post->path); ?></a>
                     </li>
                     <?php } ?>
                 </ul>
@@ -60,9 +60,9 @@ use KokoAnalytics\Fmt;
                 </h3>
                 <ul class="list-unstyled m-0">
                     <?php foreach ($referrers as $referrer) {  ?>
-                        <li>
+                        <li class="text-truncate">
                             <span class="text-muted me-2"><?php echo number_format_i18n($referrer->pageviews); ?></span>
-                            <span class="text-truncate"><?php echo Fmt::referrer_url_label(esc_html($referrer->url)); ?></span>
+                            <?php echo Fmt::referrer_url_label(esc_html($referrer->url)); ?>
                         </li>
                     <?php } ?>
                 </ul>
