@@ -191,10 +191,6 @@ body.koko-analytics {
 /* end grid */
 
 /* tables */
-.ka-table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
 .ka-table {
   table-layout: fixed;
   width: 100%;
