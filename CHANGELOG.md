@@ -1,8 +1,10 @@
 # Changelog
 
-### 2.0.4 - Aug 27, 2025
+### 2.0.5 - Aug 27, 2025
 
 - Failsafe against missing referrer URL in buffer file.
+- Fix warning about array to string conversion in wpdb class.
+- Fix warning about foreach argument being null.
 
 
 ### 2.0.3 - Aug 27, 2025
