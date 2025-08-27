@@ -9,13 +9,15 @@
  * Adds support for a shortcode to display the number of times a page or a site has been viewed
 
  * Options:
- *  days: How many previous days to count.
- *  metric: Either "pageviews" or "visitors"
+ *  days: How many previous days to count. (default: 3650)
+ *  metric: Either "pageviews" or "visitors" (default: pageviews)
  *  global: Set to true to show count for entire site instead of the current page.
  */
 
 namespace KokoAnalytics\Shortcodes;
 
+use DateTime;
+use KokoAnalytics\Normalizers\Normalizer;
 use KokoAnalytics\Stats;
 
 use function KokoAnalytics\create_local_datetime;
@@ -28,23 +30,23 @@ class Site_Counter
     {
         $default_args = [
             'days' => 365 * 10,
-            'metric' => 'visitors',
+            'metric' => 'pageviews',
             'global' => false,
         ];
         $args = shortcode_atts($default_args, $args, self::SHORTCODE);
         $args['days'] = abs((int) $args['days']);
-
-        $id = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? 0 : (int) get_the_ID();
+        $path = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : Normalizer::path($_SERVER['REQUEST_URI'] ?? '');
         $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
-        $start_date = create_local_datetime($start_date_str)->format('Y-m-d');
-        $end_date = create_local_datetime('tomorrow midnight')->format('Y-m-d');
+        $timezone = wp_timezone();
+        $start_date = (new DateTime($start_date_str, $timezone))->format('Y-m-d');
+        $end_date = (new DateTime('tomorrow, midnight', $timezone))->format('Y-m-d');
 
-        $cache_key = 'ka_counter_' . $id . $args['metric'][0] . $args['days'];
+        $cache_key = "ka_counter_" . md5("{$path}-{$args['metric']}-{$args['days']}");
         $count = get_transient($cache_key);
         if (false === $count) {
             $stats = new Stats();
-            $totals = $stats->get_totals($start_date, $end_date, $id);
-            $count = $args['metric'] === 'pageviews' ? $totals->pageviews : $totals->visitors;
+            $totals = $stats->get_totals($start_date, $end_date, $path);
+            $count = $args['metric'] === 'visitors' ? $totals->visitors : $totals->pageviews;
             set_transient($cache_key, $count, 5 * 60);
         }
 
