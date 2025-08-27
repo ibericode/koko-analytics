@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -134,7 +134,7 @@ Example:
 
 ### 2.0.2 - Aug 27, 2025
 
-- Delay running potentially expensive database migration until after administrator clicks a button.
+- Delay running potentially expensive database migration until after site administrator clicks a button.
 
 
 ### 2.0.1 - Aug 27, 2025
@@ -773,6 +773,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.12 - May 14, 2020
 
-- Add filter `koko_analytics_honor_dnt` to allow ignoring DoNotTrack.
-- Huge performance improvement for the tracking request if you're on a ...
+- ...
 
