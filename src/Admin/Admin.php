@@ -110,7 +110,7 @@ class Admin
         global $wpdb;
 
         // Test for unmigrated post id records
-        $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
+        $results = $wpdb->get_var("SELECT COUNT(DISTINCT(post_id)) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
         if ($results) {
             ?>
             <div class="notice notice-warning">
@@ -128,7 +128,7 @@ class Admin
         }
 
         // Test for unmigrated referrer records
-        $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http%'");
+        $results = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http%'");
         if ($results) {
             ?>
             <div class="notice notice-warning">
