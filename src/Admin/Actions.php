@@ -148,6 +148,10 @@ class Actions
             $results = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT %d OFFSET %d", [$limit, $offset]));
             $offset += $limit;
 
+            if (!$results) {
+                break;
+            }
+
             // process rows one by one
             // this is slower, but the migration will continue and eventually finish over multiple requests
             foreach ($results as $row) {
@@ -204,6 +208,11 @@ class Actions
         $limit = 1000;
         do {
             $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' OR url LIKE 'https://%' LIMIT %d OFFSET %d"), [$limit, $offset]);
+            $offset += $limit;
+            if (!$results) {
+                break;
+            }
+
             foreach ($results as $row) {
                 $row->url = Normalizer::referrer($row->url);
 
@@ -233,8 +242,6 @@ class Actions
                     $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_urls SET url = %s WHERE id = %s LIMIT 1", [ $row->url, $row->id ]));
                 }
             }
-
-            $offset += $limit;
         } while ($results);
 
         update_option('koko_analytics_referrers_v2', true, true);
