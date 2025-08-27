@@ -5,6 +5,7 @@
 - Failsafe against missing referrer URL in buffer file.
 - Fix warning about array to string conversion in wpdb class.
 - Fix warning about foreach argument being null.
+- Fix [koko_analytics_counter] shortcode not using path from post in "the loop" anymore.
 
 
 ### 2.0.3 - Aug 27, 2025
