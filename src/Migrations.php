@@ -17,24 +17,33 @@ class Migrations
     protected $version_to;
     protected $current_version;
     protected $migrations_dir;
+    protected $prefix;
 
     public function __construct(string $prefix, string $version_to, string $migrations_dir)
     {
-        $prefix = rtrim($prefix, '_');
-        $option_name = str_ends_with($prefix, '_version') ? $prefix : "{$prefix}_version";
+        $this->prefix = rtrim($prefix, '_');
+        $option_name = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
         $this->option_name = $option_name;
-        $this->version_from = isset($_GET["{$prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
+        $this->version_from = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
         $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
     }
 
     public function maybe_run(): void
     {
+
         if (\version_compare($this->version_from, $this->version_to, '>=')) {
             return;
         }
 
+        // check if migrations not already running
+        if (get_transient("{$this->prefix}_migrations_running")) {
+            return;
+        }
+
+        set_transient("{$this->prefix}_migrations_running", true, 30);
         $this->run();
+        delete_transient("{$this->prefix}_migrations_running");
     }
 
     /**

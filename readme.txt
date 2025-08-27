@@ -1,4 +1,4 @@
-=== Koko Analytics - Privacy-Friendly Statistics Plugin ===
+=== Koko Analytics - Privacy-Friendly Statistics ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
