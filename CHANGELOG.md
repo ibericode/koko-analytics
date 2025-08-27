@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.0.4 - Aug 27, 2025
+
+- Failsafe against missing referrer URL in buffer file.
+
+
 ### 2.0.3 - Aug 27, 2025
 
 - Fix referrer migration notice re-appearing if certain records could not be migrated (due to being malformed).
