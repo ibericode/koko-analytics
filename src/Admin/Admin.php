@@ -109,31 +109,38 @@ class Admin
         /** @var wpdb $wpdb */
         global $wpdb;
 
-        // Select all rows with a post ID but no path ID
+        // Test for unmigrated post id records
         $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
         if ($results) {
             ?>
             <div class="notice notice-warning">
-                <p>Koko Analytics needs to migrate your page-specific stats to a new storage format. Click the button below to proceed, this can take some time.</p>
+                <p>
+                    <?php esc_html_e('Koko Analytics needs to migrate your page stats to a new storage format.', 'koko-analytics'); ?>
+                    <?php esc_html_e('Click the button below to proceed with the database migration, this can take some time if you have a large site.', 'koko-analytics'); ?>
+                </p>
                 <form action="" method="post">
                     <input type="hidden" name="koko_analytics_action" value="migrate_post_stats_to_v2">
-                    <p><button type="submit" class="button button-primary">Migrate</button></p>
+                    <p><button type="submit" class="button button-primary"><?php esc_html_e('Migrate', 'koko-analytics'); ?></button></p>
                 </form>
-                <p class="help description text-muted">We recommend making a back-up of your Koko Analytics database tables before running the migration.</p>
+                <p class="help description text-muted"><?php esc_html_e('We recommend making a back-up of your Koko Analytics database tables before running the migration.', 'koko-analytics'); ?></p>
             </div>
             <?php
         }
 
+        // Test for unmigrated referrer records
         $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http%'");
         if ($results) {
             ?>
             <div class="notice notice-warning">
-                <p>Koko Analytics needs to migrate your referrer stats to a new storage format.</p>
+                <p>
+                    <?php esc_html_e('Koko Analytics needs to migrate your referrer stats to a new storage format.', 'koko-analytics'); ?>
+                    <?php esc_html_e('Click the button below to proceed with the database migration, this can take some time if you have a large site.', 'koko-analytics'); ?>
+                </p>
                 <form action="" method="post">
                     <input type="hidden" name="koko_analytics_action" value="migrate_referrer_stats_to_v2">
-                    <p><button type="submit" class="button button-primary">Migrate</button></p>
+                    <p><button type="submit" class="button button-primary"><?php esc_html_e('Migrate', 'koko-analytics'); ?></button></p>
                 </form>
-                <p class="help description text-muted">We recommend making a back-up of your Koko Analytics database tables before running the migration.</p>
+                <p class="help description text-muted"><?php esc_html_e('We recommend making a back-up of your Koko Analytics database tables before running the migration.', 'koko-analytics'); ?></p>
             </div>
             <?php
         }

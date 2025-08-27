@@ -132,6 +132,10 @@ Example:
 
 == Changelog ==
 
+### 2.0.2 - Aug 27, 2025
+
+- Delay running potentially expensive database migration until after administrator clicks a button.
+
 
 ### 2.0.1 - Aug 27, 2025
 
