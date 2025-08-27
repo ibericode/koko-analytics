@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -132,9 +132,11 @@ Example:
 
 == Changelog ==
 
-### 2.0.4 - Aug 27, 2025
+### 2.0.5 - Aug 27, 2025
 
 - Failsafe against missing referrer URL in buffer file.
+- Fix warning about array to string conversion in wpdb class.
+- Fix warning about foreach argument being null.
 
 
 ### 2.0.3 - Aug 27, 2025
@@ -770,10 +772,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Show errors in aggegration process if `WP_DEBUG` is enabled.
 - Update referrer blocklist.
 - Use `wp.i18n` for managing translations in JavaScript files.
-- Bump table row count up to 25 per page.
-- Add filter hook: `koko_analytics_referrer_blocklist` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php))
-- Add filter hook: `koko_analytics_ignore_referrer_url` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-urls.php))
-
-
-#### 1.0.13 ...
+- Bump table row ...
 
