@@ -95,7 +95,7 @@ body.koko-analytics {
 .ka-chart {
   overflow: visible;
   min-height: 200px;
-  font-size: 14px;
+  font-size: 0.8rem;
 }
 .ka-chart--tooltip {
   position: absolute;
