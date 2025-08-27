@@ -1,7 +1,7 @@
-=== Koko Analytics - Privacy-Friendly Statistics for WordPress ===
+=== Koko Analytics - Privacy-Friendly Statistics Plugin ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://www.kokoanalytics.com/pricing/
-Tags: statistics, analytics, stats, analytics alternative
+Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
 Stable tag: 2.0.1
@@ -131,7 +131,7 @@ Example:
 
 == Upgrade Notice ==
 
-= 2.0.0 =
+= 2.0.1 =
 
 This release introduces path based tracking and improved dashboard styles! If your site has many different pages and/or historical data, please back-up your Koko Analytics database tables before updating.
 
