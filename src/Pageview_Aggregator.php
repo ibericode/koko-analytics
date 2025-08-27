@@ -29,7 +29,7 @@ class Pageview_Aggregator
         [$timestamp, $path, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
 
         // Ignore entire line (request) if referrer URL is on blocklist
-        if ($referrer_url !== '' && $this->ignore_referrer_url($referrer_url)) {
+        if ($referrer_url && $this->ignore_referrer_url($referrer_url)) {
             return;
         }
 
@@ -200,7 +200,7 @@ class Pageview_Aggregator
         $this->realtime = [];
     }
 
-    private function ignore_referrer_url(string $url): bool
+    private function ignore_referrer_url($url): bool
     {
         $url = strtolower($url);
 
