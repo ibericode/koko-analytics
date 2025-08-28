@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.0.8 - Aug 28, 2025
+
+- Add WP CLI command for initiating post stats migration to v2: wp koko-analytics migrate_post_stats_to_v2
+- Add WP CLI command for initiating referrer stats migration to v2: wp koko-analytics migrate_referrer_stats_to_v2
+
+
 ### 2.0.7 - Aug 28, 2025
 
 - Run data migration at later hook so that custom post types have a chance to register.
