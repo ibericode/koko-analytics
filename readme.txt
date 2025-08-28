@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,13 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.6 - Aug 28, 2025
+
+- Run data migration at later hook so that custom post types have a chance to register.
+- Delete seriously malformed referrer URL's from stats.
+- Fix z-index of datepicker component.
+
 
 ### 2.0.5 - Aug 27, 2025
 
@@ -764,12 +771,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Fix weird date for "this week" preset.
 - Fix weeknames in datepicker.
-- Fix translation files not being loaded. Hopefully...
-
-
-#### 1.0.14 - Jun 22, 2020
-
-- Do not use custom tracking endpoint on Multisite installations because it ignores the site-specifix database prefix.
-- Show errors in aggegration process if `WP_DEBUG` is enabled.
-- Update referrer ...
+- Fix translation files not being loaded. ...
 
