@@ -4,6 +4,10 @@
 
 - Add WP CLI command for initiating post stats migration to v2: wp koko-analytics migrate_post_stats_to_v2
 - Add WP CLI command for initiating referrer stats migration to v2: wp koko-analytics migrate_referrer_stats_to_v2
+- Slightly decrease font-size for analytics ashboard in general and chart tooltip.
+- Drop database tables on plugin uninstall.
+- Truncate new paths table when resetting statistics.
+- Switch to a single column grid at 1200px instead of 992px.
 
 
 ### 2.0.7 - Aug 28, 2025
