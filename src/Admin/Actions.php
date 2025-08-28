@@ -160,7 +160,7 @@ class Actions
             // this is slower, but the migration will continue and eventually finish over multiple requests
             foreach ($results as $row) {
                 $post_id = $row->post_id;
-                $post_permalink = $post_id === "0" ? $home_url : get_permalink($post_id);
+                $post_permalink = $post_id == "0" ? $home_url : get_permalink($post_id);
 
                 // post was deleted... delete stats entry too
                 if (!$post_permalink) {
