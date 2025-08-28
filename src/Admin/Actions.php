@@ -216,8 +216,10 @@ class Actions
             foreach ($results as $row) {
                 $row->url = Normalizer::referrer($row->url);
 
-                // skip seriously malformed url's
+                //  if row is seriously malformed, delete it
                 if ($row->url === '') {
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [ $row->id ]));
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [ $row->id ]));
                     continue;
                 }
 
