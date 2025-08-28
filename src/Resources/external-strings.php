@@ -179,7 +179,7 @@ __('Delete event', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/event-details.php#86
 __('Back to settings page', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-admin-bar.php#55
+// ../koko-analytics-pro/includes/class-admin-bar.php#60
 __('Pageviews', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-country-codes.php#12
