@@ -124,9 +124,10 @@ class Stats
         global $wpdb;
 
         $results = $wpdb->get_results($wpdb->prepare(
-            "SELECT p.path, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+            "SELECT ifnull(wp.post_title, p.path) AS path, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
+                LEFT JOIN {$wpdb->prefix}posts wp ON s.post_id = wp.ID
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.path_id
                 ORDER BY pageviews DESC, s.path_id ASC
