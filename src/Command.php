@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use KokoAnalytics\Admin\Actions;
+
 use WP_CLI;
 
 class Command
@@ -26,5 +28,20 @@ class Command
     {
         Aggregator::run();
         WP_CLI::success('Stats aggregated.');
+    }
+
+
+    public function migrate_post_stats_to_v2($args, $assoc_args)
+    {
+        WP_CLI::line('Migrating post stats...');
+        Actions::migrate_post_stats_to_v2();
+        WP_CLI::success('Done!');
+    }
+
+    public function migrate_referrer_stats_to_v2($args, $assoc_args)
+    {
+        WP_CLI::line('Migrating referrer stats...');
+        Actions::migrate_referrer_stats_to_v2();
+        WP_CLI::success('Done!');
     }
 }
