@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -132,7 +132,7 @@ Example:
 
 == Changelog ==
 
-### 2.0.6 - Aug 28, 2025
+### 2.0.7 - Aug 28, 2025
 
 - Run data migration at later hook so that custom post types have a chance to register.
 - Delete seriously malformed referrer URL's from stats.
