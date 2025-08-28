@@ -142,7 +142,8 @@ class Actions
         global $wpdb;
 
         $offset = 0;
-        $limit = 1000;
+        $limit = 500;
+        $home_url = home_url('/');
 
         do {
             // Select all rows with a post ID but no path ID
@@ -154,18 +155,12 @@ class Actions
                 break;
             }
 
-            $home_url = home_url('/');
-
-            // process rows one by one
-            // this is slower, but the migration will continue and eventually finish over multiple requests
-            foreach ($results as $row) {
-                $post_id = $row->post_id;
-                $post_permalink = $post_id == "0" ? $home_url : get_permalink($post_id);
-
-                // post was deleted... delete stats entry too
+            // create a mapping of post_id => path
+            $post_id_to_path_map = [];
+            foreach ($results as $r) {
+                $post_permalink = $r->post_id ? get_permalink($r->post_id) : $home_url;
                 if (!$post_permalink) {
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id = %d", [$row->post_id]));
-                    continue;
+                    $post_permalink = "$home_url?p={$r->post_id}";
                 }
 
                 $url_parts = parse_url($post_permalink);
@@ -174,15 +169,24 @@ class Actions
                     $path .= '?' . $url_parts['query'];
                 }
 
-                // normalize path
-                $path = Normalizer::path($path);
+                $post_id_to_path_map[$r->post_id] = Normalizer::path($path);
+            }
 
-                // insert path
-                // NOTE: We can't upsert here because we need a unique path_id for every date, post_id combination
-                $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths (path) VALUES (%s)", [$path]));
-                $path_id = $wpdb->insert_id;
+            // bulk insert all paths
+            $paths = array_values($post_id_to_path_map);
+            $placeholders = rtrim(str_repeat('(%s),', count($paths)), ',');
+            $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths(path) VALUES {$placeholders}", $paths));
+            $last_insert_id = $wpdb->insert_id;
 
-                // update post_stats entry
+            // create mapping of path to path_id
+            $path_to_path_id_map = [];
+            foreach (array_reverse($paths) as $path) {
+                $path_to_path_id_map[$path] = $last_insert_id--;
+            }
+
+            // update post_stats table to point to paths we just inserted
+            foreach ($post_id_to_path_map as $post_id => $path) {
+                $path_id = $path_to_path_id_map[$path];
                 $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_post_stats SET path_id = %d WHERE post_id = %d", [ $path_id, $post_id ]));
             }
         } while ($results);
