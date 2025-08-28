@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.8-test2
+Stable tag: 2.0.8
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,16 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.8 - Aug 28, 2025
+
+- Add WP CLI command for initiating post stats migration to v2: wp koko-analytics migrate_post_stats_to_v2
+- Add WP CLI command for initiating referrer stats migration to v2: wp koko-analytics migrate_referrer_stats_to_v2
+- Slightly decrease font-size for analytics ashboard in general and chart tooltip.
+- Drop database tables on plugin uninstall.
+- Truncate new paths table when resetting statistics.
+- Switch to a single column grid at 1200px instead of 992px.
+
 
 ### 2.0.7 - Aug 28, 2025
 
@@ -760,16 +770,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.16 - Jul 21, 2020
 
-- Fix blank screen on WordPress versions lower than 5.0.
-- Fix settings link showing despite user lacking required capability.
-- Fix code for custom referrer blocklist using filter `koko_analytics_referrer_blocklist`.
-- Do not use custom endpoint file when site URL differs from WordPress URL.
-- Improve test for custom endpoint file.
-
-
-#### 1.0.15 - Jun 22, 2020
-
-- Fix weird date for "this week" preset.
-- Fix weeknames in datepicker.
-- Fix translation files not being loaded. ...
+- ...
 
