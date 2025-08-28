@@ -610,6 +610,7 @@ textarea.ka-input {
 /* lg */
 @media (min-width: 992px) {
   .ka-row-cols-lg-2 .ka-col {
+    flex: 0 0 auto;
     width: 50%;
   }
   .ka-col-lg-4 {
@@ -626,6 +627,12 @@ textarea.ka-input {
   }
   .d-lg-table-cell {
     display: table-cell !important;
+  }
+}
+@media(min-width: 1200px) {
+   .ka-row-cols-xl-2 .ka-col {
+    flex: 0 0 auto;
+    width: 50%;
   }
 }
 
