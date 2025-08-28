@@ -1,5 +1,12 @@
 # Changelog
 
+### 2.0.6 - Aug 28, 2025
+
+- Run data migration at later hook so that custom post types have a chance to register.
+- Delete seriously malformed referrer URL's from stats.
+- Fix z-index of datepicker component.
+
+
 ### 2.0.5 - Aug 27, 2025
 
 - Failsafe against missing referrer URL in buffer file.
