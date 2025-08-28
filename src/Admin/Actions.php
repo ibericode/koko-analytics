@@ -149,28 +149,29 @@ class Actions
             $results = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT %d OFFSET %d", [$limit, $offset]));
             $offset += $limit;
 
+            // Stop once there are no more rows in result set
             if (!$results) {
                 break;
             }
+
+            $home_url = home_url('/');
 
             // process rows one by one
             // this is slower, but the migration will continue and eventually finish over multiple requests
             foreach ($results as $row) {
                 $post_id = $row->post_id;
-                $post_permalink = $post_id === "0" ? home_url('/') : get_permalink($post_id);
+                $post_permalink = $post_id === "0" ? $home_url : get_permalink($post_id);
+
+                // post was deleted... delete stats entry too
                 if (!$post_permalink) {
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id = %d", [$row->post_id]));
                     continue;
                 }
 
                 $url_parts = parse_url($post_permalink);
-                $path = $url_parts['path'];
+                $path = $url_parts['path'] ?? '/';
                 if (!empty($url_parts['query'])) {
                     $path .= '?' . $url_parts['query'];
-                }
-
-                // Entry points to nowhere, skip it... (ie deleted post)
-                if (!$path) {
-                    continue;
                 }
 
                 // normalize path
