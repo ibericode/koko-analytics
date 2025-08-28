@@ -102,7 +102,7 @@ add_shortcode('koko_analytics_most_viewed_posts', [Most_Viewed_Posts::class, 'co
 add_shortcode('koko_analytics_counter', [Site_Counter::class, 'content']);
 
 // run koko_analytics_action=[a-z] hooks
-add_action('init', [Actions::class, 'run'], 1000, 0);
+add_action('wp', [Actions::class, 'run'], 10, 0);
 
 // maybe show standalone dashboard
 add_action('wp', function () {
