@@ -9,7 +9,6 @@
 namespace KokoAnalytics;
 
 use KokoAnalytics\Admin\Actions;
-
 use WP_CLI;
 
 class Command
