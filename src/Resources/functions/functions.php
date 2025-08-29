@@ -18,7 +18,7 @@ function get_settings(): array
         'tracking_method' => 'cookie',
         'exclude_user_roles' => [],
         'exclude_ip_addresses' => [],
-        'prune_data_after_months' => 5 * 12, // 10 years
+        'prune_data_after_months' => 5 * 12,
         'default_view' => 'last_28_days',
         'is_dashboard_public' => 0,
     ];

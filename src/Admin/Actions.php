@@ -141,7 +141,7 @@ class Actions
     {
         @set_time_limit(0);
 
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $offset = 0;
@@ -161,18 +161,7 @@ class Actions
             // create a mapping of post_id => path
             $post_id_to_path_map = [];
             foreach ($results as $r) {
-                $post_permalink = $r->post_id ? get_permalink($r->post_id) : $home_url;
-                if (!$post_permalink) {
-                    $post_permalink = "$home_url?p={$r->post_id}";
-                }
-
-                $url_parts = parse_url($post_permalink);
-                $path = $url_parts['path'] ?? '/';
-                if (!empty($url_parts['query'])) {
-                    $path .= '?' . $url_parts['query'];
-                }
-
-                $post_id_to_path_map[$r->post_id] = Normalizer::path($path);
+                $post_id_to_path_map[$r->post_id] = self::get_path_by_post_id($r->post_id);
             }
 
             // bulk insert all paths
@@ -208,7 +197,7 @@ class Actions
     {
         @set_time_limit(0);
 
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         // some of the UPDATE queries below can fail, we don't want to exit when that happens
@@ -263,5 +252,52 @@ class Actions
         } while ($results);
 
         update_option('koko_analytics_referrers_v2', true, true);
+    }
+
+    /**
+     * Between version 2.0 and 2.0.10, there was an issue with the migration script above which would result in incorrect path ID's being returned when bulk inserting new paths.
+     * This fixes every entry in the post_stats table by checking each path whether it is correct
+     */
+    public static function fix_post_paths_after_v2(): void
+    {
+        @set_time_limit(0);
+
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+
+        $offset = 0;
+        $limit = 500;
+
+        do {
+            $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, path FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_id != 0 GROUP BY post_id OFFSET %d, LIMIT %d", [$offset, $limit]));
+            $offset += $limit;
+            if (!$results) {
+                break;
+            }
+
+            foreach ($results as $r) {
+                $correct_path = self::get_path_by_post_id($r->post_id);
+                if ($r->path != $correct_path) {
+                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_paths p SET path = %s WHERE id = %d", [$correct_path, $r->path_id]));
+                }
+            }
+        } while (true);
+    }
+
+    private static function get_path_by_post_id($post_id)
+    {
+        $home_url = home_url('/');
+        $post_permalink = $post_id ? get_permalink($post_id) : $home_url;
+        if (!$post_permalink) {
+            $post_permalink = "$home_url?p={$post_id}";
+        }
+
+        $url_parts = parse_url($post_permalink);
+        $path = $url_parts['path'] ?? '/';
+        if (!empty($url_parts['query'])) {
+            $path .= '?' . $url_parts['query'];
+        }
+
+        return Normalizer::path($path);
     }
 }

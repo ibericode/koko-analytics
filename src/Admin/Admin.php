@@ -27,6 +27,7 @@ class Admin
         add_action('koko_analytics_import_data', [Actions::class, 'import_data'], 10, 0);
         add_action('koko_analytics_migrate_post_stats_to_v2', [Actions::class, 'migrate_post_stats_to_v2'], 10, 0);
         add_action('koko_analytics_migrate_referrer_stats_to_v2', [Actions::class, 'migrate_referrer_stats_to_v2'], 10, 0);
+        add_action('koko_analytics_fix_post_paths_after_v2', [Actions::class, 'fix_post_paths_after_v2'], 10, 0);
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
