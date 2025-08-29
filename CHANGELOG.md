@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.0.11 - Aug 29, 2025
+
+- Add script to correctly map post ID to path for sites where this went wrong.
+
+
 ### 2.0.10 - Aug 29, 2025
 
 - Show page title again for records that have one.
