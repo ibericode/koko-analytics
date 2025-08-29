@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,14 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.10 - Aug 29, 2025
+
+- Show page title again for records that have one.
+- Fix the same path mapping to multiple entries in the `wp_koko_analytics_paths` table.
+- Defend against stale client-side configuration object due to aggressive full-page caching.
+- Drop database tables when using "reset statistics" button.
+
 
 ### 2.0.9 - Aug 28, 2025
 
@@ -759,12 +767,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 #### 1.0.19 - Sep 2, 2020
 
-- Create buffer file directory if it does not exist yet, eg on a fresh WP install.
-- Update preact and date-fns to their latest versions.
-- Update built-in referrer blocklist.
-
-
-#### 1.0.18 - Aug 25, 2020
-
-- Fix issue with tracking not working on AMP powered pages or issuing ...
+- ...
 
