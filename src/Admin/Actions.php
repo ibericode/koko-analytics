@@ -13,6 +13,7 @@ use KokoAnalytics\Data_Exporter;
 use KokoAnalytics\Data_Importer;
 use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Normalizers\Normalizer;
+use KokoAnalytics\Path_Repository;
 
 use function KokoAnalytics\get_settings;
 
@@ -269,7 +270,7 @@ class Actions
         $limit = 500;
 
         do {
-            $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, path FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_id != 0 GROUP BY post_id OFFSET %d, LIMIT %d", [$offset, $limit]));
+            $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, p.path FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_id != 0 AND date <= '2025-08-29' GROUP BY post_id LIMIT %d OFFSET %d", [$limit, $offset]));
             $offset += $limit;
             if (!$results) {
                 break;
@@ -278,7 +279,12 @@ class Actions
             foreach ($results as $r) {
                 $correct_path = self::get_path_by_post_id($r->post_id);
                 if ($r->path != $correct_path) {
-                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_paths p SET path = %s WHERE id = %d", [$correct_path, $r->path_id]));
+                    // get correct path id
+                    $path_to_id_map = Path_Repository::upsert([$correct_path]);
+                    $correct_path_id = $path_to_id_map[$correct_path];
+
+                    // update all post_stats to point to correct path_id
+                    $wpdb->query($wpdb->prepare("UPDATE IGNORE {$wpdb->prefix}koko_analytics_post_stats SET path_id = %d WHERE post_id = %d", [$correct_path_id, $r->post_id]));
                 }
             }
         } while (true);
