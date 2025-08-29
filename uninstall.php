@@ -15,14 +15,16 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 // delete wp-options
 delete_option("koko_analytics_settings");
-delete_option("koko_analytics_version");
 delete_option("koko_analytics_use_custom_endpoint");
 delete_option("koko_analytics_realtime_pageview_count");
 delete_option('koko_analytics_jetpack_import_params');
 
-global $wpdb;
-$wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_site_stats;");
-$wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_post_stats;");
-$wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_paths;");
-$wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_stats;");
-$wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_urls;");
+// delete historical data?
+//
+// global $wpdb;
+// delete_option("koko_analytics_version");
+// $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_site_stats;");
+// $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_post_stats;");
+// $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_paths;");
+// $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_stats;");
+// $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_urls;");
