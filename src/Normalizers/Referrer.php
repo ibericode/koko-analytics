@@ -17,18 +17,24 @@ class Referrer
             '/^android-app:\/\/(\w{2,3})(\.www)?\.(\w+).*/' => 'https://$3.$1',
             '/^android-app:\/\/m\.facebook\.com/' => 'https://facebook.com',
 
-            '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://www.$1.$2',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://instagram.com',
-            '/^https?:\/\/(?:www\.)?linkedin\.com\/feed.*/' => 'https://linkedin.com',
-            '/^https?:\/\/(?:www\.)?pinterest\.com/' => 'https://pinterest.com',
-            '/^https?:\/\/(?:www|m)\.baidu\.com.*/' => 'https://baidu.com',
-            '/^https?:\/\/yandex\.ru\/clck.*/' => 'https://yandex.ru',
-            '/^https?:\/\/yandex\.ru\/search/' => 'https://yandex.ru',
-            '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
-            '/^https?:\/\/(out|new|old|www|m)\.reddit\.com(.*)/' => 'https://reddit.com$2',
-            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://brevo.com',
+            // popular iOS apps
             '/^ios-app:\/\/429047995.*/' => 'https://pinterest.com',
+            '/^ios-app:\/\/1064216828.*/' => 'https://reddit.com',
+            '/^ios-app:\/\/284882215.*/' => 'https://facebook.com',
+            '/^ios-app:\/\/389801252.*/' => 'https://instagram.com',
+
+            // popular websites
+            '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://$1.$2',
+            '/^https?:\/\/(?:[a-z-]+\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://instagram.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?linkedin\.com\/feed.*/' => 'https://linkedin.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?pinterest\.com/' => 'https://pinterest.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?baidu\.com.*/' => 'https://baidu.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?yandex\.ru\/.*/' => 'https://yandex.ru',
+            '/^https?:\/\/(?:[a-z-]+\.)?search\.yahoo\.com\/.*/' => 'https://search.yahoo.com',
+            '/^https?:\/\/(?:[a-z-]+\.)?reddit\.com.*/' => 'https://reddit.com',
+            '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://brevo.com',
+
         ];
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
