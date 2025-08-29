@@ -168,8 +168,8 @@ class Pageview_Aggregator
                 $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
                 $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_urls(url) VALUES {$placeholders}", $values));
                 $last_insert_id = $wpdb->insert_id;
-                foreach (array_reverse($values) as $url) {
-                    $stats[ $url ]['id'] = $last_insert_id--;
+                foreach ($values as $url) {
+                    $stats[ $url ]['id'] = $last_insert_id++;
                 }
             }
 

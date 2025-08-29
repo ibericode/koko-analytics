@@ -27,8 +27,8 @@ class Path_Repository
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths(path) VALUES {$placeholders}", $new_values));
             $last_insert_id = $wpdb->insert_id;
 
-            foreach (array_reverse($new_values) as $key) {
-                $map[$key] = $last_insert_id--;
+            foreach ($new_values as $key) {
+                $map[$key] = $last_insert_id++;
             }
         }
 
