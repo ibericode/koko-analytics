@@ -32,9 +32,17 @@ win[ka].trackPageview = function() {
     return;
   }
 
+  // get path from config object
+  var path = win[ka].path;
+
+  // if config object is stale, get (non-normalized) path directly
+  if (!path) {
+    path = window.location.pathname + window.location.search;
+  }
+
   // don't store referrer if from same-site
   var referrer = document.referrer.indexOf(win[ka].site_url) == 0 ? '' : document.referrer;
-  request({ pa: win[ka].path, po: win[ka].post_id, r: referrer })
+  request({ pa: path, po: win[ka].post_id, r: referrer })
 }
 
 win.addEventListener('load', win[ka].trackPageview);
