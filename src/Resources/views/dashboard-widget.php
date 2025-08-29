@@ -47,7 +47,7 @@ use KokoAnalytics\Fmt;
                     <?php foreach ($posts as $post) { ?>
                     <li class="text-truncate">
                         <span class="text-muted me-2"><?php echo number_format_i18n($post->pageviews); ?></span>
-                        <a href="<?php echo esc_attr(home_url($post->path)); ?>"><?php echo esc_html($post->path); ?></a>
+                        <a href="<?php echo esc_attr(home_url($post->path)); ?>"><?php echo esc_html($post->label); ?></a>
                     </li>
                     <?php } ?>
                 </ul>
