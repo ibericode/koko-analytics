@@ -124,13 +124,12 @@ class Stats
         global $wpdb;
 
         $results = $wpdb->get_results($wpdb->prepare(
-            "SELECT ifnull(wp.post_title, p.path) AS path, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+            "SELECT p.path, s.post_id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
-                LEFT JOIN {$wpdb->prefix}posts wp ON s.post_id = wp.ID
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.path_id
-                ORDER BY pageviews DESC, s.path_id ASC
+                ORDER BY pageviews DESC, visitors DESC, s.path_id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
         ));
@@ -139,10 +138,12 @@ class Stats
             $row->pageviews = (int) $row->pageviews;
             $row->visitors = (int) $row->visitors;
 
+            $row->label = $row->post_id ? get_the_title($row->post_id) : $row->path;
+
             // for backwards compatibility with versions before 2.0
             // set post_title and post_permalink property
             $row->post_permalink = home_url($row->path);
-            $row->post_title = $row->path;
+            $row->post_title = $row->label;
 
             return $row;
         }, $results);
