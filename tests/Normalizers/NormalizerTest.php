@@ -38,6 +38,7 @@ class NormalizerTest extends TestCase
             'https://pinterest.com/pin/foobar' => 'pinterest.com',
             'https://www.pinterest.com' => 'pinterest.com',
             'https://www.pinterest.com/pin/foobar' => 'pinterest.com',
+            'ios-app://429047995' => 'pinterest.com',
             'https://www.google.com' => 'google.com',
             'https://www.google.nl/url' => 'google.nl',
             'https://www.google.nl/search' => 'google.nl',

@@ -28,6 +28,7 @@ class Referrer
             '/^https?:\/\/(?:[a-z-]{1,32}\.)?search\.yahoo\.com\/(?:search)?[^?]*(.*)/' => 'https://search.yahoo.com/search$1',
             '/^https?:\/\/(out|new|old|www|m)\.reddit\.com(.*)/' => 'https://reddit.com$2',
             '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://brevo.com',
+            '/^ios-app:\/\/429047995.*/' => 'https://pinterest.com',
         ];
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
