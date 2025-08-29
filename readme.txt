@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.11-test1
+Stable tag: 2.0.11
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,11 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.11 - Aug 29, 2025
+
+- Add script to correctly map post ID to path for sites where this went wrong.
+
 
 ### 2.0.10 - Aug 29, 2025
 
@@ -760,12 +765,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap on administrator role if such a role exists
-- Update JS dependencies.
-- Update built-in referrer blocklist.
-
-
-#### 1.0.19 - Sep 2, 2020
-
-- ...
+- Only call add_cap ...
 
