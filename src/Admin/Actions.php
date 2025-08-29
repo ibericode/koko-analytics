@@ -173,8 +173,8 @@ class Actions
 
             // create mapping of path to path_id
             $path_to_path_id_map = [];
-            foreach (array_reverse($paths) as $path) {
-                $path_to_path_id_map[$path] = $last_insert_id--;
+            foreach ($paths as $path) {
+                $path_to_path_id_map[$path] = $last_insert_id++;
             }
 
             // update post_stats table to point to paths we just inserted

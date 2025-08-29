@@ -4,7 +4,6 @@ require __DIR__ . '/functions.php';
 
 $n = 100000;
 
-
 foreach ([5, 100, 500] as $count) {
     echo "# count: $count\n";
     $values = array_fill(0, $count, 'abcdef');
