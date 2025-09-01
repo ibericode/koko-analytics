@@ -147,7 +147,6 @@ class Actions
 
         $offset = 0;
         $limit = 500;
-        $home_url = home_url('/');
 
         do {
             // Select all rows with a post ID but no path ID

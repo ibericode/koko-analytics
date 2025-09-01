@@ -4,7 +4,7 @@ use KokoAnalytics\Admin\Actions;
 
 defined('ABSPATH') or exit;
 
-/** @var wpdb $wpdb */
+/** @var \wpdb $wpdb */
 global $wpdb;
 
 $count = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}koko_analytics_referrer_stats");
