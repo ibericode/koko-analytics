@@ -21,6 +21,7 @@ class NormalizerTest extends TestCase
             '/?utm_source=source&utm_medium=medium&utm_campaign=campaign' => '/',
             '/?utm_source=source&utm_medium=medium&p=200&utm_campaign=campaign' => '/?p=200',
             '/?attachment_id=123' => '/?attachment_id=123',
+            '/blog/2024/01/hello-world/amp/' => '/blog/2024/01/hello-world/',
         ];
 
         foreach ($tests as $input => $output) {

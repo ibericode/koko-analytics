@@ -30,6 +30,11 @@ class Path
             $value = substr($value, strlen($home_path));
         }
 
+        // if value ends with /amp/, remove suffix (but leave trailing slash)
+        if (str_ends_with($value, '/amp/')) {
+            $value = substr($value, 0, strlen($value) - 4);
+        }
+
         return $value;
     }
 }
