@@ -35,11 +35,11 @@ class Actions
 
         /** @var \wpdb $wpdb */
         global $wpdb;
-        $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_site_stats;");
-        $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_post_stats;");
-        $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_paths;");
-        $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_stats;");
-        $wpdb->query("DROP TABLE {$wpdb->prefix}koko_analytics_referrer_urls;");
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_site_stats;");
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats;");
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_paths;");
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_stats;");
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_urls;");
         delete_option('koko_analytics_realtime_pageview_count');
 
         // delete version option so that migrations re-create all database tables on next page load
