@@ -7,15 +7,11 @@ require __DIR__ . '/src/Resources/backwards-compat.php';
 
 spl_autoload_register(function ($class) {
     // only act on classnames starting with our namespace
-    if (!str_starts_with($class, 'KokoAnalytics\\')) {
+    if (!str_starts_with($class, 'KokoAnalytics\\') || str_starts_with($class, 'KokoAnalytics\\Pro\\')) {
         return;
     }
 
     // turn FQCN into filename according to PSR-4 standard
-    $file = substr($class, 14);
-    $file = str_replace('\\', '/', $file);
-    $file = __DIR__ . "/src/{$file}.php";
-    if (is_file($file)) {
-        require $file;
-    }
+    $file = strtr(substr($class, 14), '\\', '/');
+    require __DIR__ . "/src/{$file}.php";
 });
