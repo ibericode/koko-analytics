@@ -25,7 +25,6 @@
   --bs-border-radius-sm: 0.25rem;
   --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
   --bs-dark-color: #2c3338;
-  --bs-warning: #ffc107;
 }
 
 .koko-analytics {
@@ -400,6 +399,7 @@ textarea.ka-input {
 .mb-3 { margin-bottom: 1rem !important; }
 .mb-4 { margin-bottom: 1.5rem !important; }
 .mb-5 { margin-bottom: 3rem !important; }
+.ms-0 { margin-left: 0 !important; }
 .ms-1 { margin-left: 0.25rem !important; }
 .ms-2 { margin-left: 0.5rem !important; }
 .ms-3 { margin-left: 1rem !important; }
@@ -581,6 +581,7 @@ textarea.ka-input {
   --bs-btn-disabled-bg: #dc3545;
   --bs-btn-disabled-border-color: #dc3545;
 }
+
 
 /* sm */
 @media (min-width: 576px) {
