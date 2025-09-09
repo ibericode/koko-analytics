@@ -935,8 +935,8 @@ __('Mozambique', 'koko-analytics');
 // ../koko-analytics-pro/includes/class-dashboard.php#20
 __('Download as CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-posts-table.php#90
+// ../koko-analytics-pro/includes/class-posts-table.php#93
 __('Number of days to use for pageviews column', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/class-posts-table.php#98
+// ../koko-analytics-pro/includes/class-posts-table.php#101
 __('Pageviews', 'koko-analytics');
