@@ -1,5 +1,16 @@
 # Changelog
 
+
+### 2.0.12 - Sep 09, 2025
+
+- Fix incorrect post paths from data migration to v2.
+- Fix table cell width on small screens for pageviews column.
+- Add normalizer rule for AMP urls.
+- Group on path_id to prevent duplicate paths for front-pages.
+- Minor performance improvement in class autoloader.
+- Run database migrations at `wp_loaded` hook to ensure all custom post types are registered.
+
+
 ### 2.0.11 - Aug 29, 2025
 
 - Add script to correctly map post ID to path for sites where this went wrong.
