@@ -52,11 +52,10 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 }
 
 // Maybe run any pending database migrations
-// We schedule this at hook priority 1000 so that most plugins will have registered their custom post types
-add_action('init', function () {
+add_action('wp_loaded', function () {
     $migrations = new Migrations('koko_analytics', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
     $migrations->maybe_run();
-}, 1000, 0);
+}, 10, 0);
 
 // aggregator
 add_filter('cron_schedules', function ($schedules) {
