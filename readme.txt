@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.12-test3
+Stable tag: 2.0.12
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,17 @@ Example:
 
 
 == Changelog ==
+
+
+### 2.0.12 - Sep 09, 2025
+
+- Fix incorrect post paths from data migration to v2.
+- Fix table cell width on small screens for pageviews column.
+- Add normalizer rule for AMP urls.
+- Group on path_id to prevent duplicate paths for front-pages.
+- Minor performance improvement in class autoloader.
+- Run database migrations at `wp_loaded` hook to ensure all custom post types are registered.
+
 
 ### 2.0.11 - Aug 29, 2025
 
@@ -753,17 +764,5 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 #### 1.0.22 - Nov 18, 2020
 
 - Fix PHP warnings in migration script, for trying to unlink unexisting file  (eg on new plugin installs).
-- Generate URL to custom endpoint file correctly. Fixes issue with some multilingual plugins not recording pageviews correctly.
-
-
-#### 1.0.21 - Nov 5, 2020
-
-- Update option that stores whether to use custom endpoint after unlinking it, to prevent sending requests to an unexisting file.
-
-
-#### 1.0.20 - Nov 3, 20202
-
-- Do not use custom endpoint file if using custom uploads directory.
-- Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
-- Only call add_cap ...
+- Generate URL to custom endpoint file correctly. Fixes issue with ...
 
