@@ -38,7 +38,7 @@ use KokoAnalytics\Shortcodes\Most_Viewed_Posts;
 use KokoAnalytics\Shortcodes\Site_Counter;
 use KokoAnalytics\Widgets\Most_Viewed_Posts_Widget;
 
-\define('KOKO_ANALYTICS_VERSION', '2.0.12');
+\define('KOKO_ANALYTICS_VERSION', '2.0.13-test');
 \define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 \define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
