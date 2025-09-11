@@ -1,6 +1,12 @@
 # Changelog
 
 
+### 2.0.13 - Sep 11, 2025
+
+- `post_id` column on `wp_koko_analytics_post_stats` table should be of type `INT`, not `MEDIUMINT`. This fixes an issue on sites with post ID's larger than 16777215.
+- Fix datepicker dropdown heading spanning multiple lines on certain translations.
+
+
 ### 2.0.12 - Sep 09, 2025
 
 - Fix incorrect post paths from data migration to v2.

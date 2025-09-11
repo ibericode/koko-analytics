@@ -34,7 +34,7 @@ $tab = 'dashboard';
                     <?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?>
                 </div>
 
-                <div id="ka-datepicker-dropdown" class="rounded bg-white shadow" style="display: none; position: absolute; width:320px; z-index: 9992;">
+                <div id="ka-datepicker-dropdown" class="rounded bg-white shadow" style="display: none; position: absolute; width:360px; z-index: 9992;">
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
                         <?php if ($dateStart >  $total_start_date) { ?>
