@@ -165,16 +165,7 @@ class Actions
             }
 
             // bulk insert all paths
-            $paths = array_values($post_id_to_path_map);
-            $placeholders = rtrim(str_repeat('(%s),', count($paths)), ',');
-            $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_paths(path) VALUES {$placeholders}", $paths));
-            $last_insert_id = $wpdb->insert_id;
-
-            // create mapping of path to path_id
-            $path_to_path_id_map = [];
-            foreach ($paths as $path) {
-                $path_to_path_id_map[$path] = $last_insert_id++;
-            }
+            $path_to_path_id_map = Path_Repository::upsert(array_values($post_id_to_path_map));
 
             // update post_stats table to point to paths we just inserted
             foreach ($post_id_to_path_map as $post_id => $path) {
