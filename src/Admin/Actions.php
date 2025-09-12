@@ -183,7 +183,7 @@ class Actions
             }
         } while ($results);
 
-        // now we can remove all rows without a path id
+        // now we can remove all rows without a path id (should be none)
         $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE path_id IS NULL");
 
         // make new path_id column not-nullable

@@ -114,6 +114,11 @@ add_action('wp', function () {
         return;
     }
 
+    // don't serve public dashboard to anything that looks like a bot or crawler
+    if (empty($_SERVER['HTTP_USER_AGENT']) || \preg_match("/bot|crawl|spider/", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+        return;
+    }
+
     (new Dashboard())->show_standalone_dashboard_page();
 }, 10, 0);
 
