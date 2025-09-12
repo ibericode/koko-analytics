@@ -183,14 +183,18 @@ class Actions
             }
         } while ($results);
 
-        // now we can remove all rows without a path id (should be none)
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE path_id IS NULL");
+        $wpdb->query("RENAME TABLE {$wpdb->prefix}koko_analytics_post_stats TO {$wpdb->prefix}koko_analytics_post_stats_old");
 
-        // make new path_id column not-nullable
-        $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats MODIFY COLUMN path_id MEDIUMINT UNSIGNED NOT NULL");
+        $wpdb->query("CREATE TABLE {$wpdb->prefix}koko_analytics_post_stats (
+            date DATE NOT NULL,
+            path_id INT UNSIGNED NOT NULL,
+            post_id INT UNSIGNED NOT NULL DEFAULT 0,
+            visitors INT UNSIGNED NOT NULL DEFAULT 0,
+            pageviews INT UNSIGNED NOT NULL DEFAULT 0,
+            PRIMARY KEY (date, path_id)
+        ) ENGINE=INNODB CHARACTER SET=ascii");
 
-        // change primary key to be on date and path_id column
-        $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats DROP PRIMARY KEY, ADD PRIMARY KEY(date, path_id)");
+        $wpdb->query("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) SELECT date, path_id, post_id, SUM(visitors), SUM(pageviews) FROM {$wpdb->prefix}koko_analytics_post_stats_old GROUP BY date, path_id");
     }
 
     public static function migrate_referrer_stats_to_v2(): void
@@ -204,12 +208,12 @@ class Actions
         $wpdb->hide_errors();
 
         // delete unused referrer URL's
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN (SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
+        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN(SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats)");
 
         $offset = 0;
         $limit = 500;
         do {
-            $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' OR url LIKE 'https://%' LIMIT %d OFFSET %d", [$limit, $offset]));
+            $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT %d OFFSET %d", [$limit, $offset]));
             $offset += $limit;
             if (!$results) {
                 break;
@@ -233,8 +237,8 @@ class Actions
 
                     // update rows (if exist) with values from each date, id entry
                     foreach ($stats as $s) {
-                        if ($wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET visitors = visitors + %d, pageviews = pageviews + %d WHERE date = %s AND id = %d", [$s->visitors, $s->pageviews, $s->date, $id]))) {
-                            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date = %s AND id = %d", [$s->date, $s->id]));
+                        if ($wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET visitors = visitors + %d, pageviews = pageviews + %d WHERE date = %s and id = %d", [$s->visitors, $s->pageviews, $s->date, $id]))) {
+                            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date = %s and id = %d", [$s->date, $s->id]));
                         }
                     }
 
@@ -269,7 +273,7 @@ class Actions
         $limit = 500;
 
         do {
-            $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, p.path FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_is IS NOT NULL AND post_id != 0 AND date <= '2025-08-29' GROUP BY post_id LIMIT %d OFFSET %d", [$limit, $offset]));
+            $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, p.path FROM {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_is IS NOT null and post_id != 0 and date <= '2025-08-29' GROUP BY post_id LIMIT %d OFFSET %d", [$limit, $offset]));
             $offset += $limit;
             if (!$results) {
                 break;
