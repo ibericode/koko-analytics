@@ -22,7 +22,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
     <div class="ka-row">
         <div class="ka-col ka-col-12 ka-col-lg-8">
-            <h1 class="ka-logo mb-4"><?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
+            <h1 class="mb-4" style="line-height: 28px;"><img src="<?= plugins_url('assets/dist/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE); ?>" height="28" width="28" alt="Koko Analytics logo" class="align-middle me-2"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
             <?php if (isset($_GET['settings-updated'])) { ?>
                 <div class="notice notice-success is-dismissible">
