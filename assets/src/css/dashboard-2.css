@@ -223,6 +223,9 @@ body.koko-analytics {
 }
 .ka-input,
 .koko-analytics .ka-input {
+  box-sizing: border-box;
+  margin: 0;
+  min-height: auto;
   display: block;
   width: 100%;
   max-width: none;
@@ -240,8 +243,7 @@ body.koko-analytics {
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  box-sizing: border-box;
-  margin: 0;
+
 }
 @media (prefers-reduced-motion: reduce) {
   .ka-input {
@@ -250,6 +252,8 @@ body.koko-analytics {
 }
 .ka-input[type=file] {
   overflow: hidden;
+  /* overwrite styles from wp core */
+  padding: .375rem .75rem !important;
 }
 .ka-input[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer;
@@ -289,6 +293,7 @@ body.koko-analytics {
   margin-inline-end: 0.75rem;
   color: var(--bs-body-color);
   background-color: var(--bs-tertiary-bg);
+  line-height: 1.5;
   pointer-events: none;
   border-color: inherit;
   border-style: solid;
