@@ -145,13 +145,11 @@ class Actions
         /** @var \wpdb $wpdb */
         global $wpdb;
 
-        $offset = 0;
-        $limit = 500;
-
         do {
             // Select all rows with a post ID but no path ID
-            $results = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT %d OFFSET %d", [$limit, $offset]));
-            $offset += $limit;
+            // Note: there is no need for an OFFSET here because we are updating rows as we go
+            $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT 500");
+
 
             // Stop once there are no more rows in result set
             if (!$results) {
@@ -161,7 +159,7 @@ class Actions
             // create a mapping of post_id => path
             $post_id_to_path_map = [];
             foreach ($results as $r) {
-                $post_id_to_path_map[$r->post_id] = self::get_path_by_post_id($r->post_id);
+                $post_id_to_path_map["{$r->post_id}"] = self::get_path_by_post_id($r->post_id);
             }
 
             // bulk insert all paths
@@ -172,7 +170,7 @@ class Actions
                 $path_id = $path_to_path_id_map[$path];
                 $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_post_stats SET path_id = %d WHERE post_id = %d", [ $path_id, $post_id ]));
             }
-        } while ($results);
+        } while (true);
 
         $wpdb->query("RENAME TABLE {$wpdb->prefix}koko_analytics_post_stats TO {$wpdb->prefix}koko_analytics_post_stats_old");
 
