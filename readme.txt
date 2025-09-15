@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.14-test1
+Stable tag: 2.0.14
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,13 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.14 - Sep 15, 2025
+
+- Fix issue in v2 data migration for sites with over 500 distinct posts.
+- Fix pagination showing up despite there being no more items.
+- Fix styling of file upload button on settings page.
+- Disallow access to public dashboard for anything resembling a bot or crawler.
 
 
 ### 2.0.13 - Sep 11, 2025
@@ -756,13 +763,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.0.24 - Jan 20, 2021
 
-- Append random query parameter to tracking request to avoid beind cached now that the plugin is using a custom tracking endpoint.
-- Update JS dependencies.
-
-
-#### 1.0.23 - Jan 15, 2021
-
-Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
-
-If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to ...
+- Append random query parameter to tracking request to avoid beind cached now that the plugin is using a ...
 
