@@ -129,7 +129,7 @@ class Stats
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 LEFT JOIN {$wpdb->prefix}posts wp ON s.post_id = wp.ID
                 WHERE s.date >= %s AND s.date <= %s
-                GROUP BY s.path_id, s.post_id
+                GROUP BY p.path, s.post_id
                 ORDER BY pageviews DESC, visitors DESC, s.path_id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
@@ -155,8 +155,9 @@ class Stats
         return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*)
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
+                JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 WHERE s.date >= %s AND s.date <= %s
-                GROUP BY s.path_id, s.post_id",
+                GROUP BY p.path, s.post_id",
             [$start_date, $end_date]
         ));
     }
