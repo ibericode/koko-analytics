@@ -537,7 +537,9 @@ textarea.ka-input {
     transition: none;
   }
 }
-.btn:hover {
+
+.btn:hover,
+.koko-analytics .btn:hover {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color);
@@ -603,7 +605,7 @@ textarea.ka-input {
 }
 
 /* alerts */
-.alert {
+.ka-alert {
   --bs-alert-bg: transparent;
   --bs-alert-padding-x: 1rem;
   --bs-alert-padding-y: 1rem;
@@ -621,35 +623,34 @@ textarea.ka-input {
   border: var(--bs-alert-border);
   border-radius: var(--bs-alert-border-radius);
 }
-.alert-success {
+.ka-alert-success {
   --bs-alert-color: var(--bs-success-text-emphasis);
   --bs-alert-bg: var(--bs-success-bg-subtle);
   --bs-alert-border-color: var(--bs-success-border-subtle);
   --bs-alert-link-color: var(--bs-success-text-emphasis);
 }
-.alert-info {
+.ka-alert-info {
   --bs-alert-color: var(--bs-info-text-emphasis);
   --bs-alert-bg: var(--bs-info-bg-subtle);
   --bs-alert-border-color: var(--bs-info-border-subtle);
   --bs-alert-link-color: var(--bs-info-text-emphasis);
 }
-.alert-warning {
+.ka-alert-warning {
   --bs-alert-color: var(--bs-warning-text-emphasis);
   --bs-alert-bg: var(--bs-warning-bg-subtle);
   --bs-alert-border-color: var(--bs-warning-border-subtle);
   --bs-alert-link-color: var(--bs-warning-text-emphasis);
 }
-.alert-dismissible {
+.ka-alert-dismissible {
   padding-right: 3rem;
 }
-.alert-dismissible .btn-close {
+.ka-alert-dismissible .btn-close {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 2;
   padding: 1.25rem 1rem;
 }
-
 .btn-close {
   --bs-btn-close-color: #000;
   --bs-btn-close-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414'/%3e%3c/svg%3e");

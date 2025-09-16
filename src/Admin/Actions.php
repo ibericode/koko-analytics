@@ -21,7 +21,10 @@ class Actions
 {
     public static function install_optimized_endpoint(): void
     {
-        wp_safe_redirect(add_query_arg([ 'endpoint-installed' => Endpoint_Installer::install() ], wp_get_referer()));
+        $result = Endpoint_Installer::install();
+        $type = $result === true ? 'success' : 'warning';
+        $message = $result === true ? __('Successfully installed optimized endpoint.', 'koko-analytics') : $result;
+        wp_safe_redirect(add_query_arg([ 'notice' => ['type' => $type, 'message' => $message] ], wp_get_referer()));
         exit;
     }
 

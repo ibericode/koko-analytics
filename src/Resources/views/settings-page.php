@@ -25,36 +25,19 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
             <?php /* general notices: can be of type info, warning or success */ ?>
             <?php if (isset($_GET['notice'])) { ?>
-                <div class="alert alert-<?= esc_attr($_GET['notice']['type']); ?> alert-dismissible" role="alert">
+                <div class="ka-alert ka-alert-<?= esc_attr($_GET['notice']['type']); ?> ka-alert-dismissible" role="alert">
                     <?= esc_html($_GET['notice']['message']); ?>
-                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()"></button>
+                     <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                 </div>
             <?php } ?>
+           <?php if (isset($_GET['settings-updated'])) { ?>
+            <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
+                <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
+                <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+            </div>
+           <?php } ?>
 
             <h1 class="mb-4" style="line-height: 28px;"><img src="<?= plugins_url('assets/dist/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE); ?>" height="28" width="28" alt="Koko Analytics logo" class="align-middle me-2"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
-
-            <?php if (isset($_GET['settings-updated'])) { ?>
-                <div class="notice notice-success is-dismissible">
-                    <p><strong><?php esc_html_e('Settings saved.', 'koko-analytics'); ?></strong></p>
-                </div>
-            <?php } ?>
-
-            <?php if (isset($_GET['endpoint-installed'])) { ?>
-                <?php if ((int) $_GET['endpoint-installed']) { ?>
-                    <div class="notice notice-success is-dismissible">
-                        <p><?php esc_html_e('Successfully installed optimized endpoint.', 'koko-analytics'); ?></p>
-                    </div>
-                <?php } else { ?>
-                <div class="notice notice-warning is-dismissible">
-                    <p>
-                        <?php esc_html_e('Unable to install optimized endpoint: ', 'koko-analytics'); ?>
-                        <?php echo esc_html($_GET['endpoint-installed']); ?>
-                    </p>
-                </div>
-                <?php } ?>
-            <?php } // end if endpoint-installed ?>
-
-
 
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
                 <?php wp_nonce_field('koko_analytics_save_settings'); ?>

@@ -80,7 +80,7 @@ EOT;
     {
         // do nothing if site is not eligible for the use of a custom endpoint (ie multisite)
         if (!self::is_eligibile()) {
-            return;
+            return true;
         }
 
         /* If we made it this far we ideally want to use the custom endpoint file */
@@ -112,7 +112,7 @@ EOT;
     {
         // No need to test if not using it
         if (!$force_test && ! get_option('koko_analytics_use_custom_endpoint')) {
-            return;
+            return true;
         }
 
         // Check if file exists
