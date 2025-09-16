@@ -59,13 +59,16 @@ class Dashboard
         $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
         $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
 
-        $totals = $stats->get_totals($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'), $page);
+        $dateStartStr = $dateStart->format('Y-m-d');
+        $dateEndStr = $dateEnd->format('Y-m-d');
+
+        $totals = $stats->get_totals($dateStartStr, $dateEndStr, $page);
         $totals_previous = $stats->get_totals($prevDates[0]->format('Y-m-d'), $prevDates[2]->format('Y-m-d'), $page);
 
-        $posts = $stats->get_posts($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $posts_offset, $posts_limit);
-        $posts_count = $stats->count_posts($dateStart->format('Y-m-d'), $dateEnd->format('Y-m-d'));
-        $referrers = $stats->get_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $referrers_offset, $referrers_limit);
-        $referrers_count = $stats->count_referrers($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'));
+        $posts = $stats->get_posts($dateStartStr, $dateEndStr, $posts_offset, $posts_limit);
+        $posts_count = $stats->count_posts($dateStartStr, $dateEndStr);
+        $referrers = $stats->get_referrers($dateStartStr, $dateEndStr, $referrers_offset, $referrers_limit);
+        $referrers_count = $stats->count_referrers($dateStartStr, $dateEndStr);
         $realtime = get_realtime_pageview_count('-1 hour');
 
         if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month'])) {
@@ -73,8 +76,7 @@ class Dashboard
         } else {
             $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
         }
-
-        $chart_data =  $stats->get_stats($dateStart->format("Y-m-d"), $dateEnd->format('Y-m-d'), $groupChartBy, $page);
+        $chart_data =  $stats->get_stats($dateStartStr, $dateEndStr, $groupChartBy, $page);
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-page.php';
     }
