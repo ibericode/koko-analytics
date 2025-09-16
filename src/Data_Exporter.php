@@ -24,17 +24,17 @@ class Data_Exporter
         $date = create_local_datetime('now')->format("Y-m-d");
         header('Content-Type: application/sql');
         header("Content-Disposition: attachment;filename=koko-analytics-export-{$date}.sql");
-        $out = fopen('php://output', 'w');
+        $fh = fopen('php://output', 'w');
 
-        $this->export_site_stats($out);
-        $this->export_paths($out);
-        $this->export_post_stats($out);
-        $this->export_referrer_urls($out);
-        $this->export_referrer_stats($out);
+        $this->export_site_stats($fh);
+        $this->export_paths($fh);
+        $this->export_post_stats($fh);
+        $this->export_referrer_urls($fh);
+        $this->export_referrer_stats($fh);
 
-        // TODO: Add hooks so that Pro can write Pro tables
+        do_action('koko_analytics_write_data_export', $fh);
 
-        fclose($out);
+        fclose($fh);
         exit;
     }
 
@@ -46,9 +46,10 @@ class Data_Exporter
         }
 
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_site_stats (date, visitors, pageviews) VALUES ");
-        foreach ($rows as $i => $s) {
-            $prefix = $i === 0 ? '' : ',';
-            fwrite($stream, "{$prefix}(\"{$s->date}\", {$s->visitors}, {$s->pageviews})");
+        $prefix = '';
+        foreach ($rows as $s) {
+            fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->visitors},{$s->pageviews})");
+            $prefix = ',';
         }
         fwrite($stream, ";\n");
         unset($rows);
@@ -63,12 +64,11 @@ class Data_Exporter
 
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_paths (id, path) VALUES ");
         $prefix = '';
-        foreach ($rows as $i => $s) {
+        foreach ($rows as $s) {
             fwrite($stream, "{$prefix}({$s->id},\"{$s->path}\")");
             $prefix = ',';
         }
         fwrite($stream, ";\n");
-
         unset($rows);
     }
 
@@ -81,12 +81,11 @@ class Data_Exporter
 
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_post_stats (date, path_id, post_id, visitors, pageviews) VALUES ");
         $prefix = '';
-        foreach ($rows as $i => $s) {
+        foreach ($rows as $s) {
             fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->path_id},{$s->post_id},{$s->visitors},{$s->pageviews})");
             $prefix = ',';
         }
         fwrite($stream, ";\n");
-
         unset($rows);
     }
 
@@ -98,9 +97,10 @@ class Data_Exporter
         }
 
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_urls (id, url) VALUES ");
-        foreach ($rows as $i => $s) {
-            $prefix = $i === 0 ? '' : ',';
+        $prefix = '';
+        foreach ($rows as $s) {
             fwrite($stream, "{$prefix}({$s->id},\"{$s->url}\")");
+            $prefix = ',';
         }
         fwrite($stream, ";\n");
         unset($rows);
@@ -114,9 +114,10 @@ class Data_Exporter
         }
 
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats (date, id, visitors, pageviews) VALUES ");
-        foreach ($rows as $i => $s) {
-            $prefix = $i === 0 ? '' : ',';
+        $prefix = '';
+        foreach ($rows as $s) {
             fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->id},{$s->visitors},{$s->pageviews})");
+            $prefix = ',';
         }
         fwrite($stream, ";\n");
         unset($rows);
