@@ -153,11 +153,15 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
         return (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*)
+            "
+            SELECT COUNT(*)
+            FROM (
+                SELECT COUNT(*) AS count
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 WHERE s.date >= %s AND s.date <= %s
-                GROUP BY p.path, s.post_id",
+                GROUP BY p.path, s.post_id
+            ) AS a",
             [$start_date, $end_date]
         ));
     }
@@ -169,7 +173,7 @@ class Stats
         return $wpdb->get_results($wpdb->prepare(
             "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
-                    JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
+                JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY s.id
                 ORDER BY pageviews DESC, r.id ASC
@@ -183,10 +187,9 @@ class Stats
         /** @var wpdb $wpdb */
         global $wpdb;
         return (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*)
+            "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
-                WHERE s.date >= %s AND s.date <= %s
-                GROUP BY s.id",
+                WHERE s.date >= %s AND s.date <= %s",
             [$start_date, $end_date]
         ));
     }
