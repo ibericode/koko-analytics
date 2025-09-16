@@ -22,6 +22,15 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
 
     <div class="ka-row">
         <div class="ka-col ka-col-12 ka-col-lg-8">
+
+            <?php /* general notices: can be of type info, warning or success */ ?>
+            <?php if (isset($_GET['notice'])) { ?>
+                <div class="alert alert-<?= esc_attr($_GET['notice']['type']); ?> alert-dismissible" role="alert">
+                    <?= esc_html($_GET['notice']['message']); ?>
+                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()"></button>
+                </div>
+            <?php } ?>
+
             <h1 class="mb-4" style="line-height: 28px;"><img src="<?= plugins_url('assets/dist/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE); ?>" height="28" width="28" alt="Koko Analytics logo" class="align-middle me-2"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
             <?php if (isset($_GET['settings-updated'])) { ?>
@@ -44,6 +53,8 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
                 </div>
                 <?php } ?>
             <?php } // end if endpoint-installed ?>
+
+
 
             <form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
                 <?php wp_nonce_field('koko_analytics_save_settings'); ?>
@@ -184,19 +195,6 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             </div>
             <div class="mb-5">
                 <h3 id="import-data" class="mb-2"><?php esc_html_e('Import data', 'koko-analytics'); ?></h3>
-                <?php if (isset($_GET['import-error'])) { ?>
-                    <?php if ($_GET['import-error'] == UPLOAD_ERR_INI_SIZE) { ?>
-                        <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics'); ?></p></div>
-                    <?php } elseif ($_GET['import-error'] == UPLOAD_ERR_NO_FILE) { ?>
-                        <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Import file can not be empty', 'koko-analytics'); ?></p></div>
-                    <?php } else { ?>
-                        <div class="notice notice-error is-dismissible"><p><?php esc_html_e('Something went wrong trying to process your import file.', 'koko-analytics'); ?></p></div>
-                    <?php } ?>
-                <?php } ?>
-
-                <?php if (isset($_GET['import-success'])) { ?>
-                    <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Database was successfully imported from the given file.', 'koko-analytics'); ?></p></div>
-                <?php } ?>
 
                 <p><?php esc_html_e('You can import a dataset from an earlier export into Koko Analytics using the form below.', 'koko-analytics'); ?></p>
 
@@ -296,3 +294,7 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
         </div>
     </div><?php // end flex wrap ?>
 </div>
+
+<?php if (isset($_GET['notice'])) { ?>
+<script>history.replaceState({}, null, '<?= admin_url('index.php?page=koko-analytics&tab=settings'); ?>');</script>
+<?php } ?>

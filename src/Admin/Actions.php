@@ -44,6 +44,10 @@ class Actions
 
         // delete version option so that migrations re-create all database tables on next page load
         delete_option('koko_analytics_version');
+
+        // redirect with success message
+        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Statistics successfully reset', 'koko-analytics') ]], admin_url('/index.php?page=koko-analytics&tab=settings')));
+        exit;
     }
 
     public static function export_data(): void
@@ -67,26 +71,22 @@ class Actions
         $settings_page = admin_url('/index.php?page=koko-analytics&tab=settings');
 
         if (empty($_FILES['import-file']) || $_FILES['import-file']['error'] !== UPLOAD_ERR_OK) {
-            wp_safe_redirect(add_query_arg(['import-error' => $_FILES['import-file']['error']], $settings_page));
+            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Something went wrong trying to process your import file.', 'koko-analytics') ]], $settings_page));
             exit;
         }
 
         // don't accept MySQL blobs over 16 MB
         if ($_FILES['import-file']['size'] > 16000000) {
-            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_INI_SIZE], $settings_page));
+            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics') ]], $settings_page));
             exit;
         }
 
         // read SQL from upload file
         $sql = file_get_contents($_FILES['import-file']['tmp_name']);
-        if ($sql === '') {
-            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_NO_FILE], $settings_page));
-            exit;
-        }
 
         // verify file looks like a Koko Analytics export file
         if (!str_starts_with($sql, 'INSERT INTO ') && !str_starts_with($sql, 'TRUNCATE ')) {
-            wp_safe_redirect(add_query_arg(['import-error' => UPLOAD_ERR_EXTENSION], $settings_page));
+            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics') ]], $settings_page));
             exit;
         }
 
@@ -95,7 +95,9 @@ class Actions
 
         // unlink tmp file
         unlink($_FILES['import-file']['tmp_name']);
-        wp_safe_redirect(add_query_arg(['import-success' => 1], $settings_page));
+
+        // redirect with success message
+        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Database was successfully imported from the given file', 'koko-analytics') ]], $settings_page));
         exit;
     }
 
