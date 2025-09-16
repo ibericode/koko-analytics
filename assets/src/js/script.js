@@ -45,4 +45,4 @@ win[ka].trackPageview = function() {
   request({ pa: path, po: win[ka].post_id, r: referrer })
 }
 
-win.addEventListener('load', win[ka].trackPageview);
+win.addEventListener('load', function() { win[ka].trackPageview() });
