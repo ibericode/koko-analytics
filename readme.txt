@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.14
+Stable tag: 2.0.15
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -132,9 +132,18 @@ Example:
 
 == Changelog ==
 
+### 2.0.15 - Sep 17, 2025
+
+- Fix count of total number of rows in table for grouped result.
+- Fix compatibility with Borlabs Cookie library script.
+- Add `koko_analytics_write_data_export` action hook.
+- Show success/error message after certain user-initiated admin actions.
+- Minor performance gain on dashboard.
+
+
 ### 2.0.14 - Sep 15, 2025
 
-- Fix issue in v2 data migration for sites with over 500 distinct posts.
+- Fix issue in v2 data migration for sites with over 500 distinct public posts.
 - Fix pagination showing up despite there being no more items.
 - Fix styling of file upload button on settings page.
 - Disallow access to public dashboard for anything resembling a bot or crawler.
@@ -756,12 +765,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 - Add several new date presets, like yesterday or last week.
 - Add support for entering custom date ranges using keyboard input.
-- Improve algorithm for chart y-axes to prevent huge jumps.
-- Add function for manually printing tracking script: `<?php koko_analyics_tracking_script(); ?>`
-- Update JS dependencies.
-
-
-#### 1.0.24 - Jan 20, 2021
-
-- Append random query parameter to tracking request to avoid beind cached now that the plugin is using a ...
+- Improve algorithm for ...
 
