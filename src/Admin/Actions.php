@@ -177,6 +177,7 @@ class Actions
             }
         } while (true);
 
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats_old");
         $wpdb->query("RENAME TABLE {$wpdb->prefix}koko_analytics_post_stats TO {$wpdb->prefix}koko_analytics_post_stats_old");
 
         $wpdb->query("CREATE TABLE {$wpdb->prefix}koko_analytics_post_stats (

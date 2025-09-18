@@ -31,7 +31,6 @@ class Migrations
 
     public function maybe_run(): void
     {
-
         if (\version_compare($this->version_from, $this->version_to, '>=')) {
             return;
         }
