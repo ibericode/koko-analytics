@@ -12,18 +12,16 @@ use Exception;
 
 class Migrations
 {
+    protected $prefix;
     protected $option_name;
     protected $version_from;
     protected $version_to;
-    protected $current_version;
     protected $migrations_dir;
-    protected $prefix;
 
     public function __construct(string $prefix, string $version_to, string $migrations_dir)
     {
         $this->prefix = rtrim($prefix, '_');
-        $option_name = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
-        $this->option_name = $option_name;
+        $this->option_name = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
         $this->version_from = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
         $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
@@ -36,13 +34,16 @@ class Migrations
         }
 
         // check if migrations not already running
-        if (get_transient("{$this->prefix}_migrations_running")) {
+        $transient_key = "{$this->prefix}_migrations_running";
+        $transient_timeout = 10;
+        $previous_run_start = get_transient($transient_key);
+        if ($previous_run_start && $previous_run_start > time() - $transient_timeout) {
             return;
         }
 
-        set_transient("{$this->prefix}_migrations_running", true, 3);
+        set_transient($transient_key, time(), $transient_timeout);
         $this->run();
-        delete_transient("{$this->prefix}_migrations_running");
+        delete_transient($transient_key);
     }
 
     /**
