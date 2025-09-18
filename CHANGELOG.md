@@ -1,5 +1,6 @@
 # Changelog
 
+
 ### 2.0.15 - Sep 17, 2025
 
 - Fix count of total number of rows in table for grouped result.
