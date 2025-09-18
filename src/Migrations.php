@@ -41,7 +41,7 @@ class Migrations
             return;
         }
 
-        set_transient("{$this->prefix}_migrations_running", true, 30);
+        set_transient("{$this->prefix}_migrations_running", true, 5);
         $this->run();
         delete_transient("{$this->prefix}_migrations_running");
     }
