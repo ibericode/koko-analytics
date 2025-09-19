@@ -33,13 +33,11 @@ class Data_Importer
         }
 
         // first, empty tables
-        $pdo->exec("
-            TRUNCATE {$this->db->prefix}koko_analytics_site_stats;
-            TRUNCATE {$this->db->prefix}koko_analytics_post_stats;
-            TRUNCATE {$this->db->prefix}koko_analytics_referrer_stats;
-            TRUNCATE {$this->db->prefix}koko_analytics_referrer_urls;
-            TRUNCATE {$this->db->prefix}koko_analytics_paths;
-        ");
+        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_site_stats");
+        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_post_stats");
+        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_referrer_stats");
+        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_referrer_urls");
+        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_paths");
 
         // then, excute sql string
         $pdo->exec($sql);
@@ -76,6 +74,8 @@ class Data_Importer
         }
 
         // Open the connection
-        return new \PDO($connection_str, DB_USER, DB_PASSWORD);
+        return new \PDO($connection_str, DB_USER, DB_PASSWORD, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_WARNING
+        ]);
     }
 }
