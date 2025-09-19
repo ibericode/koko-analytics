@@ -22,8 +22,10 @@ class Data_Exporter
     {
         // write to HTTP stream
         $date = create_local_datetime('now')->format("Y-m-d");
+        $site_url = parse_url(get_site_url(), PHP_URL_HOST);
+
         header('Content-Type: application/sql');
-        header("Content-Disposition: attachment;filename=koko-analytics-export-{$date}.sql");
+        header("Content-Disposition: attachment;filename={$site_url}-koko-analytics-export-{$date}.sql");
         $fh = fopen('php://output', 'w');
 
         // add header - this is also used to detect file is correct during import
