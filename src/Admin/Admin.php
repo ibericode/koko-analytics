@@ -22,7 +22,7 @@ class Admin
 
         add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
         add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
-        add_action('koko_analytics_reset_statistics', [Actions::class, 'reset_statistics'], 10, 0);
+        add_action('koko_analytics_reset_statistics', [Actions::class, 'reset_statistics'], 20, 0);
         add_action('koko_analytics_export_data', [Actions::class, 'export_data'], 10, 0);
         add_action('koko_analytics_import_data', [Actions::class, 'import_data'], 10, 0);
         add_action('koko_analytics_migrate_post_stats_to_v2', [Actions::class, 'migrate_post_stats_to_v2'], 10, 0);

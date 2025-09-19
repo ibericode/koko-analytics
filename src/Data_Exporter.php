@@ -26,6 +26,10 @@ class Data_Exporter
         header("Content-Disposition: attachment;filename=koko-analytics-export-{$date}.sql");
         $fh = fopen('php://output', 'w');
 
+        // add header - this is also used to detect file is correct during import
+        fwrite($fh, "-- Koko Analytics database export from {$date}\n\n");
+
+        $this->export_database_version($fh);
         $this->export_site_stats($fh);
         $this->export_paths($fh);
         $this->export_post_stats($fh);
@@ -38,8 +42,22 @@ class Data_Exporter
         exit;
     }
 
+    private function export_database_version($stream): void
+    {
+        $version = get_option('koko_analytics_version', '0.0.0');
+        fwrite($stream, "DELETE FROM wp_options WHERE option_name = 'koko_analytics_version';\n");
+        fwrite($stream, "INSERT INTO wp_options (option_name, option_value, autoload) VALUES ('koko_analytics_version', '{$version}', 'on');\n");
+    }
+
     private function export_site_stats($stream): void
     {
+        // table schema
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_site_stats;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_site_stats", 1);
+        fwrite($stream, $create_table_sql);
+        fwrite($stream, ";\n");
+
+        // table contents
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_site_stats;");
         if (!$rows) {
             return;
@@ -57,6 +75,13 @@ class Data_Exporter
 
     private function export_paths($stream): void
     {
+        // table schema
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_paths;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_paths", 1);
+        fwrite($stream, $create_table_sql);
+        fwrite($stream, ";\n");
+
+        // table contents
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_paths;");
         if (!$rows) {
             return;
@@ -74,6 +99,13 @@ class Data_Exporter
 
     private function export_post_stats($stream): void
     {
+        // table schema
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_post_stats;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_post_stats", 1);
+        fwrite($stream, $create_table_sql);
+        fwrite($stream, ";\n");
+
+        // table contents
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_post_stats;");
         if (!$rows) {
             return;
@@ -91,6 +123,13 @@ class Data_Exporter
 
     private function export_referrer_urls($stream): void
     {
+        // table schema
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_urls;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_urls", 1);
+        fwrite($stream, $create_table_sql);
+        fwrite($stream, ";\n");
+
+        // table contents
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_urls;");
         if (!$rows) {
             return;
@@ -108,6 +147,13 @@ class Data_Exporter
 
     private function export_referrer_stats($stream): void
     {
+        // table schema
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_stats;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_stats", 1);
+        fwrite($stream, $create_table_sql);
+        fwrite($stream, ";\n");
+
+        // table contents
         $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_stats;");
         if (!$rows) {
             return;
