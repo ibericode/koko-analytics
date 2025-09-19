@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.15
+Stable tag: 2.0.16
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,14 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.16 - Sep 19, 2025
+
+- Prevent persistent object caches from breaking database migration lock mechanism.
+- Add site URL to database export filename.
+- Export table structure at the time of export.
+- Database connection in importer now logs warnings instead of throwing an exception on database errors.
+
 
 ### 2.0.15 - Sep 17, 2025
 
@@ -756,14 +764,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.0.26 - Feb 17, 2021
 
-- Re-introduce last 28 days by popular request.
-- Fix date presets dropdown not working in WebKit based browsers.
-- Update built-in referrer blocklist.
-
-
-#### 1.0.25 - Feb 16, 2021
-
-- Add several new date presets, like yesterday or last week.
-- Add support for entering custom date ranges using keyboard input.
-- Improve algorithm for ...
+- Re-introduce last 28 days ...
 
