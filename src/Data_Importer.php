@@ -32,13 +32,6 @@ class Data_Importer
             return false;
         }
 
-        // first, empty tables
-        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_site_stats");
-        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_post_stats");
-        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_referrer_stats");
-        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_referrer_urls");
-        $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_paths");
-
         // then, excute sql string
         $pdo->exec($sql);
         return true;

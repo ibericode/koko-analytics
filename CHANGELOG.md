@@ -1,5 +1,12 @@
 # Changelog
 
+### 2.0.16 - Sep 19, 2025
+
+- Prevent persistent object caches from breaking database migration lock mechanism.
+- Add site URL to database export filename.
+- Export table structure at the time of export.
+- Database connection in importer now logs warnings instead of throwing an exception on database errors.
+
 
 ### 2.0.15 - Sep 17, 2025
 
