@@ -68,7 +68,7 @@ class Data_Importer
 
         // Open the connection
         return new \PDO($connection_str, DB_USER, DB_PASSWORD, [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_WARNING
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
         ]);
     }
 }
