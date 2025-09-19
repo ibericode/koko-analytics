@@ -22,7 +22,7 @@ use KokoAnalytics\Stats;
 
 use function KokoAnalytics\create_local_datetime;
 
-class Site_Counter
+class Shortcode_Site_Counter
 {
     private const SHORTCODE = 'koko_analytics_counter';
 

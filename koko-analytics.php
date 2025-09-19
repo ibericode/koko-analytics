@@ -34,8 +34,8 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-use KokoAnalytics\Shortcodes\Most_Viewed_Posts;
-use KokoAnalytics\Shortcodes\Site_Counter;
+use KokoAnalytics\Shortcodes\Shortcode_Most_Viewed_Posts;
+use KokoAnalytics\Shortcodes\Shortcode_Site_Counter;
 use KokoAnalytics\Widgets\Most_Viewed_Posts_Widget;
 
 \define('KOKO_ANALYTICS_VERSION', '2.0.15');
@@ -92,13 +92,15 @@ add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run
 add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
 
 // WP CLI command
-if (\class_exists('WP_CLI')) {
+if (defined('WP_CLI') && WP_CLI) {
     \WP_CLI::add_command('koko-analytics', Command::class);
 }
 
 // register shortcodes
-add_shortcode('koko_analytics_most_viewed_posts', [Most_Viewed_Posts::class, 'content']);
-add_shortcode('koko_analytics_counter', [Site_Counter::class, 'content']);
+add_action('init', function () {
+    add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
+    add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
+}, 10, 0);
 
 // run koko_analytics_action=[a-z] hooks
 add_action('wp_loaded', [Actions::class, 'run'], 20, 0);

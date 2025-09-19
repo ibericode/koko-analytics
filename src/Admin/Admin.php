@@ -18,7 +18,7 @@ class Admin
 
         add_action('admin_notices', [$this, 'show_migrate_to_v2_notice'], 10, 0);
         add_action('admin_menu', [$this, 'register_menu'], 10, 0);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts'], 10, 1);
 
         add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
         add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
@@ -31,7 +31,7 @@ class Admin
 
         // Hooks for plugins overview page
         if ($pagenow === 'plugins.php') {
-            $plugin_basename = plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE);
+            $plugin_basename = basename(dirname(KOKO_ANALYTICS_PLUGIN_FILE)) . DIRECTORY_SEPARATOR . basename(KOKO_ANALYTICS_PLUGIN_FILE);
             add_filter('plugin_action_links_' . $plugin_basename, [$this, 'add_plugin_settings_link'], 10, 1);
             add_filter('plugin_row_meta', [$this, 'add_plugin_meta_links'], 10, 2);
         }
