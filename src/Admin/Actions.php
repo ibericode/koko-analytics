@@ -84,6 +84,9 @@ class Actions
             exit;
         }
 
+        // try to increase time limit
+        @set_time_limit(300);
+
         // read SQL from upload file
         $sql = file_get_contents($_FILES['import-file']['tmp_name']);
 

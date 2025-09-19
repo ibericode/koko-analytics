@@ -32,9 +32,6 @@ class Data_Importer
             return false;
         }
 
-        // try to increase time limit
-        @set_time_limit(300);
-
         // first, empty tables
         $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_site_stats");
         $pdo->exec("TRUNCATE {$this->db->prefix}koko_analytics_post_stats");
