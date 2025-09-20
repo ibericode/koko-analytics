@@ -9,7 +9,7 @@
 namespace KokoAnalytics\Widgets;
 
 use WP_Widget;
-use KokoAnalytics\Shortcodes\Most_Viewed_Posts;
+use KokoAnalytics\Shortcodes\Shortcode_Most_Viewed_Posts;
 
 class Most_Viewed_Posts_Widget extends WP_Widget
 {
@@ -62,7 +62,7 @@ class Most_Viewed_Posts_Widget extends WP_Widget
             echo $args['before_title'], $title, $args['after_title'];
         }
 
-        $shortcode = new Most_Viewed_Posts();
+        $shortcode = new Shortcode_Most_Viewed_Posts();
         echo $shortcode->content($settings);
         echo $args['after_widget'];
     }
