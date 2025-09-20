@@ -91,7 +91,7 @@ class Actions
         $sql = file_get_contents($_FILES['import-file']['tmp_name']);
 
         // verify file looks like a Koko Analytics export file
-        if (!preg_match('/^(--|DELETE|SELECT|INSERT|TRUNCATE)/', $sql)) {
+        if (!preg_match('/^(--|DELETE|SELECT|INSERT|TRUNCATE|CREATE|DROP)/', $sql)) {
             wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics') ]], $settings_page));
             exit;
         }
