@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.16
+Stable tag: 2.0.17
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,11 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.17 - Sep 20, 2025
+
+- Fix most viewed posts widget using old shortcode class name.
+
 
 ### 2.0.16 - Sep 19, 2025
 
@@ -758,11 +763,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 #### 1.0.27 - May 4, 2021
 
 - Use `defer` attribute on script to not block parsing at all.
-- Normalize Pinterest URL's with and without www subdomain.
-- Fix some missing translations.
-
-
-#### 1.0.26 - Feb 17, 2021
-
-- Re-introduce last 28 days ...
+- Normalize Pinterest URL's with and without ...
 
