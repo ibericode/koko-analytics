@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.0.17 - Sep 20, 2025
+
+- Fix most viewed posts widget using old shortcode class name.
+
+
 ### 2.0.16 - Sep 19, 2025
 
 - Prevent persistent object caches from breaking database migration lock mechanism.
