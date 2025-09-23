@@ -53,64 +53,6 @@ class Actions
         exit;
     }
 
-    public static function export_data(): void
-    {
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
-        check_admin_referer('koko_analytics_export_data');
-
-        (new Data_Exporter())->run();
-    }
-
-    public static function import_data(): void
-    {
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
-        check_admin_referer('koko_analytics_import_data');
-        $settings_page = admin_url('/index.php?page=koko-analytics&tab=settings');
-
-        if (empty($_FILES['import-file']) || $_FILES['import-file']['error'] !== UPLOAD_ERR_OK) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Something went wrong trying to process your import file.', 'koko-analytics') ]], $settings_page));
-            exit;
-        }
-
-        // don't accept MySQL blobs over 16 MB
-        if ($_FILES['import-file']['size'] > 16000000) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics') ]], $settings_page));
-            exit;
-        }
-
-        // try to increase time limit
-        @set_time_limit(300);
-
-        // read SQL from upload file
-        $sql = file_get_contents($_FILES['import-file']['tmp_name']);
-
-        // verify file looks like a Koko Analytics export file
-        if (!preg_match('/^(--|DELETE|SELECT|INSERT|TRUNCATE|CREATE|DROP)/', $sql)) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics') ]], $settings_page));
-            exit;
-        }
-
-        // good to go, let's run the SQL
-        try {
-            (new Data_Importer())->run($sql);
-        } catch (\Exception $e) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'title' => __('An error occured', 'koko-analytics'), 'message' => $e->getMessage() ]], $settings_page));
-            exit;
-        }
-
-        // unlink tmp file
-        unlink($_FILES['import-file']['tmp_name']);
-
-        // redirect with success message
-        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Database was successfully imported from the given file', 'koko-analytics') ]], $settings_page));
-        exit;
-    }
 
     public static function save_settings(): void
     {

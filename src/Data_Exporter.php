@@ -10,12 +10,24 @@ namespace KokoAnalytics;
 
 class Data_Exporter
 {
+    /** @var \wpdb */
     private $db;
 
     public function __construct()
     {
         global $wpdb;
         $this->db = $wpdb;
+    }
+
+    public static function action_listener(): void
+    {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        check_admin_referer('koko_analytics_export_data');
+
+        (new Data_Exporter())->run();
     }
 
     public function run(): void
