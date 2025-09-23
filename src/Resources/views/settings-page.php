@@ -26,6 +26,9 @@ $public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_ur
             <?php /* general notices: can be of type info, warning or success */ ?>
             <?php if (isset($_GET['notice'])) { ?>
                 <div class="ka-alert ka-alert-<?= esc_attr($_GET['notice']['type']); ?> ka-alert-dismissible" role="alert">
+                    <?php if (isset($_GET['notice'])) : ?>
+                        <strong><?= esc_html($_GET['notice']['title']); ?></strong><br>
+                    <?php endif; ?>
                     <?= esc_html($_GET['notice']['message']); ?>
                      <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                 </div>

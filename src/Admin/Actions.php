@@ -97,7 +97,12 @@ class Actions
         }
 
         // good to go, let's run the SQL
-        (new Data_Importer())->run($sql);
+        try {
+            (new Data_Importer())->run($sql);
+        } catch (\Exception $e) {
+            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'title' => __('An error occured', 'koko-analytics'), 'message' => $e->getMessage() ]], $settings_page));
+            exit;
+        }
 
         // unlink tmp file
         unlink($_FILES['import-file']['tmp_name']);
