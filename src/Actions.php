@@ -10,6 +10,9 @@ namespace KokoAnalytics;
 
 class Actions
 {
+    /**
+     * Fires `koko_analytics_{$action}` hook where $action is taken from the koko_analytics_action request parameter
+     */
     public static function run(): void
     {
         $actions = [];

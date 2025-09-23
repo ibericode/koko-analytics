@@ -6,9 +6,11 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
 
-class Data_Exporter
+use function KokoAnalytics\create_local_datetime;
+
+class Data_Export
 {
     /** @var \wpdb */
     private $db;
@@ -27,7 +29,7 @@ class Data_Exporter
 
         check_admin_referer('koko_analytics_export_data');
 
-        (new Data_Exporter())->run();
+        (new self())->run();
     }
 
     public function run(): void

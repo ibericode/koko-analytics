@@ -6,11 +6,11 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Admin;
 
 use Exception;
 
-class Data_Importer
+class Data_Import
 {
     public static function action_listener(): void
     {

@@ -8,8 +8,6 @@
 
 namespace KokoAnalytics\Admin;
 
-use KokoAnalytics\Data_Exporter;
-use KokoAnalytics\Data_Importer;
 use KokoAnalytics\Jetpack_Importer;
 
 class Admin
@@ -24,9 +22,9 @@ class Admin
 
         add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
         add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
-        add_action('koko_analytics_reset_statistics', [Actions::class, 'reset_statistics'], 20, 0);
-        add_action('koko_analytics_export_data', [Data_Exporter::class, 'action_listener'], 10, 0);
-        add_action('koko_analytics_import_data', [Data_Importer::class, 'action_listener'], 10, 0);
+        add_action('koko_analytics_reset_statistics', [Data_Reset::class, 'action_listener'], 20, 0);
+        add_action('koko_analytics_export_data', [Data_Export::class, 'action_listener'], 10, 0);
+        add_action('koko_analytics_import_data', [Data_Import::class, 'action_listener'], 10, 0);
         add_action('koko_analytics_migrate_post_stats_to_v2', [Actions::class, 'migrate_post_stats_to_v2'], 10, 0);
         add_action('koko_analytics_migrate_referrer_stats_to_v2', [Actions::class, 'migrate_referrer_stats_to_v2'], 10, 0);
         add_action('koko_analytics_fix_post_paths_after_v2', [Actions::class, 'fix_post_paths_after_v2'], 10, 0);
