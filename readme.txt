@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.17
+Stable tag: 2.0.18
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -131,6 +131,14 @@ Example:
 
 
 == Changelog ==
+
+### 2.0.18 - Sep 24, 2025
+
+- Add filename alias for `Pageview_Aggregator` class so old autoloader knows where to find it. This fixes an error for users upgrading from 1.x with data in the temporary buffer file.
+- Data importer now uses default WPDB connection and shows errors.
+- Fallback to path if post title is empty or null.
+- Replace section about Koko Analytics Pro with a smaller 'powered by ...' link for public dashboards.
+
 
 ### 2.0.17 - Sep 20, 2025
 
@@ -754,14 +762,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 - Account for missing configuration object, for example if theme does not properly call `wp_head()`.
 - Cast database result to integer types so we do not have to do it client-side.
-- Cache dashboard requests to REST API for 5 minutes (using browser cache).
-- Use integers for viewbox coordinates (for increased performance).
-- Simple locking mechanism for aggregation job to detect previous runs which are still busy.
-- Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate`
-
-
-#### 1.0.27 - May 4, 2021
-
-- Use `defer` attribute on script to not block parsing at all.
-- Normalize Pinterest URL's with and without ...
+- Cache dashboard ...
 
