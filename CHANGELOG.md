@@ -1,5 +1,13 @@
 # Changelog
 
+### 2.0.18 - Sep 24, 2025
+
+- Add filename alias for `Pageview_Aggregator` class so old autoloader knows where to find it. This fixes an error for users upgrading from 1.x with data in the temporary buffer file.
+- Data importer now uses default WPDB connection and shows errors.
+- Fallback to path if post title is empty or null.
+- Replace section about Koko Analytics Pro with a smaller 'powered by ...' link for public dashboards.
+
+
 ### 2.0.17 - Sep 20, 2025
 
 - Fix most viewed posts widget using old shortcode class name.
