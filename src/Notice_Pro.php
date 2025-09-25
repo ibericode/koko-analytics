@@ -77,11 +77,11 @@ class Notice_Pro
                     <strong><?php esc_html_e('Hello!', 'koko-analytics'); ?></strong>
                     <?php esc_html_e('You have been using Koko Analytics for a while now. We are showing you this one-time notice to ask for a small favor.', 'koko-analytics'); ?>
                 </summary>
-                <p><?= esc_html__('If you enjoy using this free plugin, consider helping us out by:', 'koko-analytics'); ?></p>
+                <p><?php esc_html_e('If you enjoy using this free plugin, consider helping us out by:', 'koko-analytics'); ?></p>
                 <ul class="ul-square mb-4">
                     <li><a href="https://www.kokoanalytics.com/pricing/" class=""><?php esc_html_e('Upgrade to Koko Analytics Pro', 'koko-analytics'); ?></a></li>
-                    <li><a href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform"><?=esc_html__('Review the plugin on WordPress.org', 'koko-analytics'); ?></a></li>
-                    <li><?= esc_html__('Write about Koko Analytics on your blog or on social media', 'koko-analytics'); ?></li>
+                    <li><a href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform"><?php esc_html_e('Review the plugin on WordPress.org', 'koko-analytics'); ?></a></li>
+                    <li><?php esc_html_e('Write about Koko Analytics on your blog or on social media', 'koko-analytics'); ?></li>
                 </ul>
 
                 <p class="mb-0"><a href="<?php echo esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" class="btn btn-danger btn-sm"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
