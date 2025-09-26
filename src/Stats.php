@@ -137,7 +137,7 @@ class Stats
 
         return array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
-            $row->visitors = (int) $row->visitors;
+            $row->visitors = max(1, (int) $row->visitors);
 
             // for backwards compatibility with versions before 2.0
             // set post_title and post_permalink property
@@ -170,7 +170,12 @@ class Stats
     {
         /** @var wpdb $wpdb */
         global $wpdb;
-        return $wpdb->get_results($wpdb->prepare(
+
+        return array_map(function ($row) {
+            $row->pageviews = (int) $row->pageviews;
+            $row->visitors = max(1, (int) $row->visitors);
+            return $row;
+        }, $wpdb->get_results($wpdb->prepare(
             "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                 JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
@@ -179,7 +184,7 @@ class Stats
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
-        ));
+        )));
     }
 
     public function count_referrers(string $start_date, string $end_date): int
