@@ -15,8 +15,7 @@
  */
 function koko_analyics_tracking_script(): void
 {
-    $script_loader = new KokoAnalytics\Script_Loader();
-    $script_loader->maybe_enqueue_script(true);
+    KokoAnalytics\Script_Loader::maybe_print_script();
 }
 
 /**

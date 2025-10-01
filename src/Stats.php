@@ -27,7 +27,7 @@ class Stats
      */
     public function get_totals(string $start_date, string $end_date, $page = 0, $unused = null): object
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $from = "{$wpdb->prefix}koko_analytics_site_stats s";
@@ -77,7 +77,7 @@ class Stats
      */
     public function get_stats(string $start_date, string $end_date, string $group = 'day', $page = ''): array
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $week_starts_on = (int) get_option('start_of_week', 0);
@@ -120,7 +120,7 @@ class Stats
 
     public function get_posts(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $results = $wpdb->get_results($wpdb->prepare(
@@ -150,7 +150,7 @@ class Stats
 
     public function count_posts(string $start_date, string $end_date): int
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
         return (int) $wpdb->get_var($wpdb->prepare(
             "
@@ -168,7 +168,7 @@ class Stats
 
     public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         return array_map(function ($row) {
@@ -189,7 +189,7 @@ class Stats
 
     public function count_referrers(string $start_date, string $end_date): int
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
         return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(DISTINCT(s.id))

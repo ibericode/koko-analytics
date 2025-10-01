@@ -9,14 +9,10 @@
 namespace KokoAnalytics;
 
 use KokoAnalytics\Normalizers\Normalizer;
-use WP_User;
 
 class Script_Loader
 {
-    /**
-     * @param bool $echo Whether to use the default WP script enqueue method or print the script tag directly
-     */
-    public static function maybe_enqueue_script(bool $echo = false): void
+    public static function maybe_print_script(): void
     {
         $load_script = apply_filters('koko_analytics_load_tracking_script', true);
         if (! $load_script) {
@@ -27,23 +23,10 @@ class Script_Loader
             return;
         }
 
-        // TODO: Handle "term" requests so we track both terms and post types.
-        add_filter('script_loader_tag', [ Script_Loader::class , 'add_async_attribute' ], 20, 2);
-
-        if (false === $echo) {
-            // Print configuration object early on in the HTML so scripts can modify it
-            if (did_action('wp_head')) {
-                self::print_js_object();
-            } else {
-                add_action('wp_head', [ Script_Loader::class , 'print_js_object' ], 1, 0);
-            }
-
-            // Enqueue the actual tracking script (in footer, if possible)
-            wp_enqueue_script('koko-analytics', plugins_url('assets/dist/js/script.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, true);
-        } else {
-            self::print_js_object();
-            echo '<script defer src="', plugins_url('assets/dist/js/script.js?ver=' . KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_FILE), '"></script>';
-        }
+        echo '<!-- Koko Analytics v' . KOKO_ANALYTICS_VERSION . ' - https://www.kokoanalytics.com/ -->' . PHP_EOL;
+        echo '<script>';
+        include KOKO_ANALYTICS_PLUGIN_DIR . '/assets/dist/js/script.js';
+        echo '</script>';
     }
 
     /**
@@ -62,8 +45,6 @@ class Script_Loader
 
     private static function get_tracker_url(): string
     {
-        global $wp;
-
         // People can create their own endpoint and define it through this constant
         if (\defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') && KOKO_ANALYTICS_CUSTOM_ENDPOINT) {
             // custom custom endpoint
@@ -79,8 +60,7 @@ class Script_Loader
 
     public static function get_request_path(): string
     {
-        $path = trim($_SERVER["REQUEST_URI"] ?? '');
-        return Normalizer::path($path);
+        return Normalizer::path(trim($_SERVER["REQUEST_URI"] ?? ''));
     }
 
     public static function print_js_object()
@@ -130,18 +110,5 @@ class Script_Loader
         ];
 
         echo '<amp-analytics><script type="application/json">', json_encode($config), '</script></amp-analytics>';
-    }
-
-    /**
-     * @param string $tag
-     * @param string $handle
-     */
-    public static function add_async_attribute($tag, $handle)
-    {
-        if ($handle !== 'koko-analytics' || strpos($tag, ' defer') !== false) {
-            return $tag;
-        }
-
-        return str_replace(' src=', ' defer src=', $tag);
     }
 }

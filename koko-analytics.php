@@ -71,7 +71,8 @@ add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
 add_action('init', 'KokoAnalytics\maybe_collect_request', 0, 0);
 
 // script loader
-add_action('wp_enqueue_scripts', [Script_Loader::class, 'maybe_enqueue_script'], 10, 0);
+add_action('wp_head', [ Script_Loader::class , 'print_js_object' ], 1, 0);
+add_action('wp_footer', [Script_Loader::class, 'maybe_print_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
 add_action('admin_bar_menu', [Admin\Bar::class, 'register'], 40, 1);
 

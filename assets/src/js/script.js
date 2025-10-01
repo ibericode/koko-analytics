@@ -1,28 +1,14 @@
-/**
- * @package koko-analytics
- * @author Danny van Kooten
- * @license GPL-3.0+
- */
-
 // Map variables to global identifiers so that minifier can mangle them to even shorter names
 var win = window;
 var ka = "koko_analytics";
 
 function request(data) {
-  // if window.koko_analytics.use_cookie is set, use that (for cookie consent plugins)
-  if (win[ka].use_cookie) {
-    data['m'] = 'c';
-  // to work with full-page html caching refusing to update the configuration object....
-  // TODO: Remove this ~Aug 2025
-  } else if (win[ka].method) {
-    data['m'] = win[ka].method[0];
-  }
-
+  data['m'] = win[ka].use_cookie ? 'c' : win[ka].method[0];
   navigator.sendBeacon(win[ka].url, new URLSearchParams(data));
 }
 
-win[ka].trackPageview = function() {
-  if (
+function trackPageview() {
+   if (
     // do not track if this is a prerender request
     (document.visibilityState == 'prerender') ||
 
@@ -32,17 +18,12 @@ win[ka].trackPageview = function() {
     return;
   }
 
-  // get path from config object
-  var path = win[ka].path;
-
-  // if config object is stale, get (non-normalized) path directly
-  if (!path) {
-    path = window.location.pathname + window.location.search;
-  }
-
   // don't store referrer if from same-site
   var referrer = document.referrer.indexOf(win[ka].site_url) == 0 ? '' : document.referrer;
-  request({ pa: path, po: win[ka].post_id, r: referrer })
+  request({ pa: win[ka].path, po: win[ka].post_id, r: referrer })
 }
+
+win[ka].request = request;
+win[ka].trackPageview = trackPageview;
 
 win.addEventListener('load', function() { win[ka].trackPageview() });
