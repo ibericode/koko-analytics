@@ -13,7 +13,7 @@ use KokoAnalytics\Endpoint_Installer;
  * @var array $date_presets
  */
 $tab          = 'settings';
-$public_dashboard_url = add_query_arg(['koko-analytics-dashboard' => 1], home_url());
+$public_dashboard_url = home_url('?koko-analytics-dashboard');
 ?>
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <div class="ka-dashboard-nav">
