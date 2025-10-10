@@ -127,7 +127,7 @@ class Stats
             "SELECT p.path, s.post_id, IFNULL(NULLIF(wp.post_title, ''), p.path) AS label, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
-                LEFT JOIN {$wpdb->prefix}posts wp ON s.post_id = wp.ID
+                LEFT JOIN {$wpdb->prefix}posts wp ON wp.ID = s.post_id
                 WHERE s.date >= %s AND s.date <= %s
                 GROUP BY p.path, s.post_id
                 ORDER BY pageviews DESC, visitors DESC, s.path_id ASC
