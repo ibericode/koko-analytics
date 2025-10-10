@@ -19,7 +19,7 @@ class Script_Loader
             return;
         }
 
-        if (is_request_excluded()) {
+        if (is_request_excluded() || is_preview()) {
             return;
         }
 
