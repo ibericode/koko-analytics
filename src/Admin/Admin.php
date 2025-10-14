@@ -10,6 +10,7 @@ namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
+use KokoAnalytics\Router;
 
 class Admin
 {
@@ -62,7 +63,7 @@ class Admin
      */
     public function add_plugin_settings_link($links): array
     {
-        $href = admin_url('index.php?page=koko-analytics&tab=settings');
+        $href = Router::url('settings-page');
         $label = esc_html__('Settings', 'koko-analytics');
         $settings_link = "<a href=\"{$href}\">{$label}</a>";
         array_unshift($links, $settings_link);

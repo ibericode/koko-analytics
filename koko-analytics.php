@@ -108,7 +108,7 @@ add_action('wp_loaded', [Actions::class, 'run'], 20, 0);
 
 // maybe show standalone dashboard
 add_action('wp', function () {
-    if (!isset($_GET['koko-analytics-dashboard']) && ! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
+    if (!Router::is('dashboard-standalone')) {
         return;
     }
 

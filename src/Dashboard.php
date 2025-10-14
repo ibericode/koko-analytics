@@ -14,7 +14,7 @@ class Dashboard
 {
     protected function get_base_url()
     {
-        return admin_url('index.php?page=koko-analytics');
+        return Router::url('dashboard-embedded');
     }
 
     public function show()
