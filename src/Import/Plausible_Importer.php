@@ -14,84 +14,55 @@ use DateTimeImmutable;
 use KokoAnalytics\Path_Repository;
 use ZipArchive;
 
-class Plausible_Importer
+class Plausible_Importer extends Importer
 {
-    public static function show_page(): void
+    protected static function show_page_content()
     {
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
         ?>
-        <div class="wrap" style="max-width: 820px;">
+        <h1><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></h1>
+        <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will add to any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=plausible_importer')); ?>" enctype="multipart/form-data">
 
-        <?php if (isset($_GET['error'])) { ?>
-                <div class="notice notice-error is-dismissible">
-                    <p>
-                        <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
-                        <?php echo ' '; ?>
-                        <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
-                    </p>
-                </div>
-        <?php } ?>
+            <input type="hidden" name="koko_analytics_action" value="start_plausible_import">
+            <?php wp_nonce_field('koko_analytics_start_plausible_import'); ?>
 
-        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
-                <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?></p></div>
-        <?php } ?>
+            <table class="form-table">
+                <tr>
+                    <th><label for="plausible-export-file"><?php esc_html_e('Plausible CSV export', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="plausible-export-file" type="file" class="form-control" name="plausible-export-file" accept=".csv" required>
+                         <p class="description"><?php esc_html_e('Upload the "imported_visitors" or the "imported_pages" CSV file.', 'koko-analytics'); ?></p>
+                    </td>
+                </tr>
 
-            <h1><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></h1>
+                <tr>
+                    <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
+                         <p class="description"><?php esc_html_e('The earliest date for which to import data.', 'koko-analytics'); ?></p>
 
-            <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=plausible_importer')); ?>" enctype="multipart/form-data">
+                    </td>
+                </tr>
 
-                <input type="hidden" name="koko_analytics_action" value="start_plausible_import">
-                <?php wp_nonce_field('koko_analytics_start_plausible_import'); ?>
+                <tr>
+                    <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
+                        <p class="description"><?php esc_html_e('The last date for which to import data.', 'koko-analytics'); ?></p>
 
-                <table class="form-table">
-                    <tr>
-                        <th><label for="plausible-export-file"><?php esc_html_e('Plausible CSV export', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="plausible-export-file" type="file" class="form-control" name="plausible-export-file" accept=".csv" required>
-                             <p class="description"><?php esc_html_e('Upload the "imported_visitors" and "imported_pages" CSV files (one by one). The other import files are not supported at this point.', 'koko-analytics'); ?></p>
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
+            </table>
 
-                    <tr>
-                        <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
-                             <p class="description"><?php esc_html_e('The earliest date for which to import data.', 'koko-analytics'); ?></p>
+            <p style="color: indianred;">
+                <strong><?php esc_html_e('Warning: ', 'koko-analytics'); ?></strong>
+                <?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?>
+            </p>
 
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
-                            <p class="description"><?php esc_html_e('The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.', 'koko-analytics'); ?></p>
-
-                        </td>
-                    </tr>
-                </table>
-
-                <p style="color: indianred;">
-                    <strong><?php esc_html_e('Warning: ', 'koko-analytics'); ?></strong>
-                    <?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?>
-                </p>
-
-                <p>
-                    <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
-                </p>
-            </form>
-        </div>
+            <p>
+                <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
+            </p>
+        </form>
         <?php
-    }
-
-    private static function redirect_with_error(string $redirect_url, string $error_message): void
-    {
-        $redirect_url = add_query_arg([ 'error' => urlencode($error_message)], $redirect_url);
-        wp_safe_redirect($redirect_url);
-        exit;
     }
 
     public static function start_import(): void
@@ -106,8 +77,7 @@ class Plausible_Importer
 
         // verify file upload
         if (empty($_FILES['plausible-export-file']) || $_FILES['plausible-export-file']['error'] !== 0) {
-            self::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), 'A file upload error occurred.');
-            return;
+            static::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), 'A file upload error occurred.');
         }
 
         $date_start = $_POST['date-start'] ?? '2010-01-01';
@@ -123,8 +93,7 @@ class Plausible_Importer
                 self::import_page_stats($fh, $date_start, $date_end);
             }
         } catch (Exception $e) {
-            self::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), $e->getMessage());
-            exit;
+            static::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), $e->getMessage());
         }
 
         fclose($fh);

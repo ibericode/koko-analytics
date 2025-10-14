@@ -13,108 +13,82 @@ use Exception;
 use DateTimeImmutable;
 use KokoAnalytics\Path_Repository;
 
-class Jetpack_Importer
+class Jetpack_Importer extends Importer
 {
-    public static function show_page(): void
+    protected static function show_page_content()
     {
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
         ?>
-        <div class="wrap" style="max-width: 820px;">
+        <h1><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></h1>
+        <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
 
-        <?php if (isset($_GET['error'])) { ?>
-                <div class="notice notice-error is-dismissible">
-                    <p>
-                        <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
-                        <?php echo ' '; ?>
-                        <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
-                    </p>
-                </div>
-        <?php } ?>
+        <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
 
-        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
-                <div class="notice notice-success is-dismissible"><p><?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?></p></div>
-        <?php } ?>
-
-            <h1><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></h1>
-            <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
-
-            <form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
-
-                <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
+            <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
             <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
 
-                <table class="form-table">
-                    <tr>
-                        <th><label for="wpcom-api-key"><?php esc_html_e('WordPress.com API key', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="wpcom-api-key" type="text" class="regular-text" name="wpcom-api-key" required>
-                            <p class="description"><?php printf(esc_html__('You can %1$sfind your WordPress.com API key here%2$s.', 'koko-analytics'), '<a href="https://apikey.wordpress.com/" target="_blank">', '</a>'); ?></p>
-                        </td>
-                    </tr>
+            <table class="form-table">
+                <tr>
+                    <th><label for="wpcom-api-key"><?php esc_html_e('WordPress.com API key', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="wpcom-api-key" type="text" class="regular-text" name="wpcom-api-key" required>
+                        <p class="description"><?php printf(esc_html__('You can %1$sfind your WordPress.com API key here%2$s.', 'koko-analytics'), '<a href="https://apikey.wordpress.com/" target="_blank">', '</a>'); ?></p>
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th><label for="wpcom-blog-uri"><?php esc_html_e('Blog URL', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="wpcom-blog-uri" type="text" class="regular-text" name="wpcom-blog-uri" value="<?php echo esc_attr(get_site_url()); ?>" required>
-                            <p class="description"><?php esc_html_e('The full URL to the root directory of your blog. Including the full path.', 'koko-analytics'); ?></p>
-                        </td>
-                    </tr>
+                <tr>
+                    <th><label for="wpcom-blog-uri"><?php esc_html_e('Blog URL', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="wpcom-blog-uri" type="text" class="regular-text" name="wpcom-blog-uri" value="<?php echo esc_attr(get_site_url()); ?>" required>
+                        <p class="description"><?php esc_html_e('The full URL to the root directory of your blog. Including the full path.', 'koko-analytics'); ?></p>
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
-                             <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
+                <tr>
+                    <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
+                         <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
-                            <p class="description"><?php esc_html_e('The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.', 'koko-analytics'); ?></p>
+                <tr>
+                    <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
+                        <p class="description"><?php esc_html_e('The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.', 'koko-analytics'); ?></p>
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th><label for="chunk-size"><?php esc_html_e('Chunk size', 'koko-analytics'); ?></label></th>
-                        <td>
-                            <input id="chunk-size" name="chunk-size" type="number" value="30" min="1" max="90" required>
-                            <p class="description"><?php esc_html_e('The number of days to pull in at once. If your website has a lot of different posts or pages, it may be worth setting this to a lower value.', 'koko-analytics'); ?></p>
+                <tr>
+                    <th><label for="chunk-size"><?php esc_html_e('Chunk size', 'koko-analytics'); ?></label></th>
+                    <td>
+                        <input id="chunk-size" name="chunk-size" type="number" value="30" min="1" max="90" required>
+                        <p class="description"><?php esc_html_e('The number of days to pull in at once. If your website has a lot of different posts or pages, it may be worth setting this to a lower value.', 'koko-analytics'); ?></p>
 
-                        </td>
-                    </tr>
-                </table>
+                    </td>
+                </tr>
+            </table>
 
-                <p style="color: indianred;">
-                    <strong><?php esc_html_e('Warning: ', 'koko-analytics'); ?></strong>
-                    <?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?>
-                </p>
+            <p style="color: indianred;">
+                <strong><?php esc_html_e('Warning: ', 'koko-analytics'); ?></strong>
+                <?php esc_html_e('Importing data for a given date range will add to any existing data. The import process can not be reverted unless you reinstate a back-up of your database in its current state.', 'koko-analytics'); ?>
+            </p>
 
-                <p>
-                    <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
-                </p>
-            </form>
+            <p>
+                <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
+            </p>
+        </form>
 
-            <div class="ka-margin-m">
-                <h3><?php esc_html_e('Things to know before running the import', 'koko-analytics'); ?></h3>
-                <p><?php esc_html_e('JetPack doesn\'t provide data for the distinct number of visitors. The plugin can only import the total number of pageviews for each post.', 'koko-analytics'); ?></p>
-            </div>
+        <div class="ka-margin-m">
+            <h3><?php esc_html_e('Things to know before running the import', 'koko-analytics'); ?></h3>
+            <p><?php esc_html_e('JetPack doesn\'t provide data for the distinct number of visitors. The plugin can only import the total number of pageviews for each post.', 'koko-analytics'); ?></p>
         </div>
         <?php
     }
 
-    private static function redirect_with_error(string $redirect_url, string $error_message): void
-    {
-        $redirect_url = add_query_arg([ 'error' => urlencode($error_message)], $redirect_url);
-        wp_safe_redirect($redirect_url);
-        exit;
-    }
+
 
     public static function start_import(): void
     {
@@ -136,8 +110,7 @@ class Jetpack_Importer
 
         // all params are required
         if ($params['wpcom-api-key'] === '' || $params['wpcom-blog-uri'] === '' || $params['date-start'] === '' || $params['date-end'] === '') {
-            self::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('A required field was missing', 'koko-analytics'));
-            exit;
+            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('A required field was missing', 'koko-analytics'));
         }
 
         // first chunk is 30 days after date-start
@@ -148,8 +121,7 @@ class Jetpack_Importer
                 throw new Exception("End date must be after start date");
             }
         } catch (Exception $e) {
-            self::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
-            exit;
+            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
         }
 
         // params are valid; let's go!
@@ -181,7 +153,7 @@ class Jetpack_Importer
         $params = get_option('koko_analytics_jetpack_import_params');
         if (!$params) {
             $error_message = __('Missing parameters.', 'koko-analytics');
-            self::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $error_message);
+            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $error_message);
             exit;
         }
 
@@ -198,13 +170,13 @@ class Jetpack_Importer
 
         // import this chunk
         try {
-            self::perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
+            static::perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
         } catch (Exception $e) {
             // clean-up after ourselves
             delete_option('koko_analytics_jetpack_import_params');
 
             // redirect to form page
-            self::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $e->getMessage());
+            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $e->getMessage());
             exit;
         }
 
@@ -294,7 +266,7 @@ class Jetpack_Importer
             $item->postviews = array_map(function ($postviews) {
                 $permalink = get_permalink($postviews->post_id);
                 if (!$permalink) {
-                    $postviews->path = '/deleted/';
+                    $postviews->path = '/?p=' . $postviews->post_id;
                 } else {
                     $postviews->path = parse_url($permalink, PHP_URL_PATH);
                 }
