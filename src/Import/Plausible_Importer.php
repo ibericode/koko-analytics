@@ -8,11 +8,7 @@
 
 namespace KokoAnalytics\Import;
 
-use WP_Error;
 use Exception;
-use DateTimeImmutable;
-use KokoAnalytics\Path_Repository;
-use ZipArchive;
 
 class Plausible_Importer extends Importer
 {
@@ -30,7 +26,7 @@ class Plausible_Importer extends Importer
                     <th><label for="plausible-export-file"><?php esc_html_e('Plausible CSV export', 'koko-analytics'); ?></label></th>
                     <td>
                         <input id="plausible-export-file" type="file" class="form-control" name="plausible-export-file" accept=".csv" required>
-                         <p class="description"><?php esc_html_e('Upload the "imported_visitors" or the "imported_pages" CSV file.', 'koko-analytics'); ?></p>
+                         <p class="description"><?php esc_html_e('Accepted files are "imported_visitors.csv", "imported_pages.csv" and "imported_sources.csv" from the Plausible export ZIP.', 'koko-analytics'); ?></p>
                     </td>
                 </tr>
 
@@ -83,14 +79,18 @@ class Plausible_Importer extends Importer
         $date_start = $_POST['date-start'] ?? '2010-01-01';
         $date_end = $_POST['date-end'] ?? date('Y-m-d');
         $fh = fopen($_FILES['plausible-export-file']['tmp_name'], "r");
-        $header = fgetcsv($fh);
+        $header = fgetcsv($fh, 1024, ',', '"', '');
         @set_time_limit(300);
 
         try {
             if (count($header) >= 3 && $header[0] == 'date' && $header[1] == 'visitors' && $header[2] == 'pageviews') {
-                self::import_site_stats($fh, $date_start, $date_end);
+                self::import_site_stats($fh, $header, $date_start, $date_end);
             } elseif (count($header) >= 4 && $header[0] == 'date' && $header[1] == 'hostname' && $header[2] == 'page' && $header[4] == 'visitors' && $header[5] == 'pageviews') {
-                self::import_page_stats($fh, $date_start, $date_end);
+                self::import_page_stats($fh, $header, $date_start, $date_end);
+            } elseif (count($header) >= 3 && $header[0] == 'date' && $header[1] == 'source' && $header[2] == 'referrer') {
+                self::import_referrer_stats($fh, $header, $date_start, $date_end);
+            } else {
+                throw new Exception("Sorry, that file is not supported.");
             }
         } catch (Exception $e) {
             static::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), $e->getMessage());
@@ -103,21 +103,21 @@ class Plausible_Importer extends Importer
         exit;
     }
 
-    private static function import_site_stats($fh, string $date_start, string $date_end): void
+    private static function import_site_stats($fh, array $headers, string $date_start, string $date_end): void
     {
         /** @var wpdb $wpdb */
         global $wpdb;
 
-        while ($row = fgetcsv($fh)) {
-            [$date, $visitors, $pageviews] = $row;
+        while ($row = fgetcsv($fh, 1024, ',', '"', '')) {
+            $row = array_combine($headers, $row);
 
             // skip rows outside of date range
-            if ($date < $date_start || $date > $date_end) {
+            if ($row['date'] < $date_start || $row['date'] > $date_end) {
                 continue;
             }
 
             // update site stats
-            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$date, $visitors, $pageviews]);
+            $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$row['date'], $row['visitors'], $row['pageviews']]);
             $wpdb->query($query);
             if ($wpdb->last_error !== '') {
                 throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
@@ -125,53 +125,53 @@ class Plausible_Importer extends Importer
         }
     }
 
-    private static function import_page_stats($fh, string $date_start, string $date_end): void
+    private static function import_page_stats($fh, array $headers, string $date_start, string $date_end): void
     {
-        /** @var wpdb $wpdb */
-        global $wpdb;
+        // "date","hostname","page","visits","visitors","pageviews","total_scroll_depth","total_scroll_depth_visits","total_time_on_page","total_time_on_page_visits"
 
         $rows = [];
-        while ($row = fgetcsv($fh)) {
-            [$date, $hostname, $page, $visits, $visitors, $pageviews] = $row;
+        while ($row = fgetcsv($fh, 1024, ',', '"', '')) {
+            $row = array_combine($headers, $row);
 
             // skip rows outside of date range
-            if ($date < $date_start || $date > $date_end) {
+            if ($row['date'] < $date_start || $row['date'] > $date_end) {
                 continue;
             }
 
-            $rows[] = [$date, $page, $visitors, $pageviews];
+            // add to rows
+            $rows[] = [$row['date'], $row['page'], 0, $row['visitors'], $row['pageviews']];
 
             if (count($rows) >= 100) {
-                self::bulk_insert_rows($rows);
+                static::bulk_insert_page_stats($rows);
                 $rows = [];
             }
         }
 
-        self::bulk_insert_rows($rows);
+        static::bulk_insert_page_stats($rows);
     }
 
-    private static function bulk_insert_rows(array $rows): void
+    private static function import_referrer_stats($fh, array $headers, string $date_start, string $date_end): void
     {
-        /** @var wpdb $wpdb */
-        global $wpdb;
+        // "date","source","referrer","utm_source","utm_medium","utm_campaign","utm_content","utm_term","pageviews","visitors","visits","visit_duration","bounces"
 
-        $paths = array_map(function ($r) {
-            return $r[1];
-        }, $rows);
+        $rows = [];
+        while ($row = fgetcsv($fh, 1024, ',', '"', '')) {
+            $row = array_combine($headers, $row);
 
-        $path_ids = Path_Repository::upsert($paths);
-        $values = [];
-        foreach ($rows as $r) {
-            array_push($values, $r[0], $path_ids[$r[1]], $r[2], $r[3]);
+            // skip rows outside of date range
+            if ($row['date'] < $date_start || $row['date'] > $date_end || empty($row['referrer'])) {
+                continue;
+            }
+
+            // add to rows
+            $rows[] = [$row['date'], $row['referrer'], $row['visitors'], $row['pageviews']];
+
+            if (count($rows) >= 100) {
+                static::bulk_insert_referrer_stats($rows);
+                $rows = [];
+            }
         }
-        $placeholders = rtrim(str_repeat('(%s,%d,0,%d,%d),', count($rows)), ',');
 
-
-        $query = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values);
-        $wpdb->query($query);
-
-        if ($wpdb->last_error !== '') {
-            throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
-        }
+        static::bulk_insert_referrer_stats($rows);
     }
 }
