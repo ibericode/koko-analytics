@@ -108,7 +108,7 @@ add_action('wp_loaded', [Actions::class, 'run'], 20, 0);
 
 // maybe show standalone dashboard
 add_action('wp', function () {
-    if (!isset($_GET['koko-analytics-dashboard'])) {
+    if (!isset($_GET['koko-analytics-dashboard']) && ! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
         return;
     }
 
@@ -122,7 +122,8 @@ add_action('wp', function () {
         return;
     }
 
-    (new Dashboard())->show_standalone_dashboard_page();
+    (new Dashboard_Standalone())->show();
+    exit;
 }, 10, 0);
 
 // register most viewed posts widget

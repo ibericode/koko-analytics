@@ -22,7 +22,7 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <meta name="theme-color" content="#B60205">
 </head>
 <body class="koko-analytics">
-    <?php $this->show(); ?>
+    <?php parent::show(); ?>
     <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register(

@@ -12,19 +12,18 @@ use DateTimeImmutable;
 
 class Dashboard
 {
-    public function show_standalone_dashboard_page(): void
+    protected function get_base_url()
     {
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/standalone.php';
-        exit;
+        return admin_url('index.php?page=koko-analytics');
     }
 
-    public function show(): void
+    public function show()
     {
         $settings   = get_settings();
         $stats = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
         $date_format = get_option('date_format', 'Y-m-d');
-        $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers', 'countries', '']);
+        $dashboard_url = $this->get_base_url();
 
         // parse query params
         if (isset($_GET['start_date']) || isset($_GET['end_date'])) {
