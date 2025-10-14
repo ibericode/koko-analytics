@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use DateTimeImmutable;
+
 class Rest
 {
     public static function register_routes(): void
@@ -128,9 +130,10 @@ class Rest
      */
     public function get_stats(\WP_REST_Request $request): \WP_REST_Response
     {
+        $timezone = wp_timezone();
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
-        $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
+        $start_date         = $params['start_date'] ?? (new DateTimeImmutable('first day of this month', $timezone))->format('Y-m-d');
+        $end_date           = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
         $page = $params['page'] ?? 0;
         $result = (new Stats())->get_stats($start_date, $end_date, $group, $page);
@@ -142,9 +145,10 @@ class Rest
      */
     public function get_totals(\WP_REST_Request $request): \WP_REST_Response
     {
+        $timezone = wp_timezone();
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
-        $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
+        $start_date = $params['start_date'] ?? (new DateTimeImmutable('first day of this month', $timezone))->format('Y-m-d');
+        $end_date   = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $page = $params['page'] ?? 0;
         $result = (new Stats())->get_totals($start_date, $end_date, $page);
         return $this->respond($result);
@@ -155,9 +159,10 @@ class Rest
      */
     public function get_posts(\WP_REST_Request $request): \WP_REST_Response
     {
+        $timezone = wp_timezone();
         $params     = $request->get_query_params();
-        $start_date = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
-        $end_date   = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
+        $start_date = $params['start_date'] ?? (new DateTimeImmutable('first day of this month', $timezone))->format('Y-m-d');
+        $end_date   = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $offset     = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit      = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_posts($start_date, $end_date, $offset, $limit);
@@ -169,9 +174,10 @@ class Rest
      */
     public function get_referrers(\WP_REST_Request $request): \WP_REST_Response
     {
+        $timezone = wp_timezone();
         $params             = $request->get_query_params();
-        $start_date         = $params['start_date'] ?? create_local_datetime('first day of this month')->format('Y-m-d');
-        $end_date           = $params['end_date'] ?? create_local_datetime('now')->format('Y-m-d');
+        $start_date         = $params['start_date'] ?? (new DateTimeImmutable('first day of this month', $timezone))->format('Y-m-d');
+        $end_date           = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
         $results = (new Stats())->get_referrers($start_date, $end_date, $offset, $limit);

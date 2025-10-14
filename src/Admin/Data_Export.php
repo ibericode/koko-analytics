@@ -8,7 +8,7 @@
 
 namespace KokoAnalytics\Admin;
 
-use function KokoAnalytics\create_local_datetime;
+use DateTimeImmutable;
 
 class Data_Export
 {
@@ -35,7 +35,7 @@ class Data_Export
     public function run(): void
     {
         // write to HTTP stream
-        $date = create_local_datetime('now')->format("Y-m-d");
+        $date = (new DateTimeImmutable('now', wp_timezone()))->format("Y-m-d");
         $site_url = parse_url(get_site_url(), PHP_URL_HOST);
 
         header('Content-Type: application/sql');

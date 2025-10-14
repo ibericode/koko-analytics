@@ -30,7 +30,7 @@ use KokoAnalytics\Fmt;
         <h3 class="mb-3">
            <?php esc_html_e('Showing site visits over last 14 days', 'koko-analytics'); ?>
         </h3>
-        <div class="">
+        <div>
         <?php new Chart_View($chart_data, $dateStart, $dateEnd, 200, false); ?>
         </div>
     </div>

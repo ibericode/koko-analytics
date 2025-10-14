@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use DateTimeImmutable;
+
 class Dashboard
 {
     public function show_standalone_dashboard_page(): void
@@ -32,18 +34,19 @@ class Dashboard
         } else {
             $range = $settings['default_view'];
         }
-        $now = create_local_datetime('now');
+        $timezone = wp_timezone();
+        $now = new DateTimeImmutable('now', $timezone);
         $week_starts_on = (int) get_option('start_of_week', 0);
         $dateRange = $this->get_dates_for_range($now, $range, $week_starts_on);
         $page = isset($_GET['p']) ? trim($_GET['p']) : 0;
 
         try {
-            $dateStart  = isset($_GET['start_date']) ? create_local_datetime($_GET['start_date']) : $dateRange[0];
+            $dateStart  = isset($_GET['start_date']) ? new DateTimeImmutable($_GET['start_date'], $timezone) : $dateRange[0];
         } catch (\Exception $e) {
             $dateStart = $dateRange[0];
         }
         try {
-            $dateEnd    = isset($_GET['end_date']) ? create_local_datetime($_GET['end_date']) : $dateRange[1];
+            $dateEnd    = isset($_GET['end_date']) ? new DateTimeImmutable($_GET['end_date'], $timezone) : $dateRange[1];
         } catch (\Exception $e) {
             $dateEnd = $dateRange[1];
         }
@@ -105,7 +108,6 @@ class Dashboard
         } else {
             $compareEnd = $periodEnd;
         }
-
 
         return [ $periodStart, $periodEnd, $compareEnd ];
     }

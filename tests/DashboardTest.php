@@ -85,7 +85,7 @@ final class DashboardTest extends TestCase
         self::assertEquals($i->get_next_period(new DateTimeImmutable('2025-01-01'), new DateTimeImmutable('2025-01-02'), 1), [new DateTimeImmutable('2025-01-03'), new DateTimeImmutable('2025-01-04'), new DateTimeImmutable('2025-01-04')]);
         self::assertEquals($i->get_next_period(new DateTimeImmutable('2025-01-01'), new DateTimeImmutable('2025-01-02'), -1), [new DateTimeImmutable('2024-12-30'), new DateTimeImmutable('2024-12-31'), new DateTimeImmutable('2024-12-31')]);
 
-        // // large diff
+        // large diff
         self::assertEquals($i->get_next_period(new DateTimeImmutable('2023-07-01'), new DateTimeImmutable('2025-06-11'), -1), [new DateTimeImmutable('2021-07-19'), new DateTimeImmutable('2023-06-30'), new DateTimeImmutable('2023-06-30')]);
     }
 }
