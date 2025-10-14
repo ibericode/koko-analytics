@@ -23,8 +23,8 @@ class Dashboard
         $settings   = get_settings();
         $stats = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $dateFormat = get_option('date_format', 'Y-m-d');
-        $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers']);
+        $date_format = get_option('date_format', 'Y-m-d');
+        $dashboard_url = remove_query_arg(['start_date', 'end_date', 'view', 'posts', 'referrers', 'countries', '']);
 
         // parse query params
         if (isset($_GET['start_date']) || isset($_GET['end_date'])) {
@@ -37,18 +37,18 @@ class Dashboard
         $timezone = wp_timezone();
         $now = new DateTimeImmutable('now', $timezone);
         $week_starts_on = (int) get_option('start_of_week', 0);
-        $dateRange = $this->get_dates_for_range($now, $range, $week_starts_on);
+        $date_range = $this->get_dates_for_range($now, $range, $week_starts_on);
         $page = isset($_GET['p']) ? trim($_GET['p']) : 0;
 
         try {
-            $dateStart  = isset($_GET['start_date']) ? new DateTimeImmutable($_GET['start_date'], $timezone) : $dateRange[0];
+            $date_start  = isset($_GET['start_date']) ? new DateTimeImmutable($_GET['start_date'], $timezone) : $date_range[0];
         } catch (\Exception $e) {
-            $dateStart = $dateRange[0];
+            $date_start = $date_range[0];
         }
         try {
-            $dateEnd    = isset($_GET['end_date']) ? new DateTimeImmutable($_GET['end_date'], $timezone) : $dateRange[1];
+            $date_end    = isset($_GET['end_date']) ? new DateTimeImmutable($_GET['end_date'], $timezone) : $date_range[1];
         } catch (\Exception $e) {
-            $dateEnd = $dateRange[1];
+            $date_end = $date_range[1];
         }
 
         $posts_offset = isset($_GET['posts']['offset']) ? absint($_GET['posts']['offset']) : 0;
@@ -59,51 +59,51 @@ class Dashboard
         [$total_start_date, $total_end_date] = $stats->get_total_date_range();
 
         // calculate next and previous dates for datepicker component and comparison
-        $nextDates = $this->get_next_period($dateStart, $dateEnd, 1);
-        $prevDates = $this->get_next_period($dateStart, $dateEnd, -1);
+        $next_dates = $this->get_next_period($date_start, $date_end, 1);
+        $prev_dates = $this->get_next_period($date_start, $date_end, -1);
 
-        $dateStartStr = $dateStart->format('Y-m-d');
-        $dateEndStr = $dateEnd->format('Y-m-d');
+        $date_start_str = $date_start->format('Y-m-d');
+        $date_end_str = $date_end->format('Y-m-d');
 
-        $totals = $stats->get_totals($dateStartStr, $dateEndStr, $page);
-        $totals_previous = $stats->get_totals($prevDates[0]->format('Y-m-d'), $prevDates[2]->format('Y-m-d'), $page);
+        $totals = $stats->get_totals($date_start_str, $date_end_str, $page);
+        $totals_previous = $stats->get_totals($prev_dates[0]->format('Y-m-d'), $prev_dates[2]->format('Y-m-d'), $page);
 
-        $posts = $stats->get_posts($dateStartStr, $dateEndStr, $posts_offset, $posts_limit);
-        $posts_count = $stats->count_posts($dateStartStr, $dateEndStr);
-        $referrers = $stats->get_referrers($dateStartStr, $dateEndStr, $referrers_offset, $referrers_limit);
-        $referrers_count = $stats->count_referrers($dateStartStr, $dateEndStr);
+        $posts = $stats->get_posts($date_start_str, $date_end_str, $posts_offset, $posts_limit);
+        $posts_count = $stats->count_posts($date_start_str, $date_end_str);
+        $referrers = $stats->get_referrers($date_start_str, $date_end_str, $referrers_offset, $referrers_limit);
+        $referrers_count = $stats->count_referrers($date_start_str, $date_end_str);
         $realtime = get_realtime_pageview_count('-1 hour');
 
         if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month'])) {
-            $groupChartBy = $_GET['group'];
+            $group_chart_by = $_GET['group'];
         } else {
-            $groupChartBy = $dateEnd->getTimestamp() - $dateStart->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
+            $group_chart_by = $date_end->getTimestamp() - $date_start->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
         }
-        $chart_data =  $stats->get_stats($dateStartStr, $dateEndStr, $groupChartBy, $page);
+        $chart_data =  $stats->get_stats($date_start_str, $date_end_str, $group_chart_by, $page);
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-page.php';
     }
 
-    public function get_next_period(\DateTimeImmutable $dateStart, \DateTimeImmutable $dateEnd, int $dir = 1): array
+    public function get_next_period(\DateTimeImmutable $date_start, \DateTimeImmutable $date_end, int $dir = 1): array
     {
         $now = new \DateTimeImmutable('now', wp_timezone());
         $modifier = $dir > 0 ? "+" : "-";
 
-        if ($dateStart->format('d') === "01" && $dateEnd->format('d') === $dateEnd->format('t')) {
+        if ($date_start->format('d') === "01" && $date_end->format('d') === $date_end->format('t')) {
             // cycling full months
-            $diffInMonths = 1 + ((int) $dateEnd->format('Y') - (int) $dateStart->format('Y')) * 12 + (int) $dateEnd->format('m') - (int) $dateStart->format('m');
-            $periodStart = $dateStart->setDate((int) $dateStart->format('Y'), (int) $dateStart->format('m') + ($dir * $diffInMonths), 1);
-            $periodEnd = $dateEnd->setDate((int) $dateStart->format('Y'), (int) $dateEnd->format('m') + ($dir * $diffInMonths), 5);
+            $diffInMonths = 1 + ((int) $date_end->format('Y') - (int) $date_start->format('Y')) * 12 + (int) $date_end->format('m') - (int) $date_start->format('m');
+            $periodStart = $date_start->setDate((int) $date_start->format('Y'), (int) $date_start->format('m') + ($dir * $diffInMonths), 1);
+            $periodEnd = $date_end->setDate((int) $date_start->format('Y'), (int) $date_end->format('m') + ($dir * $diffInMonths), 5);
             $periodEnd = $periodEnd->setDate((int) $periodEnd->format('Y'), (int) $periodEnd->format('m'), (int) $periodEnd->format('t'));
         } else {
-            $diffInDays = $dateEnd->diff($dateStart)->days + 1;
-            $periodStart = $dateStart->modify("{$modifier}{$diffInDays} days");
-            $periodEnd = $dateEnd->modify("{$modifier}{$diffInDays} days");
+            $diffInDays = $date_end->diff($date_start)->days + 1;
+            $periodStart = $date_start->modify("{$modifier}{$diffInDays} days");
+            $periodEnd = $date_end->modify("{$modifier}{$diffInDays} days");
         }
 
-        if ($dateEnd > $now) {
+        if ($date_end > $now) {
             // limit end date to difference between now and start date, counting from start date
-            $days_diff = $now->diff($dateStart)->days;
+            $days_diff = $now->diff($date_start)->days;
             $compareEnd = $periodStart->modify("+{$days_diff} days");
         } else {
             $compareEnd = $periodEnd;

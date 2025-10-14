@@ -8,14 +8,16 @@ defined('ABSPATH') or exit;
 
 /**
  * @var \KokoAnalytics\Dashboard $this
- * @var \DateTimeInterface $dateStart
- * @var \DateTimeInterface $dateEnd
+ * @var \DateTimeInterface $date_start
+ * @var \DateTimeInterface $date_end
  * @var object $totals
  * @var int $realtime
- * @var string $dateFormat
+ * @var string $date_format
  * @var string $dashboard_url
  * @var \KokoAnalytics\Dates $dates
  * @var \KokoAnalytics\Stats $stats
+ * @var array $next_dates
+ * @var array $prev_dates
  */
 
 $tab = 'dashboard';
@@ -31,20 +33,20 @@ $tab = 'dashboard';
                 <div class="ka-filter" tabindex="0" role="button" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3 me-2" style="vertical-align: middle;" viewBox="0 0 16 16"><path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
   <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg>
-                    <?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?>
+                    <?php echo wp_date($date_format, $date_start->getTimestamp()); ?> — <?php echo wp_date($date_format, $date_end->getTimestamp()); ?>
                 </div>
 
                 <div id="ka-datepicker-dropdown" class="rounded bg-white shadow" style="display: none; position: absolute; width:360px; z-index: 9992;">
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
-                        <?php if ($dateStart >  $total_start_date) { ?>
-                        <a class="js-quicknav-prev text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prevDates[0]->format('Y-m-d'), 'end_date' => $prevDates[1]->format('Y-m-d')], $dashboard_url)); ?>">◂</a>
+                        <?php if ($date_start >  $total_start_date) { ?>
+                        <a class="js-quicknav-prev text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
-                        <span><?php echo wp_date($dateFormat, $dateStart->getTimestamp()); ?> — <?php echo wp_date($dateFormat, $dateEnd->getTimestamp()); ?></span>
-                        <?php if ($dateEnd < $total_end_date) { ?>
-                        <a class="js-quicknav-next text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $nextDates[0]->format('Y-m-d'), 'end_date' => $nextDates[1]->format('Y-m-d')], $dashboard_url)); ?>">▸</a>
+                        <span><?php echo wp_date($date_format, $date_start->getTimestamp()); ?> — <?php echo wp_date($date_format, $date_end->getTimestamp()); ?></span>
+                        <?php if ($date_end < $total_end_date) { ?>
+                        <a class="js-quicknav-next text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>">▸</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white ms-2">▸</a>
                         <?php } ?>
@@ -68,12 +70,12 @@ $tab = 'dashboard';
                         <div class="mb-3">
                             <label for='ka-date-start' class="ka-label"><?php esc_html_e('Start date', 'koko-analytics'); ?></label>
                             <input name="start_date" id='ka-date-start' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                   value="<?php echo $dateStart->format('Y-m-d'); ?>" class="ka-input">
+                                   value="<?php echo $date_start->format('Y-m-d'); ?>" class="ka-input">
                         </div>
                         <div class="mb-3">
                             <label for='ka-date-end' class="ka-label"><?php esc_html_e('End date', 'koko-analytics'); ?></label>
                             <input name="end_date" id='ka-date-end' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                   value="<?php echo $dateEnd->format('Y-m-d'); ?>" class="ka-input">
+                                   value="<?php echo $date_end->format('Y-m-d'); ?>" class="ka-input">
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
@@ -88,7 +90,7 @@ $tab = 'dashboard';
                 <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
             </div>
 
-            <?php do_action('koko_analytics_after_datepicker', $dateStart, $dateEnd); ?>
+            <?php do_action('koko_analytics_after_datepicker', $date_start, $date_end); ?>
         </div>
 
         <?php require __DIR__ . '/nav.php'; ?>
@@ -167,7 +169,7 @@ $tab = 'dashboard';
     <?php /* CHART COMPONENT */ ?>
     <?php if (count($chart_data) > 1) { ?>
     <div class="ka-box mb-3 p-3">
-        <?php new Chart_View($chart_data, $dateStart, $dateEnd); ?>
+        <?php new Chart_View($chart_data, $date_start, $date_end); ?>
     </div>
     <?php } ?>
 
@@ -261,7 +263,7 @@ $tab = 'dashboard';
         </div><?php // end div.col ?>
 
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
-        <?php do_action('koko_analytics_after_dashboard_components', $dateStart, $dateEnd); ?>
+        <?php do_action('koko_analytics_after_dashboard_components', $date_start, $date_end); ?>
     </div><?php // end div.ka-row ?>
 
     <?php // show section about koko analytics pro unless on pro version already ?>
