@@ -237,6 +237,7 @@ $public_dashboard_url = home_url('?koko-analytics-dashboard');
 
                 <ul class="ul-square">
                     <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'jetpack_importer'])); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
+                    <li><a href="<?php echo esc_attr(add_query_arg(['tab' => 'plausible_importer'])); ?>"><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></a></li>
                 </ul>
             </div>
 

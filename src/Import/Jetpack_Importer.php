@@ -6,11 +6,12 @@
  * @author Danny van Kooten
  */
 
-namespace KokoAnalytics;
+namespace KokoAnalytics\Import;
 
 use WP_Error;
 use Exception;
 use DateTimeImmutable;
+use KokoAnalytics\Path_Repository;
 
 class Jetpack_Importer
 {
