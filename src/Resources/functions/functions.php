@@ -120,13 +120,10 @@ function get_most_viewed_posts($args = []): array
  */
 function get_realtime_pageview_count($since = null): int
 {
-    if (is_numeric($since) || is_int($since)) {
+    if (is_numeric($since)) {
         $since = (int) $since;
-    } elseif (is_string($since)) {
-        // $since is relative time string
-        $since = strtotime($since);
     } else {
-        $since = strtotime('-5 minutes');
+        $since = strtotime($since ?? '-5 minutes');
     }
 
     $counts = (array) get_option('koko_analytics_realtime_pageview_count', []);
