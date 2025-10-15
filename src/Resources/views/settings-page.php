@@ -1,6 +1,7 @@
 <?php
 
 use KokoAnalytics\Endpoint_Installer;
+use KokoAnalytics\Router;
 
  defined('ABSPATH') or exit;
 /**
@@ -13,7 +14,7 @@ use KokoAnalytics\Endpoint_Installer;
  * @var array $date_presets
  */
 $tab          = 'settings';
-$public_dashboard_url = home_url('?koko-analytics-dashboard');
+$public_dashboard_url = Router::url('dashboard-standalone');
 ?>
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <div class="ka-dashboard-nav">
