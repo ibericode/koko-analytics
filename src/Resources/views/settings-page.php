@@ -263,10 +263,10 @@ $public_dashboard_url = Router::url('dashboard-standalone');
                     $posts = json_decode($body) ?? [];
                 } else {
                     // store empty array to prevent doing an HTTP request on every page load
-                    // we'll try again in 8 hours
+                    // we'll try again in 24 hours
                     $posts = [];
                 }
-                set_transient('koko_analytics_remote_posts', $posts, HOUR_IN_SECONDS * 8);
+                set_transient('koko_analytics_remote_posts', $posts, HOUR_IN_SECONDS * 24);
             }
 
             if (count($posts) > 0) { ?>
