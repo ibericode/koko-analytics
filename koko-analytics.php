@@ -135,12 +135,10 @@ if (\is_admin()) {
     add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }
 
-// on plugin update (but using old code)
-// this breaks in 2.x because of the new file structure
-// TODO: Reactivate once 2.x stabilises
-// add_filter('upgrader_process_complete', function () {
-//     do_action('koko_analytics_aggregate_stats');
-// });
+// on plugin update (but using old code that's already in memory)
+add_filter('upgrader_process_complete', function () {
+    do_action('koko_analytics_aggregate_stats');
+});
 
 // on plugin activation
 register_activation_hook(__FILE__, function () {
