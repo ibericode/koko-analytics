@@ -284,5 +284,5 @@ $public_dashboard_url = Router::url('dashboard-standalone');
 </div>
 
 <?php if (isset($_GET['notice'])) { ?>
-<script>history.replaceState({}, null, '<?= admin_url('index.php?page=koko-analytics&tab=settings'); ?>');</script>
+<script>history.replaceState({}, null, "<?= Router::url('settings-page'); ?>");</script>
 <?php } ?>
