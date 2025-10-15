@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.19-test1
+Stable tag: 2.0.19
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -130,6 +130,14 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+### 2.0.19 - Oct 15, 2025
+
+- Print (< 500 bytes) tracking script inline in page HTML to save on an additional HTTP request and resolve overly aggressive cache issues.
+- Add importer for Plausible.
+- Change public dashboard URL to `/koko-analytics-dashboard/` if pretty permalinks are enabled.
+- Exclude visits to post previews.
+
 
 ### 2.0.18 - Sep 24, 2025
 
@@ -443,7 +451,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.4.4 - Nov 4, 2024
 
-- Add Jetpack Stats importer to import your historical analytics data into Koko Analytics. Go to the settings page (with Jetpack still enabled) to access it.
-- Fix settings page showing proxy IP instead of client IP if using reverse proxy.
-- Fix use of PHP 7.4 only feature in thousands separator in source ...
+- Add Jetpack Stats ...
 
