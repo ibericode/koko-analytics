@@ -129,11 +129,8 @@ class Actions
         // delete unused referrer URL's
         $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN(SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats)");
 
-        $offset = 0;
-        $limit = 500;
         do {
-            $results = $wpdb->get_results($wpdb->prepare("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT %d OFFSET %d", [$limit, $offset]));
-            $offset += $limit;
+            $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT 500");
             if (!$results) {
                 break;
             }
@@ -173,8 +170,6 @@ class Actions
                 }
             }
         } while ($results);
-
-        update_option('koko_analytics_referrers_v2', true, true);
     }
 
     /**
