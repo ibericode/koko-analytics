@@ -61,8 +61,8 @@ class Data_Export
     private function export_database_version($stream): void
     {
         $version = get_option('koko_analytics_version', '0.0.0');
-        fwrite($stream, "DELETE FROM wp_options WHERE option_name = 'koko_analytics_version';\n");
-        fwrite($stream, "INSERT INTO wp_options (option_name, option_value, autoload) VALUES ('koko_analytics_version', '{$version}', 'on');\n");
+        fwrite($stream, "DELETE FROM {$this->db->options} WHERE option_name = 'koko_analytics_version';\n");
+        fwrite($stream, "INSERT INTO {$this->db->options} (option_name, option_value, autoload) VALUES ('koko_analytics_version', '{$version}', 'on');\n");
     }
 
     private function export_site_stats($stream): void

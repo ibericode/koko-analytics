@@ -52,7 +52,7 @@ Koko Analytics is 100% free and open-source — no account required.
 - **Cache-friendly**: Works with browser and server caching.
 - **Open-source**: [View on GitHub](https://github.com/ibericode/koko-analytics).
 - **AMP support**: Tracks AMP pages (using the official AMP plugin).
-- **Import Historical Data*: Import historical data from Jetpack Stats, Plausible or Burst Statistics.
+- **Import Historical Data**: Import historical data from Jetpack Stats, Plausible or Burst Statistics.
 
 ### Upgrade to Koko Analytics Pro
 
