@@ -77,8 +77,7 @@ class Actions
         do {
             // Select all rows with a post ID but no path ID
             // Note: there is no need for an OFFSET here because we are updating rows as we go
-            $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT 500");
-
+            $results = $wpdb->get_results("SELECT DISTINCT(post_id) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL LIMIT 1000");
 
             // Stop once there are no more rows in result set
             if (!$results) {
@@ -114,6 +113,8 @@ class Actions
         ) ENGINE=INNODB CHARACTER SET=ascii");
 
         $wpdb->query("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) SELECT date, path_id, post_id, SUM(visitors), SUM(pageviews) FROM {$wpdb->prefix}koko_analytics_post_stats_old GROUP BY date, path_id");
+
+        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats_old");
     }
 
     public static function migrate_referrer_stats_to_v2(): void
@@ -130,7 +131,7 @@ class Actions
         $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN(SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats)");
 
         do {
-            $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT 500");
+            $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT 1000");
             if (!$results) {
                 break;
             }
@@ -186,7 +187,7 @@ class Actions
         global $wpdb;
 
         $offset = 0;
-        $limit = 500;
+        $limit = 1000;
 
         do {
             $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, p.path FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_id IS NOT NULL AND post_id != 0 GROUP BY post_id LIMIT %d OFFSET %d", [$limit, $offset]));
