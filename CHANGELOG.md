@@ -1,5 +1,13 @@
 # Changelog
 
+
+### 2.0.20 - Nov 14, 2025
+
+- Fix hard-coded table prefix in data export file.
+- Increase batch size during data migration to v2 format from 500 to 1000 rows.
+- Drop temporary table after data migration to v2.
+
+
 ### 2.0.19 - Oct 15, 2025
 
 - Print (< 500 bytes) tracking script inline in page HTML to save on an additional HTTP request and resolve overly aggressive cache issues.
