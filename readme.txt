@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: statistics, analytics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.19
+Stable tag: 2.0.20
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -130,6 +130,14 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+
+### 2.0.20 - Nov 14, 2025
+
+- Fix hard-coded table prefix in data export file.
+- Increase batch size during data migration to v2 format from 500 to 1000 rows.
+- Drop temporary table after data migration to v2.
+
 
 ### 2.0.19 - Oct 15, 2025
 
@@ -445,11 +453,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 #### 1.4.5 - Nov 14, 2024
 
 - Use localized number formatting for all numbers troughout the dashboard.
-- Add feature to export and import data. Can only be used for sites with matching post ID's.
-- Highlight weekends in chart by using a slightly darker color for the visitors part of the bar.
-
-
-#### 1.4.4 - Nov 4, 2024
-
-- Add Jetpack Stats ...
+- Add feature to export and import data. ...
 
