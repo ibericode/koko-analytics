@@ -137,7 +137,7 @@ class Admin
 
         // Test for unmigrated referrer records
         $results = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' OR url LIKE 'https://%'");
-        if ($results > 0) {
+        if ($results > 0 && !get_option('koko_analytics_referrers_v2')) {
             ?>
             <div class="notice notice-warning">
                 <p>

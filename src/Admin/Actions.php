@@ -170,6 +170,8 @@ class Actions
                 }
             }
         } while ($results);
+
+        update_option('koko_analytics_referrers_v2', true, true);
     }
 
     /**
