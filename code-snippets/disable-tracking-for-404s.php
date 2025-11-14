@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Koko Analytics: Ignore 404 Pages
  */
