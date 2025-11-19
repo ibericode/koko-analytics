@@ -25,22 +25,29 @@ class Command
      */
     public function aggregate($args, $assoc_args)
     {
+        WP_CLI::line('Aggregating data...');
         Aggregator::run();
-        WP_CLI::success('Stats aggregated.');
+        WP_CLI::success('Done! Data aggregated.');
     }
 
+    public function prune($args, $assoc_args)
+    {
+        WP_CLI::line('Pruning data...');
+        Pruner::run();
+        WP_CLI::success('Done! Data pruned.');
+    }
 
     public function migrate_post_stats_to_v2($args, $assoc_args)
     {
         WP_CLI::line('Migrating post stats...');
         Actions::migrate_post_stats_to_v2();
-        WP_CLI::success('Done!');
+        WP_CLI::success('Done! Post stats migrated.');
     }
 
     public function migrate_referrer_stats_to_v2($args, $assoc_args)
     {
         WP_CLI::line('Migrating referrer stats...');
         Actions::migrate_referrer_stats_to_v2();
-        WP_CLI::success('Done!');
+        WP_CLI::success('Done! Referrer stats migrated.');
     }
 }

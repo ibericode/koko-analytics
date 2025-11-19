@@ -1,7 +1,7 @@
-=== Koko Analytics - Privacy-Friendly Statistics ===
+=== Koko Analytics - Google Analytics alternative for WordPress ===
 Contributors: Ibericode, DvanKooten
 Donate link: https://www.kokoanalytics.com/pricing/
-Tags: statistics, analytics, stats, google analytics
+Tags: analytics, statistics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
 Stable tag: 2.0.20
@@ -9,64 +9,35 @@ License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Privacy-friendly and self-hosted stats for WordPress. Simple interface, plug and play, lightning fast.
+Simple, privacy-friendly and lightweight statistics. Google Analytics alternative for WordPress sites.
 
 == Description ==
 
-= Simple, privacy-focused, lightweight statistics for WordPress =
+Koko Analytics is a lightweight and privacy-friendly statistics plugin that runs entirely on your own WordPress site without requiring any third-party services.
 
-Koko Analytics is a lightweight, privacy-friendly statistics plugin that runs entirely on your own WordPress site.
-
-No third-party services. No personal data collection. No cookies. All the essential analytics metrics — completely under your control.
+It aims to be an intuitive alternative to Google Analytics for WordPress sites.
 
 Whether you want to track visits, see your most popular pages or understand where your visitors are coming from. Koko Analytics tracks the essential metrics without compromising privacy or performance.
 
 **Why Koko Analytics?**
 
-- **Instant setup** – Activate the plugin and stats start collecting right away.
-- **Privacy-friendly by design** – GDPR and CCPA compliant by design.
+- **Plug and play** – Activate the plugin and statistics will start working right away.
+- **Simple & effective** – No complicated pages to navigate, but a single page showing all that truly matters.
+- **Privacy-friendly** – GDPR and CCPA compliant by design.
 - **Own your data** – Statistics are processed and stored on your server only.
 - **Fast and lightweight** – Adds less than 500 bytes of JavaScript and handles traffic spikes with ease.
 - **No cookies needed** – Choose between cookie-based, cookieless, or no tracking at all.
 - **Accurate essentials** – Counts visitors, unique pageviews, and referral URLs.
 
-**Perfect for site owners who want clear, reliable website analytics without sharing visitor data with advertising companies.**
+Koko Analytics is perfect for site owners who want effective and reliable website analytics without sharing their visitor data with companies that also happen to sell advertisements.
 
 You can [view a live demo here](https://www.kokoanalytics.com/koko-analytics-dashboard/).
 
-Koko Analytics is 100% free and open-source — no account required.
+Koko Analytics is 100% free, open-source and self-hosted — no account required.
 
-### Features
+The [source code for Koko Analytics is available on GitHub here](https://github.com/ibericode/koko-analytics).
 
-- **Plug and play**: Statistics start working directly after installing and activating.
-- **No external services**: All data stays on your server.
-- **No personal data**: Nothing specific to any single visitor is stored.
-- **No cookies**: Choose between cookie-based, cookieless, or no tracking.
-- **Fast**: Handles hundreds of concurrent visitors without slowing down your site.
-- **Lightweight**: Adds less than 500 bytes of JavaScript to your pages.
-- **Efficient storage**: A full year of data takes up less than 10 MB in your database.
-- **GDPR Compliant** by design.
-- **Essential metrics**: Pageviews, unique pageviews, referral URLs.
-- **Referrer spam protection**: Built-in blocklist to filter bad data.
-- **REST API**: Access your analytics data programmatically.
-- **Cache-friendly**: Works with browser and server caching.
-- **Open-source**: [View on GitHub](https://github.com/ibericode/koko-analytics).
-- **AMP support**: Tracks AMP pages (using the official AMP plugin).
-- **Import Historical Data**: Import historical data from Jetpack Stats, Plausible or Burst Statistics.
-
-### Upgrade to Koko Analytics Pro
-
-All of the above features are free. With [Koko Analytics Pro](https://www.kokoanalytics.com/pricing), you unlock advanced analytics:
-
-- [Geo-location](https://www.kokoanalytics.com/features/geo-location/): See which countries your visitors come from.
-- [Event Tracking](https://www.kokoanalytics.com/features/custom-event-tracking/): Track outbound link clicks, form submissions, and other custom events.
-- [Email Reports](https://www.kokoanalytics.com/features/email-reports/): Get daily, weekly, or monthly summaries by email.
-- [CSV Export](https://www.kokoanalytics.com/features/csv-export/): Export dashboard data for advanced analysis.
-- [Pageviews Column](https://www.kokoanalytics.com/features/pageviews-column/): View pageviews directly in your WordPress admin post list.
-- [Admin Bar](https://www.kokoanalytics.com/features/admin-bar/): See daily pageviews for a page right in the admin bar.
-- [Traffic Spike Notifications](https://www.kokoanalytics.com/features/traffic-spike-notifications/): Get alerts when traffic surges.
-
-[View pricing for Koko Analytics Pro >>](https://www.kokoanalytics.com/pricing)
+Several more advanced features are available through [Koko Analytics Pro](https://www.kokoanalytics.com/pricing).
 
 == Installation ==
 

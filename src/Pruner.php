@@ -39,10 +39,46 @@ class Pruner
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE date < %s", $date));
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
 
-        // delete unused referrer URL's
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN (SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats )");
+        // TODO: Add hook for pruning tables from Koko Analytics Pro
 
-        // delete unused paths
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_paths WHERE id NOT IN (SELECT DISTINCT(path_id) FROM {$wpdb->prefix}koko_analytics_post_stats )");
+        self::delete_orphaned_referrer_urls();
+        self::delete_orphaned_paths();
+    }
+
+    protected static function delete_orphaned_referrer_urls(): void
+    {
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+
+        // delete unused referrer urls
+        $results = $wpdb->get_results("
+            SELECT a.id
+            FROM {$wpdb->prefix}koko_analytics_referrer_urls a
+            WHERE NOT EXISTS (SELECT 1 FROM {$wpdb->prefix}koko_analytics_referrer_stats b WHERE a.id = b.id)
+        ");
+
+        // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
+        // would hang on certain MySQL installations (according to user reports)
+        foreach ($results as $r) {
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d LIMIT 1", [$r->id]));
+        }
+    }
+
+    protected static function delete_orphaned_paths(): void
+    {
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+
+        $results = $wpdb->get_results("
+            SELECT p.id
+            FROM {$wpdb->prefix}koko_analytics_paths p
+            WHERE NOT EXISTS (SELECT 1 FROM {$wpdb->prefix}koko_analytics_post_stats s WHERE p.id = s.path_id)
+        ");
+
+        // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
+        // would hang on certain MySQL installations (according to user reports)
+        foreach ($results as $r) {
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_paths WHERE id = %d LIMIT 1", [$r->id]));
+        }
     }
 }
