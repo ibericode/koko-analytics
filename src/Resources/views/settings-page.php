@@ -143,7 +143,7 @@ $public_dashboard_url = Router::url('dashboard-standalone');
                 <?php do_action('koko_analytics_extra_settings_rows_before_submit', $settings); ?>
 
                 <div class="mb-5">
-                    <input type="submit" class="btn btn-primary" value="<?= esc_attr_e('Save Changes') ?>">
+                    <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes') ?>">
                 </div>
 
                 <?php do_action('koko_analytics_extra_settings_rows', $settings); ?>
