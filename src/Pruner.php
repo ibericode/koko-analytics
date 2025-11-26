@@ -39,10 +39,10 @@ class Pruner
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE date < %s", $date));
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
 
-        // TODO: Add hook for pruning tables from Koko Analytics Pro
-
         self::delete_orphaned_referrer_urls();
         self::delete_orphaned_paths();
+
+        do_action('koko_analytics_prune_data', $date);
     }
 
     protected static function delete_orphaned_referrer_urls(): void
