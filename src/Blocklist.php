@@ -6,6 +6,8 @@ use Exception;
 
 class Blocklist
 {
+    protected static ?array $list = null;
+
     public static function setup_scheduled_event(): void
     {
         if (! wp_next_scheduled('koko_analytics_update_referrer_blocklist')) {
@@ -53,6 +55,7 @@ class Blocklist
             throw new Exception("Error writing blocklist to file");
         }
 
+        self::$list = null;
         return true;
     }
 
@@ -68,12 +71,11 @@ class Blocklist
 
     public function contains(string $domain): bool
     {
-        static $list;
-        if ($list === null) {
-            $list = $this->read();
+        if (self::$list === null) {
+            self::$list = $this->read();
         }
 
-        foreach ($list as $item) {
+        foreach (self::$list as $item) {
             $item = trim($item);
 
             if ($item === '') {
