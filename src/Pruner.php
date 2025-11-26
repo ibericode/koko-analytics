@@ -42,8 +42,6 @@ class Pruner
         self::delete_orphaned_referrer_urls();
         self::delete_orphaned_paths();
         self::delete_blocked_referrers();
-
-        do_action('koko_analytics_prune_data', $date);
     }
 
     protected static function delete_orphaned_referrer_urls(): void
@@ -77,5 +75,23 @@ class Pruner
 
     protected static function delete_blocked_referrers(): void
     {
+        global $wpdb;
+
+        $blocklist = new Blocklist();
+        $list = $blocklist->read();
+        $count = count($list);
+
+        // process list in batches of 100
+        for ($offset = 0; $offset < $count; $offset += 100) {
+            $chunk = array_slice($list, $offset, 100);
+            $chunk = array_map(function ($v) use ($wpdb) {
+                return $wpdb->esc_like("%{$v}%");
+            }, $chunk);
+
+            $where = str_repeat("url LIKE %s OR ", count($chunk));
+            $where = substr($where, 0, strlen($where) - 4);
+
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE {$where}", $chunk));
+        }
     }
 }

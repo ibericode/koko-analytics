@@ -26,7 +26,7 @@ class Blocklist
         wp_clear_scheduled_hook('koko_analytics_update_referrer_blocklist');
     }
 
-    protected function getFilename(): string
+    public function getFilename(): string
     {
         $uploads = wp_upload_dir();
         return rtrim($uploads['basedir'], '/') . '/koko-analytics/referrer-blocklist.txt';
@@ -59,7 +59,7 @@ class Blocklist
         return true;
     }
 
-    protected function read(): array
+    public function read(): array
     {
         $filename = $this->getFilename();
         if (!is_file($filename)) {
@@ -69,20 +69,24 @@ class Blocklist
         return \file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
     }
 
-    public function contains(string $domain): bool
+    public function contains(string $url): bool
     {
+        if ($url === '') {
+            return false;
+        }
+
         if (self::$list === null) {
             self::$list = $this->read();
         }
 
-        foreach (self::$list as $item) {
-            $item = trim($item);
+        foreach (self::$list as $domain) {
+            $domain = trim($domain);
 
-            if ($item === '') {
+            if ($domain === '') {
                 continue;
             }
 
-            if (str_contains($item, $domain)) {
+            if (str_contains($url, $domain)) {
                 return true;
             }
         }
