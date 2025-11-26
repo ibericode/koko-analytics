@@ -26,7 +26,7 @@ class Blocklist
 
     protected function getFilename(): string
     {
-        $uploads = wp_upload_dir(null, false);
+        $uploads = wp_upload_dir();
         return rtrim($uploads['basedir'], '/') . '/koko-analytics/referrer-blocklist.txt';
     }
 
@@ -42,6 +42,11 @@ class Blocklist
         $blocklist = file_get_contents("https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt");
         if (!$blocklist) {
             throw new Exception("Error downloading blocklist");
+        }
+
+        $directory = dirname($filename);
+        if (is_dir($directory) === false) {
+            mkdir($directory, 0775);
         }
 
         if (!file_put_contents($this->getFilename(), $blocklist)) {
