@@ -41,17 +41,6 @@ class Command
     }
 
     /**
-     * Updates the built-in referrer blocklist
-     *
-     * @subcommand update-referrer-blocklist
-     */
-    public function update_referrer_blocklist($args, $assoc_args)
-    {
-        (new Blocklist())->update(true);
-        WP_CLI::success('Blocklist updated');
-    }
-
-    /**
      * Migrates the post_stats database qtable to the new v2 structure.
      */
     public function migrate_post_stats_to_v2($args, $assoc_args)

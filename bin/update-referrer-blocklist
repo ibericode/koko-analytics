@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist
