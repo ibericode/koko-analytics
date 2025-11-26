@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace KokoAnalytics\Tests;
 
-use KokoAnalytics\Aggregator;
 use KokoAnalytics\Blocklist;
 use PHPUnit\Framework\TestCase;
 

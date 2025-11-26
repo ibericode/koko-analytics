@@ -36,7 +36,7 @@ class Command
     public function prune($args, $assoc_args)
     {
         WP_CLI::line('Pruning data...');
-        Pruner::run();
+        do_action('koko_analytics_prune_data');
         WP_CLI::success('Data pruned');
     }
 
