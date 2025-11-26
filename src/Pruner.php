@@ -41,6 +41,7 @@ class Pruner
 
         self::delete_orphaned_referrer_urls();
         self::delete_orphaned_paths();
+        self::delete_blocked_referrers();
 
         do_action('koko_analytics_prune_data', $date);
     }
@@ -72,5 +73,9 @@ class Pruner
         foreach ($results as $r) {
             $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_paths WHERE id = %d LIMIT 1", [$r->id]));
         }
+    }
+
+    protected static function delete_blocked_referrers(): void
+    {
     }
 }

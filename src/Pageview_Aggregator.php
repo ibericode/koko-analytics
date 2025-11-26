@@ -184,7 +184,7 @@ class Pageview_Aggregator
         $url = strtolower($url);
 
         // run custom blocklist first
-        // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php
+        // @see https://github.com/ibericode/koko-analytics/blob/main/code-snippets/add-domains-to-referrer-blocklist.php
         $custom_blocklist = apply_filters('koko_analytics_referrer_blocklist', []);
         foreach ($custom_blocklist as $blocklisted_domain) {
             if (false !== strpos($url, $blocklisted_domain)) {
@@ -192,28 +192,13 @@ class Pageview_Aggregator
             }
         }
 
-        // read built-in blocklist file line-by-line to prevent OOM errors
-        $fh = fopen(KOKO_ANALYTICS_PLUGIN_DIR . '/data/referrer-blocklist', "r");
-        if ($fh) {
-            while (($blocklisted_domain = fgets($fh)) !== false) {
-                // trim newline and other whitespace
-                $blocklisted_domain = rtrim($blocklisted_domain);
-                if ($blocklisted_domain === '') {
-                    continue;
-                }
-
-                // simply check if domain is in referrer string
-                if (false !== strpos($url, $blocklisted_domain)) {
-                    fclose($fh);
-                    return true;
-                }
-            }
-
-            fclose($fh);
+        // check community maintained blocklist
+        if ((new Blocklist())->contains($url)) {
+            return true;
         }
 
         // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
-        // @see https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-traffic-using-regex.php
+        // @see https://github.com/ibericode/koko-analytics/blob/main/code-snippets/ignore-some-referrer-traffic-using-regex.php
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
     }
 }

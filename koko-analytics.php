@@ -92,6 +92,9 @@ add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run
 // optimized endpoint
 add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
 
+// blocklist
+add_action('koko_analytics_update_referrer_blocklist', [Blocklist::class, 'run_scheduled_event'], 10, 0);
+
 // WP CLI command
 if (defined('WP_CLI') && WP_CLI) {
     \WP_CLI::add_command('koko-analytics', Command::class);
@@ -148,6 +151,7 @@ register_activation_hook(__FILE__, function () {
     Endpoint_Installer::install();
     Plugin::setup_capabilities();
     Plugin::create_and_protect_uploads_dir();
+    Blocklist::setup_scheduled_event();
 });
 
 // on plugin deactivation
@@ -156,4 +160,5 @@ register_deactivation_hook(__FILE__, function () {
     Pruner::clear_scheduled_event();
     Fingerprinter::clear_scheduled_event();
     Endpoint_Installer::uninstall();
+    Blocklist::clear_scheduled_event();
 });
