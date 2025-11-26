@@ -78,7 +78,7 @@ class Pruner
         global $wpdb;
 
         $blocklist = new Blocklist();
-        $list = $blocklist->read();
+        $list = array_merge($blocklist->read(), apply_filters('koko_analytics_referrer_blocklist', []));
         $count = count($list);
 
         // process list in batches of 100
