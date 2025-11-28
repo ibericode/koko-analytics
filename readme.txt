@@ -1,7 +1,6 @@
-=== Koko Analytics - Privacy+Friendly stats for WordPress ===
-Contributors: Ibericode, DvanKooten
-Donate link: https://www.kokoanalytics.com/pricing/
-Tags: analytics, statistics, stats, google analytics
+=== Koko Analytics - Privacy+Friendly statistics for WordPress ===
+Contributors: Ibericode, DvanKooten, hchouhan, lapzor
+Tags: statistics, analytics, stats, google analytics, traffic
 Requires at least: 6.0
 Tested up to: 6.9
 Stable tag: 2.0.21
@@ -9,7 +8,7 @@ License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Analytics plugin for WordPress that is GDPR compliant, plug and play, simple to use and very fast.
+Simple, plug & play statistics for WordPress. GDPR-compliant, privacy-friendly and self-hosted. Get effective analytics with Koko Analytics.
 
 == Description ==
 
