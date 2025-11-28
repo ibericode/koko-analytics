@@ -4,7 +4,7 @@ Donate link: https://www.kokoanalytics.com/pricing/
 Tags: analytics, statistics, stats, google analytics
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.20
+Stable tag: 2.0.21
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -104,6 +104,13 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+### 2.0.21 - Nov 28, 2025
+
+- Prune blocked referrer domains retro-actively.
+- Fix double echo on settings page.
+- Fix hanging query on certain MySQL installations for deleting orphaned referrer rows.
+- Add `wp koko-analytics prune` command for WP CLI.
 
 
 ### 2.0.20 - Nov 14, 2025
@@ -420,12 +427,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Migrations runner now updates the local database version after each individual step.
 - Migrations runner now has a simple lock mechanism to ensure it runs atomically.
 - Output database size in localized format.
-- Output dates in localized format through `wp_date()`. Thanks to [Dominik Schilling](https://dominikschilling.de/).
-- Add missing text domain on settings page. Thanks to [Dominik Schilling](https://dominikschilling.de/).
-
-
-#### 1.4.5 - Nov 14, 2024
-
-- Use localized number formatting for all numbers troughout the dashboard.
-- Add feature to export and import data. ...
+- Output dates in localized format through `wp_date()`. Thanks ...
 
