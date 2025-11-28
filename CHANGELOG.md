@@ -1,5 +1,12 @@
 # Changelog
 
+### 2.0.21 - Nov 28, 2025
+
+- Prune blocked referrer domains retro-actively.
+- Fix double echo on settings page.
+- Fix hanging query on certain MySQL installations for deleting orphaned referrer rows.
+- Add `wp koko-analytics prune` command for WP CLI.
+
 
 ### 2.0.20 - Nov 14, 2025
 
