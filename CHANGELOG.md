@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.0.22 - Dec 01, 2025
+
+- specify apiVersion for block type so that WP 6.9 can use new iframe editor.
+
+
 ### 2.0.21 - Nov 28, 2025
 
 - Prune blocked referrer domains retro-actively.
