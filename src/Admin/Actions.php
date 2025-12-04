@@ -30,28 +30,27 @@ class Actions
 
     public static function save_settings(): void
     {
-        if (!current_user_can('manage_koko_analytics')) {
+        if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_save_settings') || ! isset($_POST['koko_analytics_settings'])) {
             return;
         }
 
-        check_admin_referer('koko_analytics_save_settings');
-
-        $posted                        = $_POST['koko_analytics_settings'];
-        $settings                            = get_settings();
+        // merge posted data with saved data to allow for partial updates
+        $settings = array_merge(get_settings(), $_POST['koko_analytics_settings']);
 
         // get rid of deprecated setting keys
+        // TODO: Maybe whitelist default settings here and remove every non-default key?
         unset($settings['use_cookie']);
 
-        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($posted['exclude_ip_addresses'])))), function ($value) {
+        $settings['exclude_ip_addresses'] = is_array($settings['exclude_ip_addresses']) ? $settings['exclude_ip_addresses'] : explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($settings['exclude_ip_addresses'])));
+        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', $settings['exclude_ip_addresses']), function ($value) {
             return $value !== '';
         });
-        $settings['exclude_user_roles']      = $posted['exclude_user_roles'] ?? [];
-        $settings['prune_data_after_months'] = abs((int) $posted['prune_data_after_months']);
-        $settings['is_dashboard_public']     = (int) $posted['is_dashboard_public'];
-        $settings['default_view']            = trim($posted['default_view']);
-        $settings['tracking_method'] = in_array($posted['tracking_method'], ['cookie', 'fingerprint', 'none']) ? $posted['tracking_method'] : 'cookie';
+        $settings['prune_data_after_months'] = abs((int) $settings['prune_data_after_months']);
+        $settings['is_dashboard_public']     = (int) $settings['is_dashboard_public'];
+        $settings['default_view']            = trim($settings['default_view']);
+        $settings['tracking_method'] = in_array($settings['tracking_method'], ['cookie', 'fingerprint', 'none']) ? $settings['tracking_method'] : 'cookie';
 
-        $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $posted);
+        $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $settings);
         update_option('koko_analytics_settings', $settings, true);
 
         // maybe create sessions directory & initial seed file

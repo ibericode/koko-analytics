@@ -188,6 +188,22 @@ body.koko-analytics {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-top: var(--bs-gutter-y);
 }
+.ka-col-3 {
+  width: 25%;
+  flex: 0 0 auto;
+}
+.ka-col-4 {
+  width: 33.33333%;
+  flex: 0 0 auto;
+}
+.ka-col-8 {
+  width: 66.66666%;
+  flex: 0 0 auto;
+}
+.ka-col-9 {
+  width: 75%;
+  flex: 0 0 auto;
+}
 .ka-col-12 {
   flex: 0 0 auto;
   width: 100%;
@@ -425,7 +441,7 @@ textarea.ka-input {
 .ms-3 { margin-left: 1rem !important; }
 .ms-4 { margin-left: 1.5rem !important; }
 .ms-5 { margin-left: 3rem !important; }
-
+.my-3 { margin-top: 1rem !important; margin-bottom: 1rem !important; }
 .p-0 { padding: 0 !important; }
 .p-1 { padding: 0.25rem !important; }
 .p-2 { padding: 0.5rem !important; }

@@ -8,10 +8,10 @@ use KokoAnalytics\Referrer_Repository;
 
 abstract class Importer
 {
-    abstract protected static function show_page_content();
 
     public static function show_page()
     {
+        // TODO: Move this to settings page class
         if (!current_user_can('manage_koko_analytics')) {
             return;
         }

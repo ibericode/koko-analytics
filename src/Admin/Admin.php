@@ -50,9 +50,9 @@ class Admin
 
     public function register_menu(): void
     {
-        add_submenu_page('index.php', esc_html__('Koko Analytics', 'koko-analytics'), esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', [Pages::class, 'show_page']);
+        add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', [Pages::class, 'show_dashboard_page']);
+        add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', [Pages::class, 'show_settings_page']);
     }
-
 
     /**
      * Add the settings link to the Plugins overview
@@ -63,7 +63,7 @@ class Admin
      */
     public function add_plugin_settings_link($links): array
     {
-        $href = Router::url('settings-page');
+        $href = admin_url('options-general.php?page=koko-analytics-settings');
         $label = esc_html__('Settings', 'koko-analytics');
         $settings_link = "<a href=\"{$href}\">{$label}</a>";
         array_unshift($links, $settings_link);
@@ -97,7 +97,7 @@ class Admin
 
     public function enqueue_scripts($hook_suffix): void
     {
-        if ($hook_suffix !== 'dashboard_page_koko-analytics') {
+        if ($hook_suffix !== 'dashboard_page_koko-analytics' && $hook_suffix !== 'settings_page_koko-analytics-settings') {
             return;
         }
 

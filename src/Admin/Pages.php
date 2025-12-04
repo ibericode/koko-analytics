@@ -9,6 +9,7 @@
 namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard;
+use KokoAnalytics\Router;
 
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\using_custom_endpoint;
@@ -16,15 +17,6 @@ use function KokoAnalytics\get_settings;
 
 class Pages
 {
-    public static function show_page(): void
-    {
-        add_action('koko_analytics_show_settings_page', [self::class, 'show_settings_page'], 10, 0);
-        add_action('koko_analytics_show_dashboard_page', [self::class, 'show_dashboard_page'], 10, 0);
-
-        $tab = $_GET['tab'] ?? 'dashboard';
-        do_action("koko_analytics_show_{$tab}_page");
-    }
-
     public static function show_dashboard_page(): void
     {
         // aggregate stats whenever this page is requested
@@ -60,13 +52,44 @@ class Pages
             return;
         }
 
+        $allowed_tabs = [
+            'tracking',
+            'dashboard',
+            'events',
+            'email-reports',
+            'data',
+            'performance',
+            'help',
+            'jetpack_importer',
+            'plausible_importer',
+        ];
+        $active_tab = isset($_GET['tab']) && in_array($_GET['tab'], $allowed_tabs) ? $_GET['tab'] : 'tracking';
+
+        $settings           = get_settings();
+        $using_custom_endpoint = using_custom_endpoint();
+        $database_size      = self::get_database_size();
+        $user_roles   = self::get_available_roles();
+        $date_presets = (new Dashboard())->get_date_presets();
+        $public_dashboard_url = Router::url('dashboard-standalone');
+
+
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
+    }
+
+
+    public static function show_settings_old_page(): void
+    {
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
         $database_size      = self::get_database_size();
         $user_roles   = self::get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page-old.php';
     }
 
     private static function get_available_roles(): array
