@@ -1,3 +1,18 @@
+<?php if (isset($_GET['error'])) { ?>
+        <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
+            <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
+            <?php echo ' '; ?>
+            <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
+            <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+        </div>
+<?php } ?>
+<?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+    <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
+        <?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?>
+        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+    </div>
+<?php } ?>
+
 <h1 class="mt-0"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></h1>
 <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
 
@@ -57,7 +72,7 @@
     </p>
 
     <p>
-        <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
+        <button type="submit" class="btn btn-primary"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
     </p>
 </form>
 

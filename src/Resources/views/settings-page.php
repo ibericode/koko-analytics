@@ -1,9 +1,11 @@
+<?php use KokoAnalytics\Endpoint_Installer; ?>
 <style>
     .ka-settings-nav { padding: 0; margin: 0; }
     .ka-settings-nav a { color: rgba(33, 37, 41, 0.8);; text-decoration: none; display: inline-block; width: 100%; height: 100%; padding: 0.25rem 0.5rem; border-radius: 0.5rem; }
     .ka-settings-nav a.active { background: #DEDEDE; font-weight: bold; color: rgb(33, 37, 41); }
     .ka-settings-main { background: white; padding: 2rem; border-radius: 0.5rem; border: 1px solid #eee; }
 </style>
+
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← Back to stats</a>
     <h1 class="my-3"><img src="<?= plugins_url('assets/dist/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE); ?>" height="32" width="32" alt="Koko Analytics logo" class="align-middle me-2" style="margin-top: -4px;"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
@@ -13,13 +15,15 @@
     <div class="ka-row">
         <div class="ka-col ka-col-3" style="max-width: 280px;">
             <ul class="ka-settings-nav">
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings')) ?>" class="<?= $active_tab == 'tracking' ? 'active' : '' ?>">Tracking</a></li>
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=dashboard')) ?>" class="<?= $active_tab == 'dashboard' ? 'active' : '' ?>">Dashboard</a></li>
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=events')) ?>" class="<?= $active_tab == 'events' ? 'active' : '' ?>">Events</a></li>
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=email-reports')) ?>" class="<?= $active_tab == 'email-reports' ? 'active' : '' ?>">Email reports</a></li>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings')) ?>" class="<?= $active_tab == 'tracking' ? 'active' : '' ?>"><?= esc_html__('Tracking', 'koko-analytics') ?></a></li>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=dashboard')) ?>" class="<?= $active_tab == 'dashboard' ? 'active' : '' ?>"><?= esc_html__('Dashboard', 'koko-analytics') ?></a></li>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=events')) ?>" class="<?= $active_tab == 'events' ? 'active' : '' ?>"><?= esc_html__('Events', 'koko-analytics') ?></a></li>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=email-reports')) ?>" class="<?= $active_tab == 'email-reports' ? 'active' : '' ?>"><?= esc_html__('Email reports', 'koko-analytics') ?></a></li>
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=data')) ?>" class="<?= $active_tab == 'data' ? 'active' : '' ?>">Data</a></li>
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=performance')) ?>" class="<?= $active_tab == 'performance' ? 'active' : '' ?>">Performance</a></li>
-                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=help')) ?>" class="<?= $active_tab == 'help' ? 'active' : '' ?>">Help</a></li>
+                <?php if (Endpoint_Installer::is_eligibile()) { ?>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=performance')) ?>" class="<?= $active_tab == 'performance' ? 'active' : '' ?>"><?= esc_html__('Performance', 'koko-analytics') ?></a></li>
+                <?php } ?>
+                <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=help')) ?>" class="<?= $active_tab == 'help' ? 'active' : '' ?>"><?= esc_html__('Help', 'koko-analytics') ?></a></li>
             </ul>
         </div>
         <div class="ka-col ka-col-9" style="max-width: 100ch;">

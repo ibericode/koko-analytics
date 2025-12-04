@@ -15,6 +15,11 @@ use KokoAnalytics\Path_Repository;
 
 class Jetpack_Importer extends Importer
 {
+    protected static function get_admin_url()
+    {
+        return admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer');
+    }
+
     public static function start_import(): void
     {
         // authorize user
@@ -35,7 +40,7 @@ class Jetpack_Importer extends Importer
 
         // all params are required
         if ($params['wpcom-api-key'] === '' || $params['wpcom-blog-uri'] === '' || $params['date-start'] === '' || $params['date-end'] === '') {
-            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('A required field was missing', 'koko-analytics'));
+            static::redirect_with_error(static::get_admin_url(), __('A required field was missing', 'koko-analytics'));
         }
 
         // first chunk is 30 days after date-start
@@ -46,7 +51,7 @@ class Jetpack_Importer extends Importer
                 throw new Exception("End date must be after start date");
             }
         } catch (Exception $e) {
-            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), __('Invalid date fields', 'koko-analytics'));
+            static::redirect_with_error(static::get_admin_url(), __('Invalid date fields', 'koko-analytics'));
         }
 
         // params are valid; let's go!
@@ -78,7 +83,7 @@ class Jetpack_Importer extends Importer
         $params = get_option('koko_analytics_jetpack_import_params');
         if (!$params) {
             $error_message = __('Missing parameters.', 'koko-analytics');
-            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $error_message);
+            static::redirect_with_error(static::get_admin_url(), $error_message);
             exit;
         }
 
@@ -101,14 +106,14 @@ class Jetpack_Importer extends Importer
             delete_option('koko_analytics_jetpack_import_params');
 
             // redirect to form page
-            static::redirect_with_error(admin_url('/index.php?page=koko-analytics&tab=jetpack_importer'), $e->getMessage());
+            static::redirect_with_error(static::get_admin_url(), $e->getMessage());
             exit;
         }
 
         // If we're done, redirect to success page
         if ($next_chunk_end < $date_start) {
             delete_option('koko_analytics_jetpack_import_params');
-            wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=jetpack_importer&success=1'));
+            wp_safe_redirect(add_query_arg(['success' => 1], static::get_admin_url()));
             exit;
         }
 

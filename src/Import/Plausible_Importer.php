@@ -12,6 +12,11 @@ use Exception;
 
 class Plausible_Importer extends Importer
 {
+    protected static function get_admin_url()
+    {
+        return admin_url('options-general.php?page=koko-analytics-settings&tab=plausible_importer');
+    }
+
     public static function start_import(): void
     {
         // authorize user
@@ -24,7 +29,7 @@ class Plausible_Importer extends Importer
 
         // verify file upload
         if (empty($_FILES['plausible-export-file']) || $_FILES['plausible-export-file']['error'] !== 0) {
-            static::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), 'A file upload error occurred.');
+            static::redirect_with_error(static::get_admin_url(), 'A file upload error occurred.');
         }
 
         $date_start = $_POST['date-start'] ?? '2010-01-01';
@@ -44,13 +49,13 @@ class Plausible_Importer extends Importer
                 throw new Exception("Sorry, that file is not supported.");
             }
         } catch (Exception $e) {
-            static::redirect_with_error(admin_url('index.php?page=koko-analytics&tab=plausible_importer'), $e->getMessage());
+            static::redirect_with_error(static::get_admin_url(), $e->getMessage());
         }
 
         fclose($fh);
 
         // redirect with success parameter
-        wp_safe_redirect(get_admin_url(null, '/index.php?page=koko-analytics&tab=plausible_importer&success=1'));
+        wp_safe_redirect(add_query_arg(['success' => 1], static::get_admin_url()));
         exit;
     }
 

@@ -1,5 +1,6 @@
 <h2 class="mt-0 mb-3"><?= esc_html__('Dashboard settings', 'koko-analytics') ?></h2>
-<form method="POST" action="<?php echo esc_attr(add_query_arg(['koko_analytics_action' => 'save_settings'])); ?>">
+<form method="POST" action="">
+    <input type="hidden" name="koko_analytics_action" value="save_settings">
     <?php wp_nonce_field('koko_analytics_save_settings'); ?>
     <?php wp_referer_field(); ?>
      <div class="mb-4">

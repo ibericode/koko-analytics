@@ -9,6 +9,7 @@
         <p><?php esc_html_e('The plugin is currently not using an optimized tracking endpoint.', 'koko-analytics'); ?></p>
         <form method="POST" action="">
             <?php wp_nonce_field('koko_analytics_install_optimized_endpoint'); ?>
+            <?php wp_referer_field(); ?>
             <input type="hidden" name="koko_analytics_action" value="install_optimized_endpoint">
             <input type="submit" value="<?php esc_attr_e('Create optimized endpoint file', 'koko-analytics'); ?>" class="btn btn-secondary btn-sm">
         </form>

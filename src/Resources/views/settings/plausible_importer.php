@@ -1,8 +1,24 @@
+<?php if (isset($_GET['error'])) { ?>
+       <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
+            <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
+            <?php echo ' '; ?>
+            <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
+            <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+        </div>
+<?php } ?>
+<?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+    <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
+        <?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?>
+        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+    </div>
+<?php } ?>
+
 <h1 class="mt-0"><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></h1>
-<form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will add to any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=plausible_importer')); ?>" enctype="multipart/form-data">
+<form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will add to any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="" enctype="multipart/form-data">
 
     <input type="hidden" name="koko_analytics_action" value="start_plausible_import">
     <?php wp_nonce_field('koko_analytics_start_plausible_import'); ?>
+    <?php wp_referer_field(); ?>
 
     <table class="form-table">
         <tr>
@@ -38,6 +54,6 @@
     </p>
 
     <p>
-        <button type="submit" class="button"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
+        <button type="submit" class="btn btn-primary"><?php esc_html_e('Import analytics data', 'koko-analytics'); ?></button>
     </p>
 </form>

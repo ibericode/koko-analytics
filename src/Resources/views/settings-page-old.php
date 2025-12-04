@@ -49,12 +49,6 @@ $public_dashboard_url = Router::url('dashboard-standalone');
 
 
 
-                <div class="mb-4">
-                    <label for="ka-prune-after-input" class="ka-label"><?php esc_html_e('Automatically delete data older than how many months?', 'koko-analytics'); ?></label>
-                    <input class="ka-input mb-2" id="ka-prune-after-input" name="koko_analytics_settings[prune_data_after_months]" type="number" step="1" min="0" max="600" value="<?php echo esc_attr($settings['prune_data_after_months']); ?>">
-                    <p class="description"><?php esc_html_e('Statistics older than the number of months configured here will automatically be deleted. Set to 0 to disable.', 'koko-analytics'); ?></p>
-                </div>
-
                 <?php do_action('koko_analytics_extra_settings_rows_before_submit', $settings); ?>
 
                 <div class="mb-5">
@@ -87,8 +81,6 @@ $public_dashboard_url = Router::url('dashboard-standalone');
 
 
         </div><?php // end container ?>
-
-        <div
 
 
         </div>

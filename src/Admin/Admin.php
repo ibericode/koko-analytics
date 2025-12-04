@@ -39,12 +39,10 @@ class Admin
         }
 
         // actions for jetpack importer
-        add_action('koko_analytics_show_jetpack_importer_page', [Jetpack_Importer::class, 'show_page'], 10, 0);
         add_action('koko_analytics_start_jetpack_import', [Jetpack_Importer::class, 'start_import'], 10, 0);
         add_action('koko_analytics_jetpack_import_chunk', [Jetpack_Importer::class, 'import_chunk'], 10, 0);
 
         // actions for plausible importer
-        add_action('koko_analytics_show_plausible_importer_page', [Plausible_Importer::class, 'show_page'], 10, 0);
         add_action('koko_analytics_start_plausible_import', [Plausible_Importer::class, 'start_import'], 10, 0);
     }
 
