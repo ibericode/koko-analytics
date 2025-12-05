@@ -78,9 +78,9 @@ EOT;
      */
     public static function install()
     {
-        // do nothing if site is not eligible for the use of a custom endpoint (ie multisite)
-        if (!self::is_eligibile()) {
-            return true;
+        /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
+        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') || is_multisite()) {
+            return false;
         }
 
         /* If we made it this far we ideally want to use the custom endpoint file */
@@ -160,21 +160,6 @@ EOT;
         if ($status != 200 || ! isset($headers['Content-Type']) || ! str_contains($headers['Content-Type'], 'text/plain')) {
             error_log(sprintf("Koko Analaytics: Error verifying optimized endpoint because it did not return the expected HTTP response.\nHTTP code: %s\nHTTP headers: %s\nHTTP body: %s", $status, var_export($headers, true), wp_remote_retrieve_body($response)));
             return new WP_Error('response_mismatch', __('Unexpected response headers.', 'koko-analytics'));
-        }
-
-        return true;
-    }
-
-    public static function is_eligibile(): bool
-    {
-        /* Do nothing if running Multisite (because Multisite has separate uploads directory per site) */
-        if (is_multisite()) {
-            return false;
-        }
-
-        /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
-            return false;
         }
 
         return true;

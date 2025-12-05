@@ -1,10 +1,11 @@
 <h2 class="mt-0 mb-3"><?= esc_html__('Tracking settings', 'koko-analytics'); ?></h2>
 <form method="POST" action="">
+
     <?php wp_nonce_field('koko_analytics_save_settings'); ?>
     <?php wp_referer_field(); ?>
     <input type="hidden" name="koko_analytics_action" value="save_settings">
 
-    <div class="ka-settings-block mb-4">
+    <div class="mb-4">
         <fieldset class="mb-2">
             <legend class="ka-label"><?php esc_html_e('Which method should the plugin use to detect returning visitors and unique pageviews?', 'koko-analytics'); ?></legend>
             <ul class="list-unstyled mt-0 mb-2">
@@ -31,7 +32,7 @@
             <p class="description"><?php echo sprintf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods'); ?></p>
         </fieldset>
     </div>
-    <div class="ka-settings-block  mb-4">
+    <div class="mb-4">
         <label for="ka-exclude-user-roles" class="ka-label"><?php esc_html_e('Exclude pageviews from these user roles', 'koko-analytics'); ?></label>
         <select id="ka-exclude-user-roles" multiple="" class="ka-select mb-2" name="koko_analytics_settings[exclude_user_roles][]" style="min-height: <?php echo count($user_roles) * 24; ?>px; min-width: 240px;">
             <?php
@@ -50,7 +51,7 @@
         </p>
     </div>
 
-    <div class="ka-settings-block  mb-4">
+    <div class="mb-4">
         <label for="ka-exclude-ip-addresses" class="ka-label"><?php esc_html_e('Exclude pageviews from these IP addresses', 'koko-analytics'); ?></label>
         <?php
         echo sprintf('<textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="ka-input mb-2" rows="%d">', max(4, count($settings['exclude_ip_addresses'])));
@@ -67,6 +68,9 @@
             <?php endif; ?>
         </p>
     </div>
+
+    <?php do_action('koko_analytics_output_after_tracking_settings', $settings); ?>
+
     <div>
         <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes') ?>">
     </div>

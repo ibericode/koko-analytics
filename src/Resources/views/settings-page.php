@@ -18,7 +18,7 @@ use KokoAnalytics\Endpoint_Installer;
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=events')) ?>" class="<?= $active_tab == 'events' ? 'active' : '' ?>"><?= esc_html__('Events', 'koko-analytics') ?></a></li>
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=email-reports')) ?>" class="<?= $active_tab == 'email-reports' ? 'active' : '' ?>"><?= esc_html__('Email reports', 'koko-analytics') ?></a></li>
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=data')) ?>" class="<?= $active_tab == 'data' ? 'active' : '' ?>">Data</a></li>
-                <?php if (Endpoint_Installer::is_eligibile()) { ?>
+                <?php if (!is_multisite()) { ?>
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=performance')) ?>" class="<?= $active_tab == 'performance' ? 'active' : '' ?>"><?= esc_html__('Performance', 'koko-analytics') ?></a></li>
                 <?php } ?>
                 <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=help')) ?>" class="<?= $active_tab == 'help' ? 'active' : '' ?>"><?= esc_html__('Help', 'koko-analytics') ?></a></li>
