@@ -14,12 +14,11 @@ class Data_Import
 {
     public static function action_listener(): void
     {
-        if (!current_user_can('manage_koko_analytics')) {
+        if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_import_data')) {
             return;
         }
 
-        check_admin_referer('koko_analytics_import_data');
-        $settings_page = admin_url('/index.php?page=koko-analytics&tab=settings');
+        $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');
 
         if (empty($_FILES['import-file']) || $_FILES['import-file']['error'] !== UPLOAD_ERR_OK) {
             wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Something went wrong trying to process your import file.', 'koko-analytics') ]], $settings_page));

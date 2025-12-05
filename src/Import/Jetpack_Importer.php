@@ -15,20 +15,17 @@ use KokoAnalytics\Path_Repository;
 
 class Jetpack_Importer extends Importer
 {
-    protected static function get_admin_url()
+    protected static function get_admin_url(): string
     {
         return admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer');
     }
 
     public static function start_import(): void
     {
-        // authorize user
-        if (!current_user_can('manage_koko_analytics')) {
+        // authorize user & verify nonce
+        if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_start_jetpack_import')) {
             return;
         }
-
-        // verify nonce
-        check_admin_referer('koko_analytics_start_jetpack_import');
 
         // save params
         $params = [
@@ -113,7 +110,7 @@ class Jetpack_Importer extends Importer
         // If we're done, redirect to success page
         if ($next_chunk_end < $date_start) {
             delete_option('koko_analytics_jetpack_import_params');
-            wp_safe_redirect(add_query_arg(['success' => 1], static::get_admin_url()));
+            static::redirect(static::get_admin_url(), ['success' => 1]);
             exit;
         }
 

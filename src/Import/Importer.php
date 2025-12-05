@@ -8,13 +8,19 @@ use KokoAnalytics\Referrer_Repository;
 
 abstract class Importer
 {
-    protected static function redirect_with_error(string $redirect_url, string $error_message): void
+    abstract protected static function get_admin_url(): string;
+
+    protected static function redirect(string $url, array $params = []): void
     {
-        $redirect_url = add_query_arg([ 'error' => urlencode($error_message)], $redirect_url);
-        wp_safe_redirect($redirect_url);
+        $url = add_query_arg($params, $url);
+        wp_safe_redirect($url);
         exit;
     }
 
+    protected static function redirect_with_error(string $url, string $error): void
+    {
+        static::redirect($url, ['error' => urlencode($error)]);
+    }
 
     /**
      * @param array $rows An array of arrays with the following elements: date, path, post_id, visitors, pageviews

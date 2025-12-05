@@ -14,11 +14,10 @@ class Data_Reset
 {
     public static function action_listener(): void
     {
-        if (!current_user_can('manage_koko_analytics')) {
+        if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_reset_statistics')) {
             return;
         }
 
-        check_admin_referer('koko_analytics_reset_statistics');
 
         /** @var \wpdb $wpdb */
         global $wpdb;
@@ -33,7 +32,8 @@ class Data_Reset
         delete_option('koko_analytics_version');
 
         // redirect with success message
-        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Statistics successfully reset', 'koko-analytics') ]], admin_url('/index.php?page=koko-analytics&tab=settings')));
+        $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');
+        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Statistics successfully reset', 'koko-analytics') ]], $settings_page));
         exit;
     }
 }

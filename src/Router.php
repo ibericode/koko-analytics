@@ -21,10 +21,6 @@ class Router
                 return add_query_arg(['koko-analytics-dashboard' => null], home_url());
                 break;
 
-            case 'settings-page':
-                return admin_url('index.php?page=koko-analytics&tab=settings');
-                break;
-
             default:
                 throw new InvalidArgumentException('No such route: ' . $name);
                 break;
@@ -42,10 +38,6 @@ class Router
 
             case 'dashboard-standalone':
                 return isset($_GET['koko-analytics-dashboard']) || str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/');
-                break;
-
-            case 'settings-page':
-                return $pagenow === 'index.php' && ($_GET['page'] ?? '') === 'koko-analytics' && ($_GET['tab'] ?? '') === 'settings';
                 break;
 
             default:

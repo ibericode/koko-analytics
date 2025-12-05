@@ -1,13 +1,13 @@
 <?php use KokoAnalytics\Endpoint_Installer; ?>
 <style>
     .ka-settings-nav { padding: 0; margin: 0; }
-    .ka-settings-nav a { color: rgba(33, 37, 41, 0.8);; text-decoration: none; display: inline-block; width: 100%; height: 100%; padding: 0.25rem 0.5rem; border-radius: 0.5rem; }
+    .ka-settings-nav a { color: rgba(33, 37, 41, 0.8); text-decoration: none; display: inline-block; width: 100%; height: 100%; padding: 0.25rem 0.5rem; border-radius: 0.4rem; }
     .ka-settings-nav a.active { background: #DEDEDE; font-weight: bold; color: rgb(33, 37, 41); }
-    .ka-settings-main { background: white; padding: 2rem; border-radius: 0.5rem; border: 1px solid #eee; }
+    .ka-settings-main { background: white; padding: 2rem; border-radius: 0.4rem;  box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px 0px; }
 </style>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
-    <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← Back to stats</a>
+    <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← <?= esc_html__('Back to stats', 'koko-analytics') ?></a>
     <h1 class="my-3"><img src="<?= plugins_url('assets/dist/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE); ?>" height="32" width="32" alt="Koko Analytics logo" class="align-middle me-2" style="margin-top: -4px;"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
     <hr class="my-3">

@@ -16,10 +16,11 @@
 <h1 class="mt-0"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></h1>
 <p><?php esc_html_e('To import your historical analytics data from JetPack Stats into Koko Analytics, provide your WordPress.com API key and blog URL in the field below.', 'koko-analytics'); ?></p>
 
-<form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="<?php echo esc_url(admin_url('index.php?page=koko-analytics&tab=jetpack_importer')); ?>">
+<form method="post" onsubmit="return confirm('<?php esc_attr_e('Are you sure you want to import statistics between', 'koko-analytics'); ?> ' + this['date-start'].value + '<?php esc_attr_e(' and ', 'koko-analytics'); ?>' + this['date-end'].value + '<?php esc_attr_e('? This will overwrite any existing data in your Koko Analytics database tables.', 'koko-analytics'); ?>');" action="">
 
     <input type="hidden" name="koko_analytics_action" value="start_jetpack_import">
     <?php wp_nonce_field('koko_analytics_start_jetpack_import'); ?>
+    <?php wp_referer_field(); ?>
 
     <table class="form-table">
         <tr>

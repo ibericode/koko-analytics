@@ -12,20 +12,18 @@ use Exception;
 
 class Plausible_Importer extends Importer
 {
-    protected static function get_admin_url()
+    protected static function get_admin_url(): string
     {
         return admin_url('options-general.php?page=koko-analytics-settings&tab=plausible_importer');
     }
 
     public static function start_import(): void
     {
-        // authorize user
-        if (!current_user_can('manage_koko_analytics')) {
+        // authorize user & verify nonce
+        if (!current_user_can('manage_koko_analytics') || !check_admin_referer('koko_analytics_start_plausible_import')) {
             return;
         }
 
-        // verify nonce
-        check_admin_referer('koko_analytics_start_plausible_import');
 
         // verify file upload
         if (empty($_FILES['plausible-export-file']) || $_FILES['plausible-export-file']['error'] !== 0) {
@@ -54,9 +52,7 @@ class Plausible_Importer extends Importer
 
         fclose($fh);
 
-        // redirect with success parameter
-        wp_safe_redirect(add_query_arg(['success' => 1], static::get_admin_url()));
-        exit;
+        static::redirect(static::get_admin_url(), ['success' => 1]);
     }
 
     private static function import_site_stats($fh, array $headers, string $date_start, string $date_end): void
