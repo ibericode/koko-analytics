@@ -72,7 +72,6 @@ class Pages
         $date_presets = (new Dashboard())->get_date_presets();
         $public_dashboard_url = Router::url('dashboard-standalone');
 
-
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }
 

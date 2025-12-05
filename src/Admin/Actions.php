@@ -22,9 +22,11 @@ class Actions
     public static function install_optimized_endpoint(): void
     {
         $result = Endpoint_Installer::install();
-        $type = $result === true ? 'success' : 'warning';
-        $message = $result === true ? __('Successfully installed optimized endpoint.', 'koko-analytics') : $result;
-        wp_safe_redirect(add_query_arg([ 'notice' => ['type' => $type, 'message' => $message] ], wp_get_referer()));
+        if ($result !== true) {
+            wp_safe_redirect(add_query_arg(['error' => urlencode($result)], wp_get_referer()));
+        } else {
+            wp_safe_redirect(add_query_arg(['message' => urlencode(__('Successfully installed optimized endpoint.', 'koko-analytics'))], wp_get_referer()));
+        }
         exit;
     }
 
@@ -62,7 +64,7 @@ class Actions
         // Re-create optimized endpoint to ensure its contents are up-to-date
         Endpoint_Installer::install();
 
-        wp_safe_redirect(add_query_arg(['settings-updated' => true], wp_get_referer()));
+        wp_safe_redirect(add_query_arg(['settings-updated' => 1], wp_get_referer()));
         exit;
     }
 

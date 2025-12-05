@@ -33,7 +33,7 @@ class Data_Reset
 
         // redirect with success message
         $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');
-        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Statistics successfully reset', 'koko-analytics') ]], $settings_page));
+        wp_safe_redirect(add_query_arg(['message' => urlencode(__('Statistics successfully reset', 'koko-analytics')) ], $settings_page));
         exit;
     }
 }

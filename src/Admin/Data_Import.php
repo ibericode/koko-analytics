@@ -21,13 +21,13 @@ class Data_Import
         $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');
 
         if (empty($_FILES['import-file']) || $_FILES['import-file']['error'] !== UPLOAD_ERR_OK) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Something went wrong trying to process your import file.', 'koko-analytics') ]], $settings_page));
+            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Something went wrong trying to process your import file.', 'koko-analytics'))], $settings_page));
             exit;
         }
 
         // don't accept MySQL blobs over 16 MB
         if ($_FILES['import-file']['size'] > 16000000) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics') ]], $settings_page));
+            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Sorry, your import file is too large. Please import it into your database in some other way.', 'koko-analytics'))], $settings_page));
             exit;
         }
 
@@ -39,7 +39,7 @@ class Data_Import
 
         // verify file looks like a Koko Analytics export file
         if (!preg_match('/^(--|DELETE|SELECT|INSERT|TRUNCATE|CREATE|DROP)/', $sql)) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'message' => __('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics') ]], $settings_page));
+            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics')) ], $settings_page));
             exit;
         }
 
@@ -47,7 +47,7 @@ class Data_Import
         try {
             self::run($sql);
         } catch (\Exception $e) {
-            wp_safe_redirect(add_query_arg(['notice' => ['type' => 'warning', 'title' => __('Something went wrong trying to process your import file.', 'koko-analytics'), 'message' => $e->getMessage() ]], $settings_page));
+            wp_safe_redirect(add_query_arg([ 'error' => urlencode(__('Something went wrong trying to process your import file.', 'koko-analytics') . "\n" . $e->getMessage()) ], $settings_page));
             exit;
         }
 
@@ -55,7 +55,7 @@ class Data_Import
         unlink($_FILES['import-file']['tmp_name']);
 
         // redirect with success message
-        wp_safe_redirect(add_query_arg(['notice' => ['type' => 'success', 'message' => __('Database was successfully imported from the given file', 'koko-analytics') ]], $settings_page));
+        wp_safe_redirect(add_query_arg([ 'message' => urlencode(__('Database was successfully imported from the given file', 'koko-analytics')) ], $settings_page));
         exit;
     }
 

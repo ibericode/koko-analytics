@@ -23,16 +23,23 @@
         <div class="ka-col ka-col-9" style="max-width: 100ch;">
             <div class="ka-settings-main">
 
-                <?php /* general notices: can be of type info, warning or success */ ?>
-                <?php if (isset($_GET['notice']) && is_array($_GET['notice'])) { ?>
-                    <div class="ka-alert ka-alert-<?= esc_attr($_GET['notice']['type']); ?> ka-alert-dismissible" role="alert">
-                        <?php if (isset($_GET['notice']['title'])) : ?>
-                            <strong><?= esc_html($_GET['notice']['title']); ?></strong><br>
-                        <?php endif; ?>
-                        <?= esc_html($_GET['notice']['message']); ?>
+                <?php /* error messages: query key error */ ?>
+                <?php if (!empty($_GET['error'])) { ?>
+                    <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
+                        <?= esc_html($_GET['error']); ?>
                          <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
+
+                <?php /* error messages: query key message */ ?>
+                <?php if (!empty($_GET['message'])) { ?>
+                    <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
+                        <?= esc_html($_GET['message']); ?>
+                         <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                    </div>
+                <?php } ?>
+
+                <?php /* settings saved messages: query key settings-updated */ ?>
                <?php if (isset($_GET['settings-updated'])) { ?>
                 <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                     <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
@@ -48,6 +55,3 @@
     </div><?php /* .ka-row */ ?>
 </div><?php /* .wrap */ ?>
 
-<?php if (isset($_GET['notice'])) { ?>
-<script>history.replaceState({}, null, "<?= remove_query_arg('notice') ?>");</script>
-<?php } ?>
