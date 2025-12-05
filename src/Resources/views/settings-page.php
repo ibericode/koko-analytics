@@ -1,4 +1,8 @@
-<?php use KokoAnalytics\Endpoint_Installer; ?>
+<?php
+
+use KokoAnalytics\Endpoint_Installer;
+
+?>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← <?= esc_html__('Back to stats', 'koko-analytics') ?></a>
