@@ -41,49 +41,49 @@ __('Previous', 'koko-analytics');
 // ../koko-analytics-pro/includes/views/dashboard-event-component.php#56
 __('Next', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#6
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#2
 __('Traffic Spike Notification', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#9
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#5
 __('Send email notification of traffic spikes?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#15
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#11
 __('Realtime pageview treshold', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#17
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#13
 __('The notification will be sent if there were more pageviews than the specified treshold within a single hour.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#21
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#17
 __('Send to these email addresses', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#23
+// ../koko-analytics-pro/includes/views/traffic-spike-notification-settings.php#19
 __('Enter a comma separated list of email addresses to which the notification should be sent.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#6
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#2
 __('Email Reports', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#9
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#5
 __('Send periodic email reports?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#11
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#7
 __('Daily', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#11
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#7
 __('Weekly', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#11
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#7
 __('Monthly', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#17
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#13
 __('Select the timeframes for which you want to receive a summary of your most important statistics.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#21
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#17
 __('Send to these email addresses', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/email-reports-setting.php#23
+// ../koko-analytics-pro/includes/views/email-reports-setting.php#19
 __('Enter a comma separated list of email addresses to which the reports should be sent.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#10
+// ../koko-analytics-pro/includes/views/events-section.php#9
 __('Events', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/views/events-section.php#17
@@ -101,83 +101,80 @@ __('Select "yes" if you want Koko Analytics to count all form submissions.', 'ko
 // ../koko-analytics-pro/includes/views/events-section.php#39
 __('Event types', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#40
-__('You currently have the following event types registered:', 'koko-analytics');
-
-// ../koko-analytics-pro/includes/views/events-section.php#43
-__('Event name', 'koko-analytics');
-
-// ../koko-analytics-pro/includes/views/events-section.php#54
+// ../koko-analytics-pro/includes/views/events-section.php#41
 __('You have not yet registered any events.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#61
+// ../koko-analytics-pro/includes/views/events-section.php#43
+__('You currently have the following event types registered:', 'koko-analytics');
+
+// ../koko-analytics-pro/includes/views/events-section.php#55
 __('Add new event type', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#62
+// ../koko-analytics-pro/includes/views/events-section.php#56
 __('Use the form below to register new event types.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#65
+// ../koko-analytics-pro/includes/views/events-section.php#60
 __('Event name', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/events-section.php#67
+// ../koko-analytics-pro/includes/views/events-section.php#62
 __('Add event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#26
+// ../koko-analytics-pro/includes/views/event-details.php#25
 __('Event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#30
+// ../koko-analytics-pro/includes/views/event-details.php#28
 __('This is a built-in event type that counts all clicks on outbound links on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#33
+// ../koko-analytics-pro/includes/views/event-details.php#31
 __('This is a built-in event type that counts all form submissions on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#38
+// ../koko-analytics-pro/includes/views/event-details.php#36
 __('This event has been counted %1$s times for a total value of %2$s.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#40
+// ../koko-analytics-pro/includes/views/event-details.php#38
 __('This event has been counted %1$s times.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#46
+// ../koko-analytics-pro/includes/views/event-details.php#44
 __('Tracking events', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#47
+// ../koko-analytics-pro/includes/views/event-details.php#45
 __('To track an event of this type, run the following JavaScript code:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#50
+// ../koko-analytics-pro/includes/views/event-details.php#48
 __('You can optionally attach a numerical value to each recorded event:', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#53
+// ../koko-analytics-pro/includes/views/event-details.php#51
 __('You can find more information on tracking events in our knowledge base.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#57
+// ../koko-analytics-pro/includes/views/event-details.php#55
 __('Export this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#58
+// ../koko-analytics-pro/includes/views/event-details.php#56
 __('Use the form below to export event counts in a specific time period to CSV.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#62
+// ../koko-analytics-pro/includes/views/event-details.php#60
 __('Start date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#66
+// ../koko-analytics-pro/includes/views/event-details.php#64
 __('End date', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#70
+// ../koko-analytics-pro/includes/views/event-details.php#68
 __('Export to CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#76
+// ../koko-analytics-pro/includes/views/event-details.php#74
 __('Delete this event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#77
+// ../koko-analytics-pro/includes/views/event-details.php#75
 __('Use the button below to delete this event type from your dashboard overview.', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#78
+// ../koko-analytics-pro/includes/views/event-details.php#76
 __('Are you sure you want to delete this event?', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#80
+// ../koko-analytics-pro/includes/views/event-details.php#78
 __('Delete event', 'koko-analytics');
 
-// ../koko-analytics-pro/includes/views/event-details.php#86
-__('Back to settings page', 'koko-analytics');
+// ../koko-analytics-pro/includes/views/event-details.php#84
+__('Back to event settings', 'koko-analytics');
 
 // ../koko-analytics-pro/includes/class-admin-bar.php#60
 __('Pageviews', 'koko-analytics');
