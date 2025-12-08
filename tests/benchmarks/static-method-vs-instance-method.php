@@ -20,13 +20,13 @@ $iterations = 100000;
 
 // instance creation + call
 $time = bench(function () {
-    $instance = new A;
+    $instance = new A();
     $instance->method();
 }, $iterations);
 printf("new instance method \t%.2f ns\t(%.2f per it)\n", $time, $time / $iterations);
 
 // existing instance
-$instance = new A;
+$instance = new A();
 $time = bench(function () use ($instance) {
     $instance->method();
 }, $iterations);
