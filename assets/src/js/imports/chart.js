@@ -7,12 +7,19 @@ if (chart) {
 
   tooltip.remove();
   document.body.appendChild(tooltip);
+
+  // event listener for removing tooltip
+  document.body.addEventListener('mouseover', function(e) {
+    if (tooltip.style.display !== 'none' && !chart.contains(e.target) && !tooltip.contains(e.target)) {
+      tooltip.style.display = 'none';
+    }
+  });
+
+  // event listener for showing tooltip
   chart.addEventListener('mouseover', function(e) {
     if (e.target.tagName !== 'rect') {
-      tooltip.style.display = 'none'
       return;
     }
-
     // update tooltip content
     var data = e.target.parentElement.dataset;
     tooltip.querySelector('.ka-chart--tooltip-heading').textContent = data.date;
@@ -44,9 +51,6 @@ if (chart) {
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
   })
-  document.addEventListener('scroll', function() {
-    tooltip.style.display = 'none';
-  });
 }
 
 export function Chart() {
