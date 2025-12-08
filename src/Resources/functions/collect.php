@@ -120,7 +120,7 @@ function collect_request()
         \header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
     }
 
-    \header('Content-Type: text/plain');
+    \header('Content-Type: text/plain; charset=utf-8');
 
     // Prevent this response from being cached
     \header('Cache-Control: no-cache, must-revalidate, max-age=0');
