@@ -1,6 +1,5 @@
 <h2 class="mt-0 mb-3"><?= esc_html__('Tracking settings', 'koko-analytics'); ?></h2>
 <form method="POST" action="">
-
     <?php wp_nonce_field('koko_analytics_save_settings'); ?>
     <?php wp_referer_field(); ?>
     <input type="hidden" name="koko_analytics_action" value="save_settings">

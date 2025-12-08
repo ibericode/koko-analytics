@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.1.0 - Dec 08, 2025
+
+- New settings page structure!
+- Use existing removeable query args from WP core for notices.
+
+
 ### 2.0.22 - Dec 01, 2025
 
 - specify apiVersion for block type so that WP 6.9 can use new iframe editor.
