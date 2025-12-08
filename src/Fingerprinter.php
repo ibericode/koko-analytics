@@ -10,8 +10,12 @@ class Fingerprinter
         $sessions_dir = "{$upload_dir}/sessions";
         $seed_file = "{$sessions_dir}/.daily_seed";
 
+        if (! is_dir($upload_dir)) {
+            mkdir($upload_dir, 0775, true);
+        }
+
         if (! is_dir($sessions_dir)) {
-            \mkdir($sessions_dir, 0775, true);
+            mkdir($sessions_dir, 0775, true);
         }
 
         if (! is_file($seed_file)) {

@@ -44,9 +44,8 @@ class Actions
         unset($settings['use_cookie']);
 
         $settings['exclude_ip_addresses'] = is_array($settings['exclude_ip_addresses']) ? $settings['exclude_ip_addresses'] : explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($settings['exclude_ip_addresses'])));
-        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', $settings['exclude_ip_addresses']), function ($value) {
-            return $value !== '';
-        });
+        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', $settings['exclude_ip_addresses']));
+
         $settings['prune_data_after_months'] = abs((int) $settings['prune_data_after_months']);
         $settings['is_dashboard_public']     = (int) $settings['is_dashboard_public'];
         $settings['default_view']            = trim($settings['default_view']);
