@@ -67,7 +67,6 @@ class Pages
 
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
-        $database_size      = self::get_database_size();
         $user_roles   = self::get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
         $public_dashboard_url = Router::url('dashboard-standalone');
@@ -75,21 +74,6 @@ class Pages
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }
 
-
-    public static function show_settings_old_page(): void
-    {
-        if (!current_user_can('manage_koko_analytics')) {
-            return;
-        }
-
-        $settings           = get_settings();
-        $using_custom_endpoint = using_custom_endpoint();
-        $database_size      = self::get_database_size();
-        $user_roles   = self::get_available_roles();
-        $date_presets = (new Dashboard())->get_date_presets();
-
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page-old.php';
-    }
 
     private static function get_available_roles(): array
     {
@@ -125,22 +109,5 @@ class Pages
         }
 
         return $next_scheduled !== false && $next_scheduled > (time() - 40 * 60);
-    }
-
-    /**
-     * @return int Total size of all Koko Analytics database tables in bytes
-     */
-    public static function get_database_size(): int
-    {
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-        $sql = $wpdb->prepare(
-            '
-            SELECT SUM(DATA_LENGTH + INDEX_LENGTH)
-            FROM information_schema.TABLES
-            WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s',
-            [DB_NAME, $wpdb->prefix . 'koko_analytics_%']
-        );
-        return (int) $wpdb->get_var($sql);
     }
 }
