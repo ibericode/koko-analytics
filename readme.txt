@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Tags: statistics, analytics, stats, google analytics, traffic
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 2.0.22
+Stable tag: 2.1.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -103,6 +103,12 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+### 2.1.0 - Dec 08, 2025
+
+- New settings page structure!
+- Use existing removeable query args from WP core for notices.
+
 
 ### 2.0.22 - Dec 01, 2025
 
@@ -428,6 +434,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Impose a maximum referrer URL length on data ingestion.
 - Replace column header for visitors and pageviews with icon on small screens.
 - Speed up `koko_analytics_counter` shortcode by having `Stats::get_total` not automatically pull in previous period.
-- Migrations runner now updates the local database version after each individual step.
-- Migrations runner now has a simple lock mechanism ...
+- Migrations ...
 
