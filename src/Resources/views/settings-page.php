@@ -57,5 +57,7 @@ use KokoAnalytics\Endpoint_Installer;
             </div><?php /* .ka-settings-main */ ?>
         </div><?php /* .ka-col-9 */ ?>
     </div><?php /* .ka-row */ ?>
+
+
 </div><?php /* .wrap */ ?>
 

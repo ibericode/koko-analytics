@@ -37,3 +37,23 @@ if (count($posts) > 0) { ?>
 </div>
 <?php } ?>
 
+
+<div class="mb-5">
+    <h2><?= esc_html__('Debug info', 'koko-analytics') ?></h2>
+    <pre>
+PHP: <?= esc_html(PHP_VERSION) ?>
+
+MySQL: <?= esc_html($GLOBALS['wpdb']->db_version()) ?>
+
+Koko Analytics: <?= esc_html(KOKO_ANALYTICS_VERSION) ?>
+
+    Database version: <?= esc_html(get_option('koko_analytics_version', '')) ?>
+
+    Last aggregation: <?= date(DATE_W3C, get_option('koko_analytics_last_aggregation_at', 0)) ?> (<?= (int) (time() - get_option('koko_analytics_last_aggregation_at', 0)) ?> seconds ago)
+<?php if (defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
+Koko Analytics Pro: <?= KOKO_ANALYTICS_PRO_VERSION ?>
+
+    Database version: <?= esc_html(get_option('koko_analytics_pro_version', '')) ?>
+<?php endif; ?>
+    </pre>
+</div>
