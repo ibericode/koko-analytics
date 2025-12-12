@@ -40,7 +40,7 @@ if (count($posts) > 0) { ?>
 
 <div class="mb-5">
     <h2><?= esc_html__('Debug info', 'koko-analytics') ?></h2>
-    <pre>
+    <textarea style="font-family: monospace; font-size: 14px;" class="ka-input" rows="8" spellcheck="false" onfocus="this.select()" readonly>
 PHP: <?= esc_html(PHP_VERSION) ?>
 
 MySQL: <?= esc_html($GLOBALS['wpdb']->db_version()) ?>
@@ -55,5 +55,5 @@ Koko Analytics Pro: <?= KOKO_ANALYTICS_PRO_VERSION ?>
 
     Database version: <?= esc_html(get_option('koko_analytics_pro_version', '')) ?>
 <?php endif; ?>
-    </pre>
+    </textarea>
 </div>
