@@ -107,7 +107,7 @@ add_action('init', function () {
 add_action('wp_loaded', [Actions::class, 'run'], 20, 0);
 
 // maybe show standalone dashboard
-add_action('wp', function () {
+add_action('init', function () {
     if (!Router::is('dashboard-standalone')) {
         return;
     }
