@@ -122,6 +122,8 @@ add_action('init', function () {
         return;
     }
 
+    header("Content-Type: text/html; charset=utf-8");
+    header("Cache-Control: no-cache");
     (new Dashboard_Standalone())->show();
     exit;
 }, 10, 0);
