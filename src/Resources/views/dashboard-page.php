@@ -180,8 +180,8 @@ $tab = 'dashboard';
                 <table class="ka-table">
                     <thead>
                         <tr>
-                            <th class="" style="width: 3ch;" scope="col">#</th>
-                            <th class="" scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
+                            <th style="width: 3ch;" scope="col">#</th>
+                            <th scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
                             <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end  d-none d-lg-table-cell w-fit" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
                             <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit text-truncate" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
@@ -196,15 +196,12 @@ $tab = 'dashboard';
                                 <td class="text-end"><?php echo number_format_i18n($p->pageviews); ?></td>
                             </tr>
                         <?php } ?>
-                        <?php if (empty($posts)) { ?>
-                            <tr>
-                                <td colspan="4">
-                                    <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
-                                </td>
-                            </tr>
-                        <?php } ?>
                     </tbody>
                 </table>
+
+                <?php if (empty($posts)) { ?>
+                    <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
+                <?php } ?>
 
                 <?php if ($posts_offset >= $posts_limit || $posts_offset + $posts_limit < $posts_count) { ?>
                <div class='ka-pagination'>
@@ -240,15 +237,13 @@ $tab = 'dashboard';
                                 <td class="text-end"><?php echo number_format_i18n($r->pageviews); ?></td>
                             </tr>
                         <?php } ?>
-                        <?php if (empty($referrers)) { ?>
-                            <tr>
-                                <td colspan="4">
-                                    <?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?>
-                                </td>
-                            </tr>
-                        <?php } ?>
                     </tbody>
                 </table>
+
+                <?php if (empty($referrers)) { ?>
+                    <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
+                <?php } ?>
+
                 <?php if ($referrers_offset >= $referrers_limit || $referrers_offset + $referrers_limit < $referrers_count) { ?>
                <div class='ka-pagination'>
                     <?php if ($referrers_offset >= $referrers_limit) { ?>
