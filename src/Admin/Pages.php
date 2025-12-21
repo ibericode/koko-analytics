@@ -24,11 +24,12 @@ class Pages
 
         // check if cron event is scheduled properly
         if (false === self::is_cron_event_working()) {
-            echo '<div class="notice notice-warning inline koko-analytics-cron-warning is-dismissible"><p>';
+            echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert"  style="margin-top: 1rem; margin-right: 20px;">';
             echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
             echo ' ';
             echo esc_html__('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
-            echo '</p></div>';
+            echo '<button type="button" class="btn-close" aria-label="', esc_attr('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
+            echo '</div>';
         }
 
         // determine whether buffer file is writable
@@ -37,9 +38,10 @@ class Pages
         $is_buffer_dir_writable = wp_mkdir_p($buffer_dirname) && is_writable($buffer_dirname);
 
         if (false === $is_buffer_dir_writable) {
-            echo '<div class="notice notice-warning inline is-dismissible"><p>';
+            echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert" style="margin-top: 1rem; margin-right: 20px;">';
             echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), ['code' => []]);
-            echo '</p></div>';
+            echo '<button type="button" class="btn-close" aria-label="', esc_attr('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
+            echo '</div>';
         }
 
         $dashboard = new Dashboard();
