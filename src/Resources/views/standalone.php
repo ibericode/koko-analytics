@@ -17,7 +17,7 @@ defined('ABSPATH') or exit; ?><!DOCTYPE html>
     <link rel="apple-touch-icon" href="<?php echo plugins_url('assets/dist/img/apple-touch-icon.png', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="manifest" href="<?php echo plugins_url('assets/dist/manifest.json', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="shortcut icon" href="<?php echo plugins_url('assets/dist/img/favicon.ico', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
-    <link rel="canonical" href="<?= site_url('?koko-analytics-dashboard'); ?>">
+    <link rel="canonical" href="<?= site_url('/koko-analytics-dashboard/'); ?>">
     <meta name="robots" content="nofollow, noindex">
     <meta name="theme-color" content="#B60205">
 </head>

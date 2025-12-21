@@ -40,13 +40,13 @@ $tab = 'dashboard';
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild ?>
                         <?php if ($date_start >  $total_start_date) { ?>
-                        <a class="js-quicknav-prev text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>">◂</a>
+                        <a class="js-quicknav-prev text-decoration-none text-white me-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
                         <span><?php echo wp_date($date_format, $date_start->getTimestamp()); ?> — <?php echo wp_date($date_format, $date_end->getTimestamp()); ?></span>
                         <?php if ($date_end < $total_end_date) { ?>
-                        <a class="js-quicknav-next text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>">▸</a>
+                        <a class="js-quicknav-next text-decoration-none text-white ms-2" href="<?php echo esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">▸</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white ms-2">▸</a>
                         <?php } ?>
@@ -206,10 +206,10 @@ $tab = 'dashboard';
                 <?php if ($posts_offset >= $posts_limit || $posts_offset + $posts_limit < $posts_count) { ?>
                <div class='ka-pagination'>
                     <?php if ($posts_offset >= $posts_limit) { ?>
-                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset - $posts_limit, 'limit' => $posts_limit ]])); ?>"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset - $posts_limit, 'limit' => $posts_limit ]])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
                     <?php } ?>
                     <?php if ($posts_offset + $posts_limit < $posts_count) { ?>
-                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset + $posts_limit, 'limit' => $posts_limit ]])); ?>"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
+                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts' => [ 'offset' => $posts_offset + $posts_limit, 'limit' => $posts_limit ]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
                     <?php } ?>
                 </div>
                 <?php } ?>
@@ -247,10 +247,10 @@ $tab = 'dashboard';
                 <?php if ($referrers_offset >= $referrers_limit || $referrers_offset + $referrers_limit < $referrers_count) { ?>
                <div class='ka-pagination'>
                     <?php if ($referrers_offset >= $referrers_limit) { ?>
-                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset - $referrers_limit, 'limit' => $referrers_limit ]])); ?>"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset - $referrers_limit, 'limit' => $referrers_limit ]])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
                     <?php } ?>
                     <?php if ($referrers_offset + $referrers_limit < $referrers_count) { ?>
-                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset + $referrers_limit, 'limit' => $referrers_limit ]])); ?>"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
+                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['referrers' => [ 'offset' => $referrers_offset + $referrers_limit, 'limit' => $referrers_limit ]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
                     <?php } ?>
                 </div>
                 <?php } ?>
