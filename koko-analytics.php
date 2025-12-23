@@ -123,7 +123,6 @@ add_action('init', function () {
     }
 
     header("Content-Type: text/html; charset=utf-8");
-    header("Cache-Control: no-cache");
     header("X-Robots-Tag: noindex, nofollow");
     (new Dashboard_Standalone())->show();
     exit;
