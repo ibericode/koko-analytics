@@ -121,6 +121,7 @@ function collect_request()
     }
 
     \header('Content-Type: text/plain; charset=utf-8');
+    \header('X-Robots-Tag: noindex, nofollow');
 
     // Prevent this response from being cached
     \header('Cache-Control: no-cache, must-revalidate, max-age=0');
