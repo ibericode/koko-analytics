@@ -50,3 +50,11 @@ document.addEventListener('mouseover', function() {
   window.clearTimeout(reloadTimeout);
   reloadTimeout = window.setTimeout(reloadIfActive, 61000);
 })
+
+// fake <a> elements to stop bots from crawling infinitely
+document.querySelectorAll('a[data-href]').forEach(function(el) {
+  el.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    window.location.href = el.getAttribute('data-href');
+  });
+});
