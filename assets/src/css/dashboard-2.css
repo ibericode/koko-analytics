@@ -161,7 +161,8 @@ body.koko-analytics {
   fill: #195585;
 }
 
-.page-filter-active tr  {
+.page-filter-active tr,
+.page-filter-active .ka-pagination  {
   opacity: 0.5;
 }
 .page-filter-active tr.page-filter-active  {
