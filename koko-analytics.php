@@ -124,6 +124,15 @@ add_action('init', function () {
 
     header("Content-Type: text/html; charset=utf-8");
     header("X-Robots-Tag: noindex, nofollow");
+
+    if (is_user_logged_in()) {
+        header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
+    } elseif (isset($_GET['end_date'], $_GET['start_date']) && $_GET['end_date'] < date('Y-m-d')) {
+        header("Cache-Control: public, max-age=68400");
+    } else {
+        header("Cache-Control: public, max-age=60");
+    }
+
     (new Dashboard_Standalone())->show();
     exit;
 }, 10, 0);
