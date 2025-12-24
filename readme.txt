@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Tags: statistics, analytics, stats, google analytics, traffic
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -103,6 +103,21 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+
+### 2.1.1 - Dec 24, 2025
+
+- Use our own notice styles instead of the ones from WP core.
+- Send Cache-Control header on public dashboard.
+- Show some debug info on settings page.
+- Ensure upload directory exists when creating session dir for fingerprint method.
+- Add charset to collection endpoint HTTP response headers.
+- Properly remove tooltip when mouse leaves the chart area.
+- Move placeholder for tables without data outside of table element to fix column span issue.
+- Add X-Robots-Tag: noindex to collection endpoint.
+- Grey out table pagination when a page filter is active.
+- Use fake hyperlinks for date navigation to stop bots from crawling public dashboards until infinity.
+
 
 ### 2.1.0 - Dec 08, 2025
 
@@ -414,25 +429,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add integration with Query Loop Block.
 - Fix date range when viewing "this week" or "last week" on a Sunday.
 - Remove non-functional settings example from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) from settings page.
-- Add one-time notice after at least 30 days of usage asking for a contribution.
-
-
-#### 1.5.2 - Dec 17, 2024
-
-- Improve logic for running pending database migrations.
-
-
-#### 1.5.1 - Dec 10, 2024
-
-- Fix date in chart tooltip using default PHP timezone, explicitly use site timezone instead.
-- Check for excluded request (by IP address or user role) in unoptimized endpoint.
-- Prevent PHP notice on dashboard if page URL does not have query component.
-
-
-#### 1.5.0 - Nov 27, 2024
-
-- Impose a maximum referrer URL length on data ingestion.
-- Replace column header for visitors and pageviews with icon on small screens.
-- Speed up `koko_analytics_counter` shortcode by having `Stats::get_total` not automatically pull in previous period.
-- Migrations ...
+- Add one-time notice after at least 30 ...
 
