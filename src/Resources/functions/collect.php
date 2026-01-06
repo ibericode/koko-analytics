@@ -104,6 +104,7 @@ function collect_request()
         return;
     }
 
+    // we need to accept both GET and POST because the AMP integration uses URL query parameters
     $request_params = array_merge($_GET, $_POST);
     $data = isset($request_params['e']) ? extract_event_data($request_params) : extract_pageview_data($request_params);
     if (!empty($data)) {
