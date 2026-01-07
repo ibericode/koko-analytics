@@ -39,6 +39,9 @@ class Chart_View
                 <?php if ($daysDiff > 31) {
                     ?><a class="text-muted" href="<?php echo esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a><?php
                 } ?>
+                <?php if ($daysDiff > 365) {
+                    ?><a class="text-muted" href="<?php echo esc_attr(add_query_arg(['group' => 'year'])); ?>"><?php esc_html_e('years', 'koko-analytics'); ?></a><?php
+                } ?>
             </div>
             <?php } /* end show group options */ ?>
             <svg width="100%" height="<?php echo $height; ?>" id="ka-chart">

@@ -73,7 +73,7 @@ class Dashboard
         $referrers_count = $stats->count_referrers($date_start_str, $date_end_str);
         $realtime = get_realtime_pageview_count('-1 hour');
 
-        if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month'])) {
+        if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month', 'year'])) {
             $group_chart_by = $_GET['group'];
         } else {
             $group_chart_by = $date_end->getTimestamp() - $date_start->getTimestamp() >= 86400 * 90 ? 'month' : 'day';

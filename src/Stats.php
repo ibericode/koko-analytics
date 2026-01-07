@@ -85,6 +85,7 @@ class Stats
             'day' => '%Y-%m-%d',
             'week' => $week_starts_on === 1 ? '%Y-%u' : '%Y-%U',
             'month' => '%Y-%m',
+            'year' => '%Y',
         ];
         $date_format = $available_groupings[$group];
 
