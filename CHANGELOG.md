@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.1.2 - Jan 7, 2025
+
+- tracking: accept path and post ID argument in koko_analytics.trackPageview(path, post_id) function to allow manual calls in single-page applications.
+
 
 ### 2.1.1 - Dec 24, 2025
 
