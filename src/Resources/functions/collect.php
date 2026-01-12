@@ -34,7 +34,7 @@ function extract_pageview_data(array $raw): array
     $path = substr(trim($raw['pa']), 0, 2000);
     $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
-    if ($post_id === false || $referrer_url === false) {
+    if ($post_id === false || $referrer_url === false || filter_var("https://localhost$path", FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false) {
         return [];
     }
 

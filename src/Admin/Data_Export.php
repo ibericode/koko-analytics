@@ -106,7 +106,7 @@ class Data_Export
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_paths (id, path) VALUES ");
         $prefix = '';
         foreach ($rows as $s) {
-            fwrite($stream, "{$prefix}({$s->id},\"{$s->path}\")");
+            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->path));
             $prefix = ',';
         }
         fwrite($stream, ";\n");
@@ -154,7 +154,7 @@ class Data_Export
         fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_urls (id, url) VALUES ");
         $prefix = '';
         foreach ($rows as $s) {
-            fwrite($stream, "{$prefix}({$s->id},\"{$s->url}\")");
+            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->url));
             $prefix = ',';
         }
         fwrite($stream, ";\n");

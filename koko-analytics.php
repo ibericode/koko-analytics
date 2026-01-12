@@ -93,7 +93,7 @@ add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run
 add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
 
 // WP CLI command
-if (defined('WP_CLI') && WP_CLI) {
+if (class_exists('WP_CLI') && method_exists('WP_CLI', 'add_command')) {
     \WP_CLI::add_command('koko-analytics', Command::class);
 }
 

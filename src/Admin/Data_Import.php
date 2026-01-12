@@ -75,8 +75,12 @@ class Data_Import
                 continue;
             }
 
-            $result = $wpdb->query($statement);
+            // verify statement acts on the options table OR a koko analytics table
+            if (! preg_match("/{$wpdb->options}|{$wpdb->prefix}koko_analytics/", $statement)) {
+                continue;
+            }
 
+            $result = $wpdb->query($statement);
             if ($result === false) {
                 throw new Exception($wpdb->last_error);
             }
