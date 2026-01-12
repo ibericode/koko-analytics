@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Tags: statistics, analytics, stats, google analytics, traffic
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -104,7 +104,15 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 == Changelog ==
 
-### 2.1.2 - Jan 7, 2025
+### 2.1.3 - Jan 12, 2026
+
+- data export: escape path and referrer url values in data export file
+- data import: only allow SQL statements affecting the Koko Analytics database
+tables
+- tracking: reject invalid path values per the RFC 2396 specification
+
+
+### 2.1.2 - Jan 7, 2026
 
 - tracking: accept path and post ID argument in koko_analytics.trackPageview(path, post_id) function to allow manual calls in single-page applications.
 - dashboard: add group by 'year' option to chart
@@ -421,16 +429,5 @@ You can read some more about it on Danny's personal blog: https://www.dannyvanko
 
 Don't use `upgrader_process_complete` for checking pending database migration. This can't be used because this specific hook runs using the old version of the plugin...
 
-Reverting this change from version 1.5.2 fixes an issue with the optimized endpoint file referencing an unexisting function.
-
-
-#### 1.5.4 - Jan 10, 2025
-
-- Fix optimized endpoint file referencing no-longer existing file on some installations.
-
-
-#### 1.5.3 - Jan 09, 2025
-
-- Add integration with Query Loop Block.
-- ...
+Reverting this change from version 1.5.2 fixes ...
 
