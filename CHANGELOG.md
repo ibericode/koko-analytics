@@ -1,6 +1,14 @@
 # Changelog
 
-### 2.1.2 - Jan 7, 2025
+### 2.1.3 - Jan 12, 2026
+
+- data export: escape path and referrer url values in data export file
+- data import: only allow SQL statements affecting the Koko Analytics database
+tables
+- tracking: reject invalid path values per the RFC 2396 specification
+
+
+### 2.1.2 - Jan 7, 2026
 
 - tracking: accept path and post ID argument in koko_analytics.trackPageview(path, post_id) function to allow manual calls in single-page applications.
 - dashboard: add group by 'year' option to chart
