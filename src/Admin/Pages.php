@@ -54,18 +54,15 @@ class Pages
             return;
         }
 
-        $allowed_tabs = [
-            'tracking',
-            'dashboard',
-            'events',
-            'email-reports',
-            'data',
-            'performance',
-            'help',
-            'jetpack_importer',
-            'plausible_importer',
-        ];
-        $active_tab = isset($_GET['tab']) && in_array($_GET['tab'], $allowed_tabs) ? $_GET['tab'] : 'tracking';
+        $tabs = apply_filters('koko_analytics_settings_tabs', [
+            'tracking' => __('Tracking', 'koko-analytics'),
+            'dashboard' => __('Dashboard', 'koko-analytics'),
+            'data' => __('Data', 'koko-analytics'),
+            'performance' => __('Performance', 'koko-analytics'),
+            'modules' => __('Modules', 'koko-analytics'),
+            'help' => __('Help', 'koko-analytics'),
+        ]);
+        $active_tab = isset($_GET['tab']) && isset($tabs[$_GET['tab']]) ? $_GET['tab'] : 'tracking';
 
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();

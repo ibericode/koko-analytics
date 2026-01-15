@@ -2,15 +2,6 @@
 
 use KokoAnalytics\Endpoint_Installer;
 
-$tabs = apply_filters('koko_analytics_settings_tabs', [
-    ['id' => 'tracking', 'url' => admin_url('options-general.php?page=koko-analytics-settings'), 'title' => __('Tracking', 'koko-analytics')],
-    ['id' => 'dashboard', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=dashboard'), 'title' => __('Dashboard', 'koko-analytics')],
-    ['id' => 'events', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=events'), 'title' => __('Events', 'koko-analytics')],
-    ['id' => 'email-reports', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=email-reports'), 'title' => __('Email reports', 'koko-analytics')],
-    ['id' => 'data', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=email-reports'), 'title' => __('Data', 'koko-analytics')],
-    ['id' => 'performance', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=performance'), 'title' => __('Performance', 'koko-analytics')],
-    ['id' => 'help', 'url' => admin_url('options-general.php?page=koko-analytics-settings&tab=help'), 'title' => __('Help', 'koko-analytics')],
-]);
 ?>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
@@ -22,8 +13,8 @@ $tabs = apply_filters('koko_analytics_settings_tabs', [
     <div class="ka-row">
         <div class="ka-col ka-col-3" style="max-width: 200px;">
             <ul class="ka-settings-nav">
-                <?php foreach ($tabs as $t) : ?>
-                    <li><a href="<?= esc_attr($t['url']) ?>" class="<?= $active_tab == $t['id'] ? 'active' : '' ?>"><?= esc_html($t['title']) ?></a></li>
+                <?php foreach ($tabs as $id => $title) : ?>
+                    <li><a href="<?= esc_attr(admin_url("options-general.php?page=koko-analytics-settings&tab={$id}")) ?>" class="<?= $active_tab == $id ? 'active' : '' ?>"><?= esc_html($title) ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -61,7 +52,7 @@ $tabs = apply_filters('koko_analytics_settings_tabs', [
                         include __DIR__ . "/settings/{$active_tab}.php";
                     } else {
                         // otherwise, fire an action hook to give plugins a chance to output their own stuff
-                        do_action("koko_analytics_output_settings_tab_{$active_tab}");
+                        do_action("koko_analytics_output_settings_tab_{$active_tab}", $settings);
                     }
                     ?>
                </div>
