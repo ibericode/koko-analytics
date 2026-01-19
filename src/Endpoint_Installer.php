@@ -39,6 +39,7 @@ class Endpoint_Installer
             KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/functions/collect.php',
         ];
         $files = apply_filters('koko_analytics_endpoint_files', $files);
+        $files = array_unique($files);
         $files = array_map([self::class, 'make_relative_to_abspath'], $files);
         $require_statements = array_reduce($files, function ($result, $f) {
             $result .= "require '$f';\n";
