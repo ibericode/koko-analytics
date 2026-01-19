@@ -2,7 +2,7 @@
 
 ### 2.1.3 - Jan 12, 2026
 
-- data export: escape path and referrer url values in data export file
+- data export: escape path and referrer url values in data export file. Fixes a potential SQL injection vulnerability when importing a previously exported dataset containing malicious path values (CVE-2026-22850). Thanks to Hector Ruiz from [naxus-audit](https://github.com/naxus-audit) for responsibly disclosing.
 - data import: only allow SQL statements affecting the Koko Analytics database
 tables
 - tracking: reject invalid path values per the RFC 2396 specification
