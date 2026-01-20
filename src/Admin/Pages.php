@@ -57,9 +57,10 @@ class Pages
         $tabs = apply_filters('koko_analytics_settings_tabs', [
             'tracking' => __('Tracking', 'koko-analytics'),
             'dashboard' => __('Dashboard', 'koko-analytics'),
+            'events' => __('Events', 'koko-analytics'),
+            'emails' => __('Email Reports', 'koko-analytics'),
             'data' => __('Data', 'koko-analytics'),
             'performance' => __('Performance', 'koko-analytics'),
-            'modules' => __('Modules', 'koko-analytics'),
             'help' => __('Help', 'koko-analytics'),
         ]);
         $active_tab = isset($_GET['tab']) && isset($tabs[$_GET['tab']]) ? $_GET['tab'] : 'tracking';
