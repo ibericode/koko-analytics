@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Koko Analytics - website analytics plugin for WordPress
 
-Copyright (C) 2019 - 2025, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2019 - 2026, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
 add_action('init', 'KokoAnalytics\maybe_collect_request', 0, 0);
 
 // script loader
-add_action('wp_head', [ Script_Loader::class , 'print_js_object' ], 1, 0);
+add_action('wp_head', [Script_Loader::class, 'print_js_object'], 1, 0);
 add_action('wp_footer', [Script_Loader::class, 'maybe_print_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
 add_action('admin_bar_menu', [Admin\Bar::class, 'register'], 40, 1);
@@ -145,11 +145,6 @@ if (\is_admin()) {
 
     add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }
-
-// on plugin update (but using old code that's already in memory)
-add_filter('upgrader_process_complete', function () {
-    do_action('koko_analytics_aggregate_stats');
-});
 
 // on plugin activation
 register_activation_hook(__FILE__, function () {

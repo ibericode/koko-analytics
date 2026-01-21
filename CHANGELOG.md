@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.2.0 - Jan 21, 2026
+
+- settings: allow plugins to register their own settings tab through the `koko_analytics_settings_tabs` filter.
+- endpoint: remove duplicate require statements in case several plugins add the same file.
+
+
 ### 2.1.3 - Jan 12, 2026
 
 - data export: escape path and referrer url values in data export file. Fixes a potential SQL injection vulnerability when importing a previously exported dataset containing malicious path values (CVE-2026-22850). Thanks to Hector Ruiz from [naxus-audit](https://github.com/naxus-audit) for responsibly disclosing.
