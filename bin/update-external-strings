@@ -2,7 +2,7 @@
 
 set -e
 
-wp-i18n-export koko-analytics-pro ../koko-analytics-pro/includes > src/Resources/external-strings.php
+./bin/wp-i18n-export koko-analytics-pro ../koko-analytics-pro/src > src/Resources/external-strings.php
 ./vendor/bin/phpcbf src/Resources/external-strings.php || true
 
 git add src/Resources/external-strings.php || true

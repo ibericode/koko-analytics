@@ -1,0 +1,76 @@
+#!/usr/bin/env php
+<?php
+use PhpParser\Error;
+use PhpParser\NodeDumper;
+use PhpParser\ParserFactory;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitorAbstract;
+use PhpParser\Node;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Expr\FuncCall;
+
+// Depends on nikic/php-parser
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+if (count($argv) <= 2) {
+    echo "Usage: wp-i18n-export <plugin-slug> <src-dir>\n";
+    exit(0);
+}
+
+$plugin = trim($argv[1]);
+$dir = trim($argv[2]);
+
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS | RecursiveIteratorIterator::LEAVES_ONLY));
+$results = [];
+
+$currentFile = '';
+$parser = (new ParserFactory())->createForNewestSupportedVersion();
+$traverser = new NodeTraverser();
+$traverser->addVisitor(new class extends NodeVisitorAbstract {
+    public function enterNode(Node $node)
+    {
+        global $results, $currentFile;
+
+        if ($node instanceof FuncCall && in_array($node->name->name, ['esc_html_e', 'esc_html__', 'esc_attr_e', 'esc_attr__', '__', '_e'], true)) {
+            // require at least two arguments for i18n function calls
+            // sometimes we call this without a text domain to get a translation from WordPress Core
+            if (count($node->args) < 2) {
+                return;
+            }
+
+            /** @var String_ $string */
+            $string = $node->args[0]->value;
+            /** @var String_ $domain */
+            $domain = $node->args[1]->value;
+
+            $results[] = [$currentFile, $node->getStartLine(), $string->getAttribute('rawValue'), $domain->getAttribute('rawValue')];
+        }
+    }
+});
+
+foreach ($iterator as $file) {
+    if (! $file->isFile() || str_starts_with($file->getPathname(), './vendor/') || str_starts_with($file->getPathname(), './node_modules/')|| $file->getExtension() !== 'php') {
+        continue;
+    }
+
+    $currentFile = $file->getPathname();
+    $fileContents = file_get_contents($file->getPathname());
+    try {
+        $ast = $parser->parse($fileContents);
+    } catch (Error $error) {
+        echo "Parse error in file {$file->getPathname()}: {$error->getMessage()}\n";
+        exit(1);
+    }
+    $traverser->traverse($ast);
+}
+
+// generate output
+echo "<?php \n\n";
+echo "// i18n strings for $plugin\n";
+
+foreach ($results as [$file, $line, $string, $domain]) {
+    echo "\n";
+    echo "// {$file}#{$line}\n";
+    echo "__({$string}, {$domain});\n";
+}
