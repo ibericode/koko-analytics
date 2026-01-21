@@ -38,7 +38,7 @@ This plugin is free, open-source and self-hosted — no account required. The [s
 
 ### Unlock advanced statistics with Koko Analytics Pro
 
-You can benefit from several advanced features with [Koko Analytics Pro](https://www.kokoanalytics.com/pricing), like custom event tracking, counting visitor countries and periodic email reports.
+[Koko Analytics Pro](https://www.kokoanalytics.com/pricing) adds several powerful benefits like custom event tracking, collecting country and device statistics, being notified of traffic spikes or receiving periodic email reports.
 
 
 == Installation ==

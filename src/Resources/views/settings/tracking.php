@@ -17,14 +17,14 @@
                 </li>
                 <li>
                     <label class="">
-                    <input type="radio" name="koko_analytics_settings[tracking_method]" value="fingerprint" <?php checked($settings['tracking_method'], 'fingerprint'); ?>>
-                    <strong><?php esc_html_e('Cookieless', 'koko-analytics'); ?>: </strong> <?php esc_html_e('slightly less accurate and private, but does not require a cookie policy or consent.', 'koko-analytics'); ?>
-                </label>
+                        <input type="radio" name="koko_analytics_settings[tracking_method]" value="fingerprint" <?php checked($settings['tracking_method'], 'fingerprint'); ?>>
+                        <strong><?php esc_html_e('Cookieless', 'koko-analytics'); ?>: </strong> <?php esc_html_e('slightly less accurate and private, but does not require a cookie policy or consent.', 'koko-analytics'); ?>
+                    </label>
                 </li>
                 <li><label class="">
-                    <input type="radio" name="koko_analytics_settings[tracking_method]" value="none" <?php checked($settings['tracking_method'], 'none'); ?>>
-                    <strong><?php esc_html_e('None', 'koko-analytics'); ?>: </strong> <?php esc_html_e('if you don\'t care about unique pageviews.', 'koko-analytics'); ?>
-                </label>
+                        <input type="radio" name="koko_analytics_settings[tracking_method]" value="none" <?php checked($settings['tracking_method'], 'none'); ?>>
+                        <strong><?php esc_html_e('None', 'koko-analytics'); ?>: </strong> <?php esc_html_e('if you don\'t care about unique pageviews.', 'koko-analytics'); ?>
+                    </label>
                 </li>
             </ul>
 
@@ -74,3 +74,8 @@
         <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes') ?>">
     </div>
 </form>
+
+
+<?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
+    <p class="text-muted mt-5"><?= sprintf(__('Collect country, browser, operating system and device statistics with %s.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>'); ?></p>
+<?php endif; ?>
