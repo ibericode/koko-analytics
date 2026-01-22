@@ -71,7 +71,7 @@ Read more about why [Koko Analytics is privacy-friendly](https://www.kokoanalyti
 Koko Analytics is very fast.
 
 - It only adds a single script of less than 500 bytes to your pages.
-- Data is collected using an optimized tracking endpoint which bypasses loading WordPress entirely.
+- Data is collected using an optimized tracking endpoint which bypasses WordPress entirely.
 
 The performance impact for your visitors will be as close to zero as technically possible.
 
@@ -88,6 +88,12 @@ Yes, but you can disable cookies entirely in the settings.
 If using cookies, Koko Analytics sets a single `_koko_analytics_pages_viewed` cookie (max 24h lifetime) to detect unique visitors without storing personal data.
 
 More info: [Does Koko Analytics use cookies?](https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/)
+
+#### Is Koko Analytics free?
+
+Yes. Koko Analytics is a free plugin that you can install on your site without requiring any third-party services.
+
+Some more advanced features are bundled in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/), which you can purchase for a small yearly fee.
 
 #### Where can I find more documentation?
 On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
