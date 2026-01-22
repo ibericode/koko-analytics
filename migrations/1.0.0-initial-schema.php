@@ -40,3 +40,10 @@ $wpdb->query(
        UNIQUE INDEX (url)
     ) ENGINE=INNODB CHARACTER SET=ascii"
 );
+
+// Grant admin role the capabilities to view and manage Koko Analytics
+$role = get_role('administrator');
+if ($role) {
+    $role->add_cap('view_koko_analytics');
+    $role->add_cap('manage_koko_analytics');
+}

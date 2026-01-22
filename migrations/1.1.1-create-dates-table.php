@@ -14,19 +14,14 @@ $wpdb->query(
 	) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
-$date   = new \DateTime('2000-01-01');
-$end    = new \DateTime('2100-01-01');
-$values = [];
+$date   = new \DateTime('-10 years');
+$end    = new \DateTime('+30 years');
 while ($date < $end) {
-    $values[] = $date->format('Y-m-d');
+    $dates[] = $date->format('Y-m-d');
     $date->modify('+1 day');
-
-    if (count($values) === 365) {
-        $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
-        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_dates(date) VALUES {$placeholders}", $values));
-        $values = [];
-    }
 }
 
-$placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
-$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_dates(date) VALUES {$placeholders}", $values));
+foreach (array_chunk($dates, 500) as $values) {
+    $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
+    $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_dates(date) VALUES {$placeholders}", $values));
+}
