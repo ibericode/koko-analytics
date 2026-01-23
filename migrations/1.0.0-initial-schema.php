@@ -8,17 +8,17 @@ global $wpdb;
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_site_stats (
            date DATE PRIMARY KEY NOT NULL,
-           visitors MEDIUMINT UNSIGNED NOT NULL,
-           pageviews MEDIUMINT UNSIGNED NOT NULL
+           visitors INT UNSIGNED NOT NULL DEFAULT 0,
+           pageviews INT UNSIGNED NOT NULL DEFAULT 0
     ) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_post_stats (
        date DATE NOT NULL,
-       id BIGINT(20) UNSIGNED NOT NULL,
-       visitors MEDIUMINT UNSIGNED NOT NULL,
-       pageviews MEDIUMINT UNSIGNED NOT NULL,
+       id BIGINT UNSIGNED NOT NULL,
+       visitors INT UNSIGNED NOT NULL DEFAULT 0,
+       pageviews INT UNSIGNED NOT NULL DEFAULT 0,
        PRIMARY KEY (date, id)
     ) ENGINE=INNODB CHARACTER SET=ascii"
 );
@@ -26,16 +26,16 @@ $wpdb->query(
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_referrer_stats (
        date DATE NOT NULL,
-       id MEDIUMINT UNSIGNED NOT NULL,
-       visitors MEDIUMINT UNSIGNED NOT NULL,
-       pageviews MEDIUMINT UNSIGNED NOT NULL,
+       id INT UNSIGNED NOT NULL,
+       visitors INT UNSIGNED NOT NULL DEFAULT 0,
+       pageviews INT UNSIGNED NOT NULL DEFAULT 0,
        PRIMARY KEY (date, id)
     ) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_referrer_urls (
-       id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        url VARCHAR(255) NOT NULL,
        UNIQUE INDEX (url)
     ) ENGINE=INNODB CHARACTER SET=ascii"
