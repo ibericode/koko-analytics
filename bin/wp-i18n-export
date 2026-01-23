@@ -26,7 +26,7 @@ $dir = trim($argv[2]);
 $directory = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS);
 $filter = new \RecursiveCallbackFilterIterator($directory, function ($current, $key, $iterator) {
     // Skip hidden files and directories.
-    if (str_starts_with($current->getFilename(), '.')) {
+    if (strpos($current->getFilename(), '.') === 0) {
         return false;
     }
 
