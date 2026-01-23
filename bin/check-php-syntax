@@ -33,7 +33,7 @@ foreach ($iterator as $file) {
   $output = join("\n", $output);
   echo $output . "\n";
 
-  if ($exit_code || str_contains($output, 'Deprecated')) {
+  if ($exit_code || strpos($output, 'Deprecated') !== false) {
     $global_exit_code = 1;
   }
 }
