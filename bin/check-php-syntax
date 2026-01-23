@@ -9,25 +9,31 @@
  */
 
 $global_exit_code = 0;
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(".", RecursiveDirectoryIterator::SKIP_DOTS));
 
-foreach ($iterator as $file) {
-  if (
-    strpos($file->getPathname(), './vendor/') === 0
-    || strpos($file->getPathname(), './node_modules/') === 0
-    || false == $file->isFile()
-    || $file->getExtension() !== 'php'
-  ) {
-    continue;
+$directory = new \RecursiveDirectoryIterator(".", \FilesystemIterator::FOLLOW_SYMLINKS);
+$filter = new \RecursiveCallbackFilterIterator($directory, function ($current, $key, $iterator) {
+  // Skip hidden files and directories.
+  if (str_starts_with($current->getFilename(), '.')) {
+    return false;
   }
 
+  // Skip node_modules and vendor directory
+  if ($current->isDir()) {
+    return ! in_array($current->getFilename(), ['vendor', 'node_modules']);
+  }
+
+  return $current->getExtension() == "php";
+});
+$iterator = new \RecursiveIteratorIterator($filter);
+
+foreach ($iterator as $file) {
   $exit_code = 0;
   $output = [];
   exec("php --define error_reporting=-1 -l {$file->getPathname()}", $output, $exit_code);
   $output = join("\n", $output);
   echo $output . "\n";
 
-  if ($exit_code || strpos($output, 'Deprecated') !== false) {
+  if ($exit_code || str_contains($output, 'Deprecated')) {
     $global_exit_code = 1;
   }
 }

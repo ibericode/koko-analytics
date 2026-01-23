@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 use PhpParser\Error;
 use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
@@ -8,6 +9,7 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Throw_;
 
 // Depends on nikic/php-parser
 
@@ -21,9 +23,23 @@ if (count($argv) <= 2) {
 $plugin = trim($argv[1]);
 $dir = trim($argv[2]);
 
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS | RecursiveIteratorIterator::LEAVES_ONLY));
-$results = [];
+$directory = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS);
+$filter = new \RecursiveCallbackFilterIterator($directory, function ($current, $key, $iterator) {
+    // Skip hidden files and directories.
+    if (str_starts_with($current->getFilename(), '.')) {
+        return false;
+    }
 
+    // Skip node_modules and vendor directory
+    if ($current->isDir()) {
+        return ! in_array($current->getFilename(), ['vendor', 'node_modules']);
+    }
+
+    return $current->getExtension() == "php";
+});
+$iterator = new \RecursiveIteratorIterator($filter);
+
+$results = [];
 $currentFile = '';
 $parser = (new ParserFactory())->createForNewestSupportedVersion();
 $traverser = new NodeTraverser();
@@ -50,15 +66,11 @@ $traverser->addVisitor(new class extends NodeVisitorAbstract {
 });
 
 foreach ($iterator as $file) {
-    if (! $file->isFile() || str_starts_with($file->getPathname(), './vendor/') || str_starts_with($file->getPathname(), './node_modules/')|| $file->getExtension() !== 'php') {
-        continue;
-    }
-
     $currentFile = $file->getPathname();
     $fileContents = file_get_contents($file->getPathname());
     try {
         $ast = $parser->parse($fileContents);
-    } catch (Error $error) {
+    } catch (Throwable $error) {
         echo "Parse error in file {$file->getPathname()}: {$error->getMessage()}\n";
         exit(1);
     }

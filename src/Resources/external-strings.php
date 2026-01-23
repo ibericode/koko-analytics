@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 // i18n strings for koko-analytics-pro
 
