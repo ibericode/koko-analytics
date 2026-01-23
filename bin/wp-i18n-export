@@ -78,7 +78,7 @@ foreach ($iterator as $file) {
 }
 
 // generate output
-echo "<?php \n\n";
+echo "<?php\n\n";
 echo "// i18n strings for $plugin\n";
 
 foreach ($results as [$file, $line, $string, $domain]) {
