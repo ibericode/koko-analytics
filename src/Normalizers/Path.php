@@ -4,7 +4,6 @@ namespace KokoAnalytics\Normalizers;
 
 class Path
 {
-
     public static function get_allowed_query_vars(): array
     {
         return apply_filters('koko_analytics_allowed_query_vars', ['page_id', 'p', 'tag', 'cat', 'product', 'attachment_id']);
