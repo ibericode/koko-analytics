@@ -1,5 +1,13 @@
 # Changelog
 
+
+### 2.2.1 - Feb 02, 2026
+
+- gutenberg: add counter block type
+- tracking: add filter koko_analytics_allowed_query_vars ([example](https://github.com/ibericode/koko-analytics/blob/9a038eacf51f5eded9abc4920bbcd9c792bafc02/code-snippets/allow-query-vars.php))
+- performance: rollup database migrations older than 5 years.
+
+
 ### 2.2.0 - Jan 21, 2026
 
 - settings: allow plugins to register their own settings tab through the `koko_analytics_settings_tabs` filter.
