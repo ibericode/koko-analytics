@@ -29,13 +29,6 @@ class Controller
             add_filter('plugin_action_links', [$this, 'filter_plugin_action_links'], 10, 2);
             add_filter('plugin_row_meta', [$this, 'filter_plugin_row_meta'], 10, 2);
         }
-
-        // actions for jetpack importer
-        add_action('koko_analytics_start_jetpack_import', [Jetpack_Importer::class, 'start_import'], 10, 0);
-        add_action('koko_analytics_jetpack_import_chunk', [Jetpack_Importer::class, 'import_chunk'], 10, 0);
-
-        // actions for plausible importer
-        add_action('koko_analytics_start_plausible_import', [Plausible_Importer::class, 'start_import'], 10, 0);
     }
 
     public function action_wp_loaded()

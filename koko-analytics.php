@@ -55,12 +55,13 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
 require __DIR__ . '/src/Controller.php';
 (new Controller())->hook();
 
-// block types
+// Block related hooks
 require __DIR__ . '/src/Blocks.php';
 (new Blocks())->hook();
 
-// Admin hooks (admin/ajax only)
+// Admin hooks (admin only)
 if (is_admin() && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
+    require __DIR__ . '/src/Admin/Controller.php';
     (new Admin\Controller())->hook();
 }
 

@@ -12,6 +12,8 @@ use KokoAnalytics\Endpoint_Installer;
 use KokoAnalytics\Data_Exporter;
 use KokoAnalytics\Data_Importer;
 use KokoAnalytics\Fingerprinter;
+use KokoAnalytics\Import\Jetpack_Importer;
+use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Normalizers\Normalizer;
 use KokoAnalytics\Path_Repository;
 
@@ -42,12 +44,14 @@ class Actions
             'reset_statistics' => [Data_Reset::class, 'action_listener'],
             'import_data' => [Data_Import::class, 'action_listener'],
             'export_data' => [Data_Export::class, 'action_listener'],
+            'start_jetpack_import' => [Jetpack_Importer::class, 'start_import'],
+            'jetpack_import_chunk' => [Jetpack_Importer::class, 'import_chunk'],
+            'start_plausible_import' => [Plausible_Importer::class, 'start_import'],
         ];
-
 
         // for BC reasons, still fire the action hook
         // it is important we fire it before running the registered callback
-        // because that way we can respond with a redirect an terminate the request
+        // because that way we can initiate a redirect from our own callback
         do_action("koko_analytics_{$action}");
 
         if (isset($map[$action])) {
@@ -58,7 +62,7 @@ class Actions
         exit;
     }
 
-    public function install_optimized_endpoint(): void
+    public function install_optimized_endpoint()
     {
         $result = Endpoint_Installer::install();
         if ($result !== true) {
@@ -69,7 +73,7 @@ class Actions
         exit;
     }
 
-    public function save_settings(): void
+    public function save_settings()
     {
         if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_save_settings') || ! isset($_POST['koko_analytics_settings'])) {
             return;
@@ -106,7 +110,7 @@ class Actions
         exit;
     }
 
-    public function migrate_post_stats_to_v2(): void
+    public function migrate_post_stats_to_v2()
     {
         @set_time_limit(0);
 
@@ -156,7 +160,7 @@ class Actions
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats_old");
     }
 
-    public function migrate_referrer_stats_to_v2(): void
+    public function migrate_referrer_stats_to_v2()
     {
         @set_time_limit(0);
 
@@ -218,7 +222,7 @@ class Actions
      * Between version 2.0 and 2.0.10, there was an issue with the migration script above which would result in incorrect path ID's being returned when bulk inserting new paths.
      * This fixes every entry in the post_stats table by checking each path whether it is correct
      */
-    public function fix_post_paths_after_v2(): void
+    public function fix_post_paths_after_v2()
     {
         @set_time_limit(0);
 
