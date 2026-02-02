@@ -147,9 +147,9 @@ function wp_timezone(): DateTimeZone
     return new DateTimeZone('UTC');
 }
 
-function wp_register_script($handle, $src, $deps = array()) {}
+function wp_register_script($handle, $src, $deps = []) {}
 function plugins_url($file, $path) {}
-function register_block_type($file, $args = array()) {}
+function register_block_type($file, $args = []) {}
 
 class wpdb_mock
 {
