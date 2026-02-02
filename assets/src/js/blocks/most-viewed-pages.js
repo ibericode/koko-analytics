@@ -1,6 +1,7 @@
 const MY_VARIATION_NAME = 'koko-analytics/most-viewed-pages';
+const { registerBlockVariation } = window.wp.blocks
 
-window.wp.blocks.registerBlockVariation( 'core/query', {
+registerBlockVariation( 'core/query', {
     apiVersion: 3,
     name: MY_VARIATION_NAME,
     title: 'Most Viewed Post Type',

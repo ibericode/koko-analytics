@@ -35,8 +35,6 @@ class Shortcode_Site_Counter
         $args['days'] = abs((int) $args['days']);
         $path = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : self::get_post_path();
 
-
-
         $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
         $timezone = wp_timezone();
         $start_date = (new DateTime($start_date_str, $timezone))->format('Y-m-d');
@@ -63,6 +61,8 @@ class Shortcode_Site_Counter
         if (!empty($url_parts['query'])) {
             $path .= '?' . $url_parts['query'];
         }
+
+
         return Normalizer::path($path);
     }
 }

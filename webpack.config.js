@@ -8,7 +8,8 @@ module.exports = {
     script: './assets/src/js/script.js',
     sw: './assets/src/js/sw.js',
     'koko-analytics-script-test': './assets/src/js/koko-analytics-script-test.js',
-    'query-loop-block': './assets/src/js/query-loop-block.js'
+    'blocks/most-viewed-pages': './assets/src/js/blocks/most-viewed-pages.js',
+    'blocks/counter': './assets/src/js/blocks/counter.js'
   },
   output: {
     filename: '[name].js',

@@ -76,10 +76,6 @@ add_action('wp_footer', [Script_Loader::class, 'maybe_print_script'], 10, 0);
 add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
 add_action('admin_bar_menu', [Admin\Bar::class, 'register'], 40, 1);
 
-// query loop block
-add_action('admin_enqueue_scripts', [Query_Loop_Block::class, 'admin_enqueue_scripts']);
-add_filter('pre_render_block', [Query_Loop_Block::class, 'pre_render_block'], 10, 3);
-
 // init REST API endpoint
 add_action('rest_api_init', [Rest::class, 'register_routes'], 10, 0);
 
@@ -140,9 +136,12 @@ add_action('init', function () {
 // register most viewed posts widget
 add_action('widgets_init', [Most_Viewed_Posts_Widget::class, 'register'], 10, 0);
 
+// block types
+require __DIR__ . '/src/Blocks.php';
+(new Blocks())->hook();
+
 if (\is_admin()) {
     new Admin\Admin();
-
     add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
 }
 
