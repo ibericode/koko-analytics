@@ -30,9 +30,6 @@ class Controller
         // Maybe run any pending database migrations
         $migrations = new Migrations('koko_analytics', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
         $migrations->maybe_run();
-
-        // Run actions
-        (new Actions())->run();
     }
 
     public function action_init()

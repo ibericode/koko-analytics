@@ -17,20 +17,11 @@ class Controller
 {
     public function hook()
     {
+        add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
         add_action('wp_dashboard_setup', [$this, 'action_wp_dashboard_setup'], 10, 0);
-        add_action('admin_notices', [$this, 'show_migrate_to_v2_notice'], 10, 0);
+        add_action('admin_notices', [$this, 'action_admin_notices'], 10, 0);
         add_action('admin_menu', [$this, 'action_admin_menu'], 10, 0);
         add_action('admin_enqueue_scripts', [$this, 'action_admin_enqueue_scripts'], 10, 1);
-
-        // TODO: Refactor below to use a single action?
-        add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
-        add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
-        add_action('koko_analytics_reset_statistics', [Data_Reset::class, 'action_listener'], 20, 0);
-        add_action('koko_analytics_export_data', [Data_Export::class, 'action_listener'], 10, 0);
-        add_action('koko_analytics_import_data', [Data_Import::class, 'action_listener'], 10, 0);
-        add_action('koko_analytics_migrate_post_stats_to_v2', [Actions::class, 'migrate_post_stats_to_v2'], 10, 0);
-        add_action('koko_analytics_migrate_referrer_stats_to_v2', [Actions::class, 'migrate_referrer_stats_to_v2'], 10, 0);
-        add_action('koko_analytics_fix_post_paths_after_v2', [Actions::class, 'fix_post_paths_after_v2'], 10, 0);
 
         // Hooks for plugins overview page
         global $pagenow;
@@ -45,6 +36,11 @@ class Controller
 
         // actions for plausible importer
         add_action('koko_analytics_start_plausible_import', [Plausible_Importer::class, 'start_import'], 10, 0);
+    }
+
+    public function action_wp_loaded()
+    {
+        (new Actions())->run();
     }
 
     public function action_admin_menu()
@@ -115,7 +111,7 @@ class Controller
         wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'defer']);
     }
 
-    public function show_migrate_to_v2_notice()
+    public function action_admin_notices()
     {
         // only show to users with required capability
         if (!current_user_can('manage_koko_analytics')) {

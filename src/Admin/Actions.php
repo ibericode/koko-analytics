@@ -19,7 +19,46 @@ use function KokoAnalytics\get_settings;
 
 class Actions
 {
-    public static function install_optimized_endpoint(): void
+    public function run()
+    {
+        if (isset($_GET['koko_analytics_action'])) {
+            $action = trim($_GET['koko_analytics_action']);
+        } elseif (isset($_POST['koko_analytics_action'])) {
+            $action = trim($_POST['koko_analytics_action']);
+        } else {
+            return;
+        }
+
+        if (!current_user_can('manage_koko_analytics')) {
+            return;
+        }
+
+        $map = [
+            'install_optimized_endpoint' => [$this, 'install_optimized_endpoint'],
+            'save_settings' => [$this, 'save_settings'],
+            'migrate_post_stats_to_v2' => [$this, 'migrate_post_stats_to_v2'],
+            'migrate_referrer_stats_to_v2' => [$this, 'migrate_referrer_stats_to_v2'],
+            'fix_post_paths_after_v2' => [$this, 'fix_post_paths_after_v2'],
+            'reset_statistics' => [Data_Reset::class, 'action_listener'],
+            'import_data' => [Data_Import::class, 'action_listener'],
+            'export_data' => [Data_Export::class, 'action_listener'],
+        ];
+
+
+        // for BC reasons, still fire the action hook
+        // it is important we fire it before running the registered callback
+        // because that way we can respond with a redirect an terminate the request
+        do_action("koko_analytics_{$action}");
+
+        if (isset($map[$action])) {
+            call_user_func($map[$action]);
+        }
+
+        wp_safe_redirect(remove_query_arg('koko_analytics_action'));
+        exit;
+    }
+
+    public function install_optimized_endpoint(): void
     {
         $result = Endpoint_Installer::install();
         if ($result !== true) {
@@ -30,7 +69,7 @@ class Actions
         exit;
     }
 
-    public static function save_settings(): void
+    public function save_settings(): void
     {
         if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_save_settings') || ! isset($_POST['koko_analytics_settings'])) {
             return;
@@ -67,7 +106,7 @@ class Actions
         exit;
     }
 
-    public static function migrate_post_stats_to_v2(): void
+    public function migrate_post_stats_to_v2(): void
     {
         @set_time_limit(0);
 
@@ -87,7 +126,7 @@ class Actions
             // create a mapping of post_id => path
             $post_id_to_path_map = [];
             foreach ($results as $r) {
-                $post_id_to_path_map["{$r->post_id}"] = self::get_path_by_post_id($r->post_id);
+                $post_id_to_path_map["{$r->post_id}"] = $this->get_path_by_post_id($r->post_id);
             }
 
             // bulk insert all paths
@@ -96,7 +135,7 @@ class Actions
             // update post_stats table to point to paths we just inserted
             foreach ($post_id_to_path_map as $post_id => $path) {
                 $path_id = $path_to_path_id_map[$path];
-                $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_post_stats SET path_id = %d WHERE post_id = %d", [ $path_id, $post_id ]));
+                $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_post_stats SET path_id = %d WHERE post_id = %d", [$path_id, $post_id]));
             }
         } while (true);
 
@@ -117,7 +156,7 @@ class Actions
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats_old");
     }
 
-    public static function migrate_referrer_stats_to_v2(): void
+    public function migrate_referrer_stats_to_v2(): void
     {
         @set_time_limit(0);
 
@@ -141,8 +180,8 @@ class Actions
 
                 //  if row is seriously malformed, delete it
                 if ($row->url === '') {
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [ $row->id ]));
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [ $row->id ]));
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [$row->id]));
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [$row->id]));
                     continue;
                 }
 
@@ -160,14 +199,14 @@ class Actions
                     }
 
                     // try to update all rows to new id (this will fail for some rows)
-                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET id = %d WHERE id = %d", [ $id, $row->id ]));
+                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET id = %d WHERE id = %d", [$id, $row->id]));
 
                     // delete rows that still have old ID at this point
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [ $row->id ]));
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [ $row->id ]));
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [$row->id]));
+                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [$row->id]));
                 } else {
                     // otherwise change entry to normalized version
-                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_urls SET url = %s WHERE id = %d", [ $row->url, $row->id ]));
+                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_urls SET url = %s WHERE id = %d", [$row->url, $row->id]));
                 }
             }
         } while ($results);
@@ -179,7 +218,7 @@ class Actions
      * Between version 2.0 and 2.0.10, there was an issue with the migration script above which would result in incorrect path ID's being returned when bulk inserting new paths.
      * This fixes every entry in the post_stats table by checking each path whether it is correct
      */
-    public static function fix_post_paths_after_v2(): void
+    public function fix_post_paths_after_v2(): void
     {
         @set_time_limit(0);
 
@@ -197,7 +236,7 @@ class Actions
             }
 
             foreach ($results as $r) {
-                $correct_path = self::get_path_by_post_id($r->post_id);
+                $correct_path = $this->get_path_by_post_id($r->post_id);
                 if ($r->path != $correct_path) {
                     // get correct path id
                     $path_to_id_map = Path_Repository::upsert([$correct_path]);
@@ -210,7 +249,7 @@ class Actions
         } while (true);
     }
 
-    private static function get_path_by_post_id($post_id)
+    private function get_path_by_post_id($post_id)
     {
         $home_url = home_url('/');
         $post_permalink = $post_id ? get_permalink($post_id) : $home_url;
