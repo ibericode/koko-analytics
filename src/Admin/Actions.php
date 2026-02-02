@@ -21,6 +21,7 @@ use function KokoAnalytics\get_settings;
 
 class Actions
 {
+    // TODO: Add nonce verification to all mapped actions so that we can remove this from callbacks
     public function run()
     {
         if (isset($_GET['koko_analytics_action'])) {
@@ -35,6 +36,9 @@ class Actions
             return;
         }
 
+        // TODO: Allow plugins to hook into this to register their own actions
+        // TODO: Use light callback methods in this class with the main lifting done in instance methods on decoupled classes
+        // TODO: Do all HTTP manipulation in this class so we can re-use the other classes in WP_CLI etc.
         $map = [
             'install_optimized_endpoint' => [$this, 'install_optimized_endpoint'],
             'save_settings' => [$this, 'save_settings'],

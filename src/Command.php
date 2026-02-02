@@ -46,7 +46,7 @@ class Command
     public function migrate_post_stats_to_v2($args, $assoc_args)
     {
         WP_CLI::line('Migrating post stats...');
-        Actions::migrate_post_stats_to_v2();
+        (new Actions())->migrate_post_stats_to_v2();
         WP_CLI::success('Post stats migrated');
     }
 
@@ -56,7 +56,7 @@ class Command
     public function migrate_referrer_stats_to_v2($args, $assoc_args)
     {
         WP_CLI::line('Migrating referrer stats...');
-        Actions::migrate_referrer_stats_to_v2();
+        (new Actions())->migrate_referrer_stats_to_v2();
         WP_CLI::success('Referrer stats migrated');
     }
 }
