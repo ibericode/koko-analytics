@@ -12,28 +12,26 @@ use DateTimeImmutable;
 
 class Rest
 {
-    public static function register_routes(): void
+    public function register_routes(): void
     {
-        $instance = new Rest();
         $route_namespace = 'koko-analytics/v1';
-
         register_rest_route(
             $route_namespace,
             '/stats',
             [
-                'callback'            => [$instance, 'get_stats'],
+                'callback'            => [$this, 'get_stats'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                     'monthly' => [
-                        'sanitize_callback' => [$instance, 'sanitize_bool_param'],
+                        'sanitize_callback' => [$this, 'sanitize_bool_param'],
                     ],
                 ],
-                'permission_callback' => [$instance, 'permission_callback'],
+                'permission_callback' => [$this, 'permission_callback'],
             ]
         );
 
@@ -41,16 +39,16 @@ class Rest
             $route_namespace,
             '/totals',
             [
-                'callback'            => [$instance, 'get_totals'],
+                'callback'            => [$this, 'get_totals'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                 ],
-                'permission_callback' => [$instance, 'permission_callback'],
+                'permission_callback' => [$this, 'permission_callback'],
             ]
         );
 
@@ -58,16 +56,16 @@ class Rest
             $route_namespace,
             '/posts',
             [
-                'callback'            => [$instance, 'get_posts'],
+                'callback'            => [$this, 'get_posts'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                 ],
-                'permission_callback' => [$instance, 'permission_callback'],
+                'permission_callback' => [$this, 'permission_callback'],
             ]
         );
 
@@ -75,16 +73,16 @@ class Rest
             $route_namespace,
             '/referrers',
             [
-                'callback'            => [$instance, 'get_referrers'],
+                'callback'            => [$this, 'get_referrers'],
                 'args'                => [
                     'start_date' => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                     'end_date'   => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                 ],
-                'permission_callback' => [$instance, 'permission_callback'],
+                'permission_callback' => [$this, 'permission_callback'],
             ]
         );
 
@@ -92,13 +90,13 @@ class Rest
             $route_namespace,
             '/realtime',
             [
-                'callback'            => [$instance, 'get_realtime_pageview_count'],
+                'callback'            => [$this, 'get_realtime_pageview_count'],
                 'args'                => [
                     'since' => [
-                        'validate_callback' => [$instance, 'validate_date_param'],
+                        'validate_callback' => [$this, 'validate_date_param'],
                     ],
                 ],
-                'permission_callback' => [$instance, 'permission_callback'],
+                'permission_callback' => [$this, 'permission_callback'],
             ]
         );
     }

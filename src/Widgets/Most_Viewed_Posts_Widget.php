@@ -15,11 +15,6 @@ class Most_Viewed_Posts_Widget extends WP_Widget
 {
     public $alt_option_name = 'widget_koko_analytics_most_viewed_posts';
 
-    public static function register(): void
-    {
-        register_widget(self::class);
-    }
-
     public function __construct()
     {
         $widget_ops = [
@@ -94,7 +89,7 @@ class Most_Viewed_Posts_Widget extends WP_Widget
     public function form($instance)
     {
         $settings   = array_merge($this->get_default_settings(), $instance);
-        $post_types = get_post_types([ 'public' => true ], 'objects');
+        $post_types = get_post_types(['public' => true], 'objects');
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>" style="display: block;"><?php esc_html_e('Title:', 'koko-analytics'); ?></label>

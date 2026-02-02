@@ -8,16 +8,18 @@
 
 namespace KokoAnalytics\Admin;
 
+use KokoAnalytics\Dashboard_Widget;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Router;
 
-class Admin
+class Controller
 {
-    public function __construct()
+    public function hook()
     {
         global $pagenow;
 
+        add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
         add_action('admin_notices', [$this, 'show_migrate_to_v2_notice'], 10, 0);
         add_action('admin_menu', [$this, 'register_menu'], 10, 0);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts'], 10, 1);
@@ -100,7 +102,7 @@ class Admin
         }
 
         wp_enqueue_style('koko-analytics-dashboard', plugins_url('assets/dist/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION);
-        wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, [ 'strategy' => 'defer' ]);
+        wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'defer']);
     }
 
     public function show_migrate_to_v2_notice(): void
