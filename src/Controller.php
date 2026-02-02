@@ -5,6 +5,7 @@ namespace KokoAnalytics;
 use KokoAnalytics\Shortcodes\Shortcode_Most_Viewed_Posts;
 use KokoAnalytics\Shortcodes\Shortcode_Site_Counter;
 use KokoAnalytics\Widgets\Most_Viewed_Posts_Widget;
+use WP_Admin_Bar;
 
 class Controller
 {
@@ -12,32 +13,38 @@ class Controller
     {
         add_action('init', [$this, 'action_init'], 0, 0);
         add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
+        add_action('wp', [$this, 'action_wp'], 10, 0);
+
         add_filter('cron_schedules', [$this, 'filter_cron_schedules'], 10, 1);
         add_action('widgets_init', [$this, 'action_widgets_init'], 10, 0);
         add_action('rest_api_init', [$this, 'action_rest_api_init'], 10, 0);
-        add_action('wp', [$this, 'action_wp'], 10, 0);
+
+        add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
+        add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
+        add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run_daily_maintenance'], 10, 0);
+        add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
     }
 
-    public function action_wp_loaded(): void
+    public function action_wp_loaded()
     {
         // Maybe run any pending database migrations
         $migrations = new Migrations('koko_analytics', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
         $migrations->maybe_run();
 
         // Run actions
-        // TODO: Use instance with instance methods here
-        Actions::run();
+        (new Actions())->run();
     }
 
-    public function action_init(): void
+    public function action_init()
     {
-        // ajax collection endpoint (only used in case optimized endpoint is not installed)
-        maybe_collect_request();
+        // listener for ajax collection endpoint (only used in case optimized endpoint is not installed)
+        $this->maybe_collect_request();
+
+        // listener for standalone dashboard
+        $this->maybe_show_dashboard();
 
         add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
         add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
-
-        $this->maybe_show_dashboard();
     }
 
     public function filter_cron_schedules($schedules)
@@ -49,54 +56,55 @@ class Controller
         return $schedules;
     }
 
-    public function action_widgets_init(): void
+    public function action_widgets_init()
     {
         register_widget(Most_Viewed_Posts_Widget::class);
     }
 
-    public function rest_api_init(): void
+    public function action_rest_api_init()
     {
         (new Rest())->register_routes();
     }
 
-    public function action_wp(): void
+    public function action_wp()
     {
-        // TODO: Create instance here and use instance methods
-        add_action('wp_head', [Script_Loader::class, 'print_js_object'], 1, 0);
-        add_action('wp_footer', [Script_Loader::class, 'maybe_print_script'], 10, 0);
-        add_action('amp_print_analytics', [Script_Loader::class, 'print_amp_analytics_tag'], 10, 0);
-        add_action('admin_bar_menu', [Admin\Bar::class, 'register'], 40, 1);
+        (new Script_Loader())->hook();
+        add_action('admin_bar_menu', [$this, 'action_admin_bar_menu'], 40, 1);
     }
 
-    protected function maybe_show_dashboard(): void
+    public function action_admin_bar_menu(WP_Admin_Bar $wp_admin_bar): void
     {
-        // TODO: Move most of this code to standalone dashboard class?
-        if (!Router::is('dashboard-standalone')) {
+        // only show on frontend
+        // only show for users who can access statistics page
+        if (is_admin() || false == current_user_can('view_koko_analytics')) {
             return;
         }
 
-        $settings = get_settings();
-        if (!$settings['is_dashboard_public'] && !current_user_can('view_koko_analytics')) {
+        $wp_admin_bar->add_node(
+            [
+                'parent' => 'site-name',
+                'id' => 'koko-analytics',
+                'title' => esc_html__('Analytics', 'koko-analytics'),
+                'href' => admin_url('/index.php?page=koko-analytics'),
+            ]
+        );
+    }
+
+    protected function maybe_collect_request()
+    {
+        if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
             return;
         }
 
-        // don't serve public dashboard to anything that looks like a bot or crawler
-        if (empty($_SERVER['HTTP_USER_AGENT']) || \preg_match("/bot|crawl|spider/", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+        collect_request();
+    }
+
+    protected function maybe_show_dashboard()
+    {
+        if (! isset($_GET['koko-analytics-dashboard']) && ! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
             return;
-        }
-
-        header("Content-Type: text/html; charset=utf-8");
-        header("X-Robots-Tag: noindex, nofollow");
-
-        if (is_user_logged_in()) {
-            header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
-        } elseif (isset($_GET['end_date'], $_GET['start_date']) && $_GET['end_date'] < date('Y-m-d')) {
-            header("Cache-Control: public, max-age=68400");
-        } else {
-            header("Cache-Control: public, max-age=60");
         }
 
         (new Dashboard_Standalone())->show();
-        exit;
     }
 }

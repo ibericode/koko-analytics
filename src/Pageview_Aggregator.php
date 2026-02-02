@@ -46,7 +46,7 @@ class Pageview_Aggregator
         $date_key = $dt->format('Y-m-d');
 
         if (!isset($this->site_stats[$date_key])) {
-            $this->site_stats[$date_key] = [ 'visitors' => 0, 'pageviews' => 0 ];
+            $this->site_stats[$date_key] = ['visitors' => 0, 'pageviews' => 0];
         }
 
         // update site stats
@@ -61,7 +61,7 @@ class Pageview_Aggregator
             $this->post_stats[$date_key] = [];
         }
         if (! isset($this->post_stats[$date_key][$path])) {
-            $this->post_stats[$date_key][$path] = [ 'visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id ];
+            $this->post_stats[$date_key][$path] = ['visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id];
         }
 
         $this->post_stats[$date_key][$path]['pageviews'] += 1;
@@ -79,7 +79,7 @@ class Pageview_Aggregator
                 }
 
                 if (! isset($this->referrer_stats[$date_key][$referrer_url])) {
-                    $this->referrer_stats[$date_key][$referrer_url] = [ 'visitors' => 0, 'pageviews' => 0 ];
+                    $this->referrer_stats[$date_key][$referrer_url] = ['visitors' => 0, 'pageviews' => 0];
                 }
 
                 // increment stats
@@ -112,7 +112,7 @@ class Pageview_Aggregator
 
         // insert site stats
         foreach ($this->site_stats as $date => $stats) {
-            $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [ $date, $stats['visitors'], $stats['pageviews'] ]);
+            $sql = $wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$date, $stats['visitors'], $stats['pageviews']]);
             $wpdb->query($sql);
         }
 
@@ -164,7 +164,7 @@ class Pageview_Aggregator
         foreach ($counts as $timestamp => $unused) {
             // delete all data older than one hour
             if ((int) $timestamp < $one_hour_ago) {
-                unset($counts[ $timestamp ]);
+                unset($counts[$timestamp]);
             }
         }
 

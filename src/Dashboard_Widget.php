@@ -12,17 +12,17 @@ use DateTimeImmutable;
 
 class Dashboard_Widget
 {
-    public static function register_dashboard_widget(): void
+    public function register()
     {
         // only show if user can view stats
         if (!current_user_can('view_koko_analytics')) {
             return;
         }
 
-        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', [self::class, 'dashboard_widget'], 'dashboard', 'side', 'high');
+        add_meta_box('koko-analytics-dashboard-widget', 'Koko Analytics', [$this, 'show'], 'dashboard', 'side', 'high');
     }
 
-    public static function dashboard_widget(): void
+    public function show()
     {
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');

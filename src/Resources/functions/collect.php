@@ -14,15 +14,6 @@ namespace KokoAnalytics;
 
 use DateTimeImmutable;
 
-function maybe_collect_request(): void
-{
-    if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
-        return;
-    }
-
-    collect_request();
-}
-
 function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing

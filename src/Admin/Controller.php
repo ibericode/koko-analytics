@@ -17,13 +17,12 @@ class Controller
 {
     public function hook()
     {
-        global $pagenow;
-
-        add_action('wp_dashboard_setup', [Dashboard_Widget::class, 'register_dashboard_widget'], 10, 0);
+        add_action('wp_dashboard_setup', [$this, 'action_wp_dashboard_setup'], 10, 0);
         add_action('admin_notices', [$this, 'show_migrate_to_v2_notice'], 10, 0);
-        add_action('admin_menu', [$this, 'register_menu'], 10, 0);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts'], 10, 1);
+        add_action('admin_menu', [$this, 'action_admin_menu'], 10, 0);
+        add_action('admin_enqueue_scripts', [$this, 'action_admin_enqueue_scripts'], 10, 1);
 
+        // TODO: Refactor below to use a single action?
         add_action('koko_analytics_install_optimized_endpoint', [Actions::class, 'install_optimized_endpoint'], 10, 0);
         add_action('koko_analytics_save_settings', [Actions::class, 'save_settings'], 10, 0);
         add_action('koko_analytics_reset_statistics', [Data_Reset::class, 'action_listener'], 20, 0);
@@ -34,10 +33,10 @@ class Controller
         add_action('koko_analytics_fix_post_paths_after_v2', [Actions::class, 'fix_post_paths_after_v2'], 10, 0);
 
         // Hooks for plugins overview page
+        global $pagenow;
         if ($pagenow === 'plugins.php') {
-            $plugin_basename = basename(dirname(KOKO_ANALYTICS_PLUGIN_FILE)) . DIRECTORY_SEPARATOR . basename(KOKO_ANALYTICS_PLUGIN_FILE);
-            add_filter('plugin_action_links_' . $plugin_basename, [$this, 'add_plugin_settings_link'], 10, 1);
-            add_filter('plugin_row_meta', [$this, 'add_plugin_meta_links'], 10, 2);
+            add_filter('plugin_action_links', [$this, 'filter_plugin_action_links'], 10, 2);
+            add_filter('plugin_row_meta', [$this, 'filter_plugin_row_meta'], 10, 2);
         }
 
         // actions for jetpack importer
@@ -48,21 +47,30 @@ class Controller
         add_action('koko_analytics_start_plausible_import', [Plausible_Importer::class, 'start_import'], 10, 0);
     }
 
-    public function register_menu(): void
+    public function action_admin_menu()
     {
         add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', [Pages::class, 'show_dashboard_page']);
         add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', [Pages::class, 'show_settings_page']);
+    }
+
+    public function action_wp_dashboard_setup()
+    {
+        (new Dashboard_Widget())->register();
     }
 
     /**
      * Add the settings link to the Plugins overview
      *
      * @param array $links
-     *
+     * @param string $file
      * @return array
      */
-    public function add_plugin_settings_link($links): array
+    public function filter_plugin_action_links($links, $file)
     {
+        if ($file !== plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE)) {
+            return $links;
+        }
+
         $href = admin_url('options-general.php?page=koko-analytics-settings');
         $label = esc_html__('Settings', 'koko-analytics');
         $settings_link = "<a href=\"{$href}\">{$label}</a>";
@@ -75,10 +83,9 @@ class Controller
      *
      * @param array $links
      * @param string $file
-     *
      * @return array
      */
-    public function add_plugin_meta_links($links, $file): array
+    public function filter_plugin_row_meta($links, $file)
     {
         if ($file !== plugin_basename(KOKO_ANALYTICS_PLUGIN_FILE)) {
             return $links;
@@ -95,7 +102,10 @@ class Controller
         return $links;
     }
 
-    public function enqueue_scripts($hook_suffix): void
+    /**
+     * @param string $hook_suffix
+     */
+    public function action_admin_enqueue_scripts($hook_suffix)
     {
         if ($hook_suffix !== 'dashboard_page_koko-analytics' && $hook_suffix !== 'settings_page_koko-analytics-settings') {
             return;
@@ -105,7 +115,7 @@ class Controller
         wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'defer']);
     }
 
-    public function show_migrate_to_v2_notice(): void
+    public function show_migrate_to_v2_notice()
     {
         // only show to users with required capability
         if (!current_user_can('manage_koko_analytics')) {

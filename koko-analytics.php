@@ -64,12 +64,6 @@ if (is_admin() && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
     (new Admin\Controller())->hook();
 }
 
-// TODO: Optimize the below so we only need a single action hook
-add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
-add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
-add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run_daily_maintenance'], 10, 0);
-add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
-
 // WP CLI command
 if (class_exists('WP_CLI') && method_exists('WP_CLI', 'add_command')) {
     \WP_CLI::add_command('koko-analytics', Command::class);

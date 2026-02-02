@@ -26,24 +26,4 @@ class Router
                 break;
         }
     }
-
-    public static function is(string $name): bool
-    {
-        global $pagenow;
-
-        switch ($name) {
-            case 'dashboard-embedded':
-                return $pagenow === 'index.php' && ($_GET['page'] ?? '') === 'koko-analytics' && ! isset($_GET['tab']);
-                break;
-
-            case 'dashboard-standalone':
-                return isset($_GET['koko-analytics-dashboard']) || str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/');
-                break;
-
-            default:
-                break;
-        }
-
-        return false;
-    }
 }
