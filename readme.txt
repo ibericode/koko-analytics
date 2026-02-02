@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Tags: statistics, analytics, stats, google analytics, traffic
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -109,6 +109,14 @@ On our [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Changelog ==
+
+
+### 2.2.1 - Feb 02, 2026
+
+- gutenberg: add counter block type
+- tracking: add filter koko_analytics_allowed_query_vars ([example](https://github.com/ibericode/koko-analytics/blob/9a038eacf51f5eded9abc4920bbcd9c792bafc02/code-snippets/allow-query-vars.php))
+- performance: rollup database migrations older than 5 years.
+
 
 ### 2.2.0 - Jan 21, 2026
 
@@ -744,9 +752,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 ### 1.0.38 - Apr 25, 2023
 
-- Fix issue with dashboard widget rendering incorrectly when it was initially hidden.
-- Only render chart in dashboard widget when it is currently visible.
-
-
-### 1.0.37 ...
+- Fix ...
 
