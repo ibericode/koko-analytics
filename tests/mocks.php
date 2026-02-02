@@ -49,22 +49,16 @@ function apply_filters($hook, $value, $prio = 10, $args = 2)
     return $value;
 }
 
-function add_shortcode($a, $b)
-{
-}
+function add_shortcode($a, $b) {}
 
 function number_format_i18n($number, $decimals = 0)
 {
     return number_format($number, $decimals);
 }
 
-function register_activation_hook($file, $callback)
-{
-}
+function register_activation_hook($file, $callback) {}
 
-function register_deactivation_hook($file, $callback)
-{
-}
+function register_deactivation_hook($file, $callback) {}
 
 function update_option($option_name, $value, $autoload = false)
 {
@@ -83,13 +77,9 @@ function get_transient($name)
     return null;
 }
 
-function set_transient($name, $value, $ttl)
-{
-}
+function set_transient($name, $value, $ttl) {}
 
-function delete_transient($name)
-{
-}
+function delete_transient($name) {}
 
 function get_role($role)
 {
@@ -121,9 +111,7 @@ function wp_next_scheduled($event)
     return false;
 }
 
-function wp_schedule_event($timestamp, $recurrence, $hook, $args = [])
-{
-}
+function wp_schedule_event($timestamp, $recurrence, $hook, $args = []) {}
 
 function wp_upload_dir()
 {
@@ -152,14 +140,16 @@ function is_wp_error($thing)
     return false;
 }
 
-function _deprecated_function($function, $version, $replacement)
-{
-}
+function _deprecated_function($function, $version, $replacement) {}
 
 function wp_timezone(): DateTimeZone
 {
     return new DateTimeZone('UTC');
 }
+
+function wp_register_script($handle, $src, $deps = array()) {}
+function plugins_url($file, $path) {}
+function register_block_type($file, $args = array()) {}
 
 class wpdb_mock
 {
