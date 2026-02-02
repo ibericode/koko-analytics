@@ -63,7 +63,7 @@ class Pages
             'performance' => __('Performance', 'koko-analytics'),
             'help' => __('Help', 'koko-analytics'),
         ]);
-        $active_tab = isset($_GET['tab']) && isset($tabs[$_GET['tab']]) ? $_GET['tab'] : 'tracking';
+        $active_tab = $_GET['tab'] ?? 'tracking';
 
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
