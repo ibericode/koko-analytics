@@ -34,13 +34,11 @@ phpcs:disable PSR1.Files.SideEffects
 
 namespace KokoAnalytics;
 
-use KokoAnalytics\Shortcodes\Shortcode_Most_Viewed_Posts;
-use KokoAnalytics\Shortcodes\Shortcode_Site_Counter;
-use KokoAnalytics\Widgets\Most_Viewed_Posts_Widget;
+use WP_CLI;
 
-\define('KOKO_ANALYTICS_VERSION', '2.2.1');
-\define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
-\define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
+define('KOKO_ANALYTICS_VERSION', '2.2.1');
+define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
+define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 // Load the Koko Analytics autoloader
 require __DIR__ . '/autoload.php';
@@ -66,8 +64,8 @@ if (is_admin() && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
 }
 
 // WP CLI command
-if (class_exists('WP_CLI') && method_exists('WP_CLI', 'add_command')) {
-    \WP_CLI::add_command('koko-analytics', Command::class);
+if (defined('WP_CLI') && WP_CLI) {
+    WP_CLI::add_command('koko-analytics', Command::class);
 }
 
 register_activation_hook(__FILE__, lazy(Plugin::class, 'action_activate_plugin'));
