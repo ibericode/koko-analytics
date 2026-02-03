@@ -12,7 +12,7 @@ use DateTimeImmutable;
 
 class Rest
 {
-    public function register_routes(): void
+    public function action_rest_api_init(): void
     {
         $route_namespace = 'koko-analytics/v1';
         register_rest_route(
