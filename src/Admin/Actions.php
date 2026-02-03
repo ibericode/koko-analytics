@@ -17,6 +17,7 @@ use KokoAnalytics\Normalizers\Normalizer;
 use KokoAnalytics\Path_Repository;
 
 use function KokoAnalytics\get_settings;
+use function KokoAnalytics\lazy;
 
 class Actions
 {
@@ -44,12 +45,12 @@ class Actions
             'migrate_post_stats_to_v2' => [$this, 'migrate_post_stats_to_v2'],
             'migrate_referrer_stats_to_v2' => [$this, 'migrate_referrer_stats_to_v2'],
             'fix_post_paths_after_v2' => [$this, 'fix_post_paths_after_v2'],
-            'reset_statistics' => [Data_Reset::class, 'action_listener'],
-            'import_data' => [Data_Import::class, 'action_listener'],
-            'export_data' => [Data_Export::class, 'action_listener'],
-            'start_jetpack_import' => [Jetpack_Importer::class, 'start_import'],
-            'jetpack_import_chunk' => [Jetpack_Importer::class, 'import_chunk'],
-            'start_plausible_import' => [Plausible_Importer::class, 'start_import'],
+            'reset_statistics' => lazy(Data_Reset::class, 'action_listener'),
+            'import_data' => lazy(Data_Import::class, 'action_listener'),
+            'export_data' => lazy(Data_Export::class, 'action_listener'),
+            'start_jetpack_import' => lazy(Jetpack_Importer::class, 'start_import'),
+            'jetpack_import_chunk' => lazy(Jetpack_Importer::class, 'import_chunk'),
+            'start_plausible_import' => lazy(Plausible_Importer::class, 'start_import'),
         ];
 
         // for BC reasons, still fire the action hook

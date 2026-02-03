@@ -12,7 +12,7 @@ use Exception;
 
 class Data_Reset
 {
-    public static function action_listener(): void
+    public function action_listener(): void
     {
         if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_reset_statistics')) {
             return;
@@ -33,7 +33,7 @@ class Data_Reset
 
         // redirect with success message
         $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');
-        wp_safe_redirect(add_query_arg(['message' => urlencode(__('Statistics successfully reset', 'koko-analytics')) ], $settings_page));
+        wp_safe_redirect(add_query_arg(['message' => urlencode(__('Statistics successfully reset', 'koko-analytics'))], $settings_page));
         exit;
     }
 }

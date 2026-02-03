@@ -1,11 +1,3 @@
-<?php if (isset($_GET['error'])) { ?>
-        <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
-            <?php esc_html_e('An error occurred trying to import your statistics.', 'koko-analytics'); ?>
-            <?php echo ' '; ?>
-            <?php echo wp_kses(stripslashes(trim($_GET['error'])), [ 'br' => []]); ?>
-            <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
-        </div>
-<?php } ?>
 <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
         <?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?>
@@ -43,7 +35,7 @@
             <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
             <td>
                 <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
-                 <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
+                <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
 
             </td>
         </tr>

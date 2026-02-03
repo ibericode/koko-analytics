@@ -6,4 +6,6 @@
  * keep this file around and use it to load the actual file
  */
 
+// TODO: Remove this file after Jul 24, 2027
+
 include __DIR__ . '/Resources/functions/collect.php';

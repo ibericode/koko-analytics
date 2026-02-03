@@ -17,11 +17,10 @@ class Data_Export
 
     public function __construct()
     {
-        global $wpdb;
-        $this->db = $wpdb;
+        $this->db = $GLOBALS['wpdb'];
     }
 
-    public static function action_listener(): void
+    public function action_listener(): void
     {
         if (!current_user_can('manage_koko_analytics')) {
             return;
@@ -29,7 +28,7 @@ class Data_Export
 
         check_admin_referer('koko_analytics_export_data');
 
-        (new self())->run();
+        $this->run();
     }
 
     public function run(): void

@@ -58,7 +58,7 @@ require __DIR__ . '/src/Blocks.php';
 (new Blocks())->hook();
 
 // Admin hooks (admin only)
-if (is_admin() && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
+if (defined('WP_ADMIN') && WP_ADMIN && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
     require __DIR__ . '/src/Admin/Controller.php';
     (new Admin\Controller())->hook();
 }

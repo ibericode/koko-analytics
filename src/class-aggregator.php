@@ -5,4 +5,6 @@
  * This helps smoothens the upgrade to 2.x by at least preventing the error directly after the update (using the 1.8.x autoloader which is in memory at that point)
  */
 
+// TODO: Remove this file after Jul 24, 2027
+
 require __DIR__ . '/Aggregator.php';

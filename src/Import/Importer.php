@@ -8,24 +8,24 @@ use KokoAnalytics\Referrer_Repository;
 
 abstract class Importer
 {
-    abstract protected static function get_admin_url(): string;
+    abstract protected function get_admin_url(): string;
 
-    protected static function redirect(string $url, array $params = []): void
+    protected function redirect(string $url, array $params = []): void
     {
         $url = add_query_arg($params, $url);
         wp_safe_redirect($url);
         exit;
     }
 
-    protected static function redirect_with_error(string $url, string $error): void
+    protected function redirect_with_error(string $url, string $error): void
     {
-        static::redirect($url, ['error' => urlencode($error)]);
+        $this->redirect($url, ['error' => urlencode($error)]);
     }
 
     /**
      * @param array $rows An array of arrays with the following elements: date, path, post_id, visitors, pageviews
      */
-    protected static function bulk_insert_page_stats(array $rows): void
+    protected function bulk_insert_page_stats(array $rows): void
     {
         /** @var wpdb $wpdb */
         global $wpdb;
@@ -56,7 +56,7 @@ abstract class Importer
     /**
      * @param array $rows An array of arrays with the following elements: date, referrer, visitors, pageviews
      */
-    protected static function bulk_insert_referrer_stats(array $rows): void
+    protected function bulk_insert_referrer_stats(array $rows): void
     {
         /** @var wpdb $wpdb */
         global $wpdb;

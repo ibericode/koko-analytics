@@ -10,6 +10,8 @@ namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard_Widget;
 
+use function KokoAnalytics\lazy;
+
 class Controller
 {
     public function hook()
@@ -35,8 +37,8 @@ class Controller
 
     public function action_admin_menu()
     {
-        add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', [Pages::class, 'show_dashboard_page']);
-        add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', [Pages::class, 'show_settings_page']);
+        add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', lazy(Pages::class, 'show_dashboard_page'));
+        add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', lazy(Pages::class, 'show_settings_page'));
     }
 
     public function action_wp_dashboard_setup()

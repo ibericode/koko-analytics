@@ -12,7 +12,7 @@ use Exception;
 
 class Data_Import
 {
-    public static function action_listener(): void
+    public function action_listener(): void
     {
         if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_import_data')) {
             return;
@@ -39,15 +39,15 @@ class Data_Import
 
         // verify file looks like a Koko Analytics export file
         if (!preg_match('/^(--|DELETE|SELECT|INSERT|TRUNCATE|CREATE|DROP)/', $sql)) {
-            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics')) ], $settings_page));
+            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Sorry, the uploaded import file does not look like a Koko Analytics export file', 'koko-analytics'))], $settings_page));
             exit;
         }
 
         // good to go, let's run the SQL
         try {
-            self::run($sql);
+            $this->run($sql);
         } catch (\Exception $e) {
-            wp_safe_redirect(add_query_arg([ 'error' => urlencode(__('Something went wrong trying to process your import file.', 'koko-analytics') . "\n" . $e->getMessage()) ], $settings_page));
+            wp_safe_redirect(add_query_arg(['error' => urlencode(__('Something went wrong trying to process your import file.', 'koko-analytics') . "\n" . $e->getMessage())], $settings_page));
             exit;
         }
 
@@ -55,11 +55,11 @@ class Data_Import
         unlink($_FILES['import-file']['tmp_name']);
 
         // redirect with success message
-        wp_safe_redirect(add_query_arg([ 'message' => urlencode(__('Database was successfully imported from the given file', 'koko-analytics')) ], $settings_page));
+        wp_safe_redirect(add_query_arg(['message' => urlencode(__('Database was successfully imported from the given file', 'koko-analytics'))], $settings_page));
         exit;
     }
 
-    protected static function run(string $sql): void
+    protected function run(string $sql): void
     {
         if ($sql === '') {
             return;

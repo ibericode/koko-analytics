@@ -9,6 +9,7 @@
 namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard;
+use KokoAnalytics\Dashboard_Standalone;
 use KokoAnalytics\Router;
 
 use function KokoAnalytics\get_buffer_filename;
@@ -17,13 +18,13 @@ use function KokoAnalytics\get_settings;
 
 class Pages
 {
-    public static function show_dashboard_page(): void
+    public function show_dashboard_page(): void
     {
         // aggregate stats whenever this page is requested
         do_action('koko_analytics_aggregate_stats');
 
         // check if cron event is scheduled properly
-        if (false === self::is_cron_event_working()) {
+        if (false === $this->is_cron_event_working()) {
             echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert"  style="margin-top: 1rem; margin-right: 20px;">';
             echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
             echo ' ';
@@ -48,7 +49,7 @@ class Pages
         $dashboard->show();
     }
 
-    public static function show_settings_page(): void
+    public function show_settings_page(): void
     {
         if (!current_user_can('manage_koko_analytics')) {
             return;
@@ -67,15 +68,15 @@ class Pages
 
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
-        $user_roles   = self::get_available_roles();
+        $user_roles   = $this->get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
-        $public_dashboard_url = Router::url('dashboard-standalone');
+        $public_dashboard_url = (new Dashboard_Standalone())->get_base_url();
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }
 
 
-    private static function get_available_roles(): array
+    private function get_available_roles(): array
     {
         $roles = [];
         foreach (wp_roles()->roles as $key => $role) {
@@ -88,7 +89,7 @@ class Pages
      * Checks to see if the cron event is correctly scheduled and running periodically
      * If the cron event is somehow not scheduled, this will schedule it again.
      */
-    private static function is_cron_event_working(): bool
+    private function is_cron_event_working(): bool
     {
         // Always return true on localhost / dev-ish environments
         $site_url = get_site_url();

@@ -15,12 +15,12 @@ use KokoAnalytics\Path_Repository;
 
 class Jetpack_Importer extends Importer
 {
-    protected static function get_admin_url(): string
+    protected function get_admin_url(): string
     {
         return admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer');
     }
 
-    public static function start_import(): void
+    public function start_import(): void
     {
         // authorize user & verify nonce
         if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_start_jetpack_import')) {
@@ -37,7 +37,7 @@ class Jetpack_Importer extends Importer
 
         // all params are required
         if ($params['wpcom-api-key'] === '' || $params['wpcom-blog-uri'] === '' || $params['date-start'] === '' || $params['date-end'] === '') {
-            static::redirect_with_error(static::get_admin_url(), __('A required field was missing', 'koko-analytics'));
+            $this->redirect_with_error($this->get_admin_url(), __('A required field was missing', 'koko-analytics'));
         }
 
         // first chunk is 30 days after date-start
@@ -48,7 +48,7 @@ class Jetpack_Importer extends Importer
                 throw new Exception("End date must be after start date");
             }
         } catch (Exception $e) {
-            static::redirect_with_error(static::get_admin_url(), __('Invalid date fields', 'koko-analytics'));
+            $this->redirect_with_error($this->get_admin_url(), __('Invalid date fields', 'koko-analytics'));
         }
 
         // params are valid; let's go!
@@ -66,7 +66,7 @@ class Jetpack_Importer extends Importer
         exit;
     }
 
-    public static function import_chunk(): void
+    public function import_chunk(): void
     {
         // authorize
         if (!current_user_can('manage_koko_analytics')) {
@@ -80,7 +80,7 @@ class Jetpack_Importer extends Importer
         $params = get_option('koko_analytics_jetpack_import_params');
         if (!$params) {
             $error_message = __('Missing parameters.', 'koko-analytics');
-            static::redirect_with_error(static::get_admin_url(), $error_message);
+            $this->redirect_with_error($this->get_admin_url(), $error_message);
             exit;
         }
 
@@ -97,20 +97,20 @@ class Jetpack_Importer extends Importer
 
         // import this chunk
         try {
-            static::perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
+            $this->perform_chunk_import($params['wpcom-api-key'], $params['wpcom-blog-uri'], $chunk_end, $chunk_size);
         } catch (Exception $e) {
             // clean-up after ourselves
             delete_option('koko_analytics_jetpack_import_params');
 
             // redirect to form page
-            static::redirect_with_error(static::get_admin_url(), $e->getMessage());
+            $this->redirect_with_error($this->get_admin_url(), $e->getMessage());
             exit;
         }
 
         // If we're done, redirect to success page
         if ($next_chunk_end < $date_start) {
             delete_option('koko_analytics_jetpack_import_params');
-            static::redirect(static::get_admin_url(), ['success' => 1]);
+            $this->redirect($this->get_admin_url(), ['success' => 1]);
             exit;
         }
 
@@ -122,23 +122,32 @@ class Jetpack_Importer extends Importer
         // we could do a wp_safe_redirect() here
         // but instead we send some HTML to the client and perform a client-side redirect just so the user knows we're still alive and working
         ?>
-        <style>body { background: #f0f0f1; color: #3c434a; font-family: sans-serif; font-size: 16px; line-height: 1.5; padding: 32px; }</style>
+        <style>
+            body {
+                background: #f0f0f1;
+                color: #3c434a;
+                font-family: sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                padding: 32px;
+            }
+        </style>
         <meta http-equiv="refresh" content="1; url=<?php echo esc_attr($url); ?>">
         <h1><?php esc_html_e('Liberating your data... Please wait.', 'koko-analytics'); ?></h1>
         <p>
-        <?php printf(
-            __('Importing stats between %1$s and %2$s.', 'koko-analytics'),
-            '<strong>' . $chunk_start->format('Y-m-d') . '</strong>',
-            '<strong>' . $chunk_end->format('Y-m-d') . '</strong>'
-        );?>
+            <?php printf(
+                __('Importing stats between %1$s and %2$s.', 'koko-analytics'),
+                '<strong>' . $chunk_start->format('Y-m-d') . '</strong>',
+                '<strong>' . $chunk_end->format('Y-m-d') . '</strong>'
+            ); ?>
         </p>
         <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
         <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
-            <?php
-            exit;
+        <?php
+        exit;
     }
 
-    public static function perform_chunk_import(string $api_key, string $blog_uri, DateTimeImmutable $date_end, int $chunk_size): void
+    public function perform_chunk_import(string $api_key, string $blog_uri, DateTimeImmutable $date_end, int $chunk_size): void
     {
         @set_time_limit(90);
 

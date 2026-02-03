@@ -7,13 +7,13 @@ use WP_Query;
 
 class Blocks
 {
-    public function hook(): void
+    public function hook()
     {
         add_action('init', [$this, 'action_init'], 10, 0);
         add_filter('pre_render_block', [$this, 'filter_pre_render_block'], 10, 3);
     }
 
-    public function action_init(): void
+    public function action_init()
     {
         // counter block
         wp_register_script('koko-analytics-counter-block', plugins_url('assets/dist/js/blocks/counter.js', KOKO_ANALYTICS_PLUGIN_FILE), [
@@ -35,9 +35,9 @@ class Blocks
         ]);
     }
 
-    public function render_counter($args): string
+    public function render_counter($args)
     {
-        $count = Shortcode_Site_Counter::content($args);
+        $count = (new Shortcode_Site_Counter())->content($args);
         return '<p>' . sprintf(__('This page has been viewed a total of %s times', 'koko-analytics'), $count) . '</p>';
     }
 
