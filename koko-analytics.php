@@ -36,18 +36,18 @@ namespace KokoAnalytics;
 
 use WP_CLI;
 
+// don't run if PHP version is lower than 7.4
+// prevent direct file access
+if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
+    return;
+}
+
 define('KOKO_ANALYTICS_VERSION', '2.2.1');
 define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 
 // Load the Koko Analytics autoloader
 require __DIR__ . '/autoload.php';
-
-// don't run if PHP version is lower than 7.4
-// prevent direct file access
-if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
-    return;
-}
 
 // Main hooks (global)
 require __DIR__ . '/src/Controller.php';
