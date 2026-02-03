@@ -14,7 +14,7 @@ class Shortcode_Most_Viewed_Posts
 {
     private const SHORTCODE = 'koko_analytics_most_viewed_posts';
 
-    public static function content($args): string
+    public function content($args): string
     {
         $allowed_args = [
             'number'    => 5,

@@ -12,12 +12,12 @@ use WP_Error;
 
 class Endpoint_Installer
 {
-    public static function get_file_name(): string
+    public function get_file_name(): string
     {
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
-    public static function make_relative_to_abspath(string $path): string
+    public function make_relative_to_abspath(string $path): string
     {
         // make path relative to ABSPATH again
         if (str_starts_with($path, ABSPATH)) {
@@ -26,10 +26,10 @@ class Endpoint_Installer
         return $path;
     }
 
-    public static function get_file_contents(): string
+    public function get_file_contents(): string
     {
         $settings = get_settings();
-        $upload_dir = self::make_relative_to_abspath(get_upload_dir());
+        $upload_dir = $this->make_relative_to_abspath(get_upload_dir());
         $wp_timezone_string = wp_timezone_string();
         $excluded_ip_addresses_string = var_export($settings['exclude_ip_addresses'], true);
 
@@ -40,7 +40,7 @@ class Endpoint_Installer
         ];
         $files = apply_filters('koko_analytics_endpoint_files', $files);
         $files = array_unique($files);
-        $files = array_map([self::class, 'make_relative_to_abspath'], $files);
+        $files = array_map([$this, 'make_relative_to_abspath'], $files);
         $require_statements = array_reduce($files, function ($result, $f) {
             $result .= "require '$f';\n";
             return $result;
@@ -77,7 +77,7 @@ EOT;
     /**
      * @return string|bool
      */
-    public static function install()
+    public function install()
     {
         /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
         if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') || is_multisite()) {
@@ -91,14 +91,14 @@ EOT;
         }
 
         // attempt to overwrite file with latest contents to ensure it's up-to-date
-        file_put_contents(self::get_file_name(), self::get_file_contents());
+        file_put_contents($this->get_file_name(), $this->get_file_contents());
 
-        return self::test(true);
+        return $this->test(true);
     }
 
-    public static function uninstall(): void
+    public function uninstall(): void
     {
-        $file_name = self::get_file_name();
+        $file_name = $this->get_file_name();
         if (is_file($file_name)) {
             unlink($file_name);
         }
@@ -109,7 +109,7 @@ EOT;
     /**
      * @return string|bool
      */
-    public static function test($force_test = false)
+    public function test($force_test = false)
     {
         // No need to test if not using it
         if (!$force_test && ! get_option('koko_analytics_use_custom_endpoint')) {
@@ -119,10 +119,10 @@ EOT;
         // Check if file exists
         // Note that we're not checking whether we were able to write to the file
         // To allow for users manually creating the file with the correct contents
-        $exists = is_file(self::get_file_name());
+        $exists = is_file($this->get_file_name());
 
         // Check if endpoint returns correct HTTP response
-        $works = self::verify();
+        $works = $this->verify();
 
         update_option('koko_analytics_use_custom_endpoint', $exists && !is_wp_error($works), true);
 
@@ -140,7 +140,7 @@ EOT;
     /**
      * Performs an HTTP request to the optimized endpoint to verify that it works
      */
-    private static function verify()
+    private function verify()
     {
         $tracker_url = site_url('/koko-analytics-collect.php?test=1');
         $response    = wp_remote_post($tracker_url, [

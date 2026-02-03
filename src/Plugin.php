@@ -13,8 +13,7 @@ class Plugin
     public function action_activate_plugin()
     {
         (new Cron())->setup();
-
-        Endpoint_Installer::install();
+        (new Endpoint_Installer())->install();
 
         $this->setup_capabilities();
         $this->create_and_protect_uploads_dir();
@@ -23,7 +22,7 @@ class Plugin
     public function action_deactivate_plugin()
     {
         (new Cron())->clear();
-        Endpoint_Installer::uninstall();
+        (new Endpoint_Installer())->uninstall();
     }
 
     public function setup_capabilities(): void

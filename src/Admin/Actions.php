@@ -67,7 +67,7 @@ class Actions
 
     public function install_optimized_endpoint()
     {
-        $result = Endpoint_Installer::install();
+        $result = (new Endpoint_Installer())->install();
         if ($result !== true) {
             wp_safe_redirect(add_query_arg(['error' => urlencode($result)], wp_get_referer()));
         } else {
@@ -106,7 +106,7 @@ class Actions
         }
 
         // Re-create optimized endpoint to ensure its contents are up-to-date
-        Endpoint_Installer::install();
+        (new Endpoint_Installer())->install();
 
         wp_safe_redirect(add_query_arg(['settings-updated' => 1], wp_get_referer()));
         exit;

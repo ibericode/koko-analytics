@@ -19,10 +19,11 @@ class Controller
         add_action('widgets_init', [$this, 'action_widgets_init'], 10, 0);
         add_action('rest_api_init', [$this, 'action_rest_api_init'], 10, 0);
 
-        add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
-        add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
+        add_action('koko_analytics_aggregate_stats', lazy(Aggregator::class, 'run'), 10, 0);
+        add_action('koko_analytics_prune_data', lazy(Pruner::class, 'run'), 10, 0);
         add_action('koko_analytics_rotate_fingerprint_seed', lazy(Fingerprinter::class, 'run_daily_maintenance'), 10, 0);
-        add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
+        add_action('koko_analytics_test_custom_endpoint', lazy(Endpoint_Installer::class, 'test'), 10, 0);
+        add_action('koko_analytics_update_custom_endpoint', lazy(Endpoint_Installer::class, 'install'), 10, 0);
     }
 
     public function action_wp_loaded()
@@ -40,8 +41,8 @@ class Controller
         // listener for standalone dashboard
         $this->maybe_show_dashboard();
 
-        add_shortcode('koko_analytics_most_viewed_posts', [Shortcode_Most_Viewed_Posts::class, 'content']);
-        add_shortcode('koko_analytics_counter', [Shortcode_Site_Counter::class, 'content']);
+        add_shortcode('koko_analytics_most_viewed_posts', lazy(Shortcode_Most_Viewed_Posts::class, 'content'));
+        add_shortcode('koko_analytics_counter', lazy(Shortcode_Site_Counter::class, 'content'));
     }
 
     public function filter_cron_schedules($schedules)

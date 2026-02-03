@@ -24,7 +24,7 @@ class Shortcode_Site_Counter
 {
     private const SHORTCODE = 'koko_analytics_counter';
 
-    public static function content($args)
+    public function content($args)
     {
         $default_args = [
             'days' => 365 * 10,
@@ -33,7 +33,7 @@ class Shortcode_Site_Counter
         ];
         $args = shortcode_atts($default_args, $args, self::SHORTCODE);
         $args['days'] = abs((int) $args['days']);
-        $path = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : self::get_post_path();
+        $path = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : $this->get_post_path();
 
         $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
         $timezone = wp_timezone();
@@ -53,7 +53,7 @@ class Shortcode_Site_Counter
     }
 
     // Gets the path to whatever post is currently in "the loop"
-    public static function get_post_path()
+    public function get_post_path()
     {
         $permalink = get_the_permalink();
         $url_parts = parse_url($permalink);
@@ -61,7 +61,6 @@ class Shortcode_Site_Counter
         if (!empty($url_parts['query'])) {
             $path .= '?' . $url_parts['query'];
         }
-
 
         return Normalizer::path($path);
     }

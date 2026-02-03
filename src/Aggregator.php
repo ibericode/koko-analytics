@@ -17,7 +17,7 @@ class Aggregator
      *
      * @throws Exception
      */
-    public static function run(): void
+    public function run(): void
     {
         update_option('koko_analytics_last_aggregation_at', \time(), true);
 

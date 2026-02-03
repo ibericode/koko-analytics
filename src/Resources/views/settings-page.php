@@ -1,8 +1,4 @@
-<?php
-
-use KokoAnalytics\Endpoint_Installer;
-
-?>
+<?php defined('ABSPATH') or exit; ?>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← <?= esc_html__('Back to stats', 'koko-analytics') ?></a>
@@ -25,7 +21,7 @@ use KokoAnalytics\Endpoint_Installer;
                 <?php if (!empty($_GET['error'])) { ?>
                     <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['error']); ?>
-                         <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
@@ -33,19 +29,19 @@ use KokoAnalytics\Endpoint_Installer;
                 <?php if (!empty($_GET['message'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['message']); ?>
-                         <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
                 <?php /* settings saved messages: query key settings-updated */ ?>
-               <?php if (isset($_GET['settings-updated'])) { ?>
-                <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
-                    <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
-                    <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
-                </div>
-               <?php } ?>
+                <?php if (isset($_GET['settings-updated'])) { ?>
+                    <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
+                        <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                    </div>
+                <?php } ?>
 
-               <div>
+                <div>
                     <?php
                     // if this is a core settings tab, simply include the view file
                     if (file_exists(__DIR__ . "/settings/{$active_tab}.php")) {
@@ -55,9 +51,8 @@ use KokoAnalytics\Endpoint_Installer;
                         do_action("koko_analytics_output_settings_tab_{$active_tab}", $settings);
                     }
                     ?>
-               </div>
+                </div>
             </div><?php /* .ka-settings-main */ ?>
         </div><?php /* .ka-col-9 */ ?>
     </div><?php /* .ka-row */ ?>
 </div><?php /* .wrap */ ?>
-
