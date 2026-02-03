@@ -70,20 +70,5 @@ if (class_exists('WP_CLI') && method_exists('WP_CLI', 'add_command')) {
     \WP_CLI::add_command('koko-analytics', Command::class);
 }
 
-// on plugin activation
-register_activation_hook(__FILE__, function () {
-    Aggregator::setup_scheduled_event();
-    Pruner::setup_scheduled_event();
-    Fingerprinter::setup_scheduled_event();
-    Endpoint_Installer::install();
-    Plugin::setup_capabilities();
-    Plugin::create_and_protect_uploads_dir();
-});
-
-// on plugin deactivation
-register_deactivation_hook(__FILE__, function () {
-    Aggregator::clear_scheduled_event();
-    Pruner::clear_scheduled_event();
-    Fingerprinter::clear_scheduled_event();
-    Endpoint_Installer::uninstall();
-});
+register_activation_hook(__FILE__, lazy(Plugin::class, 'action_activate_plugin'));
+register_deactivation_hook(__FILE__, lazy(Plugin::class, 'action_deactivate_plugin'));

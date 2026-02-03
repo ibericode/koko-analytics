@@ -21,7 +21,7 @@ class Controller
 
         add_action('koko_analytics_aggregate_stats', [Aggregator::class, 'run'], 10, 0);
         add_action('koko_analytics_prune_data', [Pruner::class, 'run'], 10, 0);
-        add_action('koko_analytics_rotate_fingerprint_seed', [Fingerprinter::class, 'run_daily_maintenance'], 10, 0);
+        add_action('koko_analytics_rotate_fingerprint_seed', lazy(Fingerprinter::class, 'run_daily_maintenance'), 10, 0);
         add_action('koko_analytics_test_custom_endpoint', [Endpoint_Installer::class, 'test'], 10, 0);
     }
 

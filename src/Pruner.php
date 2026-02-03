@@ -10,18 +10,6 @@ namespace KokoAnalytics;
 
 class Pruner
 {
-    public static function setup_scheduled_event(): void
-    {
-        if (! wp_next_scheduled('koko_analytics_prune_data')) {
-            wp_schedule_event(time() + DAY_IN_SECONDS, 'daily', 'koko_analytics_prune_data');
-        }
-    }
-
-    public static function clear_scheduled_event(): void
-    {
-        wp_clear_scheduled_hook('koko_analytics_prune_data');
-    }
-
     public static function run()
     {
         /** @var \wpdb $wpdb */

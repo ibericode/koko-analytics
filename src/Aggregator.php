@@ -82,16 +82,4 @@ class Aggregator
         $pageview_aggregator->finish();
         do_action('koko_analytics_aggregate_finish');
     }
-
-    public static function setup_scheduled_event(): void
-    {
-        if (! wp_next_scheduled('koko_analytics_aggregate_stats')) {
-            wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
-        }
-    }
-
-    public static function clear_scheduled_event(): void
-    {
-        wp_clear_scheduled_hook('koko_analytics_aggregate_stats');
-    }
 }

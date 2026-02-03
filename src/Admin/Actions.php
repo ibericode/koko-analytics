@@ -8,9 +8,8 @@
 
 namespace KokoAnalytics\Admin;
 
+use KokoAnalytics\Cron;
 use KokoAnalytics\Endpoint_Installer;
-use KokoAnalytics\Data_Exporter;
-use KokoAnalytics\Data_Importer;
 use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
@@ -85,11 +84,6 @@ class Actions
 
         // merge posted data with saved data to allow for partial updates
         $settings = array_merge(get_settings(), $_POST['koko_analytics_settings']);
-
-        // get rid of deprecated setting keys
-        // TODO: Maybe whitelist default settings here and remove every non-default key?
-        unset($settings['use_cookie']);
-
         $settings['exclude_ip_addresses'] = is_array($settings['exclude_ip_addresses']) ? $settings['exclude_ip_addresses'] : explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($settings['exclude_ip_addresses'])));
         $settings['exclude_ip_addresses']    = array_filter(array_map('trim', $settings['exclude_ip_addresses']));
 
@@ -101,10 +95,14 @@ class Actions
         $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $settings);
         update_option('koko_analytics_settings', $settings, true);
 
+        do_action('koko_analytics_settings_updated', $settings);
+
+        // ensure cron events are scheduled correctly
+        (new Cron())->setup();
+
         // maybe create sessions directory & initial seed file
         if ($settings['tracking_method'] === 'fingerprint') {
-            Fingerprinter::create_storage_dir();
-            Fingerprinter::setup_scheduled_event();
+            (new Fingerprinter())->create_storage_dir();
         }
 
         // Re-create optimized endpoint to ensure its contents are up-to-date

@@ -9,9 +9,6 @@
 namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard_Widget;
-use KokoAnalytics\Import\Jetpack_Importer;
-use KokoAnalytics\Import\Plausible_Importer;
-use KokoAnalytics\Router;
 
 class Controller
 {

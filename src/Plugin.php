@@ -10,7 +10,23 @@ namespace KokoAnalytics;
 
 class Plugin
 {
-    public static function setup_capabilities(): void
+    public function action_activate_plugin()
+    {
+        (new Cron())->setup();
+
+        Endpoint_Installer::install();
+
+        $this->setup_capabilities();
+        $this->create_and_protect_uploads_dir();
+    }
+
+    public function action_deactivate_plugin()
+    {
+        (new Cron())->clear();
+        Endpoint_Installer::uninstall();
+    }
+
+    public function setup_capabilities(): void
     {
         // add capabilities to administrator role (if it exists)
         $role = get_role('administrator');
@@ -20,7 +36,7 @@ class Plugin
         }
     }
 
-    public static function create_and_protect_uploads_dir(): void
+    public function create_and_protect_uploads_dir(): void
     {
         $filename = get_buffer_filename();
         $directory = \dirname($filename);

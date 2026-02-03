@@ -12,6 +12,20 @@ use WP_Admin_Bar;
 use WP_Query;
 use WP_Post;
 
+/**
+ * Returns a closure that instantiates the class and calls the given method when called
+ *
+ * @param string $class
+ * @param string $method
+ * @return \Closure
+ */
+function lazy($class, $method)
+{
+    return function () use ($class, $method) {
+        call_user_func([new $class(), $method]);
+    };
+}
+
 function get_settings(): array
 {
     $default_settings = [
