@@ -50,6 +50,7 @@ function apply_filters($hook, $value, $prio = 10, $args = 2)
 }
 
 function add_shortcode($a, $b) {}
+function register_widget($a) {}
 
 function number_format_i18n($number, $decimals = 0)
 {
