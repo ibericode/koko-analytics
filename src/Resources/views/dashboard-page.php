@@ -192,7 +192,7 @@ $tab = 'dashboard';
                     <tbody>
                         <?php foreach ($posts as $i => $p) { ?>
                             <?php $pct = $totals->pageviews > 0 && $page === 0  ? round(($p->pageviews / $totals->pageviews) * 100, 0) : 0; ?>
-                            <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right,rgba(104, 159, 210, 0.05) <?= $pct ?>%, transparent <?= $pct ?>%);">
+                            <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
                                 <td class="text-muted"><?php echo  $posts_offset + $i + 1; ?></td>
                                 <td class="text-truncate"><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->label); ?></a></td>
                                 <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
@@ -233,7 +233,8 @@ $tab = 'dashboard';
                     </thead>
                     <tbody>
                         <?php foreach ($referrers as $i => $r) { ?>
-                            <tr>
+                            <?php $pct = $referrers_sum > 0 ? round(($r->pageviews / $referrers_sum) * 100, 0) : 0; ?>
+                            <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
                                 <td class="text-muted"><?php echo $referrers_offset + $i + 1; ?></td>
                                 <td class="text-truncate"><?php echo Fmt::referrer_url_label(esc_html($r->url)); ?></td>
                                 <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $r->visitors)); ?></td>

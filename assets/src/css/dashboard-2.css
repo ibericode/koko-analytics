@@ -40,6 +40,7 @@
   --bs-warning-text-emphasis: #664d03;
   --bs-warning-bg-subtle: #fff3cd;
   --bs-warning-border-subtle: #ffe69c;
+  --koko-analytics-row-gradient-color: rgba(104, 159, 210, 0.06);
 }
 
 .koko-analytics {

@@ -71,6 +71,7 @@ class Dashboard
         $posts_count = $stats->count_posts($date_start_str, $date_end_str);
         $referrers = $stats->get_referrers($date_start_str, $date_end_str, $referrers_offset, $referrers_limit);
         $referrers_count = $stats->count_referrers($date_start_str, $date_end_str);
+        $referrers_sum = $stats->sum_referrers($date_start_str, $date_end_str);
         $realtime = get_realtime_pageview_count('-1 hour');
 
         if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month', 'year'])) {

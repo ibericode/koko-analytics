@@ -199,4 +199,16 @@ class Stats
             [$start_date, $end_date]
         ));
     }
+
+    public function sum_referrers(string $start_date, string $end_date): int
+    {
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+        return (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT SUM(s.pageviews)
+                FROM {$wpdb->prefix}koko_analytics_referrer_stats s
+                WHERE s.date >= %s AND s.date <= %s",
+            [$start_date, $end_date]
+        ));
+    }
 }
