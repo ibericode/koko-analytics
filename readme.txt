@@ -1,6 +1,6 @@
 === Koko Analytics - Privacy Friendly Statistics for WordPress ===
 Contributors: Ibericode, DvanKooten
-Tags: statistics, analytics, stats
+Tags: analytics, statistics, stats
 Requires at least: 6.0
 Tested up to: 6.9.1
 Stable tag: 2.2.1
@@ -8,25 +8,25 @@ License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-A simple WordPress analytics plugin that is privacy-friendly and a lightweight alternative to Google Analytics.
+Lightweight analytics plugin for WordPress that is privacy-friendly and an easy alternative to Google Analytics.
 
 == Description ==
 
-[Koko Analytics](https://www.kokoanalytics.com/) is a privacy-friendly open-source analytics plugin for WordPress that does not require any third party services — GDPR and CCPA compliant, no personal data, no cookies, high performance.
+[Koko Analytics](https://www.kokoanalytics.com/) is a privacy-friendly and lightweight analytics plugin for WordPress that does not require any third party services. It's fully GDPR and CCPA compliant by design, does not process or store any personal data, can be used without cookies and does not negatively affect your website performance.
 
 You can [view a live demo of Koko Analytics here](https://www.kokoanalytics.com/koko-analytics-dashboard/).
 
 ### Why Koko Analytics
 
-Our goal with Koko Analytics is to provide you with a simple to use and privacy friendly alternative to Google Analytics.
+Our goal with Koko Analytics is to provide you with a simple to use, lightweight and privacy friendly alternative to Google Analytics.
 
 #### Privacy Friendly Analytics
 
-Koko Analytics is [privacy friendly analytics](https://www.kokoanalytics.com/privacy-focused-wordpress-analytics/). No personal data is processed or stored. Nothing is shared with any third-party service. You can disable the use of cookies entirely.
+Koko Analytics is [privacy friendly analytics](https://www.kokoanalytics.com/privacy-focused-wordpress-analytics/). No personal data is processed or stored, measurements are carried out anonymously and nothing is ever shared with any third-party service. 
 
 #### Lightweight Analytics
 
-Koko Analytics is [lightweight analytics](https://www.kokoanalytics.com/lightweight-wordpress-analytics/). It adds less than 1 kilobyte of data to your HTML, is fully compatible with any kind of cache and bypasses  WordPress entirely for its collection endpoint. There is no faster statistics plugin for WordPress than Koko Analytics.
+Koko Analytics is [lightweight analytics](https://www.kokoanalytics.com/lightweight-wordpress-analytics/). It adds less than 1 kilobyte of data to your HTML, is fully compatible with any kind of cache and bypasses WordPress entirely for its collection endpoint. There is no faster statistics plugin for WordPress than Koko Analytics - guaranteed.
 
 #### Simple Analytics
 
@@ -34,7 +34,27 @@ Koko Analytics is [simple analytics](https://www.kokoanalytics.com/simple-wordpr
 
 #### Open Source Analytics
 
-Koko Analytics is [open source analytics](https://www.kokoanalytics.com/open-source-wordpress-analytics/). The source code is released under the GPL license and freely available on GitHub: [ibericode/koko-analytics](https://github.com/ibericode/koko-analytics).
+Koko Analytics is [open source analytics](https://www.kokoanalytics.com/open-source-wordpress-analytics/). The source code is released under the GPL license and freely [available on GitHub](https://github.com/ibericode/koko-analytics). Anyone can read it, inspect it and review it.
+
+### Features 
+
+- Count unique visitors, total pageviews and referring sites.
+- Reliably detect returning visitors without the use of cookies.
+- Exclude visits from certain WordPress user roles or IP addresses.
+- Import historical data from Jetpack Stats, Plausible or Burst Statistics.
+- Periodically clean-up historical data older than a specified number of months or years.
+- A widget, Gutenberg block or shortcode to show a list of your most visited posts or pages.
+- A shortcode or Gutenberg block to show the total number of pageviews to a given page.
+
+### Premium features 
+
+- Periodically have your most important metrics delivered to your email inbox.
+- Count any type of event that occurs on your site, like outbound link clicks or form submissions.
+- Count visitor countries.
+- Count visitor browsers, operating system or device types.
+- Receive a notification whenever your site experiences an unusual traffic spike.
+
+You will have access to all of these benefits and more for a small monthly or yearly fee. [View pricing for Koko Analytics Pro here](https://www.kokoanalytics.com/pricing/).
 
 
 == Installation ==
@@ -51,6 +71,8 @@ View your dashboard under **WP Admin > Dashboard > Analytics**.
 
 
 == Frequently Asked Questions ==
+
+For more information, visit the [Koko Analytics website](https://www.kokoanalytics.com/) or check out our [documentation](https://www.kokoanalytics.com/kb/).
 
 #### Does Koko Analytics set any cookies?
 
@@ -87,10 +109,6 @@ Yes. Koko Analytics is released under the GPL license.
 Yes. Koko Analytics is a free plugin that you can install on your site without requiring any third-party services.
 
 Some more advanced features are bundled in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/), which you can purchase for a small yearly fee.
-
-#### Where can I find more documentation?
-
-On the [Koko Analytics Knowledge Base](https://www.kokoanalytics.com/kb/).
 
 
 == Screenshots ==
