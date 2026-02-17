@@ -10,7 +10,7 @@ class Dashboard_Standalone extends Dashboard
             return home_url('/koko-analytics-dashboard/');
         }
 
-        return add_query_arg(['koko-analytics-dashboard' => null], home_url());
+        return add_query_arg(['koko-analytics-dashboard' => ''], home_url());
     }
 
     public function show()
