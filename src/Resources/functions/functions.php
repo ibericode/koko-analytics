@@ -22,7 +22,7 @@ use WP_Post;
 function lazy($class, $method)
 {
     return function () use ($class, $method) {
-        call_user_func([new $class(), $method]);
+        return call_user_func_array([new $class(), $method], func_get_args());
     };
 }
 
