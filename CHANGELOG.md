@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.2.3 - Feb 17, 2026
+
+- Fix fatal error on fresh plugin installation because of calling non-static method statically.
+
+
 ### 2.2.2 - Feb 17, 2026
 
 - Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
