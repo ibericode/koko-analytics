@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten
 Tags: analytics, statistics, stats
 Requires at least: 6.0
 Tested up to: 6.9.1
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,6 +122,11 @@ Some more advanced features are bundled in [Koko Analytics Pro](https://www.koko
 
 
 == Changelog ==
+
+### 2.2.3 - Feb 17, 2026
+
+- Fix fatal error on fresh plugin installation because of calling non-static method statically.
+
 
 ### 2.2.2 - Feb 17, 2026
 
@@ -758,6 +763,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Always run database migrations when needed, regardless of current user role
 - Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
 - Limit attempts to install optimized tracking endpoint to once per hour
-- On the analytics dashboard, use the date format from WordPress settings
-- Translate day and month names (only relevant if using M, ...
+- On the analytics ...
 
