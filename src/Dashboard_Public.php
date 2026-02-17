@@ -37,7 +37,7 @@ class Dashboard_Public extends Dashboard
             header("Cache-Control: public, max-age=60");
         }
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/public-dashboard.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-public.php';
         exit;
     }
 }
