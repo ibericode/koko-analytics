@@ -37,7 +37,7 @@ class Controller
         // listener for ajax collection endpoint (only used in case optimized endpoint is not installed)
         $this->maybe_collect_request();
 
-        // listener for standalone dashboard
+        // listener for public dashboard
         $this->maybe_show_dashboard();
 
         add_shortcode('koko_analytics_most_viewed_posts', lazy(Shortcode_Most_Viewed_Posts::class, 'content'));
@@ -93,6 +93,6 @@ class Controller
             return;
         }
 
-        (new Dashboard_Standalone())->show();
+        (new Dashboard_Public())->show();
     }
 }

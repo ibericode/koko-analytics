@@ -9,7 +9,7 @@
 namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard;
-use KokoAnalytics\Dashboard_Standalone;
+use KokoAnalytics\Dashboard_Public;
 use KokoAnalytics\Router;
 
 use function KokoAnalytics\get_buffer_filename;
@@ -70,7 +70,7 @@ class Pages
         $using_custom_endpoint = using_custom_endpoint();
         $user_roles   = $this->get_available_roles();
         $date_presets = (new Dashboard())->get_date_presets();
-        $public_dashboard_url = (new Dashboard_Standalone())->get_base_url();
+        $public_dashboard_url = (new Dashboard_Public())->get_base_url();
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }

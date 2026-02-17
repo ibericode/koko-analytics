@@ -2,7 +2,7 @@
 
 namespace KokoAnalytics;
 
-class Dashboard_Standalone extends Dashboard
+class Dashboard_Public extends Dashboard
 {
     public function get_base_url()
     {
@@ -25,6 +25,8 @@ class Dashboard_Standalone extends Dashboard
             return;
         }
 
+        do_action('koko_analytics_public_dashboard_headers');
+
         header("Content-Type: text/html; charset=utf-8");
         header("X-Robots-Tag: noindex, nofollow");
         if (is_user_logged_in()) {
@@ -35,7 +37,7 @@ class Dashboard_Standalone extends Dashboard
             header("Cache-Control: public, max-age=60");
         }
 
-        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/standalone.php';
+        require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/public-dashboard.php';
         exit;
     }
 }
