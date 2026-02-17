@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten
 Tags: analytics, statistics, stats
 Requires at least: 6.0
 Tested up to: 6.9.1
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -123,7 +123,7 @@ Some more advanced features are bundled in [Koko Analytics Pro](https://www.koko
 
 == Changelog ==
 
-### 2.2.3 - Feb 17, 2026
+### 2.2.4 - Feb 17, 2026
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
 - Fix `[koko_analytics_counter] shortcode no longer working in version 2.2.2 because of lacking function arguments.
