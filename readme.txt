@@ -126,6 +126,7 @@ Some more advanced features are bundled in [Koko Analytics Pro](https://www.koko
 ### 2.2.3 - Feb 17, 2026
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
+- Fix `[koko_analytics_counter] shortcode no longer working in version 2.2.2 because of lacking function arguments.
 
 
 ### 2.2.2 - Feb 17, 2026
@@ -762,6 +763,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Delete optimized tracking endpoint if buffer filename changed and is no longer present in it. This fixes an issue when moving between servers
 - Always run database migrations when needed, regardless of current user role
 - Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
-- Limit attempts to install optimized tracking endpoint to once per hour
-- On the analytics ...
+- ...
 
