@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten
 Tags: analytics, statistics, stats
 Requires at least: 6.0
 Tested up to: 6.9.1
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,6 +122,15 @@ Some more advanced features are bundled in [Koko Analytics Pro](https://www.koko
 
 
 == Changelog ==
+
+### 2.2.2 - Feb 17, 2026
+
+- Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+- Add hook koko_analytics_output_dashboard_settings which allows adding setting rows at any position on the dashboard settings page.
+- Delete koko_analytics_last_aggregation_at option on plugin uninstall.
+- Add gradient showing relative weight per row in the referrers table.
+- Fix Jetpack & Plausible import pages not accessible since version 2.2.0.
+- Minor performance improvements by changing code structure to re-use commonly used action hooks.
 
 
 ### 2.2.1 - Feb 02, 2026
@@ -750,20 +759,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
 - Limit attempts to install optimized tracking endpoint to once per hour
 - On the analytics dashboard, use the date format from WordPress settings
-- Translate day and month names (only relevant if using M, F, l or D in the date format string)
-- WP CLI command to manually run aggregation now accepts an optional `--force` flag. Example: `wp koko-analytics aggregate --force`
-- Don't show warning about WP Cron not working properly on sites on localhost, sites ending in `.local` and sites containing a port number
-- Last but certainly not least, some preparatory work for event tracking... Coming soon!
-
-
-### 1.0.39 - Aug 29, 2023
-
-- Update referrer blocklist
-- Update third-party JS dependencies
-- Bump tested WordPress version
-
-
-### 1.0.38 - Apr 25, 2023
-
-- Fix ...
+- Translate day and month names (only relevant if using M, ...
 
