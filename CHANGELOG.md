@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.2.2 - Feb 17, 2026
+
+- Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+- Add hook koko_analytics_output_dashboard_settings which allows adding setting rows at any position on the dashboard settings page.
+- Delete koko_analytics_last_aggregation_at option on plugin uninstall.
+- Add gradient showing relative weight per row in the referrers table.
+- Fix Jetpack & Plausible import pages not accessible since version 2.2.0.
+- Minor performance improvements by changing code structure to re-use commonly used action hooks.
+
 
 ### 2.2.1 - Feb 02, 2026
 
