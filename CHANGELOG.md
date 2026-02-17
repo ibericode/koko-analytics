@@ -3,6 +3,7 @@
 ### 2.2.3 - Feb 17, 2026
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
+- Fix `[koko_analytics_counter] shortcode no longer working in version 2.2.2 because of lacking function arguments.
 
 
 ### 2.2.2 - Feb 17, 2026
