@@ -2,11 +2,29 @@
 
 // i18n strings for koko-analytics-pro
 
-// ../koko-analytics-pro/src/Column/Table.php#97
+// ../koko-analytics-pro/src/Column/Table.php#117
 __('Number of days to use for pageviews column', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Column/Table.php#105
+// ../koko-analytics-pro/src/Column/Table.php#125
 __('Pageviews', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/views/password-form.php#80
+__('Enter password to access the dashboard', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/views/password-form.php#82
+__('Incorrect password. Please try again.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/views/password-form.php#84
+__('Password', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/views/password-form.php#85
+__('Submit', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/bootstrap.php#55
+__('Dashboard password', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/bootstrap.php#57
+__('Set a password to protect your public dashboard. Leave empty for no password protection.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/events-section.php#9
 __('Events', 'koko-analytics');
@@ -191,13 +209,13 @@ __('Country', 'koko-analytics');
 // ../koko-analytics-pro/src/Geolocation/views/dashboard.php#14
 __('Count', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#32
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#33
 __('There is nothing here. Yet!', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#38
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#39
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#41
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#42
 __('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Geolocation/views/setting.php#6
