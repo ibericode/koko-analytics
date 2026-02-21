@@ -149,7 +149,7 @@ class Dashboard
         new Notice_Pro();
     }
 
-    protected function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
+    public function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
     {
         switch ($key) {
             case 'today':

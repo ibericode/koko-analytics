@@ -3,6 +3,8 @@ parameters:
     paths:
         - koko-analytics.php
         - src/
+        - tests/
     excludePaths:
         analyse:
             - src/Command.php
+            - tests/benchmarks

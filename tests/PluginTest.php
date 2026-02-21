@@ -12,7 +12,7 @@ final class PluginTest extends TestCase
 {
     public function testCanInstantiate(): void
     {
-        $i = new Plugin(new Aggregator());
+        $i = new Plugin();
         self::assertTrue($i instanceof Plugin);
     }
 }
