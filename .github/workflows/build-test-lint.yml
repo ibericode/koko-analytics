@@ -32,11 +32,14 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Run PHP_CodeSniffer
+        run: composer run-script lint
+
+      - name: Run PHPStan
+        run: composer run-script analyse
+
       - name: Run PHPUnit
         run: composer run-script test
-
-      - name: Run PHPCS
-        run: composer run-script lint
 
       - name: Install NPM dependencies
         run: npm ci
@@ -46,4 +49,3 @@ jobs:
 
       - name: Run benchmark
         run: php tests/benchmarks/run-benchmark.php
-

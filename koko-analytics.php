@@ -58,14 +58,14 @@ require __DIR__ . '/src/Blocks.php';
 (new Blocks())->hook();
 
 // Admin hooks (admin only)
-if (defined('WP_ADMIN') && WP_ADMIN && (false == defined('DOING_AJAX') || false == DOING_AJAX)) {
+if (is_admin()) {
     require __DIR__ . '/src/Admin/Controller.php';
     (new Admin\Controller())->hook();
 }
 
 // WP CLI command
 if (defined('WP_CLI') && WP_CLI) {
-    WP_CLI::add_command('koko-analytics', Command::class);
+    WP_CLI::add_command('koko-analytics', Command::class); // @phpstan-ignore-line
 }
 
 register_activation_hook(__FILE__, lazy(Plugin::class, 'action_activate_plugin'));

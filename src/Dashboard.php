@@ -129,7 +129,7 @@ class Dashboard
         ];
     }
 
-    private function maybe_show_adblocker_notice(): void
+    protected function maybe_show_adblocker_notice(): void
     {
         ?>
         <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert" id="koko-analytics-adblock-notice" style="display: none;">
@@ -140,7 +140,7 @@ class Dashboard
         <?php
     }
 
-    private function maybe_show_pro_notice(): void
+    protected function maybe_show_pro_notice(): void
     {
         if (! current_user_can('manage_koko_analytics')) {
             return;
@@ -149,7 +149,7 @@ class Dashboard
         new Notice_Pro();
     }
 
-    public function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
+    protected function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
     {
         switch ($key) {
             case 'today':

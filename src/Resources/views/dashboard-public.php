@@ -23,7 +23,7 @@ defined('ABSPATH') or exit; ?>
     <meta name="theme-color" content="#B60205">
 </head>
 <body class="koko-analytics">
-    <?php parent::show(); ?>
+    <?php parent::show(); // @phpstan-ignore-line ?>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(

@@ -7,7 +7,6 @@ defined('ABSPATH') or exit;
 
 
 /**
- * @var \KokoAnalytics\Dashboard $this
  * @var \DateTimeInterface $date_start
  * @var \DateTimeInterface $date_end
  * @var object $totals
@@ -42,7 +41,7 @@ $tab = 'dashboard';
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild
                         ?>
-                        <?php if ($date_start >  $total_start_date) { ?>
+                        <?php if ($date_start > $total_start_date) { ?>
                             <a class="js-quicknav-prev text-decoration-none text-white me-2" href="" data-href="<?php echo esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
