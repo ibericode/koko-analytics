@@ -31,9 +31,8 @@
   "scripts": {
     "test": "vendor/bin/phpunit",
     "check-syntax": "bin/check-php-syntax",
-    "lint": "vendor/bin/phpcs -n -s",
-    "analyse": "vendor/bin/phpstan analyse",
-    "fmt": "vendor/bin/phpcbf"
+    "check-codestyle": "vendor/bin/phpcs -n -s",
+    "static-analysis": "vendor/bin/phpstan analyse"
   },
   "config": {
     "allow-plugins": {

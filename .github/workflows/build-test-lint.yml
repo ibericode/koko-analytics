@@ -6,46 +6,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         id: setup-php
         uses: shivammathur/setup-php@v2
         with:
           php-version: 'highest'
-
-      # Configure Composer to use GitHub action cache
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
-
-      - name: Run PHP_CodeSniffer
-        run: composer run-script lint
-
-      - name: Run PHPStan
-        run: composer run-script analyse
-
-      - name: Run PHPUnit
-        run: composer run-script test
-
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Run lint
-        run: npm run lint
-
-      - name: Run benchmark
-        run: php tests/benchmarks/run-benchmark.php
+      - run: composer install --no-progress
+      - run: composer run-script check-syntax
+      - run: composer run-script check-codestyle
+      - run: composer run-script static-analysis
+      - run: composer run-script test
+      - run: npm ci
+      - run: npm run lint
+      - run: php tests/benchmarks/run-benchmark.php

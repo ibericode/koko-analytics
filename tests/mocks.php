@@ -92,7 +92,7 @@ function get_site_url()
     return '';
 }
 
-function site_url()
+function site_url($path = '')
 {
     return '';
 }
@@ -121,7 +121,7 @@ function wp_upload_dir()
     ];
 }
 
-function wp_remote_get($url)
+function wp_remote_get($url, $args = [])
 {
     return null;
 }
