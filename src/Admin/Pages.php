@@ -109,6 +109,6 @@ class Pages
             return true;
         }
 
-        return $next_scheduled !== false && $next_scheduled > (time() - 40 * 60);
+        return $next_scheduled && $next_scheduled > (time() - 40 * 60);
     }
 }

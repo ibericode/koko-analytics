@@ -8,9 +8,7 @@
 
 namespace KokoAnalytics;
 
-use WP_Admin_Bar;
 use WP_Query;
-use WP_Post;
 
 /**
  * Returns a closure that instantiates the class and calls the given method when called

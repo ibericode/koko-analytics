@@ -1,5 +1,5 @@
 parameters:
-    level: 3
+    level: 4
     paths:
         - koko-analytics.php
         - src/
@@ -18,3 +18,6 @@ parameters:
     ignoreErrors:
       - message: '#Variable \$\w+ might not be defined.#'
         path: src/Resources/views
+    dynamicConstantNames:
+        - KOKO_ANALYTICS_CUSTOM_ENDPOINT
+    treatPhpDocTypesAsCertain: false

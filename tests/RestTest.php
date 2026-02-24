@@ -9,12 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 final class RestTest extends TestCase
 {
-    public function testCanInstantiate(): void
-    {
-        $i = new Rest();
-        self::assertTrue($i instanceof Rest);
-    }
-
     public function test_validate_date_param()
     {
         $rest = new Rest();

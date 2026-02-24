@@ -208,8 +208,6 @@ class Dashboard
             case 'all_time':
                 return (new Stats())->get_total_date_range();
         }
-
-        throw new \Exception("invalid preset key: {$key}");
     }
 
     public function get_first_day_of_current_week(\DateTimeImmutable $now, int $week_starts_on = 0): \DateTimeImmutable

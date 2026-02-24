@@ -33,7 +33,7 @@ class Shortcode_Site_Counter
         ];
         $args = shortcode_atts($default_args, $args, self::SHORTCODE);
         $args['days'] = abs((int) $args['days']);
-        $path = $args['global'] && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : $this->get_post_path();
+        $path = $args['global'] !== false && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : $this->get_post_path();
 
         $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
         $timezone = wp_timezone();

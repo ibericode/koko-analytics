@@ -17,7 +17,6 @@
   ],
   "type": "wordpress-plugin",
   "require": {
-    "php": ">7.4",
     "ext-json": "*"
   },
   "require-dev": {

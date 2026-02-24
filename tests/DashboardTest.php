@@ -10,12 +10,6 @@ use DateTimeImmutable;
 
 final class DashboardTest extends TestCase
 {
-    public function testCanInstantiate(): void
-    {
-        $i = new Dashboard();
-        self::assertTrue($i instanceof Dashboard);
-    }
-
     public function testGetFirstDayOfCurrentWeekWithWeekStartOnSunday(): void
     {
         $i = new Dashboard();

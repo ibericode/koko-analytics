@@ -243,11 +243,8 @@ function determine_uniqueness(array $request_params, string $type, $thing): arra
     switch ($request_params['m'] ?? 'n') {
         case 'c':
             return determine_uniqueness_cookie($type, $thing);
-            break;
-
         case 'f':
             return determine_uniqueness_fingerprint($type, $thing);
-            break;
     }
 
     // not using any tracking method
