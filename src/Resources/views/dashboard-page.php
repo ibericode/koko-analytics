@@ -13,8 +13,6 @@ defined('ABSPATH') or exit;
  * @var int $realtime
  * @var string $date_format
  * @var string $dashboard_url
- * @var \KokoAnalytics\Dates $dates
- * @var \KokoAnalytics\Stats $stats
  * @var array $next_dates
  * @var array $prev_dates
  */

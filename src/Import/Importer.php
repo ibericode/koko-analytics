@@ -27,7 +27,7 @@ abstract class Importer
      */
     protected function bulk_insert_page_stats(array $rows): void
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         // return early if nothing to do
@@ -58,7 +58,7 @@ abstract class Importer
      */
     protected function bulk_insert_referrer_stats(array $rows): void
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         // return early if nothing to do

@@ -189,7 +189,7 @@ class Jetpack_Importer extends Importer
         // We now have an array of days in the following format:
         // [ [ "date" => "2020-10-31", "postviews" => [ [ "post_id" => 1, "views" => 2 ] ] ] ]
 
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
         foreach ($data as $item) {
             $site_views = 0;

@@ -8,8 +8,6 @@
 
 namespace KokoAnalytics;
 
-use Exception;
-
 class Migrations
 {
     protected $prefix;
@@ -66,7 +64,7 @@ class Migrations
     }
 
     /**
-     * @param string Absolute path to migration file
+     * @param string $file Absolute path to migration file
      */
     protected function handle_file(string $file): void
     {

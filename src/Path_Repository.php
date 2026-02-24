@@ -6,7 +6,7 @@ class Path_Repository
 {
     public static function upsert(array $paths): array
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $map = array_fill_keys($paths, 0);

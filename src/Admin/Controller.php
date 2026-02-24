@@ -110,8 +110,7 @@ class Controller
             return;
         }
 
-        // test if we have post_stats to migrate
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         // Test for unmigrated post id records

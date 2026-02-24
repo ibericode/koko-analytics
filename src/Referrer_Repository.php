@@ -6,7 +6,7 @@ class Referrer_Repository
 {
     public static function upsert(array $values): array
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $map = array_fill_keys($values, 0);

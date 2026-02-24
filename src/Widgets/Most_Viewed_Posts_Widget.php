@@ -86,9 +86,9 @@ class Most_Viewed_Posts_Widget extends WP_Widget
      *
      * @param array $settings Current settings.
      */
-    public function form($instance)
+    public function form($settings)
     {
-        $settings   = array_merge($this->get_default_settings(), $instance);
+        $settings   = array_merge($this->get_default_settings(), $settings);
         $post_types = get_post_types(['public' => true], 'objects');
         ?>
         <p>

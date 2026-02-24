@@ -57,7 +57,7 @@ class Plausible_Importer extends Importer
 
     private function import_site_stats($fh, array $headers, string $date_start, string $date_end): void
     {
-        /** @var wpdb $wpdb */
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         while ($row = fgetcsv($fh, 1024, ',', '"', '')) {
