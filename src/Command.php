@@ -36,6 +36,7 @@ class Command
     public function prune($args, $assoc_args)
     {
         WP_CLI::line('Pruning data...');
+        // NOTE: We're firing the action hook versus instantiating the Pruner class because Koko Analytics Pro also hooks into the action
         do_action('koko_analytics_prune_data');
         WP_CLI::success('Data pruned');
     }
