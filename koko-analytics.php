@@ -65,7 +65,7 @@ if (is_admin()) {
 
 // WP CLI command
 if (defined('WP_CLI') && WP_CLI) {
-    WP_CLI::add_command('koko-analytics', Command::class); // @phpstan-ignore-line
+    WP_CLI::add_command('koko-analytics', Command::class);
 }
 
 register_activation_hook(__FILE__, lazy(Plugin::class, 'action_activate_plugin'));

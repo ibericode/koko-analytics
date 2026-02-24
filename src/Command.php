@@ -4,7 +4,6 @@
  * @package koko-analytics
  * @license GPL-3.0+
  * @author Danny van Kooten
- * @phpstan-ignore class.notFound
  */
 
 namespace KokoAnalytics;
