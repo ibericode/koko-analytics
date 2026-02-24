@@ -1,4 +1,14 @@
-<?php defined('ABSPATH') or exit; ?>
+<?php
+
+defined('ABSPATH') or exit;
+
+/**
+ * @var array $tabs
+ * @var string $active_tab
+ * @var array $settings
+ */
+
+?>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
     <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← <?= esc_html__('Back to stats', 'koko-analytics') ?></a>
@@ -21,7 +31,7 @@
                 <?php if (!empty($_GET['error'])) { ?>
                     <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['error']); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
@@ -29,7 +39,7 @@
                 <?php if (!empty($_GET['message'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['message']); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
@@ -37,7 +47,7 @@
                 <?php if (isset($_GET['settings-updated'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                         <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 

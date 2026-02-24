@@ -1,5 +1,5 @@
 parameters:
-    level: 0
+    level: 1
     paths:
         - koko-analytics.php
         - src/
@@ -15,3 +15,6 @@ parameters:
         - %rootDir%/../../php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php
         - %rootDir%/../../php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php
         - %rootDir%/../../php-stubs/wp-cli-stubs/wp-cli-tools-stubs.php
+    ignoreErrors:
+      - message: '#Variable \$\w+ might not be defined.#'
+        path: src/Resources/views

@@ -1,3 +1,11 @@
+<?php
+defined('ABSPATH') or exit;
+
+/**
+ * @var array $settings
+ */
+?>
+
 <h2 class="mt-0 mb-3"><?= esc_html__('Data settings', 'koko-analytics') ?></h2>
 <form method="POST" action="">
     <input type="hidden" name="koko_analytics_action" value="save_settings">

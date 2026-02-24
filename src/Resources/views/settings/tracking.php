@@ -1,3 +1,12 @@
+<?php
+
+defined('ABSPATH') or exit;
+
+/**
+* @var array $settings
+* @var array $user_roles
+*/
+?>
 <h2 class="mt-0 mb-3"><?= esc_html__('Tracking settings', 'koko-analytics'); ?></h2>
 <form method="POST" action="">
     <?php wp_nonce_field('koko_analytics_save_settings'); ?>

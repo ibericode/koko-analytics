@@ -2,6 +2,12 @@
 
 use KokoAnalytics\Endpoint_Installer;
 
+defined('ABSPATH') or exit;
+
+/**
+* @var bool $using_custom_endpoint
+*/
+
 $endpoint_installer = new Endpoint_Installer();
 ?>
 

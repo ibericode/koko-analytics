@@ -29,7 +29,7 @@ class Pages
             echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
             echo ' ';
             echo esc_html__('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
-            echo '<button type="button" class="btn-close" aria-label="', esc_attr('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
+            echo '<button type="button" class="btn-close" aria-label="', esc_attr__('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
             echo '</div>';
         }
 
@@ -41,7 +41,7 @@ class Pages
         if (false === $is_buffer_dir_writable) {
             echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert" style="margin-top: 1rem; margin-right: 20px;">';
             echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), ['code' => []]);
-            echo '<button type="button" class="btn-close" aria-label="', esc_attr('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
+            echo '<button type="button" class="btn-close" aria-label="', esc_attr__('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
             echo '</div>';
         }
 

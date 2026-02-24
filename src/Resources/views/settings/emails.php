@@ -1,3 +1,11 @@
+<?php
+defined('ABSPATH') or exit;
+
+/**
+ * @var array $settings
+ */
+?>
+
 <?php do_action('koko_analytics_output_settings_tab_emails', $settings); ?>
 
 <?php if (! has_action('koko_analytics_output_settings_tab_emails')) : ?>

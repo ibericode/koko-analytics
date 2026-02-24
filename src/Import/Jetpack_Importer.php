@@ -49,6 +49,7 @@ class Jetpack_Importer extends Importer
             }
         } catch (Exception $e) {
             $this->redirect_with_error($this->get_admin_url(), __('Invalid date fields', 'koko-analytics'));
+            exit;
         }
 
         // params are valid; let's go!

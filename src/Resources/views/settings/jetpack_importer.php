@@ -1,7 +1,7 @@
 <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
         <?php esc_html_e('Big success! Your stats are now imported into Koko Analytics.', 'koko-analytics'); ?>
-        <button type="button" class="btn-close" aria-label="<?= esc_attr('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
     </div>
 <?php } ?>
 

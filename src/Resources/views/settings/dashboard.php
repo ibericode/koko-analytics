@@ -1,4 +1,11 @@
 <?php
+defined('ABSPATH') or exit;
+
+/**
+ * @var array $settings
+ * @var string $public_dashboard_url
+ * @var array $date_presets
+ */
 
 add_action('koko_analytics_output_dashboard_settings', function ($settings) use ($public_dashboard_url) {
     ?>

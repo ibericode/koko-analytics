@@ -16,6 +16,7 @@ $wpdb->query(
 
 $date   = new \DateTime('-10 years');
 $end    = new \DateTime('+30 years');
+$dates = [];
 while ($date < $end) {
     $dates[] = $date->format('Y-m-d');
     $date->modify('+1 day');
