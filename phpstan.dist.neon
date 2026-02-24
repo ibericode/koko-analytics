@@ -3,6 +3,7 @@ parameters:
     paths:
         - koko-analytics.php
         - src/
+        - migrations/
         - tests/
     excludePaths:
         analyse:
