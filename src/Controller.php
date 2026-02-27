@@ -11,7 +11,8 @@ class Controller
 {
     public function hook(): void
     {
-        add_action('init', [$this, 'action_init'], 0, 0);
+        add_action('init', [$this, 'maybe_collect_request'], PHP_INT_MIN, 0);
+        add_action('init', [$this, 'action_init'], 10, 0);
         add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
         add_action('wp', [$this, 'action_wp'], 10, 0);
 
@@ -34,9 +35,6 @@ class Controller
 
     public function action_init()
     {
-        // listener for ajax collection endpoint (only used in case optimized endpoint is not installed)
-        $this->maybe_collect_request();
-
         // listener for public dashboard
         $this->maybe_show_dashboard();
 
@@ -78,7 +76,7 @@ class Controller
         );
     }
 
-    protected function maybe_collect_request()
+    public function maybe_collect_request()
     {
         if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
             return;

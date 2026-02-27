@@ -26,6 +26,15 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
+# First, run some checks
+if [ ! -e "vendor/bin/phpstan"]; then
+    composer install
+fi;
+composer run check-syntax
+composer run check-codestyle
+composer run static-analysis
+composer run test
+
 # Update referrer blocklist
 curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist
 git add data/referrer-blocklist || true
