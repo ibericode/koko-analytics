@@ -26,14 +26,14 @@ class Controller
         add_action('koko_analytics_update_custom_endpoint', lazy(Endpoint_Installer::class, 'install'), 10, 0);
     }
 
-    public function action_wp_loaded()
+    public function action_wp_loaded(): void
     {
         // Maybe run any pending database migrations
         $migrations = new Migrations('koko_analytics', KOKO_ANALYTICS_VERSION, KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/');
         $migrations->maybe_run();
     }
 
-    public function action_init()
+    public function action_init(): void
     {
         // listener for public dashboard
         $this->maybe_show_dashboard();
@@ -43,6 +43,10 @@ class Controller
         register_widget(Most_Viewed_Posts_Widget::class);
     }
 
+    /**
+     * @param array $schedules
+     * @return array
+     */
     public function filter_cron_schedules($schedules)
     {
         $schedules['koko_analytics_stats_aggregate_interval'] = [
@@ -52,7 +56,7 @@ class Controller
         return $schedules;
     }
 
-    public function action_wp()
+    public function action_wp(): void
     {
         (new Script_Loader())->hook();
         add_action('admin_bar_menu', [$this, 'action_admin_bar_menu'], 40, 1);
@@ -76,7 +80,7 @@ class Controller
         );
     }
 
-    public function maybe_collect_request()
+    public function maybe_collect_request(): void
     {
         if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
             return;
@@ -85,7 +89,7 @@ class Controller
         collect_request();
     }
 
-    protected function maybe_show_dashboard()
+    protected function maybe_show_dashboard(): void
     {
         if (! isset($_GET['koko-analytics-dashboard']) && ! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
             return;

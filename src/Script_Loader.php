@@ -25,7 +25,7 @@ class Script_Loader
         add_action('amp_print_analytics', [$this, 'print_amp_analytics_tag'], 10, 0);
     }
 
-    public function maybe_print_script()
+    public function maybe_print_script(): void
     {
         $load_script = apply_filters('koko_analytics_load_tracking_script', true);
         if (! $load_script) {
@@ -70,7 +70,7 @@ class Script_Loader
         return admin_url('admin-ajax.php?action=koko_analytics_collect');
     }
 
-    public function print_js_object()
+    public function print_js_object(): void
     {
         $settings      = get_settings();
         $script_config = [
@@ -95,7 +95,7 @@ class Script_Loader
         wp_print_inline_script_tag($data);
     }
 
-    public function print_amp_analytics_tag()
+    public function print_amp_analytics_tag(): void
     {
         $settings     = get_settings();
         $data         = [

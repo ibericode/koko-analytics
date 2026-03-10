@@ -4,7 +4,7 @@ namespace KokoAnalytics;
 
 class Cron
 {
-    public function setup()
+    public function setup(): void
     {
         if (! wp_next_scheduled('koko_analytics_aggregate_stats')) {
             wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
@@ -19,7 +19,7 @@ class Cron
             wp_schedule_event($time_next_midnight, 'daily', 'koko_analytics_rotate_fingerprint_seed');
         }
     }
-    public function clear()
+    public function clear(): void
     {
         wp_clear_scheduled_hook('koko_analytics_aggregate_stats');
         wp_clear_scheduled_hook('koko_analytics_prune_data');

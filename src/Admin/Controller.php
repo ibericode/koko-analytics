@@ -14,7 +14,7 @@ use function KokoAnalytics\lazy;
 
 class Controller
 {
-    public function hook()
+    public function hook(): void
     {
         add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
         add_action('wp_dashboard_setup', [$this, 'action_wp_dashboard_setup'], 10, 0);
@@ -30,18 +30,18 @@ class Controller
         }
     }
 
-    public function action_wp_loaded()
+    public function action_wp_loaded(): void
     {
         (new Actions())->run();
     }
 
-    public function action_admin_menu()
+    public function action_admin_menu(): void
     {
         add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', lazy(Pages::class, 'show_dashboard_page'));
         add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', lazy(Pages::class, 'show_settings_page'));
     }
 
-    public function action_wp_dashboard_setup()
+    public function action_wp_dashboard_setup(): void
     {
         (new Dashboard_Widget())->register();
     }
@@ -93,7 +93,7 @@ class Controller
     /**
      * @param string $hook_suffix
      */
-    public function action_admin_enqueue_scripts($hook_suffix)
+    public function action_admin_enqueue_scripts($hook_suffix): void
     {
         if ($hook_suffix !== 'dashboard_page_koko-analytics' && $hook_suffix !== 'settings_page_koko-analytics-settings') {
             return;
@@ -103,7 +103,7 @@ class Controller
         wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/dist/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'defer']);
     }
 
-    public function action_admin_notices()
+    public function action_admin_notices(): void
     {
         // only show to users with required capability
         if (!current_user_can('manage_koko_analytics')) {

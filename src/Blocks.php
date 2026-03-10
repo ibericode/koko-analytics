@@ -7,13 +7,13 @@ use WP_Query;
 
 class Blocks
 {
-    public function hook()
+    public function hook(): void
     {
         add_action('init', [$this, 'action_init'], 10, 0);
         add_filter('pre_render_block', [$this, 'filter_pre_render_block'], 10, 3);
     }
 
-    public function action_init()
+    public function action_init(): void
     {
         // counter block
         wp_register_script('koko-analytics-counter-block', plugins_url('assets/dist/js/blocks/counter.js', KOKO_ANALYTICS_PLUGIN_FILE), [
@@ -35,12 +35,22 @@ class Blocks
         ]);
     }
 
+    /**
+     * @param array $args
+     * @return string
+     */
     public function render_counter($args)
     {
         $count = (new Shortcode_Site_Counter())->content($args);
         return '<p>' . sprintf(__('This page has been viewed a total of %s times', 'koko-analytics'), $count) . '</p>';
     }
 
+    /**
+     * @param string|null $prerender
+     * @param array $block
+     * @param \WP_Block|null $parent
+     * @return string|null
+     */
     public function filter_pre_render_block($prerender, $block, $parent)
     {
         if (($block['attrs']['namespace'] ?? '') !== 'koko-analytics/most-viewed-pages') {
@@ -48,8 +58,13 @@ class Blocks
         }
 
         add_filter('query_loop_block_query_vars', [$this, 'filter_query_loop_block_query_vars'], 10, 1);
+        return $prerender;
     }
 
+    /**
+     * @param array $vars
+     * @return array
+     */
     public function filter_query_loop_block_query_vars($vars)
     {
         // TODO: Add UI for specifying number of days
