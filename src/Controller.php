@@ -47,7 +47,7 @@ class Controller
     {
         $schedules['koko_analytics_stats_aggregate_interval'] = [
             'interval' => 60, // 60 seconds
-            'display'  => esc_html__('Every minute', 'koko-analytics'),
+            'display'  => did_action('after_setup_theme') ? esc_html__('Every 60 seconds', 'koko-analytics') : 'Every 60 seconds',
         ];
         return $schedules;
     }
