@@ -67,7 +67,7 @@ class Script_Loader
         }
 
         // default URL (which includes WordPress)
-        return admin_url('admin-ajax.php?action=koko_analytics_collect');
+        return home_url('/');
     }
 
     public function print_js_object(): void
@@ -99,6 +99,7 @@ class Script_Loader
     {
         $settings     = get_settings();
         $data         = [
+            'action' => 'koko_analytics_collect',
             'm' => $settings['tracking_method'][0],
             'po' => $this->get_post_id(),
             'pa' => self::get_request_path(),

@@ -4,17 +4,17 @@ var ka = win.koko_analytics;
 
 ka.trackPageview = function(path, post_id) {
   if (
-  // do not track if this is a prerender request
-  (document.visibilityState == 'prerender') ||
+    // do not track if this is a prerender request
+    (document.visibilityState == 'prerender') ||
 
-  // do not track if user agent looks like a bot
-  ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
+    // do not track if user agent looks like a bot
+    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
   ) {
-  return;
+    return;
   }
 
-
   navigator.sendBeacon(ka.url, new URLSearchParams({
+    action: 'koko_analytics_collect',
     pa: path,
     po: post_id,
 

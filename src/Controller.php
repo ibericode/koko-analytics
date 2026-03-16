@@ -82,7 +82,8 @@ class Controller
 
     public function maybe_collect_request(): void
     {
-        if (($_GET['action'] ?? '') !== 'koko_analytics_collect') {
+        // TODO: Remove the $_GET check after 2026-04-16
+        if (($_GET['action'] ?? '') !== 'koko_analytics_collect' && ($_POST['action'] ?? '') !== 'koko_analytics_collect') {
             return;
         }
 
