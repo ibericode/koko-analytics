@@ -65,6 +65,46 @@ class Stats
         return $result;
     }
 
+    public function generate_date_range(string $start_date, string $end_date, string $group = 'day'): array
+    {
+        $timezone = wp_timezone();
+        $start = new \DateTimeImmutable($start_date, $timezone);
+        $end = new \DateTimeImmutable($end_date, $timezone);
+        $week_starts_on = (int) get_option('start_of_week', 0);
+
+        // align start date to the beginning of the period
+        switch ($group) {
+            case 'week':
+                $day_of_week = (int) $start->format('w');
+                $diff = ($day_of_week - $week_starts_on + 7) % 7;
+                $start = $start->modify("-{$diff} days");
+                break;
+            case 'month':
+                $start = $start->modify('first day of this month');
+                break;
+            case 'year':
+                $start = $start->modify('first day of january this year');
+                break;
+        }
+
+        $intervals = [
+            'day' => '+1 day',
+            'week' => '+1 week',
+            'month' => '+1 month',
+            'year' => '+1 year',
+        ];
+        $interval = $intervals[$group];
+
+        $dates = [];
+        $current = $start;
+        while ($current <= $end) {
+            $dates[] = $current->format('Y-m-d');
+            $current = $current->modify($interval);
+        }
+
+        return $dates;
+    }
+
     /**
      * Get aggregated statistics (per day, week or month) between the two given dates.
      * Without the $page parameter this returns the site-wide statistics.
