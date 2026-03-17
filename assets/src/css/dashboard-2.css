@@ -92,6 +92,7 @@ body.koko-analytics {
   display: inline-block;
   padding: 0.75rem;
   cursor: pointer;
+  color: var(--bs-body-color);
   font-size: var(--bs-body-font-size);
   line-height: 1;
   background: #fff;
