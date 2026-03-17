@@ -169,7 +169,7 @@ $tab = 'dashboard';
     <?php /* CHART COMPONENT */ ?>
     <?php if (count($chart_data) > 1) { ?>
         <div class="ka-box mb-3 p-3">
-            <?php new Chart_View($chart_data, $date_start, $date_end); ?>
+            <?php new Chart_View($chart_data, $date_start, $date_end, 280, true, $group_chart_by); ?>
         </div>
     <?php } ?>
 
