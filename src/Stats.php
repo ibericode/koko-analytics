@@ -121,42 +121,55 @@ class Stats
         global $wpdb;
 
         $week_starts_on = (int) get_option('start_of_week', 0);
-        $available_groupings = [
-            'day' => '%Y-%m-%d',
-            'week' => $week_starts_on === 1 ? '%Y-%u' : '%Y-%U',
-            'month' => '%Y-%m',
-            'year' => '%Y',
+        $date_key_expressions = [
+            'day' => 's.date',
+            'week' => "DATE(DATE_SUB(s.date, INTERVAL MOD(DAYOFWEEK(s.date) - 1 - {$week_starts_on} + 7, 7) DAY))",
+            'month' => 'DATE(DATE_SUB(s.date, INTERVAL DAYOFMONTH(s.date) - 1 DAY))',
+            'year' => 'MAKEDATE(YEAR(s.date), 1)',
         ];
-        $date_format = $available_groupings[$group];
-
-        $from = "{$wpdb->prefix}koko_analytics_dates d";
-        $where = "d.date >= %s AND d.date <= %s";
-        $args = [$start_date, $end_date];
+        $date_key_expr = $date_key_expressions[$group];
 
         if ($page) {
             // join page-specific stats
-            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id ON s.date = d.date ";
+            $from = "{$wpdb->prefix}koko_analytics_post_stats s JOIN {$wpdb->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id";
             $args = [$page, $start_date, $end_date];
         } else {
             // join site-wide stats
-            $from .= " LEFT JOIN {$wpdb->prefix}koko_analytics_site_stats s ON s.date = d.date";
+            $from = "{$wpdb->prefix}koko_analytics_site_stats s";
+            $args = [$start_date, $end_date];
         }
 
-        $args[] = $date_format;
-
-        $result = $wpdb->get_results($wpdb->prepare(
-            "SELECT d.date, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews
-                FROM {$from}
-                WHERE {$where}
-                GROUP BY DATE_FORMAT(d.date, %s)
-                ORDER BY d.date ASC",
-            $args
-        ));
-        return \array_map(function ($row) {
+        $rows = array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
             return $row;
-        }, $result);
+        }, $wpdb->get_results($wpdb->prepare(
+            "SELECT {$date_key_expr} AS `date`, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews
+                FROM {$from}
+                WHERE s.date BETWEEN %s AND %s
+                GROUP BY {$date_key_expr}
+                ORDER BY {$date_key_expr} ASC",
+            $args
+        ) ?? []));
+
+        // ensure we have an entry for each date in the range, even if there are no stats for that date
+        $stats_by_date = [];
+        foreach ($rows as $row) {
+            $stats_by_date[$row->date] = $row;
+        }
+
+        // fill in missing dates with zeroed stats
+        $date_range = $this->generate_date_range($start_date, $end_date, $group);
+        $results = [];
+        foreach ($date_range as $date) {
+            $results[] = $stats_by_date[$date] ?? (object) [
+                'date' => $date,
+                'visitors' => 0,
+                'pageviews' => 0,
+            ];
+        }
+
+        return $results;
     }
 
     public function get_posts(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
@@ -169,7 +182,7 @@ class Stats
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
                 LEFT JOIN {$wpdb->prefix}posts wp ON wp.ID = s.post_id
-                WHERE s.date >= %s AND s.date <= %s
+                WHERE s.date BETWEEN %s AND %s
                 GROUP BY p.path, s.post_id
                 ORDER BY pageviews DESC, visitors DESC, s.path_id ASC
                 LIMIT %d, %d",
@@ -200,7 +213,7 @@ class Stats
                 SELECT COUNT(*) AS count
                 FROM {$wpdb->prefix}koko_analytics_post_stats s
                 JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id
-                WHERE s.date >= %s AND s.date <= %s
+                WHERE s.date BETWEEN %s AND %s
                 GROUP BY p.path, s.post_id
             ) AS a",
             [$start_date, $end_date]
@@ -220,7 +233,7 @@ class Stats
             "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
                 JOIN {$wpdb->prefix}koko_analytics_referrer_urls r ON r.id = s.id
-                WHERE s.date >= %s AND s.date <= %s
+                WHERE s.date BETWEEN %s AND %s
                 GROUP BY s.id
                 ORDER BY pageviews DESC, r.id ASC
                 LIMIT %d, %d",
@@ -235,7 +248,7 @@ class Stats
         return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(DISTINCT(s.id))
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
-                WHERE s.date >= %s AND s.date <= %s",
+                WHERE s.date BETWEEN %s AND %s",
             [$start_date, $end_date]
         ));
     }
@@ -247,7 +260,7 @@ class Stats
         return (int) $wpdb->get_var($wpdb->prepare(
             "SELECT SUM(s.pageviews)
                 FROM {$wpdb->prefix}koko_analytics_referrer_stats s
-                WHERE s.date >= %s AND s.date <= %s",
+                WHERE s.date BETWEEN %s AND %s",
             [$start_date, $end_date]
         ));
     }
