@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.0
 Tested up to: 6.9.4
-Stable tag: 2.2.7-beta1
+Stable tag: 2.2.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -141,6 +141,16 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 
 
 == Changelog ==
+
+
+### 2.2.5 - Mar 18, 2026
+
+- Change URL for tracking request to home_url to bypass rate limits on admin-ajax.php on some hosts. This only applies if not using the optimized endpoint.
+- Format date in chart tooltip differently depending on grouping.
+- Fix issue where dashboard could only fetch statistics up to 10 years back, due to pre-generated dates table.
+- Prevent load_textdomain_just_in_time() warning when other plugins call wp_get_schedules() before init hook.
+- Various typing improvements for issues as reported by PHPStan.
+
 
 ### 2.2.4 - Feb 17, 2026
 
@@ -772,15 +782,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add public PHP API. You can now call the following functions:
 	- `koko_analytics_get_most_viewed_posts()` to get a list of the most viewed posts.
 	- `koko_analytics_get_realtime_pageview_count('-1 hour')` to get the total number of pageviews in the last hour.
-	- `koko_analytics_track_pageview($post_id)` to track a pageview to the post with ID `$post_id`
-
-
-#### 1.0.40 - Sep 14, 2023
-
-- Fallback to post slug if post has no title
-- Validate referrer URL and ignore if invalid
-- Delete optimized tracking endpoint if buffer filename changed and is no longer present in it. This fixes an issue when moving between servers
-- Always run database migrations when needed, regardless of current user role
-- Allow specifying multiple post types in `KokoAnalytics\get_most_viewed_posts()` and the `[koko_analytics_most_viewed_posts]` shortcode. Example: `[koko_analytics_most_viewed_posts post_type="page,post"]`
-- ...
+	- `koko_analytics_track_pageview($post_id)` to track ...
 
