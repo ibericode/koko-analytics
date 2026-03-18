@@ -1,5 +1,15 @@
 # Changelog
 
+
+### 2.2.5 - Mar 18, 2026
+
+- Change URL for tracking request to home_url to bypass rate limits on admin-ajax.php on some hosts. This only applies if not using the optimized endpoint.
+- Format date in chart tooltip differently depending on grouping.
+- Fix issue where dashboard could only fetch statistics up to 10 years back, due to pre-generated dates table.
+- Prevent load_textdomain_just_in_time() warning when other plugins call wp_get_schedules() before init hook.
+- Various typing improvements for issues as reported by PHPStan.
+
+
 ### 2.2.4 - Feb 17, 2026
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
