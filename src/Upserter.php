@@ -2,7 +2,7 @@
 
 namespace KokoAnalytics;
 
-class Upserter 
+class Upserter
 {
     protected \wpdb $db;
     protected string $table;
@@ -12,8 +12,7 @@ class Upserter
         string $table,
         string $column,
         $db = null,
-    )
-    {
+    ) {
         $this->db = $db ?: $GLOBALS['wpdb'];
         $this->table = $this->db->prefix . 'koko_analytics_' . $table;
         $this->column = $column;
@@ -23,7 +22,7 @@ class Upserter
     {
         $values = array_unique($values);
 
-        // INSERT IGNORE all deduplicated values into the database table 
+        // INSERT IGNORE all deduplicated values into the database table
         $placeholders = rtrim(str_repeat('(%s),', count($values)), ',');
         $this->db->query($this->db->prepare("INSERT IGNORE INTO {$this->table}({$this->column}) VALUES {$placeholders}", $values));
 
@@ -35,8 +34,6 @@ class Upserter
         foreach ($results as $r) {
             $map[$r->{$this->column}] = $r->id;
         }
-        return $map;    
-
+        return $map;
     }
-
 }

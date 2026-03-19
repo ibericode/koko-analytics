@@ -33,10 +33,10 @@ abstract class Importer
         if (count($rows) == 0) {
             return;
         }
+
+        $paths = array_column($rows, 1);
         $upserter = new Upserter('paths', 'path');
-        $path_ids = $upserter->upsert(array_map(function ($r) {
-            return $r[1];
-        }, $rows));
+        $path_ids = $upserter->upsert($paths);
 
         $values = [];
         foreach ($rows as $r) {
@@ -65,10 +65,9 @@ abstract class Importer
             return;
         }
 
+        $urls = array_column($rows, 1);
         $upserter = new Upserter('referrer_urls', 'url');
-        $ids = $upserter->upsert(array_map(function ($r) {
-            return $r[1];
-        }, $rows));
+        $ids = $upserter->upsert($urls);
 
         $values = [];
         foreach ($rows as $r) {

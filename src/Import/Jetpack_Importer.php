@@ -214,9 +214,7 @@ class Jetpack_Importer extends Importer
             }, $item->postviews);
 
             // create array of just paths
-            $paths = array_map(function ($postviews) {
-                return $postviews->path;
-            }, $item->postviews);
+            $paths = array_column($item->postviews, 'path');
 
             // upsert paths into database and retrieve map with ID's
             $path_map = $upserter->upsert($paths);

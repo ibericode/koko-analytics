@@ -29,15 +29,8 @@ class Pageview_Aggregator
         [$timestamp, $path, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
 
         // Ignore entire line (request) if referrer URL is on blocklist
-        if ($referrer_url && $this->ignore_referrer_url($referrer_url)) {
+        if ($this->ignore_referrer_url($referrer_url)) {
             return;
-        }
-
-        // Sanity check on $path, it could be coming from an 1.8.x buffer file
-        // TODO: Remove in 2.1.x
-        if (is_numeric($path)) {
-            [$timestamp, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
-            $path = parse_url(get_permalink($post_id), PHP_URL_PATH);
         }
 
         // convert unix timestamp to local datetime
@@ -183,8 +176,12 @@ class Pageview_Aggregator
         $this->realtime = [];
     }
 
-    private function ignore_referrer_url($url): bool
+    private function ignore_referrer_url(?string $url): bool
     {
+        if ($url === null || $url === '') {
+            return false;
+        }
+
         $url = strtolower($url);
 
         // run custom blocklist first

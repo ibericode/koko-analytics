@@ -6,9 +6,9 @@ use DateTimeInterface;
 
 /**
  * This class provides an abstraction layer for the database tables used to store analytics data in the plugin.
- * 
+ *
  * Could in theory cover the following tables, but does not right now:
- * - wp_koko_analytics_referrer_stats 
+ * - wp_koko_analytics_referrer_stats
  * - wp_koko_analytics_utm_sources
  * - wp_koko_analytics_utm_mediums
  * - wp_koko_analytics_utm_campaigns
@@ -30,7 +30,7 @@ class Table
         $this->labels = "{$this->db->prefix}koko_analytics_{$name}_labels";
     }
 
-    public function get(DateTimeInterface $start, DateTimeInterface $end, int $offset, int $limit): array 
+    public function get(DateTimeInterface $start, DateTimeInterface $end, int $offset, int $limit): array
     {
         return array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
@@ -48,7 +48,7 @@ class Table
         )));
     }
 
-    public function count(DateTimeInterface $start, DateTimeInterface $end): int 
+    public function count(DateTimeInterface $start, DateTimeInterface $end): int
     {
         return (int) $this->db->get_var($this->db->prepare(
             "SELECT COUNT(DISTINCT(s.id)) FROM {$this->stats} s WHERE s.date BETWEEN %s AND %s",
@@ -56,7 +56,7 @@ class Table
         ));
     }
 
-    public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'pageviews'): int 
+    public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'pageviews'): int
     {
         return (int) $this->db->get_var($this->db->prepare(
             "SELECT SUM({$property}) FROM {$this->stats} s WHERE s.date BETWEEN %s AND %s",
@@ -64,7 +64,7 @@ class Table
         ));
     }
 
-    public function create(): void 
+    public function create(): void
     {
         $this->db->query("CREATE TABLE IF NOT EXISTS {$this->labels} (
             id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
