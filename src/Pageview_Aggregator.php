@@ -123,9 +123,11 @@ class Pageview_Aggregator
     {
         global $wpdb;
 
+        $upserter = new Upserter('paths', 'path');
+
         // insert page-specific stats
         foreach ($this->post_stats as $date => $stats) {
-            $path_ids = Path_Repository::upsert(array_keys($stats));
+            $path_ids = $upserter->upsert(array_keys($stats));
             $values = [];
             foreach ($stats as $path => $r) {
                 array_push($values, $date, $path_ids[$path], $r['post_id'], $r['visitors'], $r['pageviews']);
@@ -141,9 +143,11 @@ class Pageview_Aggregator
     {
         global $wpdb;
 
+        $upserter = new Upserter('referrer_urls', 'url');
+
         // insert referrer stats
         foreach ($this->referrer_stats as $date => $stats) {
-            $referrer_ids = Referrer_Repository::upsert(array_keys($stats));
+            $referrer_ids = $upserter->upsert(array_keys($stats));
             $values = [];
             foreach ($stats as $url => $r) {
                 array_push($values, $date, $referrer_ids[$url], $r['visitors'], $r['pageviews']);

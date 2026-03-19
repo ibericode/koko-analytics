@@ -11,7 +11,7 @@ namespace KokoAnalytics\Import;
 use WP_Error;
 use Exception;
 use DateTimeImmutable;
-use KokoAnalytics\Path_Repository;
+use KokoAnalytics\Upserter;
 
 class Jetpack_Importer extends Importer
 {
@@ -191,6 +191,9 @@ class Jetpack_Importer extends Importer
 
         /** @var \wpdb $wpdb */
         global $wpdb;
+
+        $upserter = new Upserter('paths', 'path');
+
         foreach ($data as $item) {
             $site_views = 0;
 
@@ -216,7 +219,7 @@ class Jetpack_Importer extends Importer
             }, $item->postviews);
 
             // upsert paths into database and retrieve map with ID's
-            $path_map = Path_Repository::upsert($paths);
+            $path_map = $upserter->upsert($paths);
 
             // update post stats for this date in a single bulk query
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($item->postviews)), ',');

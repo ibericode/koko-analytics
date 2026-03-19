@@ -80,7 +80,7 @@ class Dashboard
             $group_chart_by = $date_end->getTimestamp() - $date_start->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
         }
         $chart_data =  $stats->get_stats($date_start_str, $date_end_str, $group_chart_by, $page);
-
+        
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-page.php';
     }
 

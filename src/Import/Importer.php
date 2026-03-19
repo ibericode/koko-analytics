@@ -3,8 +3,7 @@
 namespace KokoAnalytics\Import;
 
 use Exception;
-use KokoAnalytics\Path_Repository;
-use KokoAnalytics\Referrer_Repository;
+use KokoAnalytics\Upserter;
 
 abstract class Importer
 {
@@ -34,8 +33,8 @@ abstract class Importer
         if (count($rows) == 0) {
             return;
         }
-
-        $path_ids = Path_Repository::upsert(array_map(function ($r) {
+        $upserter = new Upserter('paths', 'path');
+        $path_ids = $upserter->upsert(array_map(function ($r) {
             return $r[1];
         }, $rows));
 
@@ -66,7 +65,8 @@ abstract class Importer
             return;
         }
 
-        $ids = Referrer_Repository::upsert(array_map(function ($r) {
+        $upserter = new Upserter('referrer_urls', 'url');
+        $ids = $upserter->upsert(array_map(function ($r) {
             return $r[1];
         }, $rows));
 

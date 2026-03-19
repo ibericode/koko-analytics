@@ -14,7 +14,7 @@ use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Normalizers\Normalizer;
-use KokoAnalytics\Path_Repository;
+use KokoAnalytics\Upserter;
 
 use function KokoAnalytics\get_settings;
 use function KokoAnalytics\lazy;
@@ -137,7 +137,8 @@ class Actions
             }
 
             // bulk insert all paths
-            $path_to_path_id_map = Path_Repository::upsert(array_values($post_id_to_path_map));
+            $upserter = new Upserter('paths', 'path');
+            $path_to_path_id_map = $upserter->upsert(array_values($post_id_to_path_map));
 
             // update post_stats table to point to paths we just inserted
             foreach ($post_id_to_path_map as $post_id => $path) {
@@ -234,6 +235,7 @@ class Actions
 
         $offset = 0;
         $limit = 1000;
+        $upserter = new Upserter('paths', 'path');
 
         do {
             $results = $wpdb->get_results($wpdb->prepare("SELECT post_id, path_id, p.path FROM {$wpdb->prefix}koko_analytics_post_stats s LEFT JOIN {$wpdb->prefix}koko_analytics_paths p ON p.id = s.path_id WHERE post_id IS NOT NULL AND post_id != 0 GROUP BY post_id LIMIT %d OFFSET %d", [$limit, $offset]));
@@ -246,7 +248,7 @@ class Actions
                 $correct_path = $this->get_path_by_post_id($r->post_id);
                 if ($r->path != $correct_path) {
                     // get correct path id
-                    $path_to_id_map = Path_Repository::upsert([$correct_path]);
+                    $path_to_id_map = $upserter->upsert([$correct_path]);
                     $correct_path_id = $path_to_id_map[$correct_path];
 
                     // update all post_stats to point to correct path_id
