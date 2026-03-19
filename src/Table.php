@@ -23,7 +23,7 @@ class Table
 
     public function __construct(
         string $name,
-        $db = null,
+        $db = null
     ) {
         $this->db = $db ?: $GLOBALS['wpdb'];
         $this->stats = "{$this->db->prefix}koko_analytics_{$name}_stats";

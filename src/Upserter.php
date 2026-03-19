@@ -11,7 +11,7 @@ class Upserter
     public function __construct(
         string $table,
         string $column,
-        $db = null,
+        $db = null
     ) {
         $this->db = $db ?: $GLOBALS['wpdb'];
         $this->table = $this->db->prefix . 'koko_analytics_' . $table;
