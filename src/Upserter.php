@@ -18,8 +18,18 @@ class Upserter
         $this->column = $column;
     }
 
+    /**
+     * @param array<string> $values
+     * @return array<string, int> Map of value to ID in database
+     */
     public function upsert(array $values): array
     {
+        // return early if there are no values to upsert
+        if (count($values) === 0) {
+            return [];
+        }
+
+        // deduplicate values to avoid unnecessary database queries and potential unique key violations
         $values = array_unique($values);
 
         // INSERT IGNORE all deduplicated values into the database table
@@ -30,10 +40,6 @@ class Upserter
         $placeholders = rtrim(str_repeat('%s,', count($values)), ',');
         $results = $this->db->get_results($this->db->prepare("SELECT id, {$this->column} FROM {$this->table} WHERE {$this->column} IN({$placeholders})", $values));
 
-        $map = [];
-        foreach ($results as $r) {
-            $map[$r->{$this->column}] = $r->id;
-        }
-        return $map;
+        return array_column($results, 'id', $this->column);
     }
 }
