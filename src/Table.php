@@ -81,12 +81,14 @@ class Table
         ) ENGINE=INNODB CHARACTER SET=ascii COLLATE=ascii_general_ci");
     }
 
-    public function destroy(): void {
+    public function destroy(): void
+    {
         $this->db->query("DROP TABLE IF EXISTS {$this->stats}");
         $this->db->query("DROP TABLE IF EXISTS {$this->labels}");
     }
 
-    public function reset(): void {
+    public function reset(): void
+    {
         $this->db->query("TRUNCATE TABLE {$this->stats}");
         $this->db->query("TRUNCATE TABLE {$this->labels}");
     }

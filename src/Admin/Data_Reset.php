@@ -9,6 +9,7 @@
 namespace KokoAnalytics\Admin;
 
 use Exception;
+use KokoAnalytics\Table;
 
 class Data_Reset
 {
@@ -18,14 +19,13 @@ class Data_Reset
             return;
         }
 
-
         /** @var \wpdb $wpdb */
         global $wpdb;
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_site_stats;");
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats;");
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_paths;");
-        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_stats;");
-        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_urls;");
+        (new Table('referrer'))->destroy();
+
         delete_option('koko_analytics_realtime_pageview_count');
 
         // delete version option so that migrations re-create all database tables on next page load

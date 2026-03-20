@@ -8,13 +8,19 @@
 
 namespace KokoAnalytics;
 
+use wpdb;
+
 class Pruner
 {
+    protected wpdb $db;
+
+    public function __construct(?wpdb $db = null)
+    {
+        $this->db = $db ?? $GLOBALS['wpdb'];
+    }
+
     public function run()
     {
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-
         $settings = get_settings();
         if ($settings['prune_data_after_months'] <= 0) {
             return;
@@ -23,9 +29,9 @@ class Pruner
         $date = (new \DateTime("-{$settings['prune_data_after_months']} months", wp_timezone()))->format('Y-m-d');
 
         // delete stats older than date above
-        $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_site_stats WHERE date < %s", $date));
-        $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_post_stats WHERE date < %s", $date));
-        $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
+        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_site_stats WHERE date < %s", $date));
+        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_post_stats WHERE date < %s", $date));
+        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
 
         $this->delete_orphaned_referrer_urls();
         $this->delete_orphaned_paths();
@@ -34,49 +40,25 @@ class Pruner
 
     protected function delete_orphaned_referrer_urls(): void
     {
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-
-        // delete unused referrer urls
-        $results = $wpdb->get_results("SELECT r.id FROM {$wpdb->prefix}koko_analytics_referrer_urls r LEFT JOIN {$wpdb->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE s.id IS NULL");
-
-        // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
-        // would hang on certain MySQL installations (according to user reports)
-        foreach ($results as $r) {
-            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d LIMIT 1", [$r->id]));
-        }
+        $this->db->query("DELETE r FROM {$this->db->prefix}koko_analytics_referrer_urls r LEFT JOIN {$this->db->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE s.id IS NULL");
     }
 
     protected function delete_orphaned_paths(): void
     {
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-
-        $results = $wpdb->get_results("SELECT p.id FROM {$wpdb->prefix}koko_analytics_paths p LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s ON s.path_id = p.id WHERE s.path_id IS NULL");
-
-        // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
-        // would hang on certain MySQL installations (according to user reports)
-        foreach ($results as $r) {
-            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_paths WHERE id = %d LIMIT 1", [$r->id]));
-        }
+        $this->db->query("DELETE p FROM {$this->db->prefix}koko_analytics_paths p LEFT JOIN {$this->db->prefix}koko_analytics_post_stats s ON s.path_id = p.id WHERE s.path_id IS NULL");
     }
 
     protected function delete_blocked_referrers(): void
     {
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-
         $blocklist = new Blocklist();
         $list = array_merge($blocklist->read(), apply_filters('koko_analytics_referrer_blocklist', []));
 
         foreach (array_chunk($list, 100) as $chunk) {
             $where = str_repeat("url LIKE %s OR ", count($chunk));
             $where = substr($where, 0, strlen($where) - 4);
-            $sql = "DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE {$where}";
-            $sql = $wpdb->prepare($sql, array_map(function ($v) use ($wpdb) {
-                return $wpdb->esc_like("%{$v}%");
-            }, $chunk));
-            $wpdb->query($sql);
+            $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_urls WHERE {$where}", array_map(function ($v) {
+                return $this->db->esc_like("%{$v}%");
+            }, $chunk)));
         }
     }
 }
