@@ -38,7 +38,7 @@ class Pruner
         global $wpdb;
 
         // delete unused referrer urls
-        $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN (SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats)");
+        $results = $wpdb->get_results("SELECT r.id FROM {$wpdb->prefix}koko_analytics_referrer_urls r LEFT JOIN {$wpdb->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE s.id IS NULL");
 
         // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
         // would hang on certain MySQL installations (according to user reports)
@@ -52,7 +52,7 @@ class Pruner
         /** @var \wpdb $wpdb */
         global $wpdb;
 
-        $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}koko_analytics_paths WHERE id NOT IN (SELECT DISTINCT(path_id) FROM {$wpdb->prefix}koko_analytics_post_stats)");
+        $results = $wpdb->get_results("SELECT p.id FROM {$wpdb->prefix}koko_analytics_paths p LEFT JOIN {$wpdb->prefix}koko_analytics_post_stats s ON s.path_id = p.id WHERE s.path_id IS NULL");
 
         // we explicitly delete the rows one-by-one here because the bulk with subquery approach we used before
         // would hang on certain MySQL installations (according to user reports)
