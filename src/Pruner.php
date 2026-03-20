@@ -63,23 +63,20 @@ class Pruner
 
     protected function delete_blocked_referrers(): void
     {
+        /** @var \wpdb $wpdb */
         global $wpdb;
 
         $blocklist = new Blocklist();
         $list = array_merge($blocklist->read(), apply_filters('koko_analytics_referrer_blocklist', []));
-        $count = count($list);
 
-        // process list in batches of 100
-        for ($offset = 0; $offset < $count; $offset += 100) {
-            $chunk = array_slice($list, $offset, 100);
-            $chunk = array_map(function ($v) use ($wpdb) {
-                return $wpdb->esc_like("%{$v}%");
-            }, $chunk);
-
+        foreach (array_chunk($list, 100) as $chunk) {
             $where = str_repeat("url LIKE %s OR ", count($chunk));
             $where = substr($where, 0, strlen($where) - 4);
-
-            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE {$where}", $chunk));
+            $sql = "DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE {$where}";
+            $sql = $wpdb->prepare($sql, array_map(function ($v) use ($wpdb) {
+                return $wpdb->esc_like("%{$v}%");
+            }, $chunk));
+            $wpdb->query($sql);
         }
     }
 }
