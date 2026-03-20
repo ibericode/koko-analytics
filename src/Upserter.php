@@ -2,18 +2,20 @@
 
 namespace KokoAnalytics;
 
+use wpdb;
+
 class Upserter
 {
-    protected \wpdb $db;
+    protected wpdb $db;
     protected string $table;
     protected string $column;
 
     public function __construct(
         string $table,
         string $column,
-        $db = null
+        ?wpdb $db = null
     ) {
-        $this->db = $db ?: $GLOBALS['wpdb'];
+        $this->db = $db ?? $GLOBALS['wpdb'];
         $this->table = $this->db->prefix . 'koko_analytics_' . $table;
         $this->column = $column;
     }

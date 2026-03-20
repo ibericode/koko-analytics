@@ -5,8 +5,6 @@ defined('ABSPATH') or exit;
 /** @var wpdb $wpdb */
 global $wpdb;
 
-$wpdb->hide_errors();
-
 $table_paths = "{$wpdb->prefix}koko_analytics_paths";
 $table_stats = "{$wpdb->prefix}koko_analytics_post_stats";
 
@@ -18,10 +16,10 @@ $wpdb->query(
     FROM {$table_stats} ps
     JOIN {$table_paths} p ON ps.path_id = p.id
     JOIN (
-      SELECT LEFT(path, 180) AS prefix, MIN(id) AS canonical_id
+      SELECT LEFT(path, 255) AS prefix, MIN(id) AS canonical_id
       FROM {$table_paths}
       GROUP BY prefix
-    ) c ON LEFT(p.path, 180) = c.prefix
+    ) c ON LEFT(p.path, 255) = c.prefix
     WHERE ps.path_id != c.canonical_id
     GROUP BY ps.date, c.canonical_id
     ON DUPLICATE KEY UPDATE
@@ -34,10 +32,10 @@ $wpdb->query(
     "DELETE ps FROM {$table_stats} ps
     JOIN {$table_paths} p ON ps.path_id = p.id
     JOIN (
-      SELECT LEFT(path, 180) AS prefix, MIN(id) AS canonical_id
+      SELECT LEFT(path, 255) AS prefix, MIN(id) AS canonical_id
       FROM {$table_paths}
       GROUP BY prefix
-    ) c ON LEFT(p.path, 180) = c.prefix
+    ) c ON LEFT(p.path, 255) = c.prefix
     WHERE ps.path_id != c.canonical_id"
 );
 
@@ -48,14 +46,17 @@ $wpdb->query(
       SELECT canonical_id FROM (
         SELECT MIN(id) AS canonical_id
         FROM {$table_paths}
-        GROUP BY LEFT(path, 180)
+        GROUP BY LEFT(path, 255)
       ) t
     )"
 );
 
-// Step 4: Truncate long paths and change column to VARCHAR(180)
-$wpdb->query("UPDATE {$table_paths} SET path = LEFT(path, 180) WHERE CHAR_LENGTH(path) > 180");
-$wpdb->query("ALTER TABLE {$table_paths} MODIFY COLUMN path VARCHAR(180) NOT NULL");
+// Step 4: Convert the paths table to ASCII (since non-ASCII chars are truncated anyway)
+$wpdb->query("ALTER TABLE {$table_paths} CONVERT TO CHARACTER SET ascii COLLATE ascii_general_ci");
 
-// Step 5: Replace the prefix index with a UNIQUE index on the full column
+// Step 5: Truncate long paths and change column to VARCHAR(255)
+$wpdb->query("UPDATE {$table_paths} SET path = LEFT(path, 255) WHERE CHAR_LENGTH(path) > 255");
+$wpdb->query("ALTER TABLE {$table_paths} MODIFY COLUMN path VARCHAR(255) NOT NULL");
+
+// Step 6: Replace the prefix index with a UNIQUE index on the full column
 $wpdb->query("ALTER TABLE {$table_paths} DROP INDEX path, ADD UNIQUE INDEX (path)");

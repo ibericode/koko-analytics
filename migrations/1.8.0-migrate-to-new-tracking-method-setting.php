@@ -12,6 +12,3 @@ if (isset($settings['use_cookie'])) {
     unset($settings['use_cookie']);
     update_option('koko_analytics_settings', $settings, true);
 }
-
-// re-install optimized endpoint file
-(new Endpoint_Installer())->install();

@@ -11,8 +11,8 @@ $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_paths (
        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        path VARCHAR(2000) NOT NULL,
-       INDEX (path(191))
-    ) ENGINE=INNODB CHARACTER SET=utf8mb4"
+       INDEX (path(255))
+    ) ENGINE=INNODB CHARACTER SET=ascii"
 );
 
 // prepare columns
