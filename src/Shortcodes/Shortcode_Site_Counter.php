@@ -17,7 +17,7 @@
 namespace KokoAnalytics\Shortcodes;
 
 use DateTime;
-use KokoAnalytics\Normalizers\Normalizer;
+use KokoAnalytics\Normalizers\Path;
 use KokoAnalytics\Stats;
 
 class Shortcode_Site_Counter
@@ -62,6 +62,6 @@ class Shortcode_Site_Counter
             $path .= '?' . $url_parts['query'];
         }
 
-        return Normalizer::path($path);
+        return Path::normalize($path);
     }
 }

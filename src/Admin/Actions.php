@@ -13,7 +13,8 @@ use KokoAnalytics\Endpoint_Installer;
 use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
-use KokoAnalytics\Normalizers\Normalizer;
+use KokoAnalytics\Normalizers\Path;
+use KokoAnalytics\Normalizers\Referrer;
 use KokoAnalytics\Upserter;
 
 use function KokoAnalytics\get_settings;
@@ -184,7 +185,7 @@ class Actions
             }
 
             foreach ($results as $row) {
-                $row->url = Normalizer::referrer($row->url);
+                $row->url = Referrer::normalize($row->url);
 
                 //  if row is seriously malformed, delete it
                 if ($row->url === '') {
@@ -272,6 +273,6 @@ class Actions
             $path .= '?' . $url_parts['query'];
         }
 
-        return Normalizer::path($path);
+        return Path::normalize($path);
     }
 }

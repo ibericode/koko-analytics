@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace KokoAnalytics\Tests;
 
-use KokoAnalytics\Normalizers\Normalizer;
+use KokoAnalytics\Normalizers\Path;
+use KokoAnalytics\Normalizers\Referrer;
 use PHPUnit\Framework\TestCase;
 
 class NormalizerTest extends TestCase
@@ -25,7 +26,7 @@ class NormalizerTest extends TestCase
         ];
 
         foreach ($tests as $input => $output) {
-            $this->assertEquals($output, Normalizer::path($input));
+            $this->assertEquals($output, Path::normalize($input));
         }
     }
 
@@ -95,7 +96,7 @@ class NormalizerTest extends TestCase
         ];
 
         foreach ($tests as $input => $output) {
-            $this->assertEquals($output, Normalizer::referrer($input), $input);
+            $this->assertEquals($output, Referrer::normalize($input), $input);
         }
     }
 }
