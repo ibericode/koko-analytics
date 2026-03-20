@@ -12,6 +12,13 @@ use DateTimeImmutable;
 
 class Rest
 {
+    protected Stats $stats;
+
+    public function __construct()
+    {
+        $this->stats = new Stats();
+    }
+
     public function action_rest_api_init(): void
     {
         $route_namespace = 'koko-analytics/v1';
@@ -134,7 +141,7 @@ class Rest
         $end_date           = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $group = ($params['monthly'] ?? false) ? 'month' : 'day';
         $page = $params['page'] ?? 0;
-        $result = (new Stats())->get_stats($start_date, $end_date, $group, $page);
+        $result = $this->stats->get_stats($start_date, $end_date, $group, $page);
         return $this->respond($result);
     }
 
@@ -148,7 +155,7 @@ class Rest
         $start_date = $params['start_date'] ?? (new DateTimeImmutable('first day of this month', $timezone))->format('Y-m-d');
         $end_date   = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $page = $params['page'] ?? 0;
-        $result = (new Stats())->get_totals($start_date, $end_date, $page);
+        $result = $this->stats->get_totals($start_date, $end_date, $page);
         return $this->respond($result);
     }
 
@@ -163,7 +170,7 @@ class Rest
         $end_date   = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $offset     = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit      = isset($params['limit']) ? absint($params['limit']) : 10;
-        $results = (new Stats())->get_posts($start_date, $end_date, $offset, $limit);
+        $results = $this->stats->get_posts($start_date, $end_date, $offset, $limit);
         return $this->respond($results);
     }
 
@@ -178,7 +185,7 @@ class Rest
         $end_date           = $params['end_date'] ?? (new DateTimeImmutable('now', $timezone))->format('Y-m-d');
         $offset             = isset($params['offset']) ? absint($params['offset']) : 0;
         $limit              = isset($params['limit']) ? absint($params['limit']) : 10;
-        $results = (new Stats())->get_referrers($start_date, $end_date, $offset, $limit);
+        $results = $this->stats->get_referrers($start_date, $end_date, $offset, $limit);
         return $this->respond($results);
     }
 
