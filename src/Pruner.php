@@ -54,10 +54,10 @@ class Pruner
         $list = array_merge($blocklist->read(), apply_filters('koko_analytics_referrer_blocklist', []));
 
         foreach (array_chunk($list, 100) as $chunk) {
-            $where = str_repeat("url LIKE %s OR ", count($chunk));
+            $where = str_repeat("value LIKE %s OR ", count($chunk));
             $where = substr($where, 0, strlen($where) - 4);
-            $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_labels WHERE {$where}", array_map(function ($v) {
-                return $this->db->esc_like("%{$v}%");
+            $this->db->query($this->db->prepare("DELETE s, r FROM {$this->db->prefix}koko_analytics_referrer_labels r LEFT JOIN {$this->db->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE {$where}", array_map(function ($v) {
+                return "%" . $this->db->esc_like($v) . "%";
             }, $chunk)));
         }
     }
