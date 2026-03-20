@@ -8,17 +8,18 @@
 
 namespace KokoAnalytics;
 
+use wpdb;
+
 class Stats
 {
-    /** @var \wpdb */
-    protected $db;
+    protected wpdb $db;
 
     /**
      * @param \wpdb|null $db Optional database connection, mainly for testing purposes. Defaults to global $wpdb instance.
      */
-    public function __construct($db = null)
+    public function __construct(?wpdb $db = null)
     {
-        $this->db = $db ?: $GLOBALS['wpdb'];
+        $this->db = $db ?? $GLOBALS['wpdb'];
     }
 
     public function get_total_date_range(): array

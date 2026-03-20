@@ -23,9 +23,9 @@ class Pageview_Aggregator
     protected array $referrer_stats = [];
     protected array $realtime = [];
 
-    public function __construct($db = null)
+    public function __construct(?wpdb $db = null)
     {
-        $this->db = $db ?: $GLOBALS['wpdb'];
+        $this->db = $db ?? $GLOBALS['wpdb'];
         $this->timezone = wp_timezone();
     }
 
