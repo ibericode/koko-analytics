@@ -223,38 +223,20 @@ class Stats
     public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
     {
         return array_map(function ($row) {
-            $row->pageviews = (int) $row->pageviews;
-            $row->visitors = max(1, (int) $row->visitors);
+            $row->url = $row->value;
+            $row->pageviews = $row->hits;
+            $row->visitors = $row->unique_hits;
             return $row;
-        }, $this->db->get_results($this->db->prepare(
-            "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
-                FROM {$this->db->prefix}koko_analytics_referrer_stats s
-                JOIN {$this->db->prefix}koko_analytics_referrer_urls r ON r.id = s.id
-                WHERE s.date BETWEEN %s AND %s
-                GROUP BY s.id
-                ORDER BY pageviews DESC, r.id ASC
-                LIMIT %d, %d",
-            [$start_date, $end_date, $offset, $limit]
-        )));
+        }, (new Table('referrer'))->get(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()), $offset, $limit));
     }
 
     public function count_referrers(string $start_date, string $end_date): int
     {
-        return (int) $this->db->get_var($this->db->prepare(
-            "SELECT COUNT(DISTINCT(s.id))
-                FROM {$this->db->prefix}koko_analytics_referrer_stats s
-                WHERE s.date BETWEEN %s AND %s",
-            [$start_date, $end_date]
-        ));
+        return (new Table('referrer'))->count(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()));
     }
 
     public function sum_referrers(string $start_date, string $end_date): int
     {
-        return (int) $this->db->get_var($this->db->prepare(
-            "SELECT SUM(s.pageviews)
-                FROM {$this->db->prefix}koko_analytics_referrer_stats s
-                WHERE s.date BETWEEN %s AND %s",
-            [$start_date, $end_date]
-        ));
+        return (new Table('referrer'))->sum(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()));
     }
 }

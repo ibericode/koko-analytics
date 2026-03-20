@@ -66,7 +66,7 @@ abstract class Importer
         }
 
         $urls = array_column($rows, 1);
-        $upserter = new Upserter('referrer_urls', 'url');
+        $upserter = new Upserter('referrer_labels', 'value');
         $ids = $upserter->upsert($urls);
 
         $values = [];

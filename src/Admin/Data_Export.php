@@ -48,7 +48,7 @@ class Data_Export
         $this->export_site_stats($fh);
         $this->export_paths($fh);
         $this->export_post_stats($fh);
-        $this->export_referrer_urls($fh);
+        $this->export_referrer_labels($fh);
         $this->export_referrer_stats($fh);
 
         do_action('koko_analytics_write_data_export', $fh);
@@ -136,24 +136,24 @@ class Data_Export
         unset($rows);
     }
 
-    private function export_referrer_urls($stream): void
+    private function export_referrer_labels($stream): void
     {
         // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_urls;\n");
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_urls", 1);
+        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_labels;\n");
+        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_labels", 1);
         fwrite($stream, $create_table_sql);
         fwrite($stream, ";\n");
 
         // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_urls;");
+        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_labels;");
         if (!$rows) {
             return;
         }
 
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_urls (id, url) VALUES ");
+        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_labels (id, `value`) VALUES ");
         $prefix = '';
         foreach ($rows as $s) {
-            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->url));
+            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->value));
             $prefix = ',';
         }
         fwrite($stream, ";\n");
@@ -174,10 +174,10 @@ class Data_Export
             return;
         }
 
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats (date, id, visitors, pageviews) VALUES ");
+        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats (date, id, unique_hits, hits) VALUES ");
         $prefix = '';
         foreach ($rows as $s) {
-            fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->id},{$s->visitors},{$s->pageviews})");
+            fwrite($stream, "{$prefix}(\"{$s->date}\",{$s->id},{$s->unique_hits},{$s->hits})");
             $prefix = ',';
         }
         fwrite($stream, ";\n");

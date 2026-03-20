@@ -42,7 +42,7 @@ if (PHP_VERSION_ID < 70400 || ! \defined('ABSPATH')) {
     return;
 }
 
-define('KOKO_ANALYTICS_VERSION', '2.2.6');
+define('KOKO_ANALYTICS_VERSION', '2.2.5.2');
 define('KOKO_ANALYTICS_PLUGIN_FILE', __FILE__);
 define('KOKO_ANALYTICS_PLUGIN_DIR', __DIR__);
 

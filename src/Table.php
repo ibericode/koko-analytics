@@ -33,16 +33,16 @@ class Table
     public function get(DateTimeInterface $start, DateTimeInterface $end, int $offset, int $limit): array
     {
         return array_map(function ($row) {
-            $row->pageviews = (int) $row->pageviews;
-            $row->visitors = max(1, (int) $row->visitors);
+            $row->hits = (int) $row->hits;
+            $row->unique_hits = max(1, (int) $row->unique_hits);
             return $row;
         }, $this->db->get_results($this->db->prepare(
-            "SELECT s.id, url, SUM(visitors) As visitors, SUM(pageviews) AS pageviews
+            "SELECT s.id, l.value, SUM(hits) As hits, SUM(unique_hits) AS unique_hits
                 FROM {$this->stats} s
                 JOIN {$this->labels} l ON l.id = s.id
                 WHERE s.date BETWEEN %s AND %s
                 GROUP BY s.id
-                ORDER BY pageviews DESC, l.id ASC
+                ORDER BY hits DESC, l.id ASC
                 LIMIT %d, %d",
             [$start->format('Y-m-d'), $end->format('Y-m-d'), $offset, $limit]
         )));
@@ -56,7 +56,7 @@ class Table
         ));
     }
 
-    public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'pageviews'): int
+    public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'hits'): int
     {
         return (int) $this->db->get_var($this->db->prepare(
             "SELECT SUM({$property}) FROM {$this->stats} s WHERE s.date BETWEEN %s AND %s",
@@ -75,8 +75,8 @@ class Table
         $this->db->query("CREATE TABLE IF NOT EXISTS {$this->stats} (
             date DATE NOT NULL,
             id INT UNSIGNED NOT NULL,
-            visitors INT UNSIGNED NOT NULL DEFAULT 0,
-            pageviews INT UNSIGNED NOT NULL DEFAULT 0,
+            hits INT UNSIGNED NOT NULL DEFAULT 0,
+            unique_hits INT UNSIGNED NOT NULL DEFAULT 0,
             PRIMARY KEY (date, id)
         ) ENGINE=INNODB CHARACTER SET=ascii COLLATE=ascii_general_ci");
     }

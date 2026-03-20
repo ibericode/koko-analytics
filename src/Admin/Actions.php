@@ -14,7 +14,6 @@ use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Normalizers\Path;
-use KokoAnalytics\Normalizers\Referrer;
 use KokoAnalytics\Upserter;
 
 use function KokoAnalytics\get_settings;
@@ -44,7 +43,6 @@ class Actions
             'install_optimized_endpoint' => [$this, 'install_optimized_endpoint'],
             'save_settings' => [$this, 'save_settings'],
             'migrate_post_stats_to_v2' => [$this, 'migrate_post_stats_to_v2'],
-            'migrate_referrer_stats_to_v2' => [$this, 'migrate_referrer_stats_to_v2'],
             'fix_post_paths_after_v2' => [$this, 'fix_post_paths_after_v2'],
             'reset_statistics' => lazy(Data_Reset::class, 'action_listener'),
             'import_data' => lazy(Data_Import::class, 'action_listener'),
@@ -163,64 +161,6 @@ class Actions
         $wpdb->query("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) SELECT date, path_id, post_id, SUM(visitors), SUM(pageviews) FROM {$wpdb->prefix}koko_analytics_post_stats_old GROUP BY date, path_id");
 
         $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats_old");
-    }
-
-    public function migrate_referrer_stats_to_v2()
-    {
-        @set_time_limit(0);
-
-        /** @var \wpdb $wpdb */
-        global $wpdb;
-
-        // some of the UPDATE queries below can fail, we don't want to exit when that happens
-        $wpdb->hide_errors();
-
-        // delete unused referrer URL's
-        $wpdb->query("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id NOT IN(SELECT DISTINCT(id) FROM {$wpdb->prefix}koko_analytics_referrer_stats)");
-
-        do {
-            $results = $wpdb->get_results("SELECT id, url FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url LIKE 'http://%' or url LIKE 'https://%' LIMIT 1000");
-            if (!$results) {
-                break;
-            }
-
-            foreach ($results as $row) {
-                $row->url = Referrer::normalize($row->url);
-
-                //  if row is seriously malformed, delete it
-                if ($row->url === '') {
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [$row->id]));
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [$row->id]));
-                    continue;
-                }
-
-                // check if normalized url already has an entry
-                $id = $wpdb->get_var($wpdb->prepare("SELECT id FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE url = %s LIMIT 1", [$row->url]));
-                if ($id) {
-                    // grab all rows in stats table pointing to old ID
-                    $stats = $wpdb->get_results($wpdb->prepare("SELECT date, id, pageviews, visitors FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [$row->id]));
-
-                    // update rows (if exist) with values from each date, id entry
-                    foreach ($stats as $s) {
-                        if ($wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET visitors = visitors + %d, pageviews = pageviews + %d WHERE date = %s and id = %d", [$s->visitors, $s->pageviews, $s->date, $id]))) {
-                            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE date = %s and id = %d", [$s->date, $s->id]));
-                        }
-                    }
-
-                    // try to update all rows to new id (this will fail for some rows)
-                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_stats SET id = %d WHERE id = %d", [$id, $row->id]));
-
-                    // delete rows that still have old ID at this point
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_stats WHERE id = %d", [$row->id]));
-                    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}koko_analytics_referrer_urls WHERE id = %d", [$row->id]));
-                } else {
-                    // otherwise change entry to normalized version
-                    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}koko_analytics_referrer_urls SET url = %s WHERE id = %d", [$row->url, $row->id]));
-                }
-            }
-        } while ($results);
-
-        update_option('koko_analytics_referrers_v2', true, true);
     }
 
     /**
