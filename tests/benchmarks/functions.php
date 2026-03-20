@@ -11,7 +11,7 @@ function bench(Closure $fn, $iterations = 1000)
     }
     $time_end = microtime(true);
 
-    // return total time taken (in seconds)
+    // return total time taken (in milliseconds)
     return ($time_end - $time_start) * 1000;
 }
 
