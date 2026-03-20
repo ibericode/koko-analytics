@@ -22,7 +22,7 @@ function extract_pageview_data(array $raw): array
     }
 
     // grab and validate parameters
-    $path = substr(trim($raw['pa']), 0, 2000);
+    $path = substr(trim($raw['pa']), 0, 255);
     $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
     if ($post_id === false || $referrer_url === false || filter_var("https://localhost$path", FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false) {
