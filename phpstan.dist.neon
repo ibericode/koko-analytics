@@ -9,6 +9,7 @@ parameters:
     excludePaths:
         analyse:
             - tests/benchmarks
+            - tests/mocks.php
     scanFiles:
         - %rootDir%/../../php-stubs/wordpress-stubs/wordpress-stubs.php
         - %rootDir%/../../php-stubs/wp-cli-stubs/wp-cli-stubs.php
