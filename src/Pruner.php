@@ -40,7 +40,7 @@ class Pruner
 
     protected function delete_orphaned_referrer_urls(): void
     {
-        $this->db->query("DELETE r FROM {$this->db->prefix}koko_analytics_referrer_urls r LEFT JOIN {$this->db->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE s.id IS NULL");
+        $this->db->query("DELETE r FROM {$this->db->prefix}koko_analytics_referrer_labels r LEFT JOIN {$this->db->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE s.id IS NULL");
     }
 
     protected function delete_orphaned_paths(): void
@@ -56,7 +56,7 @@ class Pruner
         foreach (array_chunk($list, 100) as $chunk) {
             $where = str_repeat("url LIKE %s OR ", count($chunk));
             $where = substr($where, 0, strlen($where) - 4);
-            $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_urls WHERE {$where}", array_map(function ($v) {
+            $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_labels WHERE {$where}", array_map(function ($v) {
                 return $this->db->esc_like("%{$v}%");
             }, $chunk)));
         }
