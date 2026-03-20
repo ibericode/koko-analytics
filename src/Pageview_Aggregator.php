@@ -39,7 +39,7 @@ class Pageview_Aggregator
         // unpack line
         [$timestamp, $path, $post_id, $new_visitor, $unique_pageview, $referrer_url] = $params;
 
-        // Ignore entire line (request) if referrer URL is on blocklist
+        // ignore entire line (request) if referrer URL is on blocklist
         if ($this->ignore_referrer_url($referrer_url)) {
             return;
         }
@@ -49,49 +49,25 @@ class Pageview_Aggregator
             ->setTimestamp($timestamp)
             ->format('Y-m-d');
 
-        if (!isset($this->site_stats[$date_key])) {
-            $this->site_stats[$date_key] = ['visitors' => 0, 'pageviews' => 0];
-        }
-
         // update site stats
+        $this->site_stats[$date_key] ??= ['visitors' => 0, 'pageviews' => 0];
         $this->site_stats[$date_key]['pageviews'] += 1;
-        if ($new_visitor) {
-            $this->site_stats[$date_key]['visitors'] += 1;
-        }
+        $this->site_stats[$date_key]['visitors'] += (int) $new_visitor;
 
         // update page stats
         $path = Path::normalize($path);
-        if (!isset($this->post_stats[$date_key])) {
-            $this->post_stats[$date_key] = [];
-        }
-        if (! isset($this->post_stats[$date_key][$path])) {
-            $this->post_stats[$date_key][$path] = ['visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id];
-        }
-
+        $this->post_stats[$date_key] ??= [];
+        $this->post_stats[$date_key][$path] ??= ['visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id];
         $this->post_stats[$date_key][$path]['pageviews'] += 1;
+        $this->post_stats[$date_key][$path]['visitors'] += (int) $unique_pageview;
 
-        if ($unique_pageview) {
-            $this->post_stats[$date_key][$path]['visitors'] += 1;
-        }
-
-        // increment referrals
-        if ($referrer_url) {
-            $referrer_url = Referrer::normalize($referrer_url);
-            if ($referrer_url !== '') {
-                if (!isset($this->referrer_stats[$date_key])) {
-                    $this->referrer_stats[$date_key] = [];
-                }
-
-                if (! isset($this->referrer_stats[$date_key][$referrer_url])) {
-                    $this->referrer_stats[$date_key][$referrer_url] = ['visitors' => 0, 'pageviews' => 0];
-                }
-
-                // increment stats
-                $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
-                if ($new_visitor) {
-                    $this->referrer_stats[$date_key][$referrer_url]['visitors'] += 1;
-                }
-            }
+        // update referrer stats
+        $referrer_url = Referrer::normalize($referrer_url);
+        if ($referrer_url !== '') {
+            $this->referrer_stats[$date_key] ??= [];
+            $this->referrer_stats[$date_key][$referrer_url] ??= ['visitors' => 0, 'pageviews' => 0];
+            $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
+            $this->referrer_stats[$date_key][$referrer_url]['visitors'] += (int) $new_visitor;
         }
 
         // increment realtime if this pageview is recent enough

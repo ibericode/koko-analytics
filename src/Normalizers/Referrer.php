@@ -4,10 +4,10 @@ namespace KokoAnalytics\Normalizers;
 
 class Referrer
 {
-    public static function normalize(string $value): string
+    public static function normalize(?string $value): string
     {
-        if ($value === '') {
-            return $value;
+        if ($value === null || $value === '') {
+            return '';
         }
 
         // for backwards compatibility with users using filters hooked on `koko_analytics_url_aggregations`

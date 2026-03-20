@@ -68,9 +68,9 @@ class Table
     {
         $this->db->query("CREATE TABLE IF NOT EXISTS {$this->labels} (
             id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            value VARCHAR(180) NOT NULL,
+            value VARCHAR(255) NOT NULL,
             UNIQUE INDEX (value)
-        ) ENGINE=INNODB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci");
+        ) ENGINE=INNODB CHARACTER SET=ascii COLLATE=ascii_general_ci");
 
         $this->db->query("CREATE TABLE IF NOT EXISTS {$this->stats} (
             date DATE NOT NULL,
@@ -78,7 +78,7 @@ class Table
             visitors INT UNSIGNED NOT NULL DEFAULT 0,
             pageviews INT UNSIGNED NOT NULL DEFAULT 0,
             PRIMARY KEY (date, id)
-        ) ENGINE=INNODB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci");
+        ) ENGINE=INNODB CHARACTER SET=ascii COLLATE=ascii_general_ci");
     }
 
     public function destroy(): void {
