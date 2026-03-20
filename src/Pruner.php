@@ -51,9 +51,9 @@ class Pruner
     protected function delete_blocked_referrers(): void
     {
         $blocklist = new Blocklist();
-        $list = array_merge($blocklist->read(), apply_filters('koko_analytics_referrer_blocklist', []));
+        $list = $blocklist->all();
 
-        foreach (array_chunk($list, 100) as $chunk) {
+        foreach (array_chunk($list, 200) as $chunk) {
             $where = str_repeat("value LIKE %s OR ", count($chunk));
             $where = substr($where, 0, strlen($where) - 4);
             $this->db->query($this->db->prepare("DELETE s, r FROM {$this->db->prefix}koko_analytics_referrer_labels r LEFT JOIN {$this->db->prefix}koko_analytics_referrer_stats s ON s.id = r.id WHERE {$where}", array_map(function ($v) {

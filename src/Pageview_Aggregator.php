@@ -22,11 +22,13 @@ class Pageview_Aggregator
     protected array $post_stats     = [];
     protected array $referrer_stats = [];
     protected array $realtime = [];
+    protected Blocklist $blocklist;
 
     public function __construct(?wpdb $db = null)
     {
         $this->db = $db ?? $GLOBALS['wpdb'];
         $this->timezone = wp_timezone();
+        $this->blocklist = new Blocklist();
     }
 
     public function line(string $type, array $params): void
@@ -165,18 +167,7 @@ class Pageview_Aggregator
         }
 
         $url = strtolower($url);
-
-        // run custom blocklist first
-        // @see https://github.com/ibericode/koko-analytics/blob/main/code-snippets/add-domains-to-referrer-blocklist.php
-        $custom_blocklist = apply_filters('koko_analytics_referrer_blocklist', []);
-        foreach ($custom_blocklist as $blocklisted_domain) {
-            if (false !== strpos($url, $blocklisted_domain)) {
-                return true;
-            }
-        }
-
-        // check community maintained blocklist
-        if ((new Blocklist())->contains($url)) {
+        if ($this->blocklist->contains($url)) {
             return true;
         }
 
