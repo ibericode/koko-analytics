@@ -3,6 +3,7 @@
 namespace KokoAnalytics;
 
 use DateTimeInterface;
+use wpdb;
 
 /**
  * This class provides an abstraction layer for the database tables used to store analytics data in the plugin.
@@ -16,16 +17,15 @@ use DateTimeInterface;
  */
 class Table
 {
-    /** @var \wpdb */
-    protected $db;
+    protected wpdb $db;
     protected string $stats;
     protected string $labels;
 
     public function __construct(
         string $name,
-        $db = null
+        ?wpdb $db = null
     ) {
-        $this->db = $db ?: $GLOBALS['wpdb'];
+        $this->db = $db ?? $GLOBALS['wpdb'];
         $this->stats = "{$this->db->prefix}koko_analytics_{$name}_stats";
         $this->labels = "{$this->db->prefix}koko_analytics_{$name}_labels";
     }

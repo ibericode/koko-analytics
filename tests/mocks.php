@@ -152,7 +152,7 @@ function wp_register_script($handle, $src, $deps = []) {}
 function plugins_url($file, $path) {}
 function register_block_type($file, $args = []) {}
 
-class wpdb_mock
+class wpdb
 {
     public $prefix = '';
     public function query($sql)
@@ -166,5 +166,4 @@ class wpdb_mock
     }
 }
 
-global $wpdb;
-$wpdb = new wpdb_mock();
+$GLOBALS['wpdb'] = new wpdb();
