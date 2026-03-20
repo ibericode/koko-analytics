@@ -29,15 +29,16 @@
     "php-stubs/wp-cli-stubs": "^2.12"
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
     "check-all": [
       "@check-syntax",
       "@check-codestyle",
-      "@static-analysis"
+      "@static-analysis",
+      "@test"
     ],
     "check-syntax": "bin/check-php-syntax",
     "check-codestyle": "vendor/bin/phpcs -n -s",
-    "static-analysis": "vendor/bin/phpstan analyse"
+    "static-analysis": "vendor/bin/phpstan analyse",
+    "test": "phpunit"
   },
   "config": {
     "allow-plugins": {

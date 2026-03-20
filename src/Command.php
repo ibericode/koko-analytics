@@ -50,14 +50,4 @@ class Command
         (new Actions())->migrate_post_stats_to_v2();
         WP_CLI::success('Post stats migrated');
     }
-
-    /**
-     * Migrates referrer stats to the new v2 format.
-     */
-    public function migrate_referrer_stats_to_v2($args, $assoc_args)
-    {
-        WP_CLI::line('Migrating referrer stats...');
-        (new Actions())->migrate_referrer_stats_to_v2();
-        WP_CLI::success('Referrer stats migrated');
-    }
 }
