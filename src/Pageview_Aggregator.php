@@ -50,24 +50,27 @@ class Pageview_Aggregator
             ->format('Y-m-d');
 
         // update site stats
-        $this->site_stats[$date_key] ??= ['visitors' => 0, 'pageviews' => 0];
-        $this->site_stats[$date_key]['pageviews'] += 1;
-        $this->site_stats[$date_key]['visitors'] += (int) $new_visitor;
+        $this->site_stats[$date_key] ??= (object) ['visitors' => 0, 'pageviews' => 0];
+        $s = $this->site_stats[$date_key];
+        $s->pageviews += 1;
+        $s->visitors += (int) $new_visitor;
 
         // update page stats
         $path = Path::normalize($path);
         $this->post_stats[$date_key] ??= [];
-        $this->post_stats[$date_key][$path] ??= ['visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id];
-        $this->post_stats[$date_key][$path]['pageviews'] += 1;
-        $this->post_stats[$date_key][$path]['visitors'] += (int) $unique_pageview;
+        $this->post_stats[$date_key][$path] ??= (object) ['visitors' => 0, 'pageviews' => 0, 'post_id' => $post_id];
+        $p = $this->post_stats[$date_key][$path];
+        $p->pageviews += 1;
+        $p->visitors += (int) $unique_pageview;
 
         // update referrer stats
         $referrer_url = Referrer::normalize($referrer_url);
         if ($referrer_url !== '') {
             $this->referrer_stats[$date_key] ??= [];
-            $this->referrer_stats[$date_key][$referrer_url] ??= ['visitors' => 0, 'pageviews' => 0];
-            $this->referrer_stats[$date_key][$referrer_url]['pageviews'] += 1;
-            $this->referrer_stats[$date_key][$referrer_url]['visitors'] += (int) $new_visitor;
+            $this->referrer_stats[$date_key][$referrer_url] ??= (object) ['visitors' => 0, 'pageviews' => 0];
+            $r = $this->referrer_stats[$date_key][$referrer_url];
+            $r->pageviews += 1;
+            $r->visitors += (int) $new_visitor;
         }
 
         // increment realtime if this pageview is recent enough
@@ -88,10 +91,8 @@ class Pageview_Aggregator
 
     private function commit_site_stats(): void
     {
-        // insert site stats
         foreach ($this->site_stats as $date => $stats) {
-            $sql = $this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$date, $stats['visitors'], $stats['pageviews']]);
-            $this->db->query($sql);
+            $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES(%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$date, $stats->visitors, $stats->pageviews]));
         }
 
         $this->site_stats = [];
@@ -106,7 +107,7 @@ class Pageview_Aggregator
             $path_ids = $upserter->upsert(array_keys($stats));
             $values = [];
             foreach ($stats as $path => $r) {
-                array_push($values, $date, $path_ids[$path], $r['post_id'], $r['visitors'], $r['pageviews']);
+                array_push($values, $date, $path_ids[$path], $r->post_id, $r->visitors, $r->pageviews);
             }
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($stats)), ',');
             $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
@@ -124,7 +125,7 @@ class Pageview_Aggregator
             $referrer_ids = $upserter->upsert(array_keys($stats));
             $values = [];
             foreach ($stats as $url => $r) {
-                array_push($values, $date, $referrer_ids[$url], $r['visitors'], $r['pageviews']);
+                array_push($values, $date, $referrer_ids[$url], $r->visitors, $r->pageviews);
             }
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
             $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));

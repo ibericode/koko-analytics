@@ -30,6 +30,11 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
+    "check-all": [
+      "@check-syntax",
+      "@check-codestyle",
+      "@static-analysis"
+    ],
     "check-syntax": "bin/check-php-syntax",
     "check-codestyle": "vendor/bin/phpcs -n -s",
     "static-analysis": "vendor/bin/phpstan analyse"
