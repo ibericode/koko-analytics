@@ -6,14 +6,20 @@ use DateTimeInterface;
 use wpdb;
 
 /**
- * This class provides an abstraction layer for the database tables used to store analytics data in the plugin.
+ * This class provides an abstraction layer for some of the generic database tables
  *
- * Could in theory cover the following tables, but does not right now:
- * - wp_koko_analytics_referrer_stats
+ * This currently covers the following tables:
+ * - wp_koko_analytics_referrer_stats / wp_koko_analytics_referrer_labels
+ *
+ * Other table candidates:
+ * - wp_koko_analytics_event_* (one table per event type)
  * - wp_koko_analytics_utm_sources
  * - wp_koko_analytics_utm_mediums
  * - wp_koko_analytics_utm_campaigns
- * - wp_koko_analytics_event_*
+ *
+ * TODO:
+ * - Make this class an interface, have post_stats also use it (through a subclass).
+ * - Register all tables in a central place to ease up pruning, resetting and destroying.
  */
 class Table
 {
@@ -79,6 +85,9 @@ class Table
             unique_hits INT UNSIGNED NOT NULL DEFAULT 0,
             PRIMARY KEY (date, id)
         ) ENGINE=INNODB CHARACTER SET=ascii COLLATE=ascii_general_ci");
+
+        // Add index on stats.id column to speed up orphan deletion queries
+        $this->db->query("ALTER TABLE {$this->stats} ADD INDEX (id)");
     }
 
     public function destroy(): void
