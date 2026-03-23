@@ -11,7 +11,7 @@ if (isset($_GET['disable-opcache']) && (int) $_GET['disable-opcache'] === 1) {
 require dirname(__DIR__) . '/mocks.php';
 
 // make sure we're not running through all migrations
-update_option('koko_analytics_version', '999.1.1');
+update_option('koko_analytics_migrations', PHP_INT_MAX);
 
 $memory = memory_get_usage();
 $time_start = microtime(true);
