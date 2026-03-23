@@ -10,10 +10,19 @@ namespace KokoAnalytics;
 
 class Migrations2
 {
+    protected string $directory;
+    protected string $option_name;
+
+    /**
+     * @param string $directory Directory where migration files are located.
+     * @param string $option_name Name of the option where the current migration version is stored.
+     */
     public function __construct(
-        protected string $directory,
-        protected string $option_name
+        string $directory,
+        string $option_name
     ) {
+        $this->directory = rtrim($directory, '/');
+        $this->option_name = $option_name;
     }
 
     public function get_pending(): array
@@ -38,17 +47,17 @@ class Migrations2
         // check if migrations not already running
         $transient_key = "{$this->option_name}_lock";
         $transient_timeout = 10;
-        $previous_run_start = get_transient($transient_key);
-        if ($previous_run_start && $previous_run_start > time() - $transient_timeout) {
+        $previous_run_start = (int) get_transient($transient_key);
+        if ($previous_run_start > time() - $transient_timeout) {
             return false;
         }
 
         set_transient($transient_key, time(), $transient_timeout);
-
         return true;
     }
 
-    public function release_lock(): void {
+    public function release_lock(): void
+    {
         $transient_key = "{$this->option_name}_lock";
         delete_transient($transient_key);
     }
