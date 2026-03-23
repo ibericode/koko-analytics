@@ -15,6 +15,7 @@ class Controller
         add_action('init', [$this, 'action_init'], 10, 0);
         add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
         add_action('wp', [$this, 'action_wp'], 10, 0);
+        add_action('widgets_init', [$this, 'action_widgets_init'], 10, 0);
 
         add_filter('cron_schedules', [$this, 'filter_cron_schedules'], 10, 1);
         add_action('rest_api_init', lazy(Rest::class, 'action_rest_api_init'), 10, 0);
@@ -40,6 +41,10 @@ class Controller
 
         add_shortcode('koko_analytics_most_viewed_posts', lazy(Shortcode_Most_Viewed_Posts::class, 'content'));
         add_shortcode('koko_analytics_counter', lazy(Shortcode_Site_Counter::class, 'content'));
+    }
+
+    public function action_widgets_init(): void
+    {
         register_widget(Most_Viewed_Posts_Widget::class);
     }
 

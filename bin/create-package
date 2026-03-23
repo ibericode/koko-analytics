@@ -98,6 +98,5 @@ printf "\nPush v$VERSION to GitHub (y)"
 read CONFIRM
 if [[ "$CONFIRM" != "n" ]]; then
 	git tag "$VERSION"
-	git push origin main
 	git push origin "tags/$VERSION"
 fi;
