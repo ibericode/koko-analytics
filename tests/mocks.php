@@ -73,6 +73,12 @@ function get_option($option_name, $default = null)
     return $options[$option_name] ?? $default;
 }
 
+function delete_option($option_name)
+{
+    global $options;
+    unset($options[$option_name]);
+}
+
 function get_transient($name)
 {
     return null;

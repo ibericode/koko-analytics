@@ -3,11 +3,7 @@
 /*
 Plugin Name: Koko Analytics
 Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
-<<<<<<< HEAD
-Version: 2.2.5.3
-=======
-Version: 2.2.6
->>>>>>> tags/2.2.6
+Version: 2.2.7
 Description: Privacy-friendly and efficient statistics for your WordPress site.
 Author: ibericode
 Author URI: https://www.ibericode.com/
