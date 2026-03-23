@@ -29,7 +29,7 @@ class Data_Reset
         delete_option('koko_analytics_realtime_pageview_count');
 
         // delete version option so that migrations re-create all database tables on next page load
-        delete_option('koko_analytics_version');
+        delete_option('koko_analytics_migrations');
 
         // redirect with success message
         $settings_page = admin_url('options-general.php?page=koko-analytics-settings&tab=data');

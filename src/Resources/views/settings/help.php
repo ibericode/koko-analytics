@@ -47,7 +47,7 @@ MySQL: <?= esc_html($GLOBALS['wpdb']->db_version()) ?>
 
 Koko Analytics: <?= esc_html(KOKO_ANALYTICS_VERSION) ?>
 
-    Database version: <?= esc_html(get_option('koko_analytics_version', '')) ?>
+    Database version: <?= esc_html(get_option('koko_analytics_migrations', 0)) ?>
 
     Last aggregation: <?= date(DATE_W3C, get_option('koko_analytics_last_aggregation_at', 0)) ?> (<?= (int) (time() - get_option('koko_analytics_last_aggregation_at', 0)) ?> seconds ago)
 <?php if (defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
