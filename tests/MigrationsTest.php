@@ -44,4 +44,14 @@ final class MigrationsTest extends TestCase
         self::assertEquals([], $m->get_pending());
         delete_option('koko_analytics_version');
     }
+
+    public function testLocking(): void
+    {
+        $m = new Migrations2(__DIR__ . '/migrations', 'koko_analytics_version');
+        self::assertTrue($m->acquire_lock());
+        self::assertFalse($m->acquire_lock());
+        $m->release_lock();
+        self::assertTrue($m->acquire_lock());
+        $m->release_lock();
+    }
 }

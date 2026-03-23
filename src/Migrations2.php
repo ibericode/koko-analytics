@@ -33,17 +33,47 @@ class Migrations2
         }));
     }
 
+    public function acquire_lock(): bool
+    {
+        // check if migrations not already running
+        $transient_key = "{$this->option_name}_lock";
+        $transient_timeout = 10;
+        $previous_run_start = get_transient($transient_key);
+        if ($previous_run_start && $previous_run_start > time() - $transient_timeout) {
+            return false;
+        }
+
+        set_transient($transient_key, time(), $transient_timeout);
+
+        return true;
+    }
+
+    public function release_lock(): void {
+        $transient_key = "{$this->option_name}_lock";
+        delete_transient($transient_key);
+    }
+
     public function run(): void
     {
         $pending = $this->get_pending();
+        if (count($pending) === 0) {
+            return;
+        }
+
+        if (! $this->acquire_lock()) {
+            return;
+        }
+
         foreach ($pending as $file) {
             // execute migration file in scoped function to prevent variable leakage
-            $this->execute($this->directory . '/' . $file);
+            $this->execute($this->directory . DIRECTORY_SEPARATOR . $file);
 
             // extract version from filename and update option
             $version = (int) strtok($file, '-');
             update_option($this->option_name, $version, true);
         }
+
+        $this->release_lock();
     }
 
     protected function execute(string $file): void

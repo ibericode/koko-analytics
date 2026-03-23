@@ -81,12 +81,16 @@ function delete_option($option_name)
 
 function get_transient($name)
 {
-    return null;
+    return get_option($name);
 }
 
-function set_transient($name, $value, $ttl) {}
+function set_transient($name, $value, $ttl) {
+    return update_option($name, $value);
+}
 
-function delete_transient($name) {}
+function delete_transient($name) {
+    return delete_option($name);
+}
 
 function get_role($role)
 {
