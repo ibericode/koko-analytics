@@ -8,7 +8,7 @@
 
 namespace KokoAnalytics;
 
-class Migrations2
+class Migrations_v2
 {
     protected string $directory;
     protected string $option_name;
