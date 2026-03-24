@@ -135,7 +135,7 @@ class Controller
             }
         }
 
-        update_option('koko_analytics_db_version', $new_db_version, true);
+        update_option('koko_analytics_migrations', $new_db_version, true);
         delete_option('koko_analytics_version');
     }
 }
