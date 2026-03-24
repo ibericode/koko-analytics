@@ -44,9 +44,10 @@ class Migrations_v2
 
     public function acquire_lock(): bool
     {
-        // check if migrations not already running
         $transient_key = "{$this->option_name}_lock";
-        $transient_timeout = 10;
+        $transient_timeout = 60;
+
+        // return false if a lock is already active
         $previous_run_start = (int) get_transient($transient_key);
         if ($previous_run_start > time() - $transient_timeout) {
             return false;
@@ -74,19 +75,24 @@ class Migrations_v2
         }
 
         foreach ($pending as $file) {
-            // execute migration file in scoped function to prevent variable leakage
-            $this->execute($this->directory . DIRECTORY_SEPARATOR . $file);
-
-            // extract version from filename and update option
-            $version = (int) strtok($file, '-');
-            update_option($this->option_name, $version, true);
+            $this->execute($file);
         }
 
         $this->release_lock();
     }
 
+    /**
+     * @param string $file Filename of the migration to execute, relative to the migrations directory.
+     */
     protected function execute(string $file): void
     {
-        include $file;
+        include $this->directory . DIRECTORY_SEPARATOR . $file;
+
+        // extract version from filename and update option
+        // we explicitly do this after each individual migration
+        // so that if executing multiple migrations fails halfway through
+        // so that the next time we run, it continues from the last successful migration instead of starting over
+        $version = (int) strtok($file, '-');
+        update_option($this->option_name, $version, true);
     }
 }

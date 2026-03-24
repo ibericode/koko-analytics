@@ -13,14 +13,15 @@ final class MigrationsTest extends TestCase
     {
         $m = new Migrations_v2(__DIR__ . '/migrations', 'koko_analytics_version');
         self::assertEquals([
-            '1-the-first.php',
-            '2-the-last.php',
+            '001-the-first.php',
+            '002-the-middle.php',
+            '010-the-last.php',
         ], $m->get_pending());
     }
 
     public function testWithNoMigrationsPending(): void
     {
-        update_option('koko_analytics_version', 2);
+        update_option('koko_analytics_version', 10);
         $m = new Migrations_v2(__DIR__ . '/migrations', 'koko_analytics_version');
         self::assertEquals([], $m->get_pending());
         delete_option('koko_analytics_version');
@@ -31,7 +32,8 @@ final class MigrationsTest extends TestCase
         update_option('koko_analytics_version', 1);
         $m = new Migrations_v2(__DIR__ . '/migrations', 'koko_analytics_version');
         self::assertEquals([
-            '2-the-last.php',
+            '002-the-middle.php',
+            '010-the-last.php',
         ], $m->get_pending());
         delete_option('koko_analytics_version');
     }
@@ -40,7 +42,7 @@ final class MigrationsTest extends TestCase
     {
         $m = new Migrations_v2(__DIR__ . '/migrations', 'koko_analytics_version');
         $m->run();
-        self::assertEquals(2, get_option('koko_analytics_version'));
+        self::assertEquals(10, get_option('koko_analytics_version'));
         self::assertEquals([], $m->get_pending());
         delete_option('koko_analytics_version');
     }
