@@ -5,8 +5,6 @@ defined('ABSPATH') or exit;
 /** @var wpdb $wpdb */
 global $wpdb;
 
-$wpdb->hide_errors();
-
 $wpdb->query(
     "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}koko_analytics_paths (
        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -22,9 +20,9 @@ $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats ADD COLUMN pa
 $results = $wpdb->get_var("SELECT COUNT(DISTINCT(post_id)) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
 
 if (!$results) {
-// make new path_id column not-nullable
+    // make new path_id column not-nullable
     $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats MODIFY COLUMN path_id INT UNSIGNED NOT NULL");
 
-// change primary key to be on date and path_id column
+    // change primary key to be on date and path_id column
     $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats DROP PRIMARY KEY, ADD PRIMARY KEY(date, path_id)");
 }

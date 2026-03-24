@@ -9,4 +9,3 @@ global $wpdb;
 // Without this, every join probe on referrer_stats / post_stats requires a full table scan
 // because the primary key is (date, id) and date is the leading column.
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_stats ADD INDEX (id)");
-$wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_post_stats ADD INDEX (path_id)");
