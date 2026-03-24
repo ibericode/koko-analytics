@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+require dirname(__DIR__, 4) . '/wp-config.php';
+
+global $wpdb;
+
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_paths;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_post_stats;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_labels;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_stats;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_event_counts;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_events;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_browser_stats   ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_country_stats   ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_device_stats    ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_os_stats        ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_referrer_urls   ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_site_stats      ;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_something_labels;");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}koko_analytics_something_stats ;");
+$wpdb->query("DELETE FROM {$wpdb->prefix}options WHERE option_name IN ('koko_analytics_version', 'koko_analytics_migrations', 'koko_analytics_pro_version', 'koko_analytics_pro_migrations', 'koko_analytics_pro_timestamp', 'koko_analytics_settings');");
