@@ -23,7 +23,6 @@ class Migrations
         $this->version_from = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
         $this->version_to = $version_to;
         $this->migrations_dir = $migrations_dir;
-        _deprecated_class(__CLASS__, '2.3.0', Migrations_v2::class);
     }
 
     public function maybe_run(): void
