@@ -21,3 +21,4 @@ delete_option('koko_analytics_jetpack_import_params');
 delete_option('koko_analytics_last_aggregation_at');
 
 // not removing koko_analytics_migrations because the database tables itself are not removed upon uninstall
+// people can go to Koko Analytics > Settings > Data and use the "Reset Statistics" button to wipe all database tables
