@@ -24,6 +24,8 @@ class Referrer
             '/^ios-app:\/\/389801252.*/' => 'https://instagram.com',
 
             // popular websites
+            '/^https?:\/\/search\.google\.com/' => 'https://google.com',
+            '/^https?:\/\/(?:[a-z0-9]+\.)*googlesyndication\.com/' => 'https://google.com',
             '/^https?:\/\/(?:www\.)?(google|bing|ecosia)\.([a-z]{2,4}(?:\.[a-z]{2,4})?)(?:\/search|\/url)?/' => 'https://$1.$2',
             '/^https?:\/\/(?:[a-z-]+\.)?l?facebook\.com(?:\/l\.php)?/' => 'https://facebook.com',
             '/^https?:\/\/(?:[a-z-]+\.)?l?instagram\.com(?:\/l\.php)?/' => 'https://instagram.com',
@@ -34,7 +36,6 @@ class Referrer
             '/^https?:\/\/(?:[a-z-]+\.)?search\.yahoo\.com\/.*/' => 'https://search.yahoo.com',
             '/^https?:\/\/(?:[a-z-]+\.)?reddit\.com.*/' => 'https://reddit.com',
             '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://brevo.com',
-
         ];
 
         $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);

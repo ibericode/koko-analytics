@@ -10,5 +10,3 @@ $wpdb->query("RENAME TABLE {$wpdb->prefix}koko_analytics_referrer_urls TO {$wpdb
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_labels CHANGE url value VARCHAR(255) NOT NULL");
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_stats CHANGE visitors unique_hits INT UNSIGNED NOT NULL DEFAULT 0");
 $wpdb->query("ALTER TABLE {$wpdb->prefix}koko_analytics_referrer_stats CHANGE pageviews hits INT UNSIGNED NOT NULL DEFAULT 0");
-
-
