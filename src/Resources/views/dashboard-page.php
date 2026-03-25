@@ -203,16 +203,7 @@ $tab = 'dashboard';
                     <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
                 <?php } ?>
 
-                <?php if ($posts_offset >= $posts_limit || $posts_offset + $posts_limit < $posts_count) { ?>
-                    <div class='ka-pagination'>
-                        <?php if ($posts_offset >= $posts_limit) { ?>
-                            <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['posts' => ['offset' => $posts_offset - $posts_limit, 'limit' => $posts_limit]])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
-                        <?php } ?>
-                        <?php if ($posts_offset + $posts_limit < $posts_count) { ?>
-                            <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['posts' => ['offset' => $posts_offset + $posts_limit, 'limit' => $posts_limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
+                <?php $this->pagination('posts', $posts_offset, $posts_limit, $posts_count); ?>
             </div>
         </div>
 
@@ -245,19 +236,9 @@ $tab = 'dashboard';
                     <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
                 <?php } ?>
 
-                <?php if ($referrers_offset >= $referrers_limit || $referrers_offset + $referrers_limit < $referrers_count) { ?>
-                    <div class='ka-pagination'>
-                        <?php if ($referrers_offset >= $referrers_limit) { ?>
-                            <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['p' => null, 'referrers' => ['offset' => $referrers_offset - $referrers_limit, 'limit' => $referrers_limit]])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
-                        <?php } ?>
-                        <?php if ($referrers_offset + $referrers_limit < $referrers_count) { ?>
-                            <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['p' => null, 'referrers' => ['offset' => $referrers_offset + $referrers_limit, 'limit' => $referrers_limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
+                <?php $this->pagination('referrers', $referrers_offset, $referrers_limit, $referrers_count); ?>
             </div>
-        </div><?php // end div.col
-        ?>
+        </div><?php // end div.col ?>
 
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
         <?php do_action('koko_analytics_after_dashboard_components', $date_start, $date_end); ?>

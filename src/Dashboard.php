@@ -218,4 +218,18 @@ class Dashboard
 
         return $now->modify("last sunday, +{$week_starts_on} days");
     }
+
+    public function pagination(string $key, int $offset, int $limit, int $count): void
+    {
+        if ($offset >= $limit || $offset + $limit < $count) { ?>
+            <div class='ka-pagination'>
+                <?php if ($offset >= $limit) { ?>
+                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                <?php } ?>
+                <?php if ($offset + $limit < $count) { ?>
+                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['p' => null, $key => ['offset' => $offset + $limit, 'limit' => $limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
+                <?php } ?>
+            </div>
+        <?php }
+    }
 }
