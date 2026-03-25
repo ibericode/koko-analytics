@@ -92,7 +92,7 @@ class Migrations_v2
         // we explicitly do this after each individual migration
         // so that if executing multiple migrations fails halfway through
         // so that the next time we run, it continues from the last successful migration instead of starting over
-        $version = (int) strtok($file, '-');
+        $version = (int) $file;
         update_option($this->option_name, $version, true);
     }
 }
