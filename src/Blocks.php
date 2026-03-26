@@ -16,7 +16,7 @@ class Blocks
     public function action_init(): void
     {
         // counter block
-        wp_register_script('koko-analytics-counter-block', plugins_url('assets/dist/js/blocks/counter.js', KOKO_ANALYTICS_PLUGIN_FILE), [
+        wp_register_script('koko-analytics-counter-block', plugins_url('assets/js/blocks/counter.js', KOKO_ANALYTICS_PLUGIN_FILE), [
             'wp-block-editor',
             'wp-blocks',
             'wp-components',
@@ -29,7 +29,7 @@ class Blocks
         ]);
 
         // most viewed pages block
-        wp_register_script('koko-analytics-most-viewed-pages-block', plugins_url('assets/dist/js/blocks/most-viewed-pages.js', KOKO_ANALYTICS_PLUGIN_FILE), ['wp-blocks']);
+        wp_register_script('koko-analytics-most-viewed-pages-block', plugins_url('assets/js/blocks/most-viewed-pages.js', KOKO_ANALYTICS_PLUGIN_FILE), ['wp-blocks']);
         register_block_type('koko-analytics/most-viewed-pages', [
             'editor_script' => 'koko-analytics-most-viewed-pages-block'
         ]);

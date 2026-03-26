@@ -16,8 +16,8 @@ use KokoAnalytics\Chart_View;
 use KokoAnalytics\Fmt;
 
 ?>
-<link rel="stylesheet" href="<?php echo plugins_url('assets/dist/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
-<script src="<?php echo plugins_url('assets/dist/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
+<link rel="stylesheet" href="<?php echo plugins_url('assets/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
+<script type="module" src="<?php echo plugins_url('assets/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
 
 <div >
     <div id="ka-dashboard-widget-realtime" class="mb-4">

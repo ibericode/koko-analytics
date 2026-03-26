@@ -16,7 +16,7 @@ registerBlockType('koko-analytics/counter', {
   category: 'text',
   attributes: {},
   supports: {},
-  edit: function ({ attributes, setAttributes } ) {
+  edit: function () {
       /**
        * Create the panel body for the settings
        * Includes the text control
@@ -61,7 +61,7 @@ registerBlockType('koko-analytics/counter', {
         paragraph,
       );
   },
-  save: function (props) {
+  save: function () {
     return null
   }
 })

@@ -82,9 +82,8 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
 	-x "$PLUGIN_SLUG/phpunit.xml.dist" \
 	-x "$PLUGIN_SLUG/phpstan.dist.neon" \
 	-x "$PLUGIN_SLUG/*.sh" \
-	-x "$PLUGIN_SLUG/assets/src/*" \
-	-x "$PLUGIN_SLUG/assets/dist/img/screenshot-*" \
-	-x "$PLUGIN_SLUG/assets/dist/img/banner-*" \
+	-x "$PLUGIN_SLUG/assets/img/screenshot-*" \
+	-x "$PLUGIN_SLUG/assets/img/banner-*" \
 	-x "$PLUGIN_SLUG/code-snippets/*"
 
 # Move back into plugin directory
