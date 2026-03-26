@@ -56,7 +56,7 @@ class Chart_View
                 <text fill="#757575" x="<?php echo $padding_left; ?>" y="10" dy="1em" text-anchor="start"><?php echo \wp_date($dateFormat, $dateStart->getTimestamp()); ?></text>
                 <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?php echo \wp_date($dateFormat, $dateEnd->getTimestamp()); ?></text>
               </g>
-               <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)" style="display: none;">
+               <g class="bars" transform="translate(0, <?php echo $padding_top; ?>)">
                 <?php foreach ($data as $tick) {
                     $dt = (new \DateTimeImmutable($tick->date, $timezone));
                     $is_weekend = (int) $dt->format('N') >= 6;

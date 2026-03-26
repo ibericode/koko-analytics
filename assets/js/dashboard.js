@@ -1,3 +1,7 @@
+// fill chart
+import {Chart} from './imports/chart.js';
+Chart();
+
 // update date_start and date_end <input>'s whenever a preset is selected
 var datePresetSelect = document.querySelector('#ka-date-presets');
 var dateStartInput = document.querySelector('#ka-date-start');
@@ -15,10 +19,6 @@ function setPresetToCustom() {
 
 dateStartInput && dateStartInput.addEventListener('change', setPresetToCustom);
 dateEndInput && dateEndInput.addEventListener('change', setPresetToCustom);
-
-// fill chart
-import {Chart} from './imports/chart.js';
-Chart();
 
 // click "prev date range" or "next date range" when using arrow keys
 document.addEventListener('keydown', function (evt) {
