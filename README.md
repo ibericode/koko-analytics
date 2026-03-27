@@ -48,7 +48,7 @@ Upgrade for advanced insights while keeping your visitors’ privacy intact:
 
 ### Requirements
 
-- WordPress 6.0+
+- WordPress 6.5+
 - PHP 7.4+ (latest recommended)
 
 ### Install from WordPress.org
@@ -63,8 +63,6 @@ Upgrade for advanced insights while keeping your visitors’ privacy intact:
 git clone git@github.com:ibericode/koko-analytics.git wp-content/plugins/koko-analytics
 cd wp-content/plugins/koko-analytics
 composer install
-npm install
-npm run build
 ```
 
 ---
