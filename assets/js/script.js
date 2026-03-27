@@ -3,10 +3,14 @@ const ka = window.koko_analytics;
 ka.trackPageview = function(path, post_id) {
   if (
     // do not track if this is a prerender request
-    (document.visibilityState === 'prerender') ||
+    (document.visibilityState === 'prerender')
 
     // do not track if user agent looks like a bot
-    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
+    || ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
+
+    
+    // do not track if this is a headless browser (e.g. for testing)
+    || (window._phantom || window.__nightmare || window.navigator.webdriver || window.Cypress)
   ) {
     return;
   }
