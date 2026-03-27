@@ -2,16 +2,13 @@ const ka = window.koko_analytics;
 
 ka.trackPageview = function(path, post_id) {
   if (
-    // do not track if this is a prerender request
-    (document.visibilityState === 'prerender')
+    // do not track if user agent looks like bot
+    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
 
-    // do not track if user agent looks like a bot
-    || ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
-
-    
     // do not track if this is a headless browser (e.g. for testing)
     || (window._phantom || window.__nightmare || window.navigator.webdriver || window.Cypress)
   ) {
+    console.debug('Koko Analytics: Ignoring call to trackPageview because user agent is a bot or this is a headless browser.');
     return;
   }
 
@@ -28,6 +25,14 @@ ka.trackPageview = function(path, post_id) {
   }));
 };
 
-window.addEventListener('load', function() {
-  ka.trackPageview(ka.path, ka.post_id)
-});
+// autotrack pageview on page load, but only if the page is visible (e.g. not in a background tab)
+// we also track if the page becomes visible later (e.g. user switches to the tab), but only once per page load
+let autotracked = false;
+const autotrack = () => {
+  if (! autotracked && document.visibilityState === 'visible') {
+    ka.trackPageview(ka.path, ka.post_id);
+    autotracked = true;
+  }
+}
+document.addEventListener("visibilitychange", autotrack);
+window.addEventListener('load',autotrack);
