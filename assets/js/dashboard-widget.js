@@ -1,12 +1,14 @@
-import {Chart} from './imports/chart.js';
+import { Chart } from './imports/chart.js';
 
-var el = document.getElementById('ka-chart')
+const el = document.getElementById('ka-chart')
+const chart = new Chart(el);
+
 function maybeRender() {
   if (!el.clientWidth) {
     return;
   }
 
-  Chart();
+  chart.redraw();
 }
 
 el.parentElement.style.display = '';
