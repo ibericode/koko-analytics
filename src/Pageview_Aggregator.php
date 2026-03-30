@@ -130,7 +130,7 @@ class Pageview_Aggregator
                 array_push($values, $date, $referrer_ids[$url], $r->visitors, $r->pageviews);
             }
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
-            $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats(date, id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
+            $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE unique_hits = unique_hits + VALUES(unique_hits), hits = hits + VALUES(hits)", $values));
         }
 
         $this->referrer_stats = [];
