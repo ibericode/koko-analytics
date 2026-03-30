@@ -40,7 +40,7 @@
   --bs-warning-text-emphasis: #664d03;
   --bs-warning-bg-subtle: #fff3cd;
   --bs-warning-border-subtle: #ffe69c;
-  --koko-analytics-row-gradient-color: rgba(104, 159, 210, 0.06);
+  --koko-analytics-row-gradient-color: rgba(104, 159, 210, 0.10);
 }
 
 .koko-analytics {
@@ -102,6 +102,9 @@ body.koko-analytics {
 .ka-filter:hover,
 .ka-filter:focus  {
   background: var(--bs-tertiary-bg);
+}
+#ka-datepicker-dropdown {
+  max-width: calc(100vw - 2rem);
 }
 /* end filters */
 
@@ -242,9 +245,13 @@ body.koko-analytics {
   padding: 0.4rem 0.6rem;
 }
 .ka-table th {
-  background-color: var(--bs-dark-color);
-  border-color: var(--bs-dark-color);
-  color: white;
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 .ka-table th:first-child {
   border-top-left-radius: 6px;
@@ -252,8 +259,47 @@ body.koko-analytics {
 .ka-table th:last-child {
     border-top-right-radius: 6px;
 }
-.w-fit { width: 6ch; min-width: fit-content; }
+.w-fit { width: 12ch; min-width: fit-content; }
 /* end tables */
+
+/* totals cards */
+.ka-totals-number {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ka-totals-change {
+  font-size: 0.875rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* realtime dot */
+.ka-realtime-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: limegreen;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  animation: ka-pulse 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ka-realtime-dot { animation: none; }
+}
+@keyframes ka-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* empty state */
+.ka-empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #646970;
+  margin: 0;
+}
 
 /* forms */
 .ka-label {
@@ -727,7 +773,7 @@ textarea.ka-input {
     vertical-align: middle;
     width: 16px;
     height: 16px;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>');
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23495057" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>');
     background-repeat: no-repeat;
     background-size: 16px 16px;
     background-position: center center;
@@ -739,6 +785,10 @@ textarea.ka-input {
   .ka-row-cols-lg-2 .ka-col {
     flex: 0 0 auto;
     width: 50%;
+  }
+  .ka-row-cols-lg-3 .ka-col {
+    flex: 0 0 auto;
+    width: 33.33333%;
   }
   .ka-col-lg-4 {
     flex: 0 0 auto;

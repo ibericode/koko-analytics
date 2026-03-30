@@ -84,7 +84,7 @@ class Notice_Pro
                     <li><?= esc_html__('Write about Koko Analytics on your blog or on social media', 'koko-analytics'); ?></li>
                 </ul>
 
-                <p class="mb-0"><a href="<?php echo esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" class="btn btn-danger btn-sm"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
+                <p class="mb-0"><a href="<?= esc_attr(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>" class="btn btn-danger btn-sm"><?php esc_html_e('Never show again', 'koko-analytics'); ?></a></p>
             </details>
         </div>
         <?php

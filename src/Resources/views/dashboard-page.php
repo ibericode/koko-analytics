@@ -97,72 +97,74 @@ $tab = 'dashboard';
     </div>
 
     <?php /* totals component */ ?>
-    <div class="mb-3 ka-box bg-dark p-4">
-        <table class="d-block">
-            <tbody class="d-flex gap-5">
-                <?php
-                /* Total visitors */
-                $diff = $totals->visitors - $totals_previous->visitors;
-                $change = $totals_previous->visitors == 0 ? 0 : ($totals->visitors / $totals_previous->visitors) - 1;
-                ?>
-                <tr>
-                    <th class="d-block text-start mb-1" scope="row"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></th>
-                    <td class="d-block fs-1 lh-1 mb-1">
-                        <span class="" title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
-                        <span class="fs-3 align-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
-                            <?php echo Fmt::percent($change); ?>
-                        </span>
-                    </td>
-                    <td class="text-muted">
-                        <?php
-                        if ($diff != 0) {
-                            echo number_format_i18n(abs($diff));
-                            echo ' ';
-                        }
-                        if ($diff > 0) {
-                            echo esc_html__('more than previous period', 'koko-analytics');
-                        }
-                        if ($diff < 0) {
-                            echo esc_html__('less than previous period', 'koko-analytics');
-                        } ?>
-                    </td>
-                </tr>
-                <?php
-                /* Total pageviews */
-                $diff = $totals->pageviews - $totals_previous->pageviews;
-                $change = $totals_previous->pageviews == 0 ? 0 : ($totals->pageviews / $totals_previous->pageviews) - 1;
-                ?>
-                <tr>
-                    <th class="d-block text-start mb-1" scope="row"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></th>
-                    <td class="d-block fs-1 lh-1 mb-1">
-                        <span class="" title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
-                        <span class="fs-3 align-top <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-white')) ?>">
-                            <?php echo Fmt::percent($change); ?>
-                        </span>
-                    </td>
-                    <td class="text-muted">
-                        <?php
-                        if ($diff != 0) {
-                            echo number_format_i18n(abs($diff));
-                            echo ' ';
-                        }
-                        if ($diff > 0) {
-                            echo esc_html__('more than previous period', 'koko-analytics');
-                        }
-                        if ($diff < 0) {
-                            echo esc_html__('less than previous period', 'koko-analytics');
-                        } ?>
-                    </td>
-                </tr>
-                <tr id="ka-realtime">
-                    <th class="d-block text-start mb-1" scope="row"><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></th>
-                    <td class="d-block fs-1 lh-1 mb-1"><?php echo number_format_i18n($realtime); ?></td>
-                    <td class="text-muted">
-                        <?php esc_html_e('pageviews in the last hour', 'koko-analytics'); ?>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="ka-row ka-row-cols-1 ka-row-cols-lg-3 g-3 mb-3">
+        <?php
+        /* Total visitors */
+        $diff = $totals->visitors - $totals_previous->visitors;
+        $change = $totals_previous->visitors == 0 ? 0 : ($totals->visitors / $totals_previous->visitors) - 1;
+        ?>
+        <div class="ka-col">
+            <div class="ka-box p-3">
+                <div class="text-muted mb-1"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></div>
+                <div class="ka-totals-number mb-1">
+                    <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
+                    <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')) ?>">
+                        <?php echo Fmt::percent($change); ?>
+                    </span>
+                </div>
+                <div class="text-muted">
+                    <?php
+                    if ($diff != 0) {
+                        echo number_format_i18n(abs($diff));
+                        echo ' ';
+                    }
+                    if ($diff > 0) {
+                        echo esc_html__('more than previous period', 'koko-analytics');
+                    }
+                    if ($diff < 0) {
+                        echo esc_html__('less than previous period', 'koko-analytics');
+                    } ?>
+                </div>
+            </div>
+        </div>
+        <?php
+        /* Total pageviews */
+        $diff = $totals->pageviews - $totals_previous->pageviews;
+        $change = $totals_previous->pageviews == 0 ? 0 : ($totals->pageviews / $totals_previous->pageviews) - 1;
+        ?>
+        <div class="ka-col">
+            <div class="ka-box p-3">
+                <div class="text-muted mb-1"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></div>
+                <div class="ka-totals-number mb-1">
+                    <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
+                    <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')) ?>">
+                        <?php echo Fmt::percent($change); ?>
+                    </span>
+                </div>
+                <div class="text-muted">
+                    <?php
+                    if ($diff != 0) {
+                        echo number_format_i18n(abs($diff));
+                        echo ' ';
+                    }
+                    if ($diff > 0) {
+                        echo esc_html__('more than previous period', 'koko-analytics');
+                    }
+                    if ($diff < 0) {
+                        echo esc_html__('less than previous period', 'koko-analytics');
+                    } ?>
+                </div>
+            </div>
+        </div>
+        <div class="ka-col">
+            <div class="ka-box p-3" id="ka-realtime">
+                <div class="text-muted mb-1"><span class="ka-realtime-dot"></span><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></div>
+                <div class="ka-totals-number mb-1"><?php echo number_format_i18n($realtime); ?></div>
+                <div class="text-muted">
+                    <?php esc_html_e('pageviews in the last hour', 'koko-analytics'); ?>
+                </div>
+            </div>
+        </div>
     </div>
     <?php /* end totals component */ ?>
 
@@ -181,8 +183,8 @@ $tab = 'dashboard';
                     <thead>
                         <tr>
                             <th style="width: 3ch;" scope="col">#</th>
-                            <th scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                            <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end  d-none d-lg-table-cell w-fit" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th class="w-expand" scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
+                            <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
                             <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit text-truncate" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
@@ -200,7 +202,7 @@ $tab = 'dashboard';
                 </table>
 
                 <?php if (empty($posts)) { ?>
-                    <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
+                    <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
                 <?php } ?>
 
                 <?php $this->pagination('posts', $posts_offset, $posts_limit, $posts_count); ?>
@@ -215,7 +217,7 @@ $tab = 'dashboard';
                         <tr>
                             <th scope="col" style="width: 3ch;">#</th>
                             <th scope="col"><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th scope="col" title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
                             <th scope="col" title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end text-truncate w-fit ka-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
@@ -233,7 +235,7 @@ $tab = 'dashboard';
                 </table>
 
                 <?php if (empty($referrers)) { ?>
-                    <p style="margin: 0; padding: 0.4rem 0.6rem;"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
+                    <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
                 <?php } ?>
 
                 <?php $this->pagination('referrers', $referrers_offset, $referrers_limit, $referrers_count); ?>
