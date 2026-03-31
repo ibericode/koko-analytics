@@ -99,5 +99,5 @@ Chart.prototype.redraw = function() {
     children[2].setAttribute('x2', xTick);
   }
 }
-
+foobar;;
 export {Chart};

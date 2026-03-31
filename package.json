@@ -1,10 +1,12 @@
 {
 	"scripts": {
 		"download-referrer-blocklist": "curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist",
-		"lint": "eslint assets/js/*.js"
+		"lint": "eslint assets/js/src/*.js",
+		"build": "bin/build-js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
+		"esbuild": "0.27.4",
 		"eslint": "^10.1.0",
 		"globals": "^17.4.0"
 	}

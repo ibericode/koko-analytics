@@ -1,0 +1,1 @@
+(()=>{(()=>{var e="koko-analytics/most-viewed-pages",{registerBlockVariation:s}=window.wp.blocks;s("core/query",{apiVersion:3,name:e,title:"Most Viewed Post Type",description:"Displays a list of your most viewed posts, pages or other post types.",isActive:["namespace"],icon:"",attributes:{namespace:e},scope:["inserter"],allowedControls:["postType"]})})();})();

@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+import * as esbuild from 'esbuild'
+
+await esbuild.build({
+  entryPoints: ['assets/js/*.js'],
+  bundle: true,
+  outdir: 'assets/js',
+  allowOverwrite: true,
+  minify: true
+})

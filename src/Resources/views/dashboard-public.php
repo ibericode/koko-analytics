@@ -8,8 +8,8 @@ defined('ABSPATH') or exit; ?>
 <html lang="<?= bloginfo('language'); ?>">
 <head>
     <meta name="charset" content="<?= bloginfo('charset'); ?>">
-    <link rel="stylesheet" href="<?= plugins_url('assets/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>">
-    <script type="module" src="<?= plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>" async></script>
+    <link rel="stylesheet" href="<?= plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>">
+    <script src="<?= plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>" async></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>Koko Analytics</title>
