@@ -39,6 +39,7 @@ if [ ! -e "node_modules/.bin/eslint" ]; then
 	npm install
 fi;
 npm run lint
+npm run build
 
 # Update referrer blocklist
 curl https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt -k -o data/referrer-blocklist

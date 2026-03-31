@@ -1,6 +1,9 @@
 // fill chart
 import { Chart } from './imports/chart.js';
-new Chart(document.getElementById('ka-chart'));
+
+document.addEventListener('DOMContentLoaded', () => {
+  new Chart(document.getElementById('ka-chart'));
+});
 
 // update date_start and date_end <input>'s whenever a preset is selected
 var datePresetSelect = document.querySelector('#ka-date-presets');
