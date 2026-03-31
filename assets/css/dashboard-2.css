@@ -529,8 +529,8 @@ textarea.ka-input {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
 }
-.text-success { color: limegreen !important; }
-.text-danger { color: #fb7272 !important; }
+.text-success { color: #198754 !important; }
+.text-danger { color: #dc3545 !important; }
 .text-muted { color: #646970 !important; }
 .text-truncate { overflow: hidden; text-overflow:ellipsis;  white-space: nowrap; }
 .text-decoration-none { text-decoration: none !important; }

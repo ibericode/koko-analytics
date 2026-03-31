@@ -1,5 +1,5 @@
 // fill chart
-import {Chart} from './imports/chart.js';
+import { Chart } from './imports/chart.js?v=1';
 new Chart(document.getElementById('ka-chart'));
 
 // update date_start and date_end <input>'s whenever a preset is selected

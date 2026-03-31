@@ -1,4 +1,4 @@
-import { Chart } from './imports/chart.js';
+import { Chart } from './imports/chart.js?v=1';
 
 const el = document.getElementById('ka-chart')
 const chart = new Chart(el);

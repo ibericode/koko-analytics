@@ -3,13 +3,13 @@
  * @var KokoAnalytics\Dashboard $this
  */
 defined('ABSPATH') or exit; ?>
-<!-- This dashboard is powered by Koko Analytics: privacy-friendly website analytics for WordPress. Find out more at https://kokoanalytics.com/ -->
+<!-- This dashboard is powered by Koko Analytics: privacy-friendly website analytics for WordPress sites. Find out more at https://www.kokoanalytics.com/ -->
 <!DOCTYPE html>
 <html lang="<?= bloginfo('language'); ?>">
 <head>
     <meta name="charset" content="<?= bloginfo('charset'); ?>">
     <link rel="stylesheet" href="<?= plugins_url('assets/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>">
-    <script type="module" src="<?= plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>" defer></script>
+    <script type="module" src="<?= plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>" async></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>Koko Analytics</title>
