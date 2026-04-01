@@ -3,7 +3,9 @@
  * @var KokoAnalytics\Dashboard $this
  */
 defined('ABSPATH') or exit; ?>
+<?php if (apply_filters('koko_analytics_print_html_comments', true)) : ?>
 <!-- This dashboard is powered by Koko Analytics: privacy-friendly website analytics for WordPress sites. Find out more at https://www.kokoanalytics.com/ -->
+<?php endif; ?>
 <!DOCTYPE html>
 <html lang="<?= bloginfo('language'); ?>">
 <head>

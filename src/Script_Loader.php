@@ -36,7 +36,9 @@ class Script_Loader
             return;
         }
 
-        echo PHP_EOL . '<!-- Koko Analytics v' . KOKO_ANALYTICS_VERSION . ' - https://www.kokoanalytics.com/ -->' . PHP_EOL;
+        if (apply_filters('koko_analytics_print_html_comments', true)) {
+            echo PHP_EOL . '<!-- Koko Analytics v' . KOKO_ANALYTICS_VERSION . ' - https://www.kokoanalytics.com/ -->' . PHP_EOL;
+        }
         wp_print_inline_script_tag(file_get_contents(KOKO_ANALYTICS_PLUGIN_DIR . '/assets/js/script.js'));
         echo PHP_EOL;
     }
