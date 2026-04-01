@@ -28,11 +28,8 @@ $tab = 'dashboard';
         <div class="d-flex gap-3 mb-3">
             <div class="position-relative">
                 <div class="ka-filter" tabindex="0" role="button" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3 me-2" style="vertical-align: middle;" viewBox="0 0 16 16">
-                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                    </svg>
-                    <?php echo wp_date($date_format, $date_start->getTimestamp()); ?> — <?php echo wp_date($date_format, $date_end->getTimestamp()); ?>
+                    <i class="icon icon-calendar me-2"></i>
+                    <?= wp_date($date_format, $date_start->getTimestamp()); ?> — <?= wp_date($date_format, $date_end->getTimestamp()); ?>
                 </div>
 
                 <div id="ka-datepicker-dropdown" class="rounded bg-white shadow" style="display: none; position: absolute; width:360px; z-index: 9992;">
@@ -40,13 +37,13 @@ $tab = 'dashboard';
                         <?php // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild
                         ?>
                         <?php if ($date_start > $total_start_date) { ?>
-                            <a class="js-quicknav-prev text-decoration-none text-white me-2" href="" data-href="<?php echo esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">◂</a>
+                            <a class="js-quicknav-prev text-decoration-none text-white me-2" href="" data-href="<?= esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
-                        <span><?php echo wp_date($date_format, $date_start->getTimestamp()); ?> — <?php echo wp_date($date_format, $date_end->getTimestamp()); ?></span>
+                        <span><?= wp_date($date_format, $date_start->getTimestamp()); ?> — <?= wp_date($date_format, $date_end->getTimestamp()); ?></span>
                         <?php if ($date_end < $total_end_date) { ?>
-                            <a class="js-quicknav-next text-decoration-none text-white ms-2" href="" data-href="<?php echo esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">▸</a>
+                            <a class="js-quicknav-next text-decoration-none text-white ms-2" href="" data-href="<?= esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">▸</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white ms-2">▸</a>
                         <?php } ?>
@@ -61,21 +58,21 @@ $tab = 'dashboard';
                         <div class="mb-3">
                             <label for="ka-date-presets" class="ka-label"><?php esc_html_e('Date range', 'koko-analytics'); ?></label>
                             <select id="ka-date-presets" name="view" class="ka-select">
-                                <option value="custom" <?php echo $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom', 'koko-analytics'); ?></option>
+                                <option value="custom" <?= $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom', 'koko-analytics'); ?></option>
                                 <?php foreach ($this->get_date_presets() as $key => $label) :
-                                    ?><option value="<?php echo $key; ?>" <?php echo ($key === $range) ? ' selected' : ''; ?>><?php echo esc_html($label); ?></option><?php
+                                    ?><option value="<?= $key; ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option><?php
                                 endforeach; ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for='ka-date-start' class="ka-label"><?php esc_html_e('Start date', 'koko-analytics'); ?></label>
                             <input name="start_date" id='ka-date-start' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                value="<?php echo $date_start->format('Y-m-d'); ?>" class="ka-input">
+                                value="<?= $date_start->format('Y-m-d'); ?>" class="ka-input">
                         </div>
                         <div class="mb-3">
                             <label for='ka-date-end' class="ka-label"><?php esc_html_e('End date', 'koko-analytics'); ?></label>
                             <input name="end_date" id='ka-date-end' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                value="<?php echo $date_end->format('Y-m-d'); ?>" class="ka-input">
+                                value="<?= $date_end->format('Y-m-d'); ?>" class="ka-input">
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
@@ -84,10 +81,10 @@ $tab = 'dashboard';
                 </div>
             </div>
 
-            <div class="ka-filter" <?php echo $page === 0 ? 'style="display: none;"' : ''; ?>>
+            <div class="ka-filter" <?= $page === 0 ? 'style="display: none;"' : ''; ?>>
                 <?php esc_html_e('Page', 'koko-analytics'); ?> =
-                <a class="" href="<?php echo esc_attr(home_url($page)); ?>"><?php echo esc_html($page); ?></a>
-                <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?php echo esc_attr(remove_query_arg('p')); ?>">✕</a>
+                <a class="" href="<?= esc_attr(home_url($page)); ?>"><?= esc_html($page); ?></a>
+                <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?= esc_attr(remove_query_arg('p')); ?>">✕</a>
             </div>
 
             <?php do_action('koko_analytics_after_datepicker', $date_start, $date_end); ?>
@@ -107,9 +104,9 @@ $tab = 'dashboard';
             <div class="ka-box p-3">
                 <div class="text-muted mb-1"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></div>
                 <div class="ka-totals-number mb-1">
-                    <span title="<?php echo esc_attr($totals->visitors); ?>"><?php echo number_format_i18n($totals->visitors); ?></span>
+                    <span title="<?= esc_attr($totals->visitors); ?>"><?= number_format_i18n($totals->visitors); ?></span>
                     <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')) ?>">
-                        <?php echo Fmt::percent($change); ?>
+                        <?= Fmt::percent($change); ?>
                     </span>
                 </div>
                 <div class="text-muted">
@@ -136,9 +133,9 @@ $tab = 'dashboard';
             <div class="ka-box p-3">
                 <div class="text-muted mb-1"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></div>
                 <div class="ka-totals-number mb-1">
-                    <span title="<?php echo esc_attr($totals->pageviews); ?>"><?php echo number_format_i18n($totals->pageviews); ?></span>
+                    <span title="<?= esc_attr($totals->pageviews); ?>"><?= number_format_i18n($totals->pageviews); ?></span>
                     <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')) ?>">
-                        <?php echo Fmt::percent($change); ?>
+                        <?= Fmt::percent($change); ?>
                     </span>
                 </div>
                 <div class="text-muted">
@@ -159,7 +156,7 @@ $tab = 'dashboard';
         <div class="ka-col">
             <div class="ka-box p-3" id="ka-realtime">
                 <div class="text-muted mb-1"><span class="ka-realtime-dot"></span><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></div>
-                <div class="ka-totals-number mb-1"><?php echo number_format_i18n($realtime); ?></div>
+                <div class="ka-totals-number mb-1"><?= number_format_i18n($realtime); ?></div>
                 <div class="text-muted">
                     <?php esc_html_e('pageviews in the last hour', 'koko-analytics'); ?>
                 </div>
@@ -175,7 +172,7 @@ $tab = 'dashboard';
         </div>
     <?php } ?>
 
-    <div class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?php echo $page !== 0 ? 'page-filter-active' : ''; ?>">
+    <div class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>">
         <?php /* TOP PAGES */ ?>
         <div id="top-pages" class="ka-col">
             <div class="ka-box">
@@ -184,21 +181,21 @@ $tab = 'dashboard';
                         <tr>
                             <th style="width: 3ch;" scope="col">#</th>
                             <th class="w-expand" scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                            <th title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit text-truncate" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                            <th title="<?= esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th title="<?= esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit text-truncate" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($posts as $i => $p) { ?>
                             <?php $pct = $totals->pageviews > 0 && $page === 0  ? round(($p->pageviews / $totals->pageviews) * 100, 0) : 0; ?>
-                            <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
-                                <td class="text-muted"><?php echo  $posts_offset + $i + 1; ?></td>
+                            <tr <?= $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
+                                <td class="text-muted"><?=  $posts_offset + $i + 1; ?></td>
                                 <td class="text-truncate">
-                                    <a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->label); ?></a>
-                                    <a class="ka-visit-link" href="<?php echo esc_attr(esc_url($p->post_permalink)); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></svg></a>
+                                    <a href="<?= esc_attr(add_query_arg(['p' => $p->path])); ?>"><?= esc_html($p->label); ?></a>
+                                    <a class="ka-visit-link" href="<?= esc_attr(esc_url($p->post_permalink)); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
                                 </td>
-                                <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
-                                <td class="text-end"><?php echo number_format_i18n($p->pageviews); ?></td>
+                                <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $p->visitors)); ?></td>
+                                <td class="text-end"><?= number_format_i18n($p->pageviews); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -220,18 +217,18 @@ $tab = 'dashboard';
                         <tr>
                             <th scope="col" style="width: 3ch;">#</th>
                             <th scope="col"><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?php echo esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?php echo esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end text-truncate w-fit ka-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
+                            <th scope="col" title="<?= esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
+                            <th scope="col" title="<?= esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end text-truncate w-fit ka-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($referrers as $i => $r) { ?>
                             <?php $pct = $referrers_sum > 0 ? round(($r->pageviews / $referrers_sum) * 100, 0) : 0; ?>
                             <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
-                                <td class="text-muted"><?php echo $referrers_offset + $i + 1; ?></td>
-                                <td class="text-truncate"><?php echo Fmt::referrer_url_label(esc_html($r->url)); ?></td>
-                                <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $r->visitors)); ?></td>
-                                <td class="text-end"><?php echo number_format_i18n($r->pageviews); ?></td>
+                                <td class="text-muted"><?= $referrers_offset + $i + 1; ?></td>
+                                <td class="text-truncate"><?= Fmt::referrer_url_label(esc_html($r->url)); ?></td>
+                                <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $r->visitors)); ?></td>
+                                <td class="text-end"><?= number_format_i18n($r->pageviews); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
