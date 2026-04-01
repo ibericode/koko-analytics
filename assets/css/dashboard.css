@@ -512,7 +512,7 @@ textarea.ka-input {
 
 /* display */
 .d-block { display: block !important; }
-.d-inline { display: inline-block !important!; }
+.d-inline { display: inline-block !important; }
 .d-none { display: none !important; }
 .d-flex { display: flex !important; flex-flow: row wrap; }
 .justify-content-between { justify-content: space-between; }
