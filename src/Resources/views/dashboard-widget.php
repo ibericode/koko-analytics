@@ -16,7 +16,7 @@ use KokoAnalytics\Chart_View;
 use KokoAnalytics\Fmt;
 
 ?>
-<link rel="stylesheet" href="<?php echo plugins_url('assets/css/dashboard-2.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
+<link rel="stylesheet" href="<?php echo plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
 <script type="module" src="<?php echo plugins_url('assets/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
 
 <div >
