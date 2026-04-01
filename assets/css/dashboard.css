@@ -262,6 +262,23 @@ body.koko-analytics {
 .w-fit { width: 12ch; min-width: fit-content; }
 /* end tables */
 
+/* visit page link (shown on hover) */
+.ka-visit-link {
+  display: inline-block;
+  visibility: hidden;
+  margin-left: 0.5rem;
+  color: #646970;
+  text-decoration: none;
+  vertical-align: middle;
+}
+.ka-visit-link:hover {
+  color: var(--bs-link-color);
+}
+tr:hover .ka-visit-link {
+  visibility: visible;
+}
+/* end visit page link */
+
 /* totals cards */
 .ka-totals-number {
   font-size: 2.25rem;

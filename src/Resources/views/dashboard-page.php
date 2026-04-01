@@ -193,7 +193,10 @@ $tab = 'dashboard';
                             <?php $pct = $totals->pageviews > 0 && $page === 0  ? round(($p->pageviews / $totals->pageviews) * 100, 0) : 0; ?>
                             <tr <?php echo $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
                                 <td class="text-muted"><?php echo  $posts_offset + $i + 1; ?></td>
-                                <td class="text-truncate"><a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->label); ?></a></td>
+                                <td class="text-truncate">
+                                    <a href="<?php echo esc_attr(add_query_arg(['p' => $p->path])); ?>"><?php echo esc_html($p->label); ?></a>
+                                    <a class="ka-visit-link" href="<?php echo esc_attr(esc_url($p->post_permalink)); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></svg></a>
+                                </td>
                                 <td class="text-end d-none d-lg-table-cell"><?php echo number_format_i18n(max(1, $p->visitors)); ?></td>
                                 <td class="text-end"><?php echo number_format_i18n($p->pageviews); ?></td>
                             </tr>
