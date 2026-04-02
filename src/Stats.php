@@ -96,13 +96,13 @@ class Stats
             case 'week':
                 $day_of_week = (int) $start_date->format('w');
                 $diff = ($day_of_week - $week_starts_on + 7) % 7;
-                $start = $start_date->modify("-{$diff} days");
+                $start_date = $start_date->modify("-{$diff} days");
                 break;
             case 'month':
-                $start = $start_date->modify('first day of this month');
+                $start_date = $start_date->modify('first day of this month');
                 break;
             case 'year':
-                $start = $start_date->modify('first day of january this year');
+                $start_date = $start_date->modify('first day of january this year');
                 break;
         }
 
