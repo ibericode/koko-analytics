@@ -8,6 +8,9 @@
 
 namespace KokoAnalytics;
 
+use DateTimeImmutable;
+use DateTime;
+use DateTimeInterface;
 use wpdb;
 
 class Stats
@@ -15,7 +18,7 @@ class Stats
     protected wpdb $db;
 
     /**
-     * @param \wpdb|null $db Optional database connection, mainly for testing purposes. Defaults to global $wpdb instance.
+     * @param wpdb|null $db Optional database connection, mainly for testing purposes. Defaults to global $wpdb instance.
      */
     public function __construct(?wpdb $db = null)
     {
@@ -34,10 +37,15 @@ class Stats
     }
 
     /**
+     *
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
      * @return object{ visitors: int, pageviews: int }
      */
-    public function get_totals(string $start_date, string $end_date, $page = 0, $unused = null): object
+    public function get_totals($start_date, $end_date, $page = 0, $unused = null): object
     {
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
         $from = "{$this->db->prefix}koko_analytics_site_stats s";
         $where = 's.date >= %s AND s.date <= %s';
         $args = [$start_date, $end_date];
@@ -73,25 +81,28 @@ class Stats
         return $result;
     }
 
-    public function generate_date_range(string $start_date, string $end_date, string $group = 'day'): array
+    /**
+     * @param DateTimeImmutable|DateTime|string $start_date
+     * @param DateTimeImmutable|DateTime|string $end_date
+     */
+    public function generate_date_range($start_date, $end_date, string $group = 'day'): array
     {
-        $timezone = wp_timezone();
-        $start = new \DateTimeImmutable($start_date, $timezone);
-        $end = new \DateTimeImmutable($end_date, $timezone);
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date : new \DateTimeImmutable($start_date, wp_timezone());
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new \DateTimeImmutable($end_date, wp_timezone());
         $week_starts_on = (int) get_option('start_of_week', 0);
 
         // align start date to the beginning of the period
         switch ($group) {
             case 'week':
-                $day_of_week = (int) $start->format('w');
+                $day_of_week = (int) $start_date->format('w');
                 $diff = ($day_of_week - $week_starts_on + 7) % 7;
-                $start = $start->modify("-{$diff} days");
+                $start = $start_date->modify("-{$diff} days");
                 break;
             case 'month':
-                $start = $start->modify('first day of this month');
+                $start = $start_date->modify('first day of this month');
                 break;
             case 'year':
-                $start = $start->modify('first day of january this year');
+                $start = $start_date->modify('first day of january this year');
                 break;
         }
 
@@ -104,8 +115,8 @@ class Stats
         $interval = $intervals[$group];
 
         $dates = [];
-        $current = $start;
-        while ($current <= $end) {
+        $current = $start_date;
+        while ($current <= $end_date) {
             $dates[] = $current->format('Y-m-d');
             $current = $current->modify($interval);
         }
@@ -117,14 +128,16 @@ class Stats
      * Get aggregated statistics (per day, week or month) between the two given dates.
      * Without the $page parameter this returns the site-wide statistics.
      *
-     * @param string $start_date
-     * @param string $end_date
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
      * @param string $group `day`, `week` or `month`
      * @param string $page
      * @return array
      */
-    public function get_stats(string $start_date, string $end_date, string $group = 'day', $page = ''): array
+    public function get_stats($start_date, $end_date, string $group = 'day', $page = ''): array
     {
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
         $week_starts_on = (int) get_option('start_of_week', 0);
         $date_key_expressions = [
             'day' => 's.date',
@@ -177,8 +190,15 @@ class Stats
         return $results;
     }
 
-    public function get_posts(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
+    /**
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
+     */
+    public function get_posts($start_date, $end_date, int $offset = 0, int $limit = 10): array
     {
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
+
         $results = $this->db->get_results($this->db->prepare(
             "SELECT p.path, s.post_id, IFNULL(NULLIF(wp.post_title, ''), p.path) AS label, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
                 FROM {$this->db->prefix}koko_analytics_post_stats s
@@ -204,39 +224,71 @@ class Stats
         }, $results);
     }
 
-    public function count_posts(string $start_date, string $end_date): int
+    /**
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
+     */
+    public function count_posts($start_date, $end_date): int
     {
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
         return (int) $this->db->get_var($this->db->prepare(
-            "
-            SELECT COUNT(*)
-            FROM (
-                SELECT COUNT(*) AS count
+            "SELECT COUNT(DISTINCT p.path, s.post_id)
                 FROM {$this->db->prefix}koko_analytics_post_stats s
                 JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id
-                WHERE s.date BETWEEN %s AND %s
-                GROUP BY p.path, s.post_id
-            ) AS a",
+                WHERE s.date BETWEEN %s AND %s",
             [$start_date, $end_date]
         ));
     }
 
-    public function get_referrers(string $start_date, string $end_date, int $offset = 0, int $limit = 10): array
+    /**
+     * @since 2.3.0
+     */
+    public function sum_posts(DateTimeInterface $start_date, DateTimeInterface $end_date): int
     {
+        return (int) $this->db->get_var($this->db->prepare(
+            "SELECT SUM(s.pageviews)
+                FROM {$this->db->prefix}koko_analytics_post_stats s
+                WHERE s.date BETWEEN %s AND %s",
+            [$start_date->format("Y-m-d"), $end_date->format("Y-m-d")]
+        ));
+    }
+
+    /**
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
+     */
+    public function get_referrers($start_date, $end_date, int $offset = 0, int $limit = 10): array
+    {
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
         return array_map(function ($row) {
             $row->url = $row->value;
             $row->pageviews = $row->hits;
             $row->visitors = $row->unique_hits;
             return $row;
-        }, (new Table('referrer'))->get(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()), $offset, $limit));
+        }, (new Table('referrer'))->get($start_date, $end_date, $offset, $limit));
     }
 
-    public function count_referrers(string $start_date, string $end_date): int
+    /**
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
+     */
+    public function count_referrers($start_date, $end_date): int
     {
-        return (new Table('referrer'))->count(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()));
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
+        return (new Table('referrer'))->count($start_date, $end_date);
     }
 
-    public function sum_referrers(string $start_date, string $end_date): int
+    /**
+     * @param DateTimeInterface|string $start_date
+     * @param DateTimeInterface|string $end_date
+     */
+    public function sum_referrers($start_date, $end_date): int
     {
-        return (new Table('referrer'))->sum(new \DateTimeImmutable($start_date, wp_timezone()), new \DateTimeImmutable($end_date, wp_timezone()));
+        $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
+        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
+        return (new Table('referrer'))->sum($start_date, $end_date);
     }
 }

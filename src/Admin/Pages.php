@@ -65,7 +65,6 @@ class Pages
             'help' => __('Help', 'koko-analytics'),
         ]);
         $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'tracking';
-
         $settings           = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
         $user_roles   = $this->get_available_roles();

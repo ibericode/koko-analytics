@@ -173,74 +173,13 @@ $tab = 'dashboard';
     <?php } ?>
 
     <div class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>">
-        <?php /* TOP PAGES */ ?>
-        <div id="top-pages" class="ka-col">
-            <div class="ka-box">
-                <table class="ka-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 3ch;" scope="col">#</th>
-                            <th class="w-expand" scope="col"><?php esc_html_e('Pages', 'koko-analytics'); ?></th>
-                            <th title="<?= esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" scope="row"><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th title="<?= esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end ka-pageviews w-fit text-truncate" scope="col"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($posts as $i => $p) { ?>
-                            <?php $pct = $totals->pageviews > 0 && $page === 0  ? round(($p->pageviews / $totals->pageviews) * 100, 0) : 0; ?>
-                            <tr <?= $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
-                                <td class="text-muted"><?=  $posts_offset + $i + 1; ?></td>
-                                <td class="text-truncate">
-                                    <a href="<?= esc_attr(add_query_arg(['p' => $p->path])); ?>"><?= esc_html($p->label); ?></a>
-                                    <a class="ka-visit-link" href="<?= esc_attr(esc_url($p->post_permalink)); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
-                                </td>
-                                <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $p->visitors)); ?></td>
-                                <td class="text-end"><?= number_format_i18n($p->pageviews); ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-
-                <?php if (empty($posts)) { ?>
-                    <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
-                <?php } ?>
-
-                <?php $this->pagination('posts', $posts_offset, $posts_limit, $posts_count); ?>
+        <?php foreach ($this->get_components() as $id => $callback) : ?>
+            <div id="<?= esc_attr($id) ?> ?>" class="ka-col">
+                <div class="ka-box">
+                    <?php $callback($date_start, $date_end); ?>
+                </div>
             </div>
-        </div>
-
-        <?php /* TOP REFERRERS */ ?>
-        <div id="top-referrers" class="ka-col">
-            <div class="ka-box">
-                <table class="ka-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 3ch;">#</th>
-                            <th scope="col"><?php esc_html_e('Referrers', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?= esc_attr__('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics'); ?>" class="text-end d-none d-lg-table-cell w-fit text-truncate" style=""><?php esc_html_e('Visitors', 'koko-analytics'); ?></th>
-                            <th scope="col" title="<?= esc_attr__('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics'); ?>" class="text-end text-truncate w-fit ka-pageviews"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($referrers as $i => $r) { ?>
-                            <?php $pct = $referrers_sum > 0 ? round(($r->pageviews / $referrers_sum) * 100, 0) : 0; ?>
-                            <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
-                                <td class="text-muted"><?= $referrers_offset + $i + 1; ?></td>
-                                <td class="text-truncate"><?= Fmt::referrer_url_label(esc_html($r->url)); ?></td>
-                                <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $r->visitors)); ?></td>
-                                <td class="text-end"><?= number_format_i18n($r->pageviews); ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-
-                <?php if (empty($referrers)) { ?>
-                    <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
-                <?php } ?>
-
-                <?php $this->pagination('referrers', $referrers_offset, $referrers_limit, $referrers_count); ?>
-            </div>
-        </div><?php // end div.col ?>
+        <?php endforeach; ?>
 
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
         <?php do_action('koko_analytics_after_dashboard_components', $date_start, $date_end); ?>
