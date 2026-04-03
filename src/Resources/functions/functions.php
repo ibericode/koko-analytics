@@ -33,6 +33,7 @@ function get_settings(): array
         'prune_data_after_months' => 5 * 12,
         'default_view' => 'last_28_days',
         'is_dashboard_public' => 0,
+        'component_order' => [],
     ];
     $settings         = (array) get_option('koko_analytics_settings', []);
     $settings         = array_merge($default_settings, $settings);

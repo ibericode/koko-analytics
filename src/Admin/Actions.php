@@ -42,6 +42,7 @@ class Actions
         $map = [
             'install_optimized_endpoint' => [$this, 'install_optimized_endpoint'],
             'save_settings' => [$this, 'save_settings'],
+            'save_component_order' => [$this, 'save_component_order'],
             'migrate_post_stats_to_v2' => [$this, 'migrate_post_stats_to_v2'],
             'fix_post_paths_after_v2' => [$this, 'fix_post_paths_after_v2'],
             'reset_statistics' => lazy(Data_Reset::class, 'action_listener'),
@@ -110,6 +111,22 @@ class Actions
 
         wp_safe_redirect(add_query_arg(['settings-updated' => 1], wp_get_referer()));
         exit;
+    }
+
+    public function save_component_order()
+    {
+        if (!check_admin_referer('koko_analytics_save_component_order', '_nonce')) {
+            wp_send_json_error(null, 403);
+        }
+
+        $order = isset($_POST['component_order']) ? $_POST['component_order'] : [];
+        $order = array_map('sanitize_key', (array) $order);
+
+        $settings = (array) get_option('koko_analytics_settings', []);
+        $settings['component_order'] = array_values($order);
+        update_option('koko_analytics_settings', $settings, true);
+
+        wp_send_json_success();
     }
 
     public function migrate_post_stats_to_v2()

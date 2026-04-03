@@ -172,6 +172,12 @@ body.koko-analytics {
   opacity: 1;
 }
 
+/* drag-and-drop sorting */
+.ka-col[draggable] { cursor: grab; }
+.ka-col[draggable]:active { cursor: grabbing; }
+.ka-col.ka-dragging { opacity: 0.4; }
+/* end drag-and-drop sorting */
+
 /* settings pages */
 .ka-settings-nav { padding: 0; margin: 0; }
 .ka-settings-nav a { color: rgba(33, 37, 41, 0.8); text-decoration: none; display: inline-block; width: 100%; height: 100%; padding: 0.25rem 0.5rem; border-radius: 0.4rem; }

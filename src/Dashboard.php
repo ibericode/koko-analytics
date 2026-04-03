@@ -218,10 +218,29 @@ class Dashboard
 
     public function get_components(): array
     {
-        return apply_filters('koko_analytics_dashboard_components', [
+        $components = apply_filters('koko_analytics_dashboard_components', [
             'top-pages' => [$this, 'component_pages'],
             'top-referrers' => [$this, 'component_referrers'],
         ]);
+
+        // sort components by stored order
+        $settings = get_settings();
+        if (!empty($settings['component_order'])) {
+            $order = $settings['component_order'];
+            uksort($components, function ($a, $b) use ($order) {
+                $pa = array_search($a, $order);
+                $pb = array_search($b, $order);
+                if ($pa === false) {
+                    $pa = PHP_INT_MAX;
+                }
+                if ($pb === false) {
+                    $pb = PHP_INT_MAX;
+                }
+                return $pa - $pb;
+            });
+        }
+
+        return $components;
     }
 
     public function pagination(string $key, int $offset, int $limit, int $count): void
