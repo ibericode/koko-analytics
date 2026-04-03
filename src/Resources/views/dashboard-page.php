@@ -7,6 +7,7 @@ defined('ABSPATH') or exit;
 
 
 /**
+ * @var KokoAnalytics\Dashboard $this
  * @var \DateTimeInterface $date_start
  * @var \DateTimeInterface $date_end
  * @var object $totals
@@ -21,8 +22,7 @@ $tab = 'dashboard';
 
 ?>
 <div class="koko-analytics ka-wrap">
-    <?php $this->maybe_show_pro_notice(); ?>
-    <?php $this->maybe_show_adblocker_notice(); ?>
+    <?php $this->notices(); ?>
 
     <div class="d-lg-flex">
         <div class="d-flex gap-3 mb-3">
@@ -174,7 +174,7 @@ $tab = 'dashboard';
 
     <div class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>">
         <?php foreach ($this->get_components() as $id => $callback) : ?>
-            <div id="<?= esc_attr($id) ?> ?>" class="ka-col">
+            <div id="<?= esc_attr($id) ?>" class="ka-col">
                 <div class="ka-box">
                     <?php $callback($date_start, $date_end); ?>
                 </div>
@@ -182,7 +182,7 @@ $tab = 'dashboard';
         <?php endforeach; ?>
 
         <?php do_action_deprecated('koko_analytics_show_dashboard_components', [], '1.4', 'koko_analytics_after_dashboard_components'); ?>
-        <?php do_action('koko_analytics_after_dashboard_components', $date_start, $date_end); ?>
+        <?php do_action_deprecated('koko_analytics_after_dashboard_components', [$date_start, $date_end], '2.3', 'koko_analytics_dashboard_components'); ?>
     </div><?php // end div.ka-row
     ?>
 

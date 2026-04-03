@@ -120,6 +120,12 @@ class Dashboard
         ];
     }
 
+    public function notices(): void
+    {
+        $this->maybe_show_adblocker_notice();
+        $this->maybe_show_pro_notice();
+    }
+
     protected function maybe_show_adblocker_notice(): void
     {
         ?>
@@ -212,10 +218,10 @@ class Dashboard
 
     public function get_components(): array
     {
-        return [
+        return apply_filters('koko_analytics_dashboard_components', [
             'top-pages' => [$this, 'component_pages'],
             'top-referrers' => [$this, 'component_referrers'],
-        ];
+        ]);
     }
 
     public function pagination(string $key, int $offset, int $limit, int $count): void
