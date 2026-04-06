@@ -19,6 +19,7 @@ namespace KokoAnalytics\Shortcodes;
 use DateTime;
 use KokoAnalytics\Normalizers\Path;
 use KokoAnalytics\Stats;
+use WP_Post;
 
 class Shortcode_Site_Counter
 {
@@ -54,7 +55,12 @@ class Shortcode_Site_Counter
     // Gets the path to whatever post is currently in "the loop"
     public function get_post_path()
     {
-        $permalink = get_the_permalink();
+        $post = get_queried_object();
+        if (! $post instanceof WP_Post) {
+            return '';
+        }
+
+        $permalink = get_permalink($post);
         $url_parts = parse_url($permalink);
         $path = $url_parts['path'];
         if (!empty($url_parts['query'])) {
