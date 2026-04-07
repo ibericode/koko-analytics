@@ -53,18 +53,18 @@ class Shortcode_Site_Counter
     }
 
     // Gets the path to whatever post is currently in "the loop"
-    public function get_post_path()
+    public function get_post_path(): string
     {
         $post = get_queried_object();
-        if (! $post instanceof WP_Post) {
-            return '';
-        }
-
-        $permalink = get_permalink($post);
-        $url_parts = parse_url($permalink);
-        $path = $url_parts['path'];
-        if (!empty($url_parts['query'])) {
-            $path .= '?' . $url_parts['query'];
+        if ($post instanceof WP_Post) {
+            $permalink = get_permalink($post);
+            $url_parts = parse_url($permalink);
+            $path = $url_parts['path'];
+            if (!empty($url_parts['query'])) {
+                $path .= '?' . $url_parts['query'];
+            }
+        } else {
+            $path = $_SERVER['REQUEST_URI'];
         }
 
         return Path::normalize($path);
