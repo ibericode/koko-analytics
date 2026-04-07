@@ -1,5 +1,13 @@
 # Changelog
 
+### 2.3.1 - Apr 7, 2026
+
+- dashboard: draggable icon now only shows up when hovering table header, not table body
+- database: prevent running database migrations concurrently 
+- database: try to increase time limit to 300s before running database migrations
+- database: re-acquire and extend acquired lock after every individual database migration step
+
+
 ### 2.3.0 - Apr 7, 2026
 
 - tracking: improved detection of preflight requests and requests from headless browsers. 
