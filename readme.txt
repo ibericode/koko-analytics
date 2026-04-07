@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.5
 Tested up to: 6.9.4
-Stable tag: 2.3.2
+Stable tag: 2.3.3-dev
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
