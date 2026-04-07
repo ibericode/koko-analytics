@@ -8,6 +8,8 @@
 
 namespace KokoAnalytics;
 
+use Throwable;
+
 class Migrations_v2
 {
     protected string $directory;
@@ -45,7 +47,7 @@ class Migrations_v2
     public function acquire_lock(): bool
     {
         $transient_key = "{$this->option_name}_lock";
-        $transient_timeout = 60;
+        $transient_timeout = 300;
 
         // return false if a lock is already active
         $previous_run_start = (int) get_transient($transient_key);
@@ -60,7 +62,7 @@ class Migrations_v2
     public function update_lock(): void
     {
         $transient_key = "{$this->option_name}_lock";
-        $transient_timeout = 60;
+        $transient_timeout = 300;
         set_transient($transient_key, time(), $transient_timeout);
     }
 
@@ -84,9 +86,13 @@ class Migrations_v2
         // try to increase time limit to 5 minutes
         @set_time_limit(300);
 
-        foreach ($pending as $file) {
-            $this->execute($file);
-            $this->update_lock();
+        try {
+            foreach ($pending as $file) {
+                $this->execute($file);
+                $this->update_lock();
+            }
+        } catch (Throwable $e) {
+            error_log("Koko Analytics: error running database migrations. " . (string) $e);
         }
 
         $this->release_lock();
