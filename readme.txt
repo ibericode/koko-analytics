@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.5
 Tested up to: 6.9.4
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -142,7 +142,7 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 
 == Changelog ==
 
-### 2.3.1 - Apr 7, 2026
+### 2.3.2 - Apr 7, 2026
 
 - dashboard: draggable icon now only shows up when hovering table header, not table body
 - database: prevent running database migrations concurrently 
