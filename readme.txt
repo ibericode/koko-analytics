@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.5
 Tested up to: 6.9.4
-Stable tag: 2.2.6
+Stable tag: 2.3.0
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -142,6 +142,21 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 
 == Changelog ==
 
+### 2.3.0 - Apr 7, 2026
+
+- tracking: improved detection of preflight requests and requests from headless browsers. 
+- tracking: add more aggregation rules for google subdomains
+- database: improved migration runner for more reliable database migrations
+- database: use atomic upsert for upserting normalized string values (like paths and referrer urls).
+- database: improved performance for pruning action.
+- shortcode: fix koko_analytics_counter sometimes not working properly when used outside of post content.
+- shortcode: format output of koko_analytics_counter shortcode according to localized number formatting rules.
+- settings: restrict tab query parameter to whitelisted values only
+- ux: allow a custom order of your dashboard components through drag and drop.
+- ux: add direct link to page in the top pages component.
+- ux: styling improvements to the dashboard.
+- dev: add filter koko_analytics_print_html_comments to disable HTML comments with version info.
+
 
 ### 2.2.5 - Mar 18, 2026
 
@@ -155,7 +170,7 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 ### 2.2.4 - Feb 17, 2026
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
-- Fix `[koko_analytics_counter] shortcode no longer working in version 2.2.2 because of lacking function arguments.
+- Fix `[koko_analytics_counter]` shortcode no longer working in version 2.2.2 because of lacking function arguments.
 
 
 ### 2.2.2 - Feb 17, 2026
@@ -767,20 +782,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.1.1 - Oct 3, 2023
 
-- Fix for date table not being created, leading to an empty chart as of v1.1.0.
-
-
-#### Koko Analytics v1.1.0 - Oct 3, 2023
-
-- Switch out Preact for the React version that is bundled with WordPress, reducing bundle size for the admin dashboard by 40 kB (or 30%).
-- Stop showing warning about WP Cron events not running if on local or developer environments.
-- Use the same Browserslist configuration as WordPress core.
-- Performance optimizations for fetching and parsing chart data.
-- Create optimized endpoint for fetching data for the totals component.
-- Settings page is now a server-side rendered page instead of a React component.
-- Improved CSS selector performance.
-- Add public PHP API. You can now call the following functions:
-	- `koko_analytics_get_most_viewed_posts()` to get a list of the most viewed posts.
-	- `koko_analytics_get_realtime_pageview_count('-1 hour')` to get the total number of pageviews in the last hour.
-	- `koko_analytics_track_pageview($post_id)` to track ...
+- Fix for date table not being created, leading to an empty chart ...
 
