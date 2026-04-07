@@ -266,8 +266,13 @@ class Dashboard
 
         $stats = new Stats();
         $posts = $stats->get_posts($date_start, $date_end, $offset, $limit);
-        $count = $stats->count_posts($date_start, $date_end);
-        $sum = $stats->sum_posts($date_start, $date_end);
+        if (count($posts) < $limit && $offset === 0) {
+            $count = count($posts);
+            $sum = array_sum(array_column($posts, 'pageviews'));
+        } else {
+            $count = $stats->count_posts($date_start, $date_end);
+            $sum = $stats->sum_posts($date_start, $date_end);
+        }
         ?>
         <table class="ka-table">
             <thead>
@@ -310,8 +315,13 @@ class Dashboard
         $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
         $stats = new Stats();
         $referrers = $stats->get_referrers($date_start, $date_end, $referrers_offset, $referrers_limit);
-        $referrers_count = $stats->count_referrers($date_start, $date_end);
-        $referrers_sum = $stats->sum_referrers($date_start, $date_end);
+        if (count($referrers) < $referrers_limit && $referrers_offset === 0) {
+            $referrers_count = count($referrers);
+            $referrers_sum = array_sum(array_column($referrers, 'pageviews'));
+        } else {
+            $referrers_count = $stats->count_referrers($date_start, $date_end);
+            $referrers_sum = $stats->sum_referrers($date_start, $date_end);
+        }
         ?>
         <table class="ka-table">
             <thead>
