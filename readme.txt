@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.5
 Tested up to: 6.9.4
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -141,6 +141,14 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 
 
 == Changelog ==
+
+### 2.3.1 - Apr 7, 2026
+
+- dashboard: draggable icon now only shows up when hovering table header, not table body
+- database: prevent running database migrations concurrently 
+- database: try to increase time limit to 300s before running database migrations
+- database: re-acquire and extend acquired lock after every individual database migration step
+
 
 ### 2.3.0 - Apr 7, 2026
 
@@ -771,16 +779,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Remove Pikaday datepicker in favor of native `<input type="date">` elements.
 - Improve mobile view of datepicker dropdown.
 - Exclude (fixed page) homepage from most viewed posts widget/shortcode/function.
-- Add filter hook `koko_analytics_items_per_page` to override the number of items to show per page for the dashboard components.
-- Bump required PHP version to 7.3.
-
-
-#### 1.1.2 - Oct 3, 2023
-
-- Fix broken totals and chart component on sites using a custom database table prefix.
-
-
-#### 1.1.1 - Oct 3, 2023
-
-- Fix for date table not being created, leading to an empty chart ...
+- Add filter hook `koko_analytics_items_per_page` to override the number of items ...
 
