@@ -3,8 +3,17 @@
 if (window.koko_analytics_sortable) {
   var container = document.getElementById('ka-components');
   var dragEl = null;
+  var mouseDownTarget = null;
+
+  container.addEventListener('mousedown', function(evt) {
+    mouseDownTarget = evt.target;
+  });
 
   container.addEventListener('dragstart', function(evt) {
+    if (!mouseDownTarget || !mouseDownTarget.closest('th')) { 
+      evt.preventDefault(); 
+      return; 
+    }
     dragEl = evt.target.closest('.ka-col[draggable]');
     if (!dragEl) return;
     dragEl.classList.add('ka-dragging');
