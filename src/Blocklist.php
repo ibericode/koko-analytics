@@ -6,7 +6,7 @@ namespace KokoAnalytics;
 // TODO: This class should handle the entire blocklist logic, including the filter hook, instead of just providing a method to check if a URL is on the blocklist. This would allow us to remove all blocklist-related code from the Pruner class and keep all blocklist logic in one place.
 class Blocklist
 {
-    protected array $list = [];
+    protected ?array $list = null;
 
     protected function loadFromFile(): array
     {
@@ -20,7 +20,7 @@ class Blocklist
 
     protected function load(): void
     {
-        if (count($this->list) > 0) {
+        if ($this->list !== null) {
             return;
         }
 
