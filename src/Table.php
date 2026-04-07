@@ -64,6 +64,10 @@ class Table
 
     public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'hits'): int
     {
+        if (!in_array($property, ['hits', 'unique_hits'])) {
+            throw new \InvalidArgumentException("Invalid property: {$property}");
+        }
+
         return (int) $this->db->get_var($this->db->prepare(
             "SELECT SUM({$property}) FROM {$this->stats} s WHERE s.date BETWEEN %s AND %s",
             [$start->format('Y-m-d'), $end->format('Y-m-d')]
