@@ -1,6 +1,6 @@
 # Changelog
 
-### 2.3.1 - Apr 7, 2026
+### 2.3.2 - Apr 7, 2026
 
 - dashboard: draggable icon now only shows up when hovering table header, not table body
 - database: prevent running database migrations concurrently 
