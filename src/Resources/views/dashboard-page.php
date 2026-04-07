@@ -173,7 +173,7 @@ $tab = 'dashboard';
     <?php } ?>
 
     <?php $can_sort = current_user_can('manage_koko_analytics'); ?>
-    <div id="ka-components" class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>">
+    <div id="ka-components" class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>" <?= $can_sort ? 'data-nonce="' . esc_attr(wp_create_nonce('koko_analytics_save_component_order')) . '"' : ''; ?>>
         <?php foreach ($this->get_components() as $id => $callback) : ?>
             <div id="<?= esc_attr($id) ?>" class="ka-col" <?= $can_sort ? 'draggable="true"' : ''; ?>>
                 <div class="ka-box">
@@ -186,9 +186,6 @@ $tab = 'dashboard';
         <?php do_action_deprecated('koko_analytics_after_dashboard_components', [$date_start, $date_end], '2.3', 'koko_analytics_dashboard_components'); ?>
     </div><?php // end div.ka-row
     ?>
-    <?php if ($can_sort) : ?>
-        <script>window.koko_analytics_sortable = { nonce: <?= json_encode(wp_create_nonce('koko_analytics_save_component_order')); ?> };</script>
-    <?php endif; ?>
 
     <?php // show section about koko analytics pro unless on pro version already
     ?>

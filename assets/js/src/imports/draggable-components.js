@@ -1,7 +1,7 @@
 
 // drag-and-drop sorting for dashboard components
-if (window.koko_analytics_sortable) {
-  var container = document.getElementById('ka-components');
+var container = document.getElementById('ka-components');
+if (container && container.querySelector('.ka-col[draggable]')) {
   var dragEl = null;
   var mouseDownTarget = null;
 
@@ -44,11 +44,11 @@ if (window.koko_analytics_sortable) {
     dragEl = null;
 
     // collect new order and save
-    const order = Array.from(container.querySelectorAll('.ka-col[draggable]')).map(el => el.id);
-    let body = new FormData();
+    var order = Array.from(container.querySelectorAll('.ka-col[draggable]')).map(el => el.id);
+    var body = new FormData();
     body.append('koko_analytics_action', 'save_component_order');
-    body.append('_nonce', window.koko_analytics_sortable.nonce);
-    order.forEach((id) => {
+    body.append('_nonce', container.dataset.nonce);
+    order.forEach(function(id) {
       body.append('component_order[]', id);
     });
     window.fetch(window.location.href, { method: 'POST', body: body });

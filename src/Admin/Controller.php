@@ -100,7 +100,7 @@ class Controller
         }
 
         wp_enqueue_style('koko-analytics-dashboard', plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION);
-        wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'async']);
+        wp_enqueue_script('koko-analytics-dashboard', plugins_url('assets/js/dashboard.js', KOKO_ANALYTICS_PLUGIN_FILE), [], KOKO_ANALYTICS_VERSION, ['strategy' => 'defer']);
     }
 
     public function action_admin_notices(): void
