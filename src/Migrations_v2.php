@@ -81,6 +81,9 @@ class Migrations_v2
             return;
         }
 
+        // try to increase time limit to 5 minutes
+        @set_time_limit(300);
+
         foreach ($pending as $file) {
             $this->execute($file);
             $this->update_lock();
