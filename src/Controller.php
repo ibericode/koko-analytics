@@ -29,15 +29,7 @@ class Controller
 
     public function action_wp_loaded(): void
     {
-        // Bring users on older versions up to the last semver-based migration (2.2.6.3)
-        $old_db_version = (string) get_option('koko_analytics_version', '');
-        if ($old_db_version) {
-            $this->update_migration_version($old_db_version);
-        }
-
-        // Run integer-based migrations going forward
-        $m = new Migrations_v2(KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/', 'koko_analytics_migrations');
-        $m->run();
+        $this->run_pending_database_migrations();
     }
 
     public function action_init(): void
@@ -108,6 +100,19 @@ class Controller
         }
 
         (new Dashboard_Public())->show();
+    }
+
+    public function run_pending_database_migrations(): void
+    {
+        // Bring users on older versions up to the last semver-based migration (2.2.6.3)
+        $old_db_version = (string) get_option('koko_analytics_version', '');
+        if ($old_db_version) {
+            $this->update_migration_version($old_db_version);
+        }
+
+        // Run integer-based migrations going forward
+        $m = new Migrations_v2(KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/', 'koko_analytics_migrations');
+        $m->run();
     }
 
     protected function update_migration_version(string $old_db_version): void

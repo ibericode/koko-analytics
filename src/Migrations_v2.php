@@ -57,7 +57,7 @@ class Migrations_v2
         return true;
     }
 
-    public function update_lock(): void 
+    public function update_lock(): void
     {
         $transient_key = "{$this->option_name}_lock";
         $transient_timeout = 60;

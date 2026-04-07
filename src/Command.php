@@ -50,4 +50,14 @@ class Command
         (new Actions())->migrate_post_stats_to_v2();
         WP_CLI::success('Post stats migrated');
     }
+
+    /**
+     * @subcommand migrate
+     */
+    public function run_database_migrations(): void
+    {
+        $c = new Controller();
+        $c->run_pending_database_migrations();
+        WP_CLI::success('Database fully migrated');
+    }
 }
