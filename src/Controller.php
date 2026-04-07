@@ -117,7 +117,6 @@ class Controller
 
     protected function update_migration_version(string $old_db_version): void
     {
-
         // set numeric version based on old semver version, so we can run new integer-based migrations
         $map = [
             '1.0.0' => 1,
@@ -143,7 +142,7 @@ class Controller
 
         // only update koko_analytics_migrations if not already set
         // this prevents potentially re-running the migrations a bunch of times
-        if (get_option('koko_analytics_migrations') !== false) {
+        if (get_option('koko_analytics_migrations') === false) {
             update_option('koko_analytics_migrations', $new_db_version, true);
         }
 
