@@ -57,6 +57,13 @@ class Migrations_v2
         return true;
     }
 
+    public function update_lock(): void 
+    {
+        $transient_key = "{$this->option_name}_lock";
+        $transient_timeout = 60;
+        set_transient($transient_key, time(), $transient_timeout);
+    }
+
     public function release_lock(): void
     {
         $transient_key = "{$this->option_name}_lock";
@@ -76,6 +83,7 @@ class Migrations_v2
 
         foreach ($pending as $file) {
             $this->execute($file);
+            $this->update_lock();
         }
 
         $this->release_lock();
