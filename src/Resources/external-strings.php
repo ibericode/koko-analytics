@@ -140,7 +140,7 @@ __('Back to event settings', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/bootstrap.php#40
 __('Events', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Toolbar/Bar.php#55
+// ../koko-analytics-pro/src/Toolbar/Bar.php#49
 __('Pageviews', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Devices/views/dashboard.php#39
