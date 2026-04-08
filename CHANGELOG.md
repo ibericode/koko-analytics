@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.3.3 - Apr 8, 2026
+
+- database: fix table and column value for upserting new referrer URL's.
+
+
 ### 2.3.2 - Apr 7, 2026
 
 - dashboard: draggable icon now only shows up when hovering table header, not table body
