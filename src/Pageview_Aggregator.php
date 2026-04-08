@@ -120,7 +120,7 @@ class Pageview_Aggregator
 
     private function commit_referrer_stats(): void
     {
-        $upserter = new Upserter('referrer_urls', 'url');
+        $upserter = new Upserter('referrer_labels', 'value');
 
         // insert referrer stats
         foreach ($this->referrer_stats as $date => $stats) {

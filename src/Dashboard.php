@@ -311,16 +311,16 @@ class Dashboard
     public function component_referrers(DateTimeInterface $date_start, DateTimeInterface $date_end): void
     {
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $referrers_offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
-        $referrers_limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
+        $offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
+        $limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
         $stats = new Stats();
-        $referrers = $stats->get_referrers($date_start, $date_end, $referrers_offset, $referrers_limit);
-        if (count($referrers) < $referrers_limit && $referrers_offset === 0) {
-            $referrers_count = count($referrers);
-            $referrers_sum = array_sum(array_column($referrers, 'pageviews'));
+        $referrers = $stats->get_referrers($date_start, $date_end, $offset, $limit);
+        if (count($referrers) < $limit && $offset === 0) {
+            $count = count($referrers);
+            $sum = array_sum(array_column($referrers, 'pageviews'));
         } else {
-            $referrers_count = $stats->count_referrers($date_start, $date_end);
-            $referrers_sum = $stats->sum_referrers($date_start, $date_end);
+            $count = $stats->count_referrers($date_start, $date_end);
+            $sum = $stats->sum_referrers($date_start, $date_end);
         }
         ?>
         <table class="ka-table">
@@ -334,9 +334,9 @@ class Dashboard
             </thead>
             <tbody>
                 <?php foreach ($referrers as $i => $r) { ?>
-                    <?php $pct = $referrers_sum > 0 ? round(($r->pageviews / $referrers_sum) * 100, 0) : 0; ?>
+                    <?php $pct = $sum > 0 ? round(($r->pageviews / $sum) * 100, 0) : 0; ?>
                     <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
-                        <td class="text-muted"><?= $referrers_offset + $i + 1; ?></td>
+                        <td class="text-muted"><?= $offset + $i + 1; ?></td>
                         <td class="text-truncate"><?= Fmt::referrer_url_label(esc_html($r->url)); ?></td>
                         <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $r->visitors)); ?></td>
                         <td class="text-end"><?= number_format_i18n($r->pageviews); ?></td>
@@ -349,7 +349,7 @@ class Dashboard
             <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
         <?php } ?>
 
-        <?php $this->pagination('referrers', $referrers_offset, $referrers_limit, $referrers_count); ?>
+        <?php $this->pagination('referrers', $offset, $limit, $count); ?>
         
         <?php
     }
