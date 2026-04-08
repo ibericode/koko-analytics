@@ -13,23 +13,21 @@ class Controller
     {
         add_action('init', [$this, 'maybe_collect_request'], PHP_INT_MIN, 0);
         add_action('init', [$this, 'action_init'], 10, 0);
-        add_action('wp_loaded', [$this, 'action_wp_loaded'], 10, 0);
         add_action('wp', [$this, 'action_wp'], 10, 0);
         add_action('widgets_init', [$this, 'action_widgets_init'], 10, 0);
 
         add_filter('cron_schedules', [$this, 'filter_cron_schedules'], 10, 1);
         add_action('rest_api_init', lazy(Rest::class, 'action_rest_api_init'), 10, 0);
 
+        // run database migrations before aggregating or pruning data
+        add_action('koko_analytics_aggregate_stats', [$this, 'run_pending_database_migrations'], 1, 0);
+        add_action('koko_analytics_prune_data', [$this, 'run_pending_database_migrations'], 1, 0);
+
         add_action('koko_analytics_aggregate_stats', lazy(Aggregator::class, 'run'), 10, 0);
         add_action('koko_analytics_prune_data', lazy(Pruner::class, 'run'), 10, 0);
         add_action('koko_analytics_rotate_fingerprint_seed', lazy(Fingerprinter::class, 'run_daily_maintenance'), 10, 0);
         add_action('koko_analytics_test_custom_endpoint', lazy(Endpoint_Installer::class, 'test'), 10, 0);
         add_action('koko_analytics_update_custom_endpoint', lazy(Endpoint_Installer::class, 'install'), 10, 0);
-    }
-
-    public function action_wp_loaded(): void
-    {
-        $this->run_pending_database_migrations();
     }
 
     public function action_init(): void
