@@ -60,7 +60,7 @@ class Shortcode_Site_Counter
         if (!empty($url_parts['query'])) {
             $path .= '?' . $url_parts['query'];
         }
-    
+
         return Path::normalize($path);
     }
 }
