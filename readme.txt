@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.5
 Tested up to: 6.9.4
-Stable tag: 2.3.3-dev
+Stable tag: 2.3.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -141,6 +141,11 @@ Yes. Koko Analytics is fully compatible with all WordPress caching plugins and s
 
 
 == Changelog ==
+
+### 2.3.3 - Apr 8, 2026
+
+- database: fix table and column value for upserting new referrer URL's.
+
 
 ### 2.3.2 - Apr 7, 2026
 
@@ -778,6 +783,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Format dates in dashboard using `Intl.DateTimeFormat` in browser, if available.
 - Remove Pikaday datepicker in favor of native `<input type="date">` elements.
 - Improve mobile view of datepicker dropdown.
-- Exclude (fixed page) homepage from most viewed posts widget/shortcode/function.
-- Add filter hook `koko_analytics_items_per_page` to override the number of items ...
+- Exclude (fixed page) ...
 
