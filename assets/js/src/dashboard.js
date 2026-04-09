@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   new Chart(document.getElementById('ka-chart'));
 });
 
-
 // save scroll position when navigating away
 function storeScrollPosition() {
     sessionStorage.setItem("scrollX", window.pageXOffset);
