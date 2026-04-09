@@ -113,23 +113,29 @@ class Controller
         /** @var \wpdb $wpdb */
         global $wpdb;
 
+        // table may not exist yet (database migrations only run when viewing dashboard / aggregating stats)
+        if ($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}koko_analytics_post_stats'") === null) {
+            return;
+        }
+
         // Test for unmigrated post id records
         $results = $wpdb->get_var("SELECT COUNT(DISTINCT(post_id)) FROM {$wpdb->prefix}koko_analytics_post_stats WHERE post_id IS NOT NULL AND path_id IS NULL");
-        if ($results) {
-            ?>
-            <div class="notice notice-warning">
-                <p>
-                    <?php esc_html_e('Koko Analytics needs to migrate your page stats to a new storage format.', 'koko-analytics'); ?>
-                    <?php esc_html_e('Click the button below to proceed with the database migration, this can take some time if you have a large site.', 'koko-analytics'); ?>
-                </p>
-                <form action="" method="post">
-                    <input type="hidden" name="koko_analytics_action" value="migrate_post_stats_to_v2">
-                    <p><button type="submit" class="button button-primary"><?php esc_html_e('Migrate', 'koko-analytics'); ?></button></p>
-                </form>
-                <p class="help description text-muted"><?php esc_html_e('We recommend making a back-up of your Koko Analytics database tables before running the migration.', 'koko-analytics'); ?></p>
-                <p class="help description text-muted"><?php esc_html_e('You can also run the migration using WP CLI: ', 'koko-analytics'); ?> <code>wp koko-analytics migrate_post_stats_to_v2</code></p>
-            </div>
-            <?php
+        if (!$results) {
+            return;
         }
+        ?>
+        <div class="notice notice-warning">
+            <p>
+                <?php esc_html_e('Koko Analytics needs to migrate your page stats to a new storage format.', 'koko-analytics'); ?>
+                <?php esc_html_e('Click the button below to proceed with the database migration, this can take some time if you have a large site.', 'koko-analytics'); ?>
+            </p>
+            <form action="" method="post">
+                <input type="hidden" name="koko_analytics_action" value="migrate_post_stats_to_v2">
+                <p><button type="submit" class="button button-primary"><?php esc_html_e('Migrate', 'koko-analytics'); ?></button></p>
+            </form>
+            <p class="help description text-muted"><?php esc_html_e('We recommend making a back-up of your Koko Analytics database tables before running the migration.', 'koko-analytics'); ?></p>
+            <p class="help description text-muted"><?php esc_html_e('You can also run the migration using WP CLI: ', 'koko-analytics'); ?> <code>wp koko-analytics migrate_post_stats_to_v2</code></p>
+        </div>
+        <?php
     }
 }
