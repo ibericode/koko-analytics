@@ -7,7 +7,7 @@ defined('ABSPATH') or exit; ?>
 <!-- This dashboard is powered by Koko Analytics: privacy-friendly website analytics for WordPress sites. Find out more at https://www.kokoanalytics.com/ -->
 <?php endif; ?>
 <!DOCTYPE html>
-<html lang="<?= bloginfo('language'); ?>">
+<html lang="<?= esc_attr(bloginfo('language')); ?>">
 <head>
     <meta name="charset" content="<?= bloginfo('charset'); ?>">
     <link rel="stylesheet" href="<?= plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?= KOKO_ANALYTICS_VERSION; ?>">
@@ -15,15 +15,15 @@ defined('ABSPATH') or exit; ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>Koko Analytics</title>
+    <meta name="theme-color" content="#B60205">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Koko Analytics">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="<?= plugins_url('assets/img/apple-touch-icon.png', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="manifest" href="<?= plugins_url('assets/manifest.json', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
     <link rel="shortcut icon" href="<?= plugins_url('assets/img/favicon.ico', KOKO_ANALYTICS_PLUGIN_FILE); ?>">
-    <link rel="canonical" href="<?= site_url('/koko-analytics-dashboard/'); ?>">
+    <link rel="canonical" href="<?= home_url('/koko-analytics-dashboard/'); ?>">
     <meta name="robots" content="nofollow, noindex">
-    <meta name="theme-color" content="#B60205">
 </head>
 <body class="koko-analytics">
     <?php parent::show(); // @phpstan-ignore-line ?>

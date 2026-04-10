@@ -187,8 +187,7 @@ $tab = 'dashboard';
     </div><?php // end div.ka-row
     ?>
 
-    <?php // show section about koko analytics pro unless on pro version already
-    ?>
+    <?php // show section about koko analytics pro unless on pro version already ?>
     <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
         <?php if (current_user_can('manage_koko_analytics')) : ?>
             <div class="p-3 rounded" style="background: #fff3cd;">
