@@ -5,7 +5,7 @@ This directory contains a collection of code snippets to modify or extend the de
 You can copy these snippets into a custom plugin or in your active theme its `functions.php` file.
 Our recommendation is to create a file called `/wp-content/plugins/koko-analytics-modifications.php` with the following file contents:
 
-Please read [modifying Koko Analytics using filter hooks](https://www.kokoanalytics.com/kb/modifying-koko-analytics-using-filter-hooks/) if you're unusure how to use any of these snippets.
+Please read [modifying Koko Analytics using filter hooks](https://www.kokoanalytics.com/docs/developers/modifying-koko-analytics-using-filter-hooks/) if you're unusure how to use any of these snippets.
 
 ```php
 <?php
@@ -19,4 +19,4 @@ Please read [modifying Koko Analytics using filter hooks](https://www.kokoanalyt
 
 ## More help articles and documentation
 
-Please visit the [Koko Analytics knowledge base](https://www.kokoanalytics.com/kb/) for some more general help articles on effectively using the plugin.
+Please visit the [Koko Analytics knowledge base](https://www.kokoanalytics.com/docs/) for some more general help articles on effectively using the plugin.

@@ -79,7 +79,7 @@ View your website analytics under **WP Admin > Dashboard > Analytics**.
 
 == Frequently Asked Questions ==
 
-For more information, visit the [Koko Analytics website](https://www.kokoanalytics.com/) or check out our [documentation](https://www.kokoanalytics.com/kb/).
+For more information, visit the [Koko Analytics website](https://www.kokoanalytics.com/) or check out our [documentation](https://www.kokoanalytics.com/docs/).
 
 #### Does Koko Analytics set any cookies?
 
@@ -87,7 +87,7 @@ By default it does, but you can disable the use of cookies in the settings.
 
 If using cookies, Koko Analytics sets a single `_koko_analytics_pages_viewed` cookie (max 24h lifetime) to detect unique visitors without storing personal data.
 
-More info: [Does Koko Analytics use cookies?](https://www.kokoanalytics.com/kb/does-koko-analytics-use-cookies/)
+More info: [Does Koko Analytics use cookies?](https://www.kokoanalytics.com/docs/faq/does-koko-analytics-use-cookies/)
 
 #### Will using Koko Analytics slow down my site?
 
@@ -425,7 +425,7 @@ This release introduces path based tracking and improved dashboard styles. If yo
 
 #### 1.8.0 - Jun 12, 2025
 
-- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
+- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/).
 - If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
 - Simplified client-side tracking script so it's now smaller than 500 bytes.
 - Excluded IP addresses now work properly with the optimized endpoint.

@@ -283,7 +283,7 @@ This release introduces path based tracking and improved dashboard styles. If yo
 
 #### 1.8.0 - Jun 12, 2025
 
-- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/kb/cookie-vs-cookieless-tracking-methods).
+- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/).
 - If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
 - Simplified client-side tracking script so it's now smaller than 500 bytes.
 - Excluded IP addresses now work properly with the optimized endpoint.

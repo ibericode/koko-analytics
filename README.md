@@ -95,7 +95,7 @@ npm run build
 
 Once activated, visit Dashboard → Analytics in WordPress to view your stats.
 
-See our [knowledge base](https://www.kokoanalytics.com/kb/) for more documentation, sample code snippets and general usage tips.
+See our [knowledge base](https://www.kokoanalytics.com/docs/) for more documentation, sample code snippets and general usage tips.
 
 If you run into issues or have any questions, [open a topic on the WordPress.org plugin support forums](https://wordpress.org/support/plugin/koko-analytics/).
 
