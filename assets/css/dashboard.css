@@ -173,8 +173,8 @@ body.koko-analytics {
 }
 
 /* drag-and-drop sorting */
-.ka-col[draggable] th { cursor: grab; }
-.ka-col[draggable] th:active { cursor: grabbing; }
+.ka-col[data-sortable] th { cursor: grab; }
+.ka-col[data-sortable] th:active { cursor: grabbing; }
 .ka-col.ka-dragging { opacity: 0.4; }
 /* end drag-and-drop sorting */
 

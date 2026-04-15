@@ -1,21 +1,31 @@
 
 // drag-and-drop sorting for dashboard components
-var container = document.getElementById('ka-components');
-if (container && container.querySelector('.ka-col[draggable]')) {
-  var dragEl = null;
-  var mouseDownTarget = null;
+let container = document.getElementById('ka-components');
+if (container && container.querySelector('.ka-col[data-sortable]')) {
+  let dragEl = null;
+  let cols = container.querySelectorAll('.ka-col[data-sortable]');
 
+  // only enable draggable when mousedown occurs on a th (the drag handle)
   container.addEventListener('mousedown', function(evt) {
-    mouseDownTarget = evt.target;
+    if (evt.target.closest('th')) {
+      let col = evt.target.closest('.ka-col');
+      if (col) { 
+        col.draggable = true; 
+      }
+    }
+  });
+
+  document.addEventListener('mouseup', function() {
+    cols.forEach(col => { 
+      col.draggable = false; 
+    });
   });
 
   container.addEventListener('dragstart', function(evt) {
-    if (!mouseDownTarget || !mouseDownTarget.closest('th')) { 
-      evt.preventDefault(); 
-      return; 
+    dragEl = evt.target.closest('.ka-col');
+    if (!dragEl) {
+      return;
     }
-    dragEl = evt.target.closest('.ka-col[draggable]');
-    if (!dragEl) return;
     dragEl.classList.add('ka-dragging');
     evt.dataTransfer.effectAllowed = 'move';
   });
@@ -23,7 +33,7 @@ if (container && container.querySelector('.ka-col[draggable]')) {
   container.addEventListener('dragover', function(evt) {
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'move';
-    var target = evt.target.closest('.ka-col[draggable]');
+    let target = evt.target.closest('.ka-col');
     if (!target || target === dragEl) return;
 
     // determine if dragEl is currently before or after target in DOM
@@ -43,12 +53,15 @@ if (container && container.querySelector('.ka-col[draggable]')) {
     dragEl.classList.remove('ka-dragging');
     dragEl = null;
 
+    // reset draggable
+    cols.forEach(function(col) { col.draggable = false; });
+
     // collect new order and save
-    var order = Array.from(container.querySelectorAll('.ka-col[draggable]')).map(el => el.id);
-    var body = new FormData();
+    let order = Array.from(cols).map(el => el.id);
+    let body = new FormData();
     body.append('koko_analytics_action', 'save_component_order');
     body.append('_nonce', container.dataset.nonce);
-    order.forEach(function(id) {
+    order.forEach((id) => {
       body.append('component_order[]', id);
     });
     window.fetch(window.location.href, { method: 'POST', body: body });
