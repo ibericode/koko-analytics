@@ -70,7 +70,7 @@ You will have access to all of these benefits and more for a small yearly fee.
 
 ### Requirements
 
-- WordPress 6.5+
+- WordPress 6.0+
 - PHP 7.4+ (latest recommended)
 
 ### Install from WordPress.org

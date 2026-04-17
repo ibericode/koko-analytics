@@ -1,7 +1,7 @@
 === Koko Analytics - Privacy Friendly Statistics for WordPress ===
 Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
-Requires at least: 6.5
+Requires at least: 6.0
 Tested up to: 6.9.4
 Stable tag: 2.3.3
 License: GPL-3.0-or-later
@@ -122,14 +122,14 @@ Koko Analytics is fully compatible with all sorts of caches.
 
 == Screenshots ==
 
-1: A good looking analytics dashboard right inside your WordPress admin
-2: View analytics over the past 2 weeks directly after logging in
-3: Configure all tracking related settings.
-4: Customize what your analytics dashboard looks like.
-5: Register custom events for tailored analytics. [Pro]
-6: Configure periodic email reports or traffic spike notification. [Pro]
-7: You own your data. Export or import at will.
-8: Show your most viewed posts in a widget.
+1. A good looking analytics dashboard right inside your WordPress admin
+2. View analytics over the past 2 weeks directly after logging in
+3. Configure all tracking related settings.
+4. Customize what your analytics dashboard looks like.
+5. Register custom events for tailored analytics. [Pro]
+6. Configure periodic email reports or traffic spike notification. [Pro]
+7. You own your data. Export or import at will.
+8. Show your most viewed posts in a widget.
 9. See exactly where your website is visited from or what browsers, operating system or devices your visitors are using. [Pro]
 
 == Changelog ==
