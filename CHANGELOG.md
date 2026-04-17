@@ -383,10 +383,6 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Make all strings from Jetpack Importer feature translatable. Thanks to [Alex Lion](https://alexclassroom.com/).
 - Fix REST API routes returning a HTTP 500 error if called without a `start_date` parameter.
 
-PS. We've started the works on a [standalone version of Koko Analytics](https://github.com/koko-analytics/koko-analytics/) that allows you to track non-WordPress sites.
-
-You can read some more about it on Danny's personal blog: https://www.dannyvankooten.com/blog/2025/building-privacy-friendly-website-analytics/
-
 
 #### 1.5.5 - Jan 10, 2025
 
@@ -585,7 +581,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Fix arrow-key or arrow-icon navigation when viewing a single day of data.
 - Automatically refresh dashboard data every 60s.
 - Improve dashboard widget by showing a summary of today.
-- Added filter hook `koko_analytics_dashboard_widget_number_of_top_items` to [modify or disable the top pages and referrers in the dashboard widget](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/modify-dashboard-widget/README.md).
+- Added filter hook `koko_analytics_dashboard_widget_number_of_top_items` to [modify or disable the top pages and referrers in the dashboard widget](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/modify-dashboard-widget/README.md).
 - The `[koko_analytics_most_viewed_posts]` shortcode now shows a debug message if the arguments did not lead to any results.
 
 
@@ -594,7 +590,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Fix new visitors not being counted.
 - Fix dashboard issues for users with a large UTC timezone offset.
 - Fix date format in chart component if grouping by month.
-- Revert to blue colors for the chart. If you want your chart to use different colors, please see this [example code snippet on how to change colors](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/change-chart-colors.php).
+- Revert to blue colors for the chart. If you want your chart to use different colors, please see this [example code snippet on how to change colors](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/change-chart-colors.php).
 - Change dashboard widget to show just a quick summary of today.
 - Show some feedback after using the "create optimized endpoint" button.
 
@@ -730,8 +726,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Decrease Cache-Control header of REST API responses to 60s.
 - Add button to reset all statistics.
 - Add filter `koko_analytics_url_aggregations` to modify or add URL aggregations for referrer URL's.
-- Created an initiative on OpenCollective for others to help fund development and support costs of Koko Analytics. Please visit https://opencollective.com/koko-analytics for more details.
-
+- Created an initiative on OpenCollective for others to help fund development and support costs of Koko Analytics. 
 
 #### 1.0.32 - Jun 2, 2022
 
@@ -742,7 +737,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 - Delete option `koko_analytics_use_custom_endpoint` on plugin uninstall.
 - Only load dashboard-widget.js if user has required capability for viewing stats.
-- Add constant `KOKO_ANALYTICS_CUSTOM_ENDPOINT` for  [disabling the custom endpoint](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/disable-custom-endpoint.php) entirely. This filter can also be used to [manually install the endpoint file to a different file location](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/use-different-custom-endpoint.php).
+- Add constant `KOKO_ANALYTICS_CUSTOM_ENDPOINT` for  [disabling the custom endpoint](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/disable-custom-endpoint.php) entirely. This filter can also be used to [manually install the endpoint file to a different file location](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/use-different-custom-endpoint.php).
 - Re-attempt installation of the custom endpoint file every hour. This also automatically re-tests whether the custom endpoint is still working as expected. The plugin already did this whenever you visited the dashboard page, but now it simply runs more often and without requiring you to log-in to your WordPress admin.
 
 
@@ -863,8 +858,8 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Update referrer blocklist.
 - Use `wp.i18n` for managing translations in JavaScript files.
 - Bump table row count up to 25 per page.
-- Add filter hook: `koko_analytics_referrer_blocklist` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/add-domains-to-referrer-blocklist.php))
-- Add filter hook: `koko_analytics_ignore_referrer_url` ([example](https://github.com/ibericode/koko-analytics/blob/master/code-snippets/ignore-some-referrer-urls.php))
+- Add filter hook: `koko_analytics_referrer_blocklist` ([example](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/add-domains-to-referrer-blocklist.php))
+- Add filter hook: `koko_analytics_ignore_referrer_url` ([example](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/ignore-some-referrer-urls.php))
 
 
 #### 1.0.13 - May 28, 2020
@@ -1000,7 +995,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 
 - Add dashboard widget showing site visits over last 14 days.
 - Add widget for showing most viewed posts, pages or any other post type over a given period.
-- Add `[koko_analytics_most_viewed_posts]` shortcode.
+- Add `koko_analytics_most_viewed_posts` shortcode.
 - Add pagination to tables showing top posts and top referrers.
 - Add settings link to plugin row on plugins overview page in WP admin.
 - Use ASCII for storing textual data. Fixes an issue with error message "specified key is too long" on some MySQL installations when the charset is `utf8mb4`.
