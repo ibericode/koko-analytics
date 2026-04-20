@@ -28,10 +28,17 @@ class Pruner
 
         $date = (new \DateTime("-{$settings['prune_data_after_months']} months", wp_timezone()))->format('Y-m-d');
 
-        // delete stats older than date above
-        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_site_stats WHERE date < %s", $date));
-        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_post_stats WHERE date < %s", $date));
-        $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}koko_analytics_referrer_stats WHERE date < %s", $date));
+        // delete stats older than date above, in chunks to avoid long-running transactions
+        $tables = [
+            'koko_analytics_site_stats',
+            'koko_analytics_post_stats',
+            'koko_analytics_referrer_stats',
+        ];
+        foreach ($tables as $table) {
+            do {
+                $affected = $this->db->query($this->db->prepare("DELETE FROM {$this->db->prefix}{$table} WHERE date < %s LIMIT 10000", $date));
+            } while ($affected > 0);
+        }
 
         $this->delete_orphaned_referrer_urls();
         $this->delete_orphaned_paths();

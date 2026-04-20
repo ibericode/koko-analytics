@@ -1,6 +1,6 @@
 <?php
 
-use KokoAnalytics\Admin\Actions;
+use KokoAnalytics\Post_Stats_Migrator;
 
 defined('ABSPATH') or exit;
 
@@ -9,5 +9,5 @@ global $wpdb;
 
 $count = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}koko_analytics_post_stats");
 if ($count && $count < 25000) {
-    (new Actions())->fix_post_paths_after_v2();
+    (new Post_Stats_Migrator())->fix_paths();
 }

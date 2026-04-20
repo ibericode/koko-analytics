@@ -8,7 +8,6 @@
 
 namespace KokoAnalytics;
 
-use KokoAnalytics\Admin\Actions;
 use WP_CLI;
 
 class Command
@@ -47,7 +46,7 @@ class Command
     public function migrate_post_stats_to_v2($args, $assoc_args)
     {
         WP_CLI::line('Migrating post stats...');
-        (new Actions())->migrate_post_stats_to_v2();
+        (new Post_Stats_Migrator())->migrate_to_v2();
         WP_CLI::success('Post stats migrated');
     }
 

@@ -130,6 +130,7 @@ class Controller
                 <?php esc_html_e('Click the button below to proceed with the database migration, this can take some time if you have a large site.', 'koko-analytics'); ?>
             </p>
             <form action="" method="post">
+                <?php wp_nonce_field('koko_analytics_migrate_post_stats_to_v2'); ?>
                 <input type="hidden" name="koko_analytics_action" value="migrate_post_stats_to_v2">
                 <p><button type="submit" class="button button-primary"><?php esc_html_e('Migrate', 'koko-analytics'); ?></button></p>
             </form>
