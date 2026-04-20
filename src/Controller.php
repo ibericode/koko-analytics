@@ -93,8 +93,16 @@ class Controller
 
     protected function maybe_show_dashboard(): void
     {
-        if (! isset($_GET['koko-analytics-dashboard']) && ! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
-            return;
+        if (get_option('permalink_structure', false)) {
+            // do nothing if url not matches
+            if (! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
+                return;
+            }
+        } else {
+            // do nothing if query string not set
+            if (! isset($_GET['koko-analytics-dashboard'])) {
+                return;
+            }
         }
 
         (new Dashboard_Public())->show();

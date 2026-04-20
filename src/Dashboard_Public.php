@@ -31,7 +31,7 @@ class Dashboard_Public extends Dashboard
         header("X-Robots-Tag: noindex, nofollow");
         if (is_user_logged_in()) {
             header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
-        } elseif (isset($_GET['end_date'], $_GET['start_date']) && $_GET['end_date'] < date('Y-m-d')) {
+        } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) && $_GET['end_date'] < date('Y-m-d')) {
             header("Cache-Control: public, max-age=68400");
         } else {
             header("Cache-Control: public, max-age=60");
