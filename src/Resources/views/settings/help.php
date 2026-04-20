@@ -5,6 +5,7 @@
         <li><?php printf(esc_html__('Have a look at our %1$sknowledge base%2$s for help with configuring and using Koko Analytics.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/docs/" target="_blank">', '</a>'); ?></li>
         <li><?php printf(esc_html__('Go through our %1$srepository of sample code snippets%2$s for inspiration on modifying the default Koko Analytics behavior.', 'koko-analytics'), '<a href="https://github.com/ibericode/koko-analytics/tree/main/code-snippets" target="_blank">', '</a>'); ?></li>
         <li><?php printf(esc_html__('Vote on %1$snew features you would like to have in Koko Analytics%2$s.', 'koko-analytics'), '<a href="https://github.com/ibericode/koko-analytics/discussions?discussions_q=is%3Aopen+sort%3Atop" target="_blank">', '</a>'); ?></li>
+        <li><?php printf(esc_html__('%1$sOpen a topic on the WordPress.org plugin support forums%2$s', 'koko-analytics'), '<a href="https://wordpress.org/support/plugin/koko-analytics/">', '</a>'); ?></li>
     </ul>
 </div>
 

@@ -3,9 +3,12 @@
 
 ### 2.3.4 - Apr 20, 2026
 
-- Fix access to Jetpack and Plausible importer pages.
-- Make table rows selectable again.
-- 
+- fix: access to Jetpack and Plausible importer pages.
+- fix: database warning because of unexisting table on fresh installs.
+- ux: table rows selectable again.
+- seo: remove canonical URL from public dashboard (because it is already noindex).
+- database: change default database purge treshold to 3 years (down from 5).
+- dashboard: don't listen to query string argument for public dashboard if pretty permalinks are enabled.
 
 
 ### 2.3.3 - Apr 8, 2026
