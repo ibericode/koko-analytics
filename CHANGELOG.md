@@ -1,5 +1,13 @@
 # Changelog
 
+
+### 2.3.4 - Apr 20, 2026
+
+- Fix access to Jetpack and Plausible importer pages.
+- Make table rows selectable again.
+- 
+
+
 ### 2.3.3 - Apr 8, 2026
 
 - database: fix table and column value for upserting new referrer URL's.

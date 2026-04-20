@@ -7,7 +7,7 @@ namespace KokoAnalytics\Tests;
 use KokoAnalytics\Migrations_v2;
 use PHPUnit\Framework\TestCase;
 
-final class MigrationsTest extends TestCase
+final class Migrations_v2_Test extends TestCase
 {
     public function testWithAllMigrationsPending(): void
     {
