@@ -1,4 +1,5 @@
 const ka = window.koko_analytics;
+let tracked = false;
 
 ka.trackPageview = function(path, post_id) {
   if (
@@ -25,14 +26,29 @@ ka.trackPageview = function(path, post_id) {
   }));
 };
 
-// autotrack pageview on page load, but only if the page is visible (e.g. not in a background tab)
-// we also track if the page becomes visible later (e.g. user switches to the tab), but only once per page load
-let autotracked = false;
-const autotrack = () => {
-  if (! autotracked && document.visibilityState === 'visible') {
-    ka.trackPageview(ka.path, ka.post_id);
-    autotracked = true;
-  }
+function trackCurrentPageview() {
+  tracked = true;
+  ka.trackPageview(ka.path, ka.post_id);
 }
-document.addEventListener("visibilitychange", autotrack);
-window.addEventListener('load',autotrack);
+
+if (
+  document.visibilityState === 'hidden' ||
+  document.visibilityState === 'prerender'
+) {
+  // Track page as soon as it becomes visible
+  document.addEventListener('visibilitychange', () => {
+    if (!tracked && document.visibilityState === 'visible') {
+      trackCurrentPageview();
+    }
+  });
+} else {
+  // Otherwise, track page right away
+  trackCurrentPageview();
+}
+
+// Track pageviews for pages restored from bfcache
+window.addEventListener('pageshow', (evt) => {
+    if (evt.persisted) {
+      trackCurrentPageview();
+    }
+});
