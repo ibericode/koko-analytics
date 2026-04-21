@@ -56,7 +56,11 @@ class Command
     public function run_database_migrations(): void
     {
         $c = new Controller();
-        $c->run_pending_database_migrations();
-        WP_CLI::success('Database fully migrated');
+        if ($c->ensure_database_ready()) {
+            WP_CLI::success('Database fully migrated');
+            return;
+        }
+
+        WP_CLI::warning('Database migrations did not complete in this request. They may already be running elsewhere.');
     }
 }

@@ -20,7 +20,7 @@ class Controller
         add_action('rest_api_init', lazy(Rest::class, 'action_rest_api_init'), 10, 0);
 
         // run database migrations before pruning data
-        add_action('koko_analytics_prune_data', [$this, 'run_pending_database_migrations'], 1, 0);
+        add_action('koko_analytics_prune_data', [$this, 'ensure_database_ready'], 1, 0);
 
         add_action('koko_analytics_aggregate_stats', [$this, 'aggregate_stats'], 10, 0);
         add_action('koko_analytics_prune_data', lazy(Pruner::class, 'run'), 10, 0);
@@ -107,11 +107,6 @@ class Controller
         (new Dashboard_Public())->show();
     }
 
-    public function run_pending_database_migrations(): void
-    {
-        $this->ensure_database_ready();
-    }
-
     public function aggregate_stats(): void
     {
         if (! $this->ensure_database_ready()) {
@@ -121,7 +116,7 @@ class Controller
         (new Aggregator())->run();
     }
 
-    protected function ensure_database_ready(): bool
+    public function ensure_database_ready(): bool
     {
         // Bring users on older versions up to the last semver-based migration (2.2.6.3)
         $old_db_version = (string) get_option('koko_analytics_version', '');

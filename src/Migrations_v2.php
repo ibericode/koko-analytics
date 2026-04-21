@@ -72,6 +72,12 @@ class Migrations_v2
         delete_transient($transient_key);
     }
 
+    /**
+     * Potentially runs all pending database migrations.
+     * Only returns true if database is at current version.
+     *
+     * @return bool
+     */
     public function ensure_current(): bool
     {
         $pending = $this->get_pending();
@@ -99,11 +105,6 @@ class Migrations_v2
         }
 
         return count($this->get_pending()) === 0;
-    }
-
-    public function run(): void
-    {
-        $this->ensure_current();
     }
 
     /**
