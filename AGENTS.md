@@ -8,6 +8,8 @@ This file contains repo-specific guidance for agents and contributors working in
 - Prefer the smallest correct change.
 - When changing JavaScript, treat `assets/js/src/*.js` as the source of truth.
 - `assets/js/*.js` is generated output and should be rebuilt, not hand-edited.
+- After agent-made code changes, run the relevant validation commands before finishing.
+- Do not report code work as complete if a required validation step has not been run, or if it is still failing.
 
 ## JS Workflow
 
@@ -72,6 +74,14 @@ vendor/bin/phpunit tests/RestTest.php
 - PHP logic change: usually `composer check-syntax` then `composer static-analysis`
 - Behavior change with test coverage nearby: run the relevant `vendor/bin/phpunit tests/...` file
 - Broad PHP change or before finishing substantial backend work: `composer check-all`
+
+## Completion Rules
+
+- For any PHP code change, before finishing: run `composer check-syntax` and `composer static-analysis`.
+- For any PHP code change with nearby or updated tests, also run the most relevant `vendor/bin/phpunit tests/...` command or `composer test`.
+- For any JS code change, before finishing: run `npm run lint` and `npm run build`.
+- If a validation command fails, either fix the issue and rerun it, or clearly stop and report the failure.
+- Do not rely on a previous successful run from earlier in the conversation after making additional edits; rerun the affected checks.
 
 ## Notes
 

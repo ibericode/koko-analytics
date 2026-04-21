@@ -41,7 +41,7 @@ final class Migrations_v2_Test extends TestCase
     public function testRun(): void
     {
         $m = new Migrations_v2(__DIR__ . '/migrations', 'koko_analytics_version');
-        $m->run();
+        self::assertTrue($m->ensure_current());
         self::assertEquals(10, get_option('koko_analytics_version'));
         self::assertEquals([], $m->get_pending());
         delete_option('koko_analytics_version');

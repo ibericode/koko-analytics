@@ -20,7 +20,7 @@ class Controller
         add_action('rest_api_init', lazy(Rest::class, 'action_rest_api_init'), 10, 0);
 
         // run database migrations before pruning data
-        add_action('koko_analytics_prune_data', [$this, 'ensure_database_ready'], 1, 0);
+        add_action('koko_analytics_prune_data', [$this, 'maybe_run_database_migrations'], 1, 0);
 
         add_action('koko_analytics_aggregate_stats', [$this, 'aggregate_stats'], 10, 0);
         add_action('koko_analytics_prune_data', lazy(Pruner::class, 'run'), 10, 0);
@@ -114,6 +114,11 @@ class Controller
         }
 
         (new Aggregator())->run();
+    }
+
+    public function maybe_run_database_migrations(): void
+    {
+        $this->ensure_database_ready();
     }
 
     public function ensure_database_ready(): bool
