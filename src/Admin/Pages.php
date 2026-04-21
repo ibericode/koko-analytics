@@ -109,6 +109,7 @@ class Pages
             return true;
         }
 
-        return $next_scheduled && $next_scheduled > (time() - 40 * 60);
+        // event should be no older than 1 hour
+        return $next_scheduled && $next_scheduled > (time() - 3600);
     }
 }

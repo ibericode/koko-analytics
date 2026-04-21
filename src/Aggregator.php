@@ -19,8 +19,6 @@ class Aggregator
      */
     public function run(): void
     {
-        update_option('koko_analytics_last_aggregation_at', \time(), true);
-
         $buffer_file = get_buffer_filename();
 
         // if buffer file does not exist, nothing happened since last aggregation
@@ -81,5 +79,7 @@ class Aggregator
         // tell aggregators to write their results to the database
         $pageview_aggregator->finish();
         do_action('koko_analytics_aggregate_finish');
+
+        update_option('koko_analytics_last_aggregation_at', \time(), false);
     }
 }
