@@ -25,7 +25,7 @@ class Command
     public function aggregate($args, $assoc_args)
     {
         WP_CLI::line('Aggregating data...');
-        (new Aggregator())->run();
+        (new Controller())->aggregate_stats();
         WP_CLI::success('Data aggregated');
     }
 

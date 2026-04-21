@@ -19,11 +19,10 @@ class Controller
         add_filter('cron_schedules', [$this, 'filter_cron_schedules'], 10, 1);
         add_action('rest_api_init', lazy(Rest::class, 'action_rest_api_init'), 10, 0);
 
-        // run database migrations before aggregating or pruning data
-        add_action('koko_analytics_aggregate_stats', [$this, 'run_pending_database_migrations'], 1, 0);
+        // run database migrations before pruning data
         add_action('koko_analytics_prune_data', [$this, 'run_pending_database_migrations'], 1, 0);
 
-        add_action('koko_analytics_aggregate_stats', lazy(Aggregator::class, 'run'), 10, 0);
+        add_action('koko_analytics_aggregate_stats', [$this, 'aggregate_stats'], 10, 0);
         add_action('koko_analytics_prune_data', lazy(Pruner::class, 'run'), 10, 0);
         add_action('koko_analytics_rotate_fingerprint_seed', lazy(Fingerprinter::class, 'run_daily_maintenance'), 10, 0);
         add_action('koko_analytics_test_custom_endpoint', lazy(Endpoint_Installer::class, 'test'), 10, 0);
@@ -110,6 +109,20 @@ class Controller
 
     public function run_pending_database_migrations(): void
     {
+        $this->ensure_database_ready();
+    }
+
+    public function aggregate_stats(): void
+    {
+        if (! $this->ensure_database_ready()) {
+            return;
+        }
+
+        (new Aggregator())->run();
+    }
+
+    protected function ensure_database_ready(): bool
+    {
         // Bring users on older versions up to the last semver-based migration (2.2.6.3)
         $old_db_version = (string) get_option('koko_analytics_version', '');
         if ($old_db_version) {
@@ -118,7 +131,7 @@ class Controller
 
         // Run integer-based migrations going forward
         $m = new Migrations_v2(KOKO_ANALYTICS_PLUGIN_DIR . '/migrations/', 'koko_analytics_migrations');
-        $m->run();
+        return $m->ensure_current();
     }
 
     protected function update_migration_version(string $old_db_version): void
