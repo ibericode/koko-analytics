@@ -1,5 +1,4 @@
 const ka = window.koko_analytics;
-let tracked = false;
 
 ka.trackPageview = function(path, post_id) {
   if (
@@ -26,29 +25,12 @@ ka.trackPageview = function(path, post_id) {
   }));
 };
 
-function trackCurrentPageview() {
-  tracked = true;
-  ka.trackPageview(ka.path, ka.post_id);
-}
-
-if (
-  document.visibilityState === 'hidden' ||
-  document.visibilityState === 'prerender'
-) {
-  // Track page as soon as it becomes visible
-  document.addEventListener('visibilitychange', () => {
-    if (!tracked && document.visibilityState === 'visible') {
-      trackCurrentPageview();
-    }
-  });
-} else {
-  // Otherwise, track page right away
-  trackCurrentPageview();
-}
+// Track page immediately, including when opened in a background tab.
+ka.trackPageview(ka.path, ka.post_id);
 
 // Track pageviews for pages restored from bfcache
 window.addEventListener('pageshow', (evt) => {
-    if (evt.persisted) {
-      trackCurrentPageview();
-    }
+  if (evt.persisted) {
+    ka.trackPageview(ka.path, ka.post_id);
+  }
 });
