@@ -15,14 +15,6 @@ class Script_Loader
     // WARNING: is used in Koko Analytics Pro (in its static form)
     public static function get_request_path(): string
     {
-        if (is_singular()) {
-            $path = parse_url(wp_get_canonical_url(get_queried_object()), PHP_URL_PATH);
-            if ($path !== false) {
-                return Path::normalize($path);
-            }
-        }
-
-        // otherwise, use REQUEST_URI
         return Path::normalize($_SERVER["REQUEST_URI"] ?? '');
     }
 

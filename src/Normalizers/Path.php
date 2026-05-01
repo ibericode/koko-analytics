@@ -6,7 +6,14 @@ class Path
 {
     public static function get_allowed_query_vars(): array
     {
-        return apply_filters('koko_analytics_allowed_query_vars', ['page_id', 'p', 'tag', 'cat', 'product', 'attachment_id']);
+        // TODO: Should we allow "s" here?
+        if (get_option('permalink_structure', false)) {
+            $allowed_query_vars = [];
+        } else {
+            $allowed_query_vars = ['page_id', 'p', 'tag', 'cat', 'product', 'attachment_id'];
+        }
+
+        return apply_filters('koko_analytics_allowed_query_vars', $allowed_query_vars);
     }
 
     public static function normalize(string $value): string
@@ -18,14 +25,14 @@ class Path
 
         // if URL contains query string, parse it and only keep certain parameters
         if (($pos = strpos($value, '?')) !== false) {
+            // replace with new, sanitized URL part
             $query_str = substr($value, $pos + 1);
             $value = substr($value, 0, $pos + 1);
-
             $params = [];
             parse_str($query_str, $params);
             $value .= http_build_query(array_intersect_key($params, array_flip(self::get_allowed_query_vars())));
 
-            // trim trailing question mark & replace url with new sanitized url
+            // trim trailing question mark
             $value = rtrim($value, '?');
         }
 
