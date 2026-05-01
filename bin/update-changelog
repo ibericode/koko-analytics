@@ -17,7 +17,7 @@ fi
 {
     head -n "$SECTION_LINE" "$README"
     tail -n +3 "$CHANGELOG" | head -100
-    echo "View complete changelog at https://www.kokoanalytics.com/changelog/"
+    echo "View complete changelog at [kokoanalytics.com/changelog](https://www.kokoanalytics.com/changelog/)."
 } > "$README.tmp"
 
 mv "$README.tmp" "$README"
