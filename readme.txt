@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, statistics, stats, privacy
 Requires at least: 6.0
 Tested up to: 6.9.4
-Stable tag: 2.5.3-dev2
+Stable tag: 2.3.5
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -127,6 +127,14 @@ Koko Analytics is fully compatible with all sorts of caches.
 9. See exactly where your website is visited from or what browsers, operating system or devices your visitors are using. [Pro]
 
 == Changelog ==
+
+
+### 2.3.5 - May 1, 2026
+
+- data: ensure aggregation process does not run while database migrations are pending.
+- perf: aggregation process no longer invalidates alloptions cache on every run.
+- perf: process database pruning in chunks of 10K rows.
+- security: add nonce verification to user-initiated action to update to v2.
 
 
 ### 2.3.4 - Apr 20, 2026
@@ -767,10 +775,5 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 #### 1.2.0 - Oct 11, 2023
 
-- Fix compatibility with WordPress 6.0.
-- Fix aggregation process not running for 5 minutes if an earlier run failed somehow.
-- Fix chart tooltips not showing on WordPress dashboard.
-- Minor performance improvements for aggregation process.
-- Move seed (sample data) function out of the core plugin.
-- Add message about checking browser console for ...
+- Fix compatibility ...
 
