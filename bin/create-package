@@ -55,8 +55,7 @@ sed -i "s/define(\s*'\(.*_VERSION\)'\s*,\s*'.*'\s*);/define('\1', '$VERSION');/g
 sed -i "s/^Stable tag:.*$/Stable tag: $VERSION/g" "readme.txt"
 
 # Copy over changelog from CHANGELOG.md to readme.txt
-# Ref: https://git.sr.ht/~dvko/dotfiles/tree/master/item/bin/wp-update-changelog
-wp-update-changelog
+bin/update-changelog
 
 # Update git
 git add . -A || true

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Copies the last 100 lines of CHANGELOG.md into the == Changelog == section of readme.txt.
+
+set -euo pipefail
+
+PLUGIN_DIR=$(dirname "$(dirname "$(realpath "$0")")")
+CHANGELOG="$PLUGIN_DIR/CHANGELOG.md"
+README="$PLUGIN_DIR/readme.txt"
+
+SECTION_LINE=$(grep -n "^== Changelog ==$" "$README" | cut -d: -f1)
+if [ -z "$SECTION_LINE" ]; then
+    echo "Could not find '== Changelog ==' section in $README"
+    exit 1
+fi
+
+{
+    head -n "$SECTION_LINE" "$README"
+    tail -n +3 "$CHANGELOG" | head -100
+    echo "View complete changelog at https://www.kokoanalytics.com/changelog/"
+} > "$README.tmp"
+
+mv "$README.tmp" "$README"
