@@ -166,12 +166,11 @@ class Pageview_Aggregator
             return false;
         }
 
-        $url = strtolower($url);
         if ($this->blocklist->contains($url)) {
             return true;
         }
 
-        // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer  url
+        // run return value through filter so user can apply more advanced logic to determine whether to ignore referrer url
         // @see https://github.com/ibericode/koko-analytics/blob/main/code-snippets/ignore-some-referrer-traffic-using-regex.php
         return apply_filters('koko_analytics_ignore_referrer_url', false, $url);
     }

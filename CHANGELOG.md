@@ -1,6 +1,14 @@
 # Changelog
 
 
+### 2.3.5 - May 1, 2026
+
+- data: ensure aggregation process does not run while database migrations are pending.
+- perf: aggregation process no longer invalidates alloptions cache on every run.
+- perf: process database pruning in chunks of 10K rows.
+- security: add nonce verification to user-initiated action to update to v2.
+
+
 ### 2.3.4 - Apr 20, 2026
 
 - fix: access to Jetpack and Plausible importer pages.
