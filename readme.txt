@@ -117,77 +117,49 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 == Changelog ==
 
 = 2.3.5 =
-* Data: Prevent the aggregation process from running while database migrations are pending.
-* Performance: Stop the aggregation process from invalidating the alloptions cache on every run.
-* Performance: Process database pruning in chunks of 10,000 rows.
-* Security: Add nonce verification to the user-initiated v2 update action.
+
+- data: ensure aggregation process does not run while database migrations are pending.
+- perf: aggregation process no longer invalidates alloptions cache on every run.
+- perf: process database pruning in chunks of 10K rows.
+- security: add nonce verification to user-initiated action to update to v2.
+
 
 = 2.3.4 =
-* Fix: Restore access to the Jetpack and Plausible importer pages.
-* Fix: Prevent a database warning for a missing table on fresh installs.
-* UX: Make table rows selectable again.
-* SEO: Remove the canonical URL from the public dashboard because it is already noindex.
-* Database: Change the default database purge threshold from 5 years to 3 years.
-* Dashboard: Stop using the public dashboard query string argument when pretty permalinks are enabled.
+
+- fix: access to Jetpack and Plausible importer pages.
+- fix: database warning because of unexisting table on fresh installs.
+- ux: table rows selectable again.
+- seo: remove canonical URL from public dashboard (because it is already noindex).
+- database: change default database purge treshold to 3 years (down from 5).
+- dashboard: don't listen to query string argument for public dashboard if pretty permalinks are enabled.
+
 
 = 2.3.3 =
-* Database: Fix table and column values when upserting new referrer URLs.
+
+- database: fix table and column value for upserting new referrer URL's.
+
 
 = 2.3.2 =
-* Dashboard: Show the draggable icon only when hovering over the table header.
-* Database: Prevent database migrations from running concurrently.
-* Database: Try to increase the time limit to 300 seconds before running database migrations.
-* Database: Re-acquire and extend the lock after every database migration step.
+
+- dashboard: draggable icon now only shows up when hovering table header, not table body
+- database: prevent running database migrations concurrently 
+- database: try to increase time limit to 300s before running database migrations
+- database: re-acquire and extend acquired lock after every individual database migration step
+
 
 = 2.3.0 =
-* Tracking: Improve detection of preflight requests and requests from headless browsers.
-* Tracking: Add more aggregation rules for Google subdomains.
-* Database: Improve the migration runner for more reliable database migrations.
-* Database: Use atomic upserts for normalized string values, such as paths and referrer URLs.
-* Database: Improve performance for the pruning action.
-* Shortcode: Fix cases where the koko_analytics_counter shortcode did not work outside post content.
-* Shortcode: Format koko_analytics_counter output with localized number formatting rules.
-* Settings: Restrict the tab query parameter to allowed values only.
-* UX: Allow custom ordering of dashboard components with drag and drop.
-* UX: Add a direct link to each page in the top pages component.
-* UX: Improve dashboard styling.
-* Developer: Add the koko_analytics_print_html_comments filter to disable HTML comments with version info.
 
-= 2.2.5 =
-* Tracking: Change the tracking request URL to home_url to bypass rate limits on admin-ajax.php on some hosts. This only applies when the optimized endpoint is not used.
-* Dashboard: Format dates in chart tooltips based on grouping.
-* Fix: Allow the dashboard to fetch statistics more than 10 years back.
-* Fix: Prevent a load_textdomain_just_in_time() warning when other plugins call wp_get_schedules() before init.
-* Developer: Improve types based on PHPStan reports.
+- tracking: improved detection of preflight requests and requests from headless browsers. 
+- tracking: add more aggregation rules for google subdomains
+- database: improved migration runner for more reliable database migrations
+- database: use atomic upsert for upserting normalized string values (like paths and referrer urls).
+- database: improved performance for pruning action.
+- shortcode: fix koko_analytics_counter sometimes not working properly when used outside of post content.
+- shortcode: format output of koko_analytics_counter shortcode according to localized number formatting rules.
+- settings: restrict tab query parameter to whitelisted values only
+- ux: allow a custom order of your dashboard components through drag and drop.
+- ux: add direct link to page in the top pages component.
+- ux: styling improvements to the dashboard.
+- dev: add filter koko_analytics_print_html_comments to disable HTML comments with version info.
 
-= 2.2.4 =
-* Fix: Prevent a fatal error on fresh plugin installation caused by calling a non-static method statically.
-* Fix: Restore the koko_analytics_counter shortcode in version 2.2.2 by passing the required function arguments.
-
-= 2.2.2 =
-* Developer: Add the koko_analytics_public_dashboard_headers hook before sending HTTP headers for the public dashboard.
-* Developer: Add the koko_analytics_output_dashboard_settings hook for adding setting rows to the dashboard settings page.
-* Uninstall: Delete the koko_analytics_last_aggregation_at option on plugin uninstall.
-* UX: Add a gradient that shows relative weight per row in the referrers table.
-* Fix: Restore access to Jetpack and Plausible import pages.
-* Performance: Reuse common action hooks for minor performance improvements.
-
-= 2.2.1 =
-* Gutenberg: Add the counter block type.
-* Tracking: Add the koko_analytics_allowed_query_vars filter.
-* Performance: Roll up database migrations older than 5 years.
-
-= 2.2.0 =
-* Settings: Allow plugins to register their own settings tab through the koko_analytics_settings_tabs filter.
-* Endpoint: Remove duplicate require statements when several plugins add the same file.
-
-= 2.1.3 =
-* Security: Escape path and referrer URL values in data export files. Fixes a potential SQL injection vulnerability when importing a previously exported dataset containing malicious path values (CVE-2026-22850). Thanks to Hector Ruiz from naxus-audit for responsibly disclosing.
-* Data import: Only allow SQL statements that affect the Koko Analytics database tables.
-* Tracking: Reject invalid path values per the RFC 2396 specification.
-
-= 2.1.2 =
-* Tracking: Accept path and post ID arguments in the koko_analytics.trackPageview(path, post_id) function for manual calls in single-page applications.
-* Dashboard: Add a yearly grouping option to the chart.
-
-View the complete changelog at https://www.kokoanalytics.com/changelog/
+[View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)

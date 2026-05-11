@@ -1,7 +1,7 @@
 # Changelog
 
 
-### 2.3.5 - May 1, 2026
+= 2.3.5 =
 
 - data: ensure aggregation process does not run while database migrations are pending.
 - perf: aggregation process no longer invalidates alloptions cache on every run.
@@ -9,7 +9,7 @@
 - security: add nonce verification to user-initiated action to update to v2.
 
 
-### 2.3.4 - Apr 20, 2026
+= 2.3.4 =
 
 - fix: access to Jetpack and Plausible importer pages.
 - fix: database warning because of unexisting table on fresh installs.
@@ -19,12 +19,12 @@
 - dashboard: don't listen to query string argument for public dashboard if pretty permalinks are enabled.
 
 
-### 2.3.3 - Apr 8, 2026
+= 2.3.3 =
 
 - database: fix table and column value for upserting new referrer URL's.
 
 
-### 2.3.2 - Apr 7, 2026
+= 2.3.2 =
 
 - dashboard: draggable icon now only shows up when hovering table header, not table body
 - database: prevent running database migrations concurrently 
@@ -32,7 +32,7 @@
 - database: re-acquire and extend acquired lock after every individual database migration step
 
 
-### 2.3.0 - Apr 7, 2026
+= 2.3.0 =
 
 - tracking: improved detection of preflight requests and requests from headless browsers. 
 - tracking: add more aggregation rules for google subdomains
@@ -48,7 +48,7 @@
 - dev: add filter koko_analytics_print_html_comments to disable HTML comments with version info.
 
 
-### 2.2.5 - Mar 18, 2026
+= 2.2.5 =
 
 - Change URL for tracking request to home_url to bypass rate limits on admin-ajax.php on some hosts. This only applies if not using the optimized endpoint.
 - Format date in chart tooltip differently depending on grouping.
@@ -57,13 +57,13 @@
 - Various typing improvements for issues as reported by PHPStan.
 
 
-### 2.2.4 - Feb 17, 2026
+= 2.2.4 =
 
 - Fix fatal error on fresh plugin installation because of calling non-static method statically.
 - Fix `[koko_analytics_counter]` shortcode no longer working in version 2.2.2 because of lacking function arguments.
 
 
-### 2.2.2 - Feb 17, 2026
+= 2.2.2 =
 
 - Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
 - Add hook koko_analytics_output_dashboard_settings which allows adding setting rows at any position on the dashboard settings page.
@@ -73,20 +73,20 @@
 - Minor performance improvements by changing code structure to re-use commonly used action hooks.
 
 
-### 2.2.1 - Feb 02, 2026
+= 2.2.1 =
 
 - gutenberg: add counter block type
 - tracking: add filter koko_analytics_allowed_query_vars ([example](https://github.com/ibericode/koko-analytics/blob/9a038eacf51f5eded9abc4920bbcd9c792bafc02/code-snippets/allow-query-vars.php))
 - performance: rollup database migrations older than 5 years.
 
 
-### 2.2.0 - Jan 21, 2026
+= 2.2.0 =
 
 - settings: allow plugins to register their own settings tab through the `koko_analytics_settings_tabs` filter.
 - endpoint: remove duplicate require statements in case several plugins add the same file.
 
 
-### 2.1.3 - Jan 12, 2026
+= 2.1.3 =
 
 - data export: escape path and referrer url values in data export file. Fixes a potential SQL injection vulnerability when importing a previously exported dataset containing malicious path values (CVE-2026-22850). Thanks to Hector Ruiz from [naxus-audit](https://github.com/naxus-audit) for responsibly disclosing.
 - data import: only allow SQL statements affecting the Koko Analytics database
@@ -94,13 +94,13 @@ tables
 - tracking: reject invalid path values per the RFC 2396 specification
 
 
-### 2.1.2 - Jan 7, 2026
+= 2.1.2 =
 
 - tracking: accept path and post ID argument in koko_analytics.trackPageview(path, post_id) function to allow manual calls in single-page applications.
 - dashboard: add group by 'year' option to chart
 
 
-### 2.1.1 - Dec 24, 2025
+= 2.1.1 =
 
 - Use our own notice styles instead of the ones from WP core.
 - Send Cache-Control header on public dashboard.
@@ -114,18 +114,18 @@ tables
 - Use fake hyperlinks for date navigation to stop bots from crawling public dashboards until infinity.
 
 
-### 2.1.0 - Dec 08, 2025
+= 2.1.0 =
 
 - New settings page structure!
 - Use existing removeable query args from WP core for notices.
 
 
-### 2.0.22 - Dec 01, 2025
+= 2.0.22 =
 
 - specify apiVersion for block type so that WP 6.9 can use new iframe editor.
 
 
-### 2.0.21 - Nov 28, 2025
+= 2.0.21 =
 
 - Prune blocked referrer domains retro-actively.
 - Fix double echo on settings page.
@@ -133,14 +133,14 @@ tables
 - Add `wp koko-analytics prune` command for WP CLI.
 
 
-### 2.0.20 - Nov 14, 2025
+= 2.0.20 =
 
 - Fix hard-coded table prefix in data export file.
 - Increase batch size during data migration to v2 format from 500 to 1000 rows.
 - Drop temporary table after data migration to v2.
 
 
-### 2.0.19 - Oct 15, 2025
+= 2.0.19 =
 
 - Print (< 500 bytes) tracking script inline in page HTML to save on an additional HTTP request and resolve overly aggressive cache issues.
 - Add importer for Plausible.
@@ -148,7 +148,7 @@ tables
 - Exclude visits to post previews.
 
 
-### 2.0.18 - Sep 24, 2025
+= 2.0.18 =
 
 - Add filename alias for `Pageview_Aggregator` class so old autoloader knows where to find it. This fixes an error for users upgrading from 1.x with data in the temporary buffer file.
 - Data importer now uses default WPDB connection and shows errors.
@@ -156,12 +156,12 @@ tables
 - Replace section about Koko Analytics Pro with a smaller 'powered by ...' link for public dashboards.
 
 
-### 2.0.17 - Sep 20, 2025
+= 2.0.17 =
 
 - Fix most viewed posts widget using old shortcode class name.
 
 
-### 2.0.16 - Sep 19, 2025
+= 2.0.16 =
 
 - Prevent persistent object caches from breaking database migration lock mechanism.
 - Add site URL to database export filename.
@@ -169,7 +169,7 @@ tables
 - Database connection in importer now logs warnings instead of throwing an exception on database errors.
 
 
-### 2.0.15 - Sep 17, 2025
+= 2.0.15 =
 
 - Fix count of total number of rows in table for grouped result.
 - Fix compatibility with Borlabs Cookie library script.
@@ -178,7 +178,7 @@ tables
 - Minor performance gain on dashboard.
 
 
-### 2.0.14 - Sep 15, 2025
+= 2.0.14 =
 
 - Fix issue in v2 data migration for sites with over 500 distinct public posts.
 - Fix pagination showing up despite there being no more items.
@@ -186,13 +186,13 @@ tables
 - Disallow access to public dashboard for anything resembling a bot or crawler.
 
 
-### 2.0.13 - Sep 11, 2025
+= 2.0.13 =
 
 - `post_id` column on `wp_koko_analytics_post_stats` table should be of type `INT`, not `MEDIUMINT`. This fixes an issue on sites with post ID's larger than 16777215.
 - Fix datepicker dropdown heading spanning multiple lines on certain translations.
 
 
-### 2.0.12 - Sep 09, 2025
+= 2.0.12 =
 
 - Fix incorrect post paths from data migration to v2.
 - Fix table cell width on small screens for pageviews column.
@@ -202,12 +202,12 @@ tables
 - Run database migrations at `wp_loaded` hook to ensure all custom post types are registered.
 
 
-### 2.0.11 - Aug 29, 2025
+= 2.0.11 =
 
 - Add script to correctly map post ID to path for sites where this went wrong.
 
 
-### 2.0.10 - Aug 29, 2025
+= 2.0.10 =
 
 - Show page title again for records that have one.
 - Fix the same path mapping to multiple entries in the `wp_koko_analytics_paths` table.
@@ -215,7 +215,7 @@ tables
 - Drop database tables when using "reset statistics" button.
 
 
-### 2.0.9 - Aug 28, 2025
+= 2.0.9 =
 
 - Automatically run the v2 data migration for tables with less than 25.000 total records.
 - Pageviews column should be at least 6 characters wide to allow for 6-figure numbers.
@@ -223,7 +223,7 @@ tables
 - Ship aggregator class on old filesystem location to prevent error from old autoloader.
 
 
-### 2.0.8 - Aug 28, 2025
+= 2.0.8 =
 
 - Add WP CLI command for initiating post stats migration to v2: wp koko-analytics migrate_post_stats_to_v2
 - Add WP CLI command for initiating referrer stats migration to v2: wp koko-analytics migrate_referrer_stats_to_v2
@@ -233,14 +233,14 @@ tables
 - Switch to a single column grid at 1200px instead of 992px.
 
 
-### 2.0.7 - Aug 28, 2025
+= 2.0.7 =
 
 - Run data migration at later hook so that custom post types have a chance to register.
 - Delete seriously malformed referrer URL's from stats.
 - Fix z-index of datepicker component.
 
 
-### 2.0.5 - Aug 27, 2025
+= 2.0.5 =
 
 - Failsafe against missing referrer URL in buffer file.
 - Fix warning about array to string conversion in wpdb class.
@@ -248,19 +248,19 @@ tables
 - Fix [koko_analytics_counter] shortcode not using path from post in "the loop" anymore.
 
 
-### 2.0.3 - Aug 27, 2025
+= 2.0.3 =
 
 - Fix referrer migration notice re-appearing if certain records could not be migrated (due to being malformed).
 - Fix table columns being pushed off the screen due to long text not truncating.
 - Ensure post_stats primary key is properly created for new sites.
 
 
-### 2.0.2 - Aug 27, 2025
+= 2.0.2 =
 
 - Delay running potentially expensive database migration until after site administrator clicks a button.
 
 
-### 2.0.1 - Aug 27, 2025
+= 2.0.1 =
 
 This release introduces path based tracking and improved dashboard styles. If you have many different posts/pages or are concerned about your historical data being affected, please back-up your Koko Analytics database tables before updating to this version.
 
@@ -271,13 +271,13 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Various other minor performance, security or code maintenance improvements.
 
 
-#### 1.8.6 - Jul 24, 2025
+= 1.8.6 =
 
 - Mention [geo-location](https://www.kokoanalytics.com/features/geo-location/), a new premium feature, in the settings page sidebar.
 - Improved height of select and textarea elements on settings page.
 
 
-#### 1.8.5 - Jul 21, 2025
+= 1.8.5 =
 
 - Add new action hook to add table rows before the submit button on the settings page: `koko_analytics_extra_settings_rows_before_submit`
 - Rewrite optimized endpoint to allow for filter and action hooks.
@@ -285,22 +285,22 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Allow other plugins to add PHP files to include in optimized endpoint.
 
 
-#### 1.8.4 - Jun 18, 2025
+= 1.8.4 =
 
 - Backwards compatibility with older versions of the tracking script. This is a special update for sites refusing to serve the latest version of the Koko Analytics script because of very stubborn caching plugins...
 
 
-#### 1.8.2 - Jun 13, 2025
+= 1.8.2 =
 
 - Fix cookieless tracking on PHP 8.0 and below.
 
 
-#### 1.8.1 - Jun 13, 2025
+= 1.8.1 =
 
 - Fix issue with optimized endpoint not working introduced in version 1.8.0
 
 
-#### 1.8.0 - Jun 12, 2025
+= 1.8.0 =
 
 - Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/).
 - If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
@@ -310,27 +310,27 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Fixed chart issue where bars would be invisible if viewing a large amount of data on a small screen.
 
 
-#### 1.7.4 - May 14, 2025
+= 1.7.4 =
 
 - Use `wp_print_inline_script` function for printing inline script tags.
 - Use `is_file` over `file_exists` for checking whether optimized endpoint file exists.
 - Only remove optimized endpoint file if it fails verification if it was created by the plugin itself.
 
 
-#### 1.7.3 - Apr 15, 2025
+= 1.7.3 =
 
 - Explicitly add referrer to settings page form.
 - Fix WP CLI command calling old method. Thanks [Oscar Arzola](https://github.com/arzola)!
 
 
-#### 1.7.2 - Mar 24, 2025
+= 1.7.2 =
 
 - Hide chart group options on dashboard widget chart.
 - Run referrer URL's in dashboard widget through href normalizer.
 - Very minor performance optimisation for generating chart HTML.
 
 
-#### 1.7.1 - Mar 10, 2025
+= 1.7.1 =
 
 - Fix chart bars being out of order for some databases in case of gaps in data.
 - Include `manifest.json` file in plugin package.
@@ -340,7 +340,7 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Aggregate Reddit subdomains into a single referrer entry.
 
 
-#### 1.7.0 - Feb 25, 2025
+= 1.7.0 =
 
 - Compatibility with sites hosted on WP Engine (which does not allow writing files with the PHP extension to the WP Uploads directory).
 - Use relative paths in optimized endpoint file, so that the site itself can be moved around freely on the filesystem.
@@ -351,14 +351,14 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Better align periods for comparisons.
 
 
-#### 1.6.6 - Feb 18, 2025
+= 1.6.6 =
 
 - Fix same-page referrer detection when not using cookie.
 - Preserve page filter when using datepicker to change date period.
 - Limit realtime pageviews in dashboard widget to today's pageviews when viewed shortly after midnight.
 
 
-#### 1.6.5 - Feb 10, 2025
+= 1.6.5 =
 
 - Add importer for data from Burst Statistics.
 - Allow passing "false" and "no" to `monthly` query parameter in REST endpoints.
@@ -366,12 +366,12 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Minor code improvements to classes responsible for aggregating data from buffer file into permanent storage.
 
 
-#### 1.6.4 - Jan 25, 2025
+= 1.6.4 =
 
 - Fix dashboard data always publicly accessible through REST API endpoints.
 
 
-#### 1.6.3 - Jan 21, 2025
+= 1.6.3 =
 
 - Schedule missing `koko_analytics_aggregate_stats` event.
 - Ensure pageview counts are always added to the correct day, even if WP Cron stalls for more than 24 hours.
@@ -384,14 +384,14 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Do not delete database tables on plugin uninstall by default.
 
 
-#### 1.6.1 - Jan 20, 2025
+= 1.6.1 =
 
 - Show error details in Jetpack Importer when API returns an error response (instead of only writing to error log).
 - Register scheduled event for pruning data on plugin activation directly.
 - Allow calling `get_realtime_pageview_count()` function with `null` parameter.
 
 
-#### 1.6.0 - Jan 17, 2025
+= 1.6.0 =
 
 - Bump minimal required PHP version to 7.4 or higher.
 - Fix issue with date generation for "this_week" and "last_week" presets.
@@ -403,19 +403,19 @@ This release introduces path based tracking and improved dashboard styles. If yo
 - Fix REST API routes returning a HTTP 500 error if called without a `start_date` parameter.
 
 
-#### 1.5.5 - Jan 10, 2025
+= 1.5.5 =
 
 Don't use `upgrader_process_complete` for checking pending database migration. This can't be used because this specific hook runs using the old version of the plugin...
 
 Reverting this change from version 1.5.2 fixes an issue with the optimized endpoint file referencing an unexisting function.
 
 
-#### 1.5.4 - Jan 10, 2025
+= 1.5.4 =
 
 - Fix optimized endpoint file referencing no-longer existing file on some installations.
 
 
-#### 1.5.3 - Jan 09, 2025
+= 1.5.3 =
 
 - Add integration with Query Loop Block.
 - Fix date range when viewing "this week" or "last week" on a Sunday.
@@ -423,19 +423,19 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add one-time notice after at least 30 days of usage asking for a contribution.
 
 
-#### 1.5.2 - Dec 17, 2024
+= 1.5.2 =
 
 - Improve logic for running pending database migrations.
 
 
-#### 1.5.1 - Dec 10, 2024
+= 1.5.1 =
 
 - Fix date in chart tooltip using default PHP timezone, explicitly use site timezone instead.
 - Check for excluded request (by IP address or user role) in unoptimized endpoint.
 - Prevent PHP notice on dashboard if page URL does not have query component.
 
 
-#### 1.5.0 - Nov 27, 2024
+= 1.5.0 =
 
 - Impose a maximum referrer URL length on data ingestion.
 - Replace column header for visitors and pageviews with icon on small screens.
@@ -447,14 +447,14 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add missing text domain on settings page. Thanks to [Dominik Schilling](https://dominikschilling.de/).
 
 
-#### 1.4.5 - Nov 14, 2024
+= 1.4.5 =
 
 - Use localized number formatting for all numbers troughout the dashboard.
 - Add feature to export and import data. Can only be used for sites with matching post ID's.
 - Highlight weekends in chart by using a slightly darker color for the visitors part of the bar.
 
 
-#### 1.4.4 - Nov 4, 2024
+= 1.4.4 =
 
 - Add Jetpack Stats importer to import your historical analytics data into Koko Analytics. Go to the settings page (with Jetpack still enabled) to access it.
 - Fix settings page showing proxy IP instead of client IP if using reverse proxy.
@@ -464,7 +464,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Handle posts without title a little better by showing URL path instead.
 
 
-#### 1.4.3 - Oct 29, 2024
+= 1.4.3 =
 
 - Fix "backtrack limit exhausted" triggering for certain referrer URL's without a subdomain part.
 - Gracefully handle missing referrer blocklist file. This fixes an issue when security software on the server flags the blocklist file as suspicious (due to it containing a list of known malware domains) and deleting it.
@@ -474,19 +474,19 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Improved validation of referrer URL's and request parameters at data collection endpoint.
 
 
-#### 1.4.2 - Oct 25, 2024
+= 1.4.2 =
 
 - Fix fatal error "invalid string operand" when referrer URL contains `t.co` shortlink.
 - Fix potential issue with `preg_match` returning incorrect type in function `get_referrer_url_label`
 
 
-#### 1.4.1 - Oct 25, 2024
+= 1.4.1 =
 
 - Limit width of visitors and pageviews column in tables.
 - Fix `preg_replace` from returning an invalid type when an error occurs and the log the actual error that occurred.
 
 
-#### 1.4.0 - Oct 24, 2024
+= 1.4.0 =
 
 - All HTML for the dashboard is now server-side generated, drastically reducing the amount of JavaScript and generally making the code base easier to maintain and/or extend.
 - All dashboard state can now be managed through URL query parameters, allowing you to bookmark or share your favorite views.
@@ -499,18 +499,18 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Minor memory usage improvements in autoloader implementation.
 
 
-#### 1.3.15 - Oct 15, 2024
+= 1.3.15 =
 
 - Fix `href` attribute on hyperlinks in most viewed posts widget/shortcode/function template.
 
 
-#### 1.3.14 - Sep 23, 2024
+= 1.3.14 =
 
 - Explicitly call `sprintf` from global namespace to benefit from upcoming sprintf related performance improvements in PHP 8.4.
 - Demo settings from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) on plugin settings page.
 
 
-#### 1.3.13 - Sep 17, 2024
+= 1.3.13 =
 
 - Ensure `Stats::get_totals` always returns a valid object.
 - Escape return values from `add_query_arg` to prevent reflected XSS attacks.
@@ -518,13 +518,13 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Various minor template performance improvements.
 
 
-#### 1.3.12 - Aug 18, 2024
+= 1.3.12 =
 
 - Fix double pageview counts introduced in version 1.3.11.
 - Fix same-site showing up as referrer
 
 
-#### 1.3.11 - Aug 16, 2024
+= 1.3.11 =
 
 - Only use referrer detection for determining returning visitors if cookie is disabled.
 - Add referrer aggregation rule for Brevo email campaign links.
@@ -534,19 +534,19 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Explicitly get rid of all ES6 code in tracking script.
 
 
-#### 1.3.10 - Jun 20, 2024
+= 1.3.10 =
 
 - Registration for [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) is open again. Purchase a license if you need custom event tracking or would just like to support the plugin.
 - Ignore requests from Facebook link previews and requests without a `User-Agent` HTTP header.
 - Update referrer blocklist.
 
 
-#### 1.3.9 - May 31, 2024
+= 1.3.9 =
 
 - Fix Webpack issue with tracking script.
 
 
-#### 1.3.8 - May 29, 2024
+= 1.3.8 =
 
 - Add setting to exclude views from IP addresses.
 - Show exact number of pageviews and visitors on hover.
@@ -556,7 +556,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Fix realtime pageview count using wrong duration.
 
 
-#### 1.3.7 - Feb 26, 2024
+= 1.3.7 =
 
 - Add `[koko_analytics_counter]` shortcode. Thanks Anil Kulkarni!
 - Show time since last aggregation on settings page.
@@ -564,20 +564,20 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Update referrer blocklist.
 
 
-#### 1.3.6 - Jan 29, 2024
+= 1.3.6 =
 
 - Update referrer blocklist.
 - Update third-party JS dependencies.
 
 
-#### 1.3.5 - Jan 8, 2024
+= 1.3.5 =
 
 - Fix `HOUR_IN_SECONDS` constant not defined when using AMP with cookie enabled.
 - Fix days without any data not showing up in chart.
 - Improve chart y-axes for numbers just above 100.000.
 
 
-#### 1.3.4 - Nov 21, 2023
+= 1.3.4 =
 
 - New feature that allows you to filter by page. Clicking any page in the "top pages" list now updates the totals and chart component to only show visitors and pageviews for that specific page.
 - Fix warning that cron event isn't working not showing.
@@ -586,13 +586,13 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Performance improvement for rendering chart and tooltips.
 
 
-#### 1.3.3 - Nov 6, 2023
+= 1.3.3 =
 
 - Fix quick navigation going forward.
 - Add `manifest.json` file so (standalone) dashboard can be installed as a Progressive Web App.
 
 
-#### 1.3.2 - Nov 2, 2023
+= 1.3.2 =
 
 - Fix chart tooltip immediately disappearing when viewing the dashboard widget on touch devices.
 - Fix fatal error if lacking permissions to read database size from MySQL information tables.
@@ -604,7 +604,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - The `[koko_analytics_most_viewed_posts]` shortcode now shows a debug message if the arguments did not lead to any results.
 
 
-#### 1.3.1 - Nov 1, 2023
+= 1.3.1 =
 
 - Fix new visitors not being counted.
 - Fix dashboard issues for users with a large UTC timezone offset.
@@ -614,7 +614,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Show some feedback after using the "create optimized endpoint" button.
 
 
-#### 1.3.0 - Oct 31, 2023
+= 1.3.0 =
 
 - Major [performance improvements for the dashboard](https://www.kokoanalytics.com/2023/10/31/speeding-up-dashboard-removing-react-vanilla-js/) by removing the dependency on React and further optimizations.
 - Added link for loading the dashboard outside of WordPress admin (standalone).
@@ -626,7 +626,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Use `navigator.sendBeacon` for data collection requests.
 
 
-#### 1.2.2 - Oct 18, 2023
+= 1.2.2 =
 
 - Fix link to settings page from plugins overview page.
 - Fix pagination not working because `wp_localize_script` turns everything into a string.
@@ -640,12 +640,12 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Remove support for honouring "Do Not Track" header as per [MDN recommendations](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT).
 
 
-#### 1.2.1 - Oct 11, 2023
+= 1.2.1 =
 
 - Fix issue with strict types and non-hourly UTC offsets.
 
 
-#### 1.2.0 - Oct 11, 2023
+= 1.2.0 =
 
 - Fix compatibility with WordPress 6.0.
 - Fix aggregation process not running for 5 minutes if an earlier run failed somehow.
@@ -661,12 +661,12 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Bump required PHP version to 7.3.
 
 
-#### 1.1.2 - Oct 3, 2023
+= 1.1.2 =
 
 - Fix broken totals and chart component on sites using a custom database table prefix.
 
 
-#### 1.1.1 - Oct 3, 2023
+= 1.1.1 =
 
 - Fix for date table not being created, leading to an empty chart as of v1.1.0.
 
@@ -686,7 +686,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 	- `koko_analytics_track_pageview($post_id)` to track a pageview to the post with ID `$post_id`
 
 
-#### 1.0.40 - Sep 14, 2023
+= 1.0.40 =
 
 - Fallback to post slug if post has no title
 - Validate referrer URL and ignore if invalid
@@ -701,30 +701,30 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Last but certainly not least, some preparatory work for event tracking... Coming soon!
 
 
-### 1.0.39 - Aug 29, 2023
+= 1.0.39 =
 
 - Update referrer blocklist
 - Update third-party JS dependencies
 - Bump tested WordPress version
 
 
-### 1.0.38 - Apr 25, 2023
+= 1.0.38 =
 
 - Fix issue with dashboard widget rendering incorrectly when it was initially hidden.
 - Only render chart in dashboard widget when it is currently visible.
 
 
-### 1.0.37 - Dec 07, 2022
+= 1.0.37 =
 
 - Fix potential issue in tracking script causing incorrect stats collection.
 
 
-### 1.0.36 - Dec 06, 2022
+= 1.0.36 =
 
 - Shrink size of tracking script to 985 bytes (when using gzip compression).
 
 
-### 1.0.35 - Oct 21, 2022
+= 1.0.35 =
 
 - You can now call `koko_analytics.trackPageview( postId )` to manually track a pageview. This is especially useful for Single Page Applications.
 - Update referrer blocklist.
@@ -732,14 +732,14 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Update JavaScript dependencies.
 
 
-#### 1.0.34 - Sep 19, 2022
+= 1.0.34 =
 
 - Track visits to front page (if not a static page) as well.
 - Use gmdate() for determining whether to send cache headers.
 - Update JavaScript dependencies.
 
 
-#### 1.0.33 - Aug 17, 2022
+= 1.0.33 =
 
 - Always show at least 1 visitor if pageviews were recorded that day.
 - Decrease Cache-Control header of REST API responses to 60s.
@@ -747,12 +747,12 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add filter `koko_analytics_url_aggregations` to modify or add URL aggregations for referrer URL's.
 - Created an initiative on OpenCollective for others to help fund development and support costs of Koko Analytics. 
 
-#### 1.0.32 - Jun 2, 2022
+= 1.0.32 =
 
 - Fix error in latest release by ensuring Endpoint_Installer class is always loaded when needed.
 
 
-#### 1.0.30 - Jun 1, 2022
+= 1.0.30 =
 
 - Delete option `koko_analytics_use_custom_endpoint` on plugin uninstall.
 - Only load dashboard-widget.js if user has required capability for viewing stats.
@@ -760,7 +760,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Re-attempt installation of the custom endpoint file every hour. This also automatically re-tests whether the custom endpoint is still working as expected. The plugin already did this whenever you visited the dashboard page, but now it simply runs more often and without requiring you to log-in to your WordPress admin.
 
 
-#### 1.0.29 - Jan 25, 2022
+= 1.0.29 =
 
 - Skip empty lines in buffer file to avoid a PHP notice in certain edge cases.
 - Make use of JS library for date presets.
@@ -769,7 +769,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add class attribute to cron warning so it can be hidden using CSS by targeting `.koko-analytics-cron-warning`.
 
 
-#### 1.0.28 - Sep 27, 2021
+= 1.0.28 =
 
 - Account for missing configuration object, for example if theme does not properly call `wp_head()`.
 - Cast database result to integer types so we do not have to do it client-side.
@@ -779,21 +779,21 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Add WP CLI command for aggregating stats without having to go through WP Cron: `wp koko-analytics aggregate`
 
 
-#### 1.0.27 - May 4, 2021
+= 1.0.27 =
 
 - Use `defer` attribute on script to not block parsing at all.
 - Normalize Pinterest URL's with and without www subdomain.
 - Fix some missing translations.
 
 
-#### 1.0.26 - Feb 17, 2021
+= 1.0.26 =
 
 - Re-introduce last 28 days by popular request.
 - Fix date presets dropdown not working in WebKit based browsers.
 - Update built-in referrer blocklist.
 
 
-#### 1.0.25 - Feb 16, 2021
+= 1.0.25 =
 
 - Add several new date presets, like yesterday or last week.
 - Add support for entering custom date ranges using keyboard input.
@@ -802,31 +802,31 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 - Update JS dependencies.
 
 
-#### 1.0.24 - Jan 20, 2021
+= 1.0.24 =
 
 - Append random query parameter to tracking request to avoid beind cached now that the plugin is using a custom tracking endpoint.
 - Update JS dependencies.
 
 
-#### 1.0.23 - Jan 15, 2021
+= 1.0.23 =
 
 Major performance improvement by writing an optimized endpoint file containing the correct file paths, regardless of WordPress directory structure set-up.
 
 If your WordPress root directory is not writable, go to the Koko Analytics settings page for instructions on how to manually create this optimized endpoint file.
 
 
-#### 1.0.22 - Nov 18, 2020
+= 1.0.22 =
 
 - Fix PHP warnings in migration script, for trying to unlink unexisting file  (eg on new plugin installs).
 - Generate URL to custom endpoint file correctly. Fixes issue with some multilingual plugins not recording pageviews correctly.
 
 
-#### 1.0.21 - Nov 5, 2020
+= 1.0.21 =
 
 - Update option that stores whether to use custom endpoint after unlinking it, to prevent sending requests to an unexisting file.
 
 
-#### 1.0.20 - Nov 3, 20202
+= 1.0.20 =
 
 - Do not use custom endpoint file if using custom uploads directory.
 - Use value from `KOKO_ANALYTICS_USE_CUSTOM_ENDPOINT` if it is defined.
@@ -835,26 +835,26 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Update built-in referrer blocklist.
 
 
-#### 1.0.19 - Sep 2, 2020
+= 1.0.19 =
 
 - Create buffer file directory if it does not exist yet, eg on a fresh WP install.
 - Update preact and date-fns to their latest versions.
 - Update built-in referrer blocklist.
 
 
-#### 1.0.18 - Aug 25, 2020
+= 1.0.18 =
 
 - Fix issue with tracking not working on AMP powered pages or issuing a request to a non-existing file on cdn.ampproject.org.
 
 
-#### 1.0.17 - Aug 19, 2020
+= 1.0.17 =
 
 - Fix issue when using Modern color scheme introduced in WordPress 5.5.
 - Improve test for custom endpoint file by checking for exact response body.
 - Prevent horizontal scrollbar from showing when hovering chart near edge of screen.
 
 
-#### 1.0.16 - Jul 21, 2020
+= 1.0.16 =
 
 - Fix blank screen on WordPress versions lower than 5.0.
 - Fix settings link showing despite user lacking required capability.
@@ -863,14 +863,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Improve test for custom endpoint file.
 
 
-#### 1.0.15 - Jun 22, 2020
+= 1.0.15 =
 
 - Fix weird date for "this week" preset.
 - Fix weeknames in datepicker.
 - Fix translation files not being loaded. Hopefully...
 
 
-#### 1.0.14 - Jun 22, 2020
+= 1.0.14 =
 
 - Do not use custom tracking endpoint on Multisite installations because it ignores the site-specifix database prefix.
 - Show errors in aggegration process if `WP_DEBUG` is enabled.
@@ -881,7 +881,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Add filter hook: `koko_analytics_ignore_referrer_url` ([example](https://github.com/ibericode/koko-analytics/blob/main/code-snippets/ignore-some-referrer-urls.php))
 
 
-#### 1.0.13 - May 28, 2020
+= 1.0.13 =
 
 - Update referrer blocklist.
 - Improve date parsing from URL parameters to account for negative UTC offsets. Fixes an issue with the date jumping back one day.
@@ -889,14 +889,14 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Revert to using `home_url()` for the tracker endpoint URL.
 
 
-#### 1.0.12 - May 14, 2020
+= 1.0.12 =
 
 - Add filter `koko_analytics_honor_dnt` to allow ignoring DoNotTrack.
 - Huge performance improvement for the tracking request if you're on a standard WordPress installation with the root directory writable.
 - Limit scope of tracking script to prevent variable naming collisions.
 
 
-#### 1.0.11 - Apr 17, 2020
+= 1.0.11 =
 
 - Add setting for specifying default date period when opening analytics dashboard.
 - Add Chrome-Lighthouse to list of ignored HTTP user agents.
@@ -906,13 +906,13 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Minor optimizations to tracking script.
 
 
-#### 1.0.10 - Mar 23, 2020
+= 1.0.10 =
 
 - Print configuration object early on in page HTML so it is easier to override it using a cookie consent plugin.
 - Add help text explaining the use of a multi-select element.
 
 
-#### 1.0.9 - Mar 9, 2020
+= 1.0.9 =
 
 - Use arrow keys (without Ctrl-key) for quickly cycling through date ranges.
 - Group chart by month if showing more than 2 (full) months of data.
@@ -921,7 +921,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Improve total comparision with previous period.
 
 
-#### 1.0.8 - Feb 14, 2020
+= 1.0.8 =
 
 - Add date preset for last 28 days
 - Add keyboard navigation support for quickly cycling through date periods (Ctrl + Arrow key)
@@ -933,7 +933,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Use colors from admin scheme in chart tooltip.
 
 
-#### 1.0.7 - Jan 30, 2020
+= 1.0.7 =
 
 - Aggregate certain referrers, e.g. google.com/search becomes google.com.
 - Use WordPress color scheme (from user profile) for colors in chart.
@@ -947,7 +947,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Fixes "Invalid time" error when re-opening the dashboard in Safari.
 
 
-#### 1.0.6 - Jan 20, 2020
+= 1.0.6 =
 
 - Remember view period when navigating away from analytics dashboard.
 - Add filter hook to prevent loading the tracking script: `koko_analytics_load_tracking_script`
@@ -957,7 +957,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - In chart, use separate bars instead of stacked bars.
 
 
-#### 1.0.5 - Dec 30, 2019
+= 1.0.5 =
 
 - Add "today" option to date periods preset menu.
 - Hide chart component when viewing just a single day of data.
@@ -966,7 +966,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Show chart elements even if outside of chart container.
 
 
-#### 1.0.4 - Dec 13, 2019
+= 1.0.4 =
 
 - Fix referrer URL's not being saved correctly.
 - Fix unique pageview detection
@@ -980,7 +980,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Filter out common bots by checking user agent in tracking script.
 
 
-#### 1.0.3 - Dec 6, 2019
+= 1.0.3 =
 
 - Fix link to settings page from plugins overview page.
 - Fix REST API URL's when not using pretty permalinks.
@@ -993,7 +993,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Handle filesystem errors in aggregation process.
 
 
-#### 1.0.2 - Nov 22, 2019
+= 1.0.2 =
 
 - Add icons to datepickers to quickly cycle through selected date periods.
 - Add capabilities `view_koko_analytics` and `manage_koko_analytics` to control whether a user role can view or manage statistics.
@@ -1010,7 +1010,7 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Fix retrieving post title when post type is excluded from search.
 
 
-#### 1.0.1 - Nov 14, 2019
+= 1.0.1 =
 
 - Add dashboard widget showing site visits over last 14 days.
 - Add widget for showing most viewed posts, pages or any other post type over a given period.
@@ -1024,6 +1024,6 @@ If your WordPress root directory is not writable, go to the Koko Analytics setti
 - Styling improvements for the dashboard page.
 
 
-#### 1.0.0 - Nov 4, 2019
+= 1.0.0 =
 
 Initial release.

@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
 
-# Copies the last 100 lines of CHANGELOG.md into the == Changelog == section of readme.txt.
-
 set -euo pipefail
 
 PLUGIN_DIR=$(dirname "$(dirname "$(realpath "$0")")")
-CHANGELOG="$PLUGIN_DIR/CHANGELOG.md"
-README="$PLUGIN_DIR/readme.txt"
+CHANGELOG_FILE="$PLUGIN_DIR/CHANGELOG.md"
+README_FILE="$PLUGIN_DIR/readme.txt"
 
-SECTION_LINE=$(grep -n "^== Changelog ==$" "$README" | cut -d: -f1)
-if [ -z "$SECTION_LINE" ]; then
-    echo "Could not find '== Changelog ==' section in $README"
-    exit 1
-fi
+# Read the 5 most recent changelog entries from CHANGELOG.md
+CHANGELOG_CONTENT=$(awk '/^= [0-9]+/{ if(++c==6) exit; start=1 } start { print }' "$CHANGELOG_FILE")
 
-{
-    head -n "$SECTION_LINE" "$README"
-    tail -n +3 "$CHANGELOG" | head -100
-    echo "View complete changelog at [kokoanalytics.com/changelog](https://www.kokoanalytics.com/changelog/)."
-} > "$README.tmp"
+# Append a link to the full changelog
+CHANGELOG_CONTENT="$CHANGELOG_CONTENT
 
-mv "$README.tmp" "$README"
+[View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)"
+
+# Replace the changelog section in readme.txt
+sed -i '/== Changelog ==/q' "$README_FILE"
+echo "" >> "$README_FILE"
+echo "$CHANGELOG_CONTENT" >> "$README_FILE"
