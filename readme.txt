@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 2.3.5
+Stable tag: 2.3.6
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -116,6 +116,19 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.3.6 =
+
+- dashboard: group top pages by post ID when available, so changing a post slug no longer splits its analytics in the dashboard.
+- dashboard: resolve titles and permalinks dynamically for posts and pages in the top pages list.
+- dashboard: page-specific totals and charts now use post ID filters when available.
+- tracking: ignore query parameters when pretty permalinks are enabled.
+- tracking: ensure normalized paths always start with a leading slash.
+- data export: improve export reliability by casting numeric values and handling missing tables defensively.
+- settings: show database usage and table sizes on the data settings page.
+- settings: add current and latest database migration version to debug info.
+- release: exclude development-only files from the WordPress.org package.
+
+
 = 2.3.5 =
 
 - data: ensure aggregation process does not run while database migrations are pending.
@@ -145,21 +158,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - database: prevent running database migrations concurrently 
 - database: try to increase time limit to 300s before running database migrations
 - database: re-acquire and extend acquired lock after every individual database migration step
-
-
-= 2.3.0 =
-
-- tracking: improved detection of preflight requests and requests from headless browsers. 
-- tracking: add more aggregation rules for google subdomains
-- database: improved migration runner for more reliable database migrations
-- database: use atomic upsert for upserting normalized string values (like paths and referrer urls).
-- database: improved performance for pruning action.
-- shortcode: fix koko_analytics_counter sometimes not working properly when used outside of post content.
-- shortcode: format output of koko_analytics_counter shortcode according to localized number formatting rules.
-- settings: restrict tab query parameter to whitelisted values only
-- ux: allow a custom order of your dashboard components through drag and drop.
-- ux: add direct link to page in the top pages component.
-- ux: styling improvements to the dashboard.
-- dev: add filter koko_analytics_print_html_comments to disable HTML comments with version info.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
