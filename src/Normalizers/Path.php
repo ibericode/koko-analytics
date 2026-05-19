@@ -37,7 +37,7 @@ class Path
         }
 
         // in case wordpress is served from a subdirectory, use the path relative to the wordpress root page
-        $home_path = parse_url(home_url(''), PHP_URL_PATH);
+        $home_path = parse_url(site_url(''), PHP_URL_PATH);
         if ($home_path && $home_path !== '/' && str_starts_with($value, $home_path)) {
             $value = substr($value, strlen($home_path));
         }
@@ -47,6 +47,6 @@ class Path
             $value = substr($value, 0, strlen($value) - 4);
         }
 
-        return $value;
+        return '/' . ltrim($value, '/');
     }
 }

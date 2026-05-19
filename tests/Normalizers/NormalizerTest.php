@@ -14,7 +14,7 @@ class NormalizerTest extends TestCase
     {
         $tests = [
             // empty string should remain untouched
-            '' => '',
+            '//' => '/',
             '/' => '/',
             '/about/' => '/about/',
             '/koko/is/great/' => '/koko/is/great/',

@@ -290,7 +290,7 @@ class Dashboard
                         <td class="text-muted"><?=  $offset + $i + 1; ?></td>
                         <td class="text-truncate">
                             <a href="<?= esc_attr(add_query_arg(['p' => $p->path])); ?>"><?= esc_html($p->label); ?></a>
-                            <a class="ka-visit-link" href="<?= esc_attr(esc_url($p->post_permalink)); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
+                            <a class="ka-visit-link" href="<?= esc_url($p->post_permalink); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
                         </td>
                         <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $p->visitors)); ?></td>
                         <td class="text-end"><?= number_format_i18n($p->pageviews); ?></td>
