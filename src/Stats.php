@@ -36,10 +36,24 @@ class Stats
         return [new \DateTimeImmutable($result->start ?? '-28 days', wp_timezone()), new \DateTimeImmutable($result->end ?? 'now', wp_timezone())];
     }
 
+    private function get_post_id_filter($page): int
+    {
+        if (is_int($page)) {
+            return max(0, $page);
+        }
+
+        if (is_string($page) && ctype_digit($page)) {
+            return (int) $page;
+        }
+
+        return 0;
+    }
+
     /**
      *
      * @param DateTimeInterface|string $start_date
      * @param DateTimeInterface|string $end_date
+     * @param int|string $page
      * @return object{ visitors: int, pageviews: int }
      */
     public function get_totals($start_date, $end_date, $page = 0, $unused = null): object
@@ -49,8 +63,13 @@ class Stats
         $from = "{$this->db->prefix}koko_analytics_site_stats s";
         $where = 's.date >= %s AND s.date <= %s';
         $args = [$start_date, $end_date];
+        $post_id = $this->get_post_id_filter($page);
 
-        if ($page) {
+        if ($post_id > 0) {
+            $from = "{$this->db->prefix}koko_analytics_post_stats s";
+            $where .= ' AND s.post_id = %d';
+            $args[] = $post_id;
+        } elseif ($page) {
             $from = "{$this->db->prefix}koko_analytics_post_stats s LEFT JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id";
             $where .= ' AND p.path = %s';
             $args[] = $page;
@@ -131,7 +150,7 @@ class Stats
      * @param DateTimeInterface|string $start_date
      * @param DateTimeInterface|string $end_date
      * @param string $group `day`, `week` or `month`
-     * @param string $page
+     * @param int|string $page
      * @return array
      */
     public function get_stats($start_date, $end_date, string $group = 'day', $page = ''): array
@@ -147,14 +166,20 @@ class Stats
         ];
         $date_key_expr = $date_key_expressions[$group];
 
-        if ($page) {
-            // join page-specific stats
+        $post_id = $this->get_post_id_filter($page);
+
+        if ($post_id > 0) {
+            $from = "{$this->db->prefix}koko_analytics_post_stats s";
+            $args = [$start_date, $end_date, $post_id];
+            $where = 's.date BETWEEN %s AND %s AND s.post_id = %d';
+        } elseif ($page) {
             $from = "{$this->db->prefix}koko_analytics_post_stats s JOIN {$this->db->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id";
             $args = [$page, $start_date, $end_date];
+            $where = 's.date BETWEEN %s AND %s';
         } else {
-            // join site-wide stats
             $from = "{$this->db->prefix}koko_analytics_site_stats s";
             $args = [$start_date, $end_date];
+            $where = 's.date BETWEEN %s AND %s';
         }
 
         $rows = array_map(function ($row) {
@@ -164,7 +189,7 @@ class Stats
         }, $this->db->get_results($this->db->prepare(
             "SELECT {$date_key_expr} AS `date`, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews
                 FROM {$from}
-                WHERE s.date BETWEEN %s AND %s
+                WHERE {$where}
                 GROUP BY {$date_key_expr}
                 ORDER BY {$date_key_expr} ASC",
             $args
@@ -200,20 +225,43 @@ class Stats
         $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
 
         $results = $this->db->get_results($this->db->prepare(
-            "SELECT p.path, s.post_id, IFNULL(NULLIF(wp.post_title, ''), p.path) AS label, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
-                FROM {$this->db->prefix}koko_analytics_post_stats s
+            "SELECT p.path, s.post_id, p.path AS label, s.visitors, s.pageviews
+                FROM (
+                    SELECT MAX(path_id) AS path_id, MAX(post_id) AS post_id, SUM(visitors) AS visitors, SUM(pageviews) AS pageviews
+                    FROM {$this->db->prefix}koko_analytics_post_stats
+                    WHERE date BETWEEN %s AND %s
+                    GROUP BY
+                        CASE WHEN post_id > 0 THEN 1 ELSE 0 END,
+                        CASE WHEN post_id > 0 THEN post_id ELSE path_id END
+                ) s
                 JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id
-                LEFT JOIN {$this->db->prefix}posts wp ON wp.ID = s.post_id
-                WHERE s.date BETWEEN %s AND %s
-                GROUP BY p.path, s.post_id
-                ORDER BY pageviews DESC, visitors DESC, s.path_id ASC
+                ORDER BY s.pageviews DESC, s.visitors DESC, s.path_id ASC
                 LIMIT %d, %d",
             [$start_date, $end_date, $offset, $limit]
         ));
 
+        $post_ids = array_values(array_filter(array_map('intval', array_column($results, 'post_id'))));
+        if (count($post_ids) > 0) {
+            get_posts([
+                'post__in' => $post_ids,
+                'post_type' => 'any',
+                'post_status' => 'any',
+                'posts_per_page' => count($post_ids),
+            ]);
+        }
+
         return array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
+            $row->post_id = (int) $row->post_id;
             $row->visitors = max(1, (int) $row->visitors);
+
+            if ($row->post_id > 0) {
+                $permalink = get_permalink($row->post_id);
+                if ($permalink) {
+                    $row->path = parse_url($permalink, PHP_URL_PATH) ?: $row->path;
+                    $row->label = get_the_title($row->post_id) ?: $row->label;
+                }
+            }
 
             // for backwards compatibility with versions before 2.0
             // set post_title and post_permalink property
@@ -233,10 +281,15 @@ class Stats
         $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
         $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
         return (int) $this->db->get_var($this->db->prepare(
-            "SELECT COUNT(DISTINCT p.path, s.post_id)
-                FROM {$this->db->prefix}koko_analytics_post_stats s
-                JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id
-                WHERE s.date BETWEEN %s AND %s",
+            "SELECT COUNT(*)
+                FROM (
+                    SELECT 1
+                    FROM {$this->db->prefix}koko_analytics_post_stats
+                    WHERE date BETWEEN %s AND %s
+                    GROUP BY
+                        CASE WHEN post_id > 0 THEN 1 ELSE 0 END,
+                        CASE WHEN post_id > 0 THEN post_id ELSE path_id END
+                ) s",
             [$start_date, $end_date]
         ));
     }

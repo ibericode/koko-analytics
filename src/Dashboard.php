@@ -285,11 +285,12 @@ class Dashboard
             </thead>
             <tbody>
                 <?php foreach ($posts as $i => $p) { ?>
+                    <?php $page_filter = $p->post_id > 0 ? (string) $p->post_id : $p->path; ?>
                     <?php $pct = $sum > 0 && $page === 0  ? round(($p->pageviews / $sum) * 100, 0) : 0; ?>
-                    <tr <?= $page == $p->path ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
+                    <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct ?>%, transparent <?= $pct ?>%);">
                         <td class="text-muted"><?=  $offset + $i + 1; ?></td>
                         <td class="text-truncate">
-                            <a href="<?= esc_attr(add_query_arg(['p' => $p->path])); ?>"><?= esc_html($p->label); ?></a>
+                            <a href="<?= esc_attr(add_query_arg(['p' => $page_filter])); ?>"><?= esc_html($p->label); ?></a>
                             <a class="ka-visit-link" href="<?= esc_url($p->post_permalink); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
                         </td>
                         <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $p->visitors)); ?></td>
