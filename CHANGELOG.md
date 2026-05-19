@@ -1,5 +1,17 @@
 # Changelog
 
+= 2.3.6 =
+
+- dashboard: group top pages by post ID when available, so changing a post slug no longer splits its analytics in the dashboard.
+- dashboard: resolve titles and permalinks dynamically for posts and pages in the top pages list.
+- dashboard: page-specific totals and charts now use post ID filters when available.
+- tracking: ignore query parameters when pretty permalinks are enabled.
+- tracking: ensure normalized paths always start with a leading slash.
+- data export: improve export reliability by casting numeric values and handling missing tables defensively.
+- settings: show database usage and table sizes on the data settings page.
+- settings: add current and latest database migration version to debug info.
+- release: exclude development-only files from the WordPress.org package.
+
 
 = 2.3.5 =
 

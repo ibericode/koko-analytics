@@ -10,7 +10,6 @@ namespace KokoAnalytics\Admin;
 
 use KokoAnalytics\Dashboard;
 use KokoAnalytics\Dashboard_Public;
-use KokoAnalytics\Router;
 
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\using_custom_endpoint;
