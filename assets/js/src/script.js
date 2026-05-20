@@ -1,4 +1,20 @@
 const ka = window.koko_analytics;
+const utmParams = ['utm_source', 'utm_medium', 'utm_campaign'];
+
+function getUtmData() {
+  const data = {};
+  const queryParams = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+
+  utmParams.forEach((param) => {
+    const value = queryParams.get(param) || hashParams.get(param);
+    if (value) {
+      data[param] = value;
+    }
+  });
+
+  return data;
+}
 
 ka.trackPageview = function(path, post_id) {
   if (
@@ -21,7 +37,9 @@ ka.trackPageview = function(path, post_id) {
     r: document.referrer.indexOf(ka.site_url) == 0 ? '' : document.referrer,
 
     // use cookie if allowed, otherwise tracking method from settings
-    m: ka.use_cookie ? 'c' : ka.method[0]
+    m: ka.use_cookie ? 'c' : ka.method[0],
+
+    ...getUtmData()
   }));
 };
 

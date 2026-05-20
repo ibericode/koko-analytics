@@ -6,6 +6,13 @@
 
 class Command
 {
+    protected function table_exists(string $table): bool
+    {
+        global $wpdb;
+
+        return $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table)) === $table;
+    }
+
     public function create_referrer_urls(int $n_referrers): array
     {
         global $wpdb;
@@ -31,6 +38,36 @@ class Command
         return array_map(function ($row) {
             return (int) $row->id;
         }, $wpdb->get_results("SELECT id FROM $table"));
+    }
+
+    public function create_utm_values(): array
+    {
+        global $wpdb;
+
+        $values_by_type = array(
+            'utm_source' => array('google', 'newsletter', 'facebook', 'linkedin', 'wordpress.org', 'github', 'partner-site'),
+            'utm_medium' => array('organic', 'email', 'social', 'referral', 'cpc'),
+            'utm_campaign' => array('spring-sale', 'product-launch', 'black-friday', 'docs-refresh', 'plugin-page'),
+        );
+        $ids_by_type = array();
+
+        foreach ($values_by_type as $type => $values) {
+            $table = $wpdb->prefix . 'koko_analytics_' . $type . '_labels';
+            if (!$this->table_exists($table)) {
+                continue;
+            }
+
+            echo "# Generating {$type} labels\n";
+            foreach ($values as $value) {
+                $wpdb->query($wpdb->prepare("INSERT IGNORE INTO $table(value) VALUES(%s)", $value));
+            }
+
+            $ids_by_type[$type] = array_map(function ($row) {
+                return (int) $row->id;
+            }, $wpdb->get_results("SELECT id FROM $table"));
+        }
+
+        return $ids_by_type;
     }
 
 
@@ -74,9 +111,16 @@ class Command
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_site_stats");
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_post_stats");
         $wpdb->query("TRUNCATE {$wpdb->prefix}koko_analytics_referrer_stats");
+        foreach (array('utm_source', 'utm_medium', 'utm_campaign') as $type) {
+            $table = $wpdb->prefix . 'koko_analytics_' . $type . '_stats';
+            if ($this->table_exists($table)) {
+                $wpdb->query("TRUNCATE $table");
+            }
+        }
 
         $paths = $this->create_paths($n_paths);
         $referrers = $this->create_referrer_urls($n_referrers);
+        $utm_values = $this->create_utm_values();
 
         echo "# Generating stats\n";
         for ($dt = new \DateTimeImmutable('now'), $i = 0; $dt > new \DateTimeImmutable("-{$years} years"); $dt = $dt->modify('-1 day'), $i++) {
@@ -94,6 +138,7 @@ class Command
             
             $this->seed_post_stats($paths, $date, $pageviews);
             $this->seed_referrers($referrers, $date, $pageviews);
+            $this->seed_utm_stats($utm_values, $date, $pageviews);
             echo "\r" . round($i / ($years * 365) * 100) . "% completed";
         }
 
@@ -127,6 +172,33 @@ class Command
         }
         $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($referrers)), ',');
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, hits, unique_hits) VALUES {$placeholders}", $values));
+    }
+
+    protected function seed_utm_stats(array $utm_values, string $date, int $pageviews): void
+    {
+        global $wpdb;
+
+        foreach ($utm_values as $type => $ids) {
+            if (empty($ids)) {
+                continue;
+            }
+
+            $table = $wpdb->prefix . 'koko_analytics_' . $type . '_stats';
+            if (!$this->table_exists($table)) {
+                continue;
+            }
+
+            $values = array();
+            $pageviews_per_value = $pageviews / count($ids) * 0.5;
+            foreach ($ids as $id) {
+                $utm_pageviews = (int) ($pageviews_per_value * rand(5, 15) * 0.1);
+                $utm_visitors = (int) (rand(1, 3) * $utm_pageviews * 0.1);
+                array_push($values, $date, $id, $utm_pageviews, $utm_visitors);
+            }
+
+            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($ids)), ',');
+            $wpdb->query($wpdb->prepare("INSERT INTO $table(date, id, hits, unique_hits) VALUES {$placeholders}", $values));
+        }
     }
 }
 
