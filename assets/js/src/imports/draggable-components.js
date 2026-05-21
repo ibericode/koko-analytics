@@ -57,7 +57,7 @@ if (container && container.querySelector('.ka-col[data-sortable]')) {
     cols.forEach(function(col) { col.draggable = false; });
 
     // collect new order and save
-    let order = Array.from(cols).map(el => el.id);
+    let order = Array.from(container.querySelectorAll('.ka-col[data-sortable]')).map(el => el.id);
     let body = new FormData();
     body.append('koko_analytics_action', 'save_component_order');
     body.append('_nonce', container.dataset.nonce);
