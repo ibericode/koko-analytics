@@ -77,7 +77,7 @@
 
 = 2.2.2 =
 
-- Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/).
+- Add hook koko_analytics_public_dashboard_headers, which fires before sending HTTP headers for public dashboard. This allows a password protected public dashboard in [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog).
 - Add hook koko_analytics_output_dashboard_settings which allows adding setting rows at any position on the dashboard settings page.
 - Delete koko_analytics_last_aggregation_at option on plugin uninstall.
 - Add gradient showing relative weight per row in the referrers table.
@@ -285,7 +285,7 @@ This release introduces path based tracking and improved dashboard styles. If yo
 
 = 1.8.6 =
 
-- Mention [geo-location](https://www.kokoanalytics.com/features/geo-location/), a new premium feature, in the settings page sidebar.
+- Mention [geo-location](https://www.kokoanalytics.com/features/geo-location/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog), a new premium feature, in the settings page sidebar.
 - Improved height of select and textarea elements on settings page.
 
 
@@ -314,7 +314,7 @@ This release introduces path based tracking and improved dashboard styles. If yo
 
 = 1.8.0 =
 
-- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/).
+- Added a new tracking method: [cookieless tracking](https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog).
 - If using cookie-based tracking, the cookie lifetime has been changed to expire at midnight (so a maximum of 24 hours).
 - Simplified client-side tracking script so it's now smaller than 500 bytes.
 - Excluded IP addresses now work properly with the optimized endpoint.
@@ -431,7 +431,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 - Add integration with Query Loop Block.
 - Fix date range when viewing "this week" or "last week" on a Sunday.
-- Remove non-functional settings example from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) from settings page.
+- Remove non-functional settings example from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog) from settings page.
 - Add one-time notice after at least 30 days of usage asking for a contribution.
 
 
@@ -519,7 +519,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 = 1.3.14 =
 
 - Explicitly call `sprintf` from global namespace to benefit from upcoming sprintf related performance improvements in PHP 8.4.
-- Demo settings from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) on plugin settings page.
+- Demo settings from [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog) on plugin settings page.
 
 
 = 1.3.13 =
@@ -548,7 +548,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 = 1.3.10 =
 
-- Registration for [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/) is open again. Purchase a license if you need custom event tracking or would just like to support the plugin.
+- Registration for [Koko Analytics Pro](https://www.kokoanalytics.com/pricing/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog) is open again. Purchase a license if you need custom event tracking or would just like to support the plugin.
 - Ignore requests from Facebook link previews and requests without a `User-Agent` HTTP header.
 - Update referrer blocklist.
 
@@ -628,7 +628,7 @@ Reverting this change from version 1.5.2 fixes an issue with the optimized endpo
 
 = 1.3.0 =
 
-- Major [performance improvements for the dashboard](https://www.kokoanalytics.com/2023/10/31/speeding-up-dashboard-removing-react-vanilla-js/) by removing the dependency on React and further optimizations.
+- Major [performance improvements for the dashboard](https://www.kokoanalytics.com/2023/10/31/speeding-up-dashboard-removing-react-vanilla-js/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin-changelog) by removing the dependency on React and further optimizations.
 - Added link for loading the dashboard outside of WordPress admin (standalone).
 - Added setting to make the analytics dashboard publicly available.
 - Only show button to create optimized endpoint file if location is writable.
