@@ -84,11 +84,11 @@ class Controller
         }
 
         // add links to documentation
-        $links[] = '<a href="https://www.kokoanalytics.com/docs/">' . esc_html__('Documentation', 'koko-analytics') . '</a>';
+        $links[] = '<a href="https://www.kokoanalytics.com/docs/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-plugins-page-docs">' . esc_html__('Documentation', 'koko-analytics') . '</a>';
 
         // add link to Pro version, unless already running it
         if (! \defined('KOKO_ANALYTICS_PRO_VERSION')) {
-            $links[] = '<a href="https://www.kokoanalytics.com/pricing/">' . esc_html__('Upgrade to Koko Analytics Pro', 'koko-analytics') . '</a>';
+            $links[] = '<a href="https://www.kokoanalytics.com/pricing/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-plugins-page-upgrade">' . esc_html__('Upgrade to Koko Analytics Pro', 'koko-analytics') . '</a>';
         }
 
         return $links;

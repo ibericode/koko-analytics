@@ -199,13 +199,13 @@ $tab = 'dashboard';
                     <?= esc_html__('You are currently using the free version of Koko Analytics.', 'koko-analytics'); ?>
                     <?= esc_html__('With Koko Analytics Pro you can unlock powerful benefits like country stats, device stats, custom event tracking and periodic email reports.', 'koko-analytics'); ?>
                 </p>
-                <p class="mt-0 mb-0"><a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill align-middle ms-2" viewBox="0 0 16 16">
+                <p class="mt-0 mb-0"><a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-dashboard-upgrade" target="_blank"><?php esc_html_e('Upgrade Now', 'koko-analytics'); ?> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill align-middle ms-2" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
                         </svg></a></p>
             </div>
         <?php else : ?>
             <div class="text-muted text-center mt-5 mb-3">
-                <?php printf(__('Powered by %1s - privacy-friendly analytics for WordPress sites', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/">Koko Analytics</a>'); ?>
+                <?php printf(__('Powered by %1s - privacy-friendly analytics for WordPress sites', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-dashboard-powered-by">Koko Analytics</a>'); ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>

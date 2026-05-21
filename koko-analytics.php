@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Koko Analytics
-Plugin URI: https://www.kokoanalytics.com/#utm_source=wp-plugin&utm_medium=koko-analytics&utm_campaign=plugins-page
+Plugin URI: https://www.kokoanalytics.com/#utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-plugin-header
 Version: 2.3.6
 Description: Privacy-friendly and efficient statistics for your WordPress site.
 Author: ibericode

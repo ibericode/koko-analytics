@@ -12,5 +12,5 @@ defined('ABSPATH') or exit;
     <h2 class="mt-0 mb-3"><?= esc_html__('Email reports', 'koko-analytics') ?></h2>
 
     <p>Email reports is a feature from Koko Analytics Pro that allows you to configure periodic email reports, delivering a summary of your most important metrics to your email inbox.</p>
-    <p><a href="https://www.kokoanalytics.com/pricing/">Upgrade to Koko Analytics Pro</a></p>
+    <p><a href="https://www.kokoanalytics.com/pricing/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-emails-upgrade">Upgrade to Koko Analytics Pro</a></p>
 <?php endif; ?>

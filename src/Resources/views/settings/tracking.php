@@ -37,7 +37,7 @@ defined('ABSPATH') or exit;
                 </li>
             </ul>
 
-            <p class="description"><?php echo sprintf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/'); ?></p>
+            <p class="description"><?php echo sprintf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-tracking-docs'); ?></p>
         </fieldset>
     </div>
     <div class="mb-4">
@@ -86,5 +86,5 @@ defined('ABSPATH') or exit;
 
 
 <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
-    <p class="text-muted mt-5"><?= sprintf(__('Collect country, browser, operating system and device statistics with %s.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/">Koko Analytics Pro</a>'); ?></p>
+    <p class="text-muted mt-5"><?= sprintf(__('Collect country, browser, operating system and device statistics with %s.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-tracking-upgrade">Koko Analytics Pro</a>'); ?></p>
 <?php endif; ?>
