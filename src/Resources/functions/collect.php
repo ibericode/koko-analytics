@@ -278,8 +278,8 @@ function determine_uniqueness(array $request_params, string $type, $thing): arra
 function determine_uniqueness_cookie(string $type, $thing): array
 {
     $things = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode('-', $_COOKIE['_koko_analytics_pages_viewed']) : [];
-    $unique_type = $type && !\in_array($type[0], $things);
-    $unique_thing =  $unique_type || ! \in_array($thing, $things);
+    $unique_type = $type && !\in_array($type[0], $things, true);
+    $unique_thing =  $unique_type || ! \in_array($thing, $things, true);
 
     if ($unique_type) {
         $things[] = $type[0];
@@ -332,10 +332,10 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
     }
 
     // check if type indicator is in session file
-    $unique_type = $type && ! \in_array($type[0], $things);
+    $unique_type = $type && ! \in_array($type[0], $things, true);
 
     // check if page id or event hash is in session file
-    $unique_thing = $unique_type || ! \in_array($thing, $things);
+    $unique_thing = $unique_type || ! \in_array($thing, $things, true);
 
     // build string to append to session file
     $append = "";
