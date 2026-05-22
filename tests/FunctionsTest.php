@@ -12,6 +12,7 @@ use function KokoAnalytics\get_client_ip;
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_request_params;
 use function KokoAnalytics\determine_uniqueness_fingerprint;
+use function KokoAnalytics\collect_in_file;
 
 final class FunctionsTest extends TestCase
 {
@@ -20,13 +21,16 @@ final class FunctionsTest extends TestCase
        // incomplete params
         $this->assertEquals(extract_pageview_data([]), []);
         $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/']), []);
 
        // complete but invalid
         $this->assertEquals(extract_pageview_data(['po' => '']), []);
         $this->assertEquals(extract_pageview_data(['po' => '1', 'r' => 'not an url']), []);
         $this->assertEquals(extract_pageview_data(['pa' => [], 'po' => '1']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => true, 'po' => '1']), []);
         $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => []]), []);
         $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => []]), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => true]), []);
 
         // complete and valid
         foreach (
@@ -61,7 +65,9 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => 'nan']), []);
         $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'v' => '100']), []);
         $this->assertEquals(extract_event_data(['e' => [], 'p' => 'Param', 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => true, 'p' => 'Param', 'v' => '100']), []);
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => [], 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => true, 'v' => '100']), []);
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => []]), []);
 
         // complete and valid
@@ -119,6 +125,27 @@ final class FunctionsTest extends TestCase
         foreach (glob("{$upload_dir}/buffer-*") ?: [] as $filename) {
             unlink($filename);
         }
+    }
+
+    public function testCollectInFileWritesSerializedLine(): void
+    {
+        $upload_dir = '/tmp/koko-analytics';
+        if (is_dir($upload_dir)) {
+            foreach (glob("{$upload_dir}/buffer-*") ?: [] as $filename) {
+                unlink($filename);
+            }
+        }
+
+        $data = ['p', 123, '/', 1, 1, 1, ''];
+
+        $this->assertTrue(collect_in_file($data));
+
+        $filenames = glob("{$upload_dir}/buffer-*.csv") ?: [];
+        $this->assertCount(1, $filenames);
+        $this->assertMatchesRegularExpression('/\/buffer-[a-f0-9]{32}\.csv$/', $filenames[0]);
+        $this->assertEquals(serialize($data) . PHP_EOL, file_get_contents($filenames[0]));
+
+        unlink($filenames[0]);
     }
 
     public function testDetermineUniquenessFingerprintHandlesMissingStorage(): void
