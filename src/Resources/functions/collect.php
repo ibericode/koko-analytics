@@ -17,7 +17,7 @@ use DateTimeImmutable;
 function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing
-    if (!isset($raw['pa'])) {
+    if (!isset($raw['pa'], $raw['po'])) {
         return [];
     }
 
