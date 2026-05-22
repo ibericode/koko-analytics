@@ -195,7 +195,7 @@ function collect_in_file(array $data): bool
     $content = \serialize($data);
     $content .= PHP_EOL;
 
-    return (bool) \file_put_contents($filename, $content, FILE_APPEND);
+    return (bool) \file_put_contents($filename, $content, FILE_APPEND | LOCK_EX);
 }
 
 function test_collect_in_file(): bool
@@ -330,7 +330,7 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
         $append .= "{$thing}\n";
     }
     if ($append !== '') {
-        \file_put_contents($session_file, $append, FILE_APPEND);
+        \file_put_contents($session_file, $append, FILE_APPEND | LOCK_EX);
     }
 
     return [$unique_type, $unique_thing];
