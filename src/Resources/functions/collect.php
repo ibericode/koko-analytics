@@ -167,7 +167,7 @@ function get_buffer_filename(): string
         $filenames = \scandir($upload_dir);
         if (\is_array($filenames)) {
             foreach ($filenames as $filename) {
-                if (\str_starts_with($filename, "buffer-") && ! \str_ends_with($filename, ".busy")) {
+                if (\preg_match('/^buffer-[a-f0-9]{32}\.csv$/', $filename)) {
                     return "{$upload_dir}/{$filename}";
                 }
             }

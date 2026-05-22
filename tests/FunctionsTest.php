@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
+use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_request_params;
 
 final class FunctionsTest extends TestCase
@@ -94,6 +95,29 @@ final class FunctionsTest extends TestCase
 
         $_GET = [];
         $_POST = [];
+    }
+
+    public function testGetBufferFilenameOnlyReusesGeneratedBufferFiles(): void
+    {
+        $upload_dir = '/tmp/koko-analytics';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0775, true);
+        }
+
+        foreach (glob("{$upload_dir}/buffer-*") ?: [] as $filename) {
+            unlink($filename);
+        }
+
+        touch("{$upload_dir}/buffer-old.txt");
+        touch("{$upload_dir}/buffer-123.csv.bak");
+        touch("{$upload_dir}/buffer-00000000000000000000000000000000.csv.busy");
+        touch("{$upload_dir}/buffer-00000000000000000000000000000000.csv");
+
+        $this->assertEquals("{$upload_dir}/buffer-00000000000000000000000000000000.csv", get_buffer_filename());
+
+        foreach (glob("{$upload_dir}/buffer-*") ?: [] as $filename) {
+            unlink($filename);
+        }
     }
 
     public function testGetClientIp(): void
