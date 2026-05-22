@@ -186,6 +186,9 @@ function collect_in_file(array $data): bool
     if (! \is_dir($directory)) {
         \mkdir($directory, 0755, true);
     }
+    if (! \is_dir($directory)) {
+        return false;
+    }
 
     // append serialized data to file
     // TODO: Write CSV data here, but ideally we want to run the aggregator just once using the old data format after each plugin update
@@ -205,6 +208,9 @@ function test_collect_in_file(): bool
     $directory = \dirname($filename);
     if (! \is_dir($directory)) {
         \mkdir($directory, 0755, true);
+    }
+    if (! \is_dir($directory)) {
+        return false;
     }
 
     return \is_writable($directory);
