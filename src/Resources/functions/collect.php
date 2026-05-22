@@ -21,6 +21,10 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
+    if (!is_string($raw['pa']) || (isset($raw['po']) && !is_scalar($raw['po'])) || (isset($raw['r']) && !is_string($raw['r']))) {
+        return [];
+    }
+
     // grab and validate parameters
     $path = substr(trim($raw['pa']), 0, 255);
     $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT);
@@ -54,6 +58,10 @@ function extract_event_data(array $raw): array
         return [];
     }
 
+    if (!is_string($raw['e']) || !is_string($raw['p']) || !is_scalar($raw['v'])) {
+        return [];
+    }
+
     $event_name = \trim($raw['e']);
     $event_param = \trim($raw['p']);
     if (\strlen($event_name) === 0) {
@@ -82,6 +90,17 @@ function extract_event_data(array $raw): array
     ];
 }
 
+function get_request_params(): array
+{
+    // We need to accept both GET and POST because the AMP integration uses URL query parameters.
+    $request_params = array_merge($_GET, $_POST);
+    if (\function_exists('wp_unslash')) {
+        $request_params = \wp_unslash($request_params);
+    }
+
+    return $request_params;
+}
+
 function collect_request()
 {
     // ignore requests from bots, crawlers and link previews
@@ -95,8 +114,7 @@ function collect_request()
         return;
     }
 
-    // we need to accept both GET and POST because the AMP integration uses URL query parameters
-    $request_params = array_merge($_GET, $_POST);
+    $request_params = get_request_params();
     $data = isset($request_params['e']) ? extract_event_data($request_params) : extract_pageview_data($request_params);
     if (!empty($data)) {
         // store data in buffer file

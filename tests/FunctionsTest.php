@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
+use function KokoAnalytics\get_request_params;
 
 final class FunctionsTest extends TestCase
 {
@@ -21,6 +22,9 @@ final class FunctionsTest extends TestCase
        // complete but invalid
         $this->assertEquals(extract_pageview_data(['po' => '']), []);
         $this->assertEquals(extract_pageview_data(['po' => '1', 'r' => 'not an url']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => [], 'po' => '1']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => []]), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => []]), []);
 
         // complete and valid
         foreach (
@@ -54,6 +58,9 @@ final class FunctionsTest extends TestCase
         // complete but invalid
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => 'nan']), []);
         $this->assertEquals(extract_event_data(['e' => '', 'p' => 'Param', 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => [], 'p' => 'Param', 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => [], 'v' => '100']), []);
+        $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => []]), []);
 
         // complete and valid
         $actual = extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '100']);
@@ -63,6 +70,30 @@ final class FunctionsTest extends TestCase
         $this->assertEquals($expected[2], $actual[2]);
         $this->assertEquals($expected[3], $actual[3]);
         $this->assertEquals($expected[4], $actual[4]);
+    }
+
+    public function testGetRequestParamsUnslashesWordPressRequestData(): void
+    {
+        $_GET = [
+            'pa' => '/quotes-\\\'test\\\'/slashes',
+            'po' => '1',
+            'r' => 'https://example.com/?q=\\\'test\\\'',
+        ];
+        $_POST = [
+            'e' => 'Click \\\'button\\\'',
+            'p' => 'Label \\\'primary\\\'',
+            'v' => '100',
+        ];
+
+        $actual = get_request_params();
+
+        $this->assertEquals("/quotes-'test'/slashes", $actual['pa']);
+        $this->assertEquals("https://example.com/?q='test'", $actual['r']);
+        $this->assertEquals("Click 'button'", $actual['e']);
+        $this->assertEquals("Label 'primary'", $actual['p']);
+
+        $_GET = [];
+        $_POST = [];
     }
 
     public function testGetClientIp(): void

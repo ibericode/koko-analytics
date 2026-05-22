@@ -162,6 +162,16 @@ function wp_register_script($handle, $src, $deps = []) {}
 function plugins_url($file, $path) {}
 function register_block_type($file, $args = []) {}
 
+function wp_unslash($value)
+{
+    return stripslashes_deep($value);
+}
+
+function stripslashes_deep($value)
+{
+    return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+}
+
 class wpdb
 {
     public $prefix = '';
