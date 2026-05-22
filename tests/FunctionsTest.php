@@ -11,6 +11,7 @@ use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_request_params;
+use function KokoAnalytics\determine_uniqueness_fingerprint;
 
 final class FunctionsTest extends TestCase
 {
@@ -118,6 +119,28 @@ final class FunctionsTest extends TestCase
         foreach (glob("{$upload_dir}/buffer-*") ?: [] as $filename) {
             unlink($filename);
         }
+    }
+
+    public function testDetermineUniquenessFingerprintHandlesMissingStorage(): void
+    {
+        $sessions_dir = '/tmp/koko-analytics/sessions';
+        if (is_dir($sessions_dir)) {
+            foreach (new \DirectoryIterator($sessions_dir) as $file) {
+                if ($file->isDot()) {
+                    continue;
+                }
+                unlink($file->getPathname());
+            }
+            rmdir($sessions_dir);
+        }
+
+        $_SERVER['HTTP_USER_AGENT'] = 'Unit Test';
+        $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+
+        $this->assertEquals([true, true], determine_uniqueness_fingerprint('pageview', 'abc'));
+        $this->assertDirectoryDoesNotExist($sessions_dir);
+
+        unset($_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
     }
 
     public function testGetClientIp(): void

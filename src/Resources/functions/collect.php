@@ -297,11 +297,27 @@ function determine_uniqueness_cookie(string $type, $thing): array
 
 function determine_uniqueness_fingerprint(string $type, $thing): array
 {
-    $seed_value = \file_get_contents(get_upload_dir() . '/sessions/.daily_seed');
+    // Fingerprint storage is provisioned on plugin activation and when settings change.
+    // Do not create it from the public endpoint, because that would skip directory protection.
+    $sessions_dir = get_upload_dir() . '/sessions';
+    if (! \is_dir($sessions_dir)) {
+        return [true, true];
+    }
+
+    $seed_file = "{$sessions_dir}/.daily_seed";
+    if (! \is_file($seed_file)) {
+        return [true, true];
+    }
+
+    $seed_value = \file_get_contents($seed_file);
+    if (! \is_string($seed_value)) {
+        return [true, true];
+    }
+
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $ip_address = get_client_ip();
     $visitor_id = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
-    $session_file = get_upload_dir() . "/sessions/{$visitor_id}";
+    $session_file = "{$sessions_dir}/{$visitor_id}";
     $things = [];
 
     // only read file if it exists and is not from before today
