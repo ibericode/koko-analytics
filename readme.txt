@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -116,6 +116,19 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.3.7 =
+
+- tracking: include UTM parameters in pageview tracking requests so integrations can access campaign data.
+- endpoint: harden pageview and event request validation by checking required parameters and accepted types.
+- endpoint: unslash request data when running inside WordPress.
+- endpoint: use exact buffer filename matching when finding existing buffer files.
+- endpoint: use file locking when writing to buffer and session files.
+- endpoint: handle missing upload or sessions directories more defensively.
+- dashboard: fix saving component order when the page contains non-sortable dashboard columns.
+- dashboard: keep an explicit group parameter when switching chart grouping back to days.
+- docs: add campaign parameters to in-plugin links to Koko Analytics documentation and Pro pages.
+
+
 = 2.3.6 =
 
 - dashboard: group top pages by post ID when available, so changing a post slug no longer splits its analytics in the dashboard.
@@ -150,13 +163,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 = 2.3.3 =
 
 - database: fix table and column value for upserting new referrer URL's.
-
-
-= 2.3.2 =
-
-- dashboard: draggable icon now only shows up when hovering table header, not table body
-- database: prevent running database migrations concurrently 
-- database: try to increase time limit to 300s before running database migrations
-- database: re-acquire and extend acquired lock after every individual database migration step
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
