@@ -1,5 +1,18 @@
 # Changelog
 
+= 2.3.7 =
+
+- tracking: include UTM parameters in pageview tracking requests so integrations can access campaign data.
+- endpoint: harden pageview and event request validation by checking required parameters and accepted types.
+- endpoint: unslash request data when running inside WordPress.
+- endpoint: use exact buffer filename matching when finding existing buffer files.
+- endpoint: use file locking when writing to buffer and session files.
+- endpoint: handle missing upload or sessions directories more defensively.
+- dashboard: fix saving component order when the page contains non-sortable dashboard columns.
+- dashboard: keep an explicit group parameter when switching chart grouping back to days.
+- docs: add campaign parameters to in-plugin links to Koko Analytics documentation and Pro pages.
+
+
 = 2.3.6 =
 
 - dashboard: group top pages by post ID when available, so changing a post slug no longer splits its analytics in the dashboard.
