@@ -24,9 +24,8 @@ defined('ABSPATH') or exit;
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div class="ka-col ka-col-9" style="max-width: 100ch;">
-            <div class="ka-settings-main">
-
+        <div class="ka-col ka-col-9">
+            <div class="ka-settings-main" style="max-width: 80ch;">
                 <?php /* error messages: query key error */ ?>
                 <?php if (!empty($_GET['error'])) { ?>
                     <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
