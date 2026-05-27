@@ -652,6 +652,24 @@ textarea.ka-input {
   --bs-btn-disabled-border-color: #6c757d;
 }
 
+.btn-koko,
+.koko-analytics .btn-koko {
+  --bs-btn-color: white;
+  --bs-btn-bg: #b60205;
+  --bs-btn-border-color: #a40205;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #a40205;
+  --bs-btn-hover-border-color: #a40205;
+  --bs-btn-focus-shadow-rgb: 130, 138, 145;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #565e64;
+  --bs-btn-active-border-color: #51585e;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #6c757d;
+  --bs-btn-disabled-border-color: #6c757d;
+}
+
 .btn-danger,
 .koko-analytics .btn-danger {
   --bs-btn-color: #fff;
@@ -769,6 +787,32 @@ textarea.ka-input {
   width: 12px;
   height: 12px;
 }
+
+/* locked settings */
+.ka-locked-section { 
+  position: relative; 
+  padding: 1.5rem 0;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 1.5rem;
+}
+.ka-locked-section-button { 
+  position: absolute; 
+  width: 100%; 
+  height: 100%; 
+  left: 0; 
+  top: 0; z-index: 2; display: flex; align-items: center; text-align: center;
+}
+.ka-locked-section-button a {
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+.ka-locked-section-contents {
+  opacity: .4;
+  z-index: 1;
+}
+
 
 /* sm */
 @media (min-width: 576px) {

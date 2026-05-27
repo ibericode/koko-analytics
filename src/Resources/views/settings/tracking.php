@@ -77,14 +77,47 @@ defined('ABSPATH') or exit;
         </p>
     </div>
 
+        
+    <?php if (! defined('KOKO_ANALYTICS_PRO')) : ?>
+    <div class="ka-locked-section">
+        <div class="ka-locked-section-button">
+            <a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-tracking" class="btn btn-koko btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock me-2" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z"/></svg> 
+                Unlock with Pro
+            </a>
+        </div>
+        <div class="ka-locked-section-contents">
+            <div class="mb-4">
+                <label class="ka-label"><?php esc_html_e('Enable geo-location?', 'koko-analytics'); ?></label>
+                <div class="mb-2">
+                    <label class="me-1"><input type="radio" disabled> <?php esc_html_e('Yes', 'koko-analytics'); ?></label> &nbsp;
+                    <label><input type="radio" checked="checked" disabled> <?php esc_html_e('No', 'koko-analytics'); ?></label>
+                </div>
+                <p class="description"><?php esc_html_e('Select "yes" if you want Koko Analytics to geo-locate visitors by their IP address.', 'koko-analytics'); ?></p>
+            </div>
+            <div class="mb-4">
+                <label class="ka-label"><?php esc_html_e('Enable device tracking?', 'koko-analytics'); ?></label>
+                <div class="mb-2">
+                    <label class="me-1"><input type="radio" disabled> <?php esc_html_e('Yes', 'koko-analytics'); ?></label> &nbsp;
+                    <label><input type="radio" checked="checked" disabled> <?php esc_html_e('No', 'koko-analytics'); ?></label>
+                </div>
+                <p class="description"><?php esc_html_e('Select "yes" if you want Koko Analytics to count browsers, operating systems and device types.', 'koko-analytics'); ?></p>
+            </div>
+            <div class="mb-0">
+                <label class="ka-label"><?php esc_html_e('Enable UTM tracking?', 'koko-analytics'); ?></label>
+                <div class="mb-2">
+                    <label class="me-1"><input type="radio" disabled> <?php esc_html_e('Yes', 'koko-analytics'); ?></label> &nbsp;
+                    <label><input type="radio" checked="checked" disabled> <?php esc_html_e('No', 'koko-analytics'); ?></label>
+                </div>
+                <p class="description"><?php esc_html_e('Select "yes" if you want Koko Analytics to track utm_source, utm_medium and utm_campaign parameters from the URL query string or hash.', 'koko-analytics'); ?></p>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <?php do_action('koko_analytics_output_after_tracking_settings', $settings); ?>
 
     <div>
         <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes') ?>">
     </div>
 </form>
-
-
-<?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
-    <p class="text-muted mt-5"><?= sprintf(__('Collect country, browser, operating system and device statistics with %s.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/pricing/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-tracking-upgrade">Koko Analytics Pro</a>'); ?></p>
-<?php endif; ?>

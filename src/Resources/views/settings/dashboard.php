@@ -38,6 +38,7 @@ add_action('koko_analytics_output_dashboard_settings', function ($settings) use 
     </div>
     <?php
 }, 200);
+
 ?>
 
 <h2 class="mt-0 mb-3"><?= esc_html__('Dashboard settings', 'koko-analytics') ?></h2>
@@ -54,4 +55,8 @@ add_action('koko_analytics_output_dashboard_settings', function ($settings) use 
     <div>
         <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes') ?>">
     </div>
+
+    <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
+     <p class="text-muted mt-5 mb-0"><a class="text-reset" href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-dashboard">Upgrade to Koko Analytics Pro</a> to password protect your public analytics dashboard.</p>
+    <?php endif; ?>
 </form>
