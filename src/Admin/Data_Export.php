@@ -22,203 +22,69 @@ class Data_Export
 
     public function action_listener(): void
     {
-        if (!current_user_can('manage_koko_analytics')) {
+        if (!current_user_can('manage_koko_analytics') || ! check_admin_referer('koko_analytics_export_data')) {
             return;
         }
-
-        check_admin_referer('koko_analytics_export_data');
 
         $this->run();
     }
 
     public function run(): void
     {
-        // write to HTTP stream
-        $date = (new DateTimeImmutable('now', wp_timezone()))->format("Y-m-d");
+        $date = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
         $site_url = parse_url(get_site_url(), PHP_URL_HOST);
 
-        header('Content-Type: application/sql');
-        header("Content-Disposition: attachment;filename={$site_url}-koko-analytics-export-{$date}.sql");
+        header('Content-Type: application/x-ndjson');
+        header("Content-Disposition: attachment;filename={$site_url}-koko-analytics-export-{$date}.ndjson");
         $fh = fopen('php://output', 'w');
-
-        // add header - this is also used to detect file is correct during import
-        fwrite($fh, "-- Koko Analytics database export from {$date}\n\n");
-
-        $this->export_database_version($fh);
-        $this->export_site_stats($fh);
-        $this->export_paths($fh);
-        $this->export_post_stats($fh);
-        $this->export_referrer_labels($fh);
-        $this->export_referrer_stats($fh);
-
-        // hook for pro plugin to export its database tables and write to this stream
-        do_action('koko_analytics_write_data_export', $fh);
-
+        foreach (Data_Transfer_Tables::get() as $table => $spec) {
+            $this->export_table($fh, $table, $spec['columns']);
+        }
         fclose($fh);
         exit;
     }
 
-    private function export_database_version($stream): void
+    /**
+     * @param resource $stream
+     * @param string[] $columns
+     */
+    private function export_table($stream, string $table, array $columns): void
     {
-        $version = (int) get_option('koko_analytics_migrations', 0);
-        fwrite($stream, "DELETE FROM {$this->db->options} WHERE option_name = 'koko_analytics_migrations';\n");
-        fprintf($stream, "INSERT INTO {$this->db->options} (option_name, option_value, autoload) VALUES ('koko_analytics_migrations', '%d', 'on');\n", $version);
-    }
+        $this->write_json_line($stream, [
+            'table' => $table,
+            'columns' => $columns,
+        ]);
 
-    private function export_site_stats($stream): void
-    {
-        // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_site_stats;\n");
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_site_stats", 1);
-        if ($create_table_sql) {
-            fwrite($stream, $create_table_sql);
-            fwrite($stream, ";\n");
-        }
+        $prefixed_table = $this->db->prefix . $table;
+        $column_sql = implode(', ', array_map(static function (string $column): string {
+            return '`' . $column . '`';
+        }, $columns));
+        $offset = 0;
+        $limit = Data_Transfer_Tables::BATCH_SIZE;
 
-        // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_site_stats;");
-        if (!$rows) {
-            return;
-        }
-
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_site_stats (date, visitors, pageviews) VALUES ");
-        $prefix = '';
-        foreach ($rows as $s) {
-            fprintf(
-                $stream,
-                '%s("%s",%d,%d)',
-                $prefix,
-                esc_sql($s->date),
-                (int) $s->visitors,
-                (int) $s->pageviews
+        do {
+            $rows = $this->db->get_results(
+                $this->db->prepare("SELECT {$column_sql} FROM {$prefixed_table} LIMIT %d OFFSET %d", [$limit, $offset]),
+                ARRAY_N
             );
-            $prefix = ',';
-        }
-        fwrite($stream, ";\n");
-        unset($rows);
+
+            if (! is_array($rows)) {
+                $rows = [];
+            } elseif ($rows) {
+                $this->write_json_line($stream, $rows);
+            }
+
+            $offset += $limit;
+        } while (count($rows) === $limit);
     }
 
-    private function export_paths($stream): void
+    /**
+     * @param resource $stream
+     * @param mixed $data
+     */
+    private function write_json_line($stream, $data): void
     {
-        // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_paths;\n");
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_paths", 1);
-        if ($create_table_sql) {
-            fwrite($stream, $create_table_sql);
-            fwrite($stream, ";\n");
-        }
-
-        // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_paths;");
-        if (!$rows) {
-            return;
-        }
-
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_paths (id, path) VALUES ");
-        $prefix = '';
-        foreach ($rows as $s) {
-            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->path));
-            $prefix = ',';
-        }
-        fwrite($stream, ";\n");
-        unset($rows);
-    }
-
-    private function export_post_stats($stream): void
-    {
-        // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_post_stats;\n");
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_post_stats", 1);
-        if ($create_table_sql) {
-            fwrite($stream, $create_table_sql);
-            fwrite($stream, ";\n");
-        }
-
-        // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_post_stats;");
-        if (!$rows) {
-            return;
-        }
-
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_post_stats (date, path_id, post_id, visitors, pageviews) VALUES ");
-        $prefix = '';
-        foreach ($rows as $s) {
-            fprintf(
-                $stream,
-                '%s("%s",%d,%d,%d,%d)',
-                $prefix,
-                esc_sql($s->date),
-                (int) $s->path_id,
-                (int) $s->post_id,
-                (int) $s->visitors,
-                (int) $s->pageviews
-            );
-            $prefix = ',';
-        }
-        fwrite($stream, ";\n");
-        unset($rows);
-    }
-
-    private function export_referrer_labels($stream): void
-    {
-        // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_labels;\n");
-
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_labels", 1);
-        if ($create_table_sql) {
-            fwrite($stream, $create_table_sql);
-            fwrite($stream, ";\n");
-        }
-
-        // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_labels;");
-        if (!$rows) {
-            return;
-        }
-
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_labels (id, `value`) VALUES ");
-        $prefix = '';
-        foreach ($rows as $s) {
-            fprintf($stream, "{$prefix}({$s->id},\"%s\")", esc_sql($s->value));
-            $prefix = ',';
-        }
-        fwrite($stream, ";\n");
-        unset($rows);
-    }
-
-    private function export_referrer_stats($stream): void
-    {
-        // table schema
-        fwrite($stream, "DROP TABLE IF EXISTS {$this->db->prefix}koko_analytics_referrer_stats;\n");
-        $create_table_sql = $this->db->get_var("SHOW CREATE TABLE {$this->db->prefix}koko_analytics_referrer_stats", 1);
-        if ($create_table_sql) {
-            fwrite($stream, $create_table_sql);
-            fwrite($stream, ";\n");
-        }
-
-        // table contents
-        $rows = $this->db->get_results("SELECT * FROM {$this->db->prefix}koko_analytics_referrer_stats;");
-        if (!$rows) {
-            return;
-        }
-
-        fwrite($stream, "INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats (date, id, unique_hits, hits) VALUES ");
-        $prefix = '';
-        foreach ($rows as $s) {
-            $unique = $s->unique_hits ?: $s->visitors ?: 0;
-            $total = $s->hits ?: $s->pageviews ?: 0;
-            fprintf(
-                $stream,
-                '%s("%s",%d,%d,%d)',
-                $prefix,
-                esc_sql($s->date),
-                (int) $s->id,
-                (int) $unique,
-                (int) $total
-            );
-            $prefix = ',';
-        }
-        fwrite($stream, ";\n");
-        unset($rows);
+        fwrite($stream, (string) wp_json_encode($data));
+        fwrite($stream, "\n");
     }
 }

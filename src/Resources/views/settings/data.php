@@ -77,7 +77,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
         <?php wp_referer_field(); ?>
         <input type="hidden" name="koko_analytics_action" value="import_data" />
         <div class="mb-2">
-            <input class="ka-input" type="file" name="import-file" id="import-file" accept=".sql,application/sql,text/sql,text/plain" required>
+            <input class="ka-input" type="file" name="import-file" id="import-file" accept=".ndjson,application/x-ndjson,application/json,text/plain" required>
         </div>
         <div class="mb-2">
             <input type="submit" value="<?php esc_attr_e('Import', 'koko-analytics'); ?>" class="btn btn-secondary btn-sm" />
@@ -96,7 +96,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
 
 <div class="mb-5">
     <h3  class="mb-2"><?php esc_html_e('Export data', 'koko-analytics'); ?></h3>
-    <p><?php esc_html_e('Export your current dataset to SQL using the form below.', 'koko-analytics'); ?></p>
+    <p><?php esc_html_e('Export your current dataset to NDJSON using the form below.', 'koko-analytics'); ?></p>
     <form method="POST" action="">
         <?php wp_nonce_field('koko_analytics_export_data'); ?>
         <?php wp_referer_field(); ?>
