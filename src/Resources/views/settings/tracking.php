@@ -78,7 +78,7 @@ defined('ABSPATH') or exit;
     </div>
 
         
-    <?php if (! defined('KOKO_ANALYTICS_PRO')) : ?>
+    <?php if (! defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
     <div class="ka-locked-section">
         <div class="ka-locked-section-button">
             <a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-tracking" class="btn btn-koko btn-sm">
