@@ -13,6 +13,7 @@ use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_settings;
 use function KokoAnalytics\get_realtime_pageview_count;
 use function KokoAnalytics\get_request_params;
+use function KokoAnalytics\determine_uniqueness_cookie;
 use function KokoAnalytics\determine_uniqueness_fingerprint;
 use function KokoAnalytics\collect_in_file;
 
@@ -254,6 +255,35 @@ final class FunctionsTest extends TestCase
         $this->assertDirectoryDoesNotExist($sessions_dir);
 
         unset($_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+    }
+
+    public function testDetermineUniquenessCookieReturnsUniqueForMissingCookie(): void
+    {
+        unset($_COOKIE['_koko_analytics_pages_viewed']);
+
+        self::assertSame([true, true], determine_uniqueness_cookie('pageview', 'abc'));
+    }
+
+    public function testDetermineUniquenessCookieReturnsKnownTypeAndKnownThingAsNotUnique(): void
+    {
+        $_COOKIE['_koko_analytics_pages_viewed'] = 'p-abc';
+
+        try {
+            self::assertSame([false, false], determine_uniqueness_cookie('pageview', 'abc'));
+        } finally {
+            unset($_COOKIE['_koko_analytics_pages_viewed']);
+        }
+    }
+
+    public function testDetermineUniquenessCookieReturnsKnownTypeAndNewThingAsUniqueThing(): void
+    {
+        $_COOKIE['_koko_analytics_pages_viewed'] = 'p-abc';
+
+        try {
+            self::assertSame([false, true], determine_uniqueness_cookie('pageview', 'def'));
+        } finally {
+            unset($_COOKIE['_koko_analytics_pages_viewed']);
+        }
     }
 
     public function testGetClientIp(): void
