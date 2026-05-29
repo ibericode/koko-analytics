@@ -57,6 +57,11 @@ function number_format_i18n($number, $decimals = 0)
     return number_format($number, $decimals);
 }
 
+function absint($value)
+{
+    return abs((int) $value);
+}
+
 function register_activation_hook($file, $callback) {}
 
 function register_deactivation_hook($file, $callback) {}

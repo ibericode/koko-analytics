@@ -13,6 +13,20 @@ use DateTimeInterface;
 
 class Dashboard
 {
+    public const MAX_LIMIT = 100;
+    public const MAX_OFFSET = 10000;
+
+    public static function clamp_limit($value, int $default = 10, int $minimum = 1): int
+    {
+        $limit = isset($value) ? absint($value) : $default;
+        return min(self::MAX_LIMIT, max($minimum, $limit));
+    }
+
+    public static function clamp_offset($value): int
+    {
+        return min(self::MAX_OFFSET, isset($value) ? absint($value) : 0);
+    }
+
     public function get_base_url()
     {
         return admin_url('index.php?page=koko-analytics');
@@ -260,8 +274,8 @@ class Dashboard
     public function component_pages(DateTimeInterface $date_start, DateTimeInterface $date_end): void
     {
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $offset = isset($_GET['posts']['offset']) ? absint($_GET['posts']['offset']) : 0;
-        $limit = isset($_GET['posts']['limit']) ? absint($_GET['posts']['limit']) : $items_per_page;
+        $offset = self::clamp_offset($_GET['posts']['offset'] ?? null);
+        $limit = self::clamp_limit($_GET['posts']['limit'] ?? null, $items_per_page);
         $page = isset($_GET['p']) ? trim($_GET['p']) : 0;
 
         $stats = new Stats();
@@ -312,8 +326,8 @@ class Dashboard
     public function component_referrers(DateTimeInterface $date_start, DateTimeInterface $date_end): void
     {
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $offset = isset($_GET['referrers']['offset']) ? absint($_GET['referrers']['offset']) : 0;
-        $limit = isset($_GET['referrers']['limit']) ? absint($_GET['referrers']['limit']) : $items_per_page;
+        $offset = self::clamp_offset($_GET['referrers']['offset'] ?? null);
+        $limit = self::clamp_limit($_GET['referrers']['limit'] ?? null, $items_per_page);
         $stats = new Stats();
         $referrers = $stats->get_referrers($date_start, $date_end, $offset, $limit);
         if (count($referrers) < $limit && $offset === 0) {
