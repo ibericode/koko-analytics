@@ -11,6 +11,7 @@ use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_settings;
+use function KokoAnalytics\get_realtime_pageview_count;
 use function KokoAnalytics\get_request_params;
 use function KokoAnalytics\determine_uniqueness_fingerprint;
 use function KokoAnalytics\collect_in_file;
@@ -160,6 +161,33 @@ final class FunctionsTest extends TestCase
         } finally {
             $hooks['koko_analytics_settings'] = $existing_filters;
         }
+    }
+
+    public function testGetRealtimePageviewCountSumsCountsAfterTimestamp(): void
+    {
+        update_option('koko_analytics_realtime_pageview_count', [
+            999 => 2,
+            1000 => 3,
+            1001 => 5,
+            1002 => '7',
+        ]);
+
+        $this->assertSame(12, get_realtime_pageview_count(1000));
+
+        delete_option('koko_analytics_realtime_pageview_count');
+    }
+
+    public function testGetRealtimePageviewCountAcceptsStringTimestamp(): void
+    {
+        update_option('koko_analytics_realtime_pageview_count', [
+            999999999 => 2,
+            1000000000 => 3,
+            1000000001 => 5,
+        ]);
+
+        $this->assertSame(5, get_realtime_pageview_count('2001-09-09 01:46:40 UTC'));
+
+        delete_option('koko_analytics_realtime_pageview_count');
     }
 
     public function testGetBufferFilenameOnlyReusesGeneratedBufferFiles(): void
