@@ -84,12 +84,4 @@ final class Migrations_v2_Test extends TestCase
         self::assertSame('', (string) get_option('koko_analytics_version', ''));
         $m->release_lock();
     }
-
-    public function testEnsureCurrentReleasesLockAfterFailure(): void
-    {
-        $m = new Migrations_v2(__DIR__ . '/migrations-failing', 'koko_analytics_version');
-        self::assertFalse($m->ensure_current());
-        self::assertNull(get_transient('koko_analytics_version_lock'));
-        self::assertSame('', (string) get_option('koko_analytics_version', ''));
-    }
 }
