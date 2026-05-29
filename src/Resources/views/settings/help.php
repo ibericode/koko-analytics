@@ -17,7 +17,7 @@ $debug_info = [
 
 if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
     $debug_info[] = 'Koko Analytics Pro: ' . KOKO_ANALYTICS_PRO_VERSION;
-    $debug_info[] = '    Database version: ' . get_option('koko_analytics_pro_version', '');
+    $debug_info[] = '    Database version: ' . get_option('koko_analytics_pro_migrations', '');
 }
 ?>
 <h2 class="mt-0 mb-3"><?= esc_html__('Help', 'koko-analytics') ?></h2>
