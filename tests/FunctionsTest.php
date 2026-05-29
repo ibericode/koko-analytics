@@ -10,6 +10,7 @@ use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
 use function KokoAnalytics\get_buffer_filename;
+use function KokoAnalytics\get_settings;
 use function KokoAnalytics\get_request_params;
 use function KokoAnalytics\determine_uniqueness_fingerprint;
 use function KokoAnalytics\collect_in_file;
@@ -102,6 +103,63 @@ final class FunctionsTest extends TestCase
 
         $_GET = [];
         $_POST = [];
+    }
+
+    public function testGetSettingsReturnsDefaults(): void
+    {
+        delete_option('koko_analytics_settings');
+
+        $this->assertSame([
+            'tracking_method' => 'cookie',
+            'exclude_user_roles' => [],
+            'exclude_ip_addresses' => [],
+            'prune_data_after_months' => 36,
+            'default_view' => 'last_28_days',
+            'is_dashboard_public' => 0,
+            'component_order' => [],
+        ], get_settings());
+    }
+
+    public function testGetSettingsMergesStoredOptions(): void
+    {
+        update_option('koko_analytics_settings', [
+            'tracking_method' => 'none',
+            'exclude_ip_addresses' => ['127.0.0.1'],
+            'default_view' => 'today',
+        ]);
+
+        $settings = get_settings();
+
+        $this->assertSame('none', $settings['tracking_method']);
+        $this->assertSame(['127.0.0.1'], $settings['exclude_ip_addresses']);
+        $this->assertSame('today', $settings['default_view']);
+        $this->assertSame([], $settings['exclude_user_roles']);
+        $this->assertSame(36, $settings['prune_data_after_months']);
+
+        delete_option('koko_analytics_settings');
+    }
+
+    public function testGetSettingsAppliesFilter(): void
+    {
+        global $hooks;
+
+        $existing_filters = $hooks['koko_analytics_settings'] ?? [];
+        $hooks['koko_analytics_settings'] = [];
+
+        try {
+            add_filter('koko_analytics_settings', static function (array $settings): array {
+                $settings['tracking_method'] = 'fingerprint';
+                $settings['component_order'] = ['pages', 'referrers'];
+                return $settings;
+            });
+
+            $settings = get_settings();
+
+            $this->assertSame('fingerprint', $settings['tracking_method']);
+            $this->assertSame(['pages', 'referrers'], $settings['component_order']);
+        } finally {
+            $hooks['koko_analytics_settings'] = $existing_filters;
+        }
     }
 
     public function testGetBufferFilenameOnlyReusesGeneratedBufferFiles(): void
