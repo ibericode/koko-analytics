@@ -8,6 +8,7 @@
 
 namespace KokoAnalytics;
 
+// TODO: This class is no longer used since Koko Analytics Pro (released on May 31, 2026). Remove it after November 31, 2026.
 class Migrations
 {
     protected $prefix;
