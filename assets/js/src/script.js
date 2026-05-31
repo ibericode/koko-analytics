@@ -19,7 +19,7 @@ function getUtmData() {
 ka.trackPageview = function(path, post_id) {
   if (
     // do not track if user agent looks like bot
-    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i).test(navigator.userAgent))
+    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender/i).test(navigator.userAgent))
 
     // do not track if this is a headless browser (e.g. for testing)
     || (window._phantom || window.__nightmare || window.navigator.webdriver || window.Cypress)
@@ -43,12 +43,36 @@ ka.trackPageview = function(path, post_id) {
   }));
 };
 
-// Track page immediately, including when opened in a background tab.
-ka.trackPageview(ka.path, ka.post_id);
+function trackCurrentPage() {
+  ka.trackPageview(ka.path, ka.post_id);
+}
 
-// Track pageviews for pages restored from bfcache
+function trackInitialPageview() {
+  if (ka.autotracked) {
+    return;
+  }
+
+  trackCurrentPage();
+  ka.autotracked = true;
+}
+
+// track right away or as soon as page becomes visible
+if (
+  document.visibilityState === 'hidden' ||
+  document.visibilityState === 'prerender'
+) {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      trackInitialPageview();
+    }
+  });
+} else {
+  trackInitialPageview()
+}
+
+// track pageviews for pages restored from bfcache
 window.addEventListener('pageshow', (evt) => {
   if (evt.persisted) {
-    ka.trackPageview(ka.path, ka.post_id);
+    trackCurrentPage();
   }
 });
