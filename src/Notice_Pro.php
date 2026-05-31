@@ -72,11 +72,11 @@ class Notice_Pro
 
         ?>
         <div class="ka-notice rounded mb-3 p-3" style="background: #f5f8ff;">
-            <h2 class="mt-0 mb-2"><?php esc_html__('Enjoying Koko Analytics?', 'koko-analytics'); ?></h2>
-            <p class="mt-0 mb-2"><?php esc_html__('A quick review on WordPress.org helps more people find the plugin and helps us keep maintaining it for the long term.', 'koko-analytics'); ?></p>
+            <h2 class="mt-0 mb-2"><?php esc_html_e('Enjoying Koko Analytics?', 'koko-analytics'); ?></h2>
+            <p class="mt-0 mb-2"><?php esc_html_e('A quick review on WordPress.org helps more people find the plugin and helps us keep maintaining it for the long term.', 'koko-analytics'); ?></p>
             <div>
-                <a class="btn btn-sm btn-primary me-2" href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform"><?php esc_html__('Review the plugin on WordPress.org', 'koko-analytics'); ?></a>
-                <a href="<?php echo esc_url(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>"><?php esc_html__('Don\'t show this again', 'koko-analytics'); ?></a>
+                <a class="btn btn-sm btn-primary me-2" href="https://wordpress.org/support/view/plugin-reviews/koko-analytics?rate=5#postform"><?php esc_html_e('Review the plugin on WordPress.org', 'koko-analytics'); ?></a>
+                <a href="<?php echo esc_url(add_query_arg(['ka-notice-pro-dismiss' => 1])); ?>"><?php esc_html_e('Don\'t show this again', 'koko-analytics'); ?></a>
             </div>
         </div>
         <?php
