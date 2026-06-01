@@ -56,10 +56,10 @@ __('Sources', 'koko-analytics');
 // ../koko-analytics-pro/src/UTM/Dashboard.php#30
 __('Source', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Column/Table.php#120
+// ../koko-analytics-pro/src/Column/Table.php#121
 __('Number of days to use for pageviews column', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Column/Table.php#128
+// ../koko-analytics-pro/src/Column/Table.php#129
 __('Pageviews', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Password/views/password-form.php#80
@@ -134,65 +134,71 @@ __('Previous', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#57
 __('Next', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#24
+// ../koko-analytics-pro/src/Events/views/event-details.php#23
 __('Event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#27
+// ../koko-analytics-pro/src/Events/views/event-details.php#26
 __('This is a built-in event type that counts all clicks on outbound links on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#30
+// ../koko-analytics-pro/src/Events/views/event-details.php#29
 __('This is a built-in event type that counts all form submissions on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#35
+// ../koko-analytics-pro/src/Events/views/event-details.php#34
 __('This event has been counted %1$s times for a total value of %2$s.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#37
+// ../koko-analytics-pro/src/Events/views/event-details.php#36
 __('This event has been counted %1$s times.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#43
+// ../koko-analytics-pro/src/Events/views/event-details.php#42
 __('Tracking events', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#44
+// ../koko-analytics-pro/src/Events/views/event-details.php#43
 __('To track an event of this type, run the following JavaScript code:', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#47
+// ../koko-analytics-pro/src/Events/views/event-details.php#46
 __('You can optionally attach a numerical value to each recorded event:', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#50
+// ../koko-analytics-pro/src/Events/views/event-details.php#49
 __('You can find more information on tracking events in our knowledge base.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#54
+// ../koko-analytics-pro/src/Events/views/event-details.php#53
 __('Export this event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#55
+// ../koko-analytics-pro/src/Events/views/event-details.php#54
 __('Use the form below to export event counts in a specific time period to CSV.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#60
+// ../koko-analytics-pro/src/Events/views/event-details.php#59
 __('Start date', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#64
+// ../koko-analytics-pro/src/Events/views/event-details.php#63
 __('End date', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#68
+// ../koko-analytics-pro/src/Events/views/event-details.php#67
 __('Export to CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#74
+// ../koko-analytics-pro/src/Events/views/event-details.php#73
 __('Delete this event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#75
+// ../koko-analytics-pro/src/Events/views/event-details.php#74
 __('Use the button below to delete this event type from your dashboard overview.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#76
+// ../koko-analytics-pro/src/Events/views/event-details.php#75
 __('Are you sure you want to delete this event?', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#79
+// ../koko-analytics-pro/src/Events/views/event-details.php#78
 __('Delete event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#85
+// ../koko-analytics-pro/src/Events/views/event-details.php#84
 __('Back to event settings', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/bootstrap.php#40
+// ../koko-analytics-pro/src/Events/bootstrap.php#51
 __('Events', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Events/Rest.php#59
+__('start_date must be before or equal to end_date.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Events/Rest.php#63
+__('Date range is too large.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Toolbar/Bar.php#49
 __('Pageviews', 'koko-analytics');
