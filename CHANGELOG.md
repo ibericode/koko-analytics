@@ -1,5 +1,14 @@
 # Changelog
 
+= 2.4.0 =
+
+- tracking: hook into the visibilitychange event again to ignore prerender requests.
+- data: rewrite exporter and importer to use NDJSON instead of raw SQL.
+- import: fix column names for the referrer stats table.
+- rest: clamp date range for unauthenticated users to prevent large table scans.
+- review notice: simplify the review notice to one primary action.
+
+
 = 2.3.7 =
 
 - tracking: include UTM parameters in pageview tracking requests so integrations can access campaign data.
