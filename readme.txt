@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 2.3.7
+Stable tag: 2.4.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -116,6 +116,15 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.4.0 =
+
+- tracking: hook into the visibilitychange event again to ignore prerender requests.
+- data: rewrite exporter and importer to use NDJSON instead of raw SQL.
+- import: fix column names for the referrer stats table.
+- rest: clamp date range for unauthenticated users to prevent large table scans.
+- review notice: simplify the review notice to one primary action.
+
+
 = 2.3.7 =
 
 - tracking: include UTM parameters in pageview tracking requests so integrations can access campaign data.
@@ -158,10 +167,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - seo: remove canonical URL from public dashboard (because it is already noindex).
 - database: change default database purge treshold to 3 years (down from 5).
 - dashboard: don't listen to query string argument for public dashboard if pretty permalinks are enabled.
-
-
-= 2.3.3 =
-
-- database: fix table and column value for upserting new referrer URL's.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
