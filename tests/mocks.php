@@ -50,9 +50,11 @@ function apply_filters($hook, $value, $prio = 10, $args = 2)
 }
 
 function add_shortcode($a, $b)
-{}
+{
+}
 function register_widget($a)
-{}
+{
+}
 
 function number_format_i18n($number, $decimals = 0)
 {
@@ -65,10 +67,12 @@ function absint($value)
 }
 
 function register_activation_hook($file, $callback)
-{}
+{
+}
 
 function register_deactivation_hook($file, $callback)
-{}
+{
+}
 
 function update_option($option_name, $value, $autoload = false)
 {
@@ -134,7 +138,8 @@ function wp_next_scheduled($event)
 }
 
 function wp_schedule_event($timestamp, $recurrence, $hook, $args = [])
-{}
+{
+}
 
 function wp_upload_dir()
 {
@@ -164,7 +169,8 @@ function is_wp_error($thing)
 }
 
 function _deprecated_function($function, $version, $replacement)
-{}
+{
+}
 
 function wp_timezone(): DateTimeZone
 {
@@ -172,11 +178,14 @@ function wp_timezone(): DateTimeZone
 }
 
 function wp_register_script($handle, $src, $deps = [])
-{}
+{
+}
 function plugins_url($file, $path)
-{}
+{
+}
 function register_block_type($file, $args = [])
-{}
+{
+}
 
 function wp_unslash($value)
 {
