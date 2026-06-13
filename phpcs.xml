@@ -15,6 +15,5 @@
     <rule ref="PSR12">
         <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
-        <exclude name="Generic.Files.LineLength.TooLong"/>
     </rule>
 </ruleset>
