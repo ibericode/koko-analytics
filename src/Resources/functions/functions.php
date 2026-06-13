@@ -140,7 +140,7 @@ function get_most_viewed_posts($args = []): array
 }
 
 /**
- * @param int|string|null $since Either an integer timestamp (in seconds since Unix epoch) or a relative time string that strtotime understands.
+ * @param int|string|null $since Either an integer timestamp (in seconds since Unix epoch) or a relative time string that strtotime understands. Max is -1 hour.
  * @return int
  */
 function get_realtime_pageview_count($since = null): int
