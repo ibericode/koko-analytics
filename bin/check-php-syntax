@@ -26,12 +26,19 @@ $filter = new \RecursiveCallbackFilterIterator($directory, function ($current, $
 });
 $iterator = new \RecursiveIteratorIterator($filter);
 
+if (PHP_VERSION_ID > 80300) {
+  // fast path: PHP > 8.3 
+  $paths = join(" ", iterator_to_array($iterator));
+  exec("php --define error_reporting=-1 -l $paths", $output, $exit_code);
+  exit($exit_code);
+} 
+
+// slow path: PHP < 8.3
 foreach ($iterator as $file) {
   $exit_code = 0;
   $output = [];
   exec("php --define error_reporting=-1 -l {$file->getPathname()}", $output, $exit_code);
   $output = join("\n", $output);
-  echo $output . "\n";
 
   if ($exit_code || strpos($output, 'Deprecated') !== false) {
     $global_exit_code = 1;
