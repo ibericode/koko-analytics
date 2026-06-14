@@ -122,23 +122,24 @@ function collect_request()
 
         // set OK headers & prevent caching
         if (!$success) {
-            \header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+            http_response_code(500);
         } else {
-            \header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+            http_response_code(200);
         }
     } else {
-        \header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+        http_response_code(400);
     }
 
-    \header('Content-Type: text/plain; charset=utf-8');
-    \header('X-Robots-Tag: noindex, nofollow');
+    header('Content-Type: text/plain; charset=utf-8');
 
     // Prevent this response from being cached
-    \header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    header('Cache-Control: no-cache, must-revalidate, max-age=0, no-store, private');
+    header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 
     // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
-    \header('Tk: N');
+    header('Tk: N');
 
+    header('X-Robots-Tag: noindex, nofollow');
     exit;
 }
 
