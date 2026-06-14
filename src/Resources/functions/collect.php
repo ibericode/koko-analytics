@@ -136,9 +136,7 @@ function collect_request()
     header('Cache-Control: no-cache, must-revalidate, max-age=0, no-store, private');
     header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 
-    // indicate that we are not tracking user specifically, see https://www.w3.org/TR/tracking-dnt/
-    header('Tk: N');
-
+    // Prevent this response from being indexed
     header('X-Robots-Tag: noindex, nofollow');
     exit;
 }
