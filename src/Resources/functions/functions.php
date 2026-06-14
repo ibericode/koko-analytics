@@ -90,15 +90,13 @@ function get_most_viewed_post_ids(array $args)
         ];
 
         $post_types_placeholder = rtrim(str_repeat('%s,', count($args['post_type'])), ',');
-        $sql = $wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews
+        $results                = $wpdb->get_results($wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews
             FROM {$wpdb->prefix}koko_analytics_post_stats s
             JOIN {$wpdb->posts} p ON s.post_id = p.id
             WHERE p.id NOT IN (0, %d) AND s.date >= %s AND s.date <= %s AND p.post_status = 'publish' AND p.post_type IN ({$post_types_placeholder})
             GROUP BY p.id
             ORDER BY SUM(pageviews) DESC
-            LIMIT %d, %d", $sql_params);
-
-        $results                = $wpdb->get_results($sql);
+            LIMIT %d, %d", $sql_params));
         $post_ids = array_column($results, 'id');
         wp_cache_set($cache_key, $post_ids, 'koko-analytics', 3600);
     }

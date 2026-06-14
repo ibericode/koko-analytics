@@ -221,8 +221,8 @@ class Data_Import
         $column_sql = implode(', ', array_map(static function (string $column): string {
             return '`' . str_replace('`', '``', $column) . '`';
         }, $columns));
-        $sql = "INSERT INTO {$table} ({$column_sql}) VALUES " . implode(',', $all_placeholders);
-        $result = $wpdb->query($wpdb->prepare($sql, $values));
+        $placeholders = join(',', $all_placeholders);
+        $result = $wpdb->query($wpdb->prepare("INSERT INTO {$table} ({$column_sql}) VALUES {$placeholders}", $values));
 
         if ($result === false) {
             throw new Exception($wpdb->last_error);

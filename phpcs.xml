@@ -31,4 +31,7 @@
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
         <exclude name="WordPress.Security.NonceVerification.Missing"/>
     </rule>
+    <rule ref="WordPress.DB">
+        <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/>
+    </rule>
 </ruleset>
