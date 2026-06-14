@@ -65,7 +65,7 @@ class Table
     public function sum(DateTimeInterface $start, DateTimeInterface $end, string $property = 'hits'): int
     {
         if (!in_array($property, ['hits', 'unique_hits'])) {
-            throw new \InvalidArgumentException("Invalid property: {$property}");
+            throw new \InvalidArgumentException("Invalid property: " . esc_html($property));
         }
 
         return (int) $this->db->get_var($this->db->prepare(

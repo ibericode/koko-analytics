@@ -37,8 +37,8 @@
       "@test"
     ],
     "check-syntax": "bin/check-php-syntax",
-    "check-codestyle": "vendor/bin/phpcs -n -s",
-    "static-analysis": "vendor/bin/phpstan analyse",
+    "check-codestyle": "phpcs -n -s",
+    "static-analysis": "phpstan analyse",
     "test": "phpunit"
   },
   "config": {

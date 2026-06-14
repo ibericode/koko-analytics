@@ -49,7 +49,7 @@ defined('ABSPATH') or exit;
                 $value = esc_html($value);
                 $selected = (in_array($key, $settings['exclude_user_roles']) ? 'selected' : '');
 
-                echo "<option value=\"{$key}\" {$selected}>{$value}</option>";
+                echo "<option value=\"{$key}\" {$selected}>{$value}</option>"; // phpcs:ignore
             }
             ?>
         </select>

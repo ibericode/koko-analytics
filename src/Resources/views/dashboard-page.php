@@ -29,7 +29,8 @@ $tab = 'dashboard';
             <div class="position-relative">
                 <div class="ka-filter" tabindex="0" role="button" aria-expanded="false" aria-controls="ka-datepicker-dropdown" onclick="var el = document.getElementById('ka-datepicker-dropdown'); el.style.display = el.offsetParent === null ? 'block' : 'none'; this.ariaExpanded =  el.offsetParent === null ? 'false' : 'true';">
                     <i class="icon icon-calendar me-2"></i>
-                    <?= wp_date($date_format, $date_start->getTimestamp()); ?> — <?= wp_date($date_format, $date_end->getTimestamp()); ?>
+                    <?php echo esc_html(wp_date($date_format, $date_start->getTimestamp()));
+                    ; ?> — <?php echo esc_html(wp_date($date_format, $date_end->getTimestamp())); ?>
                 </div>
 
                 <div id="ka-datepicker-dropdown" class="rounded bg-white shadow" style="display: none; position: absolute; width:360px; z-index: 9992;">
@@ -41,7 +42,7 @@ $tab = 'dashboard';
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
-                        <span><?= wp_date($date_format, $date_start->getTimestamp()); ?> — <?= wp_date($date_format, $date_end->getTimestamp()); ?></span>
+                        <span><?php echo esc_html(wp_date($date_format, $date_start->getTimestamp())); ?> — <?=  esc_html(wp_date($date_format, $date_end->getTimestamp())); ?></span>
                         <?php if ($date_end < $total_end_date) { ?>
                             <a class="js-quicknav-next text-decoration-none text-white ms-2" href="" data-href="<?= esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">▸</a>
                         <?php } else { ?>
@@ -51,7 +52,7 @@ $tab = 'dashboard';
                     <form method="get" class="p-3 pt-0">
                         <?php foreach (['page', 'p', 'koko-analytics-dashboard'] as $key) {
                             if (isset($_GET[$key])) {
-                                echo '<input type="hidden" name="', $key, '" value="', esc_attr($_GET[$key]), '">';
+                                echo '<input type="hidden" name="', esc_attr($key), '" value="', esc_attr($_GET[$key]), '">';
                             }
                         } ?>
 
@@ -60,7 +61,7 @@ $tab = 'dashboard';
                             <select id="ka-date-presets" name="view" class="ka-select">
                                 <option value="custom" <?= $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom', 'koko-analytics'); ?></option>
                                 <?php foreach ($this->get_date_presets() as $key => $label) :
-                                    ?><option value="<?= $key; ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option><?php
+                                    ?><option value="<?= esc_attr($key); ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option><?php
                                 endforeach; ?>
                             </select>
                         </div>

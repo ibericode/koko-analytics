@@ -30,7 +30,7 @@ add_action('koko_analytics_output_dashboard_settings', function ($settings) use 
             <?php
             foreach ($date_presets as $key => $label) {
                 $selected = ($key === $settings['default_view'] ? 'selected' : '');
-                echo "<option value=\"{$key}\" {$selected}>{$label}</option>";
+                printf('<option value="%s" %s>%s</option>', esc_attr($key), esc_html($selected), esc_html($label));
             }
             ?>
         </select>
