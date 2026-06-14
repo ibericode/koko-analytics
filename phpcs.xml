@@ -35,4 +35,8 @@
         <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/>
     </rule>
     <rule ref="WordPress.DateTime"/>
+    <rule ref="Modernize.FunctionCalls.Dirname"/>
+    <rule ref="Generic.VersionControl.GitMergeConflict"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
 </ruleset>
