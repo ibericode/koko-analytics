@@ -81,12 +81,12 @@ class Data_Import
 
                 if (! isset($tables[$table])) {
                     fclose($fh);
-                    throw new Exception(sprintf(__('Unsupported table "%s" on line %d.', 'koko-analytics'), $table, $line_number));
+                    throw new Exception(sprintf(__('Unsupported table "%1$s" on line %2$d.', 'koko-analytics'), $table, $line_number));
                 }
 
                 if ($columns !== $tables[$table]['columns']) {
                     fclose($fh);
-                    throw new Exception(sprintf(__('Unsupported columns for table "%s" on line %d.', 'koko-analytics'), $table, $line_number));
+                    throw new Exception(sprintf(__('Unsupported columns for table "%1$s" on line %2$d.', 'koko-analytics'), $table, $line_number));
                 }
 
                 if (! $started) {

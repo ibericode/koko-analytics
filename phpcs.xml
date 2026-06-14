@@ -17,4 +17,10 @@
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
     </rule>
     <rule ref="WordPress.CodeAnalysis"/>
+    <rule ref="WordPress.WP">
+        <exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited"/>
+        <exclude name="WordPress.WP.DeprecatedFunctions.get_settingsFound"/>
+        <exclude name="WordPress.WP.EnqueuedResources.NonEnqueuedScript"/>
+        <exclude name="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet"/>
+    </rule>
 </ruleset>
