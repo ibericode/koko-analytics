@@ -12,7 +12,7 @@ $debug_info = [
     'Koko Analytics: ' . KOKO_ANALYTICS_VERSION,
     '    Database version: ' . $migrations->get_current_version() . ' / ' . $migrations->get_latest_version() . ' (current / latest)',
     '    Database size: ' . size_format($database_stats['total_size']) . ' across ~' . number_format_i18n($database_stats['total_rows']) . ' rows',
-    '    Last aggregation: ' . date(DATE_W3C, $last_aggregation_at) . ' (' . (time() - $last_aggregation_at) . ' seconds ago)',
+    '    Last aggregation: (' . (time() - $last_aggregation_at) . ' seconds ago)',
 ];
 
 if (defined('KOKO_ANALYTICS_PRO_VERSION')) {

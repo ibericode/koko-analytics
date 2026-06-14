@@ -2,6 +2,8 @@
 
 namespace KokoAnalytics;
 
+use DateTimeImmutable;
+
 class Dashboard_Public extends Dashboard
 {
     public function get_base_url()
@@ -16,6 +18,7 @@ class Dashboard_Public extends Dashboard
     public function show()
     {
         $settings = get_settings();
+        $today = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
         if (!$settings['is_dashboard_public'] && !current_user_can('view_koko_analytics')) {
             return;
         }
@@ -31,7 +34,7 @@ class Dashboard_Public extends Dashboard
         header("X-Robots-Tag: noindex, nofollow");
         if (is_user_logged_in()) {
             header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
-        } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) && $_GET['end_date'] < date('Y-m-d')) {
+        } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) && $_GET['end_date'] < $today) {
             header("Cache-Control: public, max-age=68400");
         } else {
             header("Cache-Control: public, max-age=60");

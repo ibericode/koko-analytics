@@ -34,4 +34,5 @@
     <rule ref="WordPress.DB">
         <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/>
     </rule>
+    <rule ref="WordPress.DateTime"/>
 </ruleset>

@@ -40,7 +40,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         <tr>
             <th><label for="date-start"><?php esc_html_e('Start date', 'koko-analytics'); ?></label></th>
             <td>
-                <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(date('Y-m-d', strtotime('-1 year'))); ?>" required>
+                <input id="date-start" name="date-start" type="date" value="<?php echo esc_attr(gmdate('Y-m-d', strtotime('-1 year'))); ?>" required>
                 <p class="description"><?php esc_html_e('The earliest date for which to import data. You should probably set this to the date that you installed and activated Jetpack Stats.', 'koko-analytics'); ?></p>
 
             </td>
@@ -49,7 +49,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         <tr>
             <th><label for="date-end"><?php esc_html_e('End date', 'koko-analytics'); ?></label></th>
             <td>
-                <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(date('Y-m-d')); ?>" required>
+                <input id="date-end" name="date-end" type="date" value="<?php echo esc_attr(gmdate('Y-m-d')); ?>" required>
                 <p class="description"><?php esc_html_e('The last date for which to import data. You should probably set this to just before the date that you installed and activated Koko Analytics.', 'koko-analytics'); ?></p>
 
             </td>
