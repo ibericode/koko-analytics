@@ -32,7 +32,7 @@ class Plausible_Importer extends Importer
         }
 
         $date_start = $_POST['date-start'] ?? '2010-01-01';
-        $date_end = $_POST['date-end'] ?? (new DateTimeImmutable('now', wp_timezone())->format('Y-m-d'));
+        $date_end = $_POST['date-end'] ?? (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
         $fh = fopen($_FILES['plausible-export-file']['tmp_name'], "r");
         $header = fgetcsv($fh, 1024, ',', '"', '');
         @set_time_limit(300);
