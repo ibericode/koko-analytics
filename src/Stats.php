@@ -59,18 +59,18 @@ class Stats
     public function get_totals($start_date, $end_date, $page = 0, $unused = null): object
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
-        $from = "{$this->db->prefix}koko_analytics_site_stats s";
-        $where = 's.date >= %s AND s.date <= %s';
-        $args = [$start_date, $end_date];
-        $post_id = $this->get_post_id_filter($page);
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
+        $from       = "{$this->db->prefix}koko_analytics_site_stats s";
+        $where      = 's.date >= %s AND s.date <= %s';
+        $args       = [$start_date, $end_date];
+        $post_id    = $this->get_post_id_filter($page);
 
         if ($post_id > 0) {
-            $from = "{$this->db->prefix}koko_analytics_post_stats s";
+            $from   = "{$this->db->prefix}koko_analytics_post_stats s";
             $where .= ' AND s.post_id = %d';
             $args[] = $post_id;
         } elseif ($page) {
-            $from = "{$this->db->prefix}koko_analytics_post_stats s LEFT JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id";
+            $from   = "{$this->db->prefix}koko_analytics_post_stats s LEFT JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id";
             $where .= ' AND p.path = %s';
             $args[] = $page;
         }
@@ -106,16 +106,16 @@ class Stats
      */
     public function generate_date_range($start_date, $end_date, string $group = 'day'): array
     {
-        $start_date = $start_date instanceof DateTimeInterface ? $start_date : new \DateTimeImmutable($start_date, wp_timezone());
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new \DateTimeImmutable($end_date, wp_timezone());
+        $start_date     = $start_date instanceof DateTimeInterface ? $start_date : new \DateTimeImmutable($start_date, wp_timezone());
+        $end_date       = $end_date instanceof DateTimeInterface ? $end_date : new \DateTimeImmutable($end_date, wp_timezone());
         $week_starts_on = (int) get_option('start_of_week', 0);
 
         // align start date to the beginning of the period
         switch ($group) {
             case 'week':
                 $day_of_week = (int) $start_date->format('w');
-                $diff = ($day_of_week - $week_starts_on + 7) % 7;
-                $start_date = $start_date->modify("-{$diff} days");
+                $diff        = ($day_of_week - $week_starts_on + 7) % 7;
+                $start_date  = $start_date->modify("-{$diff} days");
                 break;
             case 'month':
                 $start_date = $start_date->modify('first day of this month');
@@ -131,9 +131,9 @@ class Stats
             'month' => '+1 month',
             'year' => '+1 year',
         ];
-        $interval = $intervals[$group];
+        $interval  = $intervals[$group];
 
-        $dates = [];
+        $dates   = [];
         $current = $start_date;
         while ($current <= $end_date) {
             $dates[] = $current->format('Y-m-d');
@@ -155,30 +155,30 @@ class Stats
      */
     public function get_stats($start_date, $end_date, string $group = 'day', $page = ''): array
     {
-        $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
-        $week_starts_on = (int) get_option('start_of_week', 0);
+        $start_date           = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
+        $end_date             = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
+        $week_starts_on       = (int) get_option('start_of_week', 0);
         $date_key_expressions = [
             'day' => 's.date',
             'week' => "DATE(DATE_SUB(s.date, INTERVAL MOD(DAYOFWEEK(s.date) - 1 - {$week_starts_on} + 7, 7) DAY))",
             'month' => 'DATE(DATE_SUB(s.date, INTERVAL DAYOFMONTH(s.date) - 1 DAY))',
             'year' => 'MAKEDATE(YEAR(s.date), 1)',
         ];
-        $date_key_expr = $date_key_expressions[$group];
+        $date_key_expr        = $date_key_expressions[$group];
 
         $post_id = $this->get_post_id_filter($page);
 
         if ($post_id > 0) {
-            $from = "{$this->db->prefix}koko_analytics_post_stats s";
-            $args = [$start_date, $end_date, $post_id];
+            $from  = "{$this->db->prefix}koko_analytics_post_stats s";
+            $args  = [$start_date, $end_date, $post_id];
             $where = 's.date BETWEEN %s AND %s AND s.post_id = %d';
         } elseif ($page) {
-            $from = "{$this->db->prefix}koko_analytics_post_stats s JOIN {$this->db->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id";
-            $args = [$page, $start_date, $end_date];
+            $from  = "{$this->db->prefix}koko_analytics_post_stats s JOIN {$this->db->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id";
+            $args  = [$page, $start_date, $end_date];
             $where = 's.date BETWEEN %s AND %s';
         } else {
-            $from = "{$this->db->prefix}koko_analytics_site_stats s";
-            $args = [$start_date, $end_date];
+            $from  = "{$this->db->prefix}koko_analytics_site_stats s";
+            $args  = [$start_date, $end_date];
             $where = 's.date BETWEEN %s AND %s';
         }
 
@@ -203,7 +203,7 @@ class Stats
 
         // fill in missing dates with zeroed stats
         $date_range = $this->generate_date_range($start_date, $end_date, $group);
-        $results = [];
+        $results    = [];
         foreach ($date_range as $date) {
             $results[] = $stats_by_date[$date] ?? (object) [
                 'date' => $date,
@@ -222,7 +222,7 @@ class Stats
     public function get_posts($start_date, $end_date, int $offset = 0, int $limit = 10): array
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
 
         $results = $this->db->get_results($this->db->prepare(
             "SELECT p.path, s.post_id, p.path AS label, s.visitors, s.pageviews
@@ -252,13 +252,13 @@ class Stats
 
         return array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
-            $row->post_id = (int) $row->post_id;
-            $row->visitors = max(1, (int) $row->visitors);
+            $row->post_id   = (int) $row->post_id;
+            $row->visitors  = max(1, (int) $row->visitors);
 
             if ($row->post_id > 0) {
                 $permalink = get_permalink($row->post_id);
                 if ($permalink) {
-                    $row->path = parse_url($permalink, PHP_URL_PATH) ?: $row->path;
+                    $row->path  = parse_url($permalink, PHP_URL_PATH) ?: $row->path;
                     $row->label = get_the_title($row->post_id) ?: $row->label;
                 }
             }
@@ -266,7 +266,7 @@ class Stats
             // for backwards compatibility with versions before 2.0
             // set post_title and post_permalink property
             $row->post_permalink = home_url($row->path);
-            $row->post_title = $row->label;
+            $row->post_title     = $row->label;
 
             return $row;
         }, $results);
@@ -279,7 +279,7 @@ class Stats
     public function count_posts($start_date, $end_date): int
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date->format("Y-m-d") : $start_date;
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date->format("Y-m-d") : $end_date;
         return (int) $this->db->get_var($this->db->prepare(
             "SELECT COUNT(*)
                 FROM (
@@ -314,11 +314,11 @@ class Stats
     public function get_referrers($start_date, $end_date, int $offset = 0, int $limit = 10): array
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
         return array_map(function ($row) {
-            $row->url = $row->value;
+            $row->url       = $row->value;
             $row->pageviews = $row->hits;
-            $row->visitors = $row->unique_hits;
+            $row->visitors  = $row->unique_hits;
             return $row;
         }, (new Table('referrer'))->get($start_date, $end_date, $offset, $limit));
     }
@@ -330,7 +330,7 @@ class Stats
     public function count_referrers($start_date, $end_date): int
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
         return (new Table('referrer'))->count($start_date, $end_date);
     }
 
@@ -341,7 +341,7 @@ class Stats
     public function sum_referrers($start_date, $end_date): int
     {
         $start_date = $start_date instanceof DateTimeInterface ? $start_date : new DateTimeImmutable($start_date, wp_timezone());
-        $end_date = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
+        $end_date   = $end_date instanceof DateTimeInterface ? $end_date : new DateTimeImmutable($end_date, wp_timezone());
         return (new Table('referrer'))->sum($start_date, $end_date);
     }
 }

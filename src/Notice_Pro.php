@@ -17,8 +17,8 @@ class Notice_Pro
 
     public function get_settings(): array
     {
-        $settings = get_settings();
-        $defaults = [
+        $settings               = get_settings();
+        $defaults               = [
             'timestamp_installed' => null,
             'dismissed' => false,
         ];
@@ -34,7 +34,7 @@ class Notice_Pro
 
     private function update_setting(string $key, $value): void
     {
-        $settings = $this->get_settings();
+        $settings                     = $this->get_settings();
         $settings['notice_pro'][$key] = $value;
         update_option('koko_analytics_settings', $settings, true);
     }

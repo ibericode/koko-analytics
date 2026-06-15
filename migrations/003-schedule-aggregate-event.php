@@ -1,6 +1,6 @@
 <?php
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 if (! wp_next_scheduled('koko_analytics_aggregate_stats')) {
     // ensure schedule exists

@@ -50,14 +50,14 @@ class Data_Import
         /** @var \wpdb $wpdb */
         global $wpdb;
 
-        $tables = Data_Transfer_Tables::get();
-        $current_table = '';
+        $tables          = Data_Transfer_Tables::get();
+        $current_table   = '';
         $current_columns = [];
-        $line_number = 0;
-        $started = false;
+        $line_number     = 0;
+        $started         = false;
 
         while (($line = fgets($fh)) !== false) {
-            $line_number++;
+            ++$line_number;
             $line = trim($line);
 
             if ($line === '') {
@@ -71,7 +71,7 @@ class Data_Import
             }
 
             if ($this->is_table_declaration($data)) {
-                $table = $data['table'];
+                $table   = $data['table'];
                 $columns = $data['columns'];
 
                 if (! $this->is_list_of_strings($columns)) {
@@ -94,7 +94,7 @@ class Data_Import
                     $started = true;
                 }
 
-                $current_table = $table;
+                $current_table   = $table;
                 $current_columns = $columns;
                 continue;
             }
@@ -163,7 +163,7 @@ class Data_Import
                 return false;
             }
 
-            $expected_key++;
+            ++$expected_key;
         }
 
         return true;
@@ -196,7 +196,7 @@ class Data_Import
         global $wpdb;
 
         $all_placeholders = [];
-        $values = [];
+        $values           = [];
 
         foreach ($rows as $row) {
             if (! is_array($row) || ! $this->is_list($row) || count($row) !== count($columns)) {
@@ -212,17 +212,17 @@ class Data_Import
                 }
 
                 $row_placeholders[] = $placeholders[$index];
-                $values[] = $value;
+                $values[]           = $value;
             }
 
             $all_placeholders[] = '(' . implode(',', $row_placeholders) . ')';
         }
 
-        $column_sql = implode(', ', array_map(static function (string $column): string {
+        $column_sql   = implode(', ', array_map(static function (string $column): string {
             return '`' . str_replace('`', '``', $column) . '`';
         }, $columns));
         $placeholders = join(',', $all_placeholders);
-        $result = $wpdb->query($wpdb->prepare("INSERT INTO {$table} ({$column_sql}) VALUES {$placeholders}", $values));
+        $result       = $wpdb->query($wpdb->prepare("INSERT INTO {$table} ({$column_sql}) VALUES {$placeholders}", $values));
 
         if ($result === false) {
             throw new Exception($wpdb->last_error);

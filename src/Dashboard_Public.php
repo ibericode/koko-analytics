@@ -18,7 +18,7 @@ class Dashboard_Public extends Dashboard
     public function show()
     {
         $settings = get_settings();
-        $today = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
+        $today    = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
         if (!$settings['is_dashboard_public'] && !current_user_can('view_koko_analytics')) {
             return;
         }

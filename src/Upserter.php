@@ -15,8 +15,8 @@ class Upserter
         string $column,
         ?wpdb $db = null
     ) {
-        $this->db = $db ?? $GLOBALS['wpdb'];
-        $this->table = $this->db->prefix . 'koko_analytics_' . $table;
+        $this->db     = $db ?? $GLOBALS['wpdb'];
+        $this->table  = $this->db->prefix . 'koko_analytics_' . $table;
         $this->column = $column;
     }
 
@@ -40,7 +40,7 @@ class Upserter
 
         // retrieve all entries from the database table to get their normalized ID's
         $placeholders = rtrim(str_repeat('%s,', count($values)), ',');
-        $results = $this->db->get_results($this->db->prepare("SELECT id, {$this->column} FROM {$this->table} WHERE {$this->column} IN({$placeholders})", $values));
+        $results      = $this->db->get_results($this->db->prepare("SELECT id, {$this->column} FROM {$this->table} WHERE {$this->column} IN({$placeholders})", $values));
 
         return array_column($results, 'id', $this->column);
     }

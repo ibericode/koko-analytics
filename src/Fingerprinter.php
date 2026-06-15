@@ -6,9 +6,9 @@ class Fingerprinter
 {
     public function create_storage_dir(): void
     {
-        $upload_dir = get_upload_dir();
+        $upload_dir   = get_upload_dir();
         $sessions_dir = "{$upload_dir}/sessions";
-        $seed_file = "{$sessions_dir}/.daily_seed";
+        $seed_file    = "{$sessions_dir}/.daily_seed";
 
         if (! is_dir($upload_dir)) {
             mkdir($upload_dir, 0775, true);
@@ -46,9 +46,9 @@ class Fingerprinter
             return;
         }
 
-        $upload_dir = get_upload_dir();
+        $upload_dir   = get_upload_dir();
         $sessions_dir = "{$upload_dir}/sessions";
-        $seed_file = "{$sessions_dir}/.daily_seed";
+        $seed_file    = "{$sessions_dir}/.daily_seed";
 
         // ensure directory exists
         $this->create_storage_dir();

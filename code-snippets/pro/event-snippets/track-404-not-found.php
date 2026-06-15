@@ -15,5 +15,6 @@ add_action('wp_footer', function () {
 window.addEventListener('load', function() {
     window.koko_analytics.trackEvent("Page Not Found", window.location.pathname);
 });
-</script><?php
+</script>
+    <?php
 });

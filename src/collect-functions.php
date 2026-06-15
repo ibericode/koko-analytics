@@ -8,4 +8,4 @@
 
 // TODO: Remove this file after Jul 24, 2027
 
-include __DIR__ . '/Resources/functions/collect.php';
+require __DIR__ . '/Resources/functions/collect.php';

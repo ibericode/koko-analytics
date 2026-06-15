@@ -28,7 +28,7 @@ class Blocklist
         // run custom blocklist first
         // @see https://github.com/ibericode/koko-analytics/blob/main/code-snippets/add-domains-to-referrer-blocklist.php
         $custom_blocklist = (array) apply_filters('koko_analytics_referrer_blocklist', []);
-        $this->list = array_merge($custom_blocklist, $this->loadFromFile());
+        $this->list       = array_merge($custom_blocklist, $this->loadFromFile());
     }
 
     public function all(): array

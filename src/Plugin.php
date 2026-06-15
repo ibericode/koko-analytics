@@ -37,7 +37,7 @@ class Plugin
 
     public function create_and_protect_uploads_dir(): void
     {
-        $filename = get_buffer_filename();
+        $filename  = get_buffer_filename();
         $directory = \dirname($filename);
         if (! \is_dir($directory)) {
             \mkdir($directory, 0755, true);

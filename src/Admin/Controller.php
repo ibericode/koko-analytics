@@ -63,8 +63,8 @@ class Controller
             return $links;
         }
 
-        $href = admin_url('options-general.php?page=koko-analytics-settings');
-        $label = esc_html__('Settings', 'koko-analytics');
+        $href          = admin_url('options-general.php?page=koko-analytics-settings');
+        $label         = esc_html__('Settings', 'koko-analytics');
         $settings_link = "<a href=\"{$href}\">{$label}</a>";
         array_unshift($links, $settings_link);
         return $links;

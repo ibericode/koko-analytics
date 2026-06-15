@@ -59,7 +59,7 @@ function get_most_viewed_post_ids(array $args)
     global $wpdb;
     $args_hash = md5(serialize($args));
     $cache_key = "ka_most_viewed_{$args_hash}";
-    $post_ids = wp_cache_get($cache_key, 'koko-analytics');
+    $post_ids  = wp_cache_get($cache_key, 'koko-analytics');
 
     if (false === $post_ids) {
         $args = array_merge([
@@ -69,18 +69,18 @@ function get_most_viewed_post_ids(array $args)
             'paged' => 0,
         ], $args);
 
-        $args['paged'] = abs((int) $args['paged']);
-        $args['number'] = abs((int) $args['number']);
+        $args['paged']     = abs((int) $args['paged']);
+        $args['number']    = abs((int) $args['number']);
         $args['days']      = abs((int) $args['days']);
         $args['post_type'] = is_array($args['post_type']) ? $args['post_type'] : explode(',', $args['post_type']);
         $args['post_type'] = array_map('trim', $args['post_type']);
 
-        $timezone = wp_timezone();
+        $timezone   = wp_timezone();
         $date_start = new \DateTimeImmutable($args['days'] === 0 ? 'today midnight' : "-{$args['days']} days", $timezone);
-        $date_end = new \DateTimeImmutable('tomorrow, midnight', $timezone);
+        $date_end   = new \DateTimeImmutable('tomorrow, midnight', $timezone);
 
         // build query
-        $sql_params             = [
+        $sql_params = [
             get_option('page_on_front', 0),
             $date_start->format('Y-m-d'),
             $date_end->format('Y-m-d'),
@@ -97,7 +97,7 @@ function get_most_viewed_post_ids(array $args)
             GROUP BY p.id
             ORDER BY SUM(pageviews) DESC
             LIMIT %d, %d", $sql_params));
-        $post_ids = array_column($results, 'id');
+        $post_ids               = array_column($results, 'id');
         wp_cache_set($cache_key, $post_ids, 'koko-analytics', 3600);
     }
 
@@ -107,6 +107,7 @@ function get_most_viewed_post_ids(array $args)
 /**
  * $args['number'] int Number of posts
  * $args['day'] int Number of days
+ *
  * @args['post_type'] string|array List of post types to include
  * @args['paged'] int Number of current page *
  */
@@ -133,7 +134,7 @@ function get_most_viewed_posts($args = []): array
         // Excludes SQL_CALC_FOUND_ROWS from the query (tiny performance gain)
         'no_found_rows'       => true,
     ];
-    $r = new WP_Query($query_args);
+    $r          = new WP_Query($query_args);
     return $r->posts;
 }
 

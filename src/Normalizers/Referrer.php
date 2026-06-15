@@ -38,7 +38,7 @@ class Referrer
             '/^https?:\/\/(?:[a-z0-9]{1,8}\.)+sendib(?:m|t)[0-9]\.com.*/' => 'https://brevo.com',
         ];
 
-        $aggregations = apply_filters('koko_analytics_url_aggregations', $aggregations);
+        $aggregations     = apply_filters('koko_analytics_url_aggregations', $aggregations);
         $normalized_value = (string) preg_replace(array_keys($aggregations), array_values($aggregations), $value, 1);
         if (preg_last_error() !== PREG_NO_ERROR) {
             error_log("Koko Analytics: preg_replace error in Referrer::normalize('$value'): " . preg_last_error_msg());

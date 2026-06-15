@@ -3,10 +3,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$migrations = \KokoAnalytics\get_migrations();
-$database_stats = \KokoAnalytics\get_database_stats()->get();
+$migrations          = \KokoAnalytics\get_migrations();
+$database_stats      = \KokoAnalytics\get_database_stats()->get();
 $last_aggregation_at = (int) get_option('koko_analytics_last_aggregation_at', 0);
-$debug_info = [
+$debug_info          = [
     'PHP: ' . PHP_VERSION,
     'MySQL: ' . $GLOBALS['wpdb']->db_version(),
     'Koko Analytics: ' . KOKO_ANALYTICS_VERSION,
@@ -20,8 +20,8 @@ if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
     $debug_info[] = '    Database version: ' . get_option('koko_analytics_pro_migrations', '');
 }
 ?>
-<h2 class="mt-0 mb-3"><?= esc_html__('Help', 'koko-analytics') ?></h2>
- <div class="mb-5">
+<h2 class="mt-0 mb-3"><?= esc_html__('Help', 'koko-analytics'); ?></h2>
+<div class="mb-5">
     <ul class="ul-square">
         <li><a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-help">Upgrade to Koko Analytics Pro</a> to get direct email support from the plugin builder.</li>
         <li><?php printf(esc_html__('Have a look at our %1$sknowledge base%2$s for help with configuring and using Koko Analytics.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/docs/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-help-docs" target="_blank">', '</a>'); ?></li>
@@ -49,12 +49,13 @@ if (!$posts) {
     set_transient('koko_analytics_remote_posts', $posts, HOUR_IN_SECONDS * 24);
 }
 
-if (count($posts) > 0) { ?>
+if (count($posts) > 0) {
+    ?>
 <div class="mb-5">
     <h2><?php esc_html_e('Koko Analytics news', 'koko-analytics'); ?></h2>
     <ul class="ul-square">
         <?php foreach ($posts as $p) { ?>
-            <li><a href="<?= esc_attr($p->link) ?>"><?= esc_html($p->title->rendered) ?></a></li>
+            <li><a href="<?= esc_attr($p->link); ?>"><?= esc_html($p->title->rendered); ?></a></li>
         <?php } ?>
     </ul>
 </div>
@@ -62,6 +63,6 @@ if (count($posts) > 0) { ?>
 
 
 <div class="mb-5">
-    <h2><?= esc_html__('Debug info', 'koko-analytics') ?></h2>
-    <textarea style="font-family: monospace; font-size: 14px;" class="ka-input" rows="8" spellcheck="false" onfocus="this.select()" readonly><?= esc_textarea(implode("\n", $debug_info)) ?></textarea>
+    <h2><?= esc_html__('Debug info', 'koko-analytics'); ?></h2>
+    <textarea style="font-family: monospace; font-size: 14px;" class="ka-input" rows="8" spellcheck="false" onfocus="this.select()" readonly><?= esc_textarea(implode("\n", $debug_info)); ?></textarea>
 </div>

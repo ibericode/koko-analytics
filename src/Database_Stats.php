@@ -39,8 +39,8 @@ class Database_Stats
 
         $tables = [];
         foreach ($results as $result) {
-            $row = (array) $result;
-            $data_size = (int) ($row['Data_length'] ?? 0);
+            $row        = (array) $result;
+            $data_size  = (int) ($row['Data_length'] ?? 0);
             $index_size = (int) ($row['Index_length'] ?? 0);
 
             $tables[] = [

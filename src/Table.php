@@ -31,15 +31,15 @@ class Table
         string $name,
         ?wpdb $db = null
     ) {
-        $this->db = $db ?? $GLOBALS['wpdb'];
-        $this->stats = "{$this->db->prefix}koko_analytics_{$name}_stats";
+        $this->db     = $db ?? $GLOBALS['wpdb'];
+        $this->stats  = "{$this->db->prefix}koko_analytics_{$name}_stats";
         $this->labels = "{$this->db->prefix}koko_analytics_{$name}_labels";
     }
 
     public function get(DateTimeInterface $start, DateTimeInterface $end, int $offset, int $limit): array
     {
         return array_map(function ($row) {
-            $row->hits = (int) $row->hits;
+            $row->hits        = (int) $row->hits;
             $row->unique_hits = max(1, (int) $row->unique_hits);
             return $row;
         }, $this->db->get_results($this->db->prepare(

@@ -26,14 +26,14 @@ function extract_pageview_data(array $raw): array
     }
 
     // grab and validate parameters
-    $path = substr(trim($raw['pa']), 0, 255);
-    $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT);
+    $path         = substr(trim($raw['pa']), 0, 255);
+    $post_id      = \filter_var($raw['po'], FILTER_VALIDATE_INT);
     $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
     if ($post_id === false || $referrer_url === false || filter_var("https://localhost$path", FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false) {
         return [];
     }
 
-    $hash = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", $path);
+    $hash                            = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", $path);
     [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $hash);
 
     // limit referrer URL to 255 chars
@@ -62,7 +62,7 @@ function extract_event_data(array $raw): array
         return [];
     }
 
-    $event_name = \trim($raw['e']);
+    $event_name  = \trim($raw['e']);
     $event_param = \trim($raw['p']);
     if (\strlen($event_name) === 0) {
         return [];
@@ -74,10 +74,10 @@ function extract_event_data(array $raw): array
     }
 
     // limit event name and parameter lengths
-    $event_name = \substr($event_name, 0, 100);
+    $event_name  = \substr($event_name, 0, 100);
     $event_param = \substr($event_param, 0, 185);
 
-    $event_hash = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$event_name}-{$event_param}");
+    $event_hash              = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$event_name}-{$event_param}");
     [$unused, $unique_event] = determine_uniqueness($raw, '', $event_hash);
 
     return [
@@ -115,7 +115,7 @@ function collect_request()
     }
 
     $request_params = get_request_params();
-    $data = isset($request_params['e']) ? extract_event_data($request_params) : extract_pageview_data($request_params);
+    $data           = isset($request_params['e']) ? extract_event_data($request_params) : extract_pageview_data($request_params);
     if (!empty($data)) {
         // store data in buffer file
         $success = isset($request_params['test']) ? test_collect_in_file() : collect_in_file($data);
@@ -180,7 +180,7 @@ function get_buffer_filename(): string
 
 function collect_in_file(array $data): bool
 {
-    $filename = get_buffer_filename();
+    $filename  = get_buffer_filename();
     $directory = \dirname($filename);
     if (! \is_dir($directory)) {
         \mkdir($directory, 0755, true);
@@ -191,7 +191,7 @@ function collect_in_file(array $data): bool
 
     // append serialized data to file
     // TODO: Write CSV data here, but ideally we want to run the aggregator just once using the old data format after each plugin update
-    $content = \serialize($data);
+    $content  = \serialize($data);
     $content .= PHP_EOL;
 
     return (bool) \file_put_contents($filename, $content, FILE_APPEND | LOCK_EX);
@@ -271,13 +271,13 @@ function determine_uniqueness(array $request_params, string $type, $thing): arra
     }
 
     // not using any tracking method
-    return  [true, true];
+    return [true, true];
 }
 
 function determine_uniqueness_cookie(string $type, $thing): array
 {
-    $things = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode('-', $_COOKIE['_koko_analytics_pages_viewed']) : [];
-    $unique_type = $type && !\in_array($type[0], $things, true);
+    $things       = isset($_COOKIE['_koko_analytics_pages_viewed']) ? \explode('-', $_COOKIE['_koko_analytics_pages_viewed']) : [];
+    $unique_type  = $type && !\in_array($type[0], $things, true);
     $unique_thing =  $unique_type || ! \in_array($thing, $things, true);
 
     if ($unique_type) {
@@ -313,11 +313,11 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
         return [true, true];
     }
 
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $ip_address = get_client_ip();
-    $visitor_id = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
+    $user_agent   = $_SERVER['HTTP_USER_AGENT'];
+    $ip_address   = get_client_ip();
+    $visitor_id   = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = "{$sessions_dir}/{$visitor_id}";
-    $things = [];
+    $things       = [];
 
     // only read file if it exists and is not from before today
     // this is to protect against a cronjob that didn't run on time

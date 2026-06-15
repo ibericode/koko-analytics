@@ -34,7 +34,7 @@ abstract class Importer
             return;
         }
 
-        $paths = array_column($rows, 1);
+        $paths    = array_column($rows, 1);
         $upserter = new Upserter('paths', 'path');
         $path_ids = $upserter->upsert($paths);
 
@@ -64,9 +64,9 @@ abstract class Importer
             return;
         }
 
-        $urls = array_column($rows, 1);
+        $urls     = array_column($rows, 1);
         $upserter = new Upserter('referrer_labels', 'value');
-        $ids = $upserter->upsert($urls);
+        $ids      = $upserter->upsert($urls);
 
         $values = [];
         foreach ($rows as $r) {

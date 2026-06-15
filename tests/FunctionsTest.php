@@ -21,12 +21,12 @@ final class FunctionsTest extends TestCase
 {
     public function testExtractPageviewData(): void
     {
-       // incomplete params
+        // incomplete params
         $this->assertEquals(extract_pageview_data([]), []);
         $this->assertEquals(extract_pageview_data(['r' => 'http://www.kokoanalytics.com']), []);
         $this->assertEquals(extract_pageview_data(['pa' => '/']), []);
 
-       // complete but invalid
+        // complete but invalid
         $this->assertEquals(extract_pageview_data(['po' => '']), []);
         $this->assertEquals(extract_pageview_data(['po' => '1', 'r' => 'not an url']), []);
         $this->assertEquals(extract_pageview_data(['pa' => [], 'po' => '1']), []);
@@ -74,7 +74,7 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => []]), []);
 
         // complete and valid
-        $actual = extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '100']);
+        $actual   = extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '100']);
         $expected = ['e', 'Event', 'Param', 1, 100];
         $this->assertEquals($expected[0], $actual[0]);
         $this->assertEquals($expected[1], $actual[1]);
@@ -85,7 +85,7 @@ final class FunctionsTest extends TestCase
 
     public function testGetRequestParamsUnslashesWordPressRequestData(): void
     {
-        $_GET = [
+        $_GET  = [
             'pa' => '/quotes-\\\'test\\\'/slashes',
             'po' => '1',
             'r' => 'https://example.com/?q=\\\'test\\\'',
@@ -103,7 +103,7 @@ final class FunctionsTest extends TestCase
         $this->assertEquals("Click 'button'", $actual['e']);
         $this->assertEquals("Label 'primary'", $actual['p']);
 
-        $_GET = [];
+        $_GET  = [];
         $_POST = [];
     }
 
@@ -145,7 +145,7 @@ final class FunctionsTest extends TestCase
     {
         global $hooks;
 
-        $existing_filters = $hooks['koko_analytics_settings'] ?? [];
+        $existing_filters                 = $hooks['koko_analytics_settings'] ?? [];
         $hooks['koko_analytics_settings'] = [];
 
         try {
@@ -249,7 +249,7 @@ final class FunctionsTest extends TestCase
         }
 
         $_SERVER['HTTP_USER_AGENT'] = 'Unit Test';
-        $_SERVER['REMOTE_ADDR'] = '1.1.1.1';
+        $_SERVER['REMOTE_ADDR']     = '1.1.1.1';
 
         $this->assertEquals([true, true], determine_uniqueness_fingerprint('pageview', 'abc'));
         $this->assertDirectoryDoesNotExist($sessions_dir);

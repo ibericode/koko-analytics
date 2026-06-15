@@ -23,7 +23,7 @@ class Migrations_v2
         string $directory,
         string $option_name
     ) {
-        $this->directory = rtrim($directory, '/');
+        $this->directory   = rtrim($directory, '/');
         $this->option_name = $option_name;
     }
 
@@ -77,7 +77,7 @@ class Migrations_v2
 
     public function acquire_lock(): bool
     {
-        $transient_key = "{$this->option_name}_lock";
+        $transient_key     = "{$this->option_name}_lock";
         $transient_timeout = 300;
 
         // return false if a lock is already active
@@ -92,7 +92,7 @@ class Migrations_v2
 
     public function update_lock(): void
     {
-        $transient_key = "{$this->option_name}_lock";
+        $transient_key     = "{$this->option_name}_lock";
         $transient_timeout = 300;
         set_transient($transient_key, time(), $transient_timeout);
     }

@@ -32,19 +32,19 @@ class Endpoint_Installer
 
     public function get_file_contents(): string
     {
-        $settings = get_settings();
-        $upload_dir = $this->make_relative_to_abspath(get_upload_dir());
-        $wp_timezone_string = wp_timezone_string();
+        $settings                     = get_settings();
+        $upload_dir                   = $this->make_relative_to_abspath(get_upload_dir());
+        $wp_timezone_string           = wp_timezone_string();
         $excluded_ip_addresses_string = var_export($settings['exclude_ip_addresses'], true);
 
         // create require statements for all necessary files
-        $files = [
+        $files              = [
             'wp-includes/plugin.php',
             KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/functions/collect.php',
         ];
-        $files = apply_filters('koko_analytics_endpoint_files', $files);
-        $files = array_unique($files);
-        $files = array_map([$this, 'make_relative_to_abspath'], $files);
+        $files              = apply_filters('koko_analytics_endpoint_files', $files);
+        $files              = array_unique($files);
+        $files              = array_map([$this, 'make_relative_to_abspath'], $files);
         $require_statements = array_reduce($files, function ($result, $f) {
             $result .= "require '$f';\n";
             return $result;

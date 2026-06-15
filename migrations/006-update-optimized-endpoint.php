@@ -2,6 +2,6 @@
 
 use KokoAnalytics\Endpoint_Installer;
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 (new Endpoint_Installer())->install();

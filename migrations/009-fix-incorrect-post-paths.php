@@ -2,7 +2,7 @@
 
 use KokoAnalytics\Post_Stats_Migrator;
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 /** @var \wpdb $wpdb */
 global $wpdb;

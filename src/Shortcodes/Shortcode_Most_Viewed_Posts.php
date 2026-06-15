@@ -26,7 +26,7 @@ class Shortcode_Most_Viewed_Posts
         if ($args['show_date'] === "false") {
             $args['show_date'] = false;
         }
-        $posts        = get_most_viewed_posts($args);
+        $posts = get_most_viewed_posts($args);
 
         // If shortcode arguments did not return any results
         // Show a helpful message to editors and up
@@ -36,9 +36,9 @@ class Shortcode_Most_Viewed_Posts
 
         $html = '<ul>';
         foreach ($posts as $p) {
-            $post_title   = get_the_title($p);
-            $title        = $post_title !== '' ? esc_html($post_title) : esc_html__('(no title)', 'koko-analytics');
-            $permalink = esc_attr(get_the_permalink($p));
+            $post_title = get_the_title($p);
+            $title      = $post_title !== '' ? esc_html($post_title) : esc_html__('(no title)', 'koko-analytics');
+            $permalink  = esc_attr(get_the_permalink($p));
 
             $aria_current = '';
             if (get_queried_object_id() === $p->ID) {
@@ -49,7 +49,7 @@ class Shortcode_Most_Viewed_Posts
             $html .= "<a href=\"{$permalink}\" {$aria_current}>{$title}</a>";
 
             if ($args['show_date']) {
-                $date = esc_html(get_the_date('', $p));
+                $date  = esc_html(get_the_date('', $p));
                 $html .= " <span class=\"post-date\">{$date}</span>";
             }
             $html .= '</li>';

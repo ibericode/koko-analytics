@@ -97,21 +97,21 @@ class Script_Loader
             // if true, takes priority of the method property defined above
             'use_cookie' => $settings['tracking_method'] === 'cookie',
         ];
-        $data = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
+        $data          = 'window.koko_analytics = ' . \json_encode($script_config) . ';';
         wp_print_inline_script_tag($data);
     }
 
     public function print_amp_analytics_tag(): void
     {
-        $settings     = get_settings();
-        $data         = [
+        $settings = get_settings();
+        $data     = [
             'action' => 'koko_analytics_collect',
             'm' => $settings['tracking_method'][0],
             'po' => $this->get_post_id(),
             'pa' => self::get_request_path(),
         ];
-        $url          = add_query_arg($data, $this->get_tracker_url());
-        $config       = [
+        $url      = add_query_arg($data, $this->get_tracker_url());
+        $config   = [
             'requests' => [
                 'pageview' => $url,
             ],

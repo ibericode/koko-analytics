@@ -31,7 +31,7 @@ class Aggregator
 
         // rename file to temporary location so nothing new is written to it while we process it
         $tmp_filename = $buffer_file . '.busy';
-        $renamed = \rename($buffer_file, $tmp_filename);
+        $renamed      = \rename($buffer_file, $tmp_filename);
         if ($renamed !== true) {
             if (WP_DEBUG) {
                 throw new Exception('Error renaming buffer file.');
@@ -63,7 +63,7 @@ class Aggregator
                 error_log('Koko Analytics: unserialize error encountered while processing line in buffer file');
                 continue;
             }
-            $type   = \array_shift($params);
+            $type = \array_shift($params);
 
             // core aggregator
             $pageview_aggregator->line($type, $params);

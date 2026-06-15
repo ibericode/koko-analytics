@@ -15,7 +15,7 @@ final class Database_Stats_Test extends TestCase
 {
     public function testGetReturnsTableAndTotalStats(): void
     {
-        $db = new Database_Stats_Test_Db();
+        $db    = new Database_Stats_Test_Db();
         $stats = (new Database_Stats($db))->get();
 
         self::assertSame(2, count($stats['tables']));
@@ -32,6 +32,7 @@ final class Database_Stats_Test extends TestCase
     }
 }
 
+// phpcs:ignore
 class Database_Stats_Test_Db extends \wpdb
 {
     public $prefix = 'wp_';

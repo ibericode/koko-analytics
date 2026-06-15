@@ -1,9 +1,6 @@
 <?php
 
-/*
- * phpcs:disable PSR1.Files.SideEffects
- * phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
-*/
+/** phpcs:ignoreFile */
 
 define('ABSPATH', dirname(__DIR__, 1));
 define('HOUR_IN_SECONDS', 3600);

@@ -1,6 +1,6 @@
 <?php
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 /**
  * @var array $tabs
@@ -11,7 +11,7 @@ defined('ABSPATH') or exit;
 ?>
 
 <div class="wrap koko-analytics" id="koko-analytics-admin">
-    <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')) ?>">← <?= esc_html__('Back to stats', 'koko-analytics') ?></a>
+    <a href="<?= esc_attr(admin_url('index.php?page=koko-analytics')); ?>">← <?= esc_html__('Back to stats', 'koko-analytics'); ?></a>
     <h1 class="my-3"><img src="<?= esc_url(plugins_url('assets/img/icon.svg', KOKO_ANALYTICS_PLUGIN_FILE)); ?>" height="32" width="32" alt="Koko Analytics logo" class="align-middle me-2" style="margin-top: -4px;"> <?php esc_html_e('Koko Analytics Settings', 'koko-analytics'); ?></h1>
 
     <hr class="my-3">
@@ -20,7 +20,7 @@ defined('ABSPATH') or exit;
         <div class="ka-col ka-col-3" style="max-width: 200px;">
             <ul class="ka-settings-nav">
                 <?php foreach ($tabs as $id => $title) : ?>
-                    <li><a href="<?= esc_attr(admin_url("options-general.php?page=koko-analytics-settings&tab={$id}")) ?>" class="<?= $active_tab == $id ? 'active' : '' ?>"><?= esc_html($title) ?></a></li>
+                    <li><a href="<?= esc_attr(admin_url("options-general.php?page=koko-analytics-settings&tab={$id}")); ?>" class="<?= $active_tab == $id ? 'active' : ''; ?>"><?= esc_html($title); ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -30,7 +30,7 @@ defined('ABSPATH') or exit;
                 <?php if (!empty($_GET['error'])) { ?>
                     <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['error']); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
@@ -38,7 +38,7 @@ defined('ABSPATH') or exit;
                 <?php if (!empty($_GET['message'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                         <?= esc_html($_GET['message']); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 
@@ -46,7 +46,7 @@ defined('ABSPATH') or exit;
                 <?php if (isset($_GET['settings-updated'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
                         <?php esc_html_e('Settings saved.', 'koko-analytics'); ?>
-                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics') ?>" onclick="this.parentElement.remove()"></button>
+                        <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
 

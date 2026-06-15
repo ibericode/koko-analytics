@@ -54,7 +54,7 @@ class Pages
             return;
         }
 
-        $tabs = apply_filters('koko_analytics_settings_tabs', [
+        $tabs                  = apply_filters('koko_analytics_settings_tabs', [
             'tracking' => __('Tracking', 'koko-analytics'),
             'dashboard' => __('Dashboard', 'koko-analytics'),
             'events' => __('Events', 'koko-analytics'),
@@ -63,13 +63,13 @@ class Pages
             'performance' => __('Performance', 'koko-analytics'),
             'help' => __('Help', 'koko-analytics'),
         ]);
-        $extra_tabs = ['jetpack_importer', 'plausible_importer'];
-        $active_tab = isset($_GET['tab']) && (array_key_exists($_GET['tab'], $tabs) || in_array($_GET['tab'], $extra_tabs)) ? $_GET['tab'] : 'tracking';
-        $settings           = get_settings();
+        $extra_tabs            = ['jetpack_importer', 'plausible_importer'];
+        $active_tab            = isset($_GET['tab']) && (array_key_exists($_GET['tab'], $tabs) || in_array($_GET['tab'], $extra_tabs)) ? $_GET['tab'] : 'tracking';
+        $settings              = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
-        $user_roles   = $this->get_available_roles();
-        $date_presets = (new Dashboard())->get_date_presets();
-        $public_dashboard_url = (new Dashboard_Public())->get_base_url();
+        $user_roles            = $this->get_available_roles();
+        $date_presets          = (new Dashboard())->get_date_presets();
+        $public_dashboard_url  = (new Dashboard_Public())->get_base_url();
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/settings-page.php';
     }
@@ -92,7 +92,7 @@ class Pages
     {
         // Always return true on localhost / dev-ish environments
         $site_url = get_site_url();
-        $parts = parse_url($site_url);
+        $parts    = parse_url($site_url);
         if (!is_array($parts) || !empty($parts['port']) || str_contains($parts['host'], 'localhost') || str_contains($parts['host'], 'local')) {
             return true;
         }

@@ -43,7 +43,7 @@ class Jetpack_Importer extends Importer
         // first chunk is 30 days after date-start
         try {
             $date_start = new DateTimeImmutable($params['date-start']);
-            $date_end = new DateTimeImmutable($params['date-end']);
+            $date_end   = new DateTimeImmutable($params['date-end']);
             if ($date_end < $date_start) {
                 throw new Exception("End date must be after start date");
             }
@@ -60,7 +60,7 @@ class Jetpack_Importer extends Importer
 
         // determine size of each chunk to pull in and clamp it between 1 and supplied chunk size
         $max_chunk_size = isset($_GET['chunk-size']) ? (int) $_GET['chunk-size'] : 30;
-        $chunk_size = \max(1, \min($max_chunk_size, $date_end->diff($date_start)->days));
+        $chunk_size     = \max(1, \min($max_chunk_size, $date_end->diff($date_start)->days));
 
         // redirect to first chunk
         wp_safe_redirect(add_query_arg(['koko_analytics_action' => 'jetpack_import_chunk', 'chunk_size' => $chunk_size, 'chunk_end' => $chunk_end->format('Y-m-d'), '_wpnonce' => wp_create_nonce('koko_analytics_jetpack_import_chunk')]));
@@ -85,10 +85,10 @@ class Jetpack_Importer extends Importer
             exit;
         }
 
-        $chunk_end = trim($_GET['chunk_end']);
+        $chunk_end  = trim($_GET['chunk_end']);
         $chunk_size = (int) trim($_GET['chunk_size']);
         $date_start = new DateTimeImmutable($params['date-start']);
-        $chunk_end = new DateTimeImmutable($chunk_end);
+        $chunk_end  = new DateTimeImmutable($chunk_end);
 
         // calculate next chunk end date and actual size of current chunk
         $next_chunk_end = $chunk_end->modify("-{$chunk_size} days");
@@ -136,11 +136,13 @@ class Jetpack_Importer extends Importer
         <meta http-equiv="refresh" content="1; url=<?php echo esc_attr($url); ?>">
         <h1><?php esc_html_e('Liberating your data... Please wait.', 'koko-analytics'); ?></h1>
         <p>
-            <?php printf(
+            <?php
+            printf(
                 __('Importing stats between %1$s and %2$s.', 'koko-analytics'),
                 '<strong>' . $chunk_start->format('Y-m-d') . '</strong>',
                 '<strong>' . $chunk_end->format('Y-m-d') . '</strong>'
-            ); ?>
+            );
+            ?>
         </p>
         <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
         <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
@@ -152,16 +154,16 @@ class Jetpack_Importer extends Importer
     {
         @set_time_limit(90);
 
-        $api_key = urlencode($api_key);
+        $api_key  = urlencode($api_key);
         $blog_uri = urlencode($blog_uri);
-        $end = urlencode($date_end->format('Y-m-d'));
-        $url = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
+        $end      = urlencode($date_end->format('Y-m-d'));
+        $url      = "https://stats.wordpress.com/csv.php?api_key={$api_key}&blog_uri={$blog_uri}&end={$end}&table=postviews&format=json&days={$chunk_size}&limit=-1";
         $response = wp_remote_post($url, [
             'timeout' => 90,
         ]);
 
         if ($response instanceof WP_Error) {
-            $code = $response->get_error_code();
+            $code    = $response->get_error_code();
             $message = $response->get_error_message();
             throw new Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
         }
@@ -169,7 +171,7 @@ class Jetpack_Importer extends Importer
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code >= 400) {
             $message = wp_remote_retrieve_response_message($response);
-            $body = wp_remote_retrieve_body($response);
+            $body    = wp_remote_retrieve_body($response);
             throw new Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status_code} {$message}\n\n{$body}");
         }
 
@@ -221,10 +223,10 @@ class Jetpack_Importer extends Importer
 
             // update post stats for this date in a single bulk query
             $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($item->postviews)), ',');
-            $values = [];
+            $values       = [];
             foreach ($item->postviews as $postviews) {
                 $site_views += $postviews->views;
-                $path_id = $path_map[$postviews->path];
+                $path_id     = $path_map[$postviews->path];
                 array_push($values, $item->date, $path_id, $postviews->post_id, $postviews->views, $postviews->views);
             }
 

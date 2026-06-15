@@ -58,7 +58,7 @@ class Pruner
     protected function delete_blocked_referrers(): void
     {
         $blocklist = new Blocklist();
-        $list = $blocklist->all();
+        $list      = $blocklist->all();
 
         foreach (array_chunk($list, 100) as $chunk) {
             $where = str_repeat("value LIKE %s OR ", count($chunk));

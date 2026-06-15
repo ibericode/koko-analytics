@@ -1,8 +1,6 @@
 <?php
 
-use KokoAnalytics\Endpoint_Installer;
-
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 $settings = (array) get_option('koko_analytics_settings', []);
 

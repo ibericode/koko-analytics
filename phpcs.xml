@@ -16,28 +16,42 @@
         <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
     </rule>
-    <rule ref="WordPress.CodeAnalysis"/>
-    <rule ref="WordPress.DateTime"/>
-    <rule ref="WordPress.DB">
-        <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/>
-    </rule>
-    <rule ref="WordPress.PHP">
-        <exclude name="WordPress.PHP.YodaConditions"/>
-        <exclude name="WordPress.PHP.POSIXFunctions"/>
-    </rule>
-    <rule ref="WordPress.WP">
+    <rule ref="WordPress">
+        <exclude name="PEAR.Functions.FunctionCallSignature"/>
+        <exclude name="PEAR.NamingConventions.ValidClassName.Invalid"/>
+        <exclude name="Generic.Commenting.DocComment.MissingShort"/>
+        <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine"/>
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine"/>
+        <exclude name="Generic.WhiteSpace.ArbitraryParenthesesSpacing.SpaceAfterOpen"/>
+        <exclude name="Generic.WhiteSpace.ArbitraryParenthesesSpacing.SpaceBeforeClose"/>
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/>
+        <exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceAfterArrayOpenerSingleLine"/>
+        <exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceBeforeArrayCloserSingleLine"/>
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
+        <exclude name="Universal.Operators.DisallowShortTernary.Found"/>
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen"/>
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeClose"/>
+        <exclude name="Squiz.Commenting"/>
+        <exclude name="Squiz.PHP.DisallowSizeFunctionsInLoops.Found"/>
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
+        <exclude name="WordPress.Arrays"/>
+        <exclude name="WordPress.WhiteSpace"/>
         <exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited"/>
         <exclude name="WordPress.WP.DeprecatedFunctions.get_settingsFound"/>
         <exclude name="WordPress.WP.EnqueuedResources.NonEnqueuedScript"/>
         <exclude name="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet"/>
-    </rule>
-    <rule ref="WordPress.Security">
-        <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
-        <exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/>
+        <exclude name="WordPress.NamingConventions"/>
+        <exclude name="WordPress.Files"/>
+        <exclude name="WordPress.PHP.YodaConditions"/>
+        <exclude name="WordPress.PHP.POSIXFunctions"/>
+        <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/><!-- TODO: Remove this -->
+        <exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/><!-- TODO: Remove this -->
         <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
         <exclude name="WordPress.Security.NonceVerification.Missing"/>
+        <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared"/><!-- TODO: Remove this -->
+        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/><!-- TODO: Remove this -->
     </rule>
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
 	<rule ref="Generic.PHP.ForbiddenFunctions"/>

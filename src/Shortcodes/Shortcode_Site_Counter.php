@@ -31,20 +31,20 @@ class Shortcode_Site_Counter
             'metric' => 'pageviews',
             'global' => false,
         ];
-        $args = shortcode_atts($default_args, $args, self::SHORTCODE);
+        $args         = shortcode_atts($default_args, $args, self::SHORTCODE);
         $args['days'] = abs((int) $args['days']);
-        $path = $args['global'] !== false && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : $this->get_post_path();
+        $path         = $args['global'] !== false && $args['global'] !== 'false' && $args['global'] !== '0' && $args['global'] !== 'no' ? '' : $this->get_post_path();
 
         $cache_key = "ka_counter_" . md5("{$path}-{$args['metric']}-{$args['days']}");
-        $count = get_transient($cache_key);
+        $count     = get_transient($cache_key);
         if (false === $count) {
-            $stats = new Stats();
+            $stats          = new Stats();
             $start_date_str = $args['days'] === 0 ? 'today midnight' : "-{$args['days']} days";
-            $timezone = wp_timezone();
-            $start_date = (new DateTime($start_date_str, $timezone))->format('Y-m-d');
-            $end_date = (new DateTime('tomorrow, midnight', $timezone))->format('Y-m-d');
-            $totals = $stats->get_totals($start_date, $end_date, $path);
-            $count = $args['metric'] === 'visitors' ? $totals->visitors : $totals->pageviews;
+            $timezone       = wp_timezone();
+            $start_date     = (new DateTime($start_date_str, $timezone))->format('Y-m-d');
+            $end_date       = (new DateTime('tomorrow, midnight', $timezone))->format('Y-m-d');
+            $totals         = $stats->get_totals($start_date, $end_date, $path);
+            $count          = $args['metric'] === 'visitors' ? $totals->visitors : $totals->pageviews;
             set_transient($cache_key, $count, 5 * 60);
         }
 
@@ -56,7 +56,7 @@ class Shortcode_Site_Counter
     {
         $permalink = get_permalink();
         $url_parts = parse_url($permalink);
-        $path = $url_parts['path'];
+        $path      = $url_parts['path'];
         if (!empty($url_parts['query'])) {
             $path .= '?' . $url_parts['query'];
         }

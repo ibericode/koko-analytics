@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') or exit;
+<?php defined('ABSPATH') || exit;
 
 /**
 * @var int $number_of_top_items
@@ -29,7 +29,7 @@ use KokoAnalytics\Fmt;
 
     <div id="ka-dashboard-widget-chart" class="mb-4">
         <h3 class="mb-3">
-           <?php esc_html_e('Showing site visits over last 14 days', 'koko-analytics'); ?>
+            <?php esc_html_e('Showing site visits over last 14 days', 'koko-analytics'); ?>
         </h3>
         <div>
         <?php new Chart_View($chart_data, $date_start, $date_end, 200, false); ?>
@@ -60,7 +60,7 @@ use KokoAnalytics\Fmt;
                 <?php esc_html_e('Today\'s top referrers', 'koko-analytics'); ?>
                 </h3>
                 <ul class="list-unstyled m-0">
-                    <?php foreach ($referrers as $referrer) {  ?>
+                    <?php foreach ($referrers as $referrer) { ?>
                         <li class="text-truncate">
                             <span class="text-muted me-2"><?php echo number_format_i18n($referrer->pageviews); ?></span>
                             <?php echo Fmt::referrer_url_label(esc_html($referrer->url)); ?>

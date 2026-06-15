@@ -31,7 +31,7 @@ class Data_Export
 
     public function run(): void
     {
-        $date = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
+        $date     = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
         $site_url = parse_url(get_site_url(), PHP_URL_HOST);
 
         header('Content-Type: application/x-ndjson');
@@ -56,11 +56,11 @@ class Data_Export
         ]);
 
         $prefixed_table = $this->db->prefix . $table;
-        $column_sql = implode(', ', array_map(static function (string $column): string {
+        $column_sql     = implode(', ', array_map(static function (string $column): string {
             return '`' . $column . '`';
         }, $columns));
-        $offset = 0;
-        $limit = Data_Transfer_Tables::BATCH_SIZE;
+        $offset         = 0;
+        $limit          = Data_Transfer_Tables::BATCH_SIZE;
 
         do {
             $rows = $this->db->get_results(

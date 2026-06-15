@@ -42,7 +42,7 @@ class Post_Stats_Migrator
             }
 
             // bulk insert all paths
-            $upserter = new Upserter('paths', 'path');
+            $upserter            = new Upserter('paths', 'path');
             $path_to_path_id_map = $upserter->upsert(array_values($post_id_to_path_map));
 
             // update post_stats table to point to paths we just inserted
@@ -80,8 +80,8 @@ class Post_Stats_Migrator
         /** @var \wpdb $wpdb */
         global $wpdb;
 
-        $offset = 0;
-        $limit = 1000;
+        $offset   = 0;
+        $limit    = 1000;
         $upserter = new Upserter('paths', 'path');
 
         do {
@@ -95,7 +95,7 @@ class Post_Stats_Migrator
                 $correct_path = $this->get_path_by_post_id($r->post_id);
                 if ($r->path != $correct_path) {
                     // get correct path id
-                    $path_to_id_map = $upserter->upsert([$correct_path]);
+                    $path_to_id_map  = $upserter->upsert([$correct_path]);
                     $correct_path_id = $path_to_id_map[$correct_path];
 
                     // update all post_stats to point to correct path_id
@@ -107,14 +107,14 @@ class Post_Stats_Migrator
 
     private function get_path_by_post_id(int $post_id): string
     {
-        $home_url = home_url('/');
+        $home_url       = home_url('/');
         $post_permalink = $post_id ? get_permalink($post_id) : $home_url;
         if (!$post_permalink) {
             $post_permalink = "$home_url?p={$post_id}";
         }
 
         $url_parts = parse_url($post_permalink);
-        $path = $url_parts['path'] ?? '/';
+        $path      = $url_parts['path'] ?? '/';
         if (!empty($url_parts['query'])) {
             $path .= '?' . $url_parts['query'];
         }

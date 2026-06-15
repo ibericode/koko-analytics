@@ -2,7 +2,7 @@
 
 use KokoAnalytics\Endpoint_Installer;
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 /**
 * @var bool $using_custom_endpoint
@@ -11,7 +11,7 @@ defined('ABSPATH') or exit;
 $endpoint_installer = new Endpoint_Installer();
 ?>
 
-<h2 class="mt-0 mb-3"><?= esc_html__('Performance', 'koko-analytics') ?></h2>
+<h2 class="mt-0 mb-3"><?= esc_html__('Performance', 'koko-analytics'); ?></h2>
 
 <div class="mb-5">
     <?php if ($using_custom_endpoint) { ?>

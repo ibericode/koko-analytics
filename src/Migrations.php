@@ -19,10 +19,10 @@ class Migrations
 
     public function __construct(string $prefix, string $version_to, string $migrations_dir)
     {
-        $this->prefix = rtrim($prefix, '_');
-        $this->option_name = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
-        $this->version_from = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
-        $this->version_to = $version_to;
+        $this->prefix         = rtrim($prefix, '_');
+        $this->option_name    = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
+        $this->version_from   = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
+        $this->version_to     = $version_to;
         $this->migrations_dir = $migrations_dir;
     }
 
@@ -33,8 +33,8 @@ class Migrations
         }
 
         // check if migrations not already running
-        $transient_key = "{$this->prefix}_migrations_running";
-        $transient_timeout = 10;
+        $transient_key      = "{$this->prefix}_migrations_running";
+        $transient_timeout  = 10;
         $previous_run_start = get_transient($transient_key);
         if ($previous_run_start && $previous_run_start > time() - $transient_timeout) {
             return;
@@ -69,9 +69,9 @@ class Migrations
      */
     protected function handle_file(string $file): void
     {
-        $migration = basename($file);
-        $parts     = explode('-', $migration);
-        $migration_version   = $parts[0];
+        $migration         = basename($file);
+        $parts             = explode('-', $migration);
+        $migration_version = $parts[0];
 
         // check if migration file is not for an even higher version
         if (version_compare($migration_version, $this->version_to, '>')) {

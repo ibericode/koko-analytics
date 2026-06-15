@@ -82,14 +82,14 @@ class Actions
         }
 
         // merge posted data with saved data to allow for partial updates
-        $settings = array_merge(get_settings(), $_POST['koko_analytics_settings']);
+        $settings                         = array_merge(get_settings(), $_POST['koko_analytics_settings']);
         $settings['exclude_ip_addresses'] = is_array($settings['exclude_ip_addresses']) ? $settings['exclude_ip_addresses'] : explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($settings['exclude_ip_addresses'])));
-        $settings['exclude_ip_addresses']    = array_filter(array_map('trim', $settings['exclude_ip_addresses']));
+        $settings['exclude_ip_addresses'] = array_filter(array_map('trim', $settings['exclude_ip_addresses']));
 
         $settings['prune_data_after_months'] = abs((int) $settings['prune_data_after_months']);
         $settings['is_dashboard_public']     = (int) $settings['is_dashboard_public'];
         $settings['default_view']            = trim($settings['default_view']);
-        $settings['tracking_method'] = in_array($settings['tracking_method'], ['cookie', 'fingerprint', 'none']) ? $settings['tracking_method'] : 'cookie';
+        $settings['tracking_method']         = in_array($settings['tracking_method'], ['cookie', 'fingerprint', 'none']) ? $settings['tracking_method'] : 'cookie';
 
         $settings = apply_filters('koko_analytics_sanitize_settings', $settings, $settings);
         update_option('koko_analytics_settings', $settings, true);
@@ -120,7 +120,7 @@ class Actions
         $order = isset($_POST['component_order']) ? $_POST['component_order'] : [];
         $order = array_map('sanitize_key', (array) $order);
 
-        $settings = (array) get_option('koko_analytics_settings', []);
+        $settings                    = (array) get_option('koko_analytics_settings', []);
         $settings['component_order'] = array_values($order);
         update_option('koko_analytics_settings', $settings, true);
 

@@ -2,7 +2,7 @@
 
 // This migration modifies the schema for the referrer_stats and referrer_urls table so they fit into the Table abstraction class
 
-defined('ABSPATH') or exit;
+defined('ABSPATH') || exit;
 
 global $wpdb;
 

@@ -101,11 +101,9 @@ class Controller
             if (! str_contains($_SERVER['REQUEST_URI'] ?? '', '/koko-analytics-dashboard/')) {
                 return;
             }
-        } else {
-            // do nothing if query string not set
-            if (! isset($_GET['koko-analytics-dashboard'])) {
-                return;
-            }
+        } elseif (! isset($_GET['koko-analytics-dashboard'])) {
+             // do nothing if query string not set
+            return;
         }
 
         (new Dashboard_Public())->show();
