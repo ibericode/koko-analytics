@@ -303,8 +303,8 @@ class Dashboard
                 <?php foreach ($posts as $i => $p) { ?>
                     <?php $page_filter = $p->post_id > 0 ? (string) $p->post_id : $p->path; ?>
                     <?php $pct = $sum > 0 && $page === 0  ? round(($p->pageviews / $sum) * 100, 0) : 0; ?>
-                    <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr($pct); ?>%, transparent <?= esc_attr($pct); ?>%);">
-                        <td class="text-muted"><?= esc_html($offset + $i + 1); ?></td>
+                    <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr((string) $pct); ?>%, transparent <?= esc_attr((string) $pct); ?>%);">
+                        <td class="text-muted"><?= esc_html((string) ($offset + $i + 1)); ?></td>
                         <td class="text-truncate">
                             <a href="<?= esc_attr(add_query_arg(['p' => $page_filter])); ?>"><?= esc_html($p->label); ?></a>
                             <a class="ka-visit-link" href="<?= esc_url($p->post_permalink); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
@@ -352,8 +352,8 @@ class Dashboard
             <tbody>
                 <?php foreach ($referrers as $i => $r) { ?>
                     <?php $pct = $sum > 0 ? round(($r->pageviews / $sum) * 100, 0) : 0; ?>
-                    <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr($pct); ?>%, transparent <?= esc_attr($pct); ?>%);">
-                        <td class="text-muted"><?= esc_html($offset + $i + 1); ?></td>
+                    <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr((string) $pct); ?>%, transparent <?= esc_attr((string) $pct); ?>%);">
+                        <td class="text-muted"><?= esc_html((string) ($offset + $i + 1)); ?></td>
                         <td class="text-truncate"><?= esc_html(Fmt::referrer_url_label($r->url)); ?></td>
                         <td class="text-end d-none d-lg-table-cell"><?= esc_html(number_format_i18n(max(1, $r->visitors))); ?></td>
                         <td class="text-end"><?= esc_html(number_format_i18n($r->pageviews)); ?></td>

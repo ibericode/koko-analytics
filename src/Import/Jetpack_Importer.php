@@ -147,7 +147,7 @@ class Jetpack_Importer extends Importer
         </p>
         <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
         <?php /* translators: %s: estimated number of seconds remaining. */ ?>
-        <p><?php printf(esc_html__('Estimated time left: %s seconds.', 'koko-analytics'), esc_html(round($chunks_left * 1.5))); ?></p>
+        <p><?php printf(esc_html__('Estimated time left: %s seconds.', 'koko-analytics'), esc_html((string) round($chunks_left * 1.5))); ?></p>
         <?php
         exit;
     }
