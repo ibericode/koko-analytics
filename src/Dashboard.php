@@ -147,7 +147,7 @@ class Dashboard
             <?php echo esc_html__('You appear to be using an ad-blocker that has Koko Analytics on its blocklist. Please whitelist this domain in your ad-blocker setting if your dashboard does not seem to be working correctly.', 'koko-analytics'); ?>
             <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
         </div>
-        <script src="<?php echo plugins_url('/assets/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
+        <script src="<?php echo esc_url(plugins_url('/assets/js/koko-analytics-script-test.js', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo esc_attr(KOKO_ANALYTICS_VERSION); ?>" defer onerror="document.getElementById('koko-analytics-adblock-notice').style.display = '';"></script>
         <?php
     }
 
@@ -303,14 +303,14 @@ class Dashboard
                 <?php foreach ($posts as $i => $p) { ?>
                     <?php $page_filter = $p->post_id > 0 ? (string) $p->post_id : $p->path; ?>
                     <?php $pct = $sum > 0 && $page === 0  ? round(($p->pageviews / $sum) * 100, 0) : 0; ?>
-                    <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct; ?>%, transparent <?= $pct; ?>%);">
-                        <td class="text-muted"><?= $offset + $i + 1; ?></td>
+                    <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr($pct); ?>%, transparent <?= esc_attr($pct); ?>%);">
+                        <td class="text-muted"><?= esc_html($offset + $i + 1); ?></td>
                         <td class="text-truncate">
                             <a href="<?= esc_attr(add_query_arg(['p' => $page_filter])); ?>"><?= esc_html($p->label); ?></a>
                             <a class="ka-visit-link" href="<?= esc_url($p->post_permalink); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
                         </td>
-                        <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $p->visitors)); ?></td>
-                        <td class="text-end"><?= number_format_i18n($p->pageviews); ?></td>
+                        <td class="text-end d-none d-lg-table-cell"><?= esc_html(number_format_i18n(max(1, $p->visitors))); ?></td>
+                        <td class="text-end"><?= esc_html(number_format_i18n($p->pageviews)); ?></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -352,11 +352,11 @@ class Dashboard
             <tbody>
                 <?php foreach ($referrers as $i => $r) { ?>
                     <?php $pct = $sum > 0 ? round(($r->pageviews / $sum) * 100, 0) : 0; ?>
-                    <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= $pct; ?>%, transparent <?= $pct; ?>%);">
-                        <td class="text-muted"><?= $offset + $i + 1; ?></td>
-                        <td class="text-truncate"><?= Fmt::referrer_url_label(esc_html($r->url)); ?></td>
-                        <td class="text-end d-none d-lg-table-cell"><?= number_format_i18n(max(1, $r->visitors)); ?></td>
-                        <td class="text-end"><?= number_format_i18n($r->pageviews); ?></td>
+                    <tr style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr($pct); ?>%, transparent <?= esc_attr($pct); ?>%);">
+                        <td class="text-muted"><?= esc_html($offset + $i + 1); ?></td>
+                        <td class="text-truncate"><?= esc_html(Fmt::referrer_url_label($r->url)); ?></td>
+                        <td class="text-end d-none d-lg-table-cell"><?= esc_html(number_format_i18n(max(1, $r->visitors))); ?></td>
+                        <td class="text-end"><?= esc_html(number_format_i18n($r->pageviews)); ?></td>
                     </tr>
                 <?php } ?>
             </tbody>

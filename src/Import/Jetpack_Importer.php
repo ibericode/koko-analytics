@@ -137,17 +137,17 @@ class Jetpack_Importer extends Importer
         <h1><?php esc_html_e('Liberating your data... Please wait.', 'koko-analytics'); ?></h1>
         <p>
             <?php
-            printf(
+            echo wp_kses(sprintf(
                 /* translators: 1: import start date, 2: import end date. */
                 __('Importing stats between %1$s and %2$s.', 'koko-analytics'),
-                '<strong>' . $chunk_start->format('Y-m-d') . '</strong>',
-                '<strong>' . $chunk_end->format('Y-m-d') . '</strong>'
-            );
+                '<strong>' . esc_html($chunk_start->format('Y-m-d')) . '</strong>',
+                '<strong>' . esc_html($chunk_end->format('Y-m-d')) . '</strong>'
+            ), ['strong' => []]);
             ?>
         </p>
         <p><?php esc_html_e('Please do not close this browser tab while the importer is running.', 'koko-analytics'); ?></p>
         <?php /* translators: %s: estimated number of seconds remaining. */ ?>
-        <p><?php printf(__('Estimated time left: %s seconds.', 'koko-analytics'), round($chunks_left * 1.5)); ?></p>
+        <p><?php printf(esc_html__('Estimated time left: %s seconds.', 'koko-analytics'), esc_html(round($chunks_left * 1.5))); ?></p>
         <?php
         exit;
     }

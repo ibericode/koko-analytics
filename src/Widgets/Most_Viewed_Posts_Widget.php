@@ -52,14 +52,14 @@ class Most_Viewed_Posts_Widget extends WP_Widget
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
         $title = apply_filters('widget_title', $settings['title'], $settings, $this->id_base);
 
-        echo $args['before_widget'];
+        echo wp_kses_post($args['before_widget']);
         if ($title) {
-            echo $args['before_title'], $title, $args['after_title'];
+            echo wp_kses_post($args['before_title']), esc_html($title), wp_kses_post($args['after_title']);
         }
 
         $shortcode = new Shortcode_Most_Viewed_Posts();
-        echo $shortcode->content($settings);
-        echo $args['after_widget'];
+        echo wp_kses_post($shortcode->content($settings));
+        echo wp_kses_post($args['after_widget']);
     }
 
     /**
@@ -92,35 +92,36 @@ class Most_Viewed_Posts_Widget extends WP_Widget
         $post_types = get_post_types(['public' => true], 'objects');
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>" style="display: block;"><?php esc_html_e('Title:', 'koko-analytics'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($settings['title']); ?>" />
+            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>" style="display: block;"><?php esc_html_e('Title:', 'koko-analytics'); ?></label>
+            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($settings['title']); ?>" />
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('post_type'); ?>" style="display: block;"><?php esc_html_e('Post type:', 'koko-analytics'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('post_type'); ?>" name="<?php echo $this->get_field_name('post_type'); ?>">
+            <label for="<?php echo esc_attr($this->get_field_id('post_type')); ?>" style="display: block;"><?php esc_html_e('Post type:', 'koko-analytics'); ?></label>
+            <select class="widefat" id="<?php echo esc_attr($this->get_field_id('post_type')); ?>" name="<?php echo esc_attr($this->get_field_name('post_type')); ?>">
                 <?php
                 foreach ($post_types as $post_type) {
-                    $selected = selected($settings['post_type'], $post_type->name, false);
-                    echo "<option value=\"{$post_type->name}\" {$selected}>{$post_type->label}</option>";
+                    ?>
+                    <option value="<?php echo esc_attr($post_type->name); ?>" <?php selected($settings['post_type'], $post_type->name); ?>><?php echo esc_html($post_type->label); ?></option>
+                    <?php
                 }
                 ?>
             </select>
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('days'); ?>" style="display: block;"><?php esc_html_e('Number of days to use statistics for:', 'koko-analytics'); ?></label>
-            <input id="<?php echo $this->get_field_id('days'); ?>" name="<?php echo $this->get_field_name('days'); ?>" type="number" step="1" min="1" max="1975" value="<?php echo esc_attr($settings['days']); ?>" required class="tiny-text" size="3" />
+            <label for="<?php echo esc_attr($this->get_field_id('days')); ?>" style="display: block;"><?php esc_html_e('Number of days to use statistics for:', 'koko-analytics'); ?></label>
+            <input id="<?php echo esc_attr($this->get_field_id('days')); ?>" name="<?php echo esc_attr($this->get_field_name('days')); ?>" type="number" step="1" min="1" max="1975" value="<?php echo esc_attr($settings['days']); ?>" required class="tiny-text" size="3" />
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('number'); ?>" style="display: block;"><?php esc_html_e('Number of posts to show:', 'koko-analytics'); ?></label>
-            <input id="<?php echo $this->get_field_id('number'); ?>" class="tiny-text" name="<?php echo $this->get_field_name('number'); ?>" type="number" step="1" min="1" value="<?php echo esc_attr($settings['number']); ?>" size="3" />
+            <label for="<?php echo esc_attr($this->get_field_id('number')); ?>" style="display: block;"><?php esc_html_e('Number of posts to show:', 'koko-analytics'); ?></label>
+            <input id="<?php echo esc_attr($this->get_field_id('number')); ?>" class="tiny-text" name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" step="1" min="1" value="<?php echo esc_attr($settings['number']); ?>" size="3" />
         </p>
 
         <p>
-            <input class="checkbox" type="checkbox" <?php checked($settings['show_date']); ?> id="<?php echo $this->get_field_id('show_date'); ?>" name="<?php echo $this->get_field_name('show_date'); ?>" />
-            <label for="<?php echo $this->get_field_id('show_date'); ?>"><?php esc_html_e('Display post date?', 'koko-analytics'); ?></label>
+            <input class="checkbox" type="checkbox" <?php checked($settings['show_date']); ?> id="<?php echo esc_attr($this->get_field_id('show_date')); ?>" name="<?php echo esc_attr($this->get_field_name('show_date')); ?>" />
+            <label for="<?php echo esc_attr($this->get_field_id('show_date')); ?>"><?php esc_html_e('Display post date?', 'koko-analytics'); ?></label>
         </p>
         <?php
 

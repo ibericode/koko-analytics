@@ -16,15 +16,15 @@ use KokoAnalytics\Chart_View;
 use KokoAnalytics\Fmt;
 
 ?>
-<link rel="stylesheet" href="<?php echo plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>">
-<script type="module" src="<?php echo plugins_url('assets/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE); ?>?v=<?php echo KOKO_ANALYTICS_VERSION; ?>" defer></script>
+<link rel="stylesheet" href="<?php echo esc_url(plugins_url('assets/css/dashboard.css', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo esc_attr(KOKO_ANALYTICS_VERSION); ?>">
+<script type="module" src="<?php echo esc_url(plugins_url('assets/js/dashboard-widget.js', KOKO_ANALYTICS_PLUGIN_FILE)); ?>?v=<?php echo esc_attr(KOKO_ANALYTICS_VERSION); ?>" defer></script>
 
 <div >
     <div id="ka-dashboard-widget-realtime" class="mb-4">
         <h3 class="mb-2"><?php esc_html_e('Realtime', 'koko-analytics'); ?></h3>
         <p class="m-0">
             <?php /* translators: 1: total pageviews today, 2: pageviews in the last hour. */ ?>
-            <?php printf(esc_html__('Your site had a total of %1$s pageviews today, %2$s of which were in the last hour.', 'koko-analytics'), '<strong>' . number_format_i18n($totals->pageviews) . '</strong>', '<strong>' . number_format_i18n($realtime) . '</strong>'); ?>
+            <?php echo wp_kses(sprintf(__('Your site had a total of %1$s pageviews today, %2$s of which were in the last hour.', 'koko-analytics'), '<strong>' . esc_html(number_format_i18n($totals->pageviews)) . '</strong>', '<strong>' . esc_html(number_format_i18n($realtime)) . '</strong>'), ['strong' => []]); ?>
         </p>
     </div>
 
@@ -48,7 +48,7 @@ use KokoAnalytics\Fmt;
                 <ul class="list-unstyled m-0">
                     <?php foreach ($posts as $post) { ?>
                     <li class="text-truncate">
-                        <span class="text-muted me-2"><?php echo number_format_i18n($post->pageviews); ?></span>
+                        <span class="text-muted me-2"><?php echo esc_html(number_format_i18n($post->pageviews)); ?></span>
                         <a href="<?php echo esc_attr(home_url($post->path)); ?>"><?php echo esc_html($post->label); ?></a>
                     </li>
                     <?php } ?>
@@ -63,8 +63,8 @@ use KokoAnalytics\Fmt;
                 <ul class="list-unstyled m-0">
                     <?php foreach ($referrers as $referrer) { ?>
                         <li class="text-truncate">
-                            <span class="text-muted me-2"><?php echo number_format_i18n($referrer->pageviews); ?></span>
-                            <?php echo Fmt::referrer_url_label(esc_html($referrer->url)); ?>
+                            <span class="text-muted me-2"><?php echo esc_html(number_format_i18n($referrer->pageviews)); ?></span>
+                            <?php echo esc_html(Fmt::referrer_url_label($referrer->url)); ?>
                         </li>
                     <?php } ?>
                 </ul>

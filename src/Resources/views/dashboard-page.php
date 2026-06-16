@@ -77,12 +77,12 @@ $tab = 'dashboard';
                         <div class="mb-3">
                             <label for='ka-date-start' class="ka-label"><?php esc_html_e('Start date', 'koko-analytics'); ?></label>
                             <input name="start_date" id='ka-date-start' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                value="<?= $date_start->format('Y-m-d'); ?>" class="ka-input">
+                                value="<?= esc_attr($date_start->format('Y-m-d')); ?>" class="ka-input">
                         </div>
                         <div class="mb-3">
                             <label for='ka-date-end' class="ka-label"><?php esc_html_e('End date', 'koko-analytics'); ?></label>
                             <input name="end_date" id='ka-date-end' type="date" size="10" min="2000-01-01" max="2100-01-01"
-                                value="<?= $date_end->format('Y-m-d'); ?>" class="ka-input">
+                                value="<?= esc_attr($date_end->format('Y-m-d')); ?>" class="ka-input">
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary"><?php esc_html_e('Submit', 'koko-analytics'); ?></button>
@@ -117,15 +117,15 @@ $tab = 'dashboard';
             <div class="ka-box p-3">
                 <div class="text-muted mb-1"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></div>
                 <div class="ka-totals-number mb-1">
-                    <span title="<?= esc_attr($totals->visitors); ?>"><?= number_format_i18n($totals->visitors); ?></span>
+                    <span title="<?= esc_attr($totals->visitors); ?>"><?= esc_html(number_format_i18n($totals->visitors)); ?></span>
                     <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')); ?>">
-                        <?= Fmt::percent($change); ?>
+                        <?= esc_html(Fmt::percent($change)); ?>
                     </span>
                 </div>
                 <div class="text-muted">
                     <?php
                     if ($diff != 0) {
-                        echo number_format_i18n(abs($diff));
+                        echo esc_html(number_format_i18n(abs($diff)));
                         echo ' ';
                     }
                     if ($diff > 0) {
@@ -147,15 +147,15 @@ $tab = 'dashboard';
             <div class="ka-box p-3">
                 <div class="text-muted mb-1"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></div>
                 <div class="ka-totals-number mb-1">
-                    <span title="<?= esc_attr($totals->pageviews); ?>"><?= number_format_i18n($totals->pageviews); ?></span>
+                    <span title="<?= esc_attr($totals->pageviews); ?>"><?= esc_html(number_format_i18n($totals->pageviews)); ?></span>
                     <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')); ?>">
-                        <?= Fmt::percent($change); ?>
+                        <?= esc_html(Fmt::percent($change)); ?>
                     </span>
                 </div>
                 <div class="text-muted">
                     <?php
                     if ($diff != 0) {
-                        echo number_format_i18n(abs($diff));
+                        echo esc_html(number_format_i18n(abs($diff)));
                         echo ' ';
                     }
                     if ($diff > 0) {
@@ -171,7 +171,7 @@ $tab = 'dashboard';
         <div class="ka-col">
             <div class="ka-box p-3" id="ka-realtime">
                 <div class="text-muted mb-1"><span class="ka-realtime-dot"></span><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></div>
-                <div class="ka-totals-number mb-1"><?= number_format_i18n($realtime); ?></div>
+                <div class="ka-totals-number mb-1"><?= esc_html(number_format_i18n($realtime)); ?></div>
                 <div class="text-muted">
                     <?php esc_html_e('pageviews in the last hour', 'koko-analytics'); ?>
                 </div>
@@ -223,7 +223,7 @@ $tab = 'dashboard';
         <?php else : ?>
             <div class="text-muted text-center mt-5 mb-3">
                 <?php /* translators: %1s: opening anchor tag for Koko Analytics website. */ ?>
-                <?php printf(__('Powered by %1s - privacy-friendly analytics for WordPress sites', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-dashboard-powered-by">Koko Analytics</a>'); ?>
+                <?php echo wp_kses(sprintf(__('Powered by %1s - privacy-friendly analytics for WordPress sites', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-dashboard-powered-by">Koko Analytics</a>'), ['a' => ['href' => []]]); ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>

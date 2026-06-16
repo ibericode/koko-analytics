@@ -49,31 +49,30 @@ class Chart_View
                 ?>
             </div>
             <?php } /* end show group options */ ?>
-            <svg width="100%" height="<?= $height; ?>" id="ka-chart">
-                <g class="axes-y" transform="translate(<?= $padding_left; ?>, <?= $padding_top; ?>)" text-anchor="end" data-padding="<?= $padding_left; ?>">
-                <text x="0" y="<?= $inner_height; ?>" fill="#757575" dy="0.3em" >0</text>
-                <text x="0" y="<?= $inner_height / 2; ?>" fill="#757575" dy="0.3em"><?= \number_format_i18n($y_max_nice / 2); ?></text>
-                <text x="0" y="0" fill="#757575" dy="0.3em"><?= \number_format_i18n($y_max_nice); ?></text>
-                <line stroke="#eee" x1="8" x2="100%" y1="<?= $inner_height; ?>" y2="<?= $inner_height; ?>"></line>
-                <line stroke="#eee" x1="8" x2="100%" y1="<?= $inner_height / 2; ?>" y2="<?= $inner_height / 2; ?>"></line>
+            <svg width="100%" height="<?= esc_attr($height); ?>" id="ka-chart">
+                <g class="axes-y" transform="translate(<?= esc_attr($padding_left); ?>, <?= esc_attr($padding_top); ?>)" text-anchor="end" data-padding="<?= esc_attr($padding_left); ?>">
+                <text x="0" y="<?= esc_attr($inner_height); ?>" fill="#757575" dy="0.3em" >0</text>
+                <text x="0" y="<?= esc_attr($inner_height / 2); ?>" fill="#757575" dy="0.3em"><?= esc_html(\number_format_i18n($y_max_nice / 2)); ?></text>
+                <text x="0" y="0" fill="#757575" dy="0.3em"><?= esc_html(\number_format_i18n($y_max_nice)); ?></text>
+                <line stroke="#eee" x1="8" x2="100%" y1="<?= esc_attr($inner_height); ?>" y2="<?= esc_attr($inner_height); ?>"></line>
+                <line stroke="#eee" x1="8" x2="100%" y1="<?= esc_attr($inner_height / 2); ?>" y2="<?= esc_attr($inner_height / 2); ?>"></line>
                 <line stroke="#eee" x1="8" x2="100%" y1="0" y2="0"></line>
                 </g>
-                <g class="axes-x" text-anchor="start" transform="translate(0, <?= $inner_height + 4; ?>)">
-                <text fill="#757575" x="<?= $padding_left; ?>" y="10" dy="1em" text-anchor="start"><?= \wp_date($dateFormat, $dateStart->getTimestamp()); ?></text>
-                <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?= \wp_date($dateFormat, $dateEnd->getTimestamp()); ?></text>
+                <g class="axes-x" text-anchor="start" transform="translate(0, <?= esc_attr($inner_height + 4); ?>)">
+                <text fill="#757575" x="<?= esc_attr($padding_left); ?>" y="10" dy="1em" text-anchor="start"><?= esc_html(\wp_date($dateFormat, $dateStart->getTimestamp())); ?></text>
+                <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?= esc_html(\wp_date($dateFormat, $dateEnd->getTimestamp())); ?></text>
                 </g>
-                <g class="bars" transform="translate(0, <?= $padding_top; ?>)">
+                <g class="bars" transform="translate(0, <?= esc_attr($padding_top); ?>)">
                 <?php
                 foreach ($data as $tick) {
                     $dt         = (new \DateTimeImmutable($tick->date, $timezone));
                     $is_weekend = (int) $dt->format('N') >= 6;
-                    $class_attr = $is_weekend ? 'class="weekend" ' : '';
                     $tick_label = $this->format_tick_date($dt, $group, $dateFormat);
                     // data attributes are for the hover tooltip, which is handled in JS
-                    echo '<g ', $class_attr, 'data-date="', esc_attr($tick_label), '" data-pageviews="', \number_format_i18n($tick->pageviews), '" data-visitors="', \number_format_i18n($tick->visitors), '">';
-                    echo '<rect class="ka--pageviews" width="0" height="', $tick->pageviews * $height_modifier, '" y="', ($inner_height - $tick->pageviews * $height_modifier), '"></rect>';
-                    echo '<rect class="ka--visitors" width="0" height="', ($tick->visitors * $height_modifier), '" y="', ($inner_height - $tick->visitors * $height_modifier), '"></rect>';
-                    echo '<line stroke="#ddd" y1="', $inner_height, '" y2="', ($inner_height + 6), '"></line>';
+                    echo '<g ', $is_weekend ? 'class="weekend" ' : '', 'data-date="', esc_attr($tick_label), '" data-pageviews="', esc_attr(\number_format_i18n($tick->pageviews)), '" data-visitors="', esc_attr(\number_format_i18n($tick->visitors)), '">';
+                    echo '<rect class="ka--pageviews" width="0" height="', esc_attr($tick->pageviews * $height_modifier), '" y="', esc_attr($inner_height - $tick->pageviews * $height_modifier), '"></rect>';
+                    echo '<rect class="ka--visitors" width="0" height="', esc_attr($tick->visitors * $height_modifier), '" y="', esc_attr($inner_height - $tick->visitors * $height_modifier), '"></rect>';
+                    echo '<line stroke="#ddd" y1="', esc_attr($inner_height), '" y2="', esc_attr($inner_height + 6), '"></line>';
                     echo '</g>';
                 }
                 ?>

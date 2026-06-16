@@ -44,7 +44,6 @@
         <exclude name="WordPress.Files"/>
         <exclude name="WordPress.PHP.YodaConditions"/>
         <exclude name="WordPress.PHP.POSIXFunctions"/>
-        <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/><!-- TODO: Remove this -->
         <exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/><!-- TODO: Remove this -->
         <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated"/>

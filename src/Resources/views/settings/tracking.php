@@ -65,7 +65,7 @@ defined('ABSPATH') || exit;
     <div class="mb-4">
         <label for="ka-exclude-ip-addresses" class="ka-label"><?php esc_html_e('Exclude pageviews from these IP addresses', 'koko-analytics'); ?></label>
         <?php
-        printf('<textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="ka-input mb-2" rows="%d">', max(4, count($settings['exclude_ip_addresses'])));
+        printf('<textarea id="ka-exclude-ip-addresses" name="koko_analytics_settings[exclude_ip_addresses]" class="ka-input mb-2" rows="%d">', esc_attr(max(4, count($settings['exclude_ip_addresses']))));
         echo esc_textarea(join(PHP_EOL, $settings['exclude_ip_addresses']));
         echo '</textarea>';
         ?>
