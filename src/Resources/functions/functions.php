@@ -89,6 +89,8 @@ function get_most_viewed_post_ids(array $args)
             $args['number'],
         ];
 
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared 
+        // this is safe because we generate the entire string here
         $post_types_placeholder = rtrim(str_repeat('%s,', count($args['post_type'])), ',');
         $results                = $wpdb->get_results($wpdb->prepare("SELECT p.id, SUM(pageviews) AS pageviews
             FROM {$wpdb->prefix}koko_analytics_post_stats s

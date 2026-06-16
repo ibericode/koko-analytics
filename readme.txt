@@ -1,7 +1,7 @@
 === Koko Analytics - Privacy-Friendly WordPress Analytics ===
 Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
-Requires at least: 6.0
+Requires at least: 6.2
 Tested up to: 7.0
 Stable tag: 2.4.0
 License: GPL-3.0-or-later

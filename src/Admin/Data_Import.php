@@ -74,7 +74,7 @@ class Data_Import
                 $table   = $data['table'];
                 $columns = $data['columns'];
 
-                if (! $this->is_list_of_strings($columns)) {
+                if (! $this->is_list_of_column_names($columns)) {
                     fclose($fh);
                     throw new Exception(sprintf(__('Invalid column declaration on line %d.', 'koko-analytics'), $line_number));
                 }
@@ -137,14 +137,14 @@ class Data_Import
     /**
      * @param mixed[] $values
      */
-    private function is_list_of_strings(array $values): bool
+    private function is_list_of_column_names(array $values): bool
     {
         if (! $this->is_list($values)) {
             return false;
         }
 
         foreach ($values as $value) {
-            if (! is_string($value)) {
+            if (! is_string($value) || ! preg_match('/^[a-zA-Z0-9_]+$/', $value)) {
                 return false;
             }
         }
@@ -178,7 +178,8 @@ class Data_Import
         global $wpdb;
 
         foreach (array_reverse(array_keys($tables)) as $table) {
-            $result = $wpdb->query("DELETE FROM {$wpdb->prefix}{$table}");
+            $table  = $wpdb->prefix . $table;
+            $result = $wpdb->query($wpdb->prepare("DELETE FROM %i", $table));
             if ($result === false) {
                 throw new Exception($wpdb->last_error);
             }
@@ -218,14 +219,15 @@ class Data_Import
             $all_placeholders[] = '(' . implode(',', $row_placeholders) . ')';
         }
 
-        $column_sql   = implode(', ', array_map(static function (string $column): string {
-            return '`' . str_replace('`', '``', $column) . '`';
-        }, $columns));
-        $placeholders = join(',', $all_placeholders);
-        $result       = $wpdb->query($wpdb->prepare("INSERT INTO {$table} ({$column_sql}) VALUES {$placeholders}", $values));
+
+        $column_placeholders = join(',', array_fill(0, count($columns), '%i'));
+        $placeholders        = join(',', $all_placeholders);
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $result = $wpdb->query($wpdb->prepare("INSERT INTO %i ({$column_placeholders}) VALUES {$placeholders}", array_merge([$table], $columns, $values)));
 
         if ($result === false) {
-            throw new Exception($wpdb->last_error);
+            throw new Exception("Database error: " . $wpdb->last_error);
         }
     }
 }

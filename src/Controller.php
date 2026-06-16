@@ -102,7 +102,7 @@ class Controller
                 return;
             }
         } elseif (! isset($_GET['koko-analytics-dashboard'])) {
-             // do nothing if query string not set
+            // do nothing if query string not set
             return;
         }
 

@@ -230,6 +230,7 @@ class Jetpack_Importer extends Importer
                 array_push($values, $item->date, $path_id, $postviews->post_id, $postviews->views, $postviews->views);
             }
 
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
             if ($wpdb->last_error) {
                 throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
