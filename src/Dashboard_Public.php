@@ -24,8 +24,11 @@ class Dashboard_Public extends Dashboard
         }
 
         // don't serve public dashboard to anything that looks like a bot or crawler
-        if (empty($_SERVER['HTTP_USER_AGENT']) || \preg_match("/bot|crawl|spider/", strtolower($_SERVER['HTTP_USER_AGENT']))) {
-            return;
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        if ($user_agent === '' || preg_match('/bot|crawl|crawler|spider|slurp|ahrefs|semrush|mj12bot|dotbot|bingpreview/i', $user_agent)) {
+            status_header(403);
+            header("X-Robots-Tag: noindex, nofollow", true);
+            exit;
         }
 
         do_action('koko_analytics_public_dashboard_headers');
