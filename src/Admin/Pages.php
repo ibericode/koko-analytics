@@ -39,6 +39,7 @@ class Pages
 
         if (false === $is_buffer_dir_writable) {
             echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert" style="margin-top: 1rem; margin-right: 20px;">';
+            /* translators: %s: directory path. */
             echo wp_kses(\sprintf(__('Koko Analytics is unable to write to the <code>%s</code> directory. Please update the file permissions so that your web server can write to it.', 'koko-analytics'), $buffer_dirname), ['code' => []]);
             echo '<button type="button" class="btn-close" aria-label="', esc_attr__('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
             echo '</div>';

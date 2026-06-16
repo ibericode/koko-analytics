@@ -23,6 +23,7 @@ use KokoAnalytics\Fmt;
     <div id="ka-dashboard-widget-realtime" class="mb-4">
         <h3 class="mb-2"><?php esc_html_e('Realtime', 'koko-analytics'); ?></h3>
         <p class="m-0">
+            <?php /* translators: 1: total pageviews today, 2: pageviews in the last hour. */ ?>
             <?php printf(esc_html__('Your site had a total of %1$s pageviews today, %2$s of which were in the last hour.', 'koko-analytics'), '<strong>' . number_format_i18n($totals->pageviews) . '</strong>', '<strong>' . number_format_i18n($realtime) . '</strong>'); ?>
         </p>
     </div>

@@ -15,6 +15,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
     <p>
         <?php
         printf(
+            /* translators: 1: database size, 2: number of database rows. */
             esc_html__('Koko Analytics is using %1$s across approximately %2$s rows.', 'koko-analytics'),
             esc_html(size_format($database_stats['total_size'])),
             esc_html(number_format_i18n($database_stats['total_rows']))

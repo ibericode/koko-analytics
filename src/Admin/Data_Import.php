@@ -67,6 +67,7 @@ class Data_Import
             $data = json_decode($line, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 fclose($fh);
+                /* translators: %d: line number. */
                 throw new Exception(sprintf(__('Invalid JSON on line %d.', 'koko-analytics'), $line_number));
             }
 
@@ -76,16 +77,19 @@ class Data_Import
 
                 if (! $this->is_list_of_column_names($columns)) {
                     fclose($fh);
+                    /* translators: %d: line number. */
                     throw new Exception(sprintf(__('Invalid column declaration on line %d.', 'koko-analytics'), $line_number));
                 }
 
                 if (! isset($tables[$table])) {
                     fclose($fh);
+                    /* translators: 1: table name, 2: line number. */
                     throw new Exception(sprintf(__('Unsupported table "%1$s" on line %2$d.', 'koko-analytics'), $table, $line_number));
                 }
 
                 if ($columns !== $tables[$table]['columns']) {
                     fclose($fh);
+                    /* translators: 1: table name, 2: line number. */
                     throw new Exception(sprintf(__('Unsupported columns for table "%1$s" on line %2$d.', 'koko-analytics'), $table, $line_number));
                 }
 
@@ -101,11 +105,13 @@ class Data_Import
 
             if (! $current_table || ! is_array($data) || ! $this->is_list($data)) {
                 fclose($fh);
+                /* translators: %d: line number. */
                 throw new Exception(sprintf(__('Unexpected row data on line %d.', 'koko-analytics'), $line_number));
             }
 
             if (count($data) > Data_Transfer_Tables::BATCH_SIZE) {
                 fclose($fh);
+                /* translators: %d: line number. */
                 throw new Exception(sprintf(__('Too many rows on line %d.', 'koko-analytics'), $line_number));
             }
 
@@ -201,6 +207,7 @@ class Data_Import
 
         foreach ($rows as $row) {
             if (! is_array($row) || ! $this->is_list($row) || count($row) !== count($columns)) {
+                /* translators: %d: line number. */
                 throw new Exception(sprintf(__('Invalid row data on line %d.', 'koko-analytics'), $line_number));
             }
 

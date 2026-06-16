@@ -16,6 +16,7 @@ add_action('koko_analytics_output_dashboard_settings', function ($settings) use 
             <label class=""><input type="radio" name="koko_analytics_settings[is_dashboard_public]" value="0" <?php checked($settings['is_dashboard_public'], 0); ?>> <?php esc_html_e('No', 'koko-analytics'); ?></label>
         </fieldset>
         <p class="description">
+            <?php /* translators: %s: public dashboard URL. */ ?>
             <?php echo wp_kses(sprintf(__('Set to "yes" if you want your dashboard to be publicly accessible. With this setting enabled, you can <a href="%s">find your public dashboard here</a>.', 'koko-analytics'), esc_attr($public_dashboard_url)), ['a' => ['href' => []]]); ?>
         </p>
     </div>

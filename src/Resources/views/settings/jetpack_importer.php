@@ -25,6 +25,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             <th><label for="wpcom-api-key"><?php esc_html_e('WordPress.com API key', 'koko-analytics'); ?></label></th>
             <td>
                 <input id="wpcom-api-key" type="text" class="regular-text" name="wpcom-api-key" required>
+                <?php /* translators: 1: opening anchor tag, 2: closing anchor tag. */ ?>
                 <p class="description"><?php printf(esc_html__('You can %1$sfind your WordPress.com API key here%2$s.', 'koko-analytics'), '<a href="https://apikey.wordpress.com/" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>

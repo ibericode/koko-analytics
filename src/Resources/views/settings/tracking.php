@@ -37,7 +37,10 @@ defined('ABSPATH') || exit;
                 </li>
             </ul>
 
-            <p class="description"><?php printf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-tracking-docs'); ?></p>
+            <p class="description">
+                <?php /* translators: %1$s: cookie vs. cookieless tracking documentation URL. */ ?>
+                <?php printf(wp_kses(__('For some more information about how each of these methods work, read this article on <a href="%1$s">cookie vs. cookieless tracking</a>.', 'koko-analytics'), ['a' => ['href' => true]]), 'https://www.kokoanalytics.com/docs/tracking/cookie-vs-cookieless-tracking-methods/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-tracking-docs'); ?>
+            </p>
         </fieldset>
     </div>
     <div class="mb-4">
@@ -72,6 +75,7 @@ defined('ABSPATH') || exit;
             <?php esc_html_e('Enter each IP address on its own line.', 'koko-analytics'); ?>
             <?php echo ' '; ?>
             <?php if (\KokoAnalytics\get_client_ip()) : ?>
+                <?php /* translators: %s: current IP address. */ ?>
                 <?php printf(esc_html__('Your current IP address is %s.', 'koko-analytics'), '<code>' . esc_html(\KokoAnalytics\get_client_ip()) . '</code>'); ?>
             <?php endif; ?>
         </p>

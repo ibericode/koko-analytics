@@ -50,7 +50,6 @@
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
         <exclude name="WordPress.Security.NonceVerification.Missing"/>
-        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/><!-- TODO: Remove this -->
     </rule>
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
 	<rule ref="Generic.PHP.ForbiddenFunctions"/>

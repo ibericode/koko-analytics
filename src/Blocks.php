@@ -46,6 +46,7 @@ class Blocks
     public function render_counter($args)
     {
         $count = (new Shortcode_Site_Counter())->content($args);
+        /* translators: %s: number of pageviews. */
         return '<p>' . sprintf(__('This page has been viewed a total of %s times', 'koko-analytics'), $count) . '</p>';
     }
 

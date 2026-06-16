@@ -144,9 +144,11 @@ __('This is a built-in event type that counts all clicks on outbound links on yo
 __('This is a built-in event type that counts all form submissions on your site.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/event-details.php#34
+/* translators: 1: event count, 2: total event value. */
 __('This event has been counted %1$s times for a total value of %2$s.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/event-details.php#36
+/* translators: %1$s: event count. */
 __('This event has been counted %1$s times.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/event-details.php#42
@@ -1098,6 +1100,7 @@ __('You do not have sufficient permissions to perform this action.', 'koko-analy
 __('License deactivated successfully.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Licensing/AdminController.php#165
+/* translators: %1$s: license activation URL. */
 __('You need to <a href="%1$s">activate Koko Analytics Pro</a> to use its features or install plugin updates.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/CSV/Button.php#20
