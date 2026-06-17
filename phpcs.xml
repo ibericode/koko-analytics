@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <ruleset name="rules">
-    <description>rules</description>
+    <description>Codesniffer rules for the Koko Analytics plugin</description>
+
     <arg name="colors"/>
-    <file>code-snippets/</file>
-    <file>src/</file>
-    <file>tests/</file>
-    <file>migrations/</file>
-    <file>koko-analytics.php</file>
-    <file>uninstall.php</file>
-    <file>autoload.php</file>
-    <exclude-pattern>*\.(html|css|js)</exclude-pattern>
+	<arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+    <arg value="ns"/>
+
+	<file>.</file>
+    <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>node_modules/</exclude-pattern>
+    <exclude-pattern>assets/</exclude-pattern>
+    <exclude-pattern>\.git</exclude-pattern>
     <exclude-pattern>tests/benchmarks/*</exclude-pattern>
+    
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
     <rule ref="PSR12">
         <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
