@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Chart_View
 {
-    public function __construct(array $data, \DateTimeInterface $dateStart, \DateTimeInterface $dateEnd, int $height = 280, bool $showGroupOptions = true, string $group = 'day')
+    public function __construct(array $data, \DateTimeInterface $date_start, \DateTimeInterface $date_end, int $height = 280, bool $show_group_options = true, string $group = 'day')
     {
         $y_max           = array_reduce($data, function ($carry, $tick) {
             return max($carry, $tick->pageviews);
@@ -21,27 +21,27 @@ class Chart_View
         $padding_left    = 4 + strlen(number_format_i18n($y_max_nice)) * 8;
         $inner_height    = $height - $padding_top - $padding_bottom;
         $height_modifier = $y_max_nice > 0 ? $inner_height / $y_max_nice : 1;
-        $dateFormat      = (string) get_option('date_format', 'Y-m-d');
-        $daysDiff        = abs($dateEnd->diff($dateStart)->days);
+        $date_format     = (string) get_option('date_format', 'Y-m-d');
+        $days_diff       = abs($date_end->diff($date_start)->days);
         $timezone        = wp_timezone();
         ?>
         <div class="ka-chart">
-            <?php if ($showGroupOptions && $daysDiff > 7) { ?>
+            <?php if ($show_group_options && $days_diff > 7) { ?>
             <div class="text-end text-muted mb-2">
                 <?php esc_html_e('Group by', 'koko-analytics'); ?>
-                <?php if ($daysDiff <= 365) { ?>
+                <?php if ($days_diff <= 365) { ?>
                     <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
                 <?php } ?>
                 <a class="text-muted" href="<?= esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
                 <?php
-                if ($daysDiff > 31) {
+                if ($days_diff > 31) {
                     ?>
                     <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a>
                     <?php
                 }
                 ?>
                 <?php
-                if ($daysDiff > 365) {
+                if ($days_diff > 365) {
                     ?>
                     <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'year'])); ?>"><?php esc_html_e('years', 'koko-analytics'); ?></a>
                     <?php
@@ -59,15 +59,15 @@ class Chart_View
                 <line stroke="#eee" x1="8" x2="100%" y1="0" y2="0"></line>
                 </g>
                 <g class="axes-x" text-anchor="start" transform="translate(0, <?= esc_attr((string) ($inner_height + 4)); ?>)">
-                <text fill="#757575" x="<?= esc_attr((string) $padding_left); ?>" y="10" dy="1em" text-anchor="start"><?= esc_html(\wp_date($dateFormat, $dateStart->getTimestamp())); ?></text>
-                <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?= esc_html(\wp_date($dateFormat, $dateEnd->getTimestamp())); ?></text>
+                <text fill="#757575" x="<?= esc_attr((string) $padding_left); ?>" y="10" dy="1em" text-anchor="start"><?= esc_html(\wp_date($date_format, $date_start->getTimestamp())); ?></text>
+                <text fill="#757575" x="100%" y="10" dy="1em" text-anchor="end"><?= esc_html(\wp_date($date_format, $date_end->getTimestamp())); ?></text>
                 </g>
                 <g class="bars" transform="translate(0, <?= esc_attr((string) $padding_top); ?>)">
                 <?php
                 foreach ($data as $tick) {
                     $dt         = (new \DateTimeImmutable($tick->date, $timezone));
                     $is_weekend = (int) $dt->format('N') >= 6;
-                    $tick_label = $this->format_tick_date($dt, $group, $dateFormat);
+                    $tick_label = $this->format_tick_date($dt, $group, $date_format);
                     // data attributes are for the hover tooltip, which is handled in JS
                     echo '<g ', $is_weekend ? 'class="weekend" ' : '', 'data-date="', esc_attr($tick_label), '" data-pageviews="', esc_attr(\number_format_i18n($tick->pageviews)), '" data-visitors="', esc_attr(\number_format_i18n($tick->visitors)), '">';
                     echo '<rect class="ka--pageviews" width="0" height="', esc_attr((string) ($tick->pageviews * $height_modifier)), '" y="', esc_attr((string) ($inner_height - $tick->pageviews * $height_modifier)), '"></rect>';
@@ -98,7 +98,7 @@ class Chart_View
         <?php
     }
 
-    private function format_tick_date(\DateTimeImmutable $dt, string $group, string $dateFormat): string
+    private function format_tick_date(\DateTimeImmutable $dt, string $group, string $date_format): string
     {
         switch ($group) {
             case 'week':
@@ -109,7 +109,7 @@ class Chart_View
             case 'year':
                 return \wp_date('Y', $dt->getTimestamp());
             default:
-                return \wp_date($dateFormat, $dt->getTimestamp());
+                return \wp_date($date_format, $dt->getTimestamp());
         }
     }
 

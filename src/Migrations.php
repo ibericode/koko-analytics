@@ -21,7 +21,7 @@ class Migrations
     {
         $this->prefix         = rtrim($prefix, '_');
         $this->option_name    = str_ends_with($this->prefix, '_version') ? $this->prefix : "{$this->prefix}_version";
-        $this->version_from   = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? $_GET["{$this->prefix}_migrate_from_version"] : get_option($this->option_name, '0.0.0');
+        $this->version_from   = isset($_GET["{$this->prefix}_migrate_from_version"]) && current_user_can('manage_options') ? wp_unslash($_GET["{$this->prefix}_migrate_from_version"]) : get_option($this->option_name, '0.0.0');
         $this->version_to     = $version_to;
         $this->migrations_dir = $migrations_dir;
     }

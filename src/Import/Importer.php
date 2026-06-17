@@ -48,7 +48,7 @@ abstract class Importer
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
 
         if ($wpdb->last_error !== '') {
-            throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+            throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));
         }
     }
 
@@ -79,7 +79,7 @@ abstract class Importer
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
 
         if ($wpdb->last_error !== '') {
-            throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+            throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));
         }
     }
 }

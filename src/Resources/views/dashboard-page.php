@@ -56,7 +56,7 @@ $tab = 'dashboard';
                         <?php
                         foreach (['page', 'p', 'koko-analytics-dashboard'] as $key) {
                             if (isset($_GET[$key])) {
-                                echo '<input type="hidden" name="', esc_attr($key), '" value="', esc_attr($_GET[$key]), '">';
+                                echo '<input type="hidden" name="', esc_attr($key), '" value="', esc_attr(wp_unslash($_GET[$key])), '">';
                             }
                         }
                         ?>

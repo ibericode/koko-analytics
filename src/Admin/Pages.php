@@ -65,7 +65,11 @@ class Pages
             'help' => __('Help', 'koko-analytics'),
         ]);
         $extra_tabs            = ['jetpack_importer', 'plausible_importer'];
-        $active_tab            = isset($_GET['tab']) && (array_key_exists($_GET['tab'], $tabs) || in_array($_GET['tab'], $extra_tabs)) ? $_GET['tab'] : 'tracking';
+        $active_tab = wp_unslash($_GET['tab'] ?? '');
+        // ensure tab is one of the above
+        if (! array_key_exists($active_tab, $tabs) && ! in_array($active_tab, $extra_tabs, true)) {
+            $active_tab = 'tracking';
+        }
         $settings              = get_settings();
         $using_custom_endpoint = using_custom_endpoint();
         $user_roles            = $this->get_available_roles();

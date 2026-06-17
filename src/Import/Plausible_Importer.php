@@ -27,13 +27,14 @@ class Plausible_Importer extends Importer
 
 
         // verify file upload
-        if (empty($_FILES['plausible-export-file']) || $_FILES['plausible-export-file']['error'] !== 0) {
+        $export_file = $_FILES['plausible-export-file'] ?? [];
+        if (empty($export_file) || $export_file['error'] !== 0) {
             $this->redirect_with_error($this->get_admin_url(), 'A file upload error occurred.');
         }
 
-        $date_start = $_POST['date-start'] ?? '2010-01-01';
-        $date_end   = $_POST['date-end'] ?? (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
-        $fh         = fopen($_FILES['plausible-export-file']['tmp_name'], "r");
+        $date_start = wp_unslash($_POST['date-start'] ?? '2010-01-01');
+        $date_end   = wp_unslash($_POST['date-end'] ?? (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d'));
+        $fh         = fopen($export_file['tmp_name'], "r");
         $header     = fgetcsv($fh, 1024, ',', '"', '');
         @set_time_limit(300);
 
@@ -72,6 +73,7 @@ class Plausible_Importer extends Importer
             // update site stats
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$row['date'], $row['visitors'], $row['pageviews']]));
             if ($wpdb->last_error !== '') {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Exception messages are escaped where they are output.
                 throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
             }
         }

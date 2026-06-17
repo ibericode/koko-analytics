@@ -22,13 +22,15 @@ class Actions
 {
     public function run()
     {
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- Action-specific callbacks verify nonces.
         if (isset($_GET['koko_analytics_action'])) {
-            $action = trim($_GET['koko_analytics_action']);
+            $action = trim(wp_unslash($_GET['koko_analytics_action']));
         } elseif (isset($_POST['koko_analytics_action'])) {
-            $action = trim($_POST['koko_analytics_action']);
+            $action = trim(wp_unslash($_POST['koko_analytics_action']));
         } else {
             return;
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
 
         if (!current_user_can('manage_koko_analytics')) {
             return;
@@ -82,7 +84,7 @@ class Actions
         }
 
         // merge posted data with saved data to allow for partial updates
-        $settings                         = array_merge(get_settings(), $_POST['koko_analytics_settings']);
+        $settings                         = array_merge(get_settings(), wp_unslash($_POST['koko_analytics_settings']));
         $settings['exclude_ip_addresses'] = is_array($settings['exclude_ip_addresses']) ? $settings['exclude_ip_addresses'] : explode(PHP_EOL, str_replace(',', PHP_EOL, strip_tags($settings['exclude_ip_addresses'])));
         $settings['exclude_ip_addresses'] = array_filter(array_map('trim', $settings['exclude_ip_addresses']));
 
@@ -117,7 +119,7 @@ class Actions
             wp_send_json_error(null, 403);
         }
 
-        $order = isset($_POST['component_order']) ? $_POST['component_order'] : [];
+        $order = isset($_POST['component_order']) ? wp_unslash($_POST['component_order']) : [];
         $order = array_map('sanitize_key', (array) $order);
 
         $settings                    = (array) get_option('koko_analytics_settings', []);

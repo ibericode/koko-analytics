@@ -24,7 +24,7 @@ class Dashboard_Public extends Dashboard
         }
 
         // don't serve public dashboard to anything that looks like a bot or crawler
-        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $user_agent = wp_unslash($_SERVER['HTTP_USER_AGENT'] ?? '');
         if ($user_agent === '' || preg_match('/bot|crawl|crawler|spider|slurp|ahrefs|semrush|mj12bot|dotbot|bingpreview/i', $user_agent)) {
             status_header(403);
             header("X-Robots-Tag: noindex, nofollow", true);
@@ -37,7 +37,7 @@ class Dashboard_Public extends Dashboard
         header("X-Robots-Tag: noindex, nofollow");
         if (is_user_logged_in()) {
             header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
-        } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) && $_GET['end_date'] < $today) {
+        } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', wp_unslash($_GET['start_date'])) && preg_match('/^\d{4}-\d{2}-\d{2}$/', wp_unslash($_GET['end_date'])) && wp_unslash($_GET['end_date']) < $today) {
             header("Cache-Control: public, max-age=68400");
         } else {
             header("Cache-Control: public, max-age=60");

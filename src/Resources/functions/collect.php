@@ -10,6 +10,8 @@
  * and should therefore not assume the WordPress environment is available.
  */
 
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- this file is executed outside of the WordPress environment
+
 namespace KokoAnalytics;
 
 use DateTimeImmutable;
@@ -93,9 +95,10 @@ function extract_event_data(array $raw): array
 function get_request_params(): array
 {
     // We need to accept both GET and POST because the AMP integration uses URL query parameters.
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing
     $request_params = array_merge($_GET, $_POST);
-    if (\function_exists('wp_unslash')) {
-        $request_params = \wp_unslash($request_params);
+    if (function_exists('wp_unslash')) {
+        $request_params = wp_unslash($request_params);
     }
 
     return $request_params;
@@ -313,7 +316,7 @@ function determine_uniqueness_fingerprint(string $type, $thing): array
         return [true, true];
     }
 
-    $user_agent   = $_SERVER['HTTP_USER_AGENT'];
+    $user_agent   = $_SERVER['HTTP_USER_AGENT'] ?? ''; // HTTP_USER_AGENT is verified to be not empty earlier on in the request
     $ip_address   = get_client_ip();
     $visitor_id   = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", "{$seed_value}-{$user_agent}-{$ip_address}", false);
     $session_file = "{$sessions_dir}/{$visitor_id}";

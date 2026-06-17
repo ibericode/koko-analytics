@@ -44,7 +44,7 @@ class Dashboard
         if (isset($_GET['start_date']) || isset($_GET['end_date'])) {
             $range = 'custom';
         } elseif (isset($_GET['view'])) {
-            $range = trim($_GET['view']);
+            $range = trim(wp_unslash($_GET['view']));
         } else {
             $range = $settings['default_view'];
         }
@@ -52,15 +52,15 @@ class Dashboard
         $now            = new DateTimeImmutable('now', $timezone);
         $week_starts_on = (int) get_option('start_of_week', 0);
         $date_range     = $this->get_dates_for_range($now, $range, $week_starts_on);
-        $page           = isset($_GET['p']) ? trim($_GET['p']) : 0;
+        $page           = isset($_GET['p']) ? trim(wp_unslash($_GET['p'])) : 0;
 
         try {
-            $date_start = isset($_GET['start_date']) ? new DateTimeImmutable($_GET['start_date'], $timezone) : $date_range[0];
+            $date_start = isset($_GET['start_date']) ? new DateTimeImmutable(wp_unslash($_GET['start_date']), $timezone) : $date_range[0];
         } catch (\Exception $e) {
             $date_start = $date_range[0];
         }
         try {
-            $date_end = isset($_GET['end_date']) ? new DateTimeImmutable($_GET['end_date'], $timezone) : $date_range[1];
+            $date_end = isset($_GET['end_date']) ? new DateTimeImmutable(wp_unslash($_GET['end_date']), $timezone) : $date_range[1];
         } catch (\Exception $e) {
             $date_end = $date_range[1];
         }
@@ -79,8 +79,8 @@ class Dashboard
         $totals_previous = $stats->get_totals($prev_dates[0]->format('Y-m-d'), $prev_dates[2]->format('Y-m-d'), $page);
         $realtime        = get_realtime_pageview_count('-1 hour');
 
-        if (isset($_GET['group']) && in_array($_GET['group'], ['day', 'week', 'month', 'year'])) {
-            $group_chart_by = $_GET['group'];
+        if (isset($_GET['group']) && in_array(wp_unslash($_GET['group']), ['day', 'week', 'month', 'year'])) {
+            $group_chart_by = wp_unslash($_GET['group']);
         } else {
             $group_chart_by = $date_end->getTimestamp() - $date_start->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
         }
@@ -96,25 +96,25 @@ class Dashboard
 
         if ($date_start->format('d') === "01" && $date_end->format('d') === $date_end->format('t')) {
             // cycling full months
-            $diffInMonths = 1 + ((int) $date_end->format('Y') - (int) $date_start->format('Y')) * 12 + (int) $date_end->format('m') - (int) $date_start->format('m');
-            $periodStart  = $date_start->setDate((int) $date_start->format('Y'), (int) $date_start->format('m') + ($dir * $diffInMonths), 1);
-            $periodEnd    = $date_end->setDate((int) $date_start->format('Y'), (int) $date_end->format('m') + ($dir * $diffInMonths), 5);
-            $periodEnd    = $periodEnd->setDate((int) $periodEnd->format('Y'), (int) $periodEnd->format('m'), (int) $periodEnd->format('t'));
+            $diff_in_months = 1 + ((int) $date_end->format('Y') - (int) $date_start->format('Y')) * 12 + (int) $date_end->format('m') - (int) $date_start->format('m');
+            $period_start   = $date_start->setDate((int) $date_start->format('Y'), (int) $date_start->format('m') + ($dir * $diff_in_months), 1);
+            $period_end     = $date_end->setDate((int) $date_start->format('Y'), (int) $date_end->format('m') + ($dir * $diff_in_months), 5);
+            $period_end     = $period_end->setDate((int) $period_end->format('Y'), (int) $period_end->format('m'), (int) $period_end->format('t'));
         } else {
-            $diffInDays  = $date_end->diff($date_start)->days + 1;
-            $periodStart = $date_start->modify("{$modifier}{$diffInDays} days");
-            $periodEnd   = $date_end->modify("{$modifier}{$diffInDays} days");
+            $diff_in_days = $date_end->diff($date_start)->days + 1;
+            $period_start = $date_start->modify("{$modifier}{$diff_in_days} days");
+            $period_end   = $date_end->modify("{$modifier}{$diff_in_days} days");
         }
 
         if ($date_end > $now) {
             // limit end date to difference between now and start date, counting from start date
             $days_diff  = $now->diff($date_start)->days;
-            $compareEnd = $periodStart->modify("+{$days_diff} days");
+            $compare_end = $period_start->modify("+{$days_diff} days");
         } else {
-            $compareEnd = $periodEnd;
+            $compare_end = $period_end;
         }
 
-        return [$periodStart, $periodEnd, $compareEnd];
+        return [$period_start, $period_end, $compare_end];
     }
 
     public function get_date_presets(): array
@@ -276,9 +276,9 @@ class Dashboard
     public function component_pages(DateTimeInterface $date_start, DateTimeInterface $date_end): void
     {
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $offset         = self::clamp_offset($_GET['posts']['offset'] ?? null);
-        $limit          = self::clamp_limit($_GET['posts']['limit'] ?? null, $items_per_page);
-        $page           = isset($_GET['p']) ? trim($_GET['p']) : 0;
+        $offset         = self::clamp_offset(wp_unslash($_GET['posts']['offset'] ?? null));
+        $limit          = self::clamp_limit(wp_unslash($_GET['posts']['limit'] ?? null), $items_per_page);
+        $page           = isset($_GET['p']) ? trim(wp_unslash($_GET['p'])) : 0;
 
         $stats = new Stats();
         $posts = $stats->get_posts($date_start, $date_end, $offset, $limit);
@@ -328,8 +328,8 @@ class Dashboard
     public function component_referrers(DateTimeInterface $date_start, DateTimeInterface $date_end): void
     {
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
-        $offset         = self::clamp_offset($_GET['referrers']['offset'] ?? null);
-        $limit          = self::clamp_limit($_GET['referrers']['limit'] ?? null, $items_per_page);
+        $offset         = self::clamp_offset(wp_unslash($_GET['referrers']['offset'] ?? null));
+        $limit          = self::clamp_limit(wp_unslash($_GET['referrers']['limit'] ?? null), $items_per_page);
         $stats          = new Stats();
         $referrers      = $stats->get_referrers($date_start, $date_end, $offset, $limit);
         if (count($referrers) < $limit && $offset === 0) {

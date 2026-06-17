@@ -29,7 +29,7 @@ defined('ABSPATH') || exit;
                 <?php /* error messages: query key error */ ?>
                 <?php if (!empty($_GET['error'])) { ?>
                     <div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert">
-                        <?= esc_html($_GET['error']); ?>
+                        <?= esc_html(wp_unslash($_GET['error'])); ?>
                         <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>
@@ -37,7 +37,7 @@ defined('ABSPATH') || exit;
                 <?php /* error messages: query key message */ ?>
                 <?php if (!empty($_GET['message'])) { ?>
                     <div class="ka-alert ka-alert-success ka-alert-dismissible" role="alert">
-                        <?= esc_html($_GET['message']); ?>
+                        <?= esc_html(wp_unslash($_GET['message'])); ?>
                         <button type="button" class="btn-close" aria-label="<?= esc_attr__('Close', 'koko-analytics'); ?>" onclick="this.parentElement.remove()"></button>
                     </div>
                 <?php } ?>

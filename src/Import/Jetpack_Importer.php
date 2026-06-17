@@ -29,10 +29,10 @@ class Jetpack_Importer extends Importer
 
         // save params
         $params = [
-            'wpcom-api-key' => trim($_POST['wpcom-api-key'] ?? ''),
-            'wpcom-blog-uri' => trim($_POST['wpcom-blog-uri'] ?? ''),
-            'date-start' => trim($_POST['date-start'] ?? ''),
-            'date-end' => trim($_POST['date-end'] ?? ''),
+            'wpcom-api-key' => trim(wp_unslash($_POST['wpcom-api-key'] ?? '')),
+            'wpcom-blog-uri' => trim(wp_unslash($_POST['wpcom-blog-uri'] ?? '')),
+            'date-start' => trim(wp_unslash($_POST['date-start'] ?? '')),
+            'date-end' => trim(wp_unslash($_POST['date-end'] ?? '')),
         ];
 
         // all params are required
@@ -85,8 +85,8 @@ class Jetpack_Importer extends Importer
             exit;
         }
 
-        $chunk_end  = trim($_GET['chunk_end']);
-        $chunk_size = (int) trim($_GET['chunk_size']);
+        $chunk_end  = trim(wp_unslash($_GET['chunk_end'] ?? ''));
+        $chunk_size = (int) trim(wp_unslash($_GET['chunk_size'] ?? ''));
         $date_start = new DateTimeImmutable($params['date-start']);
         $chunk_end  = new DateTimeImmutable($chunk_end);
 
@@ -167,21 +167,21 @@ class Jetpack_Importer extends Importer
         if ($response instanceof WP_Error) {
             $code    = $response->get_error_code();
             $message = $response->get_error_message();
-            throw new Exception(__('Error making remote request to the WordPress.com API:', 'koko-analytics') . " \n\n{$code} {$message}");
+            throw new Exception(esc_html__('Error making remote request to the WordPress.com API:', 'koko-analytics') . esc_html(" \n\n{$code} {$message}"));
         }
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code >= 400) {
             $message = wp_remote_retrieve_response_message($response);
             $body    = wp_remote_retrieve_body($response);
-            throw new Exception(__('Received error response from WordPress.com API:', 'koko-analytics') . " \n\n{$status_code} {$message}\n\n{$body}");
+            throw new Exception(esc_html__('Received error response from WordPress.com API:', 'koko-analytics') . esc_html(" \n\n{$status_code} {$message}\n\n{$body}"));
         }
 
         $body = wp_remote_retrieve_body($response);
         try {
             $data = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
-            throw new Exception(__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . nl2br("\n\n" . $body));
+            throw new Exception(esc_html__('Received non-JSON response from WordPress.com API:', 'koko-analytics') . nl2br("\n\n" . esc_html($body)));
         }
 
         // API returns `null` for no data between two given dates
@@ -235,13 +235,13 @@ class Jetpack_Importer extends Importer
             // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
             if ($wpdb->last_error) {
-                throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+                throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));
             }
 
             // update site stats
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES (%s, %d, %d) ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", [$item->date, $site_views, $site_views]));
             if ($wpdb->last_error) { // @phpstan-ignore-line
-                throw new Exception(__("A database error occurred: ", 'koko-analytics') . " {$wpdb->last_error}");
+                throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));
             }
         }
     }
