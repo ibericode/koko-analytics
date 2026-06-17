@@ -27,5 +27,5 @@
 	<rule ref="WordPress.DB"/>
 	<rule ref="WordPress.WP.I18n"/>
 	<rule ref="WordPress.NamingConventions"/>
-	<!-- <rule ref="PHPCompatibilityWP"/> -->
+	<rule ref="PHPCompatibilityWP"/>
 </ruleset>

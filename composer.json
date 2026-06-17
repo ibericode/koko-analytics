@@ -27,7 +27,8 @@
     "szepeviktor/phpstan-wordpress": "^2.0",
     "phpstan/extension-installer": "^1.4",
     "php-stubs/wp-cli-stubs": "^2.12",
-    "wp-coding-standards/wpcs": "^3.0"
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpcompatibility/phpcompatibility-wp": "^2.1"
   },
   "scripts": {
     "check-all": [
