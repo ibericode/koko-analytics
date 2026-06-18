@@ -54,7 +54,7 @@ add_action('koko_analytics_output_dashboard_settings', function ($settings) use 
     <?php do_action('koko_analytics_output_after_dashboard_settings', $settings); ?>
 
     <div>
-        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes'); ?>">
+        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes', 'koko-analytics'); ?>">
     </div>
 
     <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>

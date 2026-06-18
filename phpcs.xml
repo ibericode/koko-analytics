@@ -6,7 +6,9 @@
 	<arg name="extensions" value="php"/>
     <arg name="parallel" value="8"/>
     <arg value="ns"/>
+
     <config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.2" />
 
 	<file>.</file>
     <exclude-pattern>vendor/</exclude-pattern>
@@ -15,17 +17,64 @@
     <exclude-pattern>\.git</exclude-pattern>
     <exclude-pattern>tests/benchmarks/*</exclude-pattern>
 
+	<!-- Generic PHP sniffs -->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+	<rule ref="Generic.PHP.Syntax" />
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+		<properties>
+		<property name="forbiddenFunctions" type="array">
+			<element key="create_function" value="null" />
+			<element key="eval" value="null" />
+			<element key="sizeof" value="count" />
+			<element key="delete" value="unset" />
+			<element key="print" value="echo" />
+			<element key="mt_rand" value="random_int"/>
+			<element key="rand" value="random_int"/>
+
+			<!-- Debugging functions -->
+			<element key="var_dump" value="null" />
+			<element key="each" value="null" />
+			<element key="ray" value="null" />
+			<element key="dd" value="null" />
+			<element key="die" value="null" />
+			
+			<!-- Type checking and converting function -->
+			<element key="boolval" value="(bool)"/>
+			<element key="doubleval" value="(float)"/>
+			<element key="doubleval" value="floatval"/>
+			<element key="floatval" value="(float)"/>
+			<element key="intval" value="(int)"/>
+			<element key="is_double" value="is_float"/>
+			<element key="is_integer" value="is_int"/>
+			<element key="is_long" value="is_int"/>
+			<element key="is_null" value="null"/>
+			<element key="is_real" value="is_float"/>
+			<element key="strval" value="(string)"/>
+		</property>
+		</properties>
+	</rule>
+
+	<!-- PSR12 formatting -->
 	<rule ref="PSR12">
 		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
 		<exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
 	</rule>
+
+	<!-- WordPress sniffs -->
 	<rule ref="WordPress.Security">
 		<exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
         <exclude-pattern>code-snippets/</exclude-pattern>
 	</rule>
 	<rule ref="WordPress.DB"/>
-	<rule ref="WordPress.WP.I18n"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+		<property name="text_domain" type="array">
+			<element value="koko-analytics" />
+		</property>
+		</properties>
+	</rule>
 	<rule ref="WordPress.NamingConventions"/>
+
+	<!-- PHP compatibility sniffs -->
 	<rule ref="PHPCompatibilityWP"/>
 </ruleset>

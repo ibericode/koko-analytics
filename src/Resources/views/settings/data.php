@@ -65,7 +65,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
     </div>
 
     <div class="mb-5">
-        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes'); ?>">
+        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes', 'koko-analytics'); ?>">
     </div>
 </form>
 
