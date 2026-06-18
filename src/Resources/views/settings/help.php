@@ -20,7 +20,7 @@ if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
     $debug_info[] = '    Database version: ' . get_option('koko_analytics_pro_migrations', '');
 }
 ?>
-<h2 class="mt-0 mb-3"><?= esc_html__('Help', 'koko-analytics'); ?></h2>
+<h2 class="mt-0 mb-3"><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
 <div class="mb-5">
     <ul class="ul-square">
         <li><a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-help">Upgrade to Koko Analytics Pro</a> to get direct email support from the plugin builder.</li>
@@ -67,6 +67,6 @@ if (count($posts) > 0) {
 
 
 <div class="mb-5">
-    <h2><?= esc_html__('Debug info', 'koko-analytics'); ?></h2>
+    <h2><?php esc_html_e('Debug info', 'koko-analytics'); ?></h2>
     <textarea style="font-family: monospace; font-size: 14px;" class="ka-input" rows="8" spellcheck="false" onfocus="this.select()" readonly><?= esc_textarea(implode("\n", $debug_info)); ?></textarea>
 </div>

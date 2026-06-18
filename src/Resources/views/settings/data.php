@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
 $database_stats = \KokoAnalytics\get_database_stats()->get();
 ?>
 
-<h2 class="mt-0 mb-3"><?= esc_html__('Data settings', 'koko-analytics'); ?></h2>
+<h2 class="mt-0 mb-3"><?php esc_html_e('Data settings', 'koko-analytics'); ?></h2>
 
 <div class="mb-5">
     <h3 class="mb-2"><?php esc_html_e('Database usage', 'koko-analytics'); ?></h3>
@@ -65,7 +65,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
     </div>
 
     <div class="mb-5">
-        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes', 'koko-analytics'); ?>">
+        <input type="submit" class="btn btn-primary" value="<?php esc_attr_e('Save Changes', 'koko-analytics'); ?>">
     </div>
 </form>
 
@@ -86,7 +86,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
     </form>
 
     <h4 class="mt-4"><?php esc_html_e('Import from another plugin', 'koko-analytics'); ?></h4>
-    <p><?= esc_html__('If you\'re coming from another statistics plugin, you may be able to import your historical data using one of our importers listed below.', 'koko-analytics'); ?></p>
+    <p><?php esc_html_e('If you\'re coming from another statistics plugin, you may be able to import your historical data using one of our importers listed below.', 'koko-analytics'); ?></p>
 
     <ul class="ul-square">
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer')); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>

@@ -129,10 +129,10 @@ $tab = 'dashboard';
                         echo ' ';
                     }
                     if ($diff > 0) {
-                        echo esc_html__('more than previous period', 'koko-analytics');
+                        esc_html_e('more than previous period', 'koko-analytics');
                     }
                     if ($diff < 0) {
-                        echo esc_html__('less than previous period', 'koko-analytics');
+                        esc_html_e('less than previous period', 'koko-analytics');
                     }
                     ?>
                 </div>
@@ -159,10 +159,10 @@ $tab = 'dashboard';
                         echo ' ';
                     }
                     if ($diff > 0) {
-                        echo esc_html__('more than previous period', 'koko-analytics');
+                        esc_html_e('more than previous period', 'koko-analytics');
                     }
                     if ($diff < 0) {
-                        echo esc_html__('less than previous period', 'koko-analytics');
+                        esc_html_e('less than previous period', 'koko-analytics');
                     }
                     ?>
                 </div>

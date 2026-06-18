@@ -7,7 +7,7 @@ defined('ABSPATH') || exit;
 * @var array $user_roles
 */
 ?>
-<h2 class="mt-0 mb-3"><?= esc_html__('Tracking settings', 'koko-analytics'); ?></h2>
+<h2 class="mt-0 mb-3"><?php esc_html_e('Tracking settings', 'koko-analytics'); ?></h2>
 <form method="POST" action="">
     <?php wp_nonce_field('koko_analytics_save_settings'); ?>
     <?php wp_referer_field(); ?>
@@ -122,6 +122,6 @@ defined('ABSPATH') || exit;
     <?php do_action('koko_analytics_output_after_tracking_settings', $settings); ?>
 
     <div>
-        <input type="submit" class="btn btn-primary" value="<?= esc_attr__('Save Changes', 'koko-analytics'); ?>">
+        <input type="submit" class="btn btn-primary" value="<?php esc_attr_e('Save Changes', 'koko-analytics'); ?>">
     </div>
 </form>

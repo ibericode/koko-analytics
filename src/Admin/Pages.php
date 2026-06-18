@@ -25,9 +25,9 @@ class Pages
         // check if cron event is scheduled properly
         if (false === $this->is_cron_event_working()) {
             echo '<div class="ka-alert ka-alert-warning ka-alert-dismissible" role="alert"  style="margin-top: 1rem; margin-right: 20px;">';
-            echo esc_html__('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
+            esc_html_e('There seems to be an issue with your site\'s WP Cron configuration that prevents Koko Analytics from automatically processing your statistics.', 'koko-analytics');
             echo ' ';
-            echo esc_html__('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
+            esc_html_e('If you\'re not sure what this is about, please ask your webhost to look into this.', 'koko-analytics');
             echo '<button type="button" class="btn-close" aria-label="', esc_attr__('Close', 'koko-analytics'), '" onclick="this.parentElement.remove()"></button>';
             echo '</div>';
         }

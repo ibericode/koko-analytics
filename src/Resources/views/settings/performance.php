@@ -11,7 +11,7 @@ defined('ABSPATH') || exit;
 $endpoint_installer = new Endpoint_Installer();
 ?>
 
-<h2 class="mt-0 mb-3"><?= esc_html__('Performance', 'koko-analytics'); ?></h2>
+<h2 class="mt-0 mb-3"><?php esc_html_e('Performance', 'koko-analytics'); ?></h2>
 
 <div class="mb-5">
     <?php if ($using_custom_endpoint) { ?>
