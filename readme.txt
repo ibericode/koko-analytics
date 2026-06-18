@@ -100,6 +100,12 @@ No account is needed. Koko Analytics runs on your own WordPress site, and statis
 
 Yes. Koko Analytics is compatible with pages served from many types of cache.
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/9e5fc096-a451-400e-b839-ee267aaf3bcb). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
+= Other questions =
+
 If your question is not listed here, read the [Koko Analytics documentation](https://www.kokoanalytics.com/docs/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin).
 
 == Screenshots ==
