@@ -37,7 +37,7 @@
       "@static-analysis",
       "@test"
     ],
-    "check-syntax": "bin/check-php-syntax",
+    "check-syntax": "find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php --define error_reporting=-1 -l -n | (! grep -v \"No syntax errors detected\" )",
     "check-codestyle": "phpcs -n -s",
     "static-analysis": "phpstan analyse",
     "test": "phpunit"
