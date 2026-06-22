@@ -3,8 +3,9 @@
 = 2.4.1 =
 
 - import: fix Plausible importer compatibility with PHP 7.4.
-- public dashboard: return a 403 response and prevent indexing when visited by bots or crawlers.
 - security: harden data import validation and output escaping.
+- dashboard: fix collation mismatch when querying by path containing utf-8 characters.
+- dashboard: return a 403 response and prevent indexing when visited by bots or crawlers.
 - compatibility: raise the minimum supported WordPress version to 6.2.
 
 
