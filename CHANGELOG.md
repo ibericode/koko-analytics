@@ -1,5 +1,13 @@
 # Changelog
 
+= 2.4.1 =
+
+- import: fix Plausible importer compatibility with PHP 7.4.
+- public dashboard: return a 403 response and prevent indexing when visited by bots or crawlers.
+- security: harden data import validation and output escaping.
+- compatibility: raise the minimum supported WordPress version to 6.2.
+
+
 = 2.4.0 =
 
 - tracking: hook into the visibilitychange event again to ignore prerender requests.

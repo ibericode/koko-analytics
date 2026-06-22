@@ -49,6 +49,17 @@ class Stats
         return 0;
     }
 
+    private function ascii_path(string $path): string
+    {
+        return preg_replace_callback(
+            '/[\x80-\xFF]+/',
+            static function (array $match) {
+                return rawurlencode($match[0]);
+            },
+            $path
+        );
+    }
+
     /**
      *
      * @param DateTimeInterface|string $start_date
@@ -72,7 +83,7 @@ class Stats
         } elseif ($page) {
             $from   = "{$this->db->prefix}koko_analytics_post_stats s LEFT JOIN {$this->db->prefix}koko_analytics_paths p ON p.id = s.path_id";
             $where .= ' AND p.path = %s';
-            $args[] = $page;
+            $args[] = $this->ascii_path($page);
         }
 
         $result = $this->db->get_row($this->db->prepare("
@@ -174,7 +185,7 @@ class Stats
             $where = 's.date BETWEEN %s AND %s AND s.post_id = %d';
         } elseif ($page) {
             $from  = "{$this->db->prefix}koko_analytics_post_stats s JOIN {$this->db->prefix}koko_analytics_paths p ON p.path = %s AND p.id = s.path_id";
-            $args  = [$page, $start_date, $end_date];
+            $args  = [$this->ascii_path($page), $start_date, $end_date];
             $where = 's.date BETWEEN %s AND %s';
         } else {
             $from  = "{$this->db->prefix}koko_analytics_site_stats s";
