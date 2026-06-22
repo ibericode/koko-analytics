@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,6 +122,15 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.4.1 =
+
+- import: fix Plausible importer compatibility with PHP 7.4.
+- security: harden data import validation and output escaping.
+- dashboard: fix collation mismatch when querying by path containing utf-8 characters.
+- dashboard: return a 403 response and prevent indexing when visited by bots or crawlers.
+- compatibility: raise the minimum supported WordPress version to 6.2.
+
+
 = 2.4.0 =
 
 - tracking: hook into the visibilitychange event again to ignore prerender requests.
@@ -163,15 +172,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - perf: aggregation process no longer invalidates alloptions cache on every run.
 - perf: process database pruning in chunks of 10K rows.
 - security: add nonce verification to user-initiated action to update to v2.
-
-
-= 2.3.4 =
-
-- fix: access to Jetpack and Plausible importer pages.
-- fix: database warning because of unexisting table on fresh installs.
-- ux: table rows selectable again.
-- seo: remove canonical URL from public dashboard (because it is already noindex).
-- database: change default database purge treshold to 3 years (down from 5).
-- dashboard: don't listen to query string argument for public dashboard if pretty permalinks are enabled.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
