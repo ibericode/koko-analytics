@@ -23,11 +23,17 @@ __('There is nothing here. Yet!', 'koko-analytics');
 // ../koko-analytics-pro/src/UTM/views/dashboard.php#54
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#61
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#63
 __('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/UTM/views/setting.php#8
 __('Enable UTM tracking?', 'koko-analytics');
+
+// ../koko-analytics-pro/src/UTM/views/setting.php#10
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/UTM/views/setting.php#11
+__('No', 'koko-analytics');
 
 // ../koko-analytics-pro/src/UTM/views/setting.php#13
 __('Select "yes" if you want Koko Analytics to track utm_source, utm_medium and utm_campaign parameters from the URL query string or hash.', 'koko-analytics');
@@ -56,10 +62,64 @@ __('Sources', 'koko-analytics');
 // ../koko-analytics-pro/src/UTM/Dashboard.php#30
 __('Source', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Column/Table.php#121
+// ../koko-analytics-pro/src/Abilities/Abilities.php#21
+__('Koko Analytics', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#22
+__('Read-only Koko Analytics statistics.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#33
+__('Get Koko Analytics totals', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#34
+__('Returns total visitors and pageviews for a Koko Analytics date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#42
+__('Invalid date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#50
+__('Get Koko Analytics time series', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#51
+__('Returns visitors and pageviews grouped by day, week, month, or year for a Koko Analytics date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#67
+__('Invalid date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#72
+__('Invalid group.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#80
+__('Get Koko Analytics top pages', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#81
+__('Returns top pages by pageviews for a Koko Analytics date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#90
+__('Invalid date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#98
+__('Get Koko Analytics referrers', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#99
+__('Returns top referrer URLs by pageviews for a Koko Analytics date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#108
+__('Invalid date range.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#116
+__('Get Koko Analytics realtime pageviews', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#117
+__('Returns the number of recorded Koko Analytics pageviews since a timestamp or relative time string.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#131
+__('Invalid since value.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Column/Table.php#123
 __('Number of days to use for pageviews column', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Column/Table.php#129
+// ../koko-analytics-pro/src/Column/Table.php#131
 __('Pageviews', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Password/views/password-form.php#80
@@ -86,14 +146,29 @@ __('Events', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/views/events-section.php#17
 __('Track outbound link clicks?', 'koko-analytics');
 
+// ../koko-analytics-pro/src/Events/views/events-section.php#18
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Events/views/events-section.php#19
+__('No', 'koko-analytics');
+
 // ../koko-analytics-pro/src/Events/views/events-section.php#21
 __('Select "yes" if you want Koko Analytics to count all clicks on links to external websites.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/events-section.php#26
 __('Track form submissions?', 'koko-analytics');
 
+// ../koko-analytics-pro/src/Events/views/events-section.php#27
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Events/views/events-section.php#28
+__('No', 'koko-analytics');
+
 // ../koko-analytics-pro/src/Events/views/events-section.php#30
 __('Select "yes" if you want Koko Analytics to count all form submissions.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Events/views/events-section.php#34
+__('Save Changes', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/events-section.php#39
 __('Event types', 'koko-analytics');
@@ -125,72 +200,70 @@ __('Unique', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#21
 __('Total', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#48
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#52
 __('There is nothing here. Yet!', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#54
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#58
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#57
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#61
 __('Next', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#23
+// ../koko-analytics-pro/src/Events/views/event-details.php#24
 __('Event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#26
+// ../koko-analytics-pro/src/Events/views/event-details.php#27
 __('This is a built-in event type that counts all clicks on outbound links on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#29
+// ../koko-analytics-pro/src/Events/views/event-details.php#30
 __('This is a built-in event type that counts all form submissions on your site.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#34
-/* translators: 1: event count, 2: total event value. */
+// ../koko-analytics-pro/src/Events/views/event-details.php#36
 __('This event has been counted %1$s times for a total value of %2$s.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#36
-/* translators: %1$s: event count. */
+// ../koko-analytics-pro/src/Events/views/event-details.php#39
 __('This event has been counted %1$s times.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#42
+// ../koko-analytics-pro/src/Events/views/event-details.php#45
 __('Tracking events', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#43
+// ../koko-analytics-pro/src/Events/views/event-details.php#46
 __('To track an event of this type, run the following JavaScript code:', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#46
+// ../koko-analytics-pro/src/Events/views/event-details.php#49
 __('You can optionally attach a numerical value to each recorded event:', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#49
+// ../koko-analytics-pro/src/Events/views/event-details.php#52
 __('You can find more information on tracking events in our knowledge base.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#53
+// ../koko-analytics-pro/src/Events/views/event-details.php#56
 __('Export this event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#54
+// ../koko-analytics-pro/src/Events/views/event-details.php#57
 __('Use the form below to export event counts in a specific time period to CSV.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#59
+// ../koko-analytics-pro/src/Events/views/event-details.php#62
 __('Start date', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#63
+// ../koko-analytics-pro/src/Events/views/event-details.php#66
 __('End date', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#67
+// ../koko-analytics-pro/src/Events/views/event-details.php#70
 __('Export to CSV', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#73
+// ../koko-analytics-pro/src/Events/views/event-details.php#76
 __('Delete this event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#74
+// ../koko-analytics-pro/src/Events/views/event-details.php#77
 __('Use the button below to delete this event type from your dashboard overview.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#75
+// ../koko-analytics-pro/src/Events/views/event-details.php#78
 __('Are you sure you want to delete this event?', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#78
+// ../koko-analytics-pro/src/Events/views/event-details.php#81
 __('Delete event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/event-details.php#84
+// ../koko-analytics-pro/src/Events/views/event-details.php#87
 __('Back to event settings', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/bootstrap.php#51
@@ -217,6 +290,12 @@ __('Next', 'koko-analytics');
 // ../koko-analytics-pro/src/Devices/views/setting.php#8
 __('Enable device tracking?', 'koko-analytics');
 
+// ../koko-analytics-pro/src/Devices/views/setting.php#10
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Devices/views/setting.php#11
+__('No', 'koko-analytics');
+
 // ../koko-analytics-pro/src/Devices/views/setting.php#13
 __('Select "yes" if you want Koko Analytics to count browsers, operating systems and device types.', 'koko-analytics');
 
@@ -225,6 +304,12 @@ __('Traffic Spike Notification', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#16
 __('Send email notification of traffic spikes?', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#17
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#18
+__('No', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#22
 __('Realtime pageview treshold', 'koko-analytics');
@@ -241,29 +326,35 @@ __('Send to these email addresses', 'koko-analytics');
 // ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#33
 __('Enter a comma separated list of email addresses to which the notification should be sent.', 'koko-analytics');
 
+// ../koko-analytics-pro/src/Emails/views/settings-traffic-spike.php#37
+__('Save Changes', 'koko-analytics');
+
 // ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#9
 __('Email Reports', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#15
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#16
 __('Send periodic email reports?', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#17
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#18
 __('Daily', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#18
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#19
 __('Weekly', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#19
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#20
 __('Monthly', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#21
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#22
 __('Select the timeframes for which you want to receive a summary of your most important statistics.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#25
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#26
 __('Send to these email addresses', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#27
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#28
 __('Enter a comma separated list of email addresses to which the reports should be sent.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#32
+__('Save Changes', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Emails/bootstrap.php#38
 __('Email reports', 'koko-analytics');
@@ -285,6 +376,12 @@ __('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Geolocation/views/setting.php#8
 __('Enable geo-location?', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Geolocation/views/setting.php#10
+__('Yes', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Geolocation/views/setting.php#11
+__('No', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Geolocation/views/setting.php#13
 __('Select "yes" if you want Koko Analytics to geo-locate visitors by their IP address.', 'koko-analytics');
@@ -1048,14 +1145,11 @@ __('Koko Analytics Pro license', 'koko-analytics');
 // ../koko-analytics-pro/src/Licensing/AdminController.php#35
 __('Your site is authorized to use Koko Analytics Pro and receive plugin updates.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#37
-__('Are you sure you want to deactivate your license on this site? You will lose access to Pro features and plugin updates.', 'koko-analytics');
-
 // ../koko-analytics-pro/src/Licensing/AdminController.php#42
 __('License key', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Licensing/AdminController.php#45
-__('The license key received after purchasing Koko Analytics Pro.', 'koko-analytics');
+__('Hint for the license key used for this activation.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Licensing/AdminController.php#46
 __('You can find it here.', 'koko-analytics');
@@ -1075,32 +1169,31 @@ __('You can find it here.', 'koko-analytics');
 // ../koko-analytics-pro/src/Licensing/AdminController.php#68
 __('Activate license', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#82
+// ../koko-analytics-pro/src/Licensing/AdminController.php#80
 __('You do not have sufficient permissions to perform this action.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#91
+// ../koko-analytics-pro/src/Licensing/AdminController.php#89
 __('Updated license key.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#106
+// ../koko-analytics-pro/src/Licensing/AdminController.php#104
 __('Error activating license key. Could not perform HTTP request.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#111
+// ../koko-analytics-pro/src/Licensing/AdminController.php#109
 __('Error activating license key. Invalid server response.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#115
+// ../koko-analytics-pro/src/Licensing/AdminController.php#113
 __('Error activating license key.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#125
+// ../koko-analytics-pro/src/Licensing/AdminController.php#124
 __('License activated successfully.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#134
+// ../koko-analytics-pro/src/Licensing/AdminController.php#133
 __('You do not have sufficient permissions to perform this action.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Licensing/AdminController.php#142
 __('License deactivated successfully.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Licensing/AdminController.php#165
-/* translators: %1$s: license activation URL. */
+// ../koko-analytics-pro/src/Licensing/AdminController.php#166
 __('You need to <a href="%1$s">activate Koko Analytics Pro</a> to use its features or install plugin updates.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/CSV/Button.php#20
