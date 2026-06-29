@@ -171,6 +171,10 @@ body.koko-analytics {
 .page-filter-active tr.page-filter-active  {
   opacity: 1;
 }
+/* realtime totals are always site-wide, so dim them when a page filter is active */
+#ka-realtime.page-filter-active {
+  opacity: 0.5;
+}
 
 /* drag-and-drop sorting */
 .ka-col[data-sortable] th { cursor: grab; }

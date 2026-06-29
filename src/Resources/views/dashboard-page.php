@@ -169,7 +169,7 @@ $tab = 'dashboard';
             </div>
         </div>
         <div class="ka-col">
-            <div class="ka-box p-3" id="ka-realtime">
+            <div class="ka-box p-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>" id="ka-realtime">
                 <div class="text-muted mb-1"><span class="ka-realtime-dot"></span><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></div>
                 <div class="ka-totals-number mb-1"><?= esc_html(number_format_i18n($realtime)); ?></div>
                 <div class="text-muted">
