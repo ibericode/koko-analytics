@@ -120,7 +120,7 @@ class Review_Notice
         return array_merge($defaults, (array) ($option[$this->state_key] ?? []));
     }
 
-    private function update_state(string $key, mixed $value): void
+    private function update_state(string $key, $value): void
     {
         $option              = (array) get_option($this->option_name, []);
         $state               = (array) ($option[$this->state_key] ?? []);

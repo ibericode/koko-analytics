@@ -161,7 +161,7 @@ class Dashboard
         $notice = new Review_Notice(
             'koko-analytics',
             'koko_analytics_settings',
-            static fn (): array => [
+            fn (): array => [
                 /* translators: %s is the plugin name. */
                 'heading'      => sprintf(__('Enjoying %s?', 'koko-analytics'), 'Koko Analytics'),
                 'body'         => __('A quick review on WordPress.org helps more people find the plugin and helps us keep maintaining it for the long term.', 'koko-analytics'),
