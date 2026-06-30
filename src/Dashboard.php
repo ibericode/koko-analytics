@@ -137,7 +137,7 @@ class Dashboard
     public function notices(): void
     {
         $this->maybe_show_adblocker_notice();
-        $this->maybe_show_pro_notice();
+        $this->maybe_show_review_notice();
     }
 
     protected function maybe_show_adblocker_notice(): void
@@ -151,13 +151,21 @@ class Dashboard
         <?php
     }
 
-    protected function maybe_show_pro_notice(): void
+    protected function maybe_show_review_notice(): void
     {
-        if (! current_user_can('manage_koko_analytics')) {
+        // Don't ask for a review when the Pro add-on is already installed.
+        if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
             return;
         }
 
-        new Notice_Pro();
+        $notice = new Review_Notice(
+            'Koko Analytics',
+            'koko-analytics',
+            'koko_analytics_settings',
+            'notice_pro',
+            'manage_koko_analytics'
+        );
+        $notice->maybe_show();
     }
 
     public function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
