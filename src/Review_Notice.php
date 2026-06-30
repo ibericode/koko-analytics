@@ -17,37 +17,46 @@ namespace KokoAnalytics;
  * inside the option named in the constructor (merged with any existing data),
  * while the dismissal is tracked per-user — unless a previous version already
  * dismissed it globally, in which case it stays dismissed for everyone.
+ *
+ * Translatable text is supplied by the host plugin through the $strings
+ * closure rather than translated here: a string extractor (make-pot) only
+ * picks up `__()` calls with a literal text domain, so those calls must live
+ * in the host plugin. The closure is invoked lazily at render time, once the
+ * text domain is guaranteed to be loaded.
  */
 class Review_Notice
 {
-    private string $plugin_name;
     private string $plugin_slug;
     private string $option_name;
+    /** @var \Closure(): array{heading: string, body: string, review_link: string, dismiss_link: string} */
+    private \Closure $strings;
     private string $state_key;
     private string $capability;
     private int $show_after_days;
 
     /**
-     * @param string $plugin_name     Human-readable plugin name, e.g. "Koko Analytics".
-     * @param string $plugin_slug     WordPress.org slug, e.g. "koko-analytics".
-     * @param string $option_name     Option to store (and merge) the notice state into.
-     * @param string $state_key       Key within that option to namespace the state under.
-     *                                Defaults to "<slug>_notice"; pass the legacy key to
-     *                                stay backwards compatible with existing data.
-     * @param string $capability      Capability a user must have to see the notice.
-     * @param int    $show_after_days Days after install before the notice appears.
+     * @param string   $plugin_slug     WordPress.org slug, e.g. "koko-analytics".
+     * @param string   $option_name     Option to store (and merge) the notice state into.
+     * @param \Closure $strings         Returns the translated text components keyed by
+     *                                  `heading`, `body`, `review_link` and `dismiss_link`.
+     *                                  Called lazily, only when the notice is rendered.
+     * @param string   $state_key       Key within the option to namespace the state under.
+     *                                  Defaults to "<slug>_notice"; pass the legacy key to
+     *                                  stay backwards compatible with existing data.
+     * @param string   $capability      Capability a user must have to see the notice.
+     * @param int      $show_after_days Days after install before the notice appears.
      */
     public function __construct(
-        string $plugin_name,
         string $plugin_slug,
         string $option_name,
+        \Closure $strings,
         string $state_key = '',
         string $capability = 'manage_options',
         int $show_after_days = 30
     ) {
-        $this->plugin_name     = $plugin_name;
         $this->plugin_slug     = $plugin_slug;
         $this->option_name     = $option_name;
+        $this->strings         = $strings;
         $this->state_key       = $state_key !== '' ? $state_key : str_replace('-', '_', $plugin_slug) . '_notice';
         $this->capability      = $capability;
         $this->show_after_days = $show_after_days;
@@ -143,18 +152,15 @@ class Review_Notice
 
     private function render(): void
     {
+        $strings    = ($this->strings)();
         $review_url = sprintf('https://wordpress.org/support/view/plugin-reviews/%s?rate=5#postform', $this->plugin_slug);
         ?>
         <div class="notice notice-info" style="margin: 0 0 1rem 0; padding: 1.5rem;">
-            <h2 style="margin: 0 0 1rem 0;"><?php echo esc_html(sprintf(
-                /* translators: %s is the plugin name. */
-                __('Enjoying %s?', 'koko-analytics'),
-                $this->plugin_name
-            )); ?></h2>
-            <p style="margin: 0 0 1rem 0;"><?php esc_html_e('A quick review on WordPress.org helps more people find the plugin and helps us keep maintaining it for the long term.', 'koko-analytics'); ?></p>
+            <h2 style="margin: 0 0 1rem 0;"><?php echo esc_html($strings['heading']); ?></h2>
+            <p style="margin: 0 0 1rem 0;"><?php echo esc_html($strings['body']); ?></p>
             <p style="margin: 0 0 0 0;">
-                <a class="button button-primary" href="<?php echo esc_url($review_url); ?>"><?php esc_html_e('Review the plugin on WordPress.org', 'koko-analytics'); ?></a>
-                <a class="button button-secondary" href="<?php echo esc_url(add_query_arg([$this->get_dismiss_param() => 1])); ?>"><?php esc_html_e('Don\'t show this again', 'koko-analytics'); ?></a>
+                <a class="button button-primary" href="<?php echo esc_url($review_url); ?>"><?php echo esc_html($strings['review_link']); ?></a>
+                <a class="button button-secondary" href="<?php echo esc_url(add_query_arg([$this->get_dismiss_param() => 1])); ?>"><?php echo esc_html($strings['dismiss_link']); ?></a>
             </p>
         </div>
         <?php

@@ -159,9 +159,15 @@ class Dashboard
         }
 
         $notice = new Review_Notice(
-            'Koko Analytics',
             'koko-analytics',
             'koko_analytics_settings',
+            static fn (): array => [
+                /* translators: %s is the plugin name. */
+                'heading'      => sprintf(__('Enjoying %s?', 'koko-analytics'), 'Koko Analytics'),
+                'body'         => __('A quick review on WordPress.org helps more people find the plugin and helps us keep maintaining it for the long term.', 'koko-analytics'),
+                'review_link'  => __('Review the plugin on WordPress.org', 'koko-analytics'),
+                'dismiss_link' => __('Don\'t show this again', 'koko-analytics'),
+            ],
             'notice_pro',
             'manage_koko_analytics'
         );
