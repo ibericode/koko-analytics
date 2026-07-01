@@ -207,19 +207,7 @@ $tab = 'dashboard';
     <?php // show section about koko analytics pro unless on pro version already ?>
     <?php if (!defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
         <?php if (current_user_can('manage_koko_analytics')) : ?>
-            <div class="p-3 rounded" style="background: #f5f8ff;">
-                <h2 class="mt-0 mb-2"><?php esc_html_e('Unlock more insights with Koko Analytics Pro', 'koko-analytics'); ?></h2>
-                <p class="mt-0 mb-2">
-                    <?php esc_html_e('Koko Analytics Pro adds country and device statistics, UTM tracking, custom event tracking and scheduled email reports. All while preserving privacy and not using any third-party services.', 'koko-analytics'); ?>
-                </p>
-                <p class="mt-0 mb-0">
-                    <a class="btn btn-sm btn-primary" href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-dashboard-upgrade" rel="noopener noreferrer">
-                        <?php esc_html_e('View pricing', 'koko-analytics'); ?> 
-                    </a>
-                    <span>&nbsp;</span>
-                    <a href="https://www.kokoanalytics.com/features/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-dashboard-upgrade#pro" rel="noopener noreferrer"><?php esc_html_e('Learn more about Pro', 'koko-analytics'); ?></a>
-                </p>
-            </div>
+            <?php require __DIR__ . '/upsell.php'; ?>
         <?php else : ?>
             <div class="text-muted text-center mt-5 mb-3">
                 <?php /* translators: %1s: opening anchor tag for Koko Analytics website. */ ?>
