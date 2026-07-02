@@ -90,6 +90,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
 
     <ul class="ul-square">
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=burst_importer')); ?>"><?php esc_html_e('Import from Burst Statistics', 'koko-analytics'); ?></a></li>
+        <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=independent_analytics_importer')); ?>"><?php esc_html_e('Import from Independent Analytics', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer')); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=plausible_importer')); ?>"><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=statify_importer')); ?>"><?php esc_html_e('Import from Statify', 'koko-analytics'); ?></a></li>

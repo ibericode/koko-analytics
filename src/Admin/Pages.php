@@ -64,7 +64,7 @@ class Pages
             'performance' => __('Performance', 'koko-analytics'),
             'help' => __('Help', 'koko-analytics'),
         ]);
-        $extra_tabs            = ['burst_importer', 'jetpack_importer', 'plausible_importer', 'statify_importer', 'wp_statistics_importer'];
+        $extra_tabs            = ['burst_importer', 'independent_analytics_importer', 'jetpack_importer', 'plausible_importer', 'statify_importer', 'wp_statistics_importer'];
         $active_tab = wp_unslash($_GET['tab'] ?? '');
         // ensure tab is one of the above
         if (! array_key_exists($active_tab, $tabs) && ! in_array($active_tab, $extra_tabs, true)) {

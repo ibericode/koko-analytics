@@ -12,6 +12,7 @@ use KokoAnalytics\Cron;
 use KokoAnalytics\Endpoint_Installer;
 use KokoAnalytics\Fingerprinter;
 use KokoAnalytics\Import\Burst_Importer;
+use KokoAnalytics\Import\Independent_Analytics_Importer;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Import\Statify_Importer;
@@ -51,6 +52,8 @@ class Actions
             'export_data' => lazy(Data_Export::class, 'action_listener'),
             'start_burst_import' => lazy(Burst_Importer::class, 'start_import'),
             'burst_import_chunk' => lazy(Burst_Importer::class, 'import_chunk'),
+            'start_independent_analytics_import' => lazy(Independent_Analytics_Importer::class, 'start_import'),
+            'independent_analytics_import_chunk' => lazy(Independent_Analytics_Importer::class, 'import_chunk'),
             'start_jetpack_import' => lazy(Jetpack_Importer::class, 'start_import'),
             'jetpack_import_chunk' => lazy(Jetpack_Importer::class, 'import_chunk'),
             'start_plausible_import' => lazy(Plausible_Importer::class, 'start_import'),
