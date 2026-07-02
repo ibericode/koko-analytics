@@ -11,6 +11,7 @@ namespace KokoAnalytics\Admin;
 use KokoAnalytics\Cron;
 use KokoAnalytics\Endpoint_Installer;
 use KokoAnalytics\Fingerprinter;
+use KokoAnalytics\Import\Burst_Importer;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Post_Stats_Migrator;
@@ -46,6 +47,8 @@ class Actions
             'reset_statistics' => lazy(Data_Reset::class, 'action_listener'),
             'import_data' => lazy(Data_Import::class, 'action_listener'),
             'export_data' => lazy(Data_Export::class, 'action_listener'),
+            'start_burst_import' => lazy(Burst_Importer::class, 'start_import'),
+            'burst_import_chunk' => lazy(Burst_Importer::class, 'import_chunk'),
             'start_jetpack_import' => lazy(Jetpack_Importer::class, 'start_import'),
             'jetpack_import_chunk' => lazy(Jetpack_Importer::class, 'import_chunk'),
             'start_plausible_import' => lazy(Plausible_Importer::class, 'start_import'),

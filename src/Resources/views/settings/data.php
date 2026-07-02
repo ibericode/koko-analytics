@@ -89,6 +89,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
     <p><?php esc_html_e('If you\'re coming from another statistics plugin, you may be able to import your historical data using one of our importers listed below.', 'koko-analytics'); ?></p>
 
     <ul class="ul-square">
+        <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=burst_importer')); ?>"><?php esc_html_e('Import from Burst Statistics', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer')); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=plausible_importer')); ?>"><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></a></li>
     </ul>
