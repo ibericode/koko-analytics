@@ -25,7 +25,7 @@ $koko_pro_more_url  = 'https://www.kokoanalytics.com/features/?utm_source=koko-a
 <style>
 .koko-pro-wrap *{box-sizing:border-box}
 .koko-pro-wrap{container-type:inline-size;container-name:kokopro}
-.koko-pro-banner{position:relative;display:grid;grid-template-columns:1.35fr 0.95fr 320px;gap:34px;align-items:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1d2939;background:linear-gradient(105deg,#fbf8f7 0%,#f6f0ef 55%,#f2e9e8 100%);border:1px solid #eaddda;border-radius:10px;padding:30px 34px;margin:0 0 1.5rem;overflow:hidden}
+.koko-pro-banner{position:relative;display:grid;grid-template-columns:1.35fr 0.95fr 320px;gap:34px;align-items:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1d2939;background:white;border-radius:.375rem;padding:1rem;margin:0 0 1.5rem;overflow:hidden}
 .koko-pro-brandrow{display:flex;align-items:center;gap:9px}
 .koko-pro-logo{width:26px;height:26px;flex:none;display:block;filter:drop-shadow(0 1px 1px rgba(140,2,4,.18))}
 .koko-pro-logo svg{width:100%;height:100%;display:block}
