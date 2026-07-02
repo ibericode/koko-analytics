@@ -121,7 +121,12 @@ function site_url($path = '')
 
 function home_url($path = '')
 {
-    return '';
+    return $path;
+}
+
+function url_to_postid($url)
+{
+    return str_contains($url, '/first/') ? 5 : 0;
 }
 
 function is_multisite()

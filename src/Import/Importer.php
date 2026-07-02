@@ -22,6 +22,32 @@ abstract class Importer
     }
 
     /**
+     * @param array<array{string, int, int}> $rows An array of arrays with the following elements: date, visitors, pageviews
+     */
+    protected function bulk_insert_site_stats(array $rows): void
+    {
+        /** @var \wpdb $wpdb */
+        global $wpdb;
+
+        if (count($rows) === 0) {
+            return;
+        }
+
+        $values = [];
+        foreach ($rows as $row) {
+            array_push($values, ...$row);
+        }
+        $placeholders = rtrim(str_repeat('(%s,%d,%d),', count($rows)), ',');
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_site_stats(date, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
+
+        if ($wpdb->last_error !== '') {
+            throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));
+        }
+    }
+
+    /**
      * @param array $rows An array of arrays with the following elements: date, path, post_id, visitors, pageviews
      */
     protected function bulk_insert_page_stats(array $rows): void
@@ -76,7 +102,7 @@ abstract class Importer
         $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($rows)), ',');
 
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE unique_hits = unique_hits + VALUES(unique_hits), hits = hits + VALUES(hits)", $values));
 
         if ($wpdb->last_error !== '') {
             throw new Exception(esc_html__("A database error occurred: ", 'koko-analytics') . esc_html(" {$wpdb->last_error}"));

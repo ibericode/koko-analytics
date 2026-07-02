@@ -11,14 +11,16 @@ namespace KokoAnalytics\Import;
 use DateTimeImmutable;
 use Exception;
 use KokoAnalytics\Normalizers\Path;
+use KokoAnalytics\Normalizers\Referrer;
 
-class Burst_Importer extends Importer
+class Statify_Importer extends Importer
 {
     private const CHUNK_SIZE = 30;
+    private const INSERT_BATCH_SIZE = 100;
 
     protected function get_admin_url(): string
     {
-        return admin_url('options-general.php?page=koko-analytics-settings&tab=burst_importer');
+        return admin_url('options-general.php?page=koko-analytics-settings&tab=statify_importer');
     }
 
     /**
@@ -33,27 +35,25 @@ class Burst_Importer extends Importer
             return null;
         }
 
-        $range = $wpdb->get_row("SELECT MIN(time) AS start, MAX(time) AS end FROM {$wpdb->prefix}burst_statistics");
+        $range = $wpdb->get_row("SELECT MIN(created) AS start, MAX(created) AS end FROM {$wpdb->prefix}statify");
         if (!$range || !$range->start || !$range->end) {
             return null;
         }
 
-        $timezone = wp_timezone();
-
         return [
-            'start' => (new DateTimeImmutable('@' . $range->start))->setTimezone($timezone)->format('Y-m-d'),
-            'end' => (new DateTimeImmutable('@' . $range->end))->setTimezone($timezone)->format('Y-m-d'),
+            'start' => $range->start,
+            'end' => $range->end,
         ];
     }
 
     public function start_import(): void
     {
-        if (!current_user_can('manage_koko_analytics') || !check_admin_referer('koko_analytics_start_burst_import')) {
+        if (!current_user_can('manage_koko_analytics') || !check_admin_referer('koko_analytics_start_statify_import')) {
             return;
         }
 
         if (!$this->source_table_exists()) {
-            $this->redirect_with_error($this->get_admin_url(), __('Could not find the Burst Statistics database table.', 'koko-analytics'));
+            $this->redirect_with_error($this->get_admin_url(), __('Could not find the Statify database table.', 'koko-analytics'));
             exit;
         }
 
@@ -76,10 +76,10 @@ class Burst_Importer extends Importer
         }
 
         $this->redirect($this->get_admin_url(), [
-            'koko_analytics_action' => 'burst_import_chunk',
+            'koko_analytics_action' => 'statify_import_chunk',
             'date-start' => $date_start->format('Y-m-d'),
             'date-end' => $date_end->format('Y-m-d'),
-            '_wpnonce' => wp_create_nonce('koko_analytics_burst_import_chunk'),
+            '_wpnonce' => wp_create_nonce('koko_analytics_statify_import_chunk'),
         ]);
     }
 
@@ -89,7 +89,7 @@ class Burst_Importer extends Importer
             return;
         }
 
-        check_admin_referer('koko_analytics_burst_import_chunk');
+        check_admin_referer('koko_analytics_statify_import_chunk');
 
         try {
             $date_start_value = trim(wp_unslash($_GET['date-start'] ?? ''));
@@ -122,10 +122,10 @@ class Burst_Importer extends Importer
         }
 
         $url = add_query_arg([
-            'koko_analytics_action' => 'burst_import_chunk',
+            'koko_analytics_action' => 'statify_import_chunk',
             'date-start' => $next_date_start->format('Y-m-d'),
             'date-end' => $date_end->format('Y-m-d'),
-            '_wpnonce' => wp_create_nonce('koko_analytics_burst_import_chunk'),
+            '_wpnonce' => wp_create_nonce('koko_analytics_statify_import_chunk'),
         ]);
 
         $days_left   = $next_date_start->diff($date_end)->days + 1;
@@ -168,44 +168,64 @@ class Burst_Importer extends Importer
         global $wpdb;
 
         if (!$this->source_table_exists()) {
-            throw new Exception(esc_html__('Could not find the Burst Statistics database table.', 'koko-analytics'));
+            throw new Exception(esc_html__('Could not find the Statify database table.', 'koko-analytics'));
         }
+
+        $date_range = [$date_start->format('Y-m-d'), $date_end->format('Y-m-d')];
+        $site_data  = $wpdb->get_results($wpdb->prepare(
+            "SELECT created AS date, COUNT(id) AS pageviews FROM {$wpdb->prefix}statify WHERE created >= %s AND created <= %s GROUP BY created",
+            $date_range
+        ));
+        $this->throw_if_database_error();
 
         $site_stats = [];
-        $date       = $date_start->setTime(0, 0);
+        foreach ($site_data as $row) {
+            $pageviews   = (int) $row->pageviews;
+            $site_stats[] = [$row->date, $pageviews, $pageviews];
+        }
+        $this->bulk_insert_site_stats($site_stats);
 
-        while ($date <= $date_end) {
-            $next_date = $date->modify('+1 day');
-            $range     = [$date->getTimestamp(), $next_date->getTimestamp()];
+        $page_data = $wpdb->get_results($wpdb->prepare(
+            "SELECT created AS date, target, COUNT(id) AS pageviews FROM {$wpdb->prefix}statify WHERE created >= %s AND created <= %s GROUP BY created, target",
+            $date_range
+        ));
+        $this->throw_if_database_error();
 
-            $site = $wpdb->get_row($wpdb->prepare(
-                "SELECT COUNT(DISTINCT uid) AS visitors, COUNT(DISTINCT ID) AS pageviews FROM {$wpdb->prefix}burst_statistics WHERE time >= %d AND time < %d",
-                $range
-            ));
-
-            $this->throw_if_database_error();
-
-            if ($site && (int) $site->pageviews > 0) {
-                $date_key     = $date->format('Y-m-d');
-                $site_stats[] = [$date_key, (int) $site->visitors, (int) $site->pageviews];
-                $pages        = $wpdb->get_results($wpdb->prepare(
-                    "SELECT page_url, MAX(page_id) AS post_id, COUNT(DISTINCT uid) AS visitors, COUNT(DISTINCT ID) AS pageviews FROM {$wpdb->prefix}burst_statistics WHERE time >= %d AND time < %d GROUP BY page_url",
-                    $range
-                ));
-
-                $this->throw_if_database_error();
-
-                $page_stats = [];
-                foreach ($pages as $page) {
-                    $page_stats[] = [$date_key, Path::normalize($page->page_url), (int) $page->post_id, (int) $page->visitors, (int) $page->pageviews];
-                }
+        $page_stats = [];
+        $post_ids   = [];
+        foreach ($page_data as $row) {
+            $path              = Path::normalize($row->target);
+            $post_ids[$path] ??= url_to_postid(home_url($path));
+            $pageviews         = (int) $row->pageviews;
+            $page_stats[]      = [$row->date, $path, $post_ids[$path], $pageviews, $pageviews];
+            if (count($page_stats) >= self::INSERT_BATCH_SIZE) {
                 $this->bulk_insert_page_stats($page_stats);
+                $page_stats = [];
+            }
+        }
+        $this->bulk_insert_page_stats($page_stats);
+
+        $referrer_data = $wpdb->get_results($wpdb->prepare(
+            "SELECT created AS date, referrer, COUNT(id) AS pageviews FROM {$wpdb->prefix}statify WHERE created >= %s AND created <= %s AND referrer != '' GROUP BY created, referrer",
+            $date_range
+        ));
+        $this->throw_if_database_error();
+
+        $referrer_stats = [];
+        foreach ($referrer_data as $row) {
+            $referrer = Referrer::normalize($row->referrer);
+            if ($referrer === '') {
+                continue;
             }
 
-            $date = $next_date;
+            $pageviews       = (int) $row->pageviews;
+            $referrer_stats[] = [$row->date, $referrer, $pageviews, $pageviews];
+            if (count($referrer_stats) >= self::INSERT_BATCH_SIZE) {
+                $this->bulk_insert_referrer_stats($referrer_stats);
+                $referrer_stats = [];
+            }
         }
-
-        $this->bulk_insert_site_stats($site_stats);
+        $this->bulk_insert_referrer_stats($referrer_stats);
     }
 
     private function source_table_exists(): bool
@@ -213,7 +233,7 @@ class Burst_Importer extends Importer
         /** @var \wpdb $wpdb */
         global $wpdb;
 
-        $table = $wpdb->prefix . 'burst_statistics';
+        $table = $wpdb->prefix . 'statify';
         return $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table))) === $table;
     }
 
