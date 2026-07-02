@@ -15,6 +15,7 @@ use KokoAnalytics\Import\Burst_Importer;
 use KokoAnalytics\Import\Jetpack_Importer;
 use KokoAnalytics\Import\Plausible_Importer;
 use KokoAnalytics\Import\Statify_Importer;
+use KokoAnalytics\Import\WP_Statistics_Importer;
 use KokoAnalytics\Post_Stats_Migrator;
 
 use function KokoAnalytics\get_settings;
@@ -55,6 +56,8 @@ class Actions
             'start_plausible_import' => lazy(Plausible_Importer::class, 'start_import'),
             'start_statify_import' => lazy(Statify_Importer::class, 'start_import'),
             'statify_import_chunk' => lazy(Statify_Importer::class, 'import_chunk'),
+            'start_wp_statistics_import' => lazy(WP_Statistics_Importer::class, 'start_import'),
+            'wp_statistics_import_chunk' => lazy(WP_Statistics_Importer::class, 'import_chunk'),
         ];
 
         // for BC reasons, still fire the action hook

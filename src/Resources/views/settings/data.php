@@ -93,6 +93,7 @@ $database_stats = \KokoAnalytics\get_database_stats()->get();
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=jetpack_importer')); ?>"><?php esc_html_e('Import from Jetpack Stats', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=plausible_importer')); ?>"><?php esc_html_e('Import from Plausible', 'koko-analytics'); ?></a></li>
         <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=statify_importer')); ?>"><?php esc_html_e('Import from Statify', 'koko-analytics'); ?></a></li>
+        <li><a href="<?= esc_attr(admin_url('options-general.php?page=koko-analytics-settings&tab=wp_statistics_importer')); ?>"><?php esc_html_e('Import from WP Statistics', 'koko-analytics'); ?></a></li>
     </ul>
 </div>
 
