@@ -31,10 +31,10 @@ class Chart_View
         ?>
         
         <?php if ($show_head) : ?>
-        <div class="ka-box-head">
+        <div class="ka-card-head">
             <div>
-                <div class="ka-box-title"><?php esc_html_e('Visitors & pageviews', 'koko-analytics'); ?></div>
-                <div class="ka-box-desc"><?php printf(esc_html__('%1$s totals over the selected period', 'koko-analytics'), $adjective); ?></div>
+                <div class="ka-card-head-title"><?php esc_html_e('Visitors & pageviews', 'koko-analytics'); ?></div>
+                <div class="ka-card-head-desc"><?php printf(esc_html__('%1$s totals over the selected period', 'koko-analytics'), esc_html($adjective)); ?></div>
             </div>
             <div style="display: flex; align-items: center; gap: 20px;">
                 <div class="ka-chart-legend">

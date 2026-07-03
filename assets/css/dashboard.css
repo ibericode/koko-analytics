@@ -78,30 +78,26 @@ body.koko-analytics {
 /* end uniform margin */
 
 /* dashboard box */
-.ka-box {
+.ka-card {
   background: #fff;
-  border: 1px solid #dcdcde;
-  border-radius: var(--ka-border-radius);
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
 }
-.ka-box-head {
+.ka-card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: -1rem;
-  margin-bottom: 1rem;
   padding: 1rem;
   border-bottom: 1px solid #ededee;
 }
-.ka-box-title {
+.ka-card-head-title {
     font-size: 15px;
     font-weight: 600;
     margin: 0;
 }
-.ka-box-desc {
+.ka-card-head-desc {
     font-size: 13px;
     color: #787c82;
     margin-top: 2px;
@@ -135,22 +131,23 @@ body.koko-analytics {
   overflow: visible;
   min-height: 200px;
   font-size: 0.8rem;
+  padding: 1rem;
 }
 .ka-chart-legend {
     display: flex;
     align-items: center;
-    gap: 16px;
-    font-size: 12.5px;
+    gap: 1rem;
+    font-size: 0.8rem;
     color: #3c434a;
 }
 .ka-chart-legend span {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: .5rem;
 }
 .ka-chart-legend-item {
-    width: 11px;
-    height: 11px;
+    width: 12px;
+    height: 12px;
     border-radius: 2px;
     display: inline-block;
 }
@@ -164,7 +161,7 @@ body.koko-analytics {
     display: inline-flex;
     background: #fff;
     border: 1px solid #c3c4c7;
-    border-radius: 6px;
+    border-radius: var(--ka-border-radius);
     overflow: hidden;
 }
 .ka-chart-group a {
@@ -173,7 +170,7 @@ body.koko-analytics {
     padding: 6px 12px;
     text-decoration: none;
     font: inherit;
-    font-size: 13px;
+    font-size: 0.85rem;
     color: #3c434a;
     cursor: pointer;
     border-left: 1px solid #e4e5e7;
@@ -193,7 +190,7 @@ body.koko-analytics {
 .ka-chart--tooltip-box {
   background: var(--ka-dark-color);
   box-shadow: var(--ka-box-shadow);
-  border-radius: 4px;
+  border-radius: var(--ka-border-radius);
   color: white;
 }
 .ka-chart--tooltip-heading {
@@ -315,28 +312,32 @@ body.koko-analytics {
   width: 100%;
   border-spacing: 0;
   box-sizing: border-box;
-}
-
-.ka-table th,
-.ka-table td {
-  text-align: left;
-  border-top: 1px solid rgb(240, 240, 240);
-  padding: 0.4rem 0.6rem;
+  border-collapse: collapse;
 }
 .ka-table th {
-  background-color: #f8f9fa;
-  border-color: #dee2e6;
-  color: #495057;
-  font-weight: 600;
-  font-size: 0.85em;
+  font-size: .7rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: .04em;
+  font-weight: 600;
+  color: #646970;
+  text-align: left;
+  padding: .5rem 1rem;
+  background: #f6f7f7;
+  border-bottom: 1px solid #dcdcde;
 }
+.ka-table thead:first-child,
 .ka-table th:first-child {
-  border-top-left-radius: 6px;
+  border-top-left-radius: var(--ka-border-radius);
 }
 .ka-table th:last-child {
-  border-top-right-radius: 6px;
+  border-top-right-radius: var(--ka-border-radius);
+}
+.ka-table td {
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #f0f0f1;
+}
+.ka-table tr:hover td  {
+    background: #fafcfe;
 }
 .w-fit { 
   width: 12ch; 
@@ -362,6 +363,9 @@ tr:hover .ka-visit-link {
 /* end visit page link */
 
 /* totals cards */
+.ka-kpi { 
+  padding: 1rem;
+}
 .ka-kpi-top {
   display: flex;
   justify-content: space-between;
@@ -370,13 +374,13 @@ tr:hover .ka-visit-link {
   margin-bottom: .25rem;
 }
 .ka-kpi-label {
-  font-size: 12px;
+  font-size: .8rem;
   font-weight: 600;
   text-transform: uppercase;  
   color: #646970;
 }
 .ka-kpi-delta {
-  font-size: 12px;
+  font-size: .8rem;
   padding: .1rem .5rem;
   border-radius: 1rem;
   white-space: nowrap;
@@ -395,21 +399,21 @@ tr:hover .ka-visit-link {
   background: #fcf0f1;
 }
 .ka-kpi-value {
-  font-size: 34px;
+  font-size: 2.2rem;
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: .25rem;
 }
 .ka-kpi-live {
-  font-size: 12px;
+  font-size: .8rem;
   font-weight: 600;
   color: #00a32a;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: .5rem;
 }
 .ka-kpi-cap {
-  font-size: 12px;
+  font-size: .8rem;
   color: #646970;
 }
 .ka-realtime-dot {
@@ -421,7 +425,6 @@ tr:hover .ka-visit-link {
   vertical-align: middle;
   animation: ka-pulse 2s ease-in-out infinite;
 }
-
 @keyframes ka-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -569,14 +572,36 @@ textarea.ka-input {
 /* end forms */
 
 /* pagination */
+
+/* old style pagination, used in Pro components */
 .ka-pagination {
   display: flex;
   padding: 0.5rem 1rem;
   border-top: 1px solid rgb(240, 240, 240);
 }
 .ka-pagination--next {
-    margin-left: auto;
+  margin-left: auto;
 }
+
+/* new style pagination (2026-07-03) */
+.ka-pagination2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 18px;
+    border-top: 1px solid #ededee;
+    font-size: 13px;
+    color: #646970;
+}
+.ka-pagination2-muted {
+    color: #a7aaad;
+}
+.ka-pagination2 a {
+    color: #2271b1 !important;
+    text-decoration: none !important;
+}
+
+/* end pagination */
 
 /* spacing */
 .m-0 { margin: 0 !important; }

@@ -275,14 +275,22 @@ class Dashboard
     {
         if ($offset >= $limit || $offset + $limit < $count) {
             ?>
-            <div class='ka-pagination'>
-                <?php if ($offset >= $limit) { ?>
-                    <a class='ka-pagination--prev' href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow"><?php esc_html_e('Previous', 'koko-analytics'); ?></a>
-                <?php } ?>
-                <?php if ($offset + $limit < $count) { ?>
-                    <a class='ka-pagination--next' href="<?php echo esc_attr(add_query_arg(['p' => null, $key => ['offset' => $offset + $limit, 'limit' => $limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?></a>
-                <?php } ?>
-            </div>
+        <div class="ka-pagination2">
+            <span class="ka-pagination2-muted" ><?php echo (int) $offset ?> – <?php echo (int) min($count, $offset + $limit); ?> of <?php echo (int) $count; ?></span>
+            <span>
+                <?php if ($offset >= $limit) : ?>
+                    <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                <?php else : ?>
+                    <span class="ka-pagination2-muted">← Previous</span>
+                <?php endif; ?>
+                <span> · </span>
+                <?php if ($offset + $limit < $count) : ?>
+                <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => ['offset' => $offset + $limit, 'limit' => $limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
+                <?php else : ?>
+                    <span class="ka-pagination2-muted">Next →</span>
+                <?php endif; ?>
+            </span>
+        </div>
             <?php
         }
     }
@@ -304,6 +312,12 @@ class Dashboard
             $sum   = $stats->sum_posts($date_start, $date_end);
         }
         ?>
+        <div class="ka-card-head">
+            <div>
+                <div class="ka-card-head-title"><?php esc_html_e('Top pages', 'koko-analytics'); ?></div>
+                <div class="ka-card-head-desc"><?php esc_html_e('Most viewed content this period', 'koko-analytics'); ?></div>
+            </div>
+        </div>
         <table class="ka-table">
             <thead>
                 <tr>
@@ -354,6 +368,12 @@ class Dashboard
             $sum   = $stats->sum_referrers($date_start, $date_end);
         }
         ?>
+        <div class="ka-card-head">
+            <div>
+                <div class="ka-card-head-title"><?php esc_html_e('Top referrers', 'koko-analytics'); ?></div>
+                <div class="ka-card-head-desc"><?php esc_html_e('Where your visitors came from', 'koko-analytics'); ?></div>
+            </div>
+        </div>
         <table class="ka-table">
             <thead>
                 <tr>

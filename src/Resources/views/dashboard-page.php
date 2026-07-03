@@ -114,7 +114,7 @@ $tab = 'dashboard';
         $change = $totals_previous->visitors == 0 ? 0 : ($totals->visitors / $totals_previous->visitors) - 1;
         ?>
         <div class="ka-col">
-            <div class="ka-box p-3">
+            <div class="ka-card ka-kpi">
                 <div class="ka-kpi-top">
                     <div class="ka-kpi-label"><?php esc_html_e('Visitors', 'koko-analytics'); ?></div>
                     <div class="ka-kpi-delta <?= ($diff > 0 ? 'up' : ($diff < 0 ? 'down' : 'neutral')); ?>"><?= esc_html(Fmt::percent($change)); ?></div>
@@ -144,7 +144,7 @@ $tab = 'dashboard';
         $change = $totals_previous->pageviews == 0 ? 0 : ($totals->pageviews / $totals_previous->pageviews) - 1;
         ?>
         <div class="ka-col">
-            <div class="ka-box p-3">
+            <div class="ka-card ka-kpi">
                 <div class="ka-kpi-top">
                     <div class="ka-kpi-label"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></div>
                     <div class="ka-kpi-delta <?= ($diff > 0 ? 'up' : ($diff < 0 ? 'down' : 'neutral')); ?>"><?= esc_html(Fmt::percent($change)); ?></div>
@@ -169,7 +169,7 @@ $tab = 'dashboard';
             </div>
         </div>
         <div class="ka-col">
-            <div class="ka-box p-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>" id="ka-realtime">
+            <div class="ka-card ka-kpi <?= $page !== 0 ? 'page-filter-active' : ''; ?>" id="ka-realtime">
                 <div class="ka-kpi-top">
                     <div class="ka-kpi-label"><?php esc_html_e('Realtime', 'koko-analytics'); ?></div>
                     <div class="ka-kpi-live"><span class="ka-realtime-dot"></span> Live</div>
@@ -185,7 +185,7 @@ $tab = 'dashboard';
 
     <?php /* CHART COMPONENT */ ?>
     <?php if (count($chart_data) > 1) { ?>
-        <div class="ka-box mb-3 p-3">
+        <div class="ka-card mb-3">
             <?php new Chart_View($chart_data, $date_start, $date_end, 280, true, $group_chart_by); ?>
         </div>
     <?php } ?>
@@ -194,7 +194,7 @@ $tab = 'dashboard';
     <div id="ka-components" class="ka-row ka-row-cols-1 ka-row-cols-xl-2 g-3 mb-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>" <?= $can_sort ? 'data-nonce="' . esc_attr(wp_create_nonce('koko_analytics_save_component_order')) . '"' : ''; ?>>
         <?php foreach ($this->get_components() as $id => $callback) : ?>
             <div id="<?= esc_attr($id); ?>" class="ka-col" <?= $can_sort ? 'data-sortable' : ''; ?>>
-                <div class="ka-box">
+                <div class="ka-card">
                     <?php $callback($date_start, $date_end); ?>
                 </div>
             </div>
