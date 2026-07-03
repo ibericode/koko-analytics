@@ -10,7 +10,7 @@ namespace KokoAnalytics;
 
 class Chart_View
 {
-    public function __construct(array $data, \DateTimeInterface $date_start, \DateTimeInterface $date_end, int $height = 280, bool $show_group_options = true, string $group = 'day')
+    public function __construct(array $data, \DateTimeInterface $date_start, \DateTimeInterface $date_end, int $height = 280, bool $show_head = true, string $group = 'day')
     {
         $y_max           = array_reduce($data, function ($carry, $tick) {
             return max($carry, $tick->pageviews);
@@ -24,31 +24,32 @@ class Chart_View
         $date_format     = (string) get_option('date_format', 'Y-m-d');
         $days_diff       = abs($date_end->diff($date_start)->days);
         $timezone        = wp_timezone();
+        $group_options = array_filter($this->get_grouping_options(), function ($option) use ($days_diff) {
+            return $days_diff > $option['min'];
+        });
+        $adjective = $group_options[$group]['adjective'] ?? $group_options['day']['adjective'];
         ?>
-        <div class="ka-chart">
-            <?php if ($show_group_options && $days_diff > 7) { ?>
-            <div class="text-end text-muted mb-2">
-                <?php esc_html_e('Group by', 'koko-analytics'); ?>
-                <?php if ($days_diff <= 365) { ?>
-                    <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'day'])); ?>"><?php esc_html_e('days', 'koko-analytics'); ?></a>
-                <?php } ?>
-                <a class="text-muted" href="<?= esc_attr(add_query_arg(['group' => 'week'])); ?>"><?php esc_html_e('weeks', 'koko-analytics'); ?></a>
-                <?php
-                if ($days_diff > 31) {
-                    ?>
-                    <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'month'])); ?>"><?php esc_html_e('months', 'koko-analytics'); ?></a>
-                    <?php
-                }
-                ?>
-                <?php
-                if ($days_diff > 365) {
-                    ?>
-                    <a class="text-muted" rel="nofollow" href="<?= esc_attr(add_query_arg(['group' => 'year'])); ?>"><?php esc_html_e('years', 'koko-analytics'); ?></a>
-                    <?php
-                }
-                ?>
+        
+        <?php if ($show_head) : ?>
+        <div class="ka-box-head">
+            <div>
+                <div class="ka-box-title"><?php esc_html_e('Visitors & pageviews', 'koko-analytics'); ?></div>
+                <div class="ka-box-desc"><?php printf(esc_html__('%1$s totals over the selected period', 'koko-analytics'), $adjective); ?></div>
             </div>
-            <?php } /* end show group options */ ?>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="ka-chart-legend">
+                    <span><i class="ka-chart-legend-item ka-chart-legend-item-visitors"></i> <?php esc_html_e('Visitors', 'koko-analytics'); ?></span>
+                    <span><i class="ka-chart-legend-item ka-chart-legend-item-pageviews"></i> <?php esc_html_e('Pageviews', 'koko-analytics'); ?></span>
+                </div>
+                <div class="ka-chart-group">
+                    <?php foreach ($group_options as $key => $option) : ?>
+                        <a href="<?= esc_attr(add_query_arg(['group' => $key])); ?>" class="<?php echo $group === $key ? 'on' : ''; ?>" rel="nofollow"><?php echo esc_html($option['label']); ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; // end if show head ?>
+        <div class="ka-chart">
             <svg width="100%" height="<?= esc_attr((string) $height); ?>" id="ka-chart">
                 <g class="axes-y" transform="translate(<?= esc_attr((string) $padding_left); ?>, <?= esc_attr((string) $padding_top); ?>)" text-anchor="end" data-padding="<?= esc_attr((string) $padding_left); ?>">
                 <text x="0" y="<?= esc_attr((string) $inner_height); ?>" fill="#757575" dy="0.3em" >0</text>
@@ -98,7 +99,33 @@ class Chart_View
         <?php
     }
 
-    private function format_tick_date(\DateTimeImmutable $dt, string $group, string $date_format): string
+    protected function get_grouping_options(): array
+    {
+        return [
+            'day' => [
+                'min' => 1,
+                'label' => esc_html__('Days', 'koko-analytics'),
+                'adjective' => esc_html__('Daily', 'koko-analytics'),
+            ],
+            'week' => [
+                'min' => 7,
+                'label' => esc_html__('Weeks', 'koko-analytics'),
+                'adjective' => esc_html__('Weekly', 'koko-analytics'),
+            ],
+            'month' => [
+                'min' => 31,
+                'label' => esc_html__('Months', 'koko-analytics'),
+                'adjective' => esc_html__('Monthly', 'koko-analytics'),
+            ],
+            'year' => [
+                'min' => 365,
+                'label' => esc_html__('Years', 'koko-analytics'),
+                'adjective' => esc_html__('Yearly', 'koko-analytics'),
+            ]
+        ];
+    }
+
+    protected function format_tick_date(\DateTimeImmutable $dt, string $group, string $date_format): string
     {
         switch ($group) {
             case 'week':
@@ -113,7 +140,7 @@ class Chart_View
         }
     }
 
-    private function get_magnitude(int $n): int
+    protected function get_magnitude(int $n): int
     {
         if ($n < 10) {
             return 10;

@@ -115,14 +115,14 @@ $tab = 'dashboard';
         ?>
         <div class="ka-col">
             <div class="ka-box p-3">
-                <div class="text-muted mb-1"><?php esc_html_e('Total visitors', 'koko-analytics'); ?></div>
-                <div class="ka-totals-number mb-1">
-                    <span title="<?= esc_attr($totals->visitors); ?>"><?= esc_html(number_format_i18n($totals->visitors)); ?></span>
-                    <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')); ?>">
-                        <?= esc_html(Fmt::percent($change)); ?>
-                    </span>
+                <div class="ka-kpi-top">
+                    <div class="ka-kpi-label"><?php esc_html_e('Visitors', 'koko-analytics'); ?></div>
+                    <div class="ka-kpi-delta <?= ($diff > 0 ? 'up' : ($diff < 0 ? 'down' : 'neutral')); ?>"><?= esc_html(Fmt::percent($change)); ?></div>
                 </div>
-                <div class="text-muted">
+                <div class="ka-kpi-value" title="<?= esc_attr($totals->visitors); ?>">
+                    <?= esc_html(number_format_i18n($totals->visitors)); ?>
+                </div>
+                <div class="ka-kpi-cap">
                     <?php
                     if ($diff != 0) {
                         echo esc_html(number_format_i18n(abs($diff)));
@@ -145,14 +145,14 @@ $tab = 'dashboard';
         ?>
         <div class="ka-col">
             <div class="ka-box p-3">
-                <div class="text-muted mb-1"><?php esc_html_e('Total pageviews', 'koko-analytics'); ?></div>
-                <div class="ka-totals-number mb-1">
-                    <span title="<?= esc_attr($totals->pageviews); ?>"><?= esc_html(number_format_i18n($totals->pageviews)); ?></span>
-                    <span class="ka-totals-change <?= ($diff > 0 ? 'text-success' : ($diff < 0 ? 'text-danger' : 'text-muted')); ?>">
-                        <?= esc_html(Fmt::percent($change)); ?>
-                    </span>
+                <div class="ka-kpi-top">
+                    <div class="ka-kpi-label"><?php esc_html_e('Pageviews', 'koko-analytics'); ?></div>
+                    <div class="ka-kpi-delta <?= ($diff > 0 ? 'up' : ($diff < 0 ? 'down' : 'neutral')); ?>"><?= esc_html(Fmt::percent($change)); ?></div>
                 </div>
-                <div class="text-muted">
+                <div class="ka-kpi-value" title="<?= esc_attr($totals->pageviews); ?>">
+                    <?= esc_html(number_format_i18n($totals->pageviews)); ?>
+                </div>
+                <div class="ka-kpi-cap">
                     <?php
                     if ($diff != 0) {
                         echo esc_html(number_format_i18n(abs($diff)));
@@ -170,9 +170,12 @@ $tab = 'dashboard';
         </div>
         <div class="ka-col">
             <div class="ka-box p-3 <?= $page !== 0 ? 'page-filter-active' : ''; ?>" id="ka-realtime">
-                <div class="text-muted mb-1"><span class="ka-realtime-dot"></span><?php esc_html_e('Realtime pageviews', 'koko-analytics'); ?></div>
-                <div class="ka-totals-number mb-1"><?= esc_html(number_format_i18n($realtime)); ?></div>
-                <div class="text-muted">
+                <div class="ka-kpi-top">
+                    <div class="ka-kpi-label"><?php esc_html_e('Realtime', 'koko-analytics'); ?></div>
+                    <div class="ka-kpi-live"><span class="ka-realtime-dot"></span> Live</div>
+                </div>
+                <div class="ka-kpi-value"><?= esc_html(number_format_i18n($realtime)); ?></div>
+                <div class="ka-kpi-cap">
                     <?php esc_html_e('pageviews in the last hour', 'koko-analytics'); ?>
                 </div>
             </div>
