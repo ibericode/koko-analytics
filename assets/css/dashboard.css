@@ -80,9 +80,12 @@ body.koko-analytics {
 /* dashboard box */
 .ka-card {
   background: #fff;
-    border: 1px solid #dcdcde;
-    border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  border: 1px solid #dcdcde;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 .ka-card-head {
   display: flex;
@@ -336,6 +339,9 @@ body.koko-analytics {
   padding: .5rem 1rem;
   border-bottom: 1px solid #f0f0f1;
 }
+.ka-table tr:last-child td {
+    border-bottom: 0;
+}
 .ka-table tr:hover td  {
     background: #fafcfe;
 }
@@ -353,6 +359,7 @@ body.koko-analytics {
   color: #646970;
   text-decoration: none;
   vertical-align: middle;
+  line-height: 1;
 }
 .ka-visit-link:hover {
   color: var(--ka-link-color);
