@@ -34,7 +34,7 @@ final class IndependentAnalyticsImporterTest extends TestCase
         $importer->perform_chunk_import($date, $date);
 
         self::assertSame(
-            ['2026-06-01T00:00:00', '2026-06-02T00:00:00', '2026-06-01T00:00:00', '2026-06-02T00:00:00'],
+            ['2026-06-01T00:00:00', '2026-06-02T00:00:00'],
             $db->getPreparedParameters('COUNT(DISTINCT v.id) AS pageviews')[0]
         );
         self::assertSame(

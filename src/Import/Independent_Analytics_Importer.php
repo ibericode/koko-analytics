@@ -184,11 +184,11 @@ class Independent_Analytics_Importer extends Importer
                 $date->setTimezone($utc)->format('Y-m-d\TH:i:s'),
                 $next_date->setTimezone($utc)->format('Y-m-d\TH:i:s'),
             ];
-            $params    = [$range[0], $range[1], $range[0], $range[1]];
+            $params    = [$range[0], $range[1]];
             $date_key  = $date->format('Y-m-d');
 
             $site = $wpdb->get_row($wpdb->prepare(
-                "SELECT COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id WHERE v.viewed_at >= %s AND v.viewed_at < %s AND s.created_at >= %s AND s.created_at < %s",
+                "SELECT COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id WHERE v.viewed_at >= %s AND v.viewed_at < %s",
                 $params
             ));
             $this->throw_if_database_error();
@@ -198,7 +198,7 @@ class Independent_Analytics_Importer extends Importer
             }
 
             $pages = $wpdb->get_results($wpdb->prepare(
-                "SELECT r.cached_url, CASE WHEN r.resource = 'singular' THEN COALESCE(r.singular_id, 0) ELSE 0 END AS post_id, COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id JOIN {$wpdb->prefix}independent_analytics_resources r ON r.id = v.resource_id WHERE v.viewed_at >= %s AND v.viewed_at < %s AND s.created_at >= %s AND s.created_at < %s GROUP BY r.id",
+                "SELECT r.cached_url, CASE WHEN r.resource = 'singular' THEN COALESCE(r.singular_id, 0) ELSE 0 END AS post_id, COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id JOIN {$wpdb->prefix}independent_analytics_resources r ON r.id = v.resource_id WHERE v.viewed_at >= %s AND v.viewed_at < %s GROUP BY r.id",
                 $params
             ));
             $this->throw_if_database_error();
@@ -215,7 +215,7 @@ class Independent_Analytics_Importer extends Importer
             $this->bulk_insert_page_stats($page_stats);
 
             $referrers = $wpdb->get_results($wpdb->prepare(
-                "SELECT r.domain, COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id JOIN {$wpdb->prefix}independent_analytics_referrers r ON r.id = s.referrer_id WHERE v.viewed_at >= %s AND v.viewed_at < %s AND s.created_at >= %s AND s.created_at < %s AND r.domain != '' GROUP BY r.id",
+                "SELECT r.domain, COUNT(DISTINCT v.id) AS pageviews, COUNT(DISTINCT s.visitor_id) AS visitors FROM {$wpdb->prefix}independent_analytics_views v JOIN {$wpdb->prefix}independent_analytics_sessions s ON s.session_id = v.session_id JOIN {$wpdb->prefix}independent_analytics_referrers r ON r.id = s.referrer_id WHERE v.viewed_at >= %s AND v.viewed_at < %s AND r.domain != '' GROUP BY r.id",
                 $params
             ));
             $this->throw_if_database_error();
