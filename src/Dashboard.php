@@ -274,7 +274,7 @@ class Dashboard
     public function pagination(string $key, int $offset, int $limit, int $count): void
     {
         if ($offset >= $limit || $offset + $limit < $count) {
-        ?>
+            ?>
         <div class="ka-pagination2">
             <span class="ka-pagination2-muted" ><?php echo (int) $offset ?> – <?php echo (int) min($count, $offset + $limit); ?> of <?php echo (int) $count; ?></span>
             <span>
@@ -291,7 +291,7 @@ class Dashboard
                 <?php endif; ?>
             </span>
         </div>
-        <?php
+            <?php
         }
     }
 
