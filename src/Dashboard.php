@@ -279,7 +279,7 @@ class Dashboard
             <span class="ka-pagination2-muted">
                 <?php
                 /* translators: 1: first result number, 2: last result number, 3: total number of results. */
-                printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset, (int) min($count, $offset + $limit), (int) $count);
+                printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset + 1, (int) min($count, $offset + $limit), (int) $count);
                 ?>
             </span>
             <span>
