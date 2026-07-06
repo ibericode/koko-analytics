@@ -276,18 +276,23 @@ class Dashboard
         if ($offset >= $limit || $offset + $limit < $count) {
             ?>
         <div class="ka-pagination2">
-            <span class="ka-pagination2-muted" ><?php echo (int) $offset ?> – <?php echo (int) min($count, $offset + $limit); ?> of <?php echo (int) $count; ?></span>
+            <span class="ka-pagination2-muted">
+                <?php
+                /* translators: 1: first result number, 2: last result number, 3: total number of results. */
+                printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset, (int) min($count, $offset + $limit), (int) $count);
+                ?>
+            </span>
             <span>
                 <?php if ($offset >= $limit) : ?>
                     <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
                 <?php else : ?>
-                    <span class="ka-pagination2-muted">← Previous</span>
+                    <span class="ka-pagination2-muted">← <?php esc_html_e('Previous', 'koko-analytics'); ?></span>
                 <?php endif; ?>
                 <span> · </span>
                 <?php if ($offset + $limit < $count) : ?>
                 <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => ['offset' => $offset + $limit, 'limit' => $limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
                 <?php else : ?>
-                    <span class="ka-pagination2-muted">Next →</span>
+                    <span class="ka-pagination2-muted"><?php esc_html_e('Next', 'koko-analytics'); ?> →</span>
                 <?php endif; ?>
             </span>
         </div>

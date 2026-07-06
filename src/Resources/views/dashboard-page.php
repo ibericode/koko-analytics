@@ -172,7 +172,7 @@ $tab = 'dashboard';
             <div class="ka-card ka-kpi <?= $page !== 0 ? 'page-filter-active' : ''; ?>" id="ka-realtime">
                 <div class="ka-kpi-top">
                     <div class="ka-kpi-label"><?php esc_html_e('Realtime', 'koko-analytics'); ?></div>
-                    <div class="ka-kpi-live"><span class="ka-realtime-dot"></span> Live</div>
+                    <div class="ka-kpi-live"><span class="ka-realtime-dot"></span> <?php esc_html_e('Live', 'koko-analytics'); ?></div>
                 </div>
                 <div class="ka-kpi-value"><?= esc_html(number_format_i18n($realtime)); ?></div>
                 <div class="ka-kpi-cap">
