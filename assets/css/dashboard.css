@@ -136,6 +136,11 @@ body.koko-analytics {
   font-size: 0.8rem;
   padding: 1rem;
 }
+.ka-chart-options {
+  display: flex; 
+  align-items: center; 
+  gap: 1rem;
+}
 .ka-chart-legend {
     display: flex;
     align-items: center;
@@ -234,7 +239,9 @@ body.koko-analytics {
 .weekend .ka--visitors {
   fill: #195585;
 }
-
+@media (max-width: 576px) {
+  .ka-chart-legend { display: none; }
+}
 .page-filter-active tr,
 .page-filter-active .ka-pagination  {
   opacity: 0.5;

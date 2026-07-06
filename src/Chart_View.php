@@ -36,7 +36,7 @@ class Chart_View
                 <div class="ka-card-head-title"><?php esc_html_e('Visitors & pageviews', 'koko-analytics'); ?></div>
                 <div class="ka-card-head-desc"><?php printf(esc_html__('%1$s totals over the selected period', 'koko-analytics'), esc_html($adjective)); ?></div>
             </div>
-            <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="ka-chart-options">
                 <div class="ka-chart-legend">
                     <span><i class="ka-chart-legend-item ka-chart-legend-item-visitors"></i> <?php esc_html_e('Visitors', 'koko-analytics'); ?></span>
                     <span><i class="ka-chart-legend-item ka-chart-legend-item-pageviews"></i> <?php esc_html_e('Pageviews', 'koko-analytics'); ?></span>

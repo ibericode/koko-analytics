@@ -212,7 +212,7 @@ $tab = 'dashboard';
         <?php if (current_user_can('manage_koko_analytics')) : ?>
             <?php require __DIR__ . '/upsell.php'; ?>
         <?php else : ?>
-            <div class="text-muted text-center mt-5 mb-3">
+            <div class="text-muted text-center mt-3">
                 <?php /* translators: %1s: opening anchor tag for Koko Analytics website. */ ?>
                 <?php echo wp_kses(sprintf(__('Powered by %1s - privacy-friendly analytics for WordPress sites', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-dashboard-powered-by">Koko Analytics</a>'), ['a' => ['href' => []]]); ?>
             </div>
