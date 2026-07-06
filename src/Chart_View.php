@@ -103,7 +103,7 @@ class Chart_View
     {
         return [
             'day' => [
-                'min' => 1,
+                'min' => 0,
                 'label' => esc_html__('Days', 'koko-analytics'),
                 'adjective' => esc_html__('Daily', 'koko-analytics'),
             ],
