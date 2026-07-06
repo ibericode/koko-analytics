@@ -2,28 +2,34 @@
 
 // i18n strings for koko-analytics-pro
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#22
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#18
+__('Top referrers', 'koko-analytics');
+
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#19
+__('Where your visitors came from', 'koko-analytics');
+
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#27
 __('Referrers report type', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#29
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#34
 __('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#29
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#34
 __('Visitors', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#30
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#35
 __('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#30
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#35
 __('Pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#47
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#52
 __('There is nothing here. Yet!', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#54
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#61
 __('Previous', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#63
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#73
 __('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/UTM/views/setting.php#8
@@ -74,47 +80,83 @@ __('Get Koko Analytics totals', 'koko-analytics');
 // ../koko-analytics-pro/src/Abilities/Abilities.php#34
 __('Returns total visitors and pageviews for a Koko Analytics date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#42
+// ../koko-analytics-pro/src/Abilities/Abilities.php#37
+__('Parameters for retrieving Koko Analytics totals.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#49
 __('Invalid date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#50
+// ../koko-analytics-pro/src/Abilities/Abilities.php#57
 __('Get Koko Analytics time series', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#51
+// ../koko-analytics-pro/src/Abilities/Abilities.php#58
 __('Returns visitors and pageviews grouped by day, week, month, or year for a Koko Analytics date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#67
+// ../koko-analytics-pro/src/Abilities/Abilities.php#61
+__('Parameters for retrieving Koko Analytics time series.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#77
 __('Invalid date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#72
+// ../koko-analytics-pro/src/Abilities/Abilities.php#82
 __('Invalid group.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#80
+// ../koko-analytics-pro/src/Abilities/Abilities.php#90
 __('Get Koko Analytics top pages', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#81
+// ../koko-analytics-pro/src/Abilities/Abilities.php#91
 __('Returns top pages by pageviews for a Koko Analytics date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#90
+// ../koko-analytics-pro/src/Abilities/Abilities.php#94
+__('Parameters for retrieving top Koko Analytics pages.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#110
 __('Invalid date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#98
+// ../koko-analytics-pro/src/Abilities/Abilities.php#118
 __('Get Koko Analytics referrers', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#99
+// ../koko-analytics-pro/src/Abilities/Abilities.php#119
 __('Returns top referrer URLs by pageviews for a Koko Analytics date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#108
+// ../koko-analytics-pro/src/Abilities/Abilities.php#122
+__('Parameters for retrieving Koko Analytics referrers.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#138
 __('Invalid date range.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#116
+// ../koko-analytics-pro/src/Abilities/Abilities.php#146
 __('Get Koko Analytics realtime pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#117
+// ../koko-analytics-pro/src/Abilities/Abilities.php#147
 __('Returns the number of recorded Koko Analytics pageviews since a timestamp or relative time string.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Abilities/Abilities.php#131
+// ../koko-analytics-pro/src/Abilities/Abilities.php#150
+__('Parameters for retrieving realtime Koko Analytics pageviews.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#160
 __('Invalid since value.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#192
+__('Start date in YYYY-MM-DD format.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#201
+__('End date in YYYY-MM-DD format.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#210
+__('Page ID or path to filter statistics by.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#218
+__('Time interval to group statistics by.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#228
+__('Number of rows to skip before returning results.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#238
+__('Maximum number of rows to return.', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Abilities/Abilities.php#249
+__('Timestamp or relative time string to count pageviews from.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Column/Table.php#123
 __('Number of days to use for pageviews column', 'koko-analytics');
