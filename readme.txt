@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 2.4.1
+Stable tag: 2.5.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,6 +122,15 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.5.0 =
+
+- import: add importers for Burst Statistics, Statify, WP Statistics, Independent Analytics, and SlimStat Analytics.
+- import: fix updating existing referrer statistics during imports.
+- dashboard: improve the styling of KPI metrics, charts, tables, pagination, and the Pro upsell.
+- dashboard: dim the realtime component when filtering by page.
+- data: run database migrations immediately after resetting tables.
+
+
 = 2.4.1 =
 
 - import: fix Plausible importer compatibility with PHP 7.4.
@@ -164,13 +173,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - settings: show database usage and table sizes on the data settings page.
 - settings: add current and latest database migration version to debug info.
 - release: exclude development-only files from the WordPress.org package.
-
-
-= 2.3.5 =
-
-- data: ensure aggregation process does not run while database migrations are pending.
-- perf: aggregation process no longer invalidates alloptions cache on every run.
-- perf: process database pruning in chunks of 10K rows.
-- security: add nonce verification to user-initiated action to update to v2.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
