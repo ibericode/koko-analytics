@@ -3,6 +3,7 @@
 = 2.5.0 =
 
 - import: add importers for Burst Statistics, Statify, WP Statistics, Independent Analytics, and SlimStat Analytics.
+- import: fix updating existing referrer statistics during imports.
 - dashboard: improve the styling of KPI metrics, charts, tables, pagination, and the Pro upsell.
 - dashboard: dim the realtime component when filtering by page.
 - data: run database migrations immediately after resetting tables.
