@@ -1236,7 +1236,7 @@ __('You do not have sufficient permissions to perform this action.', 'koko-analy
 __('License deactivated successfully.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Licensing/AdminController.php#166
-__('You need to <a href="%1$s">activate Koko Analytics Pro</a> to use its features or install plugin updates.', 'koko-analytics');
+__('You need to <a href="%1$s">activate your license for Koko Analytics Pro</a> to use its features or install plugin updates.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/CSV/Button.php#20
 __('Download as CSV', 'koko-analytics');
