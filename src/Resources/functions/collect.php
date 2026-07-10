@@ -16,6 +16,42 @@ namespace KokoAnalytics;
 
 use DateTimeImmutable;
 
+/**
+ * Matches the user agents of bots, crawlers, link previewers, headless browsers
+ * and HTTP client libraries.
+ *
+ * Keep this in sync with the pattern in assets/js/src/script.js
+ */
+const BOT_USER_AGENT_PATTERN = '/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i';
+
+/**
+ * Determines whether the current request was made by something other than a person
+ * looking at a page.
+ */
+function is_automated_request(): bool
+{
+    $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    if ($user_agent === '' || \preg_match(BOT_USER_AGENT_PATTERN, $user_agent)) {
+        return true;
+    }
+
+    // The browser is prefetching or prerendering the page, so nobody is looking at it (yet).
+    // Sent by Chrome for <link rel="prefetch"> and the Speculation Rules API, on the document
+    // as well as on any subresource request it makes, which includes our beacon.
+    if (!empty($_SERVER['HTTP_SEC_PURPOSE']) || ($_SERVER['HTTP_PURPOSE'] ?? '') === 'prefetch') {
+        return true;
+    }
+
+    // Someone opened this endpoint directly instead of the tracking script beaconing to it.
+    // Only reject when the header is present and wrong, as browsers predating Sec-Fetch-*
+    // (Safari < 16.4) omit it entirely.
+    if (($_SERVER['HTTP_SEC_FETCH_MODE'] ?? '') === 'navigate') {
+        return true;
+    }
+
+    return false;
+}
+
 function extract_pageview_data(array $raw): array
 {
     // do nothing if a required parameter is missing
@@ -106,8 +142,8 @@ function get_request_params(): array
 
 function collect_request()
 {
-    // ignore requests from bots, crawlers and link previews
-    if (empty($_SERVER['HTTP_USER_AGENT']) || \preg_match("/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview/i", $_SERVER['HTTP_USER_AGENT'])) {
+    // ignore requests from bots, crawlers, link previews, prefetchers and direct visits to this endpoint
+    if (is_automated_request()) {
         return;
     }
 

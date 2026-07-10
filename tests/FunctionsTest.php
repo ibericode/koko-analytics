@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use function KokoAnalytics\extract_pageview_data;
 use function KokoAnalytics\extract_event_data;
 use function KokoAnalytics\get_client_ip;
+use function KokoAnalytics\is_automated_request;
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_settings;
 use function KokoAnalytics\get_realtime_pageview_count;
@@ -301,5 +302,81 @@ final class FunctionsTest extends TestCase
 
         $_SERVER['HTTP_X_FORWARDED_FOR'] = 'not-an-ip';
         $this->assertEquals(get_client_ip(), '1.1.1.1');
+    }
+
+    public function testIsAutomatedRequestByUserAgent(): void
+    {
+        $automated = [
+            '', // no user agent at all
+            'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0)',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/126.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1',
+            'python-requests/2.32.3',
+            'curl/8.7.1',
+            'Wget/1.21.4',
+            'Go-http-client/2.0',
+            'Apache-HttpClient/4.5.14 (Java/1.8.0_402)',
+            'okhttp/4.12.0',
+            'Scrapy/2.11.1 (+https://scrapy.org)',
+            'Pingdom.com_bot_version_1.4',
+            'Better Uptime Bot',
+            'Mozilla/5.0 (compatible; Chrome-Lighthouse)',
+            'facebookexternalhit/1.1',
+        ];
+        foreach ($automated as $user_agent) {
+            $_SERVER['HTTP_USER_AGENT'] = $user_agent;
+            $this->assertTrue(is_automated_request(), "Expected '$user_agent' to be treated as automated");
+        }
+
+        $humans = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15',
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1',
+            'Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0',
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
+
+            // the optimized endpoint verifies itself using wp_remote_post(), which must not be filtered out
+            'WordPress/6.5.5; https://example.com',
+        ];
+        foreach ($humans as $user_agent) {
+            $_SERVER['HTTP_USER_AGENT'] = $user_agent;
+            $this->assertFalse(is_automated_request(), "Expected '$user_agent' to be treated as a real request");
+        }
+
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function testIsAutomatedRequestByRequestHeaders(): void
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
+        // a beacon from our own tracking script
+        $_SERVER['HTTP_SEC_FETCH_MODE'] = 'no-cors';
+        $this->assertFalse(is_automated_request());
+
+        // browsers predating Sec-Fetch-* send no such headers at all
+        unset($_SERVER['HTTP_SEC_FETCH_MODE']);
+        $this->assertFalse(is_automated_request());
+
+        // someone opening the endpoint URL directly
+        $_SERVER['HTTP_SEC_FETCH_MODE'] = 'navigate';
+        $this->assertTrue(is_automated_request());
+        unset($_SERVER['HTTP_SEC_FETCH_MODE']);
+
+        // prefetched or prerendered by the browser
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch';
+        $this->assertTrue(is_automated_request());
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch;prerender';
+        $this->assertTrue(is_automated_request());
+        unset($_SERVER['HTTP_SEC_PURPOSE']);
+
+        // legacy prefetch header
+        $_SERVER['HTTP_PURPOSE'] = 'prefetch';
+        $this->assertTrue(is_automated_request());
+        unset($_SERVER['HTTP_PURPOSE']);
+
+        $this->assertFalse(is_automated_request());
+        unset($_SERVER['HTTP_USER_AGENT']);
     }
 }

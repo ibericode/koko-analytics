@@ -1,6 +1,9 @@
 const ka = window.koko_analytics;
 const utmParams = ['utm_source', 'utm_medium', 'utm_campaign'];
 
+// keep in sync with BOT_USER_AGENT_PATTERN in src/Resources/functions/collect.php
+const botPattern = /bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i;
+
 function getUtmData() {
   const data = {};
   const queryParams = new URLSearchParams(window.location.search);
@@ -19,7 +22,7 @@ function getUtmData() {
 ka.trackPageview = function(path, post_id) {
   if (
     // do not track if user agent looks like bot
-    ((/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender/i).test(navigator.userAgent))
+    botPattern.test(navigator.userAgent)
 
     // do not track if this is a headless browser (e.g. for testing)
     || (window._phantom || window.__nightmare || window.navigator.webdriver || window.Cypress)
@@ -56,8 +59,10 @@ function trackInitialPageview() {
   ka.autotracked = true;
 }
 
-// track right away or as soon as page becomes visible
-if (
+// track right away, on activation of a prerendered page, or as soon as the page becomes visible
+if (document.prerendering) {
+  document.addEventListener('prerenderingchange', trackInitialPageview, { once: true });
+} else if (
   document.visibilityState === 'hidden' ||
   document.visibilityState === 'prerender'
 ) {
