@@ -1,5 +1,11 @@
 # Changelog
 
+= 2.5.1 =
+
+- dashboard: prefix Pro upsell styles with `ka-upsell-` to prevent conflicts with wp-admin CSS.
+- dashboard: add a 192x192 app icon and fix maskable icon coverage so the dashboard installs correctly as a PWA.
+
+
 = 2.5.0 =
 
 - import: add importers for Burst Statistics, Statify, WP Statistics, Independent Analytics, and SlimStat Analytics.
