@@ -2,8 +2,8 @@
 
 = 2.5.1 =
 
-- dashboard: prefix Pro upsell styles with `ka-upsell-` to prevent conflicts with wp-admin CSS.
-- dashboard: add a 192x192 app icon and fix maskable icon coverage so the dashboard installs correctly as a PWA.
+- tracking: more aggressive bot filter lists.
+- dashboard: add new Koko Analytics logo and brand colors.
 
 
 = 2.5.0 =
