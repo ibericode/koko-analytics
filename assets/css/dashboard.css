@@ -804,11 +804,11 @@ textarea.ka-input {
 .btn-koko,
 .koko-analytics .btn-koko {
   --ka-btn-color: white;
-  --ka-btn-bg: #b60205;
-  --ka-btn-border-color: #a40205;
+  --ka-btn-bg: #069494;
+  --ka-btn-border-color: #069494;
   --ka-btn-hover-color: #fff;
-  --ka-btn-hover-bg: #a40205;
-  --ka-btn-hover-border-color: #a40205;
+  --ka-btn-hover-bg: #021630;
+  --ka-btn-hover-border-color: #021630;
   --ka-btn-focus-shadow-rgb: 130, 138, 145;
   --ka-btn-active-color: #fff;
   --ka-btn-active-bg: #565e64;
