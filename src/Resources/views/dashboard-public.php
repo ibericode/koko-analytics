@@ -15,7 +15,7 @@ defined('ABSPATH') || exit; ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>Koko Analytics</title>
-    <meta name="theme-color" content="#B60205">
+    <meta name="theme-color" content="#021630">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Koko Analytics">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
