@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 2.5.1-dev1
+Stable tag: 2.5.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -124,6 +124,12 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.5.1 =
+
+- tracking: more aggressive bot filter lists.
+- dashboard: add new Koko Analytics logo and brand colors.
+
+
 = 2.5.0 =
 
 - import: add importers for Burst Statistics, Statify, WP Statistics, Independent Analytics, and SlimStat Analytics.
@@ -162,18 +168,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - dashboard: fix saving component order when the page contains non-sortable dashboard columns.
 - dashboard: keep an explicit group parameter when switching chart grouping back to days.
 - docs: add campaign parameters to in-plugin links to Koko Analytics documentation and Pro pages.
-
-
-= 2.3.6 =
-
-- dashboard: group top pages by post ID when available, so changing a post slug no longer splits its analytics in the dashboard.
-- dashboard: resolve titles and permalinks dynamically for posts and pages in the top pages list.
-- dashboard: page-specific totals and charts now use post ID filters when available.
-- tracking: ignore query parameters when pretty permalinks are enabled.
-- tracking: ensure normalized paths always start with a leading slash.
-- data export: improve export reliability by casting numeric values and handling missing tables defensively.
-- settings: show database usage and table sizes on the data settings page.
-- settings: add current and latest database migration version to debug info.
-- release: exclude development-only files from the WordPress.org package.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
