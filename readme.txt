@@ -12,25 +12,25 @@ Pivacy-friendly and lightweight Google Analytics alternative for WordPress sites
 
 == Description ==
 
-Koko Analytics is a privacy-friendly and lightweight Google Analytics alternative for WordPress sites. It is simple to use, does not rely on any external services and does not intrude on the privacy of your visitors.
+Koko Analytics is a privacy-friendly and lightweight Google Analytics alternative for WordPress sites. It is a plug and play solution to get GDPR compliant insights into your website visitors without requiring any third-party services.
 
 == Why choose Koko Analytics? ==
 
 = Important insights =
 
-Koko Analytics provides you with [simple and effective analytics](https://www.kokoanalytics.com/simple-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin). There are no complicated reports to dig through. All the important metrics are visible from a quick glance at your analytics dashboard.
+Koko Analytics provides you with [simple and effective analytics](https://www.kokoanalytics.com/simple-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin). There are no complicated reports to dig through. All the important metrics are visible from a quick glance at your analytics dashboard, right inside your WordPress admin.
 
 = Privacy-friendly analytics =
 
-Koko Analytics is a [privacy-friendly analytics](https://www.kokoanalytics.com/privacy-focused-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin) solution for WordPress. It can be used without any cookies, no personal data is processed or stored and nothing is shared with any third-party. That makes it suitable for GDPR, CCPA, and PECR-compliant website statistics.
+Koko Analytics is a [privacy-friendly](https://www.kokoanalytics.com/privacy-focused-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin) solution for WordPress. It can be used without any cookies, no personal data is processed or stored and nothing is shared with any third-party. That makes it suitable for GDPR, CCPA, and PECR-compliant website statistics.
 
 = Lightweight website statistics =
 
-Koko Analytics is [lightweight analytics](https://www.kokoanalytics.com/lightweight-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin). It adds less than 1 kilobyte of data to your pages and is fully compatible with all kinds of caching setups. WordPress is bypassed entirely for its collection endpoint, making the impact on your site's performance as close to zero as possible.
+Koko Analytics is [lightweight](https://www.kokoanalytics.com/lightweight-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin). It adds less than 1 kilobyte of data to your pages and is fully compatible with all kinds of caching setups. WordPress is bypassed entirely for its collection endpoint, making the impact on your site's performance as close to zero as possible.
 
 = Open source analytics =
 
-Koko Analytics is [open source analytics](https://www.kokoanalytics.com/open-source-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin) released under the GPL license, just like WordPress itself. The source code is publicly available. Everyone has the right to run, study, share or modify the source code. 
+Koko Analytics is [open source](https://www.kokoanalytics.com/open-source-wordpress-analytics/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin) released under the GPL license, just like WordPress itself. The source code is publicly available. Everyone has the right to run, study, share or modify the source code. 
 
 == Features ==
 
@@ -51,8 +51,9 @@ Koko Analytics Pro adds more reporting options for sites that need deeper analyt
 
 * **Country statistics** - See which countries your visitors come from.
 * **Technology reports** - View browser, operating system, and device statistics.
-* **Custom event tracking** - Track outbound link clicks, contact form submissions, add-to-cart actions, and more.
 * **Email reports** - Receive periodic analytics reports in your inbox.
+* **UTM Campaigns** - Measure the performance of your marketing campaigns.
+* **Custom event tracking** - Track outbound link clicks, contact form submissions, add-to-cart actions, and more.
 * **Traffic spike alerts** - Get notified by email when traffic changes quickly.
 
 [View the Koko Analytics live demo](https://www.kokoanalytics.com/koko-analytics-dashboard/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin) or [see Koko Analytics Pro pricing](https://www.kokoanalytics.com/pricing/#utm_source=wordpress.org&utm_medium=link&utm_campaign=free-plugin).
