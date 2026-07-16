@@ -19,6 +19,21 @@ function getUtmData() {
   return data;
 }
 
+function sendData(url, params) {
+  // not all browsers support navigator.sendBeacon, fall back to fetch()
+  if (typeof navigator.sendBeacon === 'function') {
+    navigator.sendBeacon(url, params);
+    return;
+  }
+
+  fetch(url, {
+    method: 'POST',
+    body: params,
+    keepalive: true,
+    credentials: 'same-origin'
+  }).catch(() => {});
+}
+
 ka.trackPageview = function(path, post_id) {
   if (
     // do not track if user agent looks like bot
@@ -31,7 +46,7 @@ ka.trackPageview = function(path, post_id) {
     return;
   }
 
-  navigator.sendBeacon(ka.url, new URLSearchParams({
+  sendData(ka.url, new URLSearchParams({
     action: 'koko_analytics_collect',
     pa: path,
     po: post_id,
