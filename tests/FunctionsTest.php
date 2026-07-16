@@ -36,10 +36,26 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => []]), []);
         $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => true]), []);
 
+        // post id outside of INT UNSIGNED range
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '-1']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '4294967296']), []);
+
+        // path not starting with a forward slash
+        $this->assertEquals(extract_pageview_data(['pa' => '', 'po' => '1']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '@evil.com/x', 'po' => '1']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => ':8080/x', 'po' => '1']), []);
+
+        // referrer with a scheme other than http(s), android-app or ios-app
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => 'javascript:alert(1)']), []);
+        $this->assertEquals(extract_pageview_data(['pa' => '/', 'po' => '1', 'r' => 'mailto:joe@example.com']), []);
+
         // complete and valid
         foreach (
             [
             [['pa' => '/', 'po' => '1'], ['p', null, '/', 1, 1, 1, '']],
+            [['pa' => '/', 'po' => '4294967295'], ['p', null, '/', 4294967295, 1, 1, '']],
+            [['pa' => '/foo/?x=1', 'po' => '0', 'r' => 'https://www.kokoanalytics.com/'], ['p', null, '/foo/?x=1', 0, 1, 1, 'https://www.kokoanalytics.com/']],
+            [['pa' => '/', 'po' => '1', 'r' => 'android-app://com.reddit.frontpage'], ['p', null, '/', 1, 1, 1, 'android-app://com.reddit.frontpage']],
 
             ] as [$input, $expected]
         ) {
@@ -73,6 +89,14 @@ final class FunctionsTest extends TestCase
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => [], 'v' => '100']), []);
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => true, 'v' => '100']), []);
         $this->assertEquals(extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => []]), []);
+
+        // control characters are stripped from event name and parameter
+        $actual = extract_event_data(['e' => "Ev\nent", 'p' => "Pa\tram", 'v' => '100']);
+        $this->assertEquals('Event', $actual[1]);
+        $this->assertEquals('Param', $actual[2]);
+
+        // event name consisting solely of control characters is rejected
+        $this->assertEquals(extract_event_data(['e' => "\x01\x02", 'p' => 'Param', 'v' => '100']), []);
 
         // complete and valid
         $actual   = extract_event_data(['e' => 'Event', 'p' => 'Param', 'v' => '100']);
@@ -231,6 +255,10 @@ final class FunctionsTest extends TestCase
         $filenames = glob("{$upload_dir}/buffer-*.csv") ?: [];
         $this->assertCount(1, $filenames);
         $this->assertMatchesRegularExpression('/\/buffer-[a-f0-9]{32}\.csv$/', $filenames[0]);
+        $this->assertEquals(serialize($data) . PHP_EOL, file_get_contents($filenames[0]));
+
+        // records containing a newline are refused and never written to the file
+        $this->assertFalse(collect_in_file(['p', 123, "/\na:1:{i:0;s:1:\"e\";}", 1, 1, 1, '']));
         $this->assertEquals(serialize($data) . PHP_EOL, file_get_contents($filenames[0]));
 
         unlink($filenames[0]);

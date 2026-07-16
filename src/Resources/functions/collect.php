@@ -59,23 +59,30 @@ function extract_pageview_data(array $raw): array
         return [];
     }
 
-    if (!is_string($raw['pa']) || (isset($raw['po']) && !is_scalar($raw['po'])) || (isset($raw['r']) && !is_string($raw['r']))) {
+    if (!is_string($raw['pa']) || !is_scalar($raw['po']) || (isset($raw['r']) && !is_string($raw['r']))) {
         return [];
     }
 
-    // grab and validate parameters
-    $path         = substr(trim($raw['pa']), 0, 255);
-    $post_id      = \filter_var($raw['po'], FILTER_VALIDATE_INT);
-    $referrer_url = !empty($raw['r']) ? \filter_var(\trim($raw['r']), FILTER_VALIDATE_URL) : '';
-    if ($post_id === false || $referrer_url === false || filter_var("https://localhost$path", FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false) {
+    // path should be an absolute URL path, e.g. "/some-page/?p=1#section"
+    $path = \substr(\trim($raw['pa']), 0, 255);
+    if ($path === '' || $path[0] !== '/' || \filter_var("https://localhost{$path}", FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false) {
+        return [];
+    }
+
+    // post id has to fit in an INT UNSIGNED column
+    $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 4294967295]]);
+    if ($post_id === false) {
+        return [];
+    }
+
+    // referrer URL is optional, but has to use a scheme that Normalizers\Referrer understands
+    $referrer_url = !empty($raw['r']) ? \substr(\trim($raw['r']), 0, 255) : '';
+    if ($referrer_url !== '' && (\preg_match('~^(?:https?|android-app|ios-app)://~', $referrer_url) !== 1 || \filter_var($referrer_url, FILTER_VALIDATE_URL) === false)) {
         return [];
     }
 
     $hash                            = \hash(PHP_VERSION_ID >= 80100 ? "xxh64" : "sha1", $path);
     [$new_visitor, $unique_pageview] = determine_uniqueness($raw, 'pageview', $hash);
-
-    // limit referrer URL to 255 chars
-    $referrer_url = \substr($referrer_url, 0, 255);
 
     $data = [
         'p',                 // type indicator
@@ -100,8 +107,10 @@ function extract_event_data(array $raw): array
         return [];
     }
 
-    $event_name  = \trim($raw['e']);
-    $event_param = \trim($raw['p']);
+    // strip control characters, they are never legitimate in these display strings
+    // and embedded newlines would corrupt the line-oriented buffer file
+    $event_name  = (string) \preg_replace('/[\x00-\x1F\x7F]/', '', \trim($raw['e']));
+    $event_param = (string) \preg_replace('/[\x00-\x1F\x7F]/', '', \trim($raw['p']));
     if (\strlen($event_name) === 0) {
         return [];
     }
@@ -230,10 +239,14 @@ function collect_in_file(array $data): bool
 
     // append serialized data to file
     // TODO: Write CSV data here, but ideally we want to run the aggregator just once using the old data format after each plugin update
-    $content  = \serialize($data);
-    $content .= PHP_EOL;
+    $content = \serialize($data);
 
-    return (bool) \file_put_contents($filename, $content, FILE_APPEND | LOCK_EX);
+    // refuse to write records spanning multiple lines, since the aggregator parses this file line-by-line
+    if (\strpos($content, "\n") !== false) {
+        return false;
+    }
+
+    return (bool) \file_put_contents($filename, $content . PHP_EOL, FILE_APPEND | LOCK_EX);
 }
 
 function test_collect_in_file(): bool
