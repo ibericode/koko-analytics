@@ -54,7 +54,7 @@ class Controller
     public function filter_cron_schedules($schedules)
     {
         $schedules['koko_analytics_stats_aggregate_interval'] = [
-            'interval' => 60, // 60 seconds
+            'interval' => 65, // seconds
             'display'  => did_action('after_setup_theme') ? esc_html__('Every 60 seconds', 'koko-analytics') : 'Every 60 seconds',
         ];
         return $schedules;

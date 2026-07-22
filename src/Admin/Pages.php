@@ -109,7 +109,7 @@ class Pages
         if ($next_scheduled === false) {
             // if the event does not appear in scheduled event list at all
             // schedule it now
-            wp_schedule_event(time() + 60, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
+            wp_schedule_event(time() + 65, 'koko_analytics_stats_aggregate_interval', 'koko_analytics_aggregate_stats');
             return true;
         }
 
