@@ -17,12 +17,17 @@ class Plugin
 
         $this->setup_capabilities();
         $this->create_and_protect_uploads_dir();
+
+        // tell the user where to find the dashboard on the next admin page they load
+        set_transient('koko_analytics_show_activation_notice', 1, HOUR_IN_SECONDS);
     }
 
     public function action_deactivate_plugin()
     {
         (new Cron())->clear();
         (new Endpoint_Installer())->uninstall();
+
+        delete_transient('koko_analytics_show_activation_notice');
     }
 
     public function setup_capabilities(): void

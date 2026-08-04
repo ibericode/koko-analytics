@@ -41,7 +41,7 @@ class Controller
 
     public function action_admin_menu(): void
     {
-        add_submenu_page('index.php', 'Koko Analytics', 'Analytics', 'view_koko_analytics', 'koko-analytics', lazy(Pages::class, 'show_dashboard_page'));
+        add_submenu_page('index.php', 'Koko Analytics', esc_html__('Analytics', 'koko-analytics'), 'view_koko_analytics', 'koko-analytics', lazy(Pages::class, 'show_dashboard_page'));
         add_submenu_page('options-general.php', 'Koko Analytics', 'Koko Analytics', 'manage_koko_analytics', 'koko-analytics-settings', lazy(Pages::class, 'show_settings_page'));
     }
 
@@ -51,7 +51,7 @@ class Controller
     }
 
     /**
-     * Add the settings link to the Plugins overview
+     * Add the dashboard and settings links to the Plugins overview
      *
      * @param array $links
      * @param string $file
@@ -63,11 +63,20 @@ class Controller
             return $links;
         }
 
-        $href          = admin_url('options-general.php?page=koko-analytics-settings');
-        $label         = esc_html__('Settings', 'koko-analytics');
-        $settings_link = "<a href=\"{$href}\">{$label}</a>";
-        array_unshift($links, $settings_link);
-        return $links;
+        $own_links = [];
+        
+        // the dashboard lives under Dashboard > Analytics, which is easy to miss, so link to it from here too
+        if (current_user_can('view_koko_analytics')) {
+            $href        = esc_url(admin_url('index.php?page=koko-analytics'));
+            $label       = esc_html__('Dashboard', 'koko-analytics');
+            $own_links[] = "<a href=\"{$href}\">{$label}</a>";
+        }
+
+        $href        = esc_url(admin_url('options-general.php?page=koko-analytics-settings'));
+        $label       = esc_html__('Settings', 'koko-analytics');
+        $own_links[] = "<a href=\"{$href}\">{$label}</a>";
+
+        return array_merge($own_links, $links);
     }
 
     /**
@@ -114,6 +123,113 @@ class Controller
             return;
         }
 
+        $this->maybe_show_activation_notice();
+        $this->maybe_show_migration_notice();
+    }
+
+    /**
+     * Points the user to the dashboard once, right after activating the plugin.
+     *
+     * The dashboard is registered as a submenu of Dashboard, so it is easy to
+     * overlook when you don't already know where to look for it.
+     */
+    private function maybe_show_activation_notice(): void
+    {
+        if (get_transient('koko_analytics_show_activation_notice') === false) {
+            return;
+        }
+
+        // no point in explaining where the dashboard is while the user is looking at it
+        $screen = get_current_screen();
+        if ($screen !== null && $screen->id === 'dashboard_page_koko-analytics') {
+            delete_transient('koko_analytics_show_activation_notice');
+            return;
+        }
+
+        // WordPress prints its own "Plugin activated." notice further down this very page, so
+        // replace that one rather than stacking a second, near-identical notice on top of it.
+        if ($this->should_replace_plugin_activated_notice()) {
+            add_action('all_admin_notices', [$this, 'action_all_admin_notices'], 100, 0);
+            return;
+        }
+
+        // show this only once, on the first admin page loaded after activation
+        delete_transient('koko_analytics_show_activation_notice');
+        echo wp_kses_post($this->get_activation_notice_markup());
+    }
+
+    /**
+     * Whether WordPress is about to print its own "Plugin activated." notice on this request.
+     *
+     * Only WordPress 6.4 and up render these notices through a filterable function, so on
+     * older versions we simply add our own notice instead of replacing theirs.
+     */
+    private function should_replace_plugin_activated_notice(): bool
+    {
+        global $pagenow;
+
+        if ($pagenow !== 'plugins.php' || !function_exists('wp_admin_notice')) {
+            return false;
+        }
+
+        // WordPress prints only the first message that matches, in this order. "activate-multi" is
+        // deliberately left alone, since that message covers the other activated plugins too.
+        return isset($_GET['activate']) && !isset($_GET['error']) && !isset($_GET['deleted']);
+    }
+
+    /**
+     * Registers the filter that swaps out the "Plugin activated." notice.
+     *
+     * This runs on the last of the admin notice hooks so that any notice printed by WordPress
+     * itself or by another plugin has already been rendered by the time the filter is added.
+     */
+    public function action_all_admin_notices(): void
+    {
+        add_filter('wp_admin_notice_markup', [$this, 'filter_wp_admin_notice_markup'], 10, 3);
+    }
+
+    /**
+     * @param string $markup
+     * @param string $message
+     * @param array $args
+     * @return string
+     */
+    public function filter_wp_admin_notice_markup($markup, $message, $args)
+    {
+        // the notice we are after is the one WordPress renders with id="message"
+        if (!is_array($args) || ($args['id'] ?? '') !== 'message') {
+            return $markup;
+        }
+
+        // only ever replace a single notice
+        remove_filter('wp_admin_notice_markup', [$this, 'filter_wp_admin_notice_markup'], 10);
+        delete_transient('koko_analytics_show_activation_notice');
+        return $this->get_activation_notice_markup();
+    }
+
+    private function get_activation_notice_markup(): string
+    {
+        $dashboard_url = admin_url('index.php?page=koko-analytics');
+        $menu_path     = '<strong>' . esc_html__('Dashboard', 'koko-analytics') . ' &rarr; ' . esc_html__('Analytics', 'koko-analytics') . '</strong>';
+
+        ob_start();
+        ?>
+        <div class="notice notice-success is-dismissible">
+            <p><strong><?php esc_html_e('Koko Analytics is now collecting statistics for your site.', 'koko-analytics'); ?></strong></p>
+            <p>
+                <?php
+                /* translators: %s: the admin menu path to the dashboard, e.g. "Dashboard → Analytics". */
+                echo wp_kses(sprintf(__('You can view your statistics at any time through %s in the WordPress admin menu.', 'koko-analytics'), $menu_path), ['strong' => []]);
+                ?>
+            </p>
+            <p><a class="button button-primary" href="<?php echo esc_url($dashboard_url); ?>"><?php esc_html_e('View your analytics dashboard', 'koko-analytics'); ?></a></p>
+        </div>
+        <?php
+        return (string) ob_get_clean();
+    }
+
+    private function maybe_show_migration_notice(): void
+    {
         /** @var \wpdb $wpdb */
         global $wpdb;
 
