@@ -64,7 +64,7 @@ class Controller
         }
 
         $own_links = [];
-        
+
         // the dashboard lives under Dashboard > Analytics, which is easy to miss, so link to it from here too
         if (current_user_can('view_koko_analytics')) {
             $href        = esc_url(admin_url('index.php?page=koko-analytics'));

@@ -5,7 +5,7 @@
 - tracking: fall back to fetch() in browsers without support for navigator.sendBeacon.
 - security: stricter validation of pageview and event data, rejecting control characters that could corrupt the buffer file.
 - data: increase the aggregation interval to 65 seconds to reduce the frequency of scheduling conflicts.
-
+- ux: show admin notice with location of analytics dashboard after initial plugin activation.
 
 = 2.5.1 =
 
