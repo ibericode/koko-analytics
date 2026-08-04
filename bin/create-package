@@ -82,7 +82,7 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_SLUG" \
 	-x "$PLUGIN_SLUG/*.lock" \
 	-x "$PLUGIN_SLUG/phpcs.xml" \
 	-x "$PLUGIN_SLUG/phpunit.xml" \
-	-x "$PLUGIN_SLUG/phpstan.dist" \
+	-x "$PLUGIN_SLUG/phpstan.neon" \
 	-x "$PLUGIN_SLUG/AGENTS.md" \
 	-x "$PLUGIN_SLUG/TODO.md" \
 	-x "$PLUGIN_SLUG/*.sh" \
