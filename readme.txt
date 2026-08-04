@@ -40,7 +40,7 @@ Koko Analytics is [open source](https://www.kokoanalytics.com/open-source-wordpr
 * **Path-based tracking** - Track statistics for any URL, including archives and search pages.
 * **Returning visitor detection** - Reliably detect returning visitors without cookies.
 * **Exclusion rules** - Exclude visits from selected WordPress user roles or IP addresses.
-* **Historical data imports** - Import statistics from Jetpack Stats, Plausible, or Burst Statistics.
+* **Historical data imports** - Import statistics from Jetpack Stats, Plausible Analytics, Burst Statistics, Statify, WP Statistics, Independent Analytics, or SlimStat Analytics.
 * **Automatic data cleanup** - Remove historical data older than a chosen number of months or years.
 * **Popular posts output** - Show your most visited posts or pages with a widget, Gutenberg block, or shortcode.
 * **Pageview counter** - Show the total number of pageviews for a page with a shortcode or Gutenberg block.
@@ -92,6 +92,10 @@ Yes. Koko Analytics is open source analytics released under the GPL license, jus
 = Do I need an account to use Koko Analytics? =
 
 No account is needed. Koko Analytics runs on your own WordPress site, and statistics start recording after activation.
+
+= Can I import my statistics from another analytics plugin? =
+
+Yes. Koko Analytics ships with built-in importers for Jetpack Stats, Plausible Analytics, Burst Statistics, Statify, WP Statistics, Independent Analytics, and SlimStat Analytics, so you keep your historical pageviews, visitors, and referrers when you switch. You will find them under Settings > Koko Analytics > Data.
 
 = Does Koko Analytics work with cached pages? =
 
