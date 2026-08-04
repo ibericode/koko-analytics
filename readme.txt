@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -123,6 +123,13 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.5.2 =
+
+- tracking: fall back to fetch() in browsers without support for navigator.sendBeacon.
+- security: stricter validation of pageview and event data, rejecting control characters that could corrupt the buffer file.
+- data: increase the aggregation interval to 65 seconds to reduce the frequency of scheduling conflicts.
+- ux: show admin notice with location of analytics dashboard after initial plugin activation.
+
 = 2.5.1 =
 
 - tracking: more aggressive bot filter lists.
@@ -154,18 +161,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - import: fix column names for the referrer stats table.
 - rest: clamp date range for unauthenticated users to prevent large table scans.
 - review notice: simplify the review notice to one primary action.
-
-
-= 2.3.7 =
-
-- tracking: include UTM parameters in pageview tracking requests so integrations can access campaign data.
-- endpoint: harden pageview and event request validation by checking required parameters and accepted types.
-- endpoint: unslash request data when running inside WordPress.
-- endpoint: use exact buffer filename matching when finding existing buffer files.
-- endpoint: use file locking when writing to buffer and session files.
-- endpoint: handle missing upload or sessions directories more defensively.
-- dashboard: fix saving component order when the page contains non-sortable dashboard columns.
-- dashboard: keep an explicit group parameter when switching chart grouping back to days.
-- docs: add campaign parameters to in-plugin links to Koko Analytics documentation and Pro pages.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
