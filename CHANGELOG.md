@@ -7,6 +7,7 @@
 - data: increase the aggregation interval to 65 seconds to reduce the frequency of scheduling conflicts.
 - ux: show admin notice with location of analytics dashboard after initial plugin activation.
 
+
 = 2.5.1 =
 
 - tracking: more aggressive bot filter lists.

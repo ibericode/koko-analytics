@@ -8,7 +8,7 @@ License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
 
-Pivacy-friendly and lightweight Google Analytics alternative for WordPress sites. No cookies, just insights.
+Privacy-friendly and lightweight Google Analytics alternative for WordPress sites. No cookies, just insights.
 
 == Description ==
 
