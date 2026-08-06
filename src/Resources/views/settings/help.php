@@ -23,7 +23,13 @@ if (defined('KOKO_ANALYTICS_PRO_VERSION')) {
 <h2 class="mt-0 mb-3"><?php esc_html_e('Help', 'koko-analytics'); ?></h2>
 <div class="mb-5">
     <ul class="ul-square">
-        <li><a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-help">Upgrade to Koko Analytics Pro</a> to get direct email support from the plugin builder.</li>
+        <?php if (defined('KOKO_ANALYTICS_PRO_VERSION')) : ?>
+            <?php /* translators: 1: opening anchor tag, 2: closing anchor tag. */ ?>
+            <li><?php printf(esc_html__('As a Koko Analytics Pro user, you can email us directly at %1$ssupport@kokoanalytics.com%2$s for help.', 'koko-analytics'), '<a href="mailto:support@kokoanalytics.com">', '</a>'); ?></li>
+        <?php else : ?>
+            <li><a href="https://www.kokoanalytics.com/pricing/?utm_source=koko-analytics&utm_medium=link&utm_campaign=free-plugin-settings-help">Upgrade to Koko Analytics Pro</a> to get direct email support from the plugin builder.</li>
+        <?php endif; ?>
+
         <?php /* translators: 1: opening anchor tag, 2: closing anchor tag. */ ?>
         <li><?php printf(esc_html__('Have a look at our %1$sknowledge base%2$s for help with configuring and using Koko Analytics.', 'koko-analytics'), '<a href="https://www.kokoanalytics.com/docs/#utm_source=koko-analytics&amp;utm_medium=link&amp;utm_campaign=free-plugin-settings-help-docs" target="_blank">', '</a>'); ?></li>
         <?php /* translators: 1: opening anchor tag, 2: closing anchor tag. */ ?>
