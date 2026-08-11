@@ -271,6 +271,14 @@ class Dashboard
         return $components;
     }
 
+    /**
+     * Whether to output the previous/next links in the pagination component.
+     */
+    protected function show_pagination_links(): bool
+    {
+        return true;
+    }
+
     public function pagination(string $key, int $offset, int $limit, int $count): void
     {
         if ($offset >= $limit || $offset + $limit < $count) {
@@ -282,6 +290,7 @@ class Dashboard
                 printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset + 1, (int) min($count, $offset + $limit), (int) $count);
                 ?>
             </span>
+            <?php if ($this->show_pagination_links()) : ?>
             <span>
                 <?php if ($offset >= $limit) : ?>
                     <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
@@ -295,6 +304,7 @@ class Dashboard
                     <span class="ka-pagination2-muted"><?php esc_html_e('Next', 'koko-analytics'); ?> →</span>
                 <?php endif; ?>
             </span>
+            <?php endif; ?>
         </div>
             <?php
         }
