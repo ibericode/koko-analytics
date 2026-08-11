@@ -16,6 +16,8 @@ class Dashboard
     public const MAX_LIMIT  = 100;
     public const MAX_OFFSET = 10000;
 
+    private static bool $show_pagination_links = true;
+
     public static function clamp_limit($value, int $default = 10, int $minimum = 1): int
     {
         $limit = isset($value) ? absint($value) : $default;
@@ -272,14 +274,20 @@ class Dashboard
     }
 
     /**
-     * Whether to output the previous/next links in the pagination component.
+     * Hides the previous/next links in every pagination component rendered from here on.
      */
-    protected function show_pagination_links(): bool
+    public static function hide_pagination_links(): void
     {
-        return true;
+        self::$show_pagination_links = false;
     }
 
-    public function pagination(string $key, int $offset, int $limit, int $count): void
+    /**
+     * Renders the pagination component for a dashboard component.
+     *
+     * @param string $key        The query string key holding the offset & limit for this component.
+     * @param array  $extra_args Additional query args to preserve in the previous/next links.
+     */
+    public static function pagination(string $key, int $offset, int $limit, int $count, array $extra_args = []): void
     {
         if ($offset >= $limit || $offset + $limit < $count) {
             ?>
@@ -290,16 +298,16 @@ class Dashboard
                 printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset + 1, (int) min($count, $offset + $limit), (int) $count);
                 ?>
             </span>
-            <?php if ($this->show_pagination_links()) : ?>
+            <?php if (self::$show_pagination_links) : ?>
             <span>
                 <?php if ($offset >= $limit) : ?>
-                    <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? ['offset' => $offset - $limit, 'limit' => $limit] : null ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? array_merge($extra_args, ['offset' => $offset - $limit, 'limit' => $limit]) : ($extra_args ?: null) ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
                 <?php else : ?>
                     <span class="ka-pagination2-muted">← <?php esc_html_e('Previous', 'koko-analytics'); ?></span>
                 <?php endif; ?>
                 <span> · </span>
                 <?php if ($offset + $limit < $count) : ?>
-                <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => ['offset' => $offset + $limit, 'limit' => $limit]])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
+                <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => array_merge($extra_args, ['offset' => $offset + $limit, 'limit' => $limit])])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
                 <?php else : ?>
                     <span class="ka-pagination2-muted"><?php esc_html_e('Next', 'koko-analytics'); ?> →</span>
                 <?php endif; ?>
@@ -363,7 +371,7 @@ class Dashboard
             <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
         <?php } ?>
 
-        <?php $this->pagination('posts', $offset, $limit, $count); ?>
+        <?php self::pagination('posts', $offset, $limit, $count); ?>
             
         <?php
     }
@@ -415,7 +423,7 @@ class Dashboard
             <p class="ka-empty-state"><?php esc_html_e('There is nothing here. Yet!', 'koko-analytics'); ?></p>
         <?php } ?>
 
-        <?php $this->pagination('referrers', $offset, $limit, $count); ?>
+        <?php self::pagination('referrers', $offset, $limit, $count); ?>
         
         <?php
     }

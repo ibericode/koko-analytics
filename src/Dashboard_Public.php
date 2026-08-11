@@ -15,14 +15,6 @@ class Dashboard_Public extends Dashboard
         return add_query_arg(['koko-analytics-dashboard' => ''], home_url());
     }
 
-    /**
-     * The public dashboard is crawlable, so don't hand out paginated URLs for bots to follow.
-     */
-    protected function show_pagination_links(): bool
-    {
-        return false;
-    }
-
     public function show()
     {
         $settings = get_settings();
@@ -38,6 +30,9 @@ class Dashboard_Public extends Dashboard
             header("X-Robots-Tag: noindex, nofollow", true);
             exit;
         }
+
+        // the public dashboard is crawlable, so don't hand out paginated URLs for bots to follow
+        self::hide_pagination_links();
 
         do_action('koko_analytics_public_dashboard_headers');
 

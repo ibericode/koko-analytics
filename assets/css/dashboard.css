@@ -243,7 +243,7 @@ body.koko-analytics {
   .ka-chart-legend { display: none; }
 }
 .page-filter-active tr,
-.page-filter-active .ka-pagination  {
+.page-filter-active .ka-pagination2  {
   opacity: 0.5;
 }
 .page-filter-active tr.page-filter-active  {
@@ -586,16 +586,6 @@ textarea.ka-input {
 /* end forms */
 
 /* pagination */
-
-/* old style pagination, used in Pro components */
-.ka-pagination {
-  display: flex;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid rgb(240, 240, 240);
-}
-.ka-pagination--next {
-  margin-left: auto;
-}
 
 /* new style pagination (2026-07-03) */
 .ka-pagination2 {
