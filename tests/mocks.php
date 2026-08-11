@@ -7,6 +7,7 @@ define('HOUR_IN_SECONDS', 3600);
 
 $options = [];
 $hooks = [];
+$option_updates = [];
 
 function is_admin()
 {
@@ -73,8 +74,9 @@ function register_deactivation_hook($file, $callback)
 
 function update_option($option_name, $value, $autoload = false)
 {
-    global $options;
+    global $options, $option_updates;
     $options[$option_name] = $value;
+    $option_updates[$option_name] = ($option_updates[$option_name] ?? 0) + 1;
 }
 
 function get_option($option_name, $default = null)

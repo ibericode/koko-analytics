@@ -12,8 +12,10 @@ use Exception;
 
 class Aggregator
 {
+    private const CHUNK_SIZE = 10000;
+
     /**
-     * Reads the buffer file into memory and moves data into the MySQL database (in bulk)
+     * Reads the buffer file in chunks and moves data into the MySQL database.
      *
      * @throws Exception
      */
@@ -28,6 +30,7 @@ class Aggregator
 
         // init pageview aggregator
         $pageview_aggregator = new Pageview_Aggregator();
+        $records_in_chunk    = 0;
 
         // rename file to temporary location so nothing new is written to it while we process it
         $tmp_filename = $buffer_file . '.busy';
@@ -70,16 +73,36 @@ class Aggregator
 
             // add-on aggregators
             do_action('koko_analytics_aggregate_line', $type, $params);
+
+            ++$records_in_chunk;
+            if ($records_in_chunk === self::CHUNK_SIZE) {
+                $this->flush($pageview_aggregator);
+                $records_in_chunk = 0;
+            }
         }
+
+        if ($records_in_chunk > 0) {
+            $this->flush($pageview_aggregator);
+        }
+
+        // Finalize state that remains bounded across chunks, such as realtime counts.
+        $pageview_aggregator->finish();
 
         // close file & remove it from filesystem
         \fclose($file_handle);
         \unlink($tmp_filename);
 
-        // tell aggregators to write their results to the database
-        $pageview_aggregator->finish();
+        // signal that the entire buffer file was processed
         do_action('koko_analytics_aggregate_finish');
 
         update_option('koko_analytics_last_aggregation_at', \time(), false);
+    }
+
+    private function flush(Pageview_Aggregator $pageview_aggregator): void
+    {
+        $pageview_aggregator->finish(false);
+
+        // Allow add-on aggregators to persist and reset their in-memory state.
+        do_action('koko_analytics_aggregate_chunk_finish');
     }
 }

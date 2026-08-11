@@ -16,6 +16,8 @@ use wpdb;
 
 class Pageview_Aggregator
 {
+    private const DATABASE_BATCH_SIZE = 500;
+
     protected wpdb $db;
     protected DateTimeZone $timezone;
     protected array $site_stats     = [];
@@ -83,12 +85,14 @@ class Pageview_Aggregator
         }
     }
 
-    public function finish(): void
+    public function finish(bool $update_realtime = true): void
     {
         $this->commit_site_stats();
         $this->commit_post_stats();
         $this->commit_referrer_stats();
-        $this->update_realtime_pageview_count();
+        if ($update_realtime) {
+            $this->update_realtime_pageview_count();
+        }
     }
 
     private function commit_site_stats(): void
@@ -102,17 +106,19 @@ class Pageview_Aggregator
 
     private function commit_post_stats(): void
     {
-        $upserter = new Upserter('paths', 'path');
+        $upserter = new Upserter('paths', 'path', $this->db);
 
         // insert page-specific stats
         foreach ($this->post_stats as $date => $stats) {
-            $path_ids = $upserter->upsert(array_keys($stats));
-            $values   = [];
-            foreach ($stats as $path => $r) {
-                array_push($values, $date, $path_ids[$path], $r->post_id, $r->visitors, $r->pageviews);
+            foreach (array_chunk($stats, self::DATABASE_BATCH_SIZE, true) as $batch) {
+                $path_ids = $upserter->upsert(array_keys($batch));
+                $values   = [];
+                foreach ($batch as $path => $r) {
+                    array_push($values, $date, $path_ids[$path], $r->post_id, $r->visitors, $r->pageviews);
+                }
+                $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($batch)), ',');
+                $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d,%d),', count($stats)), ',');
-            $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_post_stats(date, path_id, post_id, visitors, pageviews) VALUES {$placeholders} ON DUPLICATE KEY UPDATE visitors = visitors + VALUES(visitors), pageviews = pageviews + VALUES(pageviews)", $values));
         }
 
         $this->post_stats = [];
@@ -120,17 +126,19 @@ class Pageview_Aggregator
 
     private function commit_referrer_stats(): void
     {
-        $upserter = new Upserter('referrer_labels', 'value');
+        $upserter = new Upserter('referrer_labels', 'value', $this->db);
 
         // insert referrer stats
         foreach ($this->referrer_stats as $date => $stats) {
-            $referrer_ids = $upserter->upsert(array_keys($stats));
-            $values       = [];
-            foreach ($stats as $url => $r) {
-                array_push($values, $date, $referrer_ids[$url], $r->visitors, $r->pageviews);
+            foreach (array_chunk($stats, self::DATABASE_BATCH_SIZE, true) as $batch) {
+                $referrer_ids = $upserter->upsert(array_keys($batch));
+                $values       = [];
+                foreach ($batch as $url => $r) {
+                    array_push($values, $date, $referrer_ids[$url], $r->visitors, $r->pageviews);
+                }
+                $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($batch)), ',');
+                $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE unique_hits = unique_hits + VALUES(unique_hits), hits = hits + VALUES(hits)", $values));
             }
-            $placeholders = rtrim(str_repeat('(%s,%d,%d,%d),', count($stats)), ',');
-            $this->db->query($this->db->prepare("INSERT INTO {$this->db->prefix}koko_analytics_referrer_stats(date, id, unique_hits, hits) VALUES {$placeholders} ON DUPLICATE KEY UPDATE unique_hits = unique_hits + VALUES(unique_hits), hits = hits + VALUES(hits)", $values));
         }
 
         $this->referrer_stats = [];
