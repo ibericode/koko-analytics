@@ -13,7 +13,6 @@ defined('ABSPATH') || exit;
  * @var object $totals
  * @var int $realtime
  * @var string $date_format
- * @var string $dashboard_url
  * @var array $next_dates
  * @var array $prev_dates
  */
@@ -39,15 +38,16 @@ $tab = 'dashboard';
                     <div class="mb-3 bg-dark text-white p-3 rounded-top fw-bold d-flex justify-content-between">
                         <?php
                         // only output pagination for date ranges between reasonable dates... to prevent ever-crawling bots from going wild
+                        // the target URL is assembled in JS from these dates, so no crawlable URL ever appears in the document
                         ?>
                         <?php if ($date_start > $total_start_date) { ?>
-                            <a class="js-quicknav-prev text-decoration-none text-white me-2" href="" data-href="<?= esc_attr(add_query_arg(['start_date' => $prev_dates[0]->format('Y-m-d'), 'end_date' => $prev_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">◂</a>
+                            <a class="js-quicknav-prev text-decoration-none text-white me-2" href="" data-start-date="<?= esc_attr($prev_dates[0]->format('Y-m-d')); ?>" data-end-date="<?= esc_attr($prev_dates[1]->format('Y-m-d')); ?>" rel="nofollow">◂</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white me-2">◂</a>
                         <?php } ?>
                         <span><?php echo esc_html(wp_date($date_format, $date_start->getTimestamp())); ?> — <?= esc_html(wp_date($date_format, $date_end->getTimestamp())); ?></span>
                         <?php if ($date_end < $total_end_date) { ?>
-                            <a class="js-quicknav-next text-decoration-none text-white ms-2" href="" data-href="<?= esc_attr(add_query_arg(['start_date' => $next_dates[0]->format('Y-m-d'), 'end_date' => $next_dates[1]->format('Y-m-d')], $dashboard_url)); ?>" rel="nofollow">▸</a>
+                            <a class="js-quicknav-next text-decoration-none text-white ms-2" href="" data-start-date="<?= esc_attr($next_dates[0]->format('Y-m-d')); ?>" data-end-date="<?= esc_attr($next_dates[1]->format('Y-m-d')); ?>" rel="nofollow">▸</a>
                         <?php } else { ?>
                             <a class="text-decoration-none text-white ms-2">▸</a>
                         <?php } ?>

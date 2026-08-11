@@ -40,7 +40,6 @@ class Dashboard
         $stats          = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
         $date_format    = get_option('date_format', 'Y-m-d');
-        $dashboard_url  = $this->get_base_url();
 
         // parse query params
         if (isset($_GET['start_date']) || isset($_GET['end_date'])) {

@@ -34,9 +34,22 @@ document.addEventListener('keydown', function (evt) {
 })
 
 // fake <a> elements to stop bots from crawling infinitely
-document.querySelectorAll('a[data-href]').forEach(function(el) {
+// the HTML only carries the target dates, we assemble the URL here so the document holds no crawlable link
+// note we keep just the query args identifying the dashboard itself, dropping any active filter or pagination
+document.querySelectorAll('a[data-start-date][data-end-date]').forEach(function(el) {
   el.addEventListener('click', function(evt) {
     evt.preventDefault();
-    window.location.href = el.getAttribute('data-href');
+
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams();
+    ['page', 'koko-analytics-dashboard'].forEach(function(key) {
+      if (url.searchParams.has(key)) {
+        params.set(key, url.searchParams.get(key));
+      }
+    });
+    params.set('start_date', el.getAttribute('data-start-date'));
+    params.set('end_date', el.getAttribute('data-end-date'));
+    url.search = params.toString();
+    window.location.href = url.toString();
   });
 });
