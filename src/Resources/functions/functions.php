@@ -54,6 +54,59 @@ function get_settings(): array
     return apply_filters('koko_analytics_settings', $settings);
 }
 
+/**
+ * Wrapper around add_query_arg() that returns the URL with its query string in a canonical order.
+ *
+ * All dashboard links should be created through this function. Since add_query_arg() keeps the query
+ * parameters of the current request in whatever order they came in, links pointing at the exact same
+ * view can otherwise end up with a different query string on every request. Sorting the parameters
+ * keeps the number of distinct dashboard URLs to a minimum, which helps any cache (browser, page
+ * cache or CDN) in front of the public dashboard.
+ *
+ * Takes the same arguments as add_query_arg(), so a value of null removes that parameter.
+ *
+ * @param array<string, mixed> $args
+ * @param string|null $url URL to add the query args to. Defaults to the URL of the current request.
+ */
+function dashboard_url(array $args = [], ?string $url = null): string
+{
+    return sort_query_string($url === null ? add_query_arg($args) : add_query_arg($args, $url));
+}
+
+/**
+ * Sorts the query string of the given URL by parameter name, leaving the rest of the URL untouched.
+ */
+function sort_query_string(string $url): string
+{
+    $start = strpos($url, '?');
+    if ($start === false) {
+        return $url;
+    }
+
+    $query    = substr($url, $start + 1);
+    $fragment = '';
+    $hash     = strpos($query, '#');
+    if ($hash !== false) {
+        $fragment = substr($query, $hash);
+        $query    = substr($query, 0, $hash);
+    }
+
+    if ($query === '') {
+        return $url;
+    }
+
+    $pairs = explode('&', $query);
+    $names = array_map(function ($pair) {
+        return explode('=', $pair, 2)[0];
+    }, $pairs);
+    $order = array_keys($pairs);
+
+    // sort by parameter name, keeping parameters that share a name in their original order
+    array_multisort($names, SORT_ASC, SORT_STRING, $order, SORT_ASC, SORT_NUMERIC, $pairs);
+
+    return substr($url, 0, $start + 1) . implode('&', $pairs) . $fragment;
+}
+
 function get_most_viewed_post_ids(array $args)
 {
     global $wpdb;

@@ -300,13 +300,13 @@ class Dashboard
             <?php if (self::$show_pagination_links) : ?>
             <span>
                 <?php if ($offset >= $limit) : ?>
-                    <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => $offset >= $limit * 2 ? array_merge($extra_args, ['offset' => $offset - $limit, 'limit' => $limit]) : ($extra_args ?: null) ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => $offset >= $limit * 2 ? array_merge($extra_args, ['offset' => $offset - $limit, 'limit' => $limit]) : ($extra_args ?: null) ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
                 <?php else : ?>
                     <span class="ka-pagination2-muted">← <?php esc_html_e('Previous', 'koko-analytics'); ?></span>
                 <?php endif; ?>
                 <span> · </span>
                 <?php if ($offset + $limit < $count) : ?>
-                <a  href="<?php echo esc_attr(add_query_arg(['p' => null, $key => array_merge($extra_args, ['offset' => $offset + $limit, 'limit' => $limit])])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
+                <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => array_merge($extra_args, ['offset' => $offset + $limit, 'limit' => $limit])])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
                 <?php else : ?>
                     <span class="ka-pagination2-muted"><?php esc_html_e('Next', 'koko-analytics'); ?> →</span>
                 <?php endif; ?>
@@ -356,7 +356,7 @@ class Dashboard
                     <tr <?= (string) $page === $page_filter ? 'class="page-filter-active"' : ''; ?> style="background: linear-gradient(to right, var(--koko-analytics-row-gradient-color) <?= esc_attr((string) $pct); ?>%, transparent <?= esc_attr((string) $pct); ?>%);">
                         <td class="text-muted"><?= esc_html((string) ($offset + $i + 1)); ?></td>
                         <td class="text-truncate">
-                            <a href="<?= esc_attr(add_query_arg(['p' => $page_filter])); ?>"><?= esc_html($p->label); ?></a>
+                            <a href="<?= esc_attr(dashboard_url(['p' => $page_filter])); ?>"><?= esc_html($p->label); ?></a>
                             <a class="ka-visit-link" href="<?= esc_url($p->post_permalink); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e('View page', 'koko-analytics'); ?>"><i class="icon icon-sm icon-external-link" aria-hidden="true"></i></a>
                         </td>
                         <td class="text-end d-none d-lg-table-cell"><?= esc_html(number_format_i18n(max(1, $p->visitors))); ?></td>

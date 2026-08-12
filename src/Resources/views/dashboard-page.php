@@ -3,6 +3,8 @@
 use KokoAnalytics\Chart_View;
 use KokoAnalytics\Fmt;
 
+use function KokoAnalytics\dashboard_url;
+
 defined('ABSPATH') || exit;
 
 
@@ -97,7 +99,7 @@ $tab = 'dashboard';
                 <?php $filtered_permalink = $filtered_post_id > 0 ? get_permalink($filtered_post_id) : home_url($page); ?>
                 <?php $filtered_label = $filtered_post_id > 0 ? get_the_title($filtered_post_id) : $page; ?>
                 <a class="" href="<?= esc_url($filtered_permalink); ?>"><?= esc_html($filtered_label); ?></a>
-                <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?= esc_attr(remove_query_arg('p')); ?>">✕</a>
+                <a class="text-decoration-none text-reset ms-2" aria-label="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" title="<?php esc_attr_e('Clear page filter', 'koko-analytics'); ?>" href="<?= esc_attr(dashboard_url(['p' => null])); ?>">✕</a>
             </div>
 
             <?php do_action('koko_analytics_after_datepicker', $date_start, $date_end); ?>

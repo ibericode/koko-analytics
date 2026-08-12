@@ -43,7 +43,7 @@ class Chart_View
                 </div>
                 <div class="ka-chart-group">
                     <?php foreach ($group_options as $key => $option) : ?>
-                        <a href="<?= esc_attr(add_query_arg(['group' => $key])); ?>" class="<?php echo $group === $key ? 'on' : ''; ?>" rel="nofollow"><?php echo esc_html($option['label']); ?></a>
+                        <a href="<?= esc_attr(dashboard_url(['group' => $key])); ?>" class="<?php echo $group === $key ? 'on' : ''; ?>" rel="nofollow"><?php echo esc_html($option['label']); ?></a>
                     <?php endforeach; ?>
                 </div>
             </div>

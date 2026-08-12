@@ -31,6 +31,16 @@ class Dashboard_Public extends Dashboard
             exit;
         }
 
+        // redirect to the canonical URL for this view, so that visitors arriving through a link that
+        // was shared or crawled hit the same cache entry as everyone else
+        // GET only: a 301 would turn the POST that saves the component order into a GET
+        $request_uri = wp_unslash($_SERVER['REQUEST_URI'] ?? '');
+        $canonical   = sort_query_string($request_uri);
+        if ($canonical !== $request_uri && wp_unslash($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {
+            wp_safe_redirect($canonical, 301);
+            exit;
+        }
+
         // the public dashboard is crawlable, so don't hand out paginated URLs for bots to follow
         self::hide_pagination_links();
 

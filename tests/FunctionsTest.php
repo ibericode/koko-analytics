@@ -12,6 +12,7 @@ use function KokoAnalytics\get_client_ip;
 use function KokoAnalytics\is_automated_request;
 use function KokoAnalytics\get_buffer_filename;
 use function KokoAnalytics\get_settings;
+use function KokoAnalytics\sort_query_string;
 use function KokoAnalytics\get_realtime_pageview_count;
 use function KokoAnalytics\get_request_params;
 use function KokoAnalytics\determine_uniqueness_cookie;
@@ -20,6 +21,32 @@ use function KokoAnalytics\collect_in_file;
 
 final class FunctionsTest extends TestCase
 {
+    public function testSortQueryString(): void
+    {
+        // nothing to sort
+        $this->assertEquals('https://example.com/', sort_query_string('https://example.com/'));
+        $this->assertEquals('https://example.com/?', sort_query_string('https://example.com/?'));
+        $this->assertEquals('https://example.com/?p=1', sort_query_string('https://example.com/?p=1'));
+
+        // different orders of the same params result in the exact same URL
+        $expected = 'https://example.com/?end_date=2026-01-31&page=koko-analytics&start_date=2026-01-01';
+        $this->assertEquals($expected, sort_query_string('https://example.com/?page=koko-analytics&start_date=2026-01-01&end_date=2026-01-31'));
+        $this->assertEquals($expected, sort_query_string('https://example.com/?end_date=2026-01-31&start_date=2026-01-01&page=koko-analytics'));
+        $this->assertEquals($expected, sort_query_string($expected));
+
+        // values are left untouched, nested params sort on their full (encoded) name
+        $this->assertEquals(
+            'https://example.com/?p=%2Fhello-world%2F&posts%5Blimit%5D=10&posts%5Boffset%5D=20',
+            sort_query_string('https://example.com/?posts%5Boffset%5D=20&posts%5Blimit%5D=10&p=%2Fhello-world%2F')
+        );
+
+        // params without a value and repeated params
+        $this->assertEquals('https://example.com/?a=2&a=1&koko-analytics-dashboard', sort_query_string('https://example.com/?koko-analytics-dashboard&a=2&a=1'));
+
+        // fragment stays at the end
+        $this->assertEquals('https://example.com/?a=1&b=2#top', sort_query_string('https://example.com/?b=2&a=1#top'));
+    }
+
     public function testExtractPageviewData(): void
     {
         // incomplete params
