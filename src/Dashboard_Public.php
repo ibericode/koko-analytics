@@ -23,6 +23,15 @@ class Dashboard_Public extends Dashboard
             return;
         }
 
+        // this dashboard is a read-only view, so only ever answer GET (and HEAD) requests
+        // any other method is uncacheable, and would be a way to force a full render past every cache
+        $method = wp_unslash($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        if ($method !== 'GET' && $method !== 'HEAD') {
+            status_header(405);
+            header('Allow: GET, HEAD');
+            exit;
+        }
+
         // don't serve public dashboard to anything that looks like a bot or crawler
         $user_agent = wp_unslash($_SERVER['HTTP_USER_AGENT'] ?? '');
         if ($user_agent === '' || preg_match('/bot|crawl|crawler|spider|slurp|ahrefs|semrush|mj12bot|dotbot|bingpreview/i', $user_agent)) {
@@ -33,10 +42,9 @@ class Dashboard_Public extends Dashboard
 
         // redirect to the canonical URL for this view, so that visitors arriving through a link that
         // was shared or crawled hit the same cache entry as everyone else
-        // GET only: a 301 would turn the POST that saves the component order into a GET
         $request_uri = wp_unslash($_SERVER['REQUEST_URI'] ?? '');
         $canonical   = sort_query_string($request_uri);
-        if ($canonical !== $request_uri && wp_unslash($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {
+        if ($canonical !== $request_uri) {
             wp_safe_redirect($canonical, 301);
             exit;
         }
