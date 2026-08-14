@@ -273,11 +273,19 @@ class Dashboard
     }
 
     /**
-     * Hides the previous/next links in every pagination component rendered from here on.
+     * Hides the previous/next links in the datepicker and in every pagination component rendered from here on.
      */
     public static function hide_pagination_links(): void
     {
         self::$show_pagination_links = false;
+    }
+
+    /**
+     * Whether previous/next links should be rendered at all.
+     */
+    public static function shows_pagination_links(): bool
+    {
+        return self::$show_pagination_links;
     }
 
     /**

@@ -35,19 +35,23 @@ dateStartInput && dateStartInput.addEventListener('change', setPresetToCustom);
 dateEndInput && dateEndInput.addEventListener('change', setPresetToCustom);
 
 // click "prev date range" or "next date range" when using arrow keys
+// note these links are not always there, eg on the public dashboard or at the edges of the available date range
 document.addEventListener('keydown', function (evt) {
   if (evt.defaultPrevented) {
     return; // Do nothing if the event was already processed
   }
 
+  var quicknav;
   switch (evt.key) {
   case 'ArrowLeft':
-    document.querySelector('.js-quicknav-prev').click();
+    quicknav = document.querySelector('.js-quicknav-prev');
     break;
   case 'ArrowRight':
-    document.querySelector('.js-quicknav-next').click();
+    quicknav = document.querySelector('.js-quicknav-next');
     break;
   }
+
+  quicknav && quicknav.click();
 })
 
 // fake <a> elements to stop bots from crawling infinitely
