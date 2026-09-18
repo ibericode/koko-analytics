@@ -112,9 +112,7 @@ class Rest
 
     public function permission_callback(): bool
     {
-        $settings            = get_settings();
-        $is_dashboard_public = $settings['is_dashboard_public'];
-        return $is_dashboard_public || current_user_can('view_koko_analytics');
+        return can_view_dashboard();
     }
 
     private function respond($data): \WP_REST_Response

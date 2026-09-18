@@ -18,6 +18,7 @@ use function KokoAnalytics\get_request_params;
 use function KokoAnalytics\determine_uniqueness_cookie;
 use function KokoAnalytics\determine_uniqueness_fingerprint;
 use function KokoAnalytics\collect_in_file;
+use function KokoAnalytics\can_view_dashboard;
 
 final class FunctionsTest extends TestCase
 {
@@ -213,6 +214,38 @@ final class FunctionsTest extends TestCase
             $this->assertSame(['pages', 'referrers'], $settings['component_order']);
         } finally {
             $hooks['koko_analytics_settings'] = $existing_filters;
+        }
+    }
+
+    public function testCanViewDashboardUsesCapabilityAndPublicAccessFilter(): void
+    {
+        global $current_user_can, $hooks;
+
+        $existing_filters = $hooks['koko_analytics_can_view_public_dashboard'] ?? [];
+        $existing_capability = $current_user_can;
+
+        try {
+            update_option('koko_analytics_settings', ['is_dashboard_public' => 0]);
+            $current_user_can = false;
+            $this->assertFalse(can_view_dashboard());
+
+            $current_user_can = true;
+            $this->assertTrue(can_view_dashboard());
+
+            update_option('koko_analytics_settings', ['is_dashboard_public' => 1]);
+            $current_user_can = false;
+            $this->assertTrue(can_view_dashboard());
+
+            add_filter('koko_analytics_can_view_public_dashboard', function ($can_view, array $settings): bool {
+                $this->assertTrue($can_view);
+                $this->assertSame(1, $settings['is_dashboard_public']);
+                return false;
+            }, 10, 2);
+            $this->assertFalse(can_view_dashboard());
+        } finally {
+            delete_option('koko_analytics_settings');
+            $current_user_can = $existing_capability;
+            $hooks['koko_analytics_can_view_public_dashboard'] = $existing_filters;
         }
     }
 

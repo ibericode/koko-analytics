@@ -55,6 +55,23 @@ function get_settings(): array
 }
 
 /**
+ * Returns whether the current request may view the analytics dashboard.
+ */
+function can_view_dashboard(?array $settings = null): bool
+{
+    if (current_user_can('view_koko_analytics')) {
+        return true;
+    }
+
+    $settings = $settings ?? get_settings();
+    if (empty($settings['is_dashboard_public'])) {
+        return false;
+    }
+
+    return (bool) apply_filters('koko_analytics_can_view_public_dashboard', true, $settings);
+}
+
+/**
  * Wrapper around add_query_arg() that returns the URL with its query string in a canonical order.
  *
  * All dashboard links should be created through this function. Since add_query_arg() keeps the query

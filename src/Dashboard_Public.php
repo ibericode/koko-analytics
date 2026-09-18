@@ -19,9 +19,6 @@ class Dashboard_Public extends Dashboard
     {
         $settings = get_settings();
         $today    = (new DateTimeImmutable('now', wp_timezone()))->format('Y-m-d');
-        if (!$settings['is_dashboard_public'] && !current_user_can('view_koko_analytics')) {
-            return;
-        }
 
         // this dashboard is a read-only view, so only ever answer GET (and HEAD) requests
         // any other method is uncacheable, and would be a way to force a full render past every cache
@@ -49,6 +46,11 @@ class Dashboard_Public extends Dashboard
             exit;
         }
 
+        if (! can_view_dashboard($settings)) {
+            do_action('koko_analytics_public_dashboard_access_denied', $settings);
+            return;
+        }
+
         // the public dashboard is crawlable, so don't hand out paginated URLs for bots to follow
         self::hide_pagination_links();
 
@@ -57,12 +59,14 @@ class Dashboard_Public extends Dashboard
         header("Content-Type: text/html; charset=utf-8");
         header("X-Robots-Tag: noindex, nofollow");
         if (is_user_logged_in()) {
-            header("Cache-Control: no-store, must-revalidate, no-cache, max-age=0, private");
+            $cache_control = 'no-store, must-revalidate, no-cache, max-age=0, private';
         } elseif (isset($_GET['end_date'], $_GET['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', wp_unslash($_GET['start_date'])) && preg_match('/^\d{4}-\d{2}-\d{2}$/', wp_unslash($_GET['end_date'])) && wp_unslash($_GET['end_date']) < $today) {
-            header("Cache-Control: public, max-age=68400");
+            $cache_control = 'public, max-age=68400';
         } else {
-            header("Cache-Control: public, max-age=60");
+            $cache_control = 'public, max-age=60';
         }
+        $cache_control = (string) apply_filters('koko_analytics_public_dashboard_cache_control', $cache_control, $settings);
+        header("Cache-Control: {$cache_control}");
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-public.php';
         exit;

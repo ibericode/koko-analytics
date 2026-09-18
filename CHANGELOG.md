@@ -1,5 +1,14 @@
 # Changelog
 
+= 2.5.3 =
+
+- security: enforce the same access checks for public dashboard pages and REST API requests, fixing bypasses of Pro password protection.
+- dashboard: reduce crawler and cache load by only accepting read requests, canonicalizing query parameters, and hiding pagination and date navigation on public dashboards.
+- dashboard: only enable component sorting in the admin dashboard, where changes can be saved.
+- perf: process aggregation buffers in chunks to reduce peak memory usage on busy sites.
+- docs: show the dedicated support address to Pro users on the help page.
+
+
 = 2.5.2 =
 
 - tracking: fall back to fetch() in browsers without support for navigator.sendBeacon.

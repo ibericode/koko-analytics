@@ -8,10 +8,17 @@ define('HOUR_IN_SECONDS', 3600);
 $options = [];
 $hooks = [];
 $option_updates = [];
+$current_user_can = false;
 
 function is_admin()
 {
     return false;
+}
+
+function current_user_can($capability)
+{
+    global $current_user_can;
+    return $current_user_can;
 }
 
 function add_action($hook, $callback, $c = 10, $d = 1)
@@ -26,7 +33,7 @@ function do_action($hook, ...$args)
     global $hooks;
     $actions = $hooks[$hook] ?? [];
     foreach ($actions as $a) {
-        $a();
+        $a(...$args);
     }
 }
 
@@ -35,13 +42,13 @@ function add_filter($hook, $callback, $c = 10, $d = 1)
     add_action($hook, $callback, $c, $d);
 }
 
-function apply_filters($hook, $value, $prio = 10, $args = 2)
+function apply_filters($hook, $value, ...$args)
 {
     global $hooks;
 
     $filters = $hooks[$hook] ?? [];
     foreach ($filters as $cb) {
-        $value = $cb($value);
+        $value = $cb($value, ...$args);
     }
 
     return $value;
