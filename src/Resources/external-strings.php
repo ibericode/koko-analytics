@@ -2,35 +2,29 @@
 
 // i18n strings for koko-analytics-pro
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#18
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#20
 __('Top referrers', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#19
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#21
 __('Where your visitors came from', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#27
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#29
 __('Referrers report type', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#34
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#36
 __('A visitor represents the number of sessions during which a page was viewed one or more times.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#34
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#36
 __('Visitors', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#35
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#37
 __('A pageview is defined as a view of a page on your site. If a user clicks reload after reaching the page, this is counted as an additional pageview. If a visitor navigates to a different page and then returns to the original page, a second pageview is recorded as well.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#35
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#37
 __('Pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#52
+// ../koko-analytics-pro/src/UTM/views/dashboard.php#54
 __('There is nothing here. Yet!', 'koko-analytics');
-
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#61
-__('Previous', 'koko-analytics');
-
-// ../koko-analytics-pro/src/UTM/views/dashboard.php#73
-__('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/UTM/views/setting.php#8
 __('Enable UTM tracking?', 'koko-analytics');
@@ -164,22 +158,22 @@ __('Number of days to use for pageviews column', 'koko-analytics');
 // ../koko-analytics-pro/src/Column/Table.php#131
 __('Pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Password/views/password-form.php#80
+// ../koko-analytics-pro/src/Password/views/password-form.php#84
 __('Enter password to access the dashboard', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Password/views/password-form.php#82
-__('Incorrect password. Please try again.', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Password/views/password-form.php#84
+// ../koko-analytics-pro/src/Password/views/password-form.php#89
 __('Password', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Password/views/password-form.php#85
+// ../koko-analytics-pro/src/Password/views/password-form.php#90
 __('Submit', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Password/bootstrap.php#55
-__('Dashboard password', 'koko-analytics');
+// ../koko-analytics-pro/src/Password/bootstrap.php#42
+__('Unable to sign in. Check the password and try again.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Password/bootstrap.php#57
+__('Dashboard password', 'koko-analytics');
+
+// ../koko-analytics-pro/src/Password/bootstrap.php#59
 __('Set a password to protect your public dashboard. Leave empty for no password protection.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/events-section.php#9
@@ -233,23 +227,17 @@ __('Event name', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/views/events-section.php#62
 __('Add event', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#19
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#22
 __('Event:', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#20
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#23
 __('Unique', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#21
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#24
 __('Total', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#52
+// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#55
 __('There is nothing here. Yet!', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#58
-__('Previous', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Events/views/dashboard-event-component.php#61
-__('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Events/views/event-details.php#24
 __('Event', 'koko-analytics');
@@ -308,26 +296,20 @@ __('Delete event', 'koko-analytics');
 // ../koko-analytics-pro/src/Events/views/event-details.php#87
 __('Back to event settings', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/bootstrap.php#51
+// ../koko-analytics-pro/src/Events/bootstrap.php#52
 __('Events', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/Rest.php#59
+// ../koko-analytics-pro/src/Events/Rest.php#71
 __('start_date must be before or equal to end_date.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Events/Rest.php#63
+// ../koko-analytics-pro/src/Events/Rest.php#75
 __('Date range is too large.', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Toolbar/Bar.php#49
 __('Pageviews', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Devices/views/dashboard.php#39
+// ../koko-analytics-pro/src/Devices/views/dashboard.php#43
 __('There is nothing here. Yet!', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Devices/views/dashboard.php#45
-__('Previous', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Devices/views/dashboard.php#48
-__('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Devices/views/setting.php#8
 __('Enable device tracking?', 'koko-analytics');
@@ -377,44 +359,38 @@ __('Email Reports', 'koko-analytics');
 // ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#16
 __('Send periodic email reports?', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#18
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#20
 __('Daily', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#19
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#21
 __('Weekly', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#20
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#22
 __('Monthly', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#22
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#24
 __('Select the timeframes for which you want to receive a summary of your most important statistics.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#26
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#28
 __('Send to these email addresses', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#28
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#30
 __('Enter a comma separated list of email addresses to which the reports should be sent.', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#32
+// ../koko-analytics-pro/src/Emails/views/settings-email-reports.php#34
 __('Save Changes', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Emails/bootstrap.php#38
 __('Email reports', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#20
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#21
 __('Country', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#21
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#22
 __('Count', 'koko-analytics');
 
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#40
+// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#41
 __('There is nothing here. Yet!', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#46
-__('Previous', 'koko-analytics');
-
-// ../koko-analytics-pro/src/Geolocation/views/dashboard.php#49
-__('Next', 'koko-analytics');
 
 // ../koko-analytics-pro/src/Geolocation/views/setting.php#8
 __('Enable geo-location?', 'koko-analytics');
