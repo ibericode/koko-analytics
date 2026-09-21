@@ -600,9 +600,17 @@ textarea.ka-input {
 .ka-pagination2-muted {
     color: #a7aaad;
 }
-.ka-pagination2 a {
+.ka-pagination2 a,
+.ka-pagination2 button {
     color: #2271b1 !important;
     text-decoration: none !important;
+}
+.ka-link-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
 }
 
 /* end pagination */

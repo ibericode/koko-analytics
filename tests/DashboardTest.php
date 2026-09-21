@@ -10,6 +10,27 @@ use DateTimeImmutable;
 
 final class DashboardTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        $property = new \ReflectionProperty(Dashboard::class, 'show_pagination_links');
+        $property->setValue(null, true);
+    }
+
+    public function test_public_pagination_uses_buttons_without_crawlable_urls(): void
+    {
+        Dashboard::hide_pagination_links();
+
+        ob_start();
+        Dashboard::pagination('posts', 20, 20, 100, ['type' => 'popular']);
+        $html = (string) ob_get_clean();
+
+        self::assertSame(2, substr_count($html, '<button'));
+        self::assertStringContainsString('data-pagination-key="posts"', $html);
+        self::assertStringContainsString('{&quot;type&quot;:&quot;popular&quot;}', $html);
+        self::assertStringContainsString('&quot;offset&quot;:40', $html);
+        self::assertStringNotContainsString('href=', $html);
+    }
+
     public function testGetFirstDayOfCurrentWeekWithWeekStartOnSunday(): void
     {
         $i = new Dashboard();

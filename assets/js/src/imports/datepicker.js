@@ -54,10 +54,10 @@ document.addEventListener('keydown', function (evt) {
   quicknav && quicknav.click();
 })
 
-// fake <a> elements to stop bots from crawling infinitely
+// buttons without a URL stop bots from crawling date ranges infinitely
 // the HTML only carries the target dates, we assemble the URL here so the document holds no crawlable link
 // note we keep just the query args identifying the dashboard itself, dropping any active filter or pagination
-document.querySelectorAll('a[data-start-date][data-end-date]').forEach(function(el) {
+document.querySelectorAll('button[data-start-date][data-end-date]').forEach(function(el) {
   el.addEventListener('click', function(evt) {
     evt.preventDefault();
 

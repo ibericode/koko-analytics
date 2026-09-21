@@ -273,7 +273,7 @@ class Dashboard
     }
 
     /**
-     * Hides the previous/next links in the datepicker and in every pagination component rendered from here on.
+     * Replaces crawlable previous/next links with JavaScript controls in every pagination component rendered from here on.
      */
     public static function hide_pagination_links(): void
     {
@@ -281,7 +281,7 @@ class Dashboard
     }
 
     /**
-     * Whether previous/next links should be rendered at all.
+     * Whether previous/next controls should be rendered as crawlable links.
      */
     public static function shows_pagination_links(): bool
     {
@@ -305,21 +305,29 @@ class Dashboard
                 printf(esc_html__('%1$d – %2$d of %3$d', 'koko-analytics'), (int) $offset + 1, (int) min($count, $offset + $limit), (int) $count);
                 ?>
             </span>
-            <?php if (self::$show_pagination_links) : ?>
             <span>
                 <?php if ($offset >= $limit) : ?>
-                    <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => $offset >= $limit * 2 ? array_merge($extra_args, ['offset' => $offset - $limit, 'limit' => $limit]) : ($extra_args ?: null) ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <?php $args = $offset >= $limit * 2 ? array_merge($extra_args, ['offset' => $offset - $limit, 'limit' => $limit]) : $extra_args; ?>
+                    <?php if (self::$show_pagination_links) : ?>
+                    <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => $args ?: null ])); ?>" rel="nofollow">← <?php esc_html_e('Previous', 'koko-analytics'); ?></a>
+                    <?php else : ?>
+                    <button type="button" class="ka-link-button" data-pagination-key="<?= esc_attr($key); ?>" data-pagination-args="<?= esc_attr((string) wp_json_encode($args)); ?>">← <?php esc_html_e('Previous', 'koko-analytics'); ?></button>
+                    <?php endif; ?>
                 <?php else : ?>
                     <span class="ka-pagination2-muted">← <?php esc_html_e('Previous', 'koko-analytics'); ?></span>
                 <?php endif; ?>
                 <span> · </span>
                 <?php if ($offset + $limit < $count) : ?>
-                <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => array_merge($extra_args, ['offset' => $offset + $limit, 'limit' => $limit])])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
+                    <?php $args = array_merge($extra_args, ['offset' => $offset + $limit, 'limit' => $limit]); ?>
+                    <?php if (self::$show_pagination_links) : ?>
+                <a  href="<?php echo esc_attr(dashboard_url(['p' => null, $key => $args])); ?>" rel="nofollow"><?php esc_html_e('Next', 'koko-analytics'); ?> →</a>
+                    <?php else : ?>
+                    <button type="button" class="ka-link-button" data-pagination-key="<?= esc_attr($key); ?>" data-pagination-args="<?= esc_attr((string) wp_json_encode($args)); ?>"><?php esc_html_e('Next', 'koko-analytics'); ?> →</button>
+                    <?php endif; ?>
                 <?php else : ?>
                     <span class="ka-pagination2-muted"><?php esc_html_e('Next', 'koko-analytics'); ?> →</span>
                 <?php endif; ?>
             </span>
-            <?php endif; ?>
         </div>
             <?php
         }

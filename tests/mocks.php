@@ -66,6 +66,26 @@ function number_format_i18n($number, $decimals = 0)
     return number_format($number, $decimals);
 }
 
+function esc_attr($value)
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+function esc_html__($text, $domain = 'default')
+{
+    return $text;
+}
+
+function esc_html_e($text, $domain = 'default')
+{
+    echo $text;
+}
+
+function wp_json_encode($value, $flags = 0, $depth = 512)
+{
+    return json_encode($value, $flags, $depth);
+}
+
 function absint($value)
 {
     return abs((int) $value);

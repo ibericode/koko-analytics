@@ -3,6 +3,7 @@ import { Chart } from './imports/chart.js';
 import './imports/draggable-components.js';
 import './imports/auto-reload.js';
 import './imports/datepicker.js';
+import './imports/pagination.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   new Chart(document.getElementById('ka-chart'));
