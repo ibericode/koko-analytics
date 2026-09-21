@@ -1,9 +1,11 @@
+import { sortQueryParams } from './query-string.js';
+
 // Public dashboards use buttons instead of links so crawlers cannot discover every paginated URL.
 // Build the target URL only after a visitor activates a pagination control.
-document.querySelectorAll('button[data-pagination-key][data-pagination-args]').forEach(function(el) {
+document.querySelectorAll('button[data-pagination-key][data-pagination-query]').forEach(function(el) {
   el.addEventListener('click', function() {
     var key = el.getAttribute('data-pagination-key');
-    var args = JSON.parse(el.getAttribute('data-pagination-args'));
+    var targetParams = new URLSearchParams(el.getAttribute('data-pagination-query'));
     var url = new URL(window.location.href);
     var prefix = key + '[';
 
@@ -15,12 +17,12 @@ document.querySelectorAll('button[data-pagination-key][data-pagination-args]').f
     });
 
     url.searchParams.delete('p');
-    Object.keys(args).forEach(function(name) {
-      if (args[name] !== null) {
-        url.searchParams.set(key + '[' + name + ']', args[name]);
-      }
+    targetParams.forEach(function(value, name) {
+      url.searchParams.set(name, value);
     });
-    url.searchParams.sort();
+    url.search = sortQueryParams(url.searchParams);
     window.location.href = url.toString();
   });
+
+  el.closest('[data-pagination-controls]').hidden = false;
 });

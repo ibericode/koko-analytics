@@ -51,9 +51,6 @@ class Dashboard_Public extends Dashboard
             return;
         }
 
-        // the public dashboard is crawlable, so render pagination controls without URLs for bots to follow
-        self::hide_pagination_links();
-
         do_action('koko_analytics_public_dashboard_headers');
 
         header("Content-Type: text/html; charset=utf-8");

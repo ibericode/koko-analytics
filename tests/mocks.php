@@ -81,9 +81,14 @@ function esc_html_e($text, $domain = 'default')
     echo $text;
 }
 
-function wp_json_encode($value, $flags = 0, $depth = 512)
+function add_query_arg($args, $url = 'https://example.com/')
 {
-    return json_encode($value, $flags, $depth);
+    foreach ($args as $key => $value) {
+        if ($value === null) {
+            unset($args[$key]);
+        }
+    }
+    return $url . (str_contains($url, '?') ? '&' : '?') . http_build_query($args, '', '&');
 }
 
 function absint($value)

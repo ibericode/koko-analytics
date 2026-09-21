@@ -1,3 +1,4 @@
+import { sortQueryParams } from './query-string.js';
 
 // navigate to the date range form its target URL ourselves, so that we can sort the query string
 // keeping the query args in a fixed order means the same view always maps to the same URL, which is
@@ -5,8 +6,7 @@
 function submitDateForm(form) {
   var url = new URL(window.location.href);
   var params = new URLSearchParams(new FormData(form));
-  params.sort();
-  url.search = params.toString();
+  url.search = sortQueryParams(params);
   window.location.href = url.toString();
 }
 
@@ -35,9 +35,10 @@ dateStartInput && dateStartInput.addEventListener('change', setPresetToCustom);
 dateEndInput && dateEndInput.addEventListener('change', setPresetToCustom);
 
 // click "prev date range" or "next date range" when using arrow keys
-// note these links are not always there, eg on the public dashboard or at the edges of the available date range
+// note these controls are not always there at the edges of the available date range
 document.addEventListener('keydown', function (evt) {
-  if (evt.defaultPrevented) {
+  var target = evt.target;
+  if (evt.defaultPrevented || (target.closest && target.closest('input, select, textarea, [contenteditable]'))) {
     return; // Do nothing if the event was already processed
   }
 
@@ -70,8 +71,17 @@ document.querySelectorAll('button[data-start-date][data-end-date]').forEach(func
     });
     params.set('start_date', el.getAttribute('data-start-date'));
     params.set('end_date', el.getAttribute('data-end-date'));
-    params.sort();
-    url.search = params.toString();
+    url.search = sortQueryParams(params);
     window.location.href = url.toString();
   });
 });
+
+// Keep controls hidden when JavaScript is unavailable instead of showing dead buttons.
+var dateNavigation = document.querySelector('[data-date-navigation]');
+if (dateNavigation) {
+  dateNavigation.classList.remove('justify-content-center');
+  dateNavigation.classList.add('justify-content-between');
+  dateNavigation.querySelectorAll('[data-date-navigation-control]').forEach(function(el) {
+    el.hidden = false;
+  });
+}

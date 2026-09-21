@@ -10,25 +10,34 @@ use DateTimeImmutable;
 
 final class DashboardTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        $property = new \ReflectionProperty(Dashboard::class, 'show_pagination_links');
-        $property->setValue(null, true);
-    }
-
     public function test_public_pagination_uses_buttons_without_crawlable_urls(): void
     {
-        Dashboard::hide_pagination_links();
-
         ob_start();
-        Dashboard::pagination('posts', 20, 20, 100, ['type' => 'popular']);
+        Dashboard::pagination('posts', 20, 20, 100, [
+            'filters' => [
+                'type' => 'popular & trending+',
+            ],
+        ]);
         $html = (string) ob_get_clean();
 
         self::assertSame(2, substr_count($html, '<button'));
+        self::assertStringContainsString('data-pagination-controls hidden', $html);
         self::assertStringContainsString('data-pagination-key="posts"', $html);
-        self::assertStringContainsString('{&quot;type&quot;:&quot;popular&quot;}', $html);
-        self::assertStringContainsString('&quot;offset&quot;:40', $html);
+        self::assertStringContainsString('posts%5Bfilters%5D%5Btype%5D=popular+%26+trending%2B', $html);
+        self::assertStringContainsString('posts%5Boffset%5D=40', $html);
         self::assertStringNotContainsString('href=', $html);
+    }
+
+    public function test_admin_pagination_uses_links(): void
+    {
+        ob_start();
+        Dashboard::pagination('posts', 0, 20, 100, crawlable: true);
+        $html = (string) ob_get_clean();
+
+        self::assertStringContainsString('<a ', $html);
+        self::assertStringContainsString('href=', $html);
+        self::assertStringNotContainsString('<button', $html);
+        self::assertStringNotContainsString('data-pagination-controls', $html);
     }
 
     public function testGetFirstDayOfCurrentWeekWithWeekStartOnSunday(): void

@@ -40,6 +40,10 @@ final class FunctionsTest extends TestCase
             'https://example.com/?p=%2Fhello-world%2F&posts%5Blimit%5D=10&posts%5Boffset%5D=20',
             sort_query_string('https://example.com/?posts%5Boffset%5D=20&posts%5Blimit%5D=10&p=%2Fhello-world%2F')
         );
+        $this->assertEquals(
+            'https://example.com/?event-5%5Boffset%5D=20&event-50%5Boffset%5D=20',
+            sort_query_string('https://example.com/?event-50%5Boffset%5D=20&event-5%5Boffset%5D=20')
+        );
 
         // params without a value and repeated params
         $this->assertEquals('https://example.com/?a=2&a=1&koko-analytics-dashboard', sort_query_string('https://example.com/?koko-analytics-dashboard&a=2&a=1'));
