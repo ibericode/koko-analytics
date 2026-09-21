@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
 Tested up to: 7.0
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -123,12 +123,22 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 
 == Changelog ==
 
+= 2.5.3 =
+
+- security: enforce the same access checks for public dashboard pages and REST API requests, fixing bypasses of Pro password protection.
+- dashboard: reduce crawler and cache load by only accepting read requests, canonicalizing query parameters, and hiding pagination and date navigation on public dashboards.
+- dashboard: only enable component sorting in the admin dashboard, where changes can be saved.
+- perf: process aggregation buffers in chunks to reduce peak memory usage on busy sites.
+- docs: show the dedicated support address to Pro users on the help page.
+
+
 = 2.5.2 =
 
 - tracking: fall back to fetch() in browsers without support for navigator.sendBeacon.
 - security: stricter validation of pageview and event data, rejecting control characters that could corrupt the buffer file.
 - data: increase the aggregation interval to 65 seconds to reduce the frequency of scheduling conflicts.
 - ux: show admin notice with location of analytics dashboard after initial plugin activation.
+
 
 = 2.5.1 =
 
@@ -152,14 +162,5 @@ If your question is not listed here, read the [Koko Analytics documentation](htt
 - dashboard: fix collation mismatch when querying by path containing utf-8 characters.
 - dashboard: return a 403 response and prevent indexing when visited by bots or crawlers.
 - compatibility: raise the minimum supported WordPress version to 6.2.
-
-
-= 2.4.0 =
-
-- tracking: hook into the visibilitychange event again to ignore prerender requests.
-- data: rewrite exporter and importer to use NDJSON instead of raw SQL.
-- import: fix column names for the referrer stats table.
-- rest: clamp date range for unauthenticated users to prevent large table scans.
-- review notice: simplify the review notice to one primary action.
 
 [View the full changelog on GitHub](https://github.com/ibericode/koko-analytics/blob/main/CHANGELOG.md)
