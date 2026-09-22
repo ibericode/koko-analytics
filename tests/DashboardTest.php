@@ -31,7 +31,7 @@ final class DashboardTest extends TestCase
     public function test_admin_pagination_uses_links(): void
     {
         ob_start();
-        Dashboard::pagination('posts', 0, 20, 100, crawlable: true);
+        Dashboard::pagination('posts', 0, 20, 100, [], true);
         $html = (string) ob_get_clean();
 
         self::assertStringContainsString('<a ', $html);
