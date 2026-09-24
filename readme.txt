@@ -2,7 +2,7 @@
 Contributors: Ibericode, DvanKooten, kokoanalytics
 Tags: analytics, google analytics, privacy, statistics, website statistics
 Requires at least: 6.2
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 2.5.3
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -13,6 +13,8 @@ Privacy-friendly and lightweight Google Analytics alternative for WordPress site
 == Description ==
 
 Koko Analytics is a privacy-friendly and lightweight Google Analytics alternative for WordPress sites. It is a plug and play solution to get GDPR compliant insights into your website visitors without requiring any third-party services.
+
+[youtube https://www.youtube.com/watch?v=4o0Rp3F4qh8]
 
 == Why choose Koko Analytics? ==
 
