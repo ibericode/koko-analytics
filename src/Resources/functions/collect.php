@@ -22,7 +22,7 @@ use DateTimeImmutable;
  *
  * Keep this in sync with the pattern in assets/js/src/script.js
  */
-const BOT_USER_AGENT_PATTERN = '/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i';
+const BOT_USER_AGENT_PATTERN = '/bot|crawl|spider|seo|lighthouse|facebookexternalhit|google-safety|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i';
 
 /**
  * Determines whether the current request was made by something other than a person

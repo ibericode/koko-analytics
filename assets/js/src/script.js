@@ -2,7 +2,7 @@ const ka = window.koko_analytics;
 const utmParams = ['utm_source', 'utm_medium', 'utm_campaign'];
 
 // keep in sync with BOT_USER_AGENT_PATTERN in src/Resources/functions/collect.php
-const botPattern = /bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i;
+const botPattern = /bot|crawl|spider|seo|lighthouse|facebookexternalhit|google-safety|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i;
 
 function getUtmData() {
   const data = {};

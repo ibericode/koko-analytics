@@ -415,6 +415,7 @@ final class FunctionsTest extends TestCase
             'Better Uptime Bot',
             'Mozilla/5.0 (compatible; Chrome-Lighthouse)',
             'facebookexternalhit/1.1',
+            'Google-Safety',
         ];
         foreach ($automated as $user_agent) {
             $_SERVER['HTTP_USER_AGENT'] = $user_agent;
