@@ -47,7 +47,7 @@ $tab = 'dashboard';
                             <span class="text-decoration-none text-white me-2" data-date-navigation-control hidden>◂</span>
                         <?php } ?>
                         <span><?php echo esc_html(wp_date($date_format, $date_start->getTimestamp())); ?> — <?= esc_html(wp_date($date_format, $date_end->getTimestamp())); ?></span>
-                        <?php if ($date_end < $total_end_date) { ?>
+                        <?php if ($next_dates[0]->format('Y-m-d') <= $total_end_date->format('Y-m-d')) { ?>
                             <button type="button" class="js-quicknav-next ka-link-button text-decoration-none text-white ms-2" data-date-navigation-control data-start-date="<?= esc_attr($next_dates[0]->format('Y-m-d')); ?>" data-end-date="<?= esc_attr($next_dates[1]->format('Y-m-d')); ?>" hidden>▸</button>
                         <?php } else { ?>
                             <span class="text-decoration-none text-white ms-2" data-date-navigation-control hidden>▸</span>
@@ -65,14 +65,18 @@ $tab = 'dashboard';
                         <div class="mb-3">
                             <label for="ka-date-presets" class="ka-label"><?php esc_html_e('Date range', 'koko-analytics'); ?></label>
                             <select id="ka-date-presets" name="view" class="ka-select">
-                                <option value="custom" <?= $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom', 'koko-analytics'); ?></option>
                                 <?php
-                                foreach ($this->get_date_presets() as $key => $label) :
+                                foreach ($this->get_date_preset_groups() as $group) :
                                     ?>
-                                    <option value="<?= esc_attr($key); ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option>
+                                    <optgroup label="<?= esc_attr($group['label']); ?>">
+                                        <?php foreach ($group['presets'] as $key => $label) : ?>
+                                            <option value="<?= esc_attr($key); ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
                                     <?php
                                 endforeach;
                                 ?>
+                                <option value="custom" <?= $range === 'custom' ? 'selected' : ''; ?> disabled><?php esc_html_e('Custom range', 'koko-analytics'); ?></option>
                             </select>
                         </div>
                         <div class="mb-3">

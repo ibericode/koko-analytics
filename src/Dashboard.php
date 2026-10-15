@@ -38,19 +38,26 @@ class Dashboard
         $stats          = new Stats();
         $items_per_page = (int) apply_filters('koko_analytics_items_per_page', 20);
         $date_format    = get_option('date_format', 'Y-m-d');
+        $date_presets   = $this->get_date_presets();
+        $default_range  = isset($date_presets[$settings['default_view']]) ? $settings['default_view'] : 'last_28_days';
 
         // parse query params
         if (isset($_GET['start_date']) || isset($_GET['end_date'])) {
             $range = 'custom';
         } elseif (isset($_GET['view'])) {
-            $range = trim(wp_unslash($_GET['view']));
+            $requested_range = sanitize_key(wp_unslash($_GET['view']));
+            $range           = isset($date_presets[$requested_range]) ? $requested_range : $default_range;
         } else {
-            $range = $settings['default_view'];
+            $range = $default_range;
         }
         $timezone       = wp_timezone();
         $now            = new DateTimeImmutable('now', $timezone);
         $week_starts_on = (int) get_option('start_of_week', 0);
-        $date_range     = $this->get_dates_for_range($now, $range, $week_starts_on);
+        $preset_range   = $range === 'custom' ? $default_range : $range;
+        [$total_start_date, $total_end_date] = $stats->get_total_date_range();
+        $date_range = $preset_range === 'all_time'
+            ? [$total_start_date, $total_end_date]
+            : $this->get_dates_for_range($now, $preset_range, $week_starts_on);
         $page           = isset($_GET['p']) ? trim(wp_unslash($_GET['p'])) : 0;
 
         try {
@@ -64,12 +71,11 @@ class Dashboard
             $date_end = $date_range[1];
         }
 
-
-        [$total_start_date, $total_end_date] = $stats->get_total_date_range();
-
         // calculate next and previous dates for datepicker component and comparison
-        $next_dates = $this->get_next_period($date_start, $date_end, 1);
-        $prev_dates = $this->get_next_period($date_start, $date_end, -1);
+        $period_dates = in_array($range, ['custom', 'all_time'], true) ? [$date_start, $date_end] : $this->get_dates_for_range($now, $range, $week_starts_on, true);
+        $cycle_by_month = $range === 'custom' ? null : in_array($range, ['this_month', 'last_month', 'this_year', 'last_year', 'last_12_months'], true);
+        $next_dates     = $this->get_next_period($period_dates[0], $period_dates[1], 1, $cycle_by_month, $now);
+        $prev_dates     = $this->get_next_period($period_dates[0], $period_dates[1], -1, $cycle_by_month, $now);
 
         $date_start_str = $date_start->format('Y-m-d');
         $date_end_str   = $date_end->format('Y-m-d');
@@ -81,23 +87,23 @@ class Dashboard
         if (isset($_GET['group']) && in_array(wp_unslash($_GET['group']), ['day', 'week', 'month', 'year'])) {
             $group_chart_by = wp_unslash($_GET['group']);
         } else {
-            $group_chart_by = $date_end->getTimestamp() - $date_start->getTimestamp() >= 86400 * 90 ? 'month' : 'day';
+            $group_chart_by = $date_start->diff($date_end)->days > 90 ? 'month' : 'day';
         }
         $chart_data =  $stats->get_stats($date_start_str, $date_end_str, $group_chart_by, $page);
 
         require KOKO_ANALYTICS_PLUGIN_DIR . '/src/Resources/views/dashboard-page.php';
     }
 
-    public function get_next_period(\DateTimeImmutable $date_start, \DateTimeImmutable $date_end, int $dir = 1): array
+    public function get_next_period(\DateTimeImmutable $date_start, \DateTimeImmutable $date_end, int $dir = 1, ?bool $cycle_by_month = null, ?\DateTimeImmutable $now = null): array
     {
-        $now      = new \DateTimeImmutable('now', wp_timezone());
+        $now      = $now ?? new \DateTimeImmutable('now', wp_timezone());
         $modifier = $dir > 0 ? "+" : "-";
 
-        if ($date_start->format('d') === "01" && $date_end->format('d') === $date_end->format('t')) {
+        if ($cycle_by_month ?? ($date_start->format('d') === "01" && $date_end->format('d') === $date_end->format('t'))) {
             // cycling full months
             $diff_in_months = 1 + ((int) $date_end->format('Y') - (int) $date_start->format('Y')) * 12 + (int) $date_end->format('m') - (int) $date_start->format('m');
-            $period_start   = $date_start->setDate((int) $date_start->format('Y'), (int) $date_start->format('m') + ($dir * $diff_in_months), 1);
-            $period_end     = $date_end->setDate((int) $date_start->format('Y'), (int) $date_end->format('m') + ($dir * $diff_in_months), 5);
+            $period_start   = $date_start->modify("{$modifier}{$diff_in_months} months");
+            $period_end     = $date_end->setDate((int) $date_end->format('Y'), (int) $date_end->format('m'), 1)->modify("{$modifier}{$diff_in_months} months");
             $period_end     = $period_end->setDate((int) $period_end->format('Y'), (int) $period_end->format('m'), (int) $period_end->format('t'));
         } else {
             $diff_in_days = $date_end->diff($date_start)->days + 1;
@@ -109,6 +115,9 @@ class Dashboard
             // limit end date to difference between now and start date, counting from start date
             $days_diff  = $now->diff($date_start)->days;
             $compare_end = $period_start->modify("+{$days_diff} days");
+            if ($compare_end > $period_end) {
+                $compare_end = $period_end;
+            }
         } else {
             $compare_end = $period_end;
         }
@@ -118,18 +127,46 @@ class Dashboard
 
     public function get_date_presets(): array
     {
+        return array_merge(...array_column($this->get_date_preset_groups(), 'presets'));
+    }
+
+    public function get_date_preset_groups(): array
+    {
         return [
-            'today' => __('Today', 'koko-analytics'),
-            'yesterday' => __('Yesterday', 'koko-analytics'),
-            'this_week' => __('This week', 'koko-analytics'),
-            'last_week' => __('Last week', 'koko-analytics'),
-            'last_14_days' => __('Last 14 days', 'koko-analytics'),
-            'last_28_days' => __('Last 28 days', 'koko-analytics'),
-            'this_month' => __('This month', 'koko-analytics'),
-            'last_month' => __('Last month', 'koko-analytics'),
-            'this_year' => __('This year', 'koko-analytics'),
-            'last_year' => __('Last year', 'koko-analytics'),
-            'all_time' => __('All time', 'koko-analytics'),
+            [
+                'label' => __('Days and rolling windows', 'koko-analytics'),
+                'presets' => [
+                    'today' => __('Today', 'koko-analytics'),
+                    'yesterday' => __('Yesterday', 'koko-analytics'),
+                    'last_7_days' => __('Last 7 days', 'koko-analytics'),
+                    'last_14_days' => __('Last 14 days', 'koko-analytics'),
+                    'last_28_days' => __('Last 28 days', 'koko-analytics'),
+                    'last_91_days' => __('Last 91 days', 'koko-analytics'),
+                ],
+            ],
+            [
+                'label' => __('Current calendar periods', 'koko-analytics'),
+                'presets' => [
+                    'this_week' => __('Week to date', 'koko-analytics'),
+                    'this_month' => __('Month to date', 'koko-analytics'),
+                    'this_year' => __('Year to date', 'koko-analytics'),
+                ],
+            ],
+            [
+                'label' => __('Completed calendar periods', 'koko-analytics'),
+                'presets' => [
+                    'last_week' => __('Last week', 'koko-analytics'),
+                    'last_month' => __('Last month', 'koko-analytics'),
+                    'last_year' => __('Last year', 'koko-analytics'),
+                ],
+            ],
+            [
+                'label' => __('Longer history', 'koko-analytics'),
+                'presets' => [
+                    'last_12_months' => __('Last 12 months', 'koko-analytics'),
+                    'all_time' => __('All time', 'koko-analytics'),
+                ],
+            ],
         ];
     }
 
@@ -173,13 +210,28 @@ class Dashboard
         $notice->maybe_show();
     }
 
-    public function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0): array
+    public function get_dates_for_range(\DateTimeImmutable $now, string $key, int $week_starts_on = 0, bool $complete_current_period = false): array
     {
+        $end_of_today = $now->modify('tomorrow midnight, -1 second');
+        $rolling_days = [
+            'last_7_days' => 7,
+            'last_14_days' => 14,
+            'last_28_days' => 28,
+            'last_91_days' => 91,
+        ];
+        if (isset($rolling_days[$key])) {
+            $days = $rolling_days[$key] - 1;
+            return [
+                $now->modify("-{$days} days, midnight"),
+                $end_of_today,
+            ];
+        }
+
         switch ($key) {
             case 'today':
                 return [
                     $now->modify('today midnight'),
-                    $now->modify('tomorrow midnight, -1 second'),
+                    $end_of_today,
                 ];
             case 'yesterday':
                 return [
@@ -187,50 +239,49 @@ class Dashboard
                     $now->modify('today midnight, -1 second'),
                 ];
             case 'this_week':
-                $start = $this->get_first_day_of_current_week($now, $week_starts_on);
+                $start = $this->get_first_day_of_current_week($now, $week_starts_on)->modify('today midnight');
                 return [
                     $start,
-                    $start->modify('+7 days, midnight, -1 second'),
+                    $complete_current_period ? $start->modify('+7 days, midnight, -1 second') : $end_of_today,
                 ];
             case 'last_week':
-                $start = $this->get_first_day_of_current_week($now, $week_starts_on)->modify('-7 days');
+                $start = $this->get_first_day_of_current_week($now, $week_starts_on)->modify('-7 days, midnight');
                 return [
                     $start,
                     $start->modify('+7 days, midnight, -1 second'),
-                ];
-            case 'last_14_days':
-                return [
-                    $now->modify('-14 days'),
-                    $now->modify('tomorrow midnight, -1 second'),
-                ];
-            default:
-            case 'last_28_days':
-                return [
-                    $now->modify('-28 days'),
-                    $now->modify('tomorrow midnight, -1 second'),
                 ];
             case 'this_month':
                 return [
-                    $now->modify('first day of this month'),
-                    $now->modify('last day of this month'),
+                    $now->modify('first day of this month, midnight'),
+                    $complete_current_period ? $now->modify('first day of next month, midnight, -1 second') : $end_of_today,
                 ];
             case 'last_month':
                 return [
                     $now->modify('first day of last month, midnight'),
-                    $now->modify('last day of last month'),
+                    $now->modify('first day of this month, midnight, -1 second'),
                 ];
             case 'this_year':
                 return [
-                    $now->setDate((int) $now->format('Y'), 1, 1),
-                    $now->setDate((int) $now->format('Y'), 12, 31),
+                    $now->setDate((int) $now->format('Y'), 1, 1)->setTime(0, 0),
+                    $complete_current_period ? $now->setDate((int) $now->format('Y'), 12, 31)->setTime(23, 59, 59) : $end_of_today,
                 ];
             case 'last_year':
                 return [
-                    $now->setDate((int) $now->format('Y') - 1, 1, 1),
-                    $now->setDate((int) $now->format('Y') - 1, 12, 31),
+                    $now->setDate((int) $now->format('Y') - 1, 1, 1)->setTime(0, 0),
+                    $now->setDate((int) $now->format('Y') - 1, 12, 31)->setTime(23, 59, 59),
+                ];
+            case 'last_12_months':
+                return [
+                    $now->modify('first day of this month, midnight')->modify('-11 months'),
+                    $complete_current_period ? $now->modify('first day of next month, midnight, -1 second') : $end_of_today,
                 ];
             case 'all_time':
                 return (new Stats())->get_total_date_range();
+            default:
+                return [
+                    $now->modify('-27 days, midnight'),
+                    $end_of_today,
+                ];
         }
     }
 

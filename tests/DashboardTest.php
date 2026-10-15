@@ -70,21 +70,21 @@ final class DashboardTest extends TestCase
     public function testGetDatesForRangeThisWeekWithWeekStartOnSunday(): void
     {
         $i = new Dashboard();
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-05'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-06'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-07'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-08'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-09'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-10'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-05 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-05'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-06 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-06'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-07 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-07'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-08 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-08'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-09 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-09'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-10 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-10'), 'this_week', 0));
         self::assertEquals([new DateTimeImmutable('2025-01-05'), new DateTimeImmutable('2025-01-11 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-11'), 'this_week', 0));
-        self::assertEquals([new DateTimeImmutable('2025-01-12'), new DateTimeImmutable('2025-01-18 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-12'), 'this_week', 0));
+        self::assertEquals([new DateTimeImmutable('2025-01-12'), new DateTimeImmutable('2025-01-12 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-12'), 'this_week', 0));
     }
 
     public function testGetDatesForRangeThisWeekWithWeekStartOnMonday(): void
     {
         $i = new Dashboard();
         self::assertEquals([new DateTimeImmutable('2024-12-30'), new DateTimeImmutable('2025-01-05 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-05'), 'this_week', 1));
-        self::assertEquals([new DateTimeImmutable('2025-01-06'), new DateTimeImmutable('2025-01-12 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-06'), 'this_week', 1));
+        self::assertEquals([new DateTimeImmutable('2025-01-06'), new DateTimeImmutable('2025-01-06 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-06'), 'this_week', 1));
     }
 
     public function testGetDatesForRangeLastWeekWithWeekStartOnSunday(): void
@@ -101,6 +101,45 @@ final class DashboardTest extends TestCase
         self::assertEquals([new DateTimeImmutable('2024-12-30'), new DateTimeImmutable('2025-01-05 23:59:59')], $i->get_dates_for_range(new DateTimeImmutable('2025-01-06'), 'last_week', 1));
     }
 
+    public function testGetDatesForRollingRangesIncludesToday(): void
+    {
+        $i   = new Dashboard();
+        $now = new DateTimeImmutable('2026-10-15 12:00:00');
+
+        $ranges = [
+            'last_7_days' => ['2026-10-09', '2026-10-15 23:59:59'],
+            'last_14_days' => ['2026-10-02', '2026-10-15 23:59:59'],
+            'last_28_days' => ['2026-09-18', '2026-10-15 23:59:59'],
+            'last_91_days' => ['2026-07-17', '2026-10-15 23:59:59'],
+        ];
+
+        foreach ($ranges as $key => [$start, $end]) {
+            self::assertEquals([new DateTimeImmutable($start), new DateTimeImmutable($end)], $i->get_dates_for_range($now, $key));
+        }
+    }
+
+    public function testGetDatesForCurrentCalendarPeriodsEndsToday(): void
+    {
+        $i   = new Dashboard();
+        $now = new DateTimeImmutable('2026-10-15 12:00:00');
+
+        self::assertEquals([new DateTimeImmutable('2026-10-12'), new DateTimeImmutable('2026-10-15 23:59:59')], $i->get_dates_for_range($now, 'this_week', 1));
+        self::assertEquals([new DateTimeImmutable('2026-10-01'), new DateTimeImmutable('2026-10-15 23:59:59')], $i->get_dates_for_range($now, 'this_month'));
+        self::assertEquals([new DateTimeImmutable('2026-01-01'), new DateTimeImmutable('2026-10-15 23:59:59')], $i->get_dates_for_range($now, 'this_year'));
+        self::assertEquals([new DateTimeImmutable('2025-11-01'), new DateTimeImmutable('2026-10-15 23:59:59')], $i->get_dates_for_range($now, 'last_12_months'));
+    }
+
+    public function testGetDatesForCurrentCalendarPeriodsCanReturnCompletePeriods(): void
+    {
+        $i   = new Dashboard();
+        $now = new DateTimeImmutable('2026-10-15 12:00:00');
+
+        self::assertEquals([new DateTimeImmutable('2026-10-12'), new DateTimeImmutable('2026-10-18 23:59:59')], $i->get_dates_for_range($now, 'this_week', 1, true));
+        self::assertEquals([new DateTimeImmutable('2026-10-01'), new DateTimeImmutable('2026-10-31 23:59:59')], $i->get_dates_for_range($now, 'this_month', 0, true));
+        self::assertEquals([new DateTimeImmutable('2026-01-01'), new DateTimeImmutable('2026-12-31 23:59:59')], $i->get_dates_for_range($now, 'this_year', 0, true));
+        self::assertEquals([new DateTimeImmutable('2025-11-01'), new DateTimeImmutable('2026-10-31 23:59:59')], $i->get_dates_for_range($now, 'last_12_months', 0, true));
+    }
+
     public function testGetNextPeriod(): void
     {
         $i = new Dashboard();
@@ -111,5 +150,35 @@ final class DashboardTest extends TestCase
 
         // large diff
         self::assertEquals($i->get_next_period(new DateTimeImmutable('2023-07-01'), new DateTimeImmutable('2025-06-11'), -1), [new DateTimeImmutable('2021-07-19'), new DateTimeImmutable('2023-06-30'), new DateTimeImmutable('2023-06-30')]);
+
+        // full month range crossing a year boundary
+        $previous = $i->get_next_period(new DateTimeImmutable('2025-11-01'), new DateTimeImmutable('2026-10-31 23:59:59'), -1);
+        self::assertEquals(new DateTimeImmutable('2024-11-01'), $previous[0]);
+        self::assertEquals(new DateTimeImmutable('2025-10-31 23:59:59'), $previous[1]);
+    }
+
+    public function testGetNextPeriodKeepsRollingRangesTheSameLength(): void
+    {
+        $i   = new Dashboard();
+        $now = new DateTimeImmutable('2026-07-01 12:00:00');
+
+        $previous = $i->get_next_period(new DateTimeImmutable('2026-02-01'), new DateTimeImmutable('2026-02-28 23:59:59'), -1, false, $now);
+        self::assertEquals(new DateTimeImmutable('2026-01-04'), $previous[0]);
+        self::assertEquals(new DateTimeImmutable('2026-01-31 23:59:59'), $previous[1]);
+
+        $previous = $i->get_next_period(new DateTimeImmutable('2026-04-01'), new DateTimeImmutable('2026-06-30 23:59:59'), -1, false, $now);
+        self::assertEquals(new DateTimeImmutable('2025-12-31'), $previous[0]);
+        self::assertEquals(new DateTimeImmutable('2026-03-31 23:59:59'), $previous[1]);
+    }
+
+    public function testGetNextPeriodDoesNotComparePastThePeriodEnd(): void
+    {
+        $i   = new Dashboard();
+        $now = new DateTimeImmutable('2026-03-31 12:00:00');
+
+        $previous = $i->get_next_period(new DateTimeImmutable('2026-03-01'), new DateTimeImmutable('2026-03-31 23:59:59'), -1, true, $now);
+        self::assertEquals(new DateTimeImmutable('2026-02-01'), $previous[0]);
+        self::assertEquals(new DateTimeImmutable('2026-02-28 23:59:59'), $previous[1]);
+        self::assertEquals($previous[1], $previous[2]);
     }
 }
