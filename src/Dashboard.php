@@ -127,45 +127,33 @@ class Dashboard
 
     public function get_date_presets(): array
     {
-        return array_merge(...array_column($this->get_date_preset_groups(), 'presets'));
+        return array_merge(...$this->get_date_preset_groups());
     }
 
     public function get_date_preset_groups(): array
     {
         return [
             [
-                'label' => __('Days and rolling windows', 'koko-analytics'),
-                'presets' => [
-                    'today' => __('Today', 'koko-analytics'),
-                    'yesterday' => __('Yesterday', 'koko-analytics'),
-                    'last_7_days' => __('Last 7 days', 'koko-analytics'),
-                    'last_14_days' => __('Last 14 days', 'koko-analytics'),
-                    'last_28_days' => __('Last 28 days', 'koko-analytics'),
-                    'last_91_days' => __('Last 91 days', 'koko-analytics'),
-                ],
+                'today' => __('Today', 'koko-analytics'),
+                'yesterday' => __('Yesterday', 'koko-analytics'),
+                'last_7_days' => __('Last 7 days', 'koko-analytics'),
+                'last_14_days' => __('Last 14 days', 'koko-analytics'),
+                'last_28_days' => __('Last 28 days', 'koko-analytics'),
+                'last_91_days' => __('Last 91 days', 'koko-analytics'),
             ],
             [
-                'label' => __('Current calendar periods', 'koko-analytics'),
-                'presets' => [
-                    'this_week' => __('Week to date', 'koko-analytics'),
-                    'this_month' => __('Month to date', 'koko-analytics'),
-                    'this_year' => __('Year to date', 'koko-analytics'),
-                ],
+                'this_week' => __('Week to date', 'koko-analytics'),
+                'this_month' => __('Month to date', 'koko-analytics'),
+                'this_year' => __('Year to date', 'koko-analytics'),
             ],
             [
-                'label' => __('Completed calendar periods', 'koko-analytics'),
-                'presets' => [
-                    'last_week' => __('Last week', 'koko-analytics'),
-                    'last_month' => __('Last month', 'koko-analytics'),
-                    'last_year' => __('Last year', 'koko-analytics'),
-                ],
+                'last_week' => __('Last week', 'koko-analytics'),
+                'last_month' => __('Last month', 'koko-analytics'),
+                'last_year' => __('Last year', 'koko-analytics'),
             ],
             [
-                'label' => __('Longer history', 'koko-analytics'),
-                'presets' => [
-                    'last_12_months' => __('Last 12 months', 'koko-analytics'),
-                    'all_time' => __('All time', 'koko-analytics'),
-                ],
+                'last_12_months' => __('Last 12 months', 'koko-analytics'),
+                'all_time' => __('All time', 'koko-analytics'),
             ],
         ];
     }

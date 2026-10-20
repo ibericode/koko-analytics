@@ -66,13 +66,12 @@ $tab = 'dashboard';
                             <label for="ka-date-presets" class="ka-label"><?php esc_html_e('Date range', 'koko-analytics'); ?></label>
                             <select id="ka-date-presets" name="view" class="ka-select">
                                 <?php
-                                foreach ($this->get_date_preset_groups() as $group) :
+                                foreach ($this->get_date_preset_groups() as $presets) :
                                     ?>
-                                    <optgroup label="<?= esc_attr($group['label']); ?>">
-                                        <?php foreach ($group['presets'] as $key => $label) : ?>
-                                            <option value="<?= esc_attr($key); ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option>
-                                        <?php endforeach; ?>
-                                    </optgroup>
+                                    <?php foreach ($presets as $key => $label) : ?>
+                                        <option value="<?= esc_attr($key); ?>" <?= ($key === $range) ? ' selected' : ''; ?>><?= esc_html($label); ?></option>
+                                    <?php endforeach; ?>
+                                    <hr>
                                     <?php
                                 endforeach;
                                 ?>
