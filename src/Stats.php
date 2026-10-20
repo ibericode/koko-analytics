@@ -196,6 +196,13 @@ class Stats
         $rows = array_map(function ($row) {
             $row->pageviews = (int) $row->pageviews;
             $row->visitors  = (int) $row->visitors;
+
+            // visitors are only counted once per calendar day, so a visitor spanning 2 days may result in pageviews without visitors
+            // we can make this less obviously wrong by always specifying there was at least 1 visitor whenever we have any pageviews
+            if ($row->visitors === 0 && $row->pageviews > 0) {
+                $row->visitors = 1;
+            }
+
             return $row;
         }, $this->db->get_results($this->db->prepare(
             "SELECT {$date_key_expr} AS `date`, SUM(COALESCE(visitors, 0)) AS visitors, SUM(COALESCE(pageviews, 0)) AS pageviews

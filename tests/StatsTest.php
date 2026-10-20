@@ -77,4 +77,32 @@ final class StatsTest extends TestCase
         $result = $this->stats->generate_date_range('2024-01-01', '2024-12-31', 'year');
         self::assertEquals(['2024-01-01'], $result);
     }
+
+    public function testGetStatsReportsAtLeastOneVisitorWhenThereArePageviews(): void
+    {
+        $db = new class extends \wpdb {
+            public $prefix = 'wp_';
+
+            public function __construct()
+            {
+            }
+
+            public function get_results($query = null, $output = null): array
+            {
+                return [
+                    (object) ['date' => '2025-01-01', 'visitors' => '0', 'pageviews' => '3'],
+                    (object) ['date' => '2025-01-02', 'visitors' => '2', 'pageviews' => '5'],
+                    (object) ['date' => '2025-01-03', 'visitors' => '0', 'pageviews' => '0'],
+                ];
+            }
+        };
+        $result = (new Stats($db))->get_stats('2025-01-01', '2025-01-04', 'day');
+
+        self::assertCount(4, $result);
+        self::assertSame(1, $result[0]->visitors);
+        self::assertSame(3, $result[0]->pageviews);
+        self::assertSame(2, $result[1]->visitors);
+        self::assertSame(0, $result[2]->visitors);
+        self::assertSame(0, $result[3]->visitors);
+    }
 }
