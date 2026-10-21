@@ -16,6 +16,12 @@ if (!defined('ABSPATH')) {
 
 class Endpoint_Installer
 {
+    /**
+     * WordPress' default user agent contains the site URL, which can match the bot pattern
+     * in is_automated_request() for domains like "botanic-garden.org" or "preview.example.com".
+     */
+    public const VERIFY_USER_AGENT = 'Koko Analytics endpoint verification';
+
     public function get_file_name(): string
     {
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
@@ -155,6 +161,7 @@ EOT;
             ],
             'timeout' => 10,
             'sslverify' => false,
+            'user-agent' => self::VERIFY_USER_AGENT,
         ]);
         if (is_wp_error($response)) {
             return $response;
