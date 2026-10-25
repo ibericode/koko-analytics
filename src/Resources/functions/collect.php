@@ -70,7 +70,8 @@ function extract_pageview_data(array $raw): array
     }
 
     // post id has to fit in an INT UNSIGNED column
-    $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 4294967295]]);
+    // clamp to PHP_INT_MAX: on 32-bit PHP 4294967295 is a float and FILTER_VALIDATE_INT rejects every value
+    $post_id = \filter_var($raw['po'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => \min(4294967295, PHP_INT_MAX)]]);
     if ($post_id === false) {
         return [];
     }
