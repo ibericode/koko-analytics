@@ -31,6 +31,7 @@ class Controller
         add_action('koko_analytics_rotate_fingerprint_seed', lazy(Fingerprinter::class, 'run_daily_maintenance'), 10, 0);
         add_action('koko_analytics_test_custom_endpoint', lazy(Endpoint_Installer::class, 'test'), 10, 0);
         add_action('koko_analytics_update_custom_endpoint', lazy(Endpoint_Installer::class, 'install'), 10, 0);
+        add_action('wp_uninitialize_site', [$this, 'action_uninitialize_site'], 10, 1);
     }
 
     public function action_init(): void
@@ -40,6 +41,16 @@ class Controller
 
         add_shortcode('koko_analytics_most_viewed_posts', lazy(Shortcode_Most_Viewed_Posts::class, 'content'));
         add_shortcode('koko_analytics_counter', lazy(Shortcode_Site_Counter::class, 'content'));
+    }
+
+    /**
+     * Remove the optimized endpoint file of a site that is deleted from a Multisite network.
+     */
+    public function action_uninitialize_site(\WP_Site $site): void
+    {
+        switch_to_blog((int) $site->blog_id);
+        (new Endpoint_Installer())->uninstall();
+        restore_current_blog();
     }
 
     public function action_widgets_init(): void
