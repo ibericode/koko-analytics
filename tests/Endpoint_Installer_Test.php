@@ -31,6 +31,20 @@ final class Endpoint_Installer_Test extends TestCase
         );
     }
 
+    public function testFileNameIsUniquePerSiteOnMultisite(): void
+    {
+        global $is_multisite, $current_blog_id;
+        $is_multisite    = true;
+        $current_blog_id = 3;
+
+        try {
+            self::assertSame(rtrim(ABSPATH, '/') . '/koko-analytics-collect-3.php', (new Endpoint_Installer())->get_file_name());
+        } finally {
+            $is_multisite    = false;
+            $current_blog_id = 1;
+        }
+    }
+
     public function testVerifyUserAgentIsNotTreatedAsAutomated(): void
     {
         $_SERVER['HTTP_USER_AGENT'] = Endpoint_Installer::VERIFY_USER_AGENT;

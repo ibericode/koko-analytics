@@ -24,6 +24,11 @@ class Endpoint_Installer
 
     public function get_file_name(): string
     {
+        // on multisite, each site gets its own file because it contains site-specific paths and settings
+        if (is_multisite()) {
+            return rtrim(ABSPATH, '/') . '/koko-analytics-collect-' . get_current_blog_id() . '.php';
+        }
+
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
@@ -90,7 +95,7 @@ EOT;
     public function install()
     {
         /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') || is_multisite()) {
+        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
             return false;
         }
 
@@ -152,7 +157,7 @@ EOT;
      */
     private function verify()
     {
-        $tracker_url = site_url('/koko-analytics-collect.php?test=1');
+        $tracker_url = site_url('/' . basename($this->get_file_name()) . '?test=1');
         $response    = wp_remote_post($tracker_url, [
             'body' => [
                 'pa' => '/',
