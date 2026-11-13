@@ -238,8 +238,7 @@ function using_custom_endpoint(): bool
         return (bool) KOKO_ANALYTICS_CUSTOM_ENDPOINT;
     }
 
-    /** @see Endpoint_Installer::get_file_name() */
-    return \is_file(\rtrim(ABSPATH, '/') . '/koko-analytics-collect.php') && get_option('koko_analytics_use_custom_endpoint', 0);
+    return \is_file((new Endpoint_Installer())->get_file_name()) && get_option('koko_analytics_use_custom_endpoint', 0);
 }
 
 function create_local_datetime(string $timestr): \DateTimeImmutable

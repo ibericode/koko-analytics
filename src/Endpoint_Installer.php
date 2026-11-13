@@ -16,8 +16,19 @@ if (!defined('ABSPATH')) {
 
 class Endpoint_Installer
 {
+    /**
+     * WordPress' default user agent contains the site URL, which can match the bot pattern
+     * in is_automated_request() for domains like "botanic-garden.org" or "preview.example.com".
+     */
+    public const VERIFY_USER_AGENT = 'Koko Analytics endpoint verification';
+
     public function get_file_name(): string
     {
+        // on multisite, each site gets its own file because it contains site-specific paths and settings
+        if (is_multisite()) {
+            return rtrim(ABSPATH, '/') . '/koko-analytics-collect-' . get_current_blog_id() . '.php';
+        }
+
         return rtrim(ABSPATH, '/') . '/koko-analytics-collect.php';
     }
 
@@ -84,7 +95,7 @@ EOT;
     public function install()
     {
         /* Do nothing if KOKO_ANALYTICS_CUSTOM_ENDPOINT is defined (means users disabled this feature or is using their own version of it) */
-        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT') || is_multisite()) {
+        if (defined('KOKO_ANALYTICS_CUSTOM_ENDPOINT')) {
             return false;
         }
 
@@ -146,7 +157,7 @@ EOT;
      */
     private function verify()
     {
-        $tracker_url = site_url('/koko-analytics-collect.php?test=1');
+        $tracker_url = site_url('/' . basename($this->get_file_name()) . '?test=1');
         $response    = wp_remote_post($tracker_url, [
             'body' => [
                 'pa' => '/',
@@ -155,6 +166,7 @@ EOT;
             ],
             'timeout' => 10,
             'sslverify' => false,
+            'user-agent' => self::VERIFY_USER_AGENT,
         ]);
         if (is_wp_error($response)) {
             return $response;

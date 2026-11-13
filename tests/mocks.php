@@ -9,6 +9,8 @@ $options = [];
 $hooks = [];
 $option_updates = [];
 $current_user_can = false;
+$is_multisite = false;
+$current_blog_id = 1;
 
 function is_admin()
 {
@@ -165,7 +167,14 @@ function url_to_postid($url)
 
 function is_multisite()
 {
-    return false;
+    global $is_multisite;
+    return $is_multisite;
+}
+
+function get_current_blog_id()
+{
+    global $current_blog_id;
+    return $current_blog_id;
 }
 
 function wp_next_scheduled($event)

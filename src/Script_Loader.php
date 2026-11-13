@@ -69,7 +69,7 @@ class Script_Loader
             return site_url(KOKO_ANALYTICS_CUSTOM_ENDPOINT);
         } elseif (using_custom_endpoint()) {
             // default custom endpoint
-            return site_url('/koko-analytics-collect.php');
+            return site_url('/' . basename((new Endpoint_Installer())->get_file_name()));
         }
 
         // default URL (which includes WordPress)
